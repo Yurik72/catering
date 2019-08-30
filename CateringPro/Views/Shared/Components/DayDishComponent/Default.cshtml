@@ -1,0 +1,85 @@
+@model IEnumerable<CateringPro.Models.DayDishViewModel>
+
+@{
+    ViewData["Title"] = "EditDay";
+}
+@{
+    DateTime daydate = DateTime.Now;
+}
+
+<h2>EditDay</h2>
+<div class="form-group">
+
+    <div class="col-md-10">
+        <p>Выберите дату</p>
+        @Html.EditorFor(model => daydate, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Enabled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DishName)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="checkbox">
+
+                        @if (item.Enabled)
+                        {
+                            <input type="checkbox" checked="checked" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" />
+                        }
+                        @Html.HiddenFor(modelItem => item.DishId)
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DishName)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+
+                var checkboxes = $(this).find(':checkbox').change(function () {
+                    if (this.checked) {
+                        // alert("click");
+                    }
+                    var dishid = parseInt($(this).parent().find("#item_DishId").val());
+                    //alert(JSON.stringify({ DishId: dishid, daydate: 0, enabled: this.checked }));
+                    $.ajax({
+                        type: "POST",
+                        data: { DishId: dishid, enabled: this.checked },
+
+                        url: "/DayDishes/SaveDayDish",
+                        success: function (data) {
+                            alert(data);
+                        }
+                    });
+                });
+            });
+    </script>
+}
+

@@ -1,0 +1,12 @@
+﻿@model DateTime
+
+@{
+    ViewData["Title"] = "EditDay";
+}
+@{
+    DateTime daydate = Model;
+}
+
+<h2>EditDay</h2>
+
+@await Component.InvokeAsync("DayDishComponent", daydate)
