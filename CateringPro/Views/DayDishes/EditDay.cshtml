@@ -1,12 +1,53 @@
 ﻿@model DateTime
-
+@using System.Globalization
 @{
     ViewData["Title"] = "EditDay";
 }
 @{
     DateTime daydate = Model;
+        CultureInfo ci = new CultureInfo("en-US");
+// Get the DateTimeFormatInfo for the en-US culture.
+    DateTimeFormatInfo dtfi = ci.DateTimeFormat;
 }
 
 <h2>EditDay</h2>
+<div id="accordion">
+    @{
+        DateTime current = daydate;
+    }
+    @for (int i = 0; i < 7; i++)
+    {
+        <div class="card">
+            <div class="card-header" id=@("heading"+i)>
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target=@("#collapse"+i) aria-expanded=@(i==0?"true":"false") aria-controls=@("collapse"+i)>
+                        @dtfi.GetDayName((DayOfWeek)i)
 
-@await Component.InvokeAsync("DayDishComponent", daydate)
+                    </button>
+                </h5>
+            </div>
+
+            <div id=@("collapse"+i) class="collapse  aria-labelledby=@("heading"+i)" data-parent="#accordion">
+                <div class="card-body">
+                    @await Component.InvokeAsync("DayDishComponent", current)
+                </div>
+            </div>
+        </div>
+        current =current.AddDays(1);
+    }
+</div>
+
+ 
+
+<script type="text/javascript" src="~/js/dishdayedit.js" defer></script>
+    @section Scripts {
+
+
+        <script>
+            $(function () {
+                //  $("#accordion").accordion();
+            });
+        </script>
+    }
+
+

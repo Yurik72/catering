@@ -26,5 +26,8 @@ namespace CateringPro.Repositories
                         select new DayDishViewModel() { DishId = dish.Id, DishName = dish.Name, Date = daydate, Enabled = proto.Count() > 0/*dayd != null*/ };
             return query;
         }
+        public DayDish SelectSingleOrDefault(int dishId, DateTime daydate) {
+            return _context.DayDish.SingleOrDefault(dd => dd.DishId == dishId && dd.Date == daydate);
+       }
     }
 }

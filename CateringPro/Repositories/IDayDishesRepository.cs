@@ -9,5 +9,6 @@ namespace CateringPro.Repositories
     {
 
         IQueryable<DayDishViewModel> DishesPerDay(DateTime dayDate);
+        DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
     }
 }

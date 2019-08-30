@@ -21,7 +21,7 @@ namespace CateringPro.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(DateTime daydate)
         {
 
-            daydate = DateTime.Now;
+          //  daydate = DateTime.Now;
 
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
             return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.DishesPerDay(daydate)));

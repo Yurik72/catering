@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CateringPro.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DayDishesController : Controller
     {
         private readonly AppDbContext _context;
@@ -29,21 +31,7 @@ namespace CateringPro.Controllers
         public  ViewResult EditDay(DateTime daydate)
         {
             daydate = DateTime.Now;
-            /*
-            var query = from dish in _context.Dishes
-                        join dd in (from subday in _context.DayDish where subday.Date== daydate select subday) on dish.Id equals dd.DishId  into proto
-                        from dayd in proto.DefaultIfEmpty()
-                        
-                        select new DayDishViewModel() { DishId=dish.Id, DishName = dish.Name, Date = daydate,Enabled= proto.Count()>0 };
 
-            var query1 = from dish in _context.Dishes
-                        join dd in (from subday in _context.DayDish where subday.Date == daydate select subday) on dish.Id equals dd.DishId into proto
-                        from dayd in proto.DefaultIfEmpty()
-
-                        select new  { DishId = dish.Id, DishName = dish.Name, Date = daydate, Enabled = dayd  ,x=proto};
-
-         */
-            // return View(await query.ToListAsync());
             return View(daydate);
            
         }
@@ -54,29 +42,32 @@ namespace CateringPro.Controllers
             return PartialView(await _dayDishesRepo.DishesPerDay(daydate).ToListAsync());
         }
         [HttpPost]
-        public  JsonResult SaveDayDish(int DishId,DateTime daydate,bool enabled)
+        public async Task<JsonResult>  SaveDayDish(int DishId,DateTime daydate,bool enabled)
         {
-            daydate = DateTime.Now;
+            //daydate = DateTime.Now;
             if (ModelState.IsValid)
             {
+                DayDish dd = _dayDishesRepo.SelectSingleOrDefault(DishId, daydate);
                 if (enabled) {
-                    if (_context.DayDish.Any(d => d.Date == daydate && d.DishId == DishId))
+                    
+                    if (dd!=null)
                     {
                         //something wrong
                     }
                     else
                     {
-                        _context.Add(new DayDish() { DishId = DishId, Date = daydate });
+                        await _context.AddAsync(new DayDish() { DishId = DishId, Date = daydate });
                     }
                 }
                 else
                 {
-                    _context.Remove(_context.DayDish.Single(d => d.Date == daydate && d.DishId == DishId));
+                    _context.Remove(dd);
                     
                 }
-                 _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             
+            //return Json(DishId);
             return Json(DishId);
         }
         // GET: DayDishes/Details/5
