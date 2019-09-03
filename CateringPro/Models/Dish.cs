@@ -11,6 +11,11 @@ namespace CateringPro.Models
     {
         public int Id { get; set; }
 
+        [StringLength(10)]
+        [DataType(DataType.Text)]
+        [Required]
+        public string Code { get; set; }
+
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression("([a-zA-Z0-9 .&'-]+)", ErrorMessage = "The field Name should only include letters and number.")]
         [DataType(DataType.Text)]
@@ -27,6 +32,10 @@ namespace CateringPro.Models
         [Required]
         public string Description { get; set; }
 
+        [DisplayName("Select Category")]
+        public int CategoriesId { get; set; }
+
+        public virtual Categories Category { get; set; }
         public virtual ICollection<DishCategory> DishCategories { get; set; }
     }
 }

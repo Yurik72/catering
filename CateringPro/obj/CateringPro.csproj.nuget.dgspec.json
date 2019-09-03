@@ -101,9 +101,17 @@
               "target": "Package",
               "version": "[2.2.3, )"
             },
+            "Microsoft.Web.LibraryManager.Build": {
+              "target": "Package",
+              "version": "[2.0.76, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[12.0.2, )"
+            },
+            "awesome-bootstrap-checkbox": {
+              "target": "Package",
+              "version": "[0.3.4.1, )"
             }
           },
           "imports": [

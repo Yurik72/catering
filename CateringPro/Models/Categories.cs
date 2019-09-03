@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace CateringPro.Models
 {
@@ -9,9 +11,17 @@ namespace CateringPro.Models
         public Categories()
         {
             Pizzas = new HashSet<Pizzas>();
+            Dishes = new HashSet<Dish>();
+
+          DishCategories =new  HashSet<DishCategory>();
+
+
         }
 
-        public int Id { get; set; }
+    public int Id { get; set; }
+
+        [StringLength(10)]
+        public string Code { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression("([a-zA-Z0-9 .&'-]+)", ErrorMessage = "The field Name should only include letters and number.")]
@@ -25,6 +35,9 @@ namespace CateringPro.Models
 
         public virtual ICollection<Pizzas> Pizzas { get; set; }
 
+
+        public virtual ICollection<Dish> Dishes { get; set; }
+        
         public ICollection<DishCategory> DishCategories { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace CateringPro.ViewComponents
           //  daydate = DateTime.Now;
 
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.DishesPerDay(daydate)));
+            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.CategorizedDishesPerDay(daydate)));
         }
     }
 }

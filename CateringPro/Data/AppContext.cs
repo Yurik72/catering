@@ -38,6 +38,8 @@ namespace CateringPro.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            
+
             //P key
             modelBuilder.Entity<UserWeekBasket>()
                 .HasKey(o => new { o.UserId, o.BasketDate });
@@ -53,7 +55,15 @@ namespace CateringPro.Data
             modelBuilder.Entity<DishCategory>()
                 .HasOne(bc => bc.Categories)
                 .WithMany(c => c.DishCategories)
-                .HasForeignKey(bc => bc.CategoryId);
+                .HasForeignKey(bc => bc.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+             modelBuilder.Entity<Dish>()
+                 .HasOne(c => c.Category)
+                 .WithMany(a => a.Dishes)
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Restrict);
+
             //day dish
 
 

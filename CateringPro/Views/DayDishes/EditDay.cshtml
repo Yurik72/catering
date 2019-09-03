@@ -5,47 +5,209 @@
 }
 @{
     DateTime daydate = Model;
-        CultureInfo ci = new CultureInfo("en-US");
-// Get the DateTimeFormatInfo for the en-US culture.
+    CultureInfo ci = new CultureInfo("en-US");
+    // Get the DateTimeFormatInfo for the en-US culture.
     DateTimeFormatInfo dtfi = ci.DateTimeFormat;
 }
 
-<h2>EditDay</h2>
+<style>
+    .dayfoot {
+        height: 20px;
+    }
+
+    .daydish {
+        width: 100%;
+        border: 1px solid #e3e3e3;
+        -moz-border-radius: inherit;
+        -webkit-border-radius: inherit;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+        box-shadow: inset 0px 1px 1px rgba(0,0,0,0.05);
+    }
+
+    .row-daydish-category {
+        width: 100%;
+        border: 1px solid #e3e3e3;
+        -moz-border-radius: inherit;
+        -webkit-border-radius: inherit;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+        box-shadow: inset 0px 1px 1px rgba(0,0,0,0.05);
+        background-color: mintcream;
+    }
+
+
+    .row-daydish > .col {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn-link.daydish[aria-expanded="true"]:hover, .btn-link.daydish[aria-expanded="true"]:focus {
+        background-color: #f15a29
+    }
+
+    .btn-link.daydish:hover, .btn-link.daydish:focus {
+        color: #23527c;
+        text-decoration: none;
+        background: #fff;
+    }
+
+    .expand, .dayname {
+        float: left;
+        display: block;
+    }
+
+    .daydish, .daydish:hover .expand {
+        background: #fff
+    }
+
+
+        .daydish[aria-expanded="true"], .expand::after, .daydish[aria-expanded="true"] .expand::before, .daydish .expand::after, .daydish .expand::before {
+            background-color: #f15a29
+        }
+
+            .daydish[aria-expanded="true"] .expand::after, .daydish[aria-expanded="true"] .expand::before,
+            .daydish:hover .expand::after, .daydish:hover .expand::before {
+                background-color: #f15a29
+            }
+
+        .daydish .expand {
+            background: #f15a29;
+            border-radius: 50%;
+            height: 30px;
+            margin: 8px 18px 8px 32px;
+            min-width: 30px;
+            position: relative;
+            -webkit-transition: .25s ease-out;
+            transition: .25s ease-out;
+            width: 30px
+        }
+
+            .daydish .expand::after, .daydish .expand::before {
+                background-color: #fff;
+                content: "";
+                position: absolute;
+                -webkit-transition: -webkit-transform .25s ease-out;
+                transition: transform .25s ease-out, -webkit-transform .25s ease-out
+            }
+
+            .daydish .expand::before {
+                height: 50%;
+                left: 50%;
+                margin-left: -1px;
+                top: 25%;
+                width: 2px
+            }
+
+            .daydish .expand::after {
+                height: 2px;
+                left: 25%;
+                margin-top: -1px;
+                top: 50%;
+                width: 50%
+            }
+
+    .accordeon dl dt.active .plus, .accordeon dl dt:hover .plus {
+        background: #fff
+    }
+
+    .daydish[aria-expanded="true"] .expand::after, .daydish[aria-expanded="true"] .expand::before, .daydish[aria-expanded="true"] .expand::after,
+    .daydish[aria-expanded="true"] .expand::before {
+        background-color: #f15a29;
+    }
+
+    .daydish[aria-expanded="true"] .expand {
+        background: #fff
+    }
+
+        .daydish[aria-expanded="true"] .expand::before {
+            -webkit-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg)
+        }
+
+        .daydish[aria-expanded="true"] .expand::after {
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg)
+        }
+</style>
+<h2>Dishes to be available on the week</h2>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-4 col-lmd-4 col-lg-offset-4 col-md-offset-4">
+            <div class="input-group">
+                <input type="week" value="daydate" class="form-control" id="Week" />
+
+            </div>
+        </div>
+    </div>
+</div>
 <div id="accordion">
     @{
         DateTime current = daydate;
     }
     @for (int i = 0; i < 7; i++)
     {
-        <div class="card">
-            <div class="card-header" id=@("heading"+i)>
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target=@("#collapse"+i) aria-expanded=@(i==0?"true":"false") aria-controls=@("collapse"+i)>
-                        @dtfi.GetDayName((DayOfWeek)i)
 
+        <div class="container">
+            <div class="row ">
+                <div class="col-lg-8 col-md-8 ">
+                    <button class="btn btn-link collapsed daydish" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded="false" aria-controls=@("collapse" + i)>
+                        <div class="expand">
+
+
+                        </div>
+                        <div class="dayname">@dtfi.GetDayName((DayOfWeek)i) </div>
                     </button>
-                </h5>
-            </div>
 
-            <div id=@("collapse"+i) class="collapse  aria-labelledby=@("heading"+i)" data-parent="#accordion">
-                <div class="card-body">
-                    @await Component.InvokeAsync("DayDishComponent", current)
+                </div>
+                <div class="col-lg-1 col-md-1 ">
+
                 </div>
             </div>
+            <div class="row justify-content-md-center">
+                <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion">
+
+                    @await Component.InvokeAsync("DayDishComponent", current)
+
+                </div>
+            </div>
+            @*
+                <div class="card">
+                    <div class="card-header" id=@("heading" + i)>
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded=@(i == 0 ? "true" : "false") aria-controls=@("collapse" + i)>
+                                @dtfi.GetDayName((DayOfWeek)i)
+
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id=@("collapse" + i) class="collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion">
+                        <div class="card-body">
+                            @await Component.InvokeAsync("DayDishComponent", current)
+                        </div>
+                    </div>
+                </div>
+            *@
+
         </div>
-        current =current.AddDays(1);
+        current = current.AddDays(1);
     }
-</div>
 
- 
 
-<script type="text/javascript" src="~/js/dishdayedit.js" defer></script>
+    <script type="text/javascript" src="~/js/dishdayedit.js" defer></script>
     @section Scripts {
 
 
         <script>
             $(function () {
                 //  $("#accordion").accordion();
+                $('#Week').datepicker({
+                    calendarWeeks: true,
+                    weekStart: 1
+                });
             });
         </script>
     }

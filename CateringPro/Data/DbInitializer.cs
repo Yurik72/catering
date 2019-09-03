@@ -57,11 +57,11 @@ namespace CateringPro.Data
 
         private static void SeedDatabase(AppDbContext _context, RoleManager<IdentityRole> _roleManager, UserManager<IdentityUser> _userManager)
         {
-            var cat1 = new Categories { Name = "Standard", Description = "The Bakery's Standard pizzas all year around." };
-            var cat2 = new Categories { Name = "Spcialities", Description = "The Bakery's Speciality pizzas only for a limited time." };
-            var cat3 = new Categories { Name = "News", Description = "The Bakery's New pizzas on the menu." };
-            var cat4 = new Categories { Name = "Завтраки", Description = "The Bakery's New pizzas on the menu." };
-            var cat5 = new Categories { Name = "Обед", Description = "The Bakery's New pizzas on the menu." };
+            var cat1 = new Categories { Code="", Name = "Standard", Description = "The Bakery's Standard pizzas all year around." };
+            var cat2 = new Categories { Code = "", Name = "Spcialities", Description = "The Bakery's Speciality pizzas only for a limited time." };
+            var cat3 = new Categories { Code = "", Name = "News", Description = "The Bakery's New pizzas on the menu." };
+            var cat4 = new Categories { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu." };
+            var cat5 = new Categories { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu." };
 
 
             var cats = new List<Categories>()
@@ -69,17 +69,24 @@ namespace CateringPro.Data
                 cat1, cat2, cat3,cat4,cat5
             };
 
-            var d1=new Dish { Name = "Борщ", Price = 2,  Description = "A normal pizza with a taste from the forest."  };
-            var d2 = new Dish { Name = "Котлета", Price = 2, Description = "A normal pizza with a taste from the forest." };
-            var d3 = new Dish { Name = "Запеканка", Price = 2, Description = "A normal pizza with a taste from the forest." };
-            var d4 = new Dish { Name = "Омлет", Price = 2, Description = "A normal pizza with a taste from the forest." };
+            var d1=new Dish { Code = "1", Name = "Борщ", Price = 2,  Description = "A normal pizza with a taste from the forest.", CategoriesId=4 };
+            var d2 = new Dish { Code = "2", Name = "Котлета", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 4 };
+            var d3 = new Dish { Code = "3", Name = "Запеканка", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 3 };
+            var d4 = new Dish { Code = "4", Name = "Омлет", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 3 };
 
 
             var dishes = new List<Dish>()
             {
                 d1, d2, d3,d4
             };
+            var dc1 = new DishCategory { CategoryId=4,DishId=3};
+            var dc2 = new DishCategory { CategoryId = 5, DishId = 3 };
+            var dc3 = new DishCategory { CategoryId = 5, DishId = 1 };
+            var dishcaetgories = new List<DishCategory>()
+            {
+                dc1,dc2,dc3
 
+            };
             var piz1 = new Pizzas { Name = "Capricciosa", Price = 70.00M, Category = cat1, Description = "A normal pizza with a taste from the forest.", ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/2/2a/Pizza_capricciosa.jpg", IsPizzaOfTheWeek = false };
             var piz2 = new Pizzas { Name = "Veggie", Price = 70.00M, Category = cat3, Description = "Veggie Pizza for vegitarians", ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Vegetarian_pizza.jpg", IsPizzaOfTheWeek = false };
             var piz3 = new Pizzas { Name = "Hawaii", Price = 75.00M, Category = cat1, Description = "A nice tasting pizza from Hawaii.", ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/d/d1/Hawaiian_pizza_1.jpg", IsPizzaOfTheWeek = true };
@@ -242,7 +249,7 @@ namespace CateringPro.Data
                 ord1
             };
 
-            _context.Categories.AddRange(cats);
+             _context.Categories.AddRange(cats);
             _context.Pizzas.AddRange(pizs);
             _context.Reviews.AddRange(revs);
             _context.Orders.AddRange(orders);
@@ -251,6 +258,8 @@ namespace CateringPro.Data
             _context.PizzaIngredients.AddRange(pizIngs);
 
             _context.Dishes.AddRange(dishes);
+           // _context.DishCategory.AddRange(dishcaetgories);
+            
 
             _context.SaveChanges();
         }

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "75e1cbc306cf5c65442676077ca25483c2c8fa72"
+    "signature": "23e0595ed474e4664778c7e1301e9bea04562caf"
   },
   "compilationOptions": {
     "defines": [
@@ -38,7 +38,9 @@
           "Microsoft.NETCore.App": "2.2.0",
           "Microsoft.VisualStudio.Web.BrowserLink": "2.2.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.3",
-          "Newtonsoft.Json": "12.0.2"
+          "Microsoft.Web.LibraryManager.Build": "2.0.76",
+          "Newtonsoft.Json": "12.0.2",
+          "awesome-bootstrap-checkbox": "0.3.4.1"
         },
         "runtime": {
           "CateringPro.dll": {}
@@ -47,6 +49,7 @@
           "CateringPro.dll": {}
         }
       },
+      "awesome-bootstrap-checkbox/0.3.4.1": {},
       "Microsoft.ApplicationInsights/2.10.0": {
         "dependencies": {
           "System.Diagnostics.DiagnosticSource": "4.5.0",
@@ -386,6 +389,11 @@
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
         }
       },
+      "Microsoft.Web.LibraryManager.Build/2.0.76": {
+        "dependencies": {
+          "System.Runtime.Loader": "4.3.0"
+        }
+      },
       "Newtonsoft.Json/12.0.2": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
@@ -684,6 +692,13 @@
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Runtime.Extensions": "4.3.0"
+        }
+      },
+      "System.Runtime.Loader/4.3.0": {
+        "dependencies": {
+          "System.IO": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Runtime": "4.3.0"
         }
       },
       "System.Security.Cryptography.ProtectedData/4.5.0": {
@@ -4417,6 +4432,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "awesome-bootstrap-checkbox/0.3.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-q71wfn30CCtqFLuTxJO5+xDYguhgru1+HQftgaV7YwWr+OEPPtamQTOWgty8txN2UmIofVxASi6ZAJhJQ/tJiQ==",
+      "path": "awesome-bootstrap-checkbox/0.3.4.1",
+      "hashPath": "awesome-bootstrap-checkbox.0.3.4.1.nupkg.sha512"
+    },
     "Microsoft.ApplicationInsights/2.10.0": {
       "type": "package",
       "serviceable": true,
@@ -4557,6 +4579,13 @@
       "path": "microsoft.visualstudio.web.codegenerators.mvc/2.2.3",
       "hashPath": "microsoft.visualstudio.web.codegenerators.mvc.2.2.3.nupkg.sha512"
     },
+    "Microsoft.Web.LibraryManager.Build/2.0.76": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hD6E6O2QYNvkbjamuQTbocHvBXuzGbQIVTzUYHGL5tO9+zFbWUsfdzNp3+PDQBMrbEt8S5qVBaCs5Hm/WbFN/w==",
+      "path": "microsoft.web.librarymanager.build/2.0.76",
+      "hashPath": "microsoft.web.librarymanager.build.2.0.76.nupkg.sha512"
+    },
     "Newtonsoft.Json/12.0.2": {
       "type": "package",
       "serviceable": true,
@@ -4661,6 +4690,13 @@
       "sha512": "sha512-XZrXYG3c7QV/GpWeoaRC02rM6LH2JJetfVYskf35wdC/w2fFDFMphec4gmVH2dkll6abtW14u9Rt96pxd9YH2A==",
       "path": "system.net.webheadercollection/4.3.0",
       "hashPath": "system.net.webheadercollection.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime.Loader/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DHMaRn8D8YCK2GG2pw+UzNxn/OHVfaWx7OTLBD/hPegHZZgcZh3H6seWegrC4BYwsfuGrywIuT+MQs+rPqRLTQ==",
+      "path": "system.runtime.loader/4.3.0",
+      "hashPath": "system.runtime.loader.4.3.0.nupkg.sha512"
     },
     "System.Security.Cryptography.ProtectedData/4.5.0": {
       "type": "package",

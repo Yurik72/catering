@@ -1,4 +1,4 @@
-@model IEnumerable<CateringPro.Models.DayDishViewModel>
+@model IEnumerable<CateringPro.Models.DayDishViewModelPerGategory>
 
 @{
     ViewData["Title"] = "EditDay";
@@ -6,47 +6,91 @@
 @{
     DateTime daydate = DateTime.Now;
 }
+@* bootstrap0 grid system *@
 
-<table class="table" id="tabledayedit">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Enabled)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DishName)
-            </th>
+    <div class="well well-lg">
+        <div class="row justify-content-md-center">
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+        </div>
+        @foreach (var itemcategory in Model)
         {
-            <tr>
-                <td>
-                    <div class="checkbox">
+            <div class="row row-daydish-category row justify-content-md-center">
+                <div class="col col-lg-8 col-md-8 col-lg-offset-1 col-md-offset-1">
+                    @Html.DisplayFor(modelItem => itemcategory.CategoryName)
+                </div>
 
-                        @if (item.Enabled)
-                        {
-                            <input type="checkbox" checked="checked" cp-name="dayselect" />
-                        }
-                        else
-                        {
-                            <input type="checkbox" cp-name="dayselect" />
-                        }
-                        @Html.HiddenFor(modelItem => item.DishId)
-                        @Html.HiddenFor(modelItem => item.Date)
+            </div>
+            @foreach (var item in itemcategory.DayDishes)
+            {
+                <div class="row row-daydish">
+                    <div class="col col-md-2">
+
                     </div>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DishName)
-                </td>
-
-            </tr>
+                    <div class="col col-md-1">
+                        <div class="checkbox">
+                            @if (item.Enabled)
+                            {
+                                <input type="checkbox" checked="checked" cp-name="dayselect" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" cp-name="dayselect" />
+                            }
+                            @Html.HiddenFor(modelItem => item.DishId)
+                            @Html.HiddenFor(modelItem => item.Date)
+                        </div>
+                    </div>
+                    <div class="col col-lg-4 col-md-4">
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </div>
+                </div>
+            }
         }
-    </tbody>
-</table>
+        <div class="row dayfoot">
+        </div>
+    </div>
 
+     @* table approach
+            <table class="table" id="tabledayedit">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Enabled)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DishName)
+                        </th>
 
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="checkbox">
+
+                                    @if (item.Enabled)
+                                    {
+                                        <input type="checkbox" checked="checked" cp-name="dayselect" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" cp-name="dayselect" />
+                                    }
+                                    @Html.HiddenFor(modelItem => item.DishId)
+                                    @Html.HiddenFor(modelItem => item.Date)
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DishName)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            *@
 
