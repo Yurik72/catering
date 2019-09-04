@@ -27,15 +27,19 @@
 
                     </div>
                     <div class="col col-md-1">
-                        <div class="checkbox">
+                        <div class="checkbox checkbox-info">
+
                             @if (item.Enabled)
                             {
-                                <input type="checkbox" checked="checked" cp-name="dayselect" />
+                                <input type="checkbox" class="checkbox styled" checked="checked" cp-name="dayselect" id="chk" />
                             }
                             else
                             {
-                                <input type="checkbox" cp-name="dayselect" />
+                                <input type="checkbox" class="checkbox styled" cp-name="dayselect" id="chk" />
                             }
+                            <label for="chk">
+                                
+                            </label>
                             @Html.HiddenFor(modelItem => item.DishId)
                             @Html.HiddenFor(modelItem => item.Date)
                         </div>
@@ -50,47 +54,47 @@
         </div>
     </div>
 
-     @* table approach
-            <table class="table" id="tabledayedit">
-                <thead>
+    @* table approach
+        <table class="table" id="tabledayedit">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Enabled)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DishName)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Enabled)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DishName)
-                        </th>
+                        <td>
+                            <div class="checkbox">
 
-                        <th></th>
+                                @if (item.Enabled)
+                                {
+                                    <input type="checkbox" checked="checked" cp-name="dayselect" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" cp-name="dayselect" />
+                                }
+                                @Html.HiddenFor(modelItem => item.DishId)
+                                @Html.HiddenFor(modelItem => item.Date)
+                            </div>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DishName)
+                        </td>
+
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <div class="checkbox">
+                }
+            </tbody>
+        </table>
 
-                                    @if (item.Enabled)
-                                    {
-                                        <input type="checkbox" checked="checked" cp-name="dayselect" />
-                                    }
-                                    else
-                                    {
-                                        <input type="checkbox" cp-name="dayselect" />
-                                    }
-                                    @Html.HiddenFor(modelItem => item.DishId)
-                                    @Html.HiddenFor(modelItem => item.Date)
-                                </div>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DishName)
-                            </td>
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
-            *@
+    *@
 

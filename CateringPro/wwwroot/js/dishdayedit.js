@@ -1,5 +1,6 @@
 ﻿
 $(document).on('change', "input[cp-name|='dayselect']", function () { 
+
         if (this.checked) {
              //alert("click");
         }

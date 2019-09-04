@@ -38,8 +38,8 @@
 
 
     .row-daydish > .col {
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 
     .btn-link.daydish[aria-expanded="true"]:hover, .btn-link.daydish[aria-expanded="true"]:focus {
@@ -131,15 +131,28 @@
             -ms-transform: rotate(180deg);
             transform: rotate(180deg)
         }
+ .checkbox {
+     padding-left: 20px;
+}
+ .col > .checkbox{
+     margin-top:0px;
+     margin-bottom:0px;
+ }
+
+
+
+
+
 </style>
 <h2>Dishes to be available on the week</h2>
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-lg-4 col-lmd-4 col-lg-offset-4 col-md-offset-4">
-            <div class="input-group">
-                <input type="week" value="daydate" class="form-control" id="Week" />
-
-            </div>
+        <div class="col-lg-2 col-md-6 ">
+            <div class="week-picker"></div>
+           
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <label>Week :</label> <span id="startDate"></span> - <span id="endDate"></span>
         </div>
     </div>
 </div>
@@ -167,7 +180,7 @@
                 </div>
             </div>
             <div class="row justify-content-md-center">
-                <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion">
+                <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion" data-daydate="@current">
 
                     @await Component.InvokeAsync("DayDishComponent", current)
 
@@ -208,7 +221,43 @@
                     calendarWeeks: true,
                     weekStart: 1
                 });
-            });
+
+                var startDate;
+                var endDate;
+    
+                var selectCurrentWeek = function() {
+                    window.setTimeout(function () {
+                        $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
+                    }, 1);
+                }
+    
+                $('.week-picker').datepicker( {
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    onSelect: function(dateText, inst) { 
+                        var date = $(this).datepicker('getDate');
+                        startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+                        endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
+                        var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
+                        $('#startDate').text($.datepicker.formatDate( dateFormat, startDate, inst.settings ));
+                        $('#endDate').text($.datepicker.formatDate( dateFormat, endDate, inst.settings ));
+            
+                        selectCurrentWeek();
+                    },
+                    beforeShowDay: function(date) {
+                        var cssClass = '';
+                        if(date >= startDate && date <= endDate)
+                            cssClass = 'ui-datepicker-current-day';
+                        return [true, cssClass];
+                    },
+                    onChangeMonthYear: function(year, month, inst) {
+                        selectCurrentWeek();
+                    }
+                });
+    
+                $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
+                $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
+        });
         </script>
     }
 
