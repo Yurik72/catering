@@ -198,3 +198,5 @@ C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.dll
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.pdb
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.csproj.CopyComplete
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Dishes\EditModal.g.cshtml.cs
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Dishes\ListItems.g.cshtml.cs

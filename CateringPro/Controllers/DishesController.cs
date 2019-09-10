@@ -24,6 +24,15 @@ namespace CateringPro.Controllers
         {
             return View(await _context.Dishes.ToListAsync());
         }
+        public async Task<IActionResult> ListItems(string searchcriteria)
+        {
+            if (string.IsNullOrEmpty(searchcriteria))
+            {
+                return PartialView(await _context.Dishes.ToListAsync());
+            }
+            return PartialView(await _context.Dishes.Where(d=>d.Name.Contains(searchcriteria) || d.Description.Contains(searchcriteria)).ToListAsync());
+
+        }
 
         // GET: Dishes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -86,7 +95,7 @@ namespace CateringPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description")] Dish dish)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Dish dish)
         {
             if (id != dish.Id)
             {
@@ -114,6 +123,23 @@ namespace CateringPro.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(dish);
+        }
+        
+
+        public async Task<IActionResult> EditModal(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dish = await _context.Dishes.FindAsync(id);
+            if (dish == null)
+            {
+                return NotFound();
+            }
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", dish.CategoriesId);
+            return PartialView(dish);
         }
 
         // GET: Dishes/Delete/5
