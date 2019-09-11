@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using CateringPro.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Controllers
 {
@@ -15,12 +16,14 @@ namespace CateringPro.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILogger<IdentityUser> _logger;
 
         public AccountController(UserManager<IdentityUser> userManager, 
-                                 SignInManager<IdentityUser> signInManager)
+                                 SignInManager<IdentityUser> signInManager, ILogger<IdentityUser> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -71,11 +74,12 @@ namespace CateringPro.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-
+            _logger.LogInformation("User {0} is going to login ", model.UserName);
             var user = await _userManager.FindByNameAsync(model.UserName);
 
             if (user != null)
             {
+                _logger.LogWarning("Can't find registered user {0}", model.UserName);
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
                 if (result.Succeeded)
@@ -85,8 +89,9 @@ namespace CateringPro.Controllers
 
                     return Redirect(model.ReturnUrl);
                 }
+                _logger.LogWarning("The password for user {0} is invalid", model.UserName);
             }
-
+            _logger.LogWarning("Can't find registered user {0}", model.UserName);
             ModelState.AddModelError("", "Username or Password was invalid.");
             return View(model);
         }
