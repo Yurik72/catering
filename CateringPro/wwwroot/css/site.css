@@ -40,6 +40,95 @@ textarea {
     }
 }
 
+.navbar-nav > li {
+    float: none !important;
+}
+
+.navbar-header {
+    float: none !important;
+}
+
+.navbar-fixed {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+}
+
+@media (min-width: 768px) {
+
+    .navbar {
+        border-radius: 0;
+        border-width: 0;
+        height: 100%;
+    }
+
+    .navbar-nav {
+        float: unset !important;
+    }
+}
+
+.navbar {
+    background-image: url("../images/darkwood.jpg")!important;
+    background-color: transparent !important;
+}
+
+.navbar-nav, .navbar {
+    z-index: 1030 !important;
+}
+
+    .navbar > .container-fluid {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+.container {
+    width: 100% !important;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+#custom-search-input {
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+    #custom-search-input input {
+        border: 0;
+        box-shadow: none;
+    }
+
+    #custom-search-input button {
+        margin: 2px 0 0 0;
+        background: none;
+        box-shadow: none;
+        border: 0;
+        color: #666666;
+        padding: 0 8px 0 10px;
+        border-left: solid 1px #ccc;
+    }
+
+        #custom-search-input button:hover {
+            border: 0;
+            box-shadow: none;
+            border-left: solid 1px #ccc;
+        }
+
+    #custom-search-input .glyphicon-search {
+        font-size: 23px;
+    }
+
+ 
+
 .carousel-holder {
     margin-bottom: 30px;
 }
@@ -115,4 +204,199 @@ footer {
 
 .review-stars {
     max-width: 150px;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: .25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border;
+    animation-duration: 0.75s;
+    animation-timing-function: linear;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+    animation-play-state: running;
+    animation-name: spinner-border;
+}
+
+.spinner-container {
+
+    width: 50%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.spinner-container-row {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgb(65, 137, 199)
+}
+
+.spinner-container div {
+    float: left;
+    margin-left: 30px;
+    text-align: center;
+    display: block;
+}
+
+.dayfoot {
+    height: 20px;
+}
+
+.daydish {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+    -moz-border-radius: inherit;
+    -webkit-border-radius: inherit;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.05);
+}
+
+.row-daydish-category {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+    -moz-border-radius: inherit;
+    -webkit-border-radius: inherit;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.05);
+    background-color: mintcream;
+}
+
+
+.row-daydish > .col {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.btn-link.daydish[aria-expanded="true"]:hover, .btn-link.daydish[aria-expanded="true"]:focus {
+    background-color: #4d2800
+}
+
+.btn-link.daydish:hover, .btn-link.daydish:focus {
+    color: #23527c;
+    text-decoration: none;
+    background: #fff;
+}
+
+.expand, .dayname {
+    float: left;
+    display: block;
+}
+
+.dayname {
+    color: #4d2800;
+}
+
+.daydish, .daydish:hover .expand {
+    background: #fff
+}
+
+
+    .daydish[aria-expanded="true"], .expand::after, .daydish[aria-expanded="true"] .expand::before, .daydish .expand::after, .daydish .expand::before {
+        background-color: #4d2800
+    }
+
+        .daydish[aria-expanded="true"] .expand::after, .daydish[aria-expanded="true"] .expand::before,
+        .daydish:hover .expand::after, .daydish:hover .expand::before {
+            background-color: #4d2800
+        }
+
+    .daydish .expand {
+        background: #4d2800;
+        border-radius: 50%;
+        height: 30px;
+        margin: 8px 18px 8px 32px;
+        min-width: 30px;
+        position: relative;
+        -webkit-transition: .25s ease-out;
+        transition: .25s ease-out;
+        width: 30px
+    }
+
+        .daydish .expand::after, .daydish .expand::before {
+            background-color: #fff;
+            content: "";
+            position: absolute;
+            -webkit-transition: -webkit-transform .25s ease-out;
+            transition: transform .25s ease-out, -webkit-transform .25s ease-out
+        }
+
+        .daydish .expand::before {
+            height: 50%;
+            left: 50%;
+            margin-left: -1px;
+            top: 25%;
+            width: 2px
+        }
+
+        .daydish .expand::after {
+            height: 2px;
+            left: 25%;
+            margin-top: -1px;
+            top: 50%;
+            width: 50%
+        }
+
+.accordeon dl dt.active .plus, .accordeon dl dt:hover .plus {
+    background: #fff
+}
+
+.daydish[aria-expanded="true"] .expand::after, .daydish[aria-expanded="true"] .expand::before, .daydish[aria-expanded="true"] .expand::after,
+.daydish[aria-expanded="true"] .expand::before {
+    background-color: #4d2800;
+}
+
+.daydish[aria-expanded="true"] .dayname {
+    color: #FFFFFF;
+}
+
+.daydish[aria-expanded="true"] .expand {
+    background: #fff
+}
+
+    .daydish[aria-expanded="true"] .expand::before {
+        -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg)
+    }
+
+    .daydish[aria-expanded="true"] .expand::after {
+        -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg)
+    }
+
+.checkbox {
+    padding-left: 20px;
+}
+
+.col > .checkbox {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.dayselector {
+    cursor: pointer;
+}
+.create {
+    cursor: pointer;
 }

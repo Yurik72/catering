@@ -24,88 +24,12 @@
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <style>
-        .navbar-nav > li{
-            float:none!important;
-        }
-        .navbar-header{
-            float:none!important;
-        }
-        .navbar-fixed{
-            position:fixed;
-            left:0px;
-            top:0px;
-        }
-        @@media (min-width: 768px){
-
-            .navbar {
-                border-radius: 0;
-                border-width: 0;
-                height: 100%;
-            }
-            .navbar-nav{
-                float:unset!important;
-            }
-        }
-        .navbar{
-            background-image: url('@Url.Content("~/images/darkwood.jpg")')!important;
-            background-color:transparent !important;
-     
-        }
-        .navbar-nav, .navbar{
-               z-index:1030!important;
-            }
-
-        .navbar > .container-fluid{
-            padding-left:0px!important;
-            padding-right:0px!important;
-        }
-        .container{
-            width:100%!important;
-        }
-.dropdown-submenu>.dropdown-menu{
-        top:0;
-        left:100%;
-        margin-top:-6px;
-        margin-left:-1px;
-        -webkit-border-radius:0 6px 6px 6px;
-        -moz-border-radius:0 6px 6px 6px;
-        border-radius:0 6px 6px 6px;
-
-}
-#custom-search-input{
-    padding: 3px;
-    border: solid 1px #E4E4E4;
-    border-radius: 6px;
-    background-color: #fff;
-}
-
-#custom-search-input input{
-    border: 0;
-    box-shadow: none;
-}
-
-#custom-search-input button{
-    margin: 2px 0 0 0;
-    background: none;
-    box-shadow: none;
-    border: 0;
-    color: #666666;
-    padding: 0 8px 0 10px;
-    border-left: solid 1px #ccc;
-}
-
-#custom-search-input button:hover{
-    border: 0;
-    box-shadow: none;
-    border-left: solid 1px #ccc;
-}
-
-#custom-search-input .glyphicon-search{
-    font-size: 23px;
-}
-    </style>
+  
+        
+ </style>
 </head>
 <body>
     <div id="root">
@@ -146,7 +70,7 @@
 
         @await Component.InvokeAsync("ShoppingCartSummary")
                                     *@
-                                    
+                                    </ul>
                                 @await Html.PartialAsync("_LoginPartial")
                             </div>
                         </div>

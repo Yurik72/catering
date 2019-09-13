@@ -5,9 +5,15 @@
 }
 
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+      
+<div class="container">
+            <div class="row">
+                <div id="create-btn" class="col-lg-3 col-md-3 create">
+                    <span class=" glyphicon glyphicon-plus" aria-hidden="true">Create</span>
+
+                </div>
+            </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -36,15 +42,31 @@
     <script type="text/javascript">
 
         $(function () {
-             
-            $.ajaxSetup({ cache: false });
-            $('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
-            $('#search-btn').click(function (e) {
-                e.preventDefault();
-                $('#table-content').load('/Dishes/ListItems?searchcriteria='+$('#search-val').val());
-            });
-            $(".dishitem").click(function (e) {
 
+            var reload = function () {
+                 $('#table-content').load('/Dishes/ListItems?searchcriteria='+$('#search-val').val());
+            }
+            $.ajaxSetup({ cache: false });
+            //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
+            reload();
+            $('#search-btn').click(function (e) {
+                reload();
+            });
+            $('#custom-search-input').keydown((event) => {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    reload();
+                }
+            });
+            $('#create-btn').click(function (e) {
+                e.preventDefault();
+                var url = '@Url.Content("~/Dishes/CreateModal")';
+                $.get(url, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+            $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 
                 $.get(this.href, function (data) {
@@ -52,6 +74,38 @@
                     $('#modDialog').modal('show');
                 });
             });
+             $(document).on( "click", "a.dishitem", function(e) {
+               e.preventDefault();
+
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+             });
+              $(document).on('click', '[data-save="modal"]', function (event) {
+                    event.preventDefault();
+
+                    var form = $(this).parents('.modal-body').find('form');
+                    var actionUrl = form.attr('action');
+                    var dataToSend = form.serialize();
+
+                  $.post(actionUrl, dataToSend).done(function (data) {
+                      var isValid = false;
+
+                      if (data && data.res && data.res== "OK")
+                                isValid = true;
+
+                      if (isValid) {
+                          $('#modDialog').modal('hide');
+                          $('#dialogContent').empty();
+                          reload();
+                      }
+                      else {
+                          var newBody = $('.modal-body', data);
+                          $(document).find('.modal-body').replaceWith(newBody);
+                      }
+                    });
+                });
         })
     </script>
 }

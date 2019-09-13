@@ -16,6 +16,9 @@ namespace CateringPro.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
         public List<string> Errors { get; set; }
 
     }
