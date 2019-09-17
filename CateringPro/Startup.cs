@@ -39,6 +39,7 @@ namespace CateringPro
             services.AddTransient<IAdminRepository, AdminRepository>();
 
             services.AddTransient<IDayDishesRepository, DayDishesRepository>();
+            services.AddTransient<IUserDayDishesRepository, UserDayDishesRepository>();
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

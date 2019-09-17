@@ -10,6 +10,7 @@ namespace CateringPro.Controllers
     {
         public IActionResult Index()
         {
+            //return RedirectToAction("Index", "UserDayDish", new { area = "Admin" });
             return View();
         }
 
