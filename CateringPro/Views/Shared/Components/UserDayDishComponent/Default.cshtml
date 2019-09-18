@@ -8,7 +8,7 @@
 }
 @* bootstrap0 grid system *@
 
-    <div class="well well-lg">
+    <div class="well well-lg" data-form="userday">
         <div class="row justify-content-md-center">
 
         </div>
@@ -22,41 +22,36 @@
             </div>
             @foreach (var item in itemcategory.UserDayDishes)
             {
-    <div class="row row-daydish">
-        <div class="col col-md-2">
+                <div class="row row-daydish" data-form="userdaydish">
+                    <div class="col col-md-2">
 
-        </div>
-        <div class="col col-md-1">
-            <div class="checkbox checkbox-info">
+                    </div>
+                    <div class="col col-md-1">
 
-                @if (item.Enabled)
-                {
-                    <input type="checkbox" class="checkbox styled" checked="checked" cp-name="dayselect" id="chk" />
-                }
-                else
-                {
-                    <input type="checkbox" class="checkbox styled" cp-name="dayselect" id="chk" />
-                }
-                <label for="chk">
-
-                </label>
-                @Html.HiddenFor(modelItem => item.DishId)
-                @Html.HiddenFor(modelItem => item.Date)
-            </div>
-        </div>
-        <div class="col col-lg-4 col-md-4">
-            @Html.DisplayFor(modelItem => item.DishName)
-        </div>
-         <div class="col col-lg-4 col-md-4">
-            @Html.EditorFor(modelItem => item.Quantity)
-        </div>
-    </div>
+                            @Html.HiddenFor(modelItem => item.DishId,new {datafield="DishID" })
+                            @Html.HiddenFor(modelItem => item.Date,new {datafield="Date" })
+                        
+                    </div>
+                    <div class="col col-lg-4 col-md-4">
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </div>
+                    <div class="col col-lg-4 col-md-4">
+                        @Html.EditorFor(modelItem => item.Quantity,new { htmlAttributes = new { datafield="Quantity" } })
+                    </div>
+                </div>
             }
         }
         <div class="row dayfoot">
         </div>
-    </div>
+        <div class="row">
+            <div class="col col-lg-4 col-md-4">
+                <button type="button" button class="btn btn-primary" data-action="saveuserday">Save</button>
+            </div>
+        </div>
+        <div class="row dayfoot">
+        </div>
 
+    </div>
     @* table approach
         <table class="table" id="tabledayedit">
             <thead>

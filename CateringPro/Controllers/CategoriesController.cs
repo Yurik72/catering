@@ -29,6 +29,74 @@ namespace CateringPro.Controllers
         {
             return View(await _categoryRepo.GetAllAsync());
         }
+        public async Task<IActionResult> ListItems(string searchcriteria)
+        {
+            if (string.IsNullOrEmpty(searchcriteria))
+            {
+                return PartialView(await _context.Categories.ToListAsync());
+            }
+            return PartialView(await _context.Categories.Where(d => d.Name.Contains(searchcriteria) || d.Description.Contains(searchcriteria)).ToListAsync());
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Categories cat)
+        {
+            if (id != cat.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(cat);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CategoriesExists(cat.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return Json(new { res = "OK" });
+            }
+           
+            return PartialView(cat);
+        }
+
+
+        public async Task<IActionResult> EditModal(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cat = await _context.Categories.FindAsync(id);
+            if (cat == null)
+            {
+                return NotFound();
+            }
+            
+            return PartialView(cat);
+        }
+        public IActionResult CreateModal()
+        {
+
+            var cat = new Categories();
+            if (cat == null)
+            {
+                return NotFound();
+            }
+            
+            return PartialView("EditModal", cat);
+        }
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)

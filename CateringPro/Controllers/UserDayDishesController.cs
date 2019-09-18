@@ -37,7 +37,11 @@ namespace CateringPro.Controllers
             //var appDbContext = _context.UserDayDish.Include(u => u.Dish).Include(u => u.User);
             return View(DateTime.Now); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
         }
-
+        public IActionResult EditUserDayComponent(DateTime daydate)
+        {
+            object paramets = new { daydate = daydate };
+            return ViewComponent("UserDayDishComponent", paramets);
+        }
         // GET: UserDayDishes/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -101,7 +105,46 @@ namespace CateringPro.Controllers
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userDayDish.UserId);
             return View(userDayDish);
         }
-
+        [HttpPost]
+        public async Task<JsonResult> SaveDay(List<UserDayDish> daydishes)
+        {
+            //to do make a separate context for async
+            Func<UserDayDish, Task<bool>> saveday = async d =>  {
+              
+                    var userDayDish = await _context.UserDayDish.FindAsync(_userManager.GetUserId(HttpContext.User), d.Date, d.DishId);
+                    if (userDayDish != null)
+                    {
+                        userDayDish.Quantity = d.Quantity;
+                        _context.Update(userDayDish);
+                    }
+                    else
+                    {
+                        d.UserId = _userManager.GetUserId(HttpContext.User);
+                        _context.Add(d);
+                    }
+                
+                return true;
+                
+            };
+            daydishes.ForEach( d => {
+                //await saveday(d);
+                
+                 var userDayDish =  _context.UserDayDish.Find(_userManager.GetUserId(HttpContext.User), d.Date, d.DishId);
+                if (userDayDish != null)
+                {
+                    userDayDish.Quantity = d.Quantity;
+                    _context.Update(userDayDish);
+                }
+                else
+                {
+                    d.UserId = _userManager.GetUserId(HttpContext.User);
+                    _context.Add(d);
+                }
+                
+            });
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(Json(new { res = "OK" }));
+        }
         // POST: UserDayDishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

@@ -7,36 +7,106 @@
 
 <h2>@ModelName</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+<div class="container">
+    <div class="row">
+        <div id="create-btn" class="col-lg-3 col-md-3 create">
+            <span class=" glyphicon glyphicon-plus" aria-hidden="true">Create</span>
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" id="search-val" class="form-control input-lg" placeholder="Categories" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" id="search-btn" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<div id="table-content">
+
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+
+            var reload = function () {
+                 $('#table-content').load('/Categories/ListItems?searchcriteria='+$('#search-val').val());
+            }
+            $.ajaxSetup({ cache: false });
+            //$('#table-content').load('@Url.Action("ListItems","Categories", new { searchcriteria = "" })');
+            reload();
+            $('#search-btn').click(function (e) {
+                reload();
+            });
+            $('#custom-search-input').keydown((event) => {
+                if (event.which == 13) {
+                    event.preventDefault();
+                    reload();
+                }
+            });
+            $('#create-btn').click(function (e) {
+                e.preventDefault();
+                var url = '@Url.Content("~/Categories/CreateModal")';
+                $.get(url, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+            $(document).on( "click", "a.catitem", function(e) {
+               e.preventDefault();
+
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+             $(document).on( "click", "a.catitem", function(e) {
+               e.preventDefault();
+
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+             });
+              $(document).on('click', '[data-save="modal"]', function (event) {
+                    event.preventDefault();
+
+                    var form = $(this).parents('.modal-body').find('form');
+                    var actionUrl = form.attr('action');
+                    var dataToSend = form.serialize();
+
+                  $.post(actionUrl, dataToSend).done(function (data) {
+                      var isValid = false;
+
+                      if (data && data.res && data.res== "OK")
+                                isValid = true;
+
+                      if (isValid) {
+                          $('#modDialog').modal('hide');
+                          $('#dialogContent').empty();
+                          reload();
+                      }
+                      else {
+                          var newBody = $('.modal-body', data);
+                          $(document).find('.modal-body').replaceWith(newBody);
+                      }
+                    });
+                });
+        })
+    </script>
 }
-    </tbody>
-</table>

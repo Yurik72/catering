@@ -206,3 +206,5 @@ C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\UserDayDishes\Edit.g.cshtml.cs
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\UserDayDishes\Index.g.cshtml.cs
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\UserDayDishComponent\Default.g.cshtml.cs
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Categories\EditModal.g.cshtml.cs
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Categories\ListItems.g.cshtml.cs
