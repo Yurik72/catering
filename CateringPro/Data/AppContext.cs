@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CateringPro.Data
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<CompanyUser, CompanyRole,string>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -37,6 +37,9 @@ namespace CateringPro.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+           // modelBuilder.Entity<CompanyUser>().HasKey(u =>u.tag);
+
             base.OnModelCreating(modelBuilder);
 
             

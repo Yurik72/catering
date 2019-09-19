@@ -8,18 +8,18 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Logging;
-
+using CateringPro.Models;
 namespace CateringPro.Controllers
 {
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<IdentityUser> _logger;
+        private readonly UserManager<CompanyUser> _userManager;
+        private readonly SignInManager<CompanyUser> _signInManager;
+        private readonly ILogger<CompanyUser> _logger;
 
-        public AccountController(UserManager<IdentityUser> userManager, 
-                                 SignInManager<IdentityUser> signInManager, ILogger<IdentityUser> logger)
+        public AccountController(UserManager<CompanyUser> userManager, 
+                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,7 +42,7 @@ namespace CateringPro.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email,PhoneNumber=model.PhoneNumber };
+                var user = new CompanyUser { UserName = model.Email, Email = model.Email,PhoneNumber=model.PhoneNumber };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -114,7 +114,10 @@ namespace CateringPro.Controllers
 
             if (user != null)
             {
-                _logger.LogWarning("Can't find registered user {0}", model.UserName);
+                var claims = await _userManager.GetClaimsAsync(user);
+                claims.Add(new System.Security.Claims.Claim("companyid", "44"));
+            
+
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
                 if (result.Succeeded)

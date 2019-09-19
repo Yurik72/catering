@@ -10,6 +10,7 @@ using CateringPro.Data;
 using CateringPro.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using CateringPro.Core;
 
 namespace CateringPro
 {
@@ -29,10 +30,13 @@ namespace CateringPro
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddLogging();
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<CompanyUser, CompanyRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
+                   
 
+
+           
             services.AddTransient<IPizzaRepository, PizzaRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
@@ -44,6 +48,9 @@ namespace CateringPro
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
+
+            services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, CustomClaimsPrincipalFactory>();
+            
 
             services.AddMvc();
 

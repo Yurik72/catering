@@ -34,7 +34,7 @@ namespace CateringPro.Repositories
                             where dd.Date==daydate
                             join ud in _context.UserDayDish on new { dd.DishId, dd.Date, uid=userId } equals new {ud.DishId, ud.Date,uid=ud.UserId} into proto
                             from userday in proto.DefaultIfEmpty()
-                            select new { DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, Enabled = proto.Count() > 0,  Quantity =0  }
+                            select new { DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, Enabled = proto.Count() > 0,  Quantity = proto.Count()>0? proto.First().Quantity :0}
                         )
                         group entry by entry.CategoryID into catgroup
                         join cat in _context.Categories on catgroup.Key equals cat.Id

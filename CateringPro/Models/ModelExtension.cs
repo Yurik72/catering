@@ -14,7 +14,7 @@ namespace CateringPro.Models
 
         public string UserId { get; set; }
 
-        public IdentityUser User { get; set; }
+        public CompanyUser User { get; set; }
     }
     public static class ModelExtension
     {

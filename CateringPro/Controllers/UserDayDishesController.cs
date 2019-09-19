@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using CateringPro.Repositories;
 using CateringPro.Data;
 using CateringPro.Models;
+using CateringPro.Core;
 
 namespace CateringPro.Controllers
 {
@@ -19,9 +20,9 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IUserDayDishesRepository _userdishes;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<CompanyUser> _userManager;
 
-        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<IdentityUser> um)
+        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um)
         {
             _context = context;
             _userManager = um;
@@ -111,7 +112,7 @@ namespace CateringPro.Controllers
             //to do make a separate context for async
             Func<UserDayDish, Task<bool>> saveday = async d =>  {
               
-                    var userDayDish = await _context.UserDayDish.FindAsync(_userManager.GetUserId(HttpContext.User), d.Date, d.DishId);
+                    var userDayDish = await _context.UserDayDish.FindAsync(this.User.GetUserId(), d.Date, d.DishId);
                     if (userDayDish != null)
                     {
                         userDayDish.Quantity = d.Quantity;
@@ -129,7 +130,7 @@ namespace CateringPro.Controllers
             daydishes.ForEach( d => {
                 //await saveday(d);
                 
-                 var userDayDish =  _context.UserDayDish.Find(_userManager.GetUserId(HttpContext.User), d.Date, d.DishId);
+                 var userDayDish =  _context.UserDayDish.Find(this.User.GetUserId(), d.Date, d.DishId);
                 if (userDayDish != null)
                 {
                     userDayDish.Quantity = d.Quantity;
@@ -137,7 +138,7 @@ namespace CateringPro.Controllers
                 }
                 else
                 {
-                    d.UserId = _userManager.GetUserId(HttpContext.User);
+                    d.UserId = this.User.GetUserId();
                     _context.Add(d);
                 }
                 

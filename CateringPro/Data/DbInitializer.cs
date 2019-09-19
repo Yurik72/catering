@@ -13,8 +13,8 @@ namespace CateringPro.Data
         {
             context.Database.EnsureCreated();
 
-            var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = service.GetRequiredService<UserManager<IdentityUser>>();
+            var roleManager = service.GetRequiredService<RoleManager<CompanyRole>>();
+            var userManager = service.GetRequiredService<UserManager<CompanyUser>>();
 
             if (context.Dishes.Any())
             {
@@ -26,7 +26,7 @@ namespace CateringPro.Data
             SeedDatabase(context, roleManager, userManager);
         }
 
-        private static void CreateAdminRole(AppDbContext context, RoleManager<IdentityRole> _roleManager, UserManager<IdentityUser> _userManager)
+        private static void CreateAdminRole(AppDbContext context, RoleManager<CompanyRole> _roleManager, UserManager<CompanyUser> _userManager)
         {
             bool roleExists = _roleManager.RoleExistsAsync("Admin").Result;
             if (roleExists)
@@ -34,13 +34,13 @@ namespace CateringPro.Data
                 return;
             }
             
-            var role = new IdentityRole()
+            var role = new CompanyRole()
             {
                 Name = "Admin"
             };
             _roleManager.CreateAsync(role).Wait();
 
-            var user = new IdentityUser()
+            var user = new CompanyUser()
             {
                 UserName = "admin",
                 Email = "admin@default.com"
@@ -55,7 +55,7 @@ namespace CateringPro.Data
             }
         }
 
-        private static void SeedDatabase(AppDbContext _context, RoleManager<IdentityRole> _roleManager, UserManager<IdentityUser> _userManager)
+        private static void SeedDatabase(AppDbContext _context, RoleManager<CompanyRole> _roleManager, UserManager<CompanyUser> _userManager)
         {
             var cat1 = new Categories { Code="", Name = "Standard", Description = "The Bakery's Standard pizzas all year around." };
             var cat2 = new Categories { Code = "", Name = "Spcialities", Description = "The Bakery's Speciality pizzas only for a limited time." };
@@ -103,15 +103,15 @@ namespace CateringPro.Data
                 piz1, piz2, piz3, piz4, piz5, piz6, piz7, piz8, piz9, piz10
             };
 
-            var user1 = new IdentityUser { UserName = "user1@gmail.com", Email = "user1@gmail.com" };
-            var user2 = new IdentityUser { UserName = "user2@gmail.com", Email = "user2@gmail.com" };
-            var user3 = new IdentityUser { UserName = "user3@gmail.com", Email = "user3@gmail.com" };
-            var user4 = new IdentityUser { UserName = "user4@gmail.com", Email = "user4@gmail.com" };
-            var user5 = new IdentityUser { UserName = "user5@gmail.com", Email = "user5@gmail.com" };
+            var user1 = new CompanyUser { UserName = "user1@gmail.com", Email = "user1@gmail.com" };
+            var user2 = new CompanyUser { UserName = "user2@gmail.com", Email = "user2@gmail.com" };
+            var user3 = new CompanyUser { UserName = "user3@gmail.com", Email = "user3@gmail.com" };
+            var user4 = new CompanyUser { UserName = "user4@gmail.com", Email = "user4@gmail.com" };
+            var user5 = new CompanyUser { UserName = "user5@gmail.com", Email = "user5@gmail.com" };
 
             string userPassword = "Password123";
 
-            var users = new List<IdentityUser>()
+            var users = new List<CompanyUser>()
             {
                 user1, user2, user3, user4, user5
             };
@@ -123,13 +123,13 @@ namespace CateringPro.Data
 
             var revs = new List<Reviews>()
             {
-                new Reviews { User = user1, Title ="Best Pizza with mushrooms", Description="I love this Pizza with mushrooms on it.", Grade=4, Date=DateTime.Now, Pizza = piz1 },
-                new Reviews { User = user2, Title ="Worst Pizza with mushrooms", Description="I hate this Pizza with mushrooms on it.", Grade=1, Date=DateTime.Now.AddDays(-1), Pizza = piz1 },
-                new Reviews { User = user2, Title ="Only Bland Vegetables", Description="Tasteless vegetables on this soggy Pizza.", Grade=1, Date=DateTime.Now, Pizza = piz2 },
-                new Reviews { User = user3, Title ="Great Veggie Pizza", Description="Good choice if you are a vegitarian.", Grade=5, Date=DateTime.Now.AddDays(-6), Pizza = piz2 },
-                new Reviews { User = user4, Title ="Amazing pineapples", Description="I love the taste of the pineapples on this pizza.", Grade=4, Date=DateTime.Now.AddDays(-4), Pizza = piz3 },
-                new Reviews { User = user1, Title ="Too simple", Description="Too simple pizza, for such a high price.", Grade=2, Date=DateTime.Now.AddDays(-2), Pizza = piz4 },
-                new Reviews { User = user5, Title ="Super Special", Description="Super special pizza, the best taste in the world!", Grade=5, Date=DateTime.Now.AddDays(-9), Pizza = piz5 },
+               // new Reviews { User = user1, Title ="Best Pizza with mushrooms", Description="I love this Pizza with mushrooms on it.", Grade=4, Date=DateTime.Now, Pizza = piz1 },
+               // new Reviews { User = user2, Title ="Worst Pizza with mushrooms", Description="I hate this Pizza with mushrooms on it.", Grade=1, Date=DateTime.Now.AddDays(-1), Pizza = piz1 },
+               // new Reviews { User = user2, Title ="Only Bland Vegetables", Description="Tasteless vegetables on this soggy Pizza.", Grade=1, Date=DateTime.Now, Pizza = piz2 },
+               // new Reviews { User = user3, Title ="Great Veggie Pizza", Description="Good choice if you are a vegitarian.", Grade=5, Date=DateTime.Now.AddDays(-6), Pizza = piz2 },
+               // new Reviews { User = user4, Title ="Amazing pineapples", Description="I love the taste of the pineapples on this pizza.", Grade=4, Date=DateTime.Now.AddDays(-4), Pizza = piz3 },
+               // new Reviews { User = user1, Title ="Too simple", Description="Too simple pizza, for such a high price.", Grade=2, Date=DateTime.Now.AddDays(-2), Pizza = piz4 },
+               // new Reviews { User = user5, Title ="Super Special", Description="Super special pizza, the best taste in the world!", Grade=5, Date=DateTime.Now.AddDays(-9), Pizza = piz5 },
             };
 
             var ing1 = new Ingredients { Name = "Cheese" };
@@ -219,41 +219,11 @@ namespace CateringPro.Data
 
             };
 
-            var ord1 = new Order
-            {
-                FirstName = "Pelle",
-                LastName = "Andersson",
-                AddressLine1 = "MainStreet 12",
-                City = "Gothenburg",
-                Country = "Sweden",
-                Email = "pelle22@gmail.com",
-                OrderPlaced = DateTime.Now.AddDays(-2),
-                PhoneNumber = "0705123456",
-                User = user1,
-                ZipCode = "43210",
-                OrderTotal = 370.00M,
-            };
-
-            var ord2 = new Order { };
-            var ord3 = new Order { };
-
-            var orderLines = new List<OrderDetail>()
-            {
-                new OrderDetail { Order=ord1, Pizza=piz1, Amount=2, Price=piz1.Price},
-                new OrderDetail { Order=ord1, Pizza=piz3, Amount=1, Price=piz3.Price},
-                new OrderDetail { Order=ord1, Pizza=piz5, Amount=3, Price=piz5.Price},
-            };
-
-            var orders = new List<Order>()
-            {
-                ord1
-            };
 
              _context.Categories.AddRange(cats);
             _context.Pizzas.AddRange(pizs);
             _context.Reviews.AddRange(revs);
-            _context.Orders.AddRange(orders);
-            _context.OrderDetails.AddRange(orderLines);
+
             _context.Ingredients.AddRange(ings);
             _context.PizzaIngredients.AddRange(pizIngs);
 

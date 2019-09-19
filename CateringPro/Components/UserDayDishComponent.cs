@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Repositories;
-
+using CateringPro.Core;
 
 
 namespace CateringPro.ViewComponents
@@ -16,8 +16,8 @@ namespace CateringPro.ViewComponents
     public class UserDayDishComponent: ViewComponent
     {
         private readonly IUserDayDishesRepository _udaydishrepo;
-        private readonly UserManager<IdentityUser> _userManager;
-        public UserDayDishComponent( IUserDayDishesRepository udaydishrepo, UserManager<IdentityUser> userManager)
+        private readonly UserManager<CompanyUser> _userManager;
+        public UserDayDishComponent( IUserDayDishesRepository udaydishrepo, UserManager<CompanyUser> userManager)
         {
             _udaydishrepo = udaydishrepo;
             _userManager = userManager;
@@ -26,10 +26,10 @@ namespace CateringPro.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(DateTime daydate)
         {
 
-          //  daydate = DateTime.Now;
-
+            //  daydate = DateTime.Now;
+            var cid = this.User.GetCompanyID();
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CategorizedDishesPerDay(daydate, _userManager.GetUserId(HttpContext.User)))); //to do
+            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CategorizedDishesPerDay(daydate, this.User.GetUserId()))); //to do
         }
     }
 }
