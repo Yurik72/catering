@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Repositories;
-using System.Threading.Tasks;
+using CateringPro.Core;
 
 namespace CateringPro.ViewComponents
 {using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace CateringPro.ViewComponents
           //  daydate = DateTime.Now;
 
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.CategorizedDishesPerDay(daydate)));
+            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.CategorizedDishesPerDay(daydate,this.User.GetCompanyID())));
         }
     }
 }

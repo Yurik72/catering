@@ -14,6 +14,7 @@ namespace CateringPro.Models
 
         public virtual Dish Dish { get; set; }
 
+
         public int Quantity { get; set; }
     }
 }

@@ -8,9 +8,10 @@ namespace CateringPro.Repositories
     public interface IDayDishesRepository
     {
 
-        IQueryable<DayDishViewModel> DishesPerDay(DateTime dayDate);
-        IQueryable<DayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime dayDate);
+        IQueryable<DayDishViewModel> DishesPerDay(DateTime dayDate, int companyid);
+        IQueryable<DayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime dayDate, int companyid);
 
         DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
+        DayDish SelectSingleOrDefault(DayDish src);
     }
 }

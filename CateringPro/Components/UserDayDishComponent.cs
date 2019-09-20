@@ -29,7 +29,7 @@ namespace CateringPro.ViewComponents
             //  daydate = DateTime.Now;
             var cid = this.User.GetCompanyID();
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CategorizedDishesPerDay(daydate, this.User.GetUserId()))); //to do
+            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CategorizedDishesPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID()))); //to do
         }
     }
 }

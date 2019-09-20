@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
 using CateringPro.Models;
-
+using CateringPro.Core;
+using CateringPro.Repositories;
+using Microsoft.Extensions.Logging;
 namespace CateringPro.Controllers
 {
     public class DishesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<CompanyUser> _logger;
 
-        public DishesController(AppDbContext context)
+        public DishesController(AppDbContext context, ILogger<CompanyUser> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Dishes
@@ -137,28 +141,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(dish);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DishExists(dish.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return Json(new { res = "OK" });
-            }
-            ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", dish.CategoriesId);
-            return PartialView(dish);
+            return await this.UpdateCompanyDataAsync(dish, _context, _logger);
         }
 
 

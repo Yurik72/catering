@@ -8,8 +8,8 @@ namespace CateringPro.Repositories
     public interface IUserDayDishesRepository
     {
 
-        IQueryable<UserDayDishViewModel> DishesPerDay(DateTime dayDate, string userId);
-        IQueryable<UserDayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime daydate, string userId);
+        IQueryable<UserDayDishViewModel> DishesPerDay(DateTime dayDate, string userId,int companyid);
+        IQueryable<UserDayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime daydate, string userId, int companyid);
 
         DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
     }

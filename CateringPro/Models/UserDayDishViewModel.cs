@@ -9,6 +9,7 @@ namespace CateringPro.Models
     {
         public string UserId { get; set; }
 
+        public int CompanyId { get; set; }
         public DateTime Date { get; set; }
 
         public int DishId { get; set; }

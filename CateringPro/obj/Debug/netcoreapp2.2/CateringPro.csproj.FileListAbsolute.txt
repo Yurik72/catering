@@ -105,7 +105,6 @@ C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\bin\Debug\netcoreapp2.2
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\bin\Debug\netcoreapp2.2\CateringPro.pdb
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\bin\Debug\netcoreapp2.2\CateringPro.Views.dll
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\bin\Debug\netcoreapp2.2\CateringPro.Views.pdb
-C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.csprojAssemblyReference.cache
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.csproj.CoreCompileInputs.cache
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.RazorAssemblyInfo.cache
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.RazorAssemblyInfo.cs
@@ -208,3 +207,4 @@ C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\UserDayDishComponent\Default.g.cshtml.cs
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Categories\EditModal.g.cshtml.cs
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Categories\ListItems.g.cshtml.cs
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.csprojAssemblyReference.cache

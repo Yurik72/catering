@@ -5,10 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+
 using CateringPro.Models;
 using CateringPro.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using CateringPro.Data;
+using CateringPro.Core;
+
+
 
 namespace CateringPro.Controllers
 {
@@ -17,11 +23,12 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
         private readonly ICategoryRepository _categoryRepo;
-
-        public CategoriesController(AppDbContext context, ICategoryRepository categoryRepo)
+        private readonly ILogger<CompanyUser> _logger;
+        public CategoriesController(AppDbContext context, ICategoryRepository categoryRepo, ILogger<CompanyUser> logger)
         {
             _context = context;
             _categoryRepo = categoryRepo;
+            _logger = logger;
         }
 
         // GET: Categories
@@ -45,29 +52,8 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+            return await this.UpdateCompanyDataAsync(cat, _context, _logger);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cat);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoriesExists(cat.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return Json(new { res = "OK" });
-            }
-           
-            return PartialView(cat);
         }
 
 

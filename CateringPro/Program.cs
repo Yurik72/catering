@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Data;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using CateringPro.Core;
 
 namespace CateringPro
 {
@@ -31,6 +32,7 @@ namespace CateringPro
                 logging.AddConsole();
                 logging.AddDebug();
                 logging.AddEventSourceLogger();
+                logging.AddFile();
             })
             .UseStartup<Startup>()
             .Build();

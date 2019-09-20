@@ -17,27 +17,27 @@ namespace CateringPro.Repositories
             _context = context;
         }
 
-        public IQueryable<UserDayDishViewModel> DishesPerDay(DateTime daydate, string userId)
+        public IQueryable<UserDayDishViewModel> DishesPerDay(DateTime daydate, string userId,int companyid)
         {
             var query = from dish in _context.Dishes
-                        join dd in (from subday in _context.DayDish where subday.Date == daydate select subday) on dish.Id equals dd.DishId into proto
+                        join dd in (from subday in _context.DayDish where subday.Date == daydate &&  subday.CompanyId == companyid select subday) on dish.Id equals dd.DishId into proto
                         from dayd in proto.DefaultIfEmpty()
 
                         select new UserDayDishViewModel() { DishId = dish.Id, DishName = dish.Name, Date = daydate, Enabled = proto.Count() > 0/*dayd != null*/ };
             return query;
         }
-        public IQueryable<UserDayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime daydate,string userId)
+        public IQueryable<UserDayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime daydate,string userId, int companyid)
         {
             var query = from entry in   (
                             from dd in _context.DayDish
                             join d in _context.Dishes on dd.DishId equals d.Id
-                            where dd.Date==daydate
-                            join ud in _context.UserDayDish on new { dd.DishId, dd.Date, uid=userId } equals new {ud.DishId, ud.Date,uid=ud.UserId} into proto
+                            where dd.Date==daydate &&  dd.CompanyId == companyid
+                            join ud in _context.UserDayDish on new { dd.DishId, dd.Date, uid=userId ,cid= companyid } equals new {ud.DishId, ud.Date,uid=ud.UserId, cid = ud.CompanyId } into proto
                             from userday in proto.DefaultIfEmpty()
                             select new { DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, Enabled = proto.Count() > 0,  Quantity = proto.Count()>0? proto.First().Quantity :0}
                         )
                         group entry by entry.CategoryID into catgroup
-                        join cat in _context.Categories on catgroup.Key equals cat.Id
+                        join cat in _context.Categories on new { id=catgroup.Key, cid = companyid } equals new { id=cat.Id, cid =cat.CompanyId }
                         orderby cat.Code
                         select new UserDayDishViewModelPerGategory()
                         {

@@ -13,7 +13,7 @@ namespace CateringPro.Models
         public string DishName { get; set; }
 
 
-
+        public int CompanyId { get; set; }
         public bool Enabled { get; set; }
     }
 

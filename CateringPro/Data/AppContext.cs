@@ -15,7 +15,7 @@ namespace CateringPro.Data
         {
 
         }
-
+        public DbSet<Company> Companies { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Pizzas> Pizzas { get; set; }
         public DbSet<Ingredients> Ingredients { get; set; }
@@ -49,7 +49,7 @@ namespace CateringPro.Data
                 .HasKey(o => new { o.UserId, o.BasketDate });
 
             modelBuilder.Entity<UserDayDish>()
-               .HasKey(o => new { o.UserId, o.Date,o.DishId });
+               .HasKey(o => new { o.UserId, o.Date,o.DishId, o.CompanyId});
             //many to many Dish <-> catgories
             modelBuilder.Entity<UserDayDish>()
                    .Property(d => d.Date)
@@ -72,6 +72,13 @@ namespace CateringPro.Data
                  .WithMany(a => a.Dishes)
                  .IsRequired()
                  .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<DayDish>()
+                .HasOne(dd=> dd.Dish).WithMany(a=>a.DayDishes)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserDayDish>()
+               .HasOne(ud => ud.Dish).WithMany(a => a.UserDayDishes)
+               .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
             //day dish
 
@@ -81,7 +88,7 @@ namespace CateringPro.Data
                    .HasColumnType("date");
 
             modelBuilder.Entity<DayDish>()
-              .HasKey(d => new { d.Date , d.DishId });
+              .HasKey(d => new { d.Date , d.DishId,d.CompanyId });
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

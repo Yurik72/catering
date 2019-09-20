@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Models
 {
-    public class Dish
+    public class Dish: CompanyDataOwnId
     {
-        public int Id { get; set; }
+        
 
         [StringLength(10)]
         [DataType(DataType.Text)]
@@ -34,8 +34,11 @@ namespace CateringPro.Models
 
         [DisplayName("Select Category")]
         public int CategoriesId { get; set; }
-
         public virtual Categories Category { get; set; }
+
         public virtual ICollection<DishCategory> DishCategories { get; set; }
+
+        public virtual ICollection<DayDish> DayDishes { get; set; }
+        public virtual ICollection<UserDayDish> UserDayDishes { get; set; }
     }
 }

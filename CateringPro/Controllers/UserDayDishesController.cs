@@ -12,6 +12,7 @@ using CateringPro.Repositories;
 using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Core;
+using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Controllers
 {
@@ -21,12 +22,14 @@ namespace CateringPro.Controllers
         private readonly AppDbContext _context;
         private readonly IUserDayDishesRepository _userdishes;
         private readonly UserManager<CompanyUser> _userManager;
+        private readonly ILogger<CompanyUser> _logger;
 
-        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um)
+        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger)
         {
             _context = context;
             _userManager = um;
             _userdishes = ud;
+            _logger = logger;
         }
 
         // GET: UserDayDishes
@@ -127,23 +130,34 @@ namespace CateringPro.Controllers
                 return true;
                 
             };
-            daydishes.ForEach( d => {
-                //await saveday(d);
-                
-                 var userDayDish =  _context.UserDayDish.Find(this.User.GetUserId(), d.Date, d.DishId);
-                if (userDayDish != null)
+            try
+            {
+                daydishes.ForEach(d =>
                 {
-                    userDayDish.Quantity = d.Quantity;
-                    _context.Update(userDayDish);
-                }
-                else
-                {
-                    d.UserId = this.User.GetUserId();
-                    _context.Add(d);
-                }
-                
-            });
-            await _context.SaveChangesAsync();
+                    //await saveday(d);
+                    this.AssignUserAttr(d);
+                    var userDayDish = _context.UserDayDish.Find(d.UserId, d.Date, d.DishId,d.CompanyId  );
+                    if (userDayDish != null)
+                    {
+                        userDayDish.Quantity = d.Quantity;
+
+                        _context.Update(userDayDish);
+                    }
+                    else
+                    {
+                        //d.UserId = this.User.GetUserId();
+                       
+                        _context.Add(d);
+                    }
+
+                });
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Update user day dish");
+                return await Task.FromResult(Json(new { res = "FAIL" }));
+            }
             return await Task.FromResult(Json(new { res = "OK" }));
         }
         // POST: UserDayDishes/Edit/5

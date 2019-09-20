@@ -43,7 +43,9 @@ namespace CateringPro.Data
             var user = new CompanyUser()
             {
                 UserName = "admin",
-                Email = "admin@default.com"
+                Email = "admin@default.com",
+                CompanyId=1
+                
             };
 
             string adminPassword = "Password123";
@@ -57,22 +59,24 @@ namespace CateringPro.Data
 
         private static void SeedDatabase(AppDbContext _context, RoleManager<CompanyRole> _roleManager, UserManager<CompanyUser> _userManager)
         {
-            var cat1 = new Categories { Code="", Name = "Standard", Description = "The Bakery's Standard pizzas all year around." };
-            var cat2 = new Categories { Code = "", Name = "Spcialities", Description = "The Bakery's Speciality pizzas only for a limited time." };
-            var cat3 = new Categories { Code = "", Name = "News", Description = "The Bakery's New pizzas on the menu." };
-            var cat4 = new Categories { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu." };
-            var cat5 = new Categories { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu." };
+            var cat1 = new Categories { Code="", Name = "Standard", Description = "The Bakery's Standard pizzas all year around." ,CompanyId = 1 };
+            var cat2 = new Categories { Code = "", Name = "Spcialities", Description = "The Bakery's Speciality pizzas only for a limited time.", CompanyId = 1 };
+            var cat3 = new Categories { Code = "", Name = "News", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+            var cat4 = new Categories { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+            var cat5 = new Categories { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
 
-
+            var comp1 = new Company { Code = "BASE", Name = "Default" };
+            var comp2 = new Company { Code = "CABACHOK", Name = "Кабачок" };
+            var comps = new List<Company>() { comp1, comp2 };
             var cats = new List<Categories>()
             {
                 cat1, cat2, cat3,cat4,cat5
             };
 
-            var d1=new Dish { Code = "1", Name = "Борщ", Price = 2,  Description = "A normal pizza with a taste from the forest.", CategoriesId=4 };
-            var d2 = new Dish { Code = "2", Name = "Котлета", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 4 };
-            var d3 = new Dish { Code = "3", Name = "Запеканка", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 3 };
-            var d4 = new Dish { Code = "4", Name = "Омлет", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 3 };
+            var d1=new Dish { Code = "1", Name = "Борщ", Price = 2,  Description = "...", CategoriesId=4,CompanyId=1 };
+            var d2 = new Dish { Code = "2", Name = "Котлета", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 4, CompanyId = 1 };
+            var d3 = new Dish { Code = "3", Name = "Запеканка", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 3, CompanyId = 1 };
+            var d4 = new Dish { Code = "4", Name = "Омлет", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 3, CompanyId = 1 };
 
 
             var dishes = new List<Dish>()
@@ -154,78 +158,17 @@ namespace CateringPro.Data
                 ing1, ing2, ing3, ing4, ing5, ing6, ing7, ing8, ing9, ing10, ing11, ing12, ing13, ing14, ing15, ing16
             };
 
-            var pizIngs = new List<PizzaIngredients>()
-            {
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz1 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz1 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz1 },
-                new PizzaIngredients { Ingredient = ing5, Pizza = piz1 },
-                new PizzaIngredients { Ingredient = ing9, Pizza = piz1 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz2 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz2 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz2 },
-                new PizzaIngredients { Ingredient = ing4, Pizza = piz2 },
-                new PizzaIngredients { Ingredient = ing10, Pizza = piz2 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz3 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz3 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz3 },
-                new PizzaIngredients { Ingredient = ing8, Pizza = piz3 },
-                new PizzaIngredients { Ingredient = ing9, Pizza = piz3 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz4 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz4 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz4 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz5 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz5 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz5 },
-                new PizzaIngredients { Ingredient = ing6, Pizza = piz5 },
-                new PizzaIngredients { Ingredient = ing4, Pizza = piz5 },
-                new PizzaIngredients { Ingredient = ing11, Pizza = piz5 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz6 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz6 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz6 },
-                new PizzaIngredients { Ingredient = ing4, Pizza = piz6 },
-                new PizzaIngredients { Ingredient = ing7, Pizza = piz6 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz7 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz7 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz7 },
-                new PizzaIngredients { Ingredient = ing5, Pizza = piz7 },
-                new PizzaIngredients { Ingredient = ing11, Pizza = piz7 },
-                new PizzaIngredients { Ingredient = ing12, Pizza = piz7 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz8 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz8 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz8 },
-                new PizzaIngredients { Ingredient = ing5, Pizza = piz8 },
-                new PizzaIngredients { Ingredient = ing8, Pizza = piz8 },
-                new PizzaIngredients { Ingredient = ing13, Pizza = piz8 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz9 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz9 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz9 },
-                new PizzaIngredients { Ingredient = ing14, Pizza = piz9 },
-                new PizzaIngredients { Ingredient = ing15, Pizza = piz9 },
-
-                new PizzaIngredients { Ingredient = ing1, Pizza = piz10 },
-                new PizzaIngredients { Ingredient = ing2, Pizza = piz10 },
-                new PizzaIngredients { Ingredient = ing3, Pizza = piz10 },
-                new PizzaIngredients { Ingredient = ing9, Pizza = piz10 },
-                new PizzaIngredients { Ingredient = ing16, Pizza = piz10 },
-
-            };
 
 
-             _context.Categories.AddRange(cats);
+            
+            _context.Companies.AddRange(comps);
+            _context.SaveChanges();
+            _context.Categories.AddRange(cats);
             _context.Pizzas.AddRange(pizs);
             _context.Reviews.AddRange(revs);
 
             _context.Ingredients.AddRange(ings);
-            _context.PizzaIngredients.AddRange(pizIngs);
+           // _context.PizzaIngredients.AddRange(pizIngs);
 
             _context.Dishes.AddRange(dishes);
            // _context.DishCategory.AddRange(dishcaetgories);

@@ -6,11 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CateringPro.Models
 {
-    public class Categories
+    public class Categories: CompanyDataOwnId
     {
         public Categories()
         {
-            Pizzas = new HashSet<Pizzas>();
             Dishes = new HashSet<Dish>();
 
           DishCategories =new  HashSet<DishCategory>();
@@ -18,7 +17,6 @@ namespace CateringPro.Models
 
         }
 
-    public int Id { get; set; }
 
         [StringLength(10)]
         [Required]

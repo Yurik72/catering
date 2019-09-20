@@ -9,7 +9,8 @@ using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Repositories;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.Extensions.Logging;
+using CateringPro.Core;
 namespace CateringPro.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -17,10 +18,12 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IDayDishesRepository _dayDishesRepo;
-        public DayDishesController(AppDbContext context, IDayDishesRepository daydishrepo)
+        private readonly ILogger<CompanyUser> _logger;
+        public DayDishesController(AppDbContext context, IDayDishesRepository daydishrepo, ILogger<CompanyUser> logger)
         {
             _context = context;
             _dayDishesRepo = daydishrepo;
+            _logger = logger;
         }
 
         // GET: DayDishes
@@ -39,7 +42,7 @@ namespace CateringPro.Controllers
         {
             daydate = DateTime.Now;
 
-            return PartialView(await _dayDishesRepo.DishesPerDay(daydate).ToListAsync());
+            return PartialView(await _dayDishesRepo.DishesPerDay(daydate,this.User.GetCompanyID()).ToListAsync());
         }
         [HttpPost]
         public async Task<JsonResult>  SaveDayDish(int DishId,DateTime daydate,bool enabled)
@@ -47,24 +50,36 @@ namespace CateringPro.Controllers
             //daydate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                DayDish dd = _dayDishesRepo.SelectSingleOrDefault(DishId, daydate);
-                if (enabled) {
-                    
-                    if (dd!=null)
+                DayDish proto = new DayDish() { DishId = DishId, Date = daydate };
+                this.AssignCompantAttr(proto);
+                DayDish exsistdd = _dayDishesRepo.SelectSingleOrDefault(proto);
+               // this.AssignCompantAttr(exsistdd);
+                try
+                {
+                    if (enabled)
                     {
-                        //something wrong
+
+                        if (exsistdd != null)
+                        {
+                            //something wrong
+                        }
+                        else
+                        {
+                            await _context.AddAsync(proto);
+                        }
                     }
                     else
                     {
-                        await _context.AddAsync(new DayDish() { DishId = DishId, Date = daydate });
+                        _context.Remove(exsistdd);
+
                     }
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch(Exception ex)
                 {
-                    _context.Remove(dd);
-                    
+                    _logger.LogError(ex, "Save DayDish");
+                    return Json(-1);
                 }
-                await _context.SaveChangesAsync();
             }
             
             //return Json(DishId);

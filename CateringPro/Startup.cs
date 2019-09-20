@@ -32,6 +32,7 @@ namespace CateringPro
             services.AddLogging();
             services.AddIdentity<CompanyUser, CompanyRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
+                   // .AddDefaultUI()
                     .AddDefaultTokenProviders();
                    
 
@@ -49,8 +50,10 @@ namespace CateringPro
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
 
+           // services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
             services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, CustomClaimsPrincipalFactory>();
-            
+
+            //services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
 
             services.AddMvc();
 

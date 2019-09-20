@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Models
 {
-    public class DayDish
+    public class DayDish:CompanyData
     {
         public DateTime Date { get; set; }
 

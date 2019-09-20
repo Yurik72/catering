@@ -9,11 +9,12 @@ using Microsoft.Extensions.Options;
 
 namespace CateringPro.Core
 {
-    public class CustomClaimsPrincipalFactory : UserClaimsPrincipalFactory<CompanyUser>
+    public class CustomClaimsPrincipalFactory : UserClaimsPrincipalFactory<CompanyUser, CompanyRole>
     {
         public CustomClaimsPrincipalFactory(UserManager<CompanyUser> userManager,
+                                                RoleManager<CompanyRole> roleManager,
                                                 IOptions<IdentityOptions> optionsAccessor)
-        : base(userManager, optionsAccessor)
+        : base(userManager, roleManager, optionsAccessor)
         {
         }
 
