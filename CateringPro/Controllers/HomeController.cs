@@ -8,9 +8,12 @@ namespace CateringPro.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string ReturnUrl)
         {
             //return RedirectToAction("Index", "UserDayDish", new { area = "Admin" });
+            ViewData["NotRenderMainContainer"] = true;
+            if(!string.IsNullOrEmpty(ReturnUrl) )
+                ViewData["autoLogon"] = true;
             return View();
         }
 

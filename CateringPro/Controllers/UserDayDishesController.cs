@@ -33,7 +33,7 @@ namespace CateringPro.Controllers
         }
 
         // GET: UserDayDishes
-        [Route("")]
+   
         [Route("UserDayDishes")]
         [Route("MyOrders")]
         public async Task<IActionResult> Index()

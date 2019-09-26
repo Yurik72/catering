@@ -1,0 +1,32 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+@inject SignInManager<CompanyUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @* <ul class="nav navbar-nav navbar-right">*@
+    <ul class="nav navbar-nav">
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="dropdown-submenu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">Admin page</span><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a asp-controller="Dishes" asp-action="Index">Dishes</a></li>
+                    <li><a asp-controller="Categories" asp-action="Index">Categories</a></li>
+                    <li><a asp-controller="DayDishes" asp-action="EditDay">DayDishes</a></li>
+                </ul>
+            </li>
+        }
+        <li><a href="">Welcome, @User.Identity.Name</a></li>
+
+        <li><a id="logoutLink" asp-controller="Account" asp-action="LogOut">Log Out</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a id="registerLink" asp-controller="Account" asp-action="Register">Register</a></li>
+        <li><a id="loginLink" asp-controller="Account" asp-action="Login">Log in</a></li>
+    </ul>
+}

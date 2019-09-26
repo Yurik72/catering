@@ -86,7 +86,9 @@ namespace CateringPro
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 // If the LoginPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/Login.
-                options.LoginPath = "/Account/Login";
+                //options.LoginPath = "/Account/Login";
+                options.LoginPath = "/Home/Index";
+
                 options.LogoutPath = "/Account/LogOut";
                 // If the AccessDeniedPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/AccessDenied.

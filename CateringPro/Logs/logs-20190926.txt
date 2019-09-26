@@ -1,0 +1,639 @@
+2019-09-26 09:51:49.801 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-09-26 09:51:49.808 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'OrderTotal' on entity type 'Order'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-09-26 09:51:49.811 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-09-26 09:51:49.813 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-09-26 09:51:49.872 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:51:50.082 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (60ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+2019-09-26 09:51:50.191 +03:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-09-26 09:51:50.379 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+2019-09-26 09:51:51.119 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-09-26 09:51:51.121 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 DEBUG http://localhost:51321/  0
+2019-09-26 09:51:51.185 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 65.7055ms 200 
+2019-09-26 09:51:51.500 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-09-26 09:51:51.531 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.HomeController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:51:51.536 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.HomeController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 1.0329ms.
+2019-09-26 09:51:51.575 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:51:51.765 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 216.7261ms.
+2019-09-26 09:51:51.767 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 266.0556ms
+2019-09-26 09:51:51.786 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 662.9456ms 200 text/html; charset=utf-8
+2019-09-26 09:51:51.797 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-09-26 09:51:51.801 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:51:51.803 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:51:51.808 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-09-26 09:51:51.811 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/images/slide2.jpg  
+2019-09-26 09:51:51.813 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:51:51.821 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /images/slide2.jpg was not modified
+2019-09-26 09:51:51.823 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/jquery.min.js was not modified
+2019-09-26 09:51:51.826 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/carousel.css was not modified
+2019-09-26 09:51:51.828 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/site.css was not modified
+2019-09-26 09:51:51.829 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/bootstrap.min.css was not modified
+2019-09-26 09:51:51.831 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/bootstrap.min.js was not modified
+2019-09-26 09:51:51.833 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 43.5235ms 304 text/css
+2019-09-26 09:51:51.838 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 44.5586ms 304 application/javascript
+2019-09-26 09:51:51.845 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 24.6519ms 304 image/jpeg
+2019-09-26 09:51:51.849 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 21.0858ms 304 text/css
+2019-09-26 09:51:51.853 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 44.2938ms 304 text/css
+2019-09-26 09:51:51.855 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/images/slide0.jpg  
+2019-09-26 09:51:51.857 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 45.5875ms 304 application/javascript
+2019-09-26 09:51:51.861 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/images/slide1.jpg  
+2019-09-26 09:51:51.863 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /images/slide0.jpg was not modified
+2019-09-26 09:51:51.865 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 12.2464ms 304 image/jpeg
+2019-09-26 09:51:51.867 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /images/slide1.jpg was not modified
+2019-09-26 09:51:51.869 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 9.3287ms 304 image/jpeg
+2019-09-26 09:51:59.427 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Account/LoginModal  
+2019-09-26 09:51:59.432 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "LoginModal", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult LoginModal(System.String) on controller CateringPro.Controllers.AccountController (CateringPro).
+2019-09-26 09:51:59.435 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.AccountController.LoginModal (CateringPro) - Validation state: Valid
+2019-09-26 09:51:59.437 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.AccountController.LoginModal (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 0.5242ms.
+2019-09-26 09:51:59.444 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view LoginModal.
+2019-09-26 09:51:59.488 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view LoginModal executed in 47.2603ms.
+2019-09-26 09:51:59.491 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.AccountController.LoginModal (CateringPro) in 56.6642ms
+2019-09-26 09:51:59.493 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 65.9274ms 200 text/html; charset=utf-8
+2019-09-26 09:52:02.251 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 POST http://localhost:51321/Account/Login application/x-www-form-urlencoded; charset=UTF-8 242
+2019-09-26 09:52:02.265 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CateringPro.ViewModels.LoginViewModel) on controller CateringPro.Controllers.AccountController (CateringPro).
+2019-09-26 09:52:02.307 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.AccountController.Login (CateringPro) - Validation state: Valid
+2019-09-26 09:52:02.313 +03:00 [Information] CateringPro.Models.CompanyUser: User admin is going to login 
+2019-09-26 09:52:02.317 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:52:02.396 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (16ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[CompanyId], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+2019-09-26 09:52:02.472 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0
+2019-09-26 09:52:02.528 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0
+2019-09-26 09:52:02.559 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (3ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0
+2019-09-26 09:52:02.573 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+2019-09-26 09:52:02.591 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0
+2019-09-26 09:52:02.602 +03:00 [Information] Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler: AuthenticationScheme: Identity.Application signed in.
+2019-09-26 09:52:02.609 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.AccountController.Login (CateringPro), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 299.7681ms.
+2019-09-26 09:52:02.618 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor: Executing ObjectResult, writing value of type '<>f__AnonymousType0`2[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-09-26 09:52:02.737 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.AccountController.Login (CateringPro) in 469.8329ms
+2019-09-26 09:52:02.745 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 494.5547ms 200 application/json; charset=utf-8
+2019-09-26 09:52:02.752 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-09-26 09:52:02.761 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-09-26 09:52:02.763 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.HomeController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:52:02.765 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.HomeController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.0278ms.
+2019-09-26 09:52:02.767 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:52:02.773 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 5.5706ms.
+2019-09-26 09:52:02.779 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 11.4894ms
+2019-09-26 09:52:02.782 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 28.4633ms 200 text/html; charset=utf-8
+2019-09-26 09:52:09.994 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Dishes  
+2019-09-26 09:52:09.999 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Dishes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.DishesController (CateringPro).
+2019-09-26 09:52:10.001 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.DishesController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:52:10.005 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:52:10.015 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[CategoriesId], [d].[Code], [d].[CompanyId], [d].[Description], [d].[Name], [d].[Price]
+FROM [Dishes] AS [d]
+2019-09-26 09:52:10.040 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.DishesController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 36.366ms.
+2019-09-26 09:52:10.045 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:52:10.055 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 13.1081ms.
+2019-09-26 09:52:10.060 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.DishesController.Index (CateringPro) in 56.6196ms
+2019-09-26 09:52:10.063 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 69.0159ms 200 text/html; charset=utf-8
+2019-09-26 09:52:10.111 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Dishes/ListItems?searchcriteria=&_=1569480730091  
+2019-09-26 09:52:10.117 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Dishes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(System.String) on controller CateringPro.Controllers.DishesController (CateringPro).
+2019-09-26 09:52:10.120 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.DishesController.ListItems (CateringPro) - Validation state: Valid
+2019-09-26 09:52:10.124 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:52:10.128 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[CategoriesId], [d].[Code], [d].[CompanyId], [d].[Description], [d].[Name], [d].[Price]
+FROM [Dishes] AS [d]
+2019-09-26 09:52:10.131 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.DishesController.ListItems (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 9.0654ms.
+2019-09-26 09:52:10.136 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-09-26 09:52:10.160 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 26.696ms.
+2019-09-26 09:52:10.162 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.DishesController.ListItems (CateringPro) in 42.8171ms
+2019-09-26 09:52:10.165 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 53.3771ms 200 text/html; charset=utf-8
+2019-09-26 09:52:15.616 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories  
+2019-09-26 09:52:15.627 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:52:15.644 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:52:15.646 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:52:15.651 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:52:15.661 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:52:15.673 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 25.051ms.
+2019-09-26 09:52:15.692 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:52:15.701 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 25.1222ms.
+2019-09-26 09:52:15.706 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.Index (CateringPro) in 74.008ms
+2019-09-26 09:52:15.709 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 93.7706ms 200 text/html; charset=utf-8
+2019-09-26 09:52:15.765 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories/ListItems?searchcriteria=&_=1569480735741  
+2019-09-26 09:52:15.773 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(System.String) on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:52:15.775 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:52:15.778 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro) - Validation state: Valid
+2019-09-26 09:52:15.781 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:52:15.784 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:52:15.788 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 7.6693ms.
+2019-09-26 09:52:15.793 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-09-26 09:52:15.806 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 16.0167ms.
+2019-09-26 09:52:15.807 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.ListItems (CateringPro) in 32.8577ms
+2019-09-26 09:52:15.809 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 45.0925ms 200 text/html; charset=utf-8
+2019-09-26 09:52:46.973 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:52:46.980 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:52:46.988 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:52:46.990 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:52:46.992 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:52:46.993 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:52:47.010 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:52:47.016 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:52:47.018 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 66.625ms 200 text/css
+2019-09-26 09:52:47.022 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 69.1092ms 200 text/css
+2019-09-26 09:52:47.027 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:52:47.030 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:52:47.031 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:52:47.034 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 44.3758ms 200 text/css
+2019-09-26 09:52:47.035 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:52:47.040 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:52:47.044 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:52:47.046 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 89.1018ms 200 text/css
+2019-09-26 09:52:47.048 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:52:47.053 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 24.2974ms 200 text/css
+2019-09-26 09:52:47.062 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:52:47.063 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:52:47.065 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:52:47.067 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:52:47.069 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 31.1377ms 200 text/css
+2019-09-26 09:52:47.071 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 119.0703ms 200 text/css
+2019-09-26 09:52:47.072 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 27.4637ms 200 text/css
+2019-09-26 09:52:47.074 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:52:47.078 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:52:47.079 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 22.1665ms 404 
+2019-09-26 09:52:47.081 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:52:47.083 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 33.1257ms 200 text/css
+2019-09-26 09:52:47.084 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 91.9438ms 200 text/css
+2019-09-26 09:52:47.087 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 10.1895ms 404 
+2019-09-26 09:52:47.118 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:52:47.122 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 3.3559ms 404 
+2019-09-26 09:52:47.124 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:52:47.127 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4.827ms 404 
+2019-09-26 09:53:55.677 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories  
+2019-09-26 09:53:55.680 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:53:55.682 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:53:55.686 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:53:55.689 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:53:55.695 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:53:55.698 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 8.9568ms.
+2019-09-26 09:53:55.699 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:54:00.621 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 4918.1776ms.
+2019-09-26 09:54:00.626 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.Index (CateringPro) in 4941.7057ms
+2019-09-26 09:54:00.628 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:54:00.630 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4951.974ms 200 text/html; charset=utf-8
+2019-09-26 09:54:00.636 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:54:00.659 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-09-26 09:54:00.662 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:54:00.664 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:54:00.668 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 37.0015ms 200 text/css
+2019-09-26 09:54:00.670 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:54:00.673 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:54:00.675 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-09-26 09:54:00.678 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 40.5018ms 200 text/css
+2019-09-26 09:54:00.680 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 44.5275ms 200 application/javascript
+2019-09-26 09:54:00.682 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=2fVlcFVK5tGqXUF0dZ_rNAyqNwebwsSEszTeLk6F7qk  
+2019-09-26 09:54:00.685 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:54:00.687 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-09-26 09:54:00.691 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 25.0675ms 200 text/css
+2019-09-26 09:54:00.695 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:54:00.704 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:54:00.706 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-09-26 09:54:00.725 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:54:00.743 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 29.1172ms 200 application/javascript
+2019-09-26 09:54:00.750 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:54:00.752 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:54:00.757 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:54:00.758 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-09-26 09:54:00.761 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 63.9775ms 200 text/css
+2019-09-26 09:54:00.763 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 60.2852ms 200 text/css
+2019-09-26 09:54:00.767 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 88.2573ms 200 application/javascript
+2019-09-26 09:54:00.770 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:54:00.772 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:54:00.775 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:54:00.778 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:54:00.781 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 103.426ms 200 text/css
+2019-09-26 09:54:00.783 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 81.9717ms 200 text/css
+2019-09-26 09:54:00.785 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 37.8638ms 200 text/css
+2019-09-26 09:54:00.788 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:54:00.791 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:54:00.794 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:54:00.800 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 30.0843ms 200 text/css
+2019-09-26 09:54:00.806 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:54:00.809 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:54:00.815 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:54:00.818 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 31.8676ms 200 text/css
+2019-09-26 09:54:00.821 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 23.2788ms 200 text/css
+2019-09-26 09:54:00.824 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:54:00.828 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:54:00.830 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:54:00.877 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:54:00.879 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0  
+2019-09-26 09:54:00.875 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:54:00.891 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:54:00.895 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 77.9871ms 200 text/css
+2019-09-26 09:54:00.898 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 19.4955ms 404 
+2019-09-26 09:54:00.900 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:54:00.906 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/fonts/fontawesome-webfont.woff2'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2'
+2019-09-26 09:54:00.911 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 7.976ms 404 
+2019-09-26 09:54:00.913 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:54:00.916 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 40.2694ms 200 font/woff2
+2019-09-26 09:54:00.920 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 106.2509ms 200 text/css
+2019-09-26 09:54:00.922 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 76.5681ms 200 text/css
+2019-09-26 09:54:00.925 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:54:00.929 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories/ListItems?searchcriteria=&_=1569480840800  
+2019-09-26 09:54:00.932 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 117.8638ms 200 text/css
+2019-09-26 09:54:00.936 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(System.String) on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:54:00.939 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:54:00.942 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro) - Validation state: Valid
+2019-09-26 09:54:00.944 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:54:00.948 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:54:00.952 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 7.1459ms.
+2019-09-26 09:54:00.954 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-09-26 09:54:00.960 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 5.3713ms.
+2019-09-26 09:54:00.962 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.ListItems (CateringPro) in 23.5656ms
+2019-09-26 09:54:00.965 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:54:00.968 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 39.7374ms 200 text/html; charset=utf-8
+2019-09-26 09:54:00.970 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:54:00.972 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 8.1787ms 404 
+2019-09-26 09:54:00.974 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4.6007ms 404 
+2019-09-26 09:54:30.442 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories  
+2019-09-26 09:54:30.445 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:54:30.448 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:54:30.450 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:54:30.452 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:54:30.455 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:54:30.458 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 6.1778ms.
+2019-09-26 09:54:30.460 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:54:33.471 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 3010.6493ms.
+2019-09-26 09:54:33.476 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.Index (CateringPro) in 3026.1784ms
+2019-09-26 09:54:33.479 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:54:33.485 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=2fVlcFVK5tGqXUF0dZ_rNAyqNwebwsSEszTeLk6F7qk  
+2019-09-26 09:54:33.491 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-09-26 09:54:33.493 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:54:33.495 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 3036.4058ms 200 text/html; charset=utf-8
+2019-09-26 09:54:33.499 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:54:33.501 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-09-26 09:54:33.507 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:54:33.512 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 26.5829ms 200 application/javascript
+2019-09-26 09:54:33.516 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-09-26 09:54:33.518 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:54:33.521 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:54:33.525 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 40.036ms 200 application/javascript
+2019-09-26 09:54:33.527 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 32.2664ms 200 text/css
+2019-09-26 09:54:33.529 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:54:33.531 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:54:33.533 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 34.3633ms 200 text/css
+2019-09-26 09:54:33.536 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 55.2883ms 200 text/css
+2019-09-26 09:54:33.539 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:54:33.542 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-09-26 09:54:33.544 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:54:33.546 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 24.8638ms 200 text/css
+2019-09-26 09:54:33.548 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:54:33.552 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 72.7808ms 200 text/css
+2019-09-26 09:54:33.555 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:54:33.558 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:54:33.561 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-09-26 09:54:33.564 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 15.5394ms 200 text/css
+2019-09-26 09:54:33.571 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:54:33.573 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 26.1982ms 200 application/javascript
+2019-09-26 09:54:33.576 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 20.0265ms 200 text/css
+2019-09-26 09:54:33.603 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:54:33.605 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:54:33.607 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:54:33.609 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:54:33.612 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:54:33.615 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:54:33.619 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:54:33.628 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 18.7434ms 200 text/css
+2019-09-26 09:54:33.631 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:54:33.634 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:54:33.639 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:54:33.643 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 33.0134ms 200 text/css
+2019-09-26 09:54:33.647 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 34.4522ms 200 text/css
+2019-09-26 09:54:33.649 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0  
+2019-09-26 09:54:33.651 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:54:33.652 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:54:33.655 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:54:33.657 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 53.0466ms 200 text/css
+2019-09-26 09:54:33.660 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 55.0288ms 200 text/css
+2019-09-26 09:54:33.662 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:54:33.665 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories/ListItems?searchcriteria=&_=1569480873597  
+2019-09-26 09:54:33.668 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 47.0941ms 200 text/css
+2019-09-26 09:54:33.672 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:54:33.674 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 9.7779ms 404 
+2019-09-26 09:54:33.676 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:54:33.679 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(System.String) on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:54:33.681 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 29.5565ms 200 text/css
+2019-09-26 09:54:33.684 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:54:33.686 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:54:33.688 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:54:33.690 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro) - Validation state: Valid
+2019-09-26 09:54:33.692 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 19.4562ms 404 
+2019-09-26 09:54:33.695 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 61.2752ms 200 text/css
+2019-09-26 09:54:33.697 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:54:33.700 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/fonts/fontawesome-webfont.woff2'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2'
+2019-09-26 09:54:33.702 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 56.1018ms 200 font/woff2
+2019-09-26 09:54:33.705 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:54:33.707 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:54:33.710 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4.8626ms 404 
+2019-09-26 09:54:33.712 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 17.1972ms.
+2019-09-26 09:54:33.716 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:54:33.718 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-09-26 09:54:33.720 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 7.1347ms 404 
+2019-09-26 09:54:33.725 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 8.1701ms.
+2019-09-26 09:54:33.727 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.ListItems (CateringPro) in 44.8003ms
+2019-09-26 09:54:33.729 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 65.9784ms 200 text/html; charset=utf-8
+2019-09-26 09:55:33.167 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories  
+2019-09-26 09:55:33.171 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:55:33.173 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:55:33.175 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:55:33.177 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:55:33.188 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:55:33.192 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 14.957ms.
+2019-09-26 09:55:33.195 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:55:33.203 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 5.9352ms.
+2019-09-26 09:55:33.206 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.Index (CateringPro) in 32.6957ms
+2019-09-26 09:55:33.212 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:55:33.238 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:55:33.244 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:55:33.248 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 73.9078ms 200 text/html; charset=utf-8
+2019-09-26 09:55:33.253 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:55:33.256 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:55:33.258 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:55:33.260 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-09-26 09:55:33.263 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:55:33.267 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 57.1251ms 200 text/css
+2019-09-26 09:55:33.270 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:55:33.273 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-09-26 09:55:33.276 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:55:33.278 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 35.6244ms 200 application/javascript
+2019-09-26 09:55:33.281 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 37.5508ms 200 text/css
+2019-09-26 09:55:33.283 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:55:33.285 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:55:33.287 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 17.2737ms 200 text/css
+2019-09-26 09:55:33.289 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=2fVlcFVK5tGqXUF0dZ_rNAyqNwebwsSEszTeLk6F7qk  
+2019-09-26 09:55:33.292 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:55:33.301 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:55:33.312 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-09-26 09:55:33.315 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:55:33.328 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:55:33.340 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 43.96ms 200 application/javascript
+2019-09-26 09:55:33.344 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 95.8903ms 200 text/css
+2019-09-26 09:55:33.346 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:55:33.348 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 65.9191ms 200 text/css
+2019-09-26 09:55:33.350 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:55:33.352 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:55:33.353 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 58.5912ms 200 text/css
+2019-09-26 09:55:33.356 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:55:33.358 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:55:33.361 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-09-26 09:55:33.363 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 69.0367ms 200 text/css
+2019-09-26 09:55:33.365 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:55:33.369 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 21.136ms 200 text/css
+2019-09-26 09:55:33.370 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 21.3481ms 200 text/css
+2019-09-26 09:55:33.373 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:55:33.375 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:55:33.378 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:55:33.380 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 25.3889ms 200 text/css
+2019-09-26 09:55:33.381 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-09-26 09:55:33.384 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:55:33.387 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 27.7165ms 200 application/javascript
+2019-09-26 09:55:33.388 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 57.2505ms 200 text/css
+2019-09-26 09:55:33.391 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:55:33.394 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:55:33.396 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:55:33.399 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 23.6025ms 200 text/css
+2019-09-26 09:55:33.403 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 36.1471ms 200 text/css
+2019-09-26 09:55:33.406 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:55:33.407 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:55:33.409 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 35.2908ms 200 text/css
+2019-09-26 09:55:33.411 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 19.0611ms 200 text/css
+2019-09-26 09:55:33.435 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0  
+2019-09-26 09:55:33.439 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/fonts/fontawesome-webfont.woff2'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2'
+2019-09-26 09:55:33.442 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 7.8342ms 200 font/woff2
+2019-09-26 09:55:33.447 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories/ListItems?searchcriteria=&_=1569480933412  
+2019-09-26 09:55:33.450 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(System.String) on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:55:33.454 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:55:33.457 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro) - Validation state: Valid
+2019-09-26 09:55:33.459 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:55:33.463 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:55:33.466 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 6.6679ms.
+2019-09-26 09:55:33.468 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-09-26 09:55:33.474 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 6.4075ms.
+2019-09-26 09:55:33.477 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.ListItems (CateringPro) in 24.084ms
+2019-09-26 09:55:33.479 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:55:33.481 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:55:33.483 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 32.9963ms 200 text/html; charset=utf-8
+2019-09-26 09:55:33.486 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 6.5687ms 404 
+2019-09-26 09:55:33.489 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 9.589ms 404 
+2019-09-26 09:55:33.498 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:55:33.500 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:55:33.510 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4.2228ms 404 
+2019-09-26 09:55:33.513 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 12.3448ms 404 
+2019-09-26 09:55:51.472 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories  
+2019-09-26 09:55:51.475 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:55:51.477 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:55:51.480 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.Index (CateringPro) - Validation state: Valid
+2019-09-26 09:55:51.482 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:55:51.487 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:55:51.490 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 7.6074ms.
+2019-09-26 09:55:51.493 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 09:55:54.857 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 3362.7553ms.
+2019-09-26 09:55:54.862 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.Index (CateringPro) in 3382.7183ms
+2019-09-26 09:55:54.864 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=2fVlcFVK5tGqXUF0dZ_rNAyqNwebwsSEszTeLk6F7qk  
+2019-09-26 09:55:54.866 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:55:54.869 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 3393.6541ms 200 text/html; charset=utf-8
+2019-09-26 09:55:54.873 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:55:54.878 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:55:54.882 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-09-26 09:55:54.890 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:55:54.898 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-09-26 09:55:54.902 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:55:54.906 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 39.651ms 200 application/javascript
+2019-09-26 09:55:54.909 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:55:54.912 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:55:54.915 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 40.0596ms 200 text/css
+2019-09-26 09:55:54.919 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:55:54.922 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 41.471ms 200 text/css
+2019-09-26 09:55:54.923 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 59.9422ms 200 text/css
+2019-09-26 09:55:54.926 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:55:54.929 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:55:54.931 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 20.2635ms 200 text/css
+2019-09-26 09:55:54.934 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:55:54.936 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 09:55:54.941 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:55:54.943 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:55:54.947 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:55:54.949 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 19.5819ms 200 text/css
+2019-09-26 09:55:54.954 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:55:54.956 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:55:54.959 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 32.8285ms 200 text/css
+2019-09-26 09:55:54.962 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 24.9685ms 200 text/css
+2019-09-26 09:55:54.965 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 32.6208ms 200 text/css
+2019-09-26 09:55:54.968 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 09:55:54.971 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 09:55:54.974 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 110.3153ms 200 text/css
+2019-09-26 09:55:54.978 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-09-26 09:55:54.980 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-09-26 09:55:54.983 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 117.308ms 200 application/javascript
+2019-09-26 09:55:54.986 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 09:55:54.992 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:55:54.995 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 20.0146ms 200 text/css
+2019-09-26 09:55:54.999 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 09:55:55.002 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-09-26 09:55:55.005 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:55:55.012 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 09:55:55.022 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 31.1709ms 200 application/javascript
+2019-09-26 09:55:55.025 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:55:55.030 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0  
+2019-09-26 09:55:55.032 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 40.6443ms 200 text/css
+2019-09-26 09:55:55.038 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 09:55:55.039 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:55:55.043 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/fonts/fontawesome-webfont.woff2'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2'
+2019-09-26 09:55:55.046 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 53.1667ms 200 text/css
+2019-09-26 09:55:55.048 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 20.676ms 200 font/woff2
+2019-09-26 09:55:55.053 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/Categories/ListItems?searchcriteria=&_=1569480954979  
+2019-09-26 09:55:55.054 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 56.5571ms 200 text/css
+2019-09-26 09:55:55.056 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 09:55:55.057 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 09:55:55.060 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Categories"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(System.String) on controller CateringPro.Controllers.CategoriesController (CateringPro).
+2019-09-26 09:55:55.063 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 57.6672ms 200 text/css
+2019-09-26 09:55:55.065 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 09:55:55.067 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2019-09-26 09:55:55.069 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 81.8408ms 200 text/css
+2019-09-26 09:55:55.071 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro) - Validation state: Valid
+2019-09-26 09:55:55.073 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 2.2.6-servicing-10079 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-09-26 09:55:55.077 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Code], [c].[CompanyId], [c].[Description], [c].[Name]
+FROM [Categories] AS [c]
+2019-09-26 09:55:55.080 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:55:55.081 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 09:55:55.083 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4.7895ms 404 
+2019-09-26 09:55:55.085 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:55:55.087 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.CategoriesController.ListItems (CateringPro), returned result Microsoft.AspNetCore.Mvc.PartialViewResult in 9.4ms.
+2019-09-26 09:55:55.088 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 6.6253ms 404 
+2019-09-26 09:55:55.090 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 5.3009ms 404 
+2019-09-26 09:55:55.092 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-09-26 09:55:55.095 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 09:55:55.097 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 2.8096ms 404 
+2019-09-26 09:55:55.103 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 13.3763ms.
+2019-09-26 09:55:55.104 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.CategoriesController.ListItems (CateringPro) in 41.9411ms
+2019-09-26 09:55:55.107 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 57.5948ms 200 text/html; charset=utf-8
+2019-09-26 10:37:39.923 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-09-26 10:37:39.926 +03:00 [Information] Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler: Identity.Application was not authenticated. Failure message: Ticket expired
+2019-09-26 10:37:39.928 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-09-26 10:37:39.937 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executing action method CateringPro.Controllers.HomeController.Index (CateringPro) - Validation state: Valid
+2019-09-26 10:37:39.940 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action method CateringPro.Controllers.HomeController.Index (CateringPro), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.0434ms.
+2019-09-26 10:37:39.944 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-09-26 10:37:39.948 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 5.737ms.
+2019-09-26 10:37:39.957 +03:00 [Information] Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 19.7164ms
+2019-09-26 10:37:39.972 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 40.0631ms 200 text/html; charset=utf-8
+2019-09-26 10:37:39.984 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 10:37:40.011 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 10:37:40.018 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 10:37:40.029 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 10:37:40.035 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 10:37:40.047 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 67.4436ms 200 text/css
+2019-09-26 10:37:40.054 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=2fVlcFVK5tGqXUF0dZ_rNAyqNwebwsSEszTeLk6F7qk  
+2019-09-26 10:37:40.059 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js  
+2019-09-26 10:37:40.071 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 10:37:40.074 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-09-26 10:37:40.078 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-09-26 10:37:40.080 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 10:37:40.089 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 31.4668ms 200 application/javascript
+2019-09-26 10:37:40.091 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 62.4287ms 200 text/css
+2019-09-26 10:37:40.093 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-09-26 10:37:40.095 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/images/slide1.jpg  
+2019-09-26 10:37:40.097 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-09-26 10:37:40.099 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 85.9302ms 200 text/css
+2019-09-26 10:37:40.101 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 29.5568ms 200 application/javascript
+2019-09-26 10:37:40.104 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/images/slide2.jpg  
+2019-09-26 10:37:40.107 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-09-26 10:37:40.109 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 10:37:40.111 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 18.0021ms 200 application/javascript
+2019-09-26 10:37:40.114 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js'
+2019-09-26 10:37:40.116 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 10:37:40.118 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 63.4565ms 200 application/javascript
+2019-09-26 10:37:40.121 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 104.8717ms 200 text/css
+2019-09-26 10:37:40.123 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/jquery-validation/dist/jquery.validate.js  
+2019-09-26 10:37:40.126 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 10:37:40.128 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/images/slide0.jpg  
+2019-09-26 10:37:40.133 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 27.1081ms 200 text/css
+2019-09-26 10:37:40.136 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\jquery-validation\dist\jquery.validate.js'
+2019-09-26 10:37:40.141 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 17.1083ms 200 application/javascript
+2019-09-26 10:37:40.144 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide1.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide1.jpg'
+2019-09-26 10:37:40.147 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 52.5186ms 200 image/jpeg
+2019-09-26 10:37:40.155 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide2.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide2.jpg'
+2019-09-26 10:37:40.157 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 55.201ms 200 image/jpeg
+2019-09-26 10:37:40.169 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 10:37:40.170 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 10:37:40.174 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 10:37:40.176 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-09-26 10:37:40.186 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 10:37:40.189 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 10:37:40.199 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 22.1704ms 200 text/css
+2019-09-26 10:37:40.201 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 25.5596ms 200 text/css
+2019-09-26 10:37:40.204 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 10:37:40.206 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 10:37:40.213 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-09-26 10:37:40.224 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 10:37:40.227 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 10:37:40.230 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 24.4856ms 200 text/css
+2019-09-26 10:37:40.249 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 26.5736ms 200 text/css
+2019-09-26 10:37:40.254 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 10:37:40.257 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-09-26 10:37:40.259 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 88.4928ms 200 text/css
+2019-09-26 10:37:40.262 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 43.4454ms 200 text/css
+2019-09-26 10:37:40.268 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-09-26 10:37:40.272 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-09-26 10:37:40.276 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-09-26 10:37:40.280 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 24.7332ms 200 text/css
+2019-09-26 10:37:40.284 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-09-26 10:37:40.290 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-09-26 10:37:40.293 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-09-26 10:37:40.296 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 119.8438ms 200 text/css
+2019-09-26 10:37:40.299 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 29.7316ms 200 text/css
+2019-09-26 10:37:40.304 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-09-26 10:37:40.309 +03:00 [Information] Microsoft.AspNetCore.Server.Kestrel: Connection id "0HLQ29O15APM6", Request id "0HLQ29O15APM6:00000002": the application aborted the connection.
+2019-09-26 10:37:40.311 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 138.7596ms 200 text/css
+2019-09-26 10:37:40.313 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide0.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide0.jpg'
+2019-09-26 10:37:40.316 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 191.4747ms 200 image/jpeg
+2019-09-26 10:37:40.362 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 10:37:40.365 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js.map  
+2019-09-26 10:37:40.367 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 4.9054ms 404 
+2019-09-26 10:37:40.370 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 6.013ms 404 
+2019-09-26 10:37:40.493 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 10:37:40.495 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 2.4631ms 404 
+2019-09-26 10:37:40.504 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
+2019-09-26 10:37:40.513 +03:00 [Information] Microsoft.AspNetCore.Hosting.Internal.WebHost: Request finished in 7.307ms 404 

@@ -2,7 +2,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr class="bg-secondary text-white rounded border">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -15,7 +15,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="bg-white text-dark">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -25,9 +25,9 @@
                 <td>
 
 
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    @Html.ActionLink("Edit", "EditModal",
-                                 new { id = item.Id }, new { @class = "catitem" })
+                    <a asp-action="Delete" asp-route-id="@item.Id"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                    @Html.ActionLink("", "EditModal",
+                                 new { id = item.Id }, new { @class = "catitem fa fa-pencil-square-o" })
                 </td>
             </tr>
         }

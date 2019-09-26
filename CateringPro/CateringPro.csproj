@@ -48,7 +48,6 @@
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\OrderDetails\" />
     <Folder Include="Views\Shared\Components\ShoppingCartSummary\" />
     <Folder Include="Views\ShoppingCart\" />

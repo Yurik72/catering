@@ -10,11 +10,26 @@
     <title>@ViewData["Title"] - Catering PRO</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
+        <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/carousel.css" />
+
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+        @* <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+        *@
         <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+
+    <environment names="Development">
+        <script src="~/js/jquery.min.js"></script>
+
+        <script src="~/js/bootstrap.min.js"></script>
+
+
+
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -27,92 +42,117 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <style>
-  
-        
- </style>
+    </style>
 </head>
 <body>
-    <div id="root">
-        <div class="container-fluid">
-            <div class="row rowheader"></div>
-            <div class="row">
-                <div class="col-sm-3">
-                    <nav class="navbar navbar-inverse navbar-fixed">
-                        <div class="container-fluid">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
+    @*
+        <div id="root">
+            <div class="container-fluid">
+                <div class="row rowheader"></div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <nav class="navbar navbar-inverse navbar-fixed">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
 
-                                <div class="navbar-brand row">
-                                    <a style="color: white;" asp-controller="Home" asp-action="Index" class="navbar-brand">Catering PRO</a>
+                                    <div class="navbar-brand row">
+                                        <a style="color: white;" asp-controller="Home" asp-action="Index" class="navbar-brand">Catering PRO</a>
+                                    </div>
+                                </div>
+
+                                <div class="navbar-collapse collapse">
+                                    <ul class="nav navbar-nav">
+                                        <li><a asp-controller="UserDayDishes" asp-action="Index">My Week</a></li>
+
+                                    </ul>
+                                    @await Html.PartialAsync("_LoginPartial")
                                 </div>
                             </div>
+                        </nav>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="container body-content">
+                            @RenderBody()
+                            <hr />
+                            <footer>
+                                <p>
 
-                            <div class="navbar-collapse collapse">
-                                <ul class="nav navbar-nav">
-                                    <li><a asp-controller="UserDayDishes" asp-action="Index">My Week</a></li>
-                                    @*
-        @await Component.InvokeAsync("CategoryMenu")
-
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <li><a asp-controller="Reviews" asp-action="Index">Reviews</a></li>
-            <li><a asp-controller="Orders" asp-action="Index">Orders</a></li>
-        }
-        else
-        {
-            <li><a asp-controller="Reviews" asp-action="ListAll">Reviews</a></li>
-        }
-
-        @await Component.InvokeAsync("ShoppingCartSummary")
-                                    *@
-                                    </ul>
-                                @await Html.PartialAsync("_LoginPartial")
-                            </div>
+                                </p>
+                            </footer>
                         </div>
-                    </nav>
-                </div>
-                <div class="col-sm-9">
-                    <div class="container body-content">
-                        @RenderBody()
-                        <hr />
-                        <footer>
-                            <p>
-
-                            </p>
-                        </footer>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery"
-                    crossorigin="anonymous"
-                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        </environment>
+    *@
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Catering</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" asp-controller="UserDayDishes" asp-action="Index">My Week</a></li>
 
-        @RenderSection("Scripts", required: false)
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    @if (this.ViewData.ContainsKey("NotRenderMainContainer"))
+    {
+        <main role="main">
+            @RenderBody()
+
+        </main>
+    }
+    else
+    {
+        <div id="wrap">
+            <div id="main" class="container body-content border rounded">
+                @RenderBody()
+            </div>
+
+        </div>
+
+    }
+
+    <footer class="footer">
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>© 2017-2018 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </footer>
+
+
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    </environment>
+
+    @await Html.PartialAsync("_LoginPartialModal")
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
+

@@ -19,5 +19,7 @@ namespace CateringPro.ViewModels
 
         [ScaffoldColumn(false)]
         public string ReturnUrl { get; set; }
+
+        public bool IsModal { get; set; }
     }
 }

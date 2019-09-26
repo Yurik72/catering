@@ -101,14 +101,24 @@ namespace CateringPro.Controllers
                 ReturnUrl = returnUrl
             });
         }
-
+        [AllowAnonymous]
+        public IActionResult LoginModal(string returnUrl)
+        {
+            return PartialView("LoginModal",new LoginViewModel
+            {
+                ReturnUrl = returnUrl
+            });
+        }
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                if (model.IsModal)
+                    return PartialView("LoginModal", model);
+                else
+                    return View(model);
             _logger.LogInformation("User {0} is going to login ", model.UserName);
             var user = await _userManager.FindByNameAsync(model.UserName);
 
@@ -122,6 +132,11 @@ namespace CateringPro.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (model.IsModal)
+                    {
+                        return Ok(new { res = "OK", returnUrl = string.IsNullOrEmpty(model.ReturnUrl) ? Url.Action("Index","Home"): model.ReturnUrl });
+                            //Task.FromResult(Json(new { res="OK",ReturnUrl= string.IsNullOrEmpty(model.ReturnUrl) ? Url.Content("~") : model.ReturnUrl }))
+                    }
                     if (string.IsNullOrEmpty(model.ReturnUrl))
                         return RedirectToAction("Index", "Home");
 
@@ -131,7 +146,11 @@ namespace CateringPro.Controllers
             }
             _logger.LogWarning("Can't find registered user {0}", model.UserName);
             ModelState.AddModelError("", "Username or Password was invalid.");
-            return View(model);
+            if (model.IsModal)
+                return PartialView("LoginModal", model);
+            else
+                return View(model);
+            
         }
 
         [Authorize]

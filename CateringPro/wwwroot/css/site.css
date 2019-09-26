@@ -1,7 +1,31 @@
-﻿body {
+﻿
+html, body {
+    height: 100%;
+}
+#wrap {
+    min-height: calc(100% - 200px);
+     
+}
+
+#main {
+    overflow: auto;
+   
+}
+
+.footer {
+    position: relative;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    left: 0px;
+    clear: both;
+    padding-top: 20px;
+    width: 100%;
+} 
+body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url('../images/catering-background.jpg');
+   /* background-image: url('../images/catering-background.jpg');*/
     background-repeat: repeat;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -12,6 +36,7 @@
     padding-left: 15px;
     padding-right: 15px;
     background-color: #f2f6f9;
+    margin-top:20px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -39,7 +64,7 @@ textarea {
         display: none;
     }
 }
-
+/*
 .navbar-nav > li {
     float: none !important;
 }
@@ -53,9 +78,9 @@ textarea {
     left: 0px;
     top: 0px;
 }
-
+*/
 @media (min-width: 768px) {
-
+/*
     .navbar {
         border-radius: 0;
         border-width: 0;
@@ -80,7 +105,7 @@ textarea {
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
-
+*/
 .container {
     width: 100% !important;
 }
@@ -154,7 +179,7 @@ textarea {
 footer {
     margin: 25px 0;
 }
-
+/*
 .navbar {
     background-image: none;
 }
@@ -195,7 +220,7 @@ footer {
     min-height: 600px;
     max-height: 600px;
 }
-
+*/
 #carousel-example-generic {
     max-width: 800px;
     min-width: 600px;
