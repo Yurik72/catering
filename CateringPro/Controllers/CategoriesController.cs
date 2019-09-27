@@ -13,7 +13,7 @@ using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.Data;
 using CateringPro.Core;
-
+using CateringPro.ViewModels;
 
 
 namespace CateringPro.Controllers
@@ -36,13 +36,26 @@ namespace CateringPro.Controllers
         {
             return View(await _categoryRepo.GetAllAsync());
         }
-        public async Task<IActionResult> ListItems(string searchcriteria)
+
+        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
-            if (string.IsNullOrEmpty(searchcriteria))
+            //QueryModel querymodel=new QueryModel() { }
+            ViewData["QueryModel"] = querymodel;
+            
+            var query=(IQueryable<Categories>) _context.Categories;
+            
+            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
-                return PartialView(await _context.Categories.ToListAsync());
+                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
+                
+
             }
-            return PartialView(await _context.Categories.Where(d => d.Name.Contains(searchcriteria) || d.Description.Contains(searchcriteria)).ToListAsync());
+            if (!string.IsNullOrEmpty(querymodel.SortField))
+            {
+                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
+            }
+            
+            return PartialView(await query.ToListAsync());
 
         }
         [HttpPost]

@@ -1,13 +1,39 @@
 ﻿@model IEnumerable<CateringPro.Models.Categories>
 
+@using CateringPro.Core
+
+
+@{
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
+    Func<string, string> get_span_class = (field) =>
+    {
+
+        if (querymodel.SortField == field)
+            return querymodel.SortOrder  == "asc" ? "fa fa-sort-asc" : "fa fa-sort-desc";
+        return "fa fa-unsorted";
+    };
+    Func<string, string> get_sort_dir= (field) =>
+    {
+
+        if (querymodel.SortField == field )
+            return querymodel.SortOrder== "asc" ? "desc" : "asc";
+        return "asc";
+    };
+}
 <table class="table">
     <thead>
         <tr class="bg-secondary text-white rounded border">
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @await this.InvokeComponentAsync(Component,"TableColumn",model => model.Description,querymodel)
+
             </th>
             <th></th>
         </tr>

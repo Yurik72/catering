@@ -1,26 +1,37 @@
 ﻿
 html, body {
     height: 100%;
+    min-height: 100%;
 }
 #wrap {
-    min-height: calc(100% - 200px);
-     
+  padding:0px;
+  margin:0px;
+  border:0px;
+  height:100%;   
+  position:relative;
+  
+  min-height:100%;
 }
-
+main {
+    min-height: 100%;
+    overflow: auto;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    height:100%;
+}
 #main {
     overflow: auto;
-   
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
 }
 
 .footer {
-    position: relative;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    margin-left: 0px;
-    left: 0px;
-    clear: both;
-    padding-top: 20px;
-    width: 100%;
+    background-color: #222;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
 } 
 body {
     padding-top: 50px;
@@ -29,6 +40,11 @@ body {
     background-repeat: repeat;
     font-family: 'Source Sans Pro', sans-serif;
 }
+.footer-bottom {
+    padding: 15px 0 5px;
+    background-color: #1f1f1f;
+    background-color: rgba(0,0,0,.32);
+}
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -36,7 +52,9 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     background-color: #f2f6f9;
-    margin-top:20px;
+    margin-top: 20px;
+    
+    height:90%;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -80,7 +98,7 @@ textarea {
 }
 */
 @media (min-width: 768px) {
-/*
+    /*
     .navbar {
         border-radius: 0;
         border-width: 0;
@@ -105,7 +123,9 @@ textarea {
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
+    
 */
+}
 .container {
     width: 100% !important;
 }
@@ -125,6 +145,7 @@ textarea {
     border: solid 1px #E4E4E4;
     border-radius: 6px;
     background-color: #fff;
+    float:right;
 }
 
     #custom-search-input input {
@@ -178,6 +199,10 @@ textarea {
 
 footer {
     margin: 25px 0;
+}
+.table-footer{
+    background-color:darkgray;
+    min-height:20px;
 }
 /*
 .navbar {

@@ -1,0 +1,29 @@
+@model CateringPro.ViewModels.QueryModel
+
+@{
+    QueryModel querymodel = Model;
+    string fieldname = ViewData["field"].ToString();
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
+    Func<string, string> get_span_class = (field) =>
+    {
+
+        if (querymodel.SortField == field)
+            return querymodel.SortOrder == "asc" ? "fa fa-sort-asc" : "fa fa-sort-desc";
+        return "fa fa-unsorted";
+    };
+    Func<string, string> get_sort_dir = (field) =>
+    {
+
+        if (querymodel.SortField == field)
+            return querymodel.SortOrder == "asc" ? "desc" : "asc";
+        return "asc";
+    };
+}
+
+<a class="ahead" asp-action="ListItems" asp-route-sortfield=@fieldname asp-route-sortorder="@get_sort_dir(fieldname)">
+    <span class="@get_span_class(fieldname)"></span>
+    @fieldname
+</a>

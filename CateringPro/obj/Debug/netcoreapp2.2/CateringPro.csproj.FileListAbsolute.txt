@@ -212,3 +212,5 @@ C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LoginPartialModal.g.cshtml.cs
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Account\LoginModal.g.cshtml.cs
 C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\CateringPro.csprojAssemblyReference.cache
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Footer.g.cshtml.cs
+C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Components\TableColumn\Default.g.cshtml.cs
