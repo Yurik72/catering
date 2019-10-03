@@ -48,7 +48,7 @@
 
         <div class="container">
             <div class="row ">
-                <div class="col-lg-8 col-md-8 ">
+                <div class="col-lg-10 col-md-10 ">
                     <button class="btn btn-link collapsed daydish" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded="false" aria-controls=@("collapse" + i)>
                         <div class="expand">
 
@@ -58,9 +58,7 @@
                     </button>
 
                 </div>
-                <div class="col-lg-1 col-md-1 ">
 
-                </div>
             </div>
             <div class="row justify-content-md-center">
                 <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion" data-daydate="@current">
@@ -94,13 +92,15 @@
     }
 </div>
 
-<script type="text/javascript" src="~/js/dishdayedit.js" defer></script>
-@section Scripts {
 
+@section Scripts {
+    $("input[type='number']").inputSpinner()
+    <script type="text/javascript" src="~/js/bootstrap-input-spinner.js" defer></script>
 
     <script>
         $(function () {
 
+            $("input.numberspinner[type='number']").inputSpinner()
             var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
             var reloadDay = function (dayindex) {
                 var ms = parseInt($('#currentdate').val());
@@ -148,20 +148,20 @@
                     })
                     daydishes.push(daydish)
                 });
-                
+
                 $.ajax({
                     type: "POST",
                     data: res = { daydishes },
 
-                        url: "/UserDayDishes/SaveDay",
-                        success: function (data) {
-                           // alert(data);
-                        }
-                    });
+                    url: "/UserDayDishes/SaveDay",
+                    success: function (data) {
+                        // alert(data);
+                    }
+                });
             });
 
 
-      
+
         });
 
     </script>

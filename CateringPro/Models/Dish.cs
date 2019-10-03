@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,6 +37,8 @@ namespace CateringPro.Models
         public int CategoriesId { get; set; }
         public virtual Categories Category { get; set; }
 
+        [Column(TypeName = "image")]
+        public byte[] DishPicture { get; set; }
         public virtual ICollection<DishCategory> DishCategories { get; set; }
 
         public virtual ICollection<DayDish> DayDishes { get; set; }

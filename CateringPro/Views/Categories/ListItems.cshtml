@@ -9,21 +9,9 @@
     {
         querymodel = new QueryModel();
     }
-    Func<string, string> get_span_class = (field) =>
-    {
 
-        if (querymodel.SortField == field)
-            return querymodel.SortOrder  == "asc" ? "fa fa-sort-asc" : "fa fa-sort-desc";
-        return "fa fa-unsorted";
-    };
-    Func<string, string> get_sort_dir= (field) =>
-    {
-
-        if (querymodel.SortField == field )
-            return querymodel.SortOrder== "asc" ? "desc" : "asc";
-        return "asc";
-    };
 }
+
 <table class="table">
     <thead>
         <tr class="bg-secondary text-white rounded border">
@@ -32,7 +20,7 @@
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
             </th>
             <th>
-                @await this.InvokeComponentAsync(Component,"TableColumn",model => model.Description,querymodel)
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
 
             </th>
             <th></th>
@@ -58,4 +46,11 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr class="bg-secondary text-white rounded border">
+            <td colspan="3">
+                @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
+            </td>
+        </tr>
+    </tfoot>
 </table>

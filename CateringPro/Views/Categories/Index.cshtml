@@ -55,7 +55,8 @@
                     href = '/Categories/ListItems?';
                 else
                     href += "&";
-                 $('#table-content').load(href+'searchcriteria='+$('#search-val').val());
+                $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+               
             }
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Categories", new { searchcriteria = "" })');
@@ -78,6 +79,10 @@
                 });
             });
             $(document).on("click", "a.ahead", function (e) {
+                e.preventDefault();
+                reload(this.href);
+            });
+            $(document).on("click", "a.apagebottom", function (e) {
                 e.preventDefault();
                 reload(this.href);
             });
