@@ -3,25 +3,40 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<style>
+form dt{
+    float:left;
+    display:block;
+    width:30%;
+}
+dd select{
+     width:50%;
+}
+dd textarea{
+     width:100%;
+}
+</style>
     <div class="modal-content">
         <div class="modal-header">
-            <button class="close" data-dismiss="modal" area-hidden="true">X</button>
-            <h4>Блюдо</h4>
+            <h5 class="modal-title">Dish</h5>
+            <button class="close" data-dismiss="modal" area-hidden="true">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
         </div>
         <div class="modal-body">
             <form asp-action="EditModal">
                 <dl class="dl-horizontal">
                     <dd><input type="hidden" asp-for="Id" /></dd>
 
-                    <dt>  <label asp-for="Code" class="control-label"></label></dt>
+                    <dt>  <label asp-for="Code" class="control-label col-md-2"></label></dt>
                     <dd>
                         <input asp-for="Code" class="form-control" />
                         <span asp-validation-for="Code" class="text-danger"></span>
                     </dd>
 
 
-                    <dt>  <label asp-for="Name" class="control-label"></label></dt>
+                    <dt>  <label asp-for="Name" class="control-label col-md-2"></label></dt>
                     <dd>
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
@@ -35,13 +50,24 @@
                         <span asp-validation-for="CategoriesId" class="text-danger"></span>
 
                     </dd>
-                    <dt>Цена</dt>
-                    <dd>@Html.EditorFor(model => model.Price)</dd>
+                    <dt><label asp-for="Price" class="control-label col-md-2"></label></dt>
+                    <dd>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </dd>
 
-                    <dt>Описание</dt>
-                    <dd>@Html.EditorFor(model => model.Description)</dd>
-                    <dt>Картинка</dt>
-                    <dd>@Html.EditorFor(model => model.DishPicture)</dd>
+                    <dt>
+                        <label asp-for="Description" class="control-label col-md-2"></label>
+                    </dt>
+                    <dd>
+                        @Html.EditorFor(model => model.Description,new { @class="form-control"})
+                    </dd>
+                    <dt>
+                        <label asp-for="PictureId" class="control-label col-md-2"></label>
+                    </dt>
+                    <dd>
+                        <img src="@Url.Action("GetPicture","Pictures",new { id=Model.PictureId})" />
+                    </dd>
                 </dl>
             </form>
             <div class="row">
@@ -51,14 +77,14 @@
                     <button type="button" button class="btn btn-primary" data-save="modal">Save</button>
                 </div>
                 <div class="col-sm-2">
-                    <button type="button" button class="btn btn-primary"data-dismiss="modal" >Cancel</button>
+                    <button type="button" button class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 </div>
 
                 <div class="col-sm-1">
                 </div>
 
             </div>
-            </div>
+        </div>
     </div>
 
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging.AzureAppServices.Internal;
+﻿
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;

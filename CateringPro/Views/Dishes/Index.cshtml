@@ -1,31 +1,42 @@
 ﻿@model IEnumerable<CateringPro.Models.Dish>
 
 @{
-    ViewData["Title"] = "Index";
+     var ModelName = "Dishes";
+    ViewData["Title"] = "Dishes";
 }
 
 
-      
-<div class="container">
-            <div class="row">
-                <div id="create-btn" class="col-lg-3 col-md-3 create">
-                    <span class=" glyphicon glyphicon-plus" aria-hidden="true">Create</span>
 
-                </div>
-            </div>
-</div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row justify-content-end">
+        <div class="col-md-6 right">
+            <h2>@ModelName</h2>
+        </div>
+        <div class="col-md-6 right">
             <div id="custom-search-input">
-                <div class="input-group col-md-12">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="Dish" />
+                <div class="input-group">
+                    <input type="text" id="search-val" class="form-control input-lg" placeholder="Categories" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" id="search-btn" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
+                            <span class="fa fa-search" aria-hidden="true"></span>
                         </button>
                     </span>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div id="table-content">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12  table-footer">
+            <div id="create-btn" class="col-lg-3 col-md-3 create">
+                <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+
             </div>
         </div>
     </div>
@@ -33,8 +44,7 @@
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<div id="table-content">
- 
+
 </div>
 
 @section scripts

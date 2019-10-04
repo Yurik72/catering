@@ -10,17 +10,24 @@ using CateringPro.Models;
 using CateringPro.Core;
 using CateringPro.Repositories;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using CateringPro.ViewModels;
+
 namespace CateringPro.Controllers
 {
     public class DishesController : Controller
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
+        private IConfiguration _configuration;
+        private int pageRecords = 20;
 
-        public DishesController(AppDbContext context, ILogger<CompanyUser> logger)
+        public DishesController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration)
         {
             _context = context;
             _logger = logger;
+            _configuration = Configuration;
+            int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
         // GET: Dishes
@@ -28,13 +35,20 @@ namespace CateringPro.Controllers
         {
             return View(await _context.Dishes.ToListAsync());
         }
-        public async Task<IActionResult> ListItems(string searchcriteria)
+        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)
         {
-            if (string.IsNullOrEmpty(searchcriteria))
+            var query = (IQueryable<Dish>)_context.Dishes;
+            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
-                return PartialView(await _context.Dishes.ToListAsync());
+                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
+               
             }
-            return PartialView(await _context.Dishes.Where(d=>d.Name.Contains(searchcriteria) || d.Description.Contains(searchcriteria)).ToListAsync());
+            if (querymodel.Page > 0)
+            {
+                query = query.Skip(pageRecords * querymodel.Page);
+            }
+            query = query.Take(pageRecords);
+            return PartialView(await query.ToListAsync());
 
         }
 
@@ -129,6 +143,14 @@ namespace CateringPro.Controllers
             }
             return View(dish);
         }
+
+   //     public async Task<IActionResult> GetDishPicture(int id)
+       // {
+           // var dish = await _context.Dishes.SingleOrDefaultAsync(d=>d.Id==id && d.CompanyId== this.User.GetCompanyID());
+          //  if (dish == null || dish.DishPicture==null || dish.DishPicture.Length == 0)
+          //      return File(new byte[0], "image/jpeg"); ;
+          //  return File(dish.DishPicture, "image/jpeg");
+    //    }
         // POST: Dishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

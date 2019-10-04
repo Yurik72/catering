@@ -24,11 +24,13 @@ namespace CateringPro.Controllers
         private readonly AppDbContext _context;
         private readonly ICategoryRepository _categoryRepo;
         private readonly ILogger<CompanyUser> _logger;
+        private int pageRecords;
         public CategoriesController(AppDbContext context, ICategoryRepository categoryRepo, ILogger<CompanyUser> logger)
         {
             _context = context;
             _categoryRepo = categoryRepo;
             _logger = logger;
+           
         }
 
         // GET: Categories

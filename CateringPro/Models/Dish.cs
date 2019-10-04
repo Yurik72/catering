@@ -33,12 +33,12 @@ namespace CateringPro.Models
         [Required]
         public string Description { get; set; }
 
-        [DisplayName("Select Category")]
+        [DisplayName("Category")]
         public int CategoriesId { get; set; }
         public virtual Categories Category { get; set; }
 
-        [Column(TypeName = "image")]
-        public byte[] DishPicture { get; set; }
+      
+        public int? PictureId { get; set; }
         public virtual ICollection<DishCategory> DishCategories { get; set; }
 
         public virtual ICollection<DayDish> DayDishes { get; set; }

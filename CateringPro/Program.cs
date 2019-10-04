@@ -7,6 +7,7 @@ using CateringPro.Data;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using CateringPro.Core;
+using Microsoft.Extensions.Hosting;
 
 namespace CateringPro
 {
@@ -14,10 +15,8 @@ namespace CateringPro
     {
         public static void Main(string[] args)
         {
-            //var host = BuildWebHost(args);
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+
+            var host = CreateHostBuilder(args)
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
                 var env = hostingContext.HostingEnvironment;
@@ -34,8 +33,9 @@ namespace CateringPro
                 logging.AddEventSourceLogger();
                 logging.AddFile();
             })
-            .UseStartup<Startup>()
+
             .Build();
+            
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -53,10 +53,13 @@ namespace CateringPro
 
             host.Run();
         }
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+          Host.CreateDefaultBuilder(args)
+              .ConfigureWebHostDefaults(webBuilder =>
+              {
+                  webBuilder.UseStartup<Startup>();
+              });
+ 
 
     }
 }

@@ -11,6 +11,9 @@ using CateringPro.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using CateringPro.Core;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.Extensions.Hosting;
 
 namespace CateringPro
 {
@@ -55,11 +58,21 @@ namespace CateringPro
 
             //services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
 
+
+            //services.AddMemoryCache();
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+             
+            });
             services.AddMvc();
-
-            services.AddMemoryCache();
-            services.AddSession();
-
+          
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
@@ -78,12 +91,12 @@ namespace CateringPro
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
-
+            
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                //options.Cookie.HttpOnly = true;
+               // options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 // If the LoginPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/Login.
                 //options.LoginPath = "/Account/Login";
@@ -93,12 +106,38 @@ namespace CateringPro
                 // If the AccessDeniedPath isn't set, ASP.NET Core defaults 
                 // the path to /Account/AccessDenied.
                 options.AccessDeniedPath = "/Account/AccessDenied";
-                options.SlidingExpiration = true;
+                //options.SlidingExpiration = true;
             });
-
+            
         }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
+            app.UseRouting();
+
+            // app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /*
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
            // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -108,7 +147,7 @@ namespace CateringPro
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+               // app.UseDatabaseErrorPage();
             }
             else
             {
@@ -116,16 +155,28 @@ namespace CateringPro
             }
 
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                RequestPath = "/Static"
+            });
             app.UseSession();
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseRouting();
 
+           // app.UseCors();
+
+            //app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+               // endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
         }
+*/
     }
 }

@@ -35,6 +35,7 @@ namespace CateringPro.Data
 
         public DbSet< UserDayDish> UserDayDish { get; set; }
 
+        public DbSet<Pictures> Pictures { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
