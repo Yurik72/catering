@@ -14,6 +14,9 @@ using CateringPro.Core;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.Extensions.Hosting;
+using jsreport.AspNetCore;
+using jsreport.Local;
+using jsreport.Binary;
 
 namespace CateringPro
 {
@@ -72,7 +75,8 @@ namespace CateringPro
              
             });
             services.AddMvc();
-          
+            services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings

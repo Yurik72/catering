@@ -1,0 +1,43 @@
+@model IEnumerable<CateringPro.Models.CustomerOrdersViewModel>
+
+@{
+    ViewData["Title"] = "EditDay";
+}
+@{
+    DateTime daydate = DateTime.Now;
+}
+@* bootstrap0 grid system *@
+
+    <div class="well well-lg" data-form="userday">
+        <div class="container">
+            <div class="row justify-content-md-center">
+
+            </div>
+            @foreach (var it in Model)
+            {
+                <div class="row row-daydish-category row justify-content-md-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-lg-2 col-md-2">
+                                @Html.DisplayFor(modelItem => it.UserName)
+                            </div>
+                            <div class="col col-lg-2 col-md-2">
+                                @Html.DisplayFor(modelItem => it.DishesCount)
+                            </div>
+                            <div class="col col-lg-2 col-md-2">
+                                @Html.DisplayFor(modelItem => it.Amount)
+                            </div>
+                        </div>
+
+
+                    </div>
+                    </div>
+            }
+            <div class="row dayfoot">
+            </div>
+
+            <div class="row dayfoot">
+            </div>
+        </div>
+    </div>
+

@@ -1,0 +1,170 @@
+﻿@model DateTime
+@using System.Globalization
+@using CateringPro.Core
+@{
+    ViewData["Title"] = "Customer Orders";
+}
+@{
+    DateTime daydate = Model;
+    long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
+    CultureInfo ci = new CultureInfo("en-US");
+    // Get the DateTimeFormatInfo for the en-US culture.
+    DateTimeFormatInfo dtfi = ci.DateTimeFormat;
+}
+
+
+<h2>Please select and order </h2>
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-1 col-md-1 dayselector dayselectback">
+            <span class=" glyphicon glyphicon-backward" aria-hidden="true"></span>
+
+        </div>
+        <div class="col-lg-4 col-md-4 ">
+            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+            <div id="weekselector">
+
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-1 dayselector dayselectforward">
+            <span class=" glyphicon glyphicon-forward" aria-hidden="true"></span>
+
+        </div>
+    </div>
+    <div class="row" style="height:10px">
+
+    </div>
+
+</div>
+
+<div id="accordion">
+    @{
+
+        DateTime current = daydate.StartOfWeek(DayOfWeek.Sunday); ;
+    }
+    @for (int i = 0; i < 7; i++)
+    {
+
+        <div class="container">
+            <div class="row ">
+                <div class="col-lg-10 col-md-10 ">
+                    <button class="btn btn-link collapsed daydish" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded="false" aria-controls=@("collapse" + i)>
+                        <div class="expand">
+
+
+                        </div>
+                        <div class="dayname">@dtfi.GetDayName((DayOfWeek)i) </div>
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="row justify-content-md-center">
+                <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion" data-daydate="@current">
+
+                    @await Component.InvokeAsync("CustomerOrdersComponent", current)
+
+                </div>
+            </div>
+
+            @*
+                <div class="card">
+                    <div class="card-header" id=@("heading" + i)>
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded=@(i == 0 ? "true" : "false") aria-controls=@("collapse" + i)>
+                                @dtfi.GetDayName((DayOfWeek)i)
+
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id=@("collapse" + i) class="collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion">
+                        <div class="card-body">
+                            @await Component.InvokeAsync("DayDishComponent", current)
+                        </div>
+                    </div>
+                </div>
+            *@
+
+        </div>
+        current = current.AddDays(1);
+    }
+</div>
+
+
+@section Scripts {
+    $("input[type='number']").inputSpinner()
+    <script type="text/javascript" src="~/js/bootstrap-input-spinner.js" defer></script>
+
+    <script>
+        $(function () {
+
+            $("input.numberspinner[type='number']").inputSpinner()
+            var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
+            var reloadDay = function (dayindex) {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() - dt.getDay() + dayindex);
+                $('#collapse' + dayindex).html(html_loading);
+                $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+            }
+            var weektext = function () {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                firstweekday = new Date(dt.getTime());
+                lasttweekday = new Date(dt.getTime());
+                firstweekday.setDate(dt.getDate() - dt.getDay());
+                lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
+                return firstweekday.toLocaleDateString() + " - " + lasttweekday.toLocaleDateString();
+            }
+
+            $('#weekselector').text(weektext());
+            var incrementday = function (d) {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() + d);
+                $('#currentdate').val(dt.getTime());
+                $('#weekselector').text(weektext());
+                for (var i = 0; i < 7; i++)
+                    reloadDay(i);
+            }
+            $('.dayselectback').click((e) => {
+                e.preventDefault();
+                incrementday(-7);
+            });
+            $('.dayselectforward').click((e) => {
+                e.preventDefault();
+                incrementday(7);
+            });
+            $(document).on('click', '[data-action="saveuserday"]', function (event) {
+                event.preventDefault();
+                var divform = $(this).closest('[data-form="userday"]');
+                var daydishes = [];
+                divform.find('[data-form="userdaydish"]').each(function (index, day) { //each day
+                    var daydish = {}
+                    $(day).find('[datafield]').each(function (idx, element) {
+                        daydish[$(element).attr("datafield")] = $(element).val();
+                    })
+                    daydishes.push(daydish)
+                });
+
+                $.ajax({
+                    type: "POST",
+                    data: res = { daydishes },
+
+                    url: "/UserDayDishes/SaveDay",
+                    success: function (data) {
+                        // alert(data);
+                    }
+                });
+            });
+
+
+
+        });
+
+    </script>
+}
+
+

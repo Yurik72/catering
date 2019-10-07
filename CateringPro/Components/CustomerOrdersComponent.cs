@@ -10,26 +10,25 @@ using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.Core;
 
-
-namespace CateringPro.ViewComponents
-{using System.Threading.Tasks;
-    public class UserDayDishComponent: ViewComponent
+namespace CateringPro.Components
+{
+    public class CustomerOrdersComponent : ViewComponent
     {
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly UserManager<CompanyUser> _userManager;
-        public UserDayDishComponent( IUserDayDishesRepository udaydishrepo, UserManager<CompanyUser> userManager)
+        public CustomerOrdersComponent(IUserDayDishesRepository udaydishrepo, UserManager<CompanyUser> userManager)
         {
             _udaydishrepo = udaydishrepo;
             _userManager = userManager;
         }
-        
+
         public async Task<IViewComponentResult> InvokeAsync(DateTime daydate)
         {
 
             //  daydate = DateTime.Now;
-            //var cid = this.User.GetCompanyID();
+           
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CategorizedDishesPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID()))); //to do
+            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CustomerOrders(daydate, this.User.GetCompanyID()))); //to do
         }
     }
 }

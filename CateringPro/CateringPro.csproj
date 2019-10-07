@@ -23,6 +23,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="jsreport.AspNetCore" Version="2.0.2" />
+    <PackageReference Include="jsreport.Binary" Version="2.5.0" />
+    <PackageReference Include="jsreport.Local" Version="2.1.1" />
+    <PackageReference Include="jsreport.MVC" Version="2.1.1" />
+    <PackageReference Include="jsreport.Shared" Version="2.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
@@ -47,6 +52,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Reports\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\OrderDetails\" />

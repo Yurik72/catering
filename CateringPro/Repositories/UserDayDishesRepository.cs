@@ -86,5 +86,38 @@ namespace CateringPro.Repositories
         public DayDish SelectSingleOrDefault(int dishId, DateTime daydate) {
             return _context.DayDish.SingleOrDefault(dd => dd.DishId == dishId && dd.Date == daydate);
        }
+
+        public IQueryable<CustomerOrdersViewModel> CustomerOrders(DateTime daydate,  int companyid)
+        {
+            var query1 =
+                           from dd in _context.DayDish
+                           join d in _context.Dishes on dd.DishId equals d.Id
+                           where dd.Date == daydate && dd.CompanyId == companyid
+                           join ud in _context.UserDayDish on new { dd.DishId, dd.Date, cid = companyid } equals new { ud.DishId, ud.Date, cid = ud.CompanyId }
+                           join cu in _context.Users on ud.UserId equals cu.Id
+                           select new { UserId = cu.Id, UserName = cu.NormalizedUserName, DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, ItemQuanity = ud.Quantity, ItemPrice = d.Price, ItemAmount = ud.Quantity * d.Price };
+                           
+            var query = from entry in (
+                           from dd in _context.DayDish
+                           join d in _context.Dishes on dd.DishId equals d.Id
+                           where dd.Date == daydate && dd.CompanyId == companyid
+                           join ud in _context.UserDayDish on new { dd.DishId, dd.Date, cid = companyid } equals new { ud.DishId, ud.Date, cid = ud.CompanyId }
+                           join cu in _context.Users on ud.UserId equals cu.Id
+                           select new { UserId = cu.Id, UserName = cu.NormalizedUserName, DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, ItemQuanity = ud.Quantity, ItemPrice = d.Price, ItemAmount = ud.Quantity * d.Price }
+                           )
+                        group entry by entry.UserId into ordergroup
+                      //  join cat in _context.Categories on new { id = ordergroup.First().CategoryID, cid = companyid } equals new { id = cat.Id, cid = cat.CompanyId }
+
+                        select new CustomerOrdersViewModel
+                        {
+                            UserId= ordergroup.Key,
+                          //  UserName = ordergroup.First().UserName,
+                          //  Date = daydate,
+                          //  DishesCount = ordergroup.Count(),
+                          //  Amount= ordergroup.Sum(a=>a.ItemAmount)
+
+                        };
+            return query;
+        }
     }
 }

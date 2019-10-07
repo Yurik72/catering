@@ -12,6 +12,8 @@ namespace CateringPro.Repositories
         IQueryable<UserDayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime daydate, string userId, int companyid);
 
         DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
+
+        IQueryable<CustomerOrdersViewModel> CustomerOrders(DateTime daydate, int companyid);
     }
 }
 
