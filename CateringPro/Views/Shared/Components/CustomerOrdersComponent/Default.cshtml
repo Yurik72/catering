@@ -13,25 +13,40 @@
             <div class="row justify-content-md-center">
 
             </div>
-            @foreach (var it in Model)
+            @if (Model.Count() == 0)
             {
-                <div class="row row-daydish-category row justify-content-md-center">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col col-lg-2 col-md-2">
-                                @Html.DisplayFor(modelItem => it.UserName)
-                            </div>
-                            <div class="col col-lg-2 col-md-2">
-                                @Html.DisplayFor(modelItem => it.DishesCount)
-                            </div>
-                            <div class="col col-lg-2 col-md-2">
-                                @Html.DisplayFor(modelItem => it.Amount)
+                 <div class="row row-daydish-category row justify-content-md-center">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-lg-10 col-md-10">
+                                    <span>No Orders at this date</span>
+                                </div>
                             </div>
                         </div>
+                 </div>
+            }
+            else
+            {
+                @foreach (var it in Model)
+                {
+                    <div class="row row-daydish-category row justify-content-md-center">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col col-lg-2 col-md-2">
+                                    @Html.DisplayFor(modelItem => it.UserName)
+                                </div>
+                                <div class="col col-lg-2 col-md-2">
+                                    @Html.DisplayFor(modelItem => it.DishesCount)
+                                </div>
+                                <div class="col col-lg-2 col-md-2">
+                                    @Html.DisplayFor(modelItem => it.Amount)
+                                </div>
+                            </div>
 
 
-                    </div>
-                    </div>
+                        </div>
+                        </div>
+                }
             }
             <div class="row dayfoot">
             </div>

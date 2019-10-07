@@ -24,15 +24,18 @@ namespace CateringPro.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> GetPicture(int? id)
+        public async Task<IActionResult> GetPicture(int? id,int? width,int? height)
         {
             var pict = await _context.Pictures.FindAsync(id);
             if (!id.HasValue || pict == null || pict.PictureData == null || pict.PictureData.Length == 0) {
                 string nophotofile= $"{Directory.GetCurrentDirectory()}{@"\wwwroot\images\nophoto.jpg"}";
                 using (Image<Rgba32> image = Image.Load<Rgba32>(nophotofile))
                 {
-                    image.Mutate(x => x
-                         .Resize(40, 40));
+                    if (width.HasValue && width.Value > 0 && height.HasValue && height.Value > 0)
+                    {
+                        image.Mutate(x => x
+                             .Resize(width.Value, height.Value));
+                    }
                     using (MemoryStream ms = new MemoryStream()) {
                         image.SaveAsJpeg(ms);
                         return File(ms.GetBuffer(), "image/jpeg");

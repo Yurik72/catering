@@ -162,7 +162,25 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-
+            
+            if (Request.Form.Files.Count > 0)
+            {
+                Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);
+                if (pict == null)
+                {
+                    pict = new Pictures();
+                }
+                var file = Request.Form.Files[0];
+                using (var stream = Request.Form.Files[0].OpenReadStream())
+                {
+                    byte[] imgdata = new byte[stream.Length];
+                    stream.Read(imgdata, 0, (int)stream.Length);
+                    pict.PictureData = imgdata;
+                }
+                _context.Add(pict);
+                _context.SaveChanges();
+                dish.PictureId = pict.Id;
+            }
             return await this.UpdateCompanyDataAsync(dish, _context, _logger);
         }
 

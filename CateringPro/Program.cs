@@ -16,6 +16,7 @@ namespace CateringPro
         public static void Main(string[] args)
         {
 
+
             var host = CreateHostBuilder(args)
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
@@ -24,18 +25,17 @@ namespace CateringPro
                       .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                       optional: true, reloadOnChange: true);
                 config.AddEnvironmentVariables();
-               }).ConfigureLogging((hostingContext, logging) =>
-            {
+            })
+            .ConfigureLogging((hostingContext, logging) =>{
                 // Requires `using Microsoft.Extensions.Logging;`
                 logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                logging.AddConsole();
-                logging.AddDebug();
-                logging.AddEventSourceLogger();
-                logging.AddFile();
+             logging.AddConsole();
+             logging.AddDebug();
+             logging.AddEventSourceLogger();
+             logging.AddFile();
             })
+           .Build();
 
-            .Build();
-            
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -57,6 +57,11 @@ namespace CateringPro
           Host.CreateDefaultBuilder(args)
               .ConfigureWebHostDefaults(webBuilder =>
               {
+                  //webBuilder.UseKestrel(serverOptions =>
+                  // {
+                  // Set properties and call methods on options
+                  // })
+                  //webBuilder.UseIISIntegration()
                   webBuilder.UseStartup<Startup>();
               });
  

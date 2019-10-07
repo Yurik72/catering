@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CateringPro.Models.Dish>
 
 @{
-     var ModelName = "Dishes";
+    var ModelName = "Dishes";
     ViewData["Title"] = "Dishes";
 }
 
@@ -49,6 +49,7 @@
 
 @section scripts
 {
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <script type="text/javascript">
 
         $(function () {
@@ -92,29 +93,61 @@
                     $('#modDialog').modal('show');
                 });
              });
+             function readURL(input) {
+                  if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+    
+                    reader.onload = function(e) {
+                      $('#imgfilepicture').attr('src', e.target.result);
+                    }
+    
+                    reader.readAsDataURL(input.files[0]);
+                  }
+                }
+             $(document).on("change","#filepicture",function() {
+                  readURL(this);
+              });
               $(document).on('click', '[data-save="modal"]', function (event) {
                     event.preventDefault();
 
                     var form = $(this).parents('.modal-body').find('form');
                     var actionUrl = form.attr('action');
-                    var dataToSend = form.serialize();
+                    //var dataToSend = form.serialize();
+                    // var formData = new FormData(form[0]);
+                   var formdata = false;
+                    if (window.FormData){
+                        formdata = new FormData(form[0]);
+                    }
 
-                  $.post(actionUrl, dataToSend).done(function (data) {
-                      var isValid = false;
+                  var formAction = form.attr('action');
 
-                      if (data && data.res && data.res== "OK")
-                                isValid = true;
+                  
+                    $.ajax({
+                        url         : formAction,
+                        data        : formdata ? formdata : form.serialize(),
+                        cache       : false,
+                        contentType : false,
+                        processData : false,
+                        type        : 'POST',
+                        success     : function(data, textStatus, jqXHR){
+                            var isValid = false;
 
-                      if (isValid) {
-                          $('#modDialog').modal('hide');
-                          $('#dialogContent').empty();
-                          reload();
-                      }
-                      else {
-                          var newBody = $('.modal-body', data);
-                          $(document).find('.modal-body').replaceWith(newBody);
-                      }
+                          if (data && data.res && data.res== "OK")
+                                    isValid = true;
+
+                                  if (isValid) {
+                                      $('#modDialog').modal('hide');
+                                      $('#dialogContent').empty();
+                                      reload();
+                                  }
+                                  else {
+                                      var newBody = $('.modal-body', data);
+                                      $(document).find('.modal-body').replaceWith(newBody);
+                                  }
+                            }
                     });
+
+                 
                 });
         })
     </script>

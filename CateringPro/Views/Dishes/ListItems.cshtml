@@ -13,6 +13,9 @@
     <thead>
         <tr class="bg-secondary text-white rounded border">
             <th>
+                
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -27,25 +30,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
+        <tr>
+            <td>
+                <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:80px;height:80px;"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
 
 
 
-                    <a asp-action="Delete" asp-route-id="@item.Id"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    @Html.ActionLink("", "EditModal",
-                                 new { id = item.Id }, new { @class = "dishitem fa fa-pencil-square-o" })
-                </td>
-            </tr>
+                <a asp-action="Delete" asp-route-id="@item.Id"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                @Html.ActionLink("", "EditModal",
+                             new { id = item.Id }, new { @class = "dishitem fa fa-pencil-square-o" })
+            </td>
+        </tr>
         }
     </tbody>
     <tfoot>

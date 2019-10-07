@@ -62,9 +62,9 @@ namespace CateringPro
             //services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
 
 
-            //services.AddMemoryCache();
-            services.AddDistributedMemoryCache();
-
+            services.AddMemoryCache();
+            // services.AddDistributedMemoryCache();
+           
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
@@ -126,13 +126,14 @@ namespace CateringPro
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseAuthorization();
+
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            // app.UseAuthorization();
-            app.UseAuthentication();
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

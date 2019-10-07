@@ -33,9 +33,10 @@ namespace CateringPro.Repositories
                             from dish in _context.Dishes
                             where  dish.CompanyId == companyid
                             //join cat in _context.Categories on dish.CategoriesId equals cat.Id
-                            join dd in (from subday in _context.DayDish where subday.Date == daydate && subday.CompanyId == companyid select subday ) on dish.Id equals dd.DishId into proto
-                            from dayd in proto.DefaultIfEmpty()
-                            select new { DishId = dish.Id, CategoryID = dish.CategoriesId, DishName = dish.Name, Date = daydate, Enabled = proto.Count() > 0/*dayd != null*/ }
+                            join dd in (from subday in _context.DayDish where subday.Date == daydate && subday.CompanyId == companyid select subday ) on dish.Id equals dd.DishId into Details
+                            from dayd in Details.DefaultIfEmpty()
+                            select new { DishId = dish.Id, CategoryID = dish.CategoriesId, DishName = dish.Name, Date = daydate, 
+                                Enabled = Details.Count() > 0/*dayd != null*/ }
                         )
                         group entry by entry.CategoryID into catgroup
                         join cat in _context.Categories on new { id = catgroup.Key, cid = companyid } equals new { id = cat.Id, cid = cat.CompanyId }
