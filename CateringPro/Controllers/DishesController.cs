@@ -37,11 +37,16 @@ namespace CateringPro.Controllers
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)
         {
+            ViewData["QueryModel"] = querymodel;
             var query = (IQueryable<Dish>)_context.Dishes;
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
                
+            }
+            if (!string.IsNullOrEmpty(querymodel.SortField))
+            {
+                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
             }
             if (querymodel.Page > 0)
             {

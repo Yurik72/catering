@@ -13,7 +13,7 @@
 }
 
 
-<h2>Please select and order </h2>
+<h2>My Orders</h2>
 
 <div class="container">
     <div class="row justify-content-md-center">
@@ -60,7 +60,7 @@
                 </div>
 
             </div>
-            <div class="row justify-content-md-center">
+            <div class="row">
                 <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion" data-daydate="@current">
 
                     @await Component.InvokeAsync("CustomerOrdersComponent", current)

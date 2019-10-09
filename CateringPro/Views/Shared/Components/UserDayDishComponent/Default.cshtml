@@ -27,16 +27,18 @@
                         @foreach (var item in itemcategory.UserDayDishes)
                         {
                             <div class="row row-daydish" data-form="userdaydish">
-                                <div class="col col-md-2">
-
-                                </div>
                                 <div class="col col-md-1">
 
-                                    @Html.HiddenFor(modelItem => item.DishId, new { datafield = "DishID" })
-                                    @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
+                                </div>
+                                <div class="col col-md-2">
+                                    <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:30px;height:30px;" />
+
 
                                 </div>
                                 <div class="col col-lg-4 col-md-4">
+
+                                    @Html.HiddenFor(modelItem => item.DishId, new { datafield = "DishID" })
+                                    @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
                                     @Html.DisplayFor(modelItem => item.DishName)
                                 </div>
                                 <div class="col col-lg-4 col-md-4">

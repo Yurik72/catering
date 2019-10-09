@@ -14,7 +14,7 @@ using CateringPro.Repositories;
 using CateringPro.Data;
 using CateringPro.Core;
 using CateringPro.ViewModels;
-
+using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
@@ -24,13 +24,16 @@ namespace CateringPro.Controllers
         private readonly AppDbContext _context;
         private readonly ICategoryRepository _categoryRepo;
         private readonly ILogger<CompanyUser> _logger;
-        private int pageRecords;
-        public CategoriesController(AppDbContext context, ICategoryRepository categoryRepo, ILogger<CompanyUser> logger)
+        private IConfiguration _configuration;
+        private int pageRecords = 20;
+        public CategoriesController(AppDbContext context, ICategoryRepository categoryRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
         {
             _context = context;
             _categoryRepo = categoryRepo;
             _logger = logger;
-           
+            _configuration = Configuration;
+            int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
+
         }
 
         // GET: Categories
@@ -56,7 +59,10 @@ namespace CateringPro.Controllers
             {
                 query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
             }
-            
+            if (querymodel.Page > 0)
+            {
+                query = query.Skip(pageRecords * querymodel.Page);
+            }
             return PartialView(await query.ToListAsync());
 
         }

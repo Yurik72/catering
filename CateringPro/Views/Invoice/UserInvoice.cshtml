@@ -1,0 +1,81 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model CateringPro.Models.CustomerOrdersViewModel
+
+<html>
+<head>
+    <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="~/img/logo.png" style="width:100%; max-width:300px;" />
+                            </td>
+                            <td>
+                                Invoice #: @Model.Date
+                                <br> Created: @Model.Date.ToShortDateString()
+                                <br> Due:  @Model.Date.AddDays(20).ToShortDateString()
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="information ">
+                <td colspan="2 ">
+                    <table>
+                        <tr>
+                            <td>
+                                @Model.UserName<br>
+
+                        </td>
+                        <td>
+                        </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="heading ">
+        <td>
+            Item
+        </td>
+        <td>
+            Price
+        </td>
+    </tr>
+
+    @foreach (var item in Model.Details)
+    {
+        <tr class="item">
+            <td>
+                @item.DishName
+            </td>
+            <td>
+                $ @item.Quantity
+            </td>
+            <td>
+                $ @item.Price
+            </td>
+            <td>
+                $ @item.Amount
+            </td>
+        </tr>
+    }
+
+    <tr class="total ">
+        <td></td>
+        <td>
+            Total: @Model.Details.Sum(i => i.Amount)
+        </td>
+    </tr>
+</table>
+</div>
+</body>
+</html>

@@ -14,6 +14,7 @@ namespace CateringPro.Repositories
         DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
 
         IQueryable<CustomerOrdersViewModel> CustomerOrders(DateTime daydate, int companyid);
+        CustomerOrdersViewModel CustomerOrders(string UserId, DateTime daydate, int companyid);
     }
 }
 

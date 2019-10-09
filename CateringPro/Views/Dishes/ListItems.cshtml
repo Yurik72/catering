@@ -11,18 +11,18 @@
 }
 <table class="table">
     <thead>
-        <tr class="bg-secondary text-white rounded border">
+        <tr class="bg-white text-secondary">
             <th>
                 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Price, querymodel)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
             </th>
             <th></th>
         </tr>
@@ -32,7 +32,7 @@
         {
         <tr>
             <td>
-                <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:80px;height:80px;"/>
+                <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=80,height=80})" style="width:80px;height:80px;"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -47,16 +47,16 @@
 
 
 
-                <a asp-action="Delete" asp-route-id="@item.Id"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
                 @Html.ActionLink("", "EditModal",
-                             new { id = item.Id }, new { @class = "dishitem fa fa-pencil-square-o" })
+                             new { id = item.Id }, new { @class = "dishitem dialog-edit-icon fa fa-pencil-square-o" })
             </td>
         </tr>
         }
     </tbody>
     <tfoot>
-        <tr class="bg-secondary text-white rounded border">
-            <td colspan="3">
+        <tr class="bg-white text-success rounded border">
+            <td colspan="5">
                 @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
             </td>
         </tr>

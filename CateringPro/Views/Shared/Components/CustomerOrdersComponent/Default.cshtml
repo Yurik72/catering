@@ -29,8 +29,22 @@
             {
                 @foreach (var it in Model)
                 {
-                    <div class="row row-daydish-category row justify-content-md-center">
+                    <div class="row">
                         <div class="container">
+                            <div class="row border border-info">
+                                <div class="col col-lg-2 col-md-2">
+                                    <span> Who</span>
+                                </div>
+                                <div class="col col-lg-2 col-md-2">
+                                    <span>Number</span>
+                                </div>
+                                <div class="col col-lg-2 col-md-2">
+                                    <span>Amount</span>
+                                </div>
+                                <div class="col col-lg-2 col-md-2">
+                                    <span>Details</span>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col col-lg-2 col-md-2">
                                     @Html.DisplayFor(modelItem => it.UserName)
@@ -41,11 +55,16 @@
                                 <div class="col col-lg-2 col-md-2">
                                     @Html.DisplayFor(modelItem => it.Amount)
                                 </div>
+                                <div class="col col-lg-2 col-md-2">
+                                    @Html.ActionLink("", "Invoice","Invoice",
+                                            new { daydate=it.Date,userid=it.UserId }, new {@target="_blank", @class = "dishitem fa fa-pencil-square-o" })
+                                    
+                                </div>
                             </div>
 
 
-                        </div>
-                        </div>
+                                </div>
+                    </div>
                 }
             }
             <div class="row dayfoot">

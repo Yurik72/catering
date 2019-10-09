@@ -7,7 +7,7 @@ html, body {
   padding:0px;
   margin:0px;
   border:0px;
-  height:100%;   
+  
   position:relative;
   
   min-height:100%;
@@ -38,7 +38,7 @@ body {
     padding-bottom: 20px;
    /* background-image: url('../images/catering-background.jpg');*/
     background-repeat: repeat;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
 }
 .footer-bottom {
     padding: 15px 0 5px;
@@ -51,10 +51,9 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    background-color: #f2f6f9;
     margin-top: 20px;
-    
-    min-height:90%;
+    min-height: 90%;
+    box-shadow: 10px 10px 5px grey;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -82,21 +81,7 @@ textarea {
         display: none;
     }
 }
-/*
-.navbar-nav > li {
-    float: none !important;
-}
 
-.navbar-header {
-    float: none !important;
-}
-
-.navbar-fixed {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-}
-*/
 @media (min-width: 768px) {
     /*
     .navbar {
@@ -200,52 +185,8 @@ textarea {
 footer {
     margin: 25px 0;
 }
-.table-footer{
-    background-color:darkgray;
-    min-height:20px;
-}
-/*
-.navbar {
-    background-image: none;
-}
 
-.navbar-header > a {
-    font-size: 1.35em;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    color: white;
-}
 
-.navbar-header:hover > a {
-    color: #bcedff;
-}
-
-.navbar-inverse {
-    background-color: #204ac9;
-    border-color: #003d66;
-}
-
-.nav.navbar-nav.navbar-right li a {
-    color: white;
-    font-size: 1.2em;
-}
-
-.navbar .nav > li > a {
-    font-size: 1.2em;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    color: white;
-}
-
-.navbar .nav > li > a:hover {
-    font-size: 1.2em;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    color: #bcedff;
-}
-
-.slide-image {
-    min-height: 600px;
-    max-height: 600px;
-}
-*/
 #carousel-example-generic {
     max-width: 800px;
     min-width: 600px;
@@ -331,7 +272,12 @@ footer {
     background-color: #FFFFFF;
     color:#5a5a5a;
 }
+.row-daydish-header{
 
+    border-bottom:solid;
+    border-bottom-color:#00FF00;
+    border-bottom-width:1px;
+}
 
 .row-daydish > .col {
     margin-top: 3px;
@@ -454,4 +400,22 @@ footer {
 }
 .create {
     cursor: pointer;
+}
+
+/*  Dialog styles*/
+a.ahead {
+    color: #28a745 !important;
+}
+a.dialog-edit-icon, a.apagebottom {
+    color: #28a745 !important;
+}
+.table-foot-pager{
+    float:right;
+}
+.table-footer {
+
+    min-height: 20px;
+}
+.table-content {
+    box-shadow: 10px 10px 5px grey;
 }

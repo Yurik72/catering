@@ -27,13 +27,13 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-            <div id="table-content">
+            <div id="table-content" class="table-content">
 
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-12 col-lg-12  table-footer">
+        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
             <div id="create-btn" class="col-lg-3 col-md-3 create">
                 <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
 
@@ -45,7 +45,7 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 
-</div>
+
 
 @section scripts
 {
@@ -54,8 +54,13 @@
 
         $(function () {
 
-            var reload = function () {
-                 $('#table-content').load('/Dishes/ListItems?searchcriteria='+$('#search-val').val());
+            var reload = function (href) {
+                 if (!href)
+                    href = '/Dishes/ListItems?';
+                else
+                    href += "&";
+                $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+                
             }
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
@@ -76,6 +81,10 @@
                     $('#dialogContent').html(data);
                     $('#modDialog').modal('show');
                 });
+            });
+            $(document).on("click", "a.ahead", function (e) {
+                e.preventDefault();
+                reload(this.href);
             });
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();

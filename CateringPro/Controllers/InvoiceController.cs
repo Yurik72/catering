@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 using jsreport.AspNetCore;
 using jsreport.Types;
 using System.Threading.Tasks;
 using CateringPro.Models;
+using CateringPro.Repositories;
+using CateringPro.Core;
 
 namespace CateringPro.Controllers
 {
     public class InvoiceController : Controller
     {
         public IJsReportMVCService JsReportMVCService { get; }
-
-        public InvoiceController(IJsReportMVCService jsReportMVCService)
+        private readonly IUserDayDishesRepository _userdishes;
+        public InvoiceController(IJsReportMVCService jsReportMVCService, IUserDayDishesRepository ud)
         {
             JsReportMVCService = jsReportMVCService;
+            _userdishes = ud;
         }
 
         public IActionResult Index()
@@ -27,6 +31,13 @@ namespace CateringPro.Controllers
             HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
 
             return View(InvoiceModel.Example());
+        }
+        [MiddlewareFilter(typeof(JsReportPipeline))]
+        public IActionResult UserInvoice(DateTime daydate,string userid)
+        {
+            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+
+            return View(_userdishes.CustomerOrders(userid,daydate,  User.GetCompanyID()));
         }
 
         [MiddlewareFilter(typeof(JsReportPipeline))]
