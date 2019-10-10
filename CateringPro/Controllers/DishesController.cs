@@ -38,7 +38,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)
         {
             ViewData["QueryModel"] = querymodel;
-            var query = (IQueryable<Dish>)_context.Dishes;
+            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.Category); ;
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
@@ -202,6 +202,8 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+            _context.Entry(dish).Collection(d => d.DishIngredients).Query().Include(d=>d.Ingredient).Load();
+
             ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", dish.CategoriesId);
             return PartialView(dish);
         }

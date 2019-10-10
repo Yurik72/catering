@@ -94,14 +94,7 @@
                     $('#modDialog').modal('show');
                 });
             });
-             $(document).on( "click", "a.dishitem", function(e) {
-               e.preventDefault();
 
-                $.get(this.href, function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modDialog').modal('show');
-                });
-             });
              function readURL(input) {
                   if (input.files && input.files[0]) {
                     var reader = new FileReader();

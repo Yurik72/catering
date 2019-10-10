@@ -18,15 +18,41 @@ namespace CateringPro.Core
                 order = "ASC";
             Type type = typeof(T);
             ParameterExpression arg = Expression.Parameter(type, "x");
+            string[] nestedProps = propertyName.Split('.');
+            Expression expr=null;
 
-            PropertyInfo pi = type.GetProperty(propertyName);
-            if (pi == null)
-                return source;
-            Expression expr = Expression.Property(arg, pi);
+            PropertyInfo propinfo = null;
+
+            if (nestedProps.Count() > 1) //nested
+            {
+                Expression mbr = arg;
+                Type typeofparent = null;
+                for (int i = 0; i < nestedProps.Length; i++)
+                {
+                    typeofparent = mbr.Type;
+                    mbr = Expression.PropertyOrField(mbr, nestedProps[i]);
+                    
+                }
+                //LambdaExpression pred = Expression.Lambda(
+                //               Expression.Equal(mbr, Expression.Constant(value)), arg);
+                expr = mbr;
+                propinfo= typeofparent.GetProperty(nestedProps[nestedProps.Length-1]);
+                if (propinfo == null)
+                    return source;
+            }
+            else
+            {
+                propinfo = type.GetProperty(propertyName);
+                if (propinfo == null)
+                    return source;
+                expr = Expression.Property(arg, propinfo);
+            }
+          
+            
             var lambda = Expression.Lambda(expr, arg);
             MethodCallExpression resultExp = Expression.Call(typeof(Queryable), 
                 order.ToUpper()=="DESC"?"OrderByDescending": "OrderBy", 
-                new Type[] { type, pi.PropertyType }, 
+                new Type[] { type, propinfo.PropertyType }, 
                 source.Expression,Expression.Quote(lambda));
             return source.Provider.CreateQuery<T>(resultExp);
             

@@ -3,6 +3,7 @@
 @{
     QueryModel querymodel = Model;
     string fieldname = ViewData["field"].ToString();
+    string displayname = ViewData["displayname"].ToString();
     if (querymodel == null)
     {
         querymodel = new QueryModel();
@@ -25,5 +26,5 @@
 
 <a class="ahead" asp-action="ListItems" asp-route-sortfield=@fieldname asp-route-sortorder="@get_sort_dir(fieldname)">
     <span class="@get_span_class(fieldname)"></span>
-    @fieldname
+    @displayname
 </a>

@@ -14,12 +14,13 @@ namespace CateringPro.Components
 {
     public class TableColumn: ViewComponent
     {
-        public  async Task<IViewComponentResult> InvokeAsync(string field,QueryModel queryModel)
+        public  async Task<IViewComponentResult> InvokeAsync(string field,string displayname,QueryModel queryModel)
         {
 
             //  daydate = DateTime.Now;
             ViewData["field"] = field;
-          return await Task.FromResult((IViewComponentResult)View("Default", queryModel));
+            ViewData["displayname"] = string.IsNullOrEmpty(displayname)?field:displayname;
+            return await Task.FromResult((IViewComponentResult)View("Default", queryModel));
         }
     }
 }

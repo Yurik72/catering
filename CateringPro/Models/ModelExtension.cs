@@ -35,5 +35,9 @@ namespace CateringPro.Models
         {
             return  source.Where(u=>u.UserId =="");  //to do
         }
+        public static IQueryable<TEntity> WhereCompany<TEntity>(this IQueryable<TEntity> source,int companyId) where TEntity : CompanyData
+        {
+            return source.Where(u => u.CompanyId == companyId);  //to do
+        }
     }
 }

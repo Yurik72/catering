@@ -35,6 +35,8 @@ namespace CateringPro.Models
 
         [DisplayName("Category")]
         public int CategoriesId { get; set; }
+
+        [DisplayName("Category")]
         public virtual Categories Category { get; set; }
 
       
@@ -43,5 +45,7 @@ namespace CateringPro.Models
 
         public virtual ICollection<DayDish> DayDishes { get; set; }
         public virtual ICollection<UserDayDish> UserDayDishes { get; set; }
+
+        public virtual ICollection<DishIngredients> DishIngredients { get; set; }
     }
 }

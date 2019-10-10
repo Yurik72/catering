@@ -8,99 +8,44 @@
 }
 @* bootstrap0 grid system *@
 
-    <div class="well well-lg" data-form="userday">
-        <div class="container">
-            <div class="row justify-content-md-center">
 
-            </div>
-            @foreach (var itemcategory in Model)
-            {
-                <div class="row row-daydish-category row justify-content-md-center">
-                    <div class="container">
-                        <div class="row">
-                        <div class="col col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
-                            @Html.DisplayFor(modelItem => itemcategory.CategoryName)
-                        </div>
-                        </div>
+@foreach (var itemcategory in Model)
+{
+    <div class="container daydish-category-content border rounded">
 
-
-                        @foreach (var item in itemcategory.UserDayDishes)
-                        {
-                            <div class="row row-daydish" data-form="userdaydish">
-                                <div class="col col-md-1">
-
-                                </div>
-                                <div class="col col-md-2">
-                                    <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:30px;height:30px;" />
-
-
-                                </div>
-                                <div class="col col-lg-4 col-md-4">
-
-                                    @Html.HiddenFor(modelItem => item.DishId, new { datafield = "DishID" })
-                                    @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
-                                    @Html.DisplayFor(modelItem => item.DishName)
-                                </div>
-                                <div class="col col-lg-4 col-md-4">
-                                    @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" ,@class="numberspinner"} })
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    </div>
-            }
-            <div class="row dayfoot">
-            </div>
             <div class="row">
-                <div class="col col-lg-4 col-md-4">
-                    <button type="button" button class="btn btn-primary" data-action="saveuserday">Save</button>
+            <div class="col col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+                @Html.DisplayFor(modelItem => itemcategory.CategoryName)
+            </div>
+            </div>
+
+
+            @foreach (var item in itemcategory.UserDayDishes)
+            {
+                <div class="row row-daydish" data-form="userdaydish">
+                    <div class="col col-md-1">
+
+                    </div>
+                    <div class="col col-md-2">
+                        <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:30px;height:30px;" />
+
+
+                    </div>
+                    <div class="col col-lg-4 col-md-4">
+
+                        @Html.HiddenFor(modelItem => item.DishId, new { datafield = "DishID" })
+                        @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
+                        @Html.DisplayFor(modelItem => item.DishName)
+                    </div>
+                    <div class="col col-lg-4 col-md-4">
+                        @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" ,@class="numberspinner"} })
+                    </div>
                 </div>
-            </div>
-            <div class="row dayfoot">
-            </div>
+            }
         </div>
-    </div>
-    @* table approach
-        <table class="table" id="tabledayedit">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Enabled)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DishName)
-                    </th>
 
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <div class="checkbox">
+}
 
-                                @if (item.Enabled)
-                                {
-                                    <input type="checkbox" checked="checked" cp-name="dayselect" />
-                                }
-                                else
-                                {
-                                    <input type="checkbox" cp-name="dayselect" />
-                                }
-                                @Html.HiddenFor(modelItem => item.DishId)
-                                @Html.HiddenFor(modelItem => item.Date)
-                            </div>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DishName)
-                        </td>
 
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-    *@
+ 
 

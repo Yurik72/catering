@@ -46,8 +46,8 @@ namespace CateringPro.Controllers
         {
             //QueryModel querymodel=new QueryModel() { }
             ViewData["QueryModel"] = querymodel;
-            
-            var query=(IQueryable<Categories>) _context.Categories;
+
+            var query = (IQueryable<Categories>)_context.Categories.WhereCompany(User.GetCompanyID());
             
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {

@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CateringPro.Models
 {
-    public class Ingredients
+    public class Ingredients: CompanyDataOwnId
     {
         public Ingredients()
         {
             PizzaIngredients = new HashSet<PizzaIngredients>();
         }
 
-        public int Id { get; set; }
+       // public int Id { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
         [RegularExpression("([a-zA-Z0-9 .&'-]+)", ErrorMessage = "The field Name should only include letters and number.")]

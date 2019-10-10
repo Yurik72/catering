@@ -20,7 +20,7 @@
             <span ><i class="fa fa-angle-double-left"></i></span>
 
         </div>
-        <div class="col-lg-4 col-md-4 ">
+        <div class="col-lg-4 col-md-4 dayselector ">
             <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
             <div id="weekselector">
 
@@ -44,13 +44,13 @@
 }
         @for (int i = 0; i < 7; i++)
         {
-            <a class="nav-item nav-link@(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false"> @dtfi.GetDayName((DayOfWeek)i)</a>
+            <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false"> @dtfi.GetDayName((DayOfWeek)i)</a>
 
-            current_head.AddDays(1);
+          current_head=  current_head.AddDays(1);
         }
     </div>
 </nav>
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content day-content" id="nav-tabContent">
      @{
         DateTime current_content = daydate.StartOfWeek(DayOfWeek.Sunday);
     }
@@ -60,11 +60,11 @@
             @await Component.InvokeAsync("DayDishComponent", current_content)
         </div>
 
-        current_content.AddDays(1);
+       current_content= current_content.AddDays(1);
     }
 </div>
 
-
+@*
 <div id="accordion">
     @{
         DateTime current = daydate.StartOfWeek(DayOfWeek.Sunday);
@@ -94,30 +94,13 @@
 
                 </div>
             </div>
-            @*
-                <div class="card">
-                    <div class="card-header" id=@("heading" + i)>
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded=@(i == 0 ? "true" : "false") aria-controls=@("collapse" + i)>
-                                @dtfi.GetDayName((DayOfWeek)i)
 
-                            </button>
-                        </h5>
-                    </div>
-
-                    <div id=@("collapse" + i) class="collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion">
-                        <div class="card-body">
-                            @await Component.InvokeAsync("DayDishComponent", current)
-                        </div>
-                    </div>
-                </div>
-            *@
 
         </div>
         current = current.AddDays(1);
     }
 </div>
-
+*@
 <script type="text/javascript" src="~/js/dishdayedit.js" defer></script>
 @section Scripts {
 

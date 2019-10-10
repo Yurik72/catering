@@ -31,6 +31,8 @@ namespace CateringPro.Data
         public DbSet<DishCategory> DishCategory { get; set; }
 
         public DbSet<DayDish> DayDish { get; set; }
+
+        public DbSet<DishIngredients> DishIngredients { get; set; }
         public DbSet<UserWeekBasket> UserWeekBasket { get; set; }
 
         public DbSet< UserDayDish> UserDayDish { get; set; }
@@ -68,7 +70,10 @@ namespace CateringPro.Data
                 .HasForeignKey(bc => bc.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-             modelBuilder.Entity<Dish>()
+            modelBuilder.Entity<DishIngredients>()
+               .HasKey(bc => new { bc.DishId, bc.IngredientId });
+
+            modelBuilder.Entity<Dish>()
                  .HasOne(c => c.Category)
                  .WithMany(a => a.Dishes)
                  .IsRequired()

@@ -63,6 +63,30 @@ dd textarea{
                         @Html.EditorFor(model => model.Description, new { @class = "form-control" })
                     </dd>
                     <dt>
+                        <label asp-for="DishIngredients" class="control-label col-md-2"></label>
+                    </dt>
+                    <dd>
+                        <div class = "form-control" style="float:left;">
+                            <div class="container">
+                                @foreach (var ing in Model.DishIngredients)
+                                {
+                                    <div class="row">
+                                        <span>@ing.Ingredient.Name</span>
+                                    </div>
+                                }
+                            <div class="row">
+                                <div class="col-2">
+                                    <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+                                </div>
+                                <div class="col-2">
+                                    <span class="fa fa-minus fa-2x" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                       
+                    </dd>
+                    <dt>
                         <label asp-for="PictureId" class="control-label col-md-2"></label>
                     </dt>
                     <dd>    <input type="hidden" asp-for="PictureId" />

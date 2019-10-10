@@ -9,7 +9,7 @@ html, body {
   border:0px;
   
   position:relative;
-  
+  height:1px;
   min-height:100%;
 }
 main {
@@ -418,4 +418,27 @@ a.dialog-edit-icon, a.apagebottom {
 }
 .table-content {
     box-shadow: 10px 10px 5px grey;
+}
+
+/* Menus and days*/
+.daydish-category-content {
+    margin-top: 10px;
+    box-shadow: 10px 10px 5px grey;
+}
+.nav-day {
+    color: #28a745 !important;
+}
+.nav-tabs .nav-day.active {
+    color: #ffffff !important;
+    background-color: #28a745;
+}
+.dayselector {
+    cursor: pointer;
+    color: #28a745 !important;
+    font-size:large;
+    font-weight:bolder;
+}
+.day-content{
+    margin-top:5px;
+    margin-bottom:10px;
 }
