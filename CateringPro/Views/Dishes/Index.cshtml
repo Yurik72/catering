@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<CateringPro.Models.Dish>
 
+
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
 @{
-    var ModelName = "Dishes";
+    var ModelName = Localizer["Dishes"];
+
     ViewData["Title"] = "Dishes";
 }
 
@@ -15,7 +19,7 @@
         <div class="col-md-6 right">
             <div id="custom-search-input">
                 <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="Categories" />
+                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@ModelName" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" id="search-btn" type="button">
                             <span class="fa fa-search" aria-hidden="true"></span>
@@ -41,6 +45,7 @@
         </div>
     </div>
 </div>
+
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
@@ -60,8 +65,9 @@
                 else
                     href += "&";
                 $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
-                
+               
             }
+
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
             reload();
@@ -86,23 +92,51 @@
                 e.preventDefault();
                 reload(this.href);
             });
+
+            $(document).on("change", "select.col-select-filter", function (e) {
+                e.preventDefault();
+                var href = $(this).next().attr('href');
+
+                if (href.includes("?")) {
+                    href += "&relationfilter=" + $(this).val();
+                }
+                else {
+                     href += "?relationfilter=" + $(this).val();
+                }
+
+                reload(href);
+            });
+
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);
+                    //console.log(data);
+
                     $('#modDialog').modal('show');
+                    loadingredients($('#dialogContent').find("#Id").val());
+
+                   
+                   // $('#dialogContent').find("#nav-tab").tab();
                 });
             });
+            function loadingredients(id) {
+                var url = '@Url.Content("~/Dishes/EditIngredients/")' + id;
 
+                $.get(url, function (data) {
+                    $('#dialogContent').find(".ingredients-content").html(data);
+                     $('#dialogContent').find(".select-ingredients").bootstrapDualListbox();
+                });
+            }
              function readURL(input) {
                   if (input.files && input.files[0]) {
                     var reader = new FileReader();
-    
+
                     reader.onload = function(e) {
                       $('#imgfilepicture').attr('src', e.target.result);
                     }
-    
+
                     reader.readAsDataURL(input.files[0]);
                   }
                 }
@@ -123,7 +157,7 @@
 
                   var formAction = form.attr('action');
 
-                  
+
                     $.ajax({
                         url         : formAction,
                         data        : formdata ? formdata : form.serialize(),
@@ -149,7 +183,7 @@
                             }
                     });
 
-                 
+
                 });
         })
     </script>

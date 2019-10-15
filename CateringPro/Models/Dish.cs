@@ -21,22 +21,25 @@ namespace CateringPro.Models
      //   [RegularExpression("([a-zA-Z0-9 .&'-]+)", ErrorMessage = "The field Name should only include letters and number.")]
         [DataType(DataType.Text)]
         [Required]
+        [DisplayName("Dish Name")]
         public string Name { get; set; }
 
         [Range(0, 1000)]
         [DataType(DataType.Currency)]
         [Required]
+        [DisplayName("Dish Price")]
         public decimal Price { get; set; }
 
         [StringLength(255, MinimumLength = 2)]
         [DataType(DataType.MultilineText)]
         [Required]
+        [DisplayName("Dish Description")]
         public string Description { get; set; }
 
-        [DisplayName("Category")]
+        [DisplayName("Dish Category")]
         public int CategoriesId { get; set; }
 
-        [DisplayName("Category")]
+        [DisplayName("Dish Category")]
         public virtual Categories Category { get; set; }
 
       

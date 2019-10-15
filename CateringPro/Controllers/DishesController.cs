@@ -20,25 +20,33 @@ namespace CateringPro.Controllers
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
+        private readonly IDishesRepository _dishesRepo;
         private int pageRecords = 20;
 
-        public DishesController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public DishesController(AppDbContext context, IDishesRepository dishesRepo,ILogger<CompanyUser> logger, IConfiguration Configuration)
         {
             _context = context;
             _logger = logger;
             _configuration = Configuration;
+            _dishesRepo = dishesRepo;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
         // GET: Dishes
         public async Task<IActionResult> Index()
         {
+          
             return View(await _context.Dishes.ToListAsync());
         }
-        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)
+        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")]  QueryModel querymodel)
         {
             ViewData["QueryModel"] = querymodel;
-            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.Category); ;
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", querymodel.RelationFilter);
+            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.Category);
+            if (querymodel.RelationFilter > 0)
+            {
+                query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);
+            }
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
@@ -161,7 +169,7 @@ namespace CateringPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
        
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Dish dish)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId")] Dish dish, List<string> IngredientsIds)
         {
             if (id != dish.Id)
             {
@@ -183,10 +191,15 @@ namespace CateringPro.Controllers
                     pict.PictureData = imgdata;
                 }
                 _context.Add(pict);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 dish.PictureId = pict.Id;
             }
-            return await this.UpdateCompanyDataAsync(dish, _context, _logger);
+
+            ///not work
+           // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
+            var res=await this.UpdateCompanyDataAsync(dish, _context, _logger);
+            await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds);
+            return res;
         }
 
 
@@ -206,6 +219,20 @@ namespace CateringPro.Controllers
 
             ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", dish.CategoriesId);
             return PartialView(dish);
+        }
+
+        public async Task<IActionResult> EditIngredients(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            DishIngredientsViewModel ing = new DishIngredientsViewModel();
+            ing.IngredientsIds = await _context.DishIngredients.Where(d => d.DishId == id).Select(d => d.IngredientId.ToString()).ToListAsync();
+            ing.Ingredients= new MultiSelectList(await  _context.Ingredients.OrderBy(di => di.Name)
+                .Select(di=>new {Value=di.Id,Text=di.Name }).ToListAsync(), "Value", "Text");
+            return PartialView(ing);
         }
         public IActionResult CreateModal()
         {

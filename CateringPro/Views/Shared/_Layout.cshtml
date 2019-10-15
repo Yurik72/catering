@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<CompanyUser> SignInManager
-
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,17 +18,21 @@
         <link rel="stylesheet" href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
         @* <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
         *@
+        <link rel="stylesheet" href="~/css/bootstrap-duallistbox.css" />
+
+     
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
 
     <environment names="Development">
+
         <script src="~/js/jquery.min.js"></script>
 
+
         <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/jquery.bootstrap-duallistbox.js"></script>
 
-
-
-
+    
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
@@ -99,13 +103,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
-                    <li><a class="nav-link" asp-controller="UserDayDishes" asp-action="Index">My Week</a></li>
+                    <li><a class="nav-link" asp-controller="UserDayDishes" asp-action="Index">@Localizer["MenuUserOrder"]</a></li>
 
-                </ul>
+</ul>
                 @await Html.PartialAsync("_LoginPartial")
                 <form class="form-inline mt-2 mt-md-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">@Localizer["MenuSearch"]</button>
                 </form>
             </div>
         </nav>
@@ -123,37 +127,37 @@
     }
     else
     {
-    <main role="main">
-        <div id="wrap">
-            <div id="maincontent" class="container body-content border rounded">
-                @RenderBody()
+        <main role="main">
+            <div id="wrap">
+                <div id="maincontent" class="container body-content border rounded">
+                    @RenderBody()
+                </div>
+                @await Html.PartialAsync("_Footer")
             </div>
-            @await Html.PartialAsync("_Footer")
-        </div>
-    </main>
-        }
+        </main>
+    }
 
 
 
-        <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery"
-                    crossorigin="anonymous"
-                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    </environment>
 
-        @await Html.PartialAsync("_LoginPartialModal")
-        @RenderSection("Scripts", required: false)
+    @await Html.PartialAsync("_LoginPartialModal")
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
 

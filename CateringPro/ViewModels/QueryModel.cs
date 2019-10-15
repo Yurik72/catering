@@ -11,5 +11,7 @@ namespace CateringPro.ViewModels
         public string SortOrder { get; set; }
         public int Page { get; set; }
         public string SearchCriteria { get; set; }
+
+        public int RelationFilter { get; set; }
     }
 }

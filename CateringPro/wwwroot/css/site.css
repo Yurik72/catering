@@ -405,6 +405,7 @@ footer {
 /*  Dialog styles*/
 a.ahead {
     color: #28a745 !important;
+    float: left;
 }
 a.dialog-edit-icon, a.apagebottom {
     color: #28a745 !important;
@@ -420,6 +421,21 @@ a.dialog-edit-icon, a.apagebottom {
     box-shadow: 10px 10px 5px grey;
 }
 
+
+.col-select-filter {
+    border: none !important;
+    color: #28a745 !important;
+    height:100% !important;
+}
+
+.col-select-filter-wrap {
+    float: left;
+    position: relative;
+    width: 80%;
+}
+.table.listitems th{
+    padding:0px;
+}
 /* Menus and days*/
 .daydish-category-content {
     margin-top: 10px;

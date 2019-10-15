@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity.EntityFrameworkCore
 
 @inject SignInManager<CompanyUser> SignInManager
-
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @if (SignInManager.IsSignedIn(User))
 {
     @* <ul class="nav navbar-nav navbar-right">*@
@@ -11,26 +11,26 @@
         {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Admin Menu
+                    @Localizer["MenuAdmin"]
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">Dishes</a>
-                    <a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories</a>
-                    <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">DayDishes</a>
-                    <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">Customer orders</a>
+                    <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">@Localizer["MenuDishes"]</a>
+                    <a class="dropdown-item" asp-controller="Categories" asp-action="Index">@Localizer["MenuCategories"]</a>
+                    <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">@Localizer["MenuDayDishes"]</a>
+                    <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">@Localizer["MenuCustomerOrders"]</a>
                 </div>
             </li>
 
         }
         <li><a href="" class="nav-link">@User.Identity.Name</a></li>
 
-        <li><a id="logoutLink" class="nav-link" asp-controller="Account" asp-action="LogOut">Log Out</a></li>
+        <li><a id="logoutLink" class="nav-link" asp-controller="Account" asp-action="LogOut">@Localizer["MenuLogOut"]</a></li>
     </ul>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a id="registerLink" class="nav-link" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a id="loginLink" class="nav-link" asp-controller="Account" asp-action="Login">Log in</a></li>
+        <li><a id="registerLink" class="nav-link" asp-controller="Account" asp-action="Register">@Localizer["MenuRegister"]</a></li>
+        <li><a id="loginLink" class="nav-link" asp-controller="Account" asp-action="Login">@Localizer["MenuLogIn"]</a></li>
     </ul>
 }

@@ -17,13 +17,15 @@ namespace CateringPro.Repositories
         {
             entity.CompanyId = ctl.User.GetCompanyID();
         }
-        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger) where TEntity : CompanyDataOwnId
+        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger,Action<TEntity> postSaveAction=null) where TEntity : CompanyDataOwnId
         {
             if (!ctl.ModelState.IsValid)
                 return ctl.PartialView(entity);
             bool res = await ctl.UpdateDBCompanyDataAsync(entity, _context, _logger);
             if (!res)
                 return ctl.NotFound();
+            if (postSaveAction != null)
+                postSaveAction(entity);
             return ctl.Json(new { res = "OK" });
 
         }

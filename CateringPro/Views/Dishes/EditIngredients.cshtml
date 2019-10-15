@@ -1,0 +1,17 @@
+﻿@model CateringPro.Models.DishIngredientsViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+    <div class="form-group">
+        @Html.LabelFor(i => i.Ingredients, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.ListBoxFor(i =>Model.IngredientsIds, Model.Ingredients,
+                new { @class = "form-control select-ingredients" })
+            @Html.ValidationMessageFor(i => Model.Ingredients,
+                "", new { @class = "text-warning" })
+        </div>
+    </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

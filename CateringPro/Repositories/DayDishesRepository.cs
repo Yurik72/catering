@@ -5,17 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Repositories
 {
     public class DayDishesRepository : IDayDishesRepository
     {
         private readonly AppDbContext _context;
-
-        public DayDishesRepository(AppDbContext context)
+        private readonly ILogger<CompanyUser> _logger;
+        public DayDishesRepository(AppDbContext context,  ILogger<CompanyUser> logger)
         {
             _context = context;
-        }
+            _logger = logger;
+    }
 
         public IQueryable<DayDishViewModel> DishesPerDay(DateTime daydate, int companyid)
         {
@@ -107,5 +109,7 @@ namespace CateringPro.Repositories
         {
             return _context.DayDish.SingleOrDefault(dd => dd.DishId == src.DishId && dd.Date == src.Date && dd.CompanyId == src.CompanyId);
         }
+
+    
     }
 }

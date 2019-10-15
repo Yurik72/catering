@@ -13,5 +13,7 @@ namespace CateringPro.Repositories
 
         DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
         DayDish SelectSingleOrDefault(DayDish src);
+
+        
     }
 }

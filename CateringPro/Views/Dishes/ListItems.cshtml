@@ -9,14 +9,14 @@
     }
 
 }
-<table class="table">
+<table class="table listitems">
     <thead>
         <tr class="bg-white text-secondary">
             <th>
 
             </th>
             <th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Category.Name, querymodel)
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Category.Name, querymodel,(object)ViewBag.CategoriesId)
             </th>
             <th>
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)

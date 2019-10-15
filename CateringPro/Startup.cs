@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using jsreport.AspNetCore;
 using jsreport.Local;
 using jsreport.Binary;
+using Microsoft.AspNetCore.Localization;
 
 namespace CateringPro
 {
@@ -51,6 +52,7 @@ namespace CateringPro
 
             services.AddTransient<IDayDishesRepository, DayDishesRepository>();
             services.AddTransient<IUserDayDishesRepository, UserDayDishesRepository>();
+            services.AddTransient<IDishesRepository, DishesRepository>();
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -74,7 +76,12 @@ namespace CateringPro
                 options.Cookie.IsEssential = true;
              
             });
-            services.AddMvc();
+            services.AddTransient<SharedViewLocalizer>();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc()
+                .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (t, f) => f.Create(typeof(SharedResources)));
+
             services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
 
             services.Configure<IdentityOptions>(options =>
@@ -140,6 +147,13 @@ namespace CateringPro
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("ru-RU")
+
+
+            });
+
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /*

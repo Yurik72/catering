@@ -18,15 +18,15 @@ namespace CateringPro.Core
             int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
             return dt.AddDays(-1 * diff).Date;
         }
-        public static async Task<IHtmlContent> InvokeComponentAsync<TModel,TResult>(this RazorPage<IEnumerable<TModel>> source, IViewComponentHelper comphelper, string componentname,  Expression<Func<TModel, TResult>> expression, object param)
+        public static async Task<IHtmlContent> InvokeComponentAsync<TModel,TResult>(this RazorPage<IEnumerable<TModel>> source, IViewComponentHelper comphelper, string componentname,  Expression<Func<TModel, TResult>> expression, object param, object param1 = null)
         {
            // source.Component.
-            return await comphelper.InvokeAsyncEx(componentname, expression,param);
+            return await comphelper.InvokeAsyncEx(componentname, expression,param,param1);
         }
-        public static async Task<IHtmlContent> InvokeAsyncEx<TModel, TResult>(this IViewComponentHelper source,string componentname, Expression<Func<TModel, TResult>> expression, object param)
+        public static async Task<IHtmlContent> InvokeAsyncEx<TModel, TResult>(this IViewComponentHelper source,string componentname, Expression<Func<TModel, TResult>> expression, object param,object param1=null)
         {
             
-            return await source.InvokeAsync(componentname, new {field= GetPropertyName(expression),displayname= GetDisplayName(expression), queryModel=param });
+            return await source.InvokeAsync(componentname, new {field= GetPropertyName(expression),displayname= GetDisplayName(expression), queryModel=param , param=param1 });
         }
         public static string GetPropertyName<TModel, TResult>(System.Linq.Expressions.Expression<Func<TModel, TResult>> property)
         {

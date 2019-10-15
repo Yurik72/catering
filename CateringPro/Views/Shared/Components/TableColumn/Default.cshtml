@@ -1,9 +1,10 @@
 @model CateringPro.ViewModels.QueryModel
-
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     QueryModel querymodel = Model;
     string fieldname = ViewData["field"].ToString();
     string displayname = ViewData["displayname"].ToString();
+    SelectList selList = ViewData["selectlist"] as SelectList;
     if (querymodel == null)
     {
         querymodel = new QueryModel();
@@ -24,7 +25,26 @@
     };
 }
 
-<a class="ahead" asp-action="ListItems" asp-route-sortfield=@fieldname asp-route-sortorder="@get_sort_dir(fieldname)">
-    <span class="@get_span_class(fieldname)"></span>
-    @displayname
-</a>
+
+@if (selList!=null)
+{
+    <a class="ahead" asp-action="ListItems" asp-route-sortfield=@fieldname asp-route-sortorder="@get_sort_dir(fieldname)">
+        <span class="@get_span_class(fieldname)"></span>
+    </a>
+    <div class="col-select-filter-wrap">
+        <select asp-for="RelationFilter" class="form-control col-select-filter" asp-items="selList"></select>
+        <a hidden="hidden" class="aheadhidden" asp-action="ListItems" ></a>
+    </div>
+        }
+        else
+        {
+        <a class="ahead" asp-action="ListItems" asp-route-sortfield=@fieldname asp-route-sortorder="@get_sort_dir(fieldname)">
+            <span class="@get_span_class(fieldname)"></span>
+
+
+
+            @Localizer[displayname]
+
+        </a>
+        }
+

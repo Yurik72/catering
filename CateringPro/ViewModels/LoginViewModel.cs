@@ -15,6 +15,7 @@ namespace CateringPro.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("User Password")]
         public string Password { get; set; }
 
         [ScaffoldColumn(false)]
