@@ -32,8 +32,8 @@
         <span class="@get_span_class(fieldname)"></span>
     </a>
     <div class="col-select-filter-wrap">
-        <select asp-for="RelationFilter" class="form-control col-select-filter" asp-items="selList"></select>
-        <a hidden="hidden" class="aheadhidden" asp-action="ListItems" ></a>
+        <select asp-for="RelationFilter" class="form-control col-select-filter"  asp-items="selList"></select>
+        <a hidden="hidden" class="aheadhidden" asp-route-sortfield=@querymodel.SortField asp-route-sortorder=@querymodel.SortOrder asp-action="ListItems" ></a>
     </div>
         }
         else

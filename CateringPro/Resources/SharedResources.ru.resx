@@ -186,6 +186,9 @@
   <data name="Name" xml:space="preserve">
     <value>Название</value>
   </data>
+  <data name="OrderTitle" xml:space="preserve">
+    <value>Закажите меню на определенный день</value>
+  </data>
   <data name="Please login" xml:space="preserve">
     <value>Пожалуйста войдите</value>
   </data>

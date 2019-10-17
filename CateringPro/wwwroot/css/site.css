@@ -406,6 +406,8 @@ footer {
 a.ahead {
     color: #28a745 !important;
     float: left;
+    font-size:16px;
+    font-weight:700;
 }
 a.dialog-edit-icon, a.apagebottom {
     color: #28a745 !important;
@@ -422,19 +424,42 @@ a.dialog-edit-icon, a.apagebottom {
 }
 
 
-.col-select-filter {
+.col-select-filter, .col-select-filter:focus {
     border: none !important;
     color: #28a745 !important;
-    height:100% !important;
+    height: 100% !important;
+    font-size: 16px;
+    font-weight: 700;
+    padding:0;
+    box-shadow: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+ col-select-filter option{
+        border:none;
+ }
+.col-select-filter option:checked {
+    background: #28a745 !important;
+    color: #FFFFFF;
 }
 
+ .col-select-filter option:hover {
+        background: #28a745 !important;
+        color: #FFFFFF;
+ }
+.col-select-filter::-ms-expand {
+        display: none;
+    }
 .col-select-filter-wrap {
     float: left;
     position: relative;
     width: 80%;
+   
 }
 .table.listitems th{
-    padding:0px;
+    
 }
 /* Menus and days*/
 .daydish-category-content {
