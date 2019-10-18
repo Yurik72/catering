@@ -83,7 +83,7 @@
             },
             "Microsoft.Web.LibraryManager.Build": {
               "target": "Package",
-              "version": "[2.0.76, )"
+              "version": "[2.0.96, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",

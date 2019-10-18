@@ -120,4 +120,7 @@
   <data name="Dish Name" xml:space="preserve">
     <value>Dish_Name</value>
   </data>
+  <data name="MenuLogIn" xml:space="preserve">
+    <value>Login</value>
+  </data>
 </root>

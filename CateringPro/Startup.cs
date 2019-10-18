@@ -18,6 +18,9 @@ using jsreport.AspNetCore;
 using jsreport.Local;
 using jsreport.Binary;
 using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CateringPro
 {
@@ -66,7 +69,7 @@ namespace CateringPro
 
             services.AddMemoryCache();
             // services.AddDistributedMemoryCache();
-           
+
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
@@ -133,26 +136,43 @@ namespace CateringPro
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseAuthorization();
-
-            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            CultureInfo[] supportedCultures = new[]
+{
+                new CultureInfo("en"),
+                new CultureInfo("ru"),
+                new CultureInfo("ua")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("ru"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+                RequestCultureProviders = new List<IRequestCultureProvider>
+            {
+                new QueryStringRequestCultureProvider(),
+                new CookieRequestCultureProvider()
+            }
+
+            });
+ 
            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture("ru-RU")
 
-
-            });
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

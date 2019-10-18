@@ -1797,7 +1797,7 @@
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
         }
       },
-      "Microsoft.Web.LibraryManager.Build/2.0.76": {
+      "Microsoft.Web.LibraryManager.Build/2.0.96": {
         "type": "package",
         "dependencies": {
           "System.Runtime.Loader": "4.3.0"
@@ -6368,10 +6368,10 @@
         "microsoft.visualstudio.web.codegenerators.mvc.nuspec"
       ]
     },
-    "Microsoft.Web.LibraryManager.Build/2.0.76": {
-      "sha512": "hD6E6O2QYNvkbjamuQTbocHvBXuzGbQIVTzUYHGL5tO9+zFbWUsfdzNp3+PDQBMrbEt8S5qVBaCs5Hm/WbFN/w==",
+    "Microsoft.Web.LibraryManager.Build/2.0.96": {
+      "sha512": "E6673JBzjfwoe3HlVAAxRchfUYloRsCwO/uWyjHswb0PZeFdRjYUJsLU3v4o3l2RQ596bGrLKv6rCWfbVDy0iQ==",
       "type": "package",
-      "path": "microsoft.web.librarymanager.build/2.0.76",
+      "path": "microsoft.web.librarymanager.build/2.0.96",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -6379,7 +6379,7 @@
         "Third-party-notice.txt",
         "build/Microsoft.Web.LibraryManager.Build.props",
         "build/Microsoft.Web.LibraryManager.Build.targets",
-        "microsoft.web.librarymanager.build.2.0.76.nupkg.sha512",
+        "microsoft.web.librarymanager.build.2.0.96.nupkg.sha512",
         "microsoft.web.librarymanager.build.nuspec",
         "tools/net472/Microsoft.Web.LibraryManager.Build.dll",
         "tools/net472/Microsoft.Web.LibraryManager.Contracts.dll",
@@ -11639,7 +11639,7 @@
       "Microsoft.Extensions.Logging.Debug >= 3.0.0",
       "Microsoft.VisualStudio.Web.BrowserLink >= 2.2.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.0.0",
-      "Microsoft.Web.LibraryManager.Build >= 2.0.76",
+      "Microsoft.Web.LibraryManager.Build >= 2.0.96",
       "Newtonsoft.Json >= 12.0.2",
       "SixLabors.ImageSharp >= 1.0.0-beta0007",
       "awesome-bootstrap-checkbox >= 0.3.4.1",
@@ -11733,7 +11733,7 @@
           },
           "Microsoft.Web.LibraryManager.Build": {
             "target": "Package",
-            "version": "[2.0.76, )"
+            "version": "[2.0.96, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",
