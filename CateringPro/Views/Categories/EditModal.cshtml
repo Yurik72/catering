@@ -1,57 +1,75 @@
 ﻿@model CateringPro.Models.Categories
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Edit";
 }
+    <style>
+        form dt {
+            float: left;
+            display: block;
+            width: 30%;
+        }
 
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Categories</h5>
-            <button class="close" data-dismiss="modal" area-hidden="true">
-                <span aria-hidden="true">&times;</span>
-            </button>
+        dd select {
+            width: 50%;
+        }
 
-        </div>
-        <div class="modal-body">
-            <form asp-action="EditModal">
-                <dl class="dl-horizontal">
-                    <dd><input type="hidden" asp-for="Id" /></dd>
+        dd textarea {
+            width: 100%;
+        }
+      
+    </style>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@Localizer["Category"]</h5>
+        <button class="close" data-dismiss="modal" area-hidden="true">
+            <span aria-hidden="true">&times;</span>
+        </button>
 
-                    <dt>  <label asp-for="Code" class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="Code" class="form-control" />
-                        <span asp-validation-for="Code" class="text-danger"></span>
-                    </dd>
+    </div>
+    <div class="modal-body">
+        <form asp-action="EditModal">
+            <dl class="">
+                <dd><input type="hidden" asp-for="Id" /></dd>
+
+                <dt>  <label asp-for="Code" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </dd>
 
 
-                    <dt>  <label asp-for="Name" class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </dd>
-                    <dt>Описание</dt>
-                    <dd>@Html.EditorFor(model => model.Description)</dd>
-                </dl>
-            </form>
-            <div class="row">
-                <div class="col-sm-1">
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" button class="btn btn-primary" data-save="modal">Save</button>
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                </div>
-
-                <div class="col-sm-1">
-                </div>
-
+                <dt>  <label asp-for="Name" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </dd>
+                <dt> <label asp-for="Description" class="control-label"></label> </dt>
+                <dd>@Html.EditorFor(model => model.Description)</dd>
+            </dl>
+        </form>
+        <div class="row">
+            <div class="col-sm-1">
             </div>
+            <div class="col-sm-2">
+                <button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
+            </div>
+
+            <div class="col-sm-1">
+            </div>
+
         </div>
     </div>
+</div>
 
 
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

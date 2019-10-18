@@ -16,25 +16,20 @@
 
 <h2>@Localizer["OrderTitle"]</h2>
 <div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-lg-8 col-md-8 dayselector dayselectback">
-            <input type="text"  id="weekselected" />
 
-        </div>
-    </div>
-        <div class="row justify-content-md-center">
-            <div class="col-lg-1 col-md-1 dayselector dayselectback">
-                <span><i class="fa fa-angle-double-left"></i></span>
+        <div class="row justify-content-md-center input-group">
+            <div class="input-group-prepend col-lg-1 col-md-1 dayselector dayselectback">
+                <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
             </div>
-            <div class="col-lg-4 col-md-4 dayselector ">
+            <div class="col-lg-6 col-md-6 dayselector ">
                 <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
                 <div id="weekselector">
 
                 </div>
             </div>
-            <div class="col-lg-1 col-md-1 dayselector dayselectforward">
-                <span><i class="fa fa-angle-double-right"></i></span>
+            <div class="input-group-append dayselector dayselectforward">
+                <span ><i class="fa fa-angle-double-right input-group-text"></i></span>
 
             </div>
         </div>
@@ -52,7 +47,7 @@
             @for (int i = 0; i < 7; i++)
             {
             <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
-                @dtfi.GetDayName((DayOfWeek)i)
+               
                 @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)
             </a>
 

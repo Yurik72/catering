@@ -7,7 +7,7 @@
     {
         querymodel = new QueryModel();
     }
-
+    
 }
 <table class="table listitems">
     <thead>
@@ -46,8 +46,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td>
+            <td class="small" >
                 @Html.DisplayFor(modelItem => item.Description)
+                <p/>
+                @string.Join(",", item.DishIngredients.Select(di => di.Ingredient.Name))
             </td>
             <td>
 

@@ -5,12 +5,19 @@
 }
 @{
     DateTime daydate = DateTime.Now;
+
+    
 }
 @* bootstrap0 grid system *@
 
 
 @foreach (var itemcategory in Model)
 {
+    if (itemcategory.UserDayDishes.Count() == 0)
+    {
+        continue;
+    }
+
     <div class="container daydish-category-content border rounded">
 
         <div class="row">
@@ -45,14 +52,20 @@
  </div>
 }
 
-        <div class="container daydish-category-content border rounded">
+        <div class="container  border rounded daydish-footer">
             <div class="row">
+                <div class="col col-lg-2 col-md-2">
+                    <span class="total" >Total </span>
+                </div>
+                <div class="col col-lg-2 col-md-2">
+                    <span class="total">@Model.Sum(it=>it.TotalQuantity)  </span>
+                </div>
+
                 <div class="col col-lg-4 col-md-4">
                     <button type="button" button class="btn btn-primary" data-action="saveuserday">Save</button>
                 </div>
             </div>
-            <div class="row dayfoot">
-            </div>
+
         </div>
 
 

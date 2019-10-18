@@ -34,6 +34,15 @@ namespace CateringPro.Models
         public string CategoryCode { get; set; }
         public string CategoryName { get; set; }
 
+        public int TotalQuantity 
+        {
+            get
+            {
+                if (UserDayDishes == null) return 0;
+                return UserDayDishes.Sum(it => it.Quantity);
+
+            }
+        }
         public IEnumerable<UserDayDishViewModel> UserDayDishes { get; set;}
 
     }

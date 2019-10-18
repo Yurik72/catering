@@ -36,13 +36,13 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Index()
         {
           
-            return View(await _context.Dishes.ToListAsync());
+            return View(await _context.Dishes.Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")]  QueryModel querymodel)
         {
             ViewData["QueryModel"] = querymodel;
             ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", querymodel.RelationFilter);
-            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.Category);
+            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
             if (querymodel.RelationFilter > 0)
             {
                 query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);

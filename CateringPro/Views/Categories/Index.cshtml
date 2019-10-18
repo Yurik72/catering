@@ -1,5 +1,5 @@
 @model IEnumerable<Categories>
-
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     var ModelName = "Categories";
     ViewData["Title"] = ModelName;
@@ -9,12 +9,12 @@
 <div class="container">
     <div class="row justify-content-end">
         <div class="col-md-6 right">
-            <h2>@ModelName</h2>
+            <h2>@Localizer["Categories"]</h2>
         </div>
         <div class="col-md-6 right">
             <div id="custom-search-input">
                 <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="Categories" />
+                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Categories"]" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" id="search-btn" type="button">
                             <span class="fa fa-search" aria-hidden="true"></span>
@@ -23,30 +23,30 @@
                 </div>
             </div>
         </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                <div id="table-content" class="table-content">
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div id="table-content" class="table-content">
 
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-                <div id="create-btn" class="col-lg-3 col-md-3 create">
-                    <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
-
-                </div>
             </div>
         </div>
     </div>
-    <div id="modDialog" class="modal fade">
-        <div id="dialogContent" class="modal-dialog"></div>
-    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
+            <div id="create-btn" class="col-lg-3 col-md-3 create">
+                <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
 
- @section Scripts
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+@section Scripts
 {
-        <script type="text/javascript">
+    <script type="text/javascript">
 
         $(function () {
 
@@ -56,7 +56,7 @@
                 else
                     href += "&";
                 $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
-               
+
             }
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Categories", new { searchcriteria = "" })');
@@ -120,5 +120,5 @@
                     });
                 });
         })
-        </script>
-    }
+    </script>
+}

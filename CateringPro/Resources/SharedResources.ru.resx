@@ -120,6 +120,18 @@
   <data name="Cancel" xml:space="preserve">
     <value>Отменить</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Категории</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="Category Code" xml:space="preserve">
+    <value>Код</value>
+  </data>
+  <data name="Category Decsciption" xml:space="preserve">
+    <value>Детали</value>
+  </data>
   <data name="Category Name" xml:space="preserve">
     <value>Категория</value>
   </data>

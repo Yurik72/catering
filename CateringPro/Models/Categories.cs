@@ -21,6 +21,7 @@ namespace CateringPro.Models
         [StringLength(10)]
         [Required]
 
+        [DisplayName("Category Code")]
         public string Code { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
@@ -31,6 +32,7 @@ namespace CateringPro.Models
 
         [StringLength(255, MinimumLength = 2)]
         [DataType(DataType.MultilineText)]
+        [DisplayName("Category Decsciption")]
         public string Description { get; set; }
 
         public virtual ICollection<Pizzas> Pizzas { get; set; }
