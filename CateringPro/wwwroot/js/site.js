@@ -1,4 +1,80 @@
 ﻿
+function setup_listitems(options) {
+    this.options = options;
+    var self = this; 
+        var reload = function (href) {
+            if (!href)
+                href = self.options.href+'/ListItems?';
+            else
+                href += "&";
+            $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+
+        }
+        $.ajaxSetup({ cache: false });
+       
+        reload();
+        $('#search-btn').click(function (e) {
+            reload();
+        });
+        $('#custom-search-input').keydown((event) => {
+            if (event.which == 13) {
+                event.preventDefault();
+                reload();
+            }
+        });
+        $('#create-btn').click(function (e) {
+            e.preventDefault();
+            var url = self.options.href+'/CreateModal';
+            $.get(url, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+        $(document).on("click", "a.ahead", function (e) {
+            e.preventDefault();
+            reload(this.href);
+        });
+        $(document).on("click", "a.apagebottom", function (e) {
+            e.preventDefault();
+            reload(this.href);
+        });
+        $(document).on("click", "a.catitem", function (e) {
+            e.preventDefault();
+            $.get(this.href, function (data) {
+
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+
+        $(document).on('click', '[data-save="modal"]', function (event) {
+            event.preventDefault();
+
+            var form = $(this).parents('.modal-body').find('form');
+            var actionUrl = form.attr('action');
+            var dataToSend = form.serialize();
+
+            $.post(actionUrl, dataToSend).done(function (data) {
+                var isValid = false;
+
+                if (data && data.res && data.res == "OK")
+                    isValid = true;
+
+                if (isValid) {
+                    $('#modDialog').modal('hide');
+                    $('#dialogContent').empty();
+                    reload();
+                }
+                else {
+                    var newBody = $('.modal-body', data);
+                    $(document).find('.modal-body').replaceWith(newBody);
+                }
+            });
+        });
+
+}
+
+
 function listSearchExamplesScript() {
 
     var value = $("#SearchFieldId").val();

@@ -18,6 +18,8 @@ namespace CateringPro.Models
         public string DishDescription { get; set; }
 
         public string DishIngredientds { get; set; }
+
+        public decimal Price { get; set; }
         public int Quantity { get; set; }
 
         public bool Enabled { get; set; }
@@ -42,6 +44,15 @@ namespace CateringPro.Models
             {
                 if (UserDayDishes == null) return 0;
                 return UserDayDishes.Sum(it => it.Quantity);
+
+            }
+        }
+        public decimal TotalAmount
+        {
+            get
+            {
+                if (UserDayDishes == null) return 0;
+                return UserDayDishes.Sum(it => it.Quantity*it.Price);
 
             }
         }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
     <div class="form-group">
-        @Html.LabelFor(i => i.Ingredients, new { @class = "control-label col-md-3" })
+        
         <div class="col-md-9">
             @Html.ListBoxFor(i =>Model.IngredientsIds, Model.Ingredients,
                 new { @class = "form-control select-ingredients" })

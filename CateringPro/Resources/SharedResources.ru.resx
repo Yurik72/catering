@@ -165,6 +165,39 @@
   <data name="DishPictureTab" xml:space="preserve">
     <value>Картинка</value>
   </data>
+  <data name="DLB Empty list" xml:space="preserve">
+    <value>Пусто</value>
+  </data>
+  <data name="DLB Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="DLB Move All" xml:space="preserve">
+    <value>Перем.все</value>
+  </data>
+  <data name="DLB Move Selected" xml:space="preserve">
+    <value>Перем. выбр.</value>
+  </data>
+  <data name="DLB Remove all" xml:space="preserve">
+    <value>Удалить все</value>
+  </data>
+  <data name="DLB Remove selected" xml:space="preserve">
+    <value>Удалить выбр.</value>
+  </data>
+  <data name="DLB show all" xml:space="preserve">
+    <value>Показать все</value>
+  </data>
+  <data name="DLB Showing all" xml:space="preserve">
+    <value>Показаны все {0}</value>
+  </data>
+  <data name="Ingredient" xml:space="preserve">
+    <value>Ингредиент</value>
+  </data>
+  <data name="Ingredient Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Ingredients" xml:space="preserve">
+    <value>Ингредиенты</value>
+  </data>
   <data name="Login Title" xml:space="preserve">
     <value>Введите данные ниже</value>
   </data>
@@ -183,6 +216,9 @@
   <data name="MenuDishes" xml:space="preserve">
     <value>Список блюд</value>
   </data>
+  <data name="MenuIngredients" xml:space="preserve">
+    <value>Ингредиенты</value>
+  </data>
   <data name="MenuLogIn" xml:space="preserve">
     <value>Войти</value>
   </data>
@@ -197,6 +233,9 @@
   </data>
   <data name="MenuUserOrder" xml:space="preserve">
     <value>Мои заказы</value>
+  </data>
+  <data name="MyOrdersSave" xml:space="preserve">
+    <value>Заказать</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Название</value>

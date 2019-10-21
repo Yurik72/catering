@@ -122,7 +122,10 @@ namespace CateringPro
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 //options.SlidingExpiration = true;
             });
-            
+            services.AddOptions();
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.Configure<UIOption>(Configuration.GetSection("UIOption"));
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -172,7 +175,7 @@ namespace CateringPro
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-
+         
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

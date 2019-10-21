@@ -25,6 +25,7 @@ namespace CateringPro
                       .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                       optional: true, reloadOnChange: true);
                 config.AddEnvironmentVariables();
+               
             })
             .ConfigureLogging((hostingContext, logging) =>{
                 // Requires `using Microsoft.Extensions.Logging;`
@@ -35,7 +36,7 @@ namespace CateringPro
              logging.AddFile();
             })
            .Build();
-
+            
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;

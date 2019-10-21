@@ -28,6 +28,7 @@
     <PackageReference Include="jsreport.Local" Version="2.1.1" />
     <PackageReference Include="jsreport.MVC" Version="2.1.1" />
     <PackageReference Include="jsreport.Shared" Version="2.0.1" />
+    <PackageReference Include="MailKit" Version="2.3.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />

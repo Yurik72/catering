@@ -38,6 +38,7 @@ namespace CateringPro.Repositories
                              DishId = dish.Id,
                              CategoryId = dish.CategoriesId,
                              DishName = dish.Name,
+                             Price=dish.Price,
                              DishDescription=dish.Description,
                              DishIngredientds=string.Join(",",from di in _context.DishIngredients.Where(t=>t.DishId==dish.Id)
                                                join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
@@ -57,6 +58,7 @@ namespace CateringPro.Repositories
                                              Date = dd.Date,
                                              DishId = dd.DishId,
                                              DishName = dd.DishName,
+                                             Price=dd.Price,
                                              Quantity = dd.Quantity,
                                              PictureId = dd.PictureId,
                                              Enabled = dd.Enabled,
