@@ -34,45 +34,72 @@
                         <tr>
                             <td>
                                 @Model.Seller.Name<br>
-                            @Model.Seller.Road<br>
-                            @Model.Seller.Country
-                        </td>
-                        <td>
-                            @Model.Buyer.Name<br>
-                        @Model.Buyer.Road<br>
-                        @Model.Buyer.Country
-                    </td>
-                </tr>
+                                @Model.Seller.City<br>
+                                @Model.Seller.Country<br>
+                                @Model.Seller.Address1
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                @Model.Buyer.Name<br>
+                                @Model.Buyer.City<br>
+                                @Model.Buyer.Country<br>
+                                @Model.Buyer.Address1
+                            </td>
+                        </tr>
             </table>
         </td>
     </tr>
-    <tr class="heading ">
-        <td>
-            Item
-        </td>
-        <td>
-            Price
-        </td>
-    </tr>
+            <tr class="heading ">
+                <td>
+                    #
+                </td>
+                <td>
+                    Название
+                </td>
+                <td>
+                    Кол-во
+                </td>
+                <td>
+                    Цена
+                </td>
+                <td>
+                    Сумма
+                </td>
+            </tr>
 
     @foreach (var item in Model.Items)
     {
         <tr class="item">
             <td>
+                @item.Code
+            </td>
+            <td>
                 @item.Name
             </td>
             <td>
-                $ @item.Price
+                @Html.DisplayFor(model => item.Quantity)
+              
+            </td>
+            <td>
+               @item.Price.ToString("0.00")
+            </td>
+            <td>
+                @item.Amount.ToString("0.00")
+
             </td>
         </tr>
     }
 
-    <tr class="total ">
-        <td></td>
-        <td>
-            Total: @Model.Items.Sum(i => i.Price)
-        </td>
-    </tr>
+        <tr class="total ">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                Итого: @Model.Items.Sum(i => i.Amount).ToString("0.00")
+            </td>
+        </tr>
 </table>
 </div>
 </body>

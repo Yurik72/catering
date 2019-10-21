@@ -19,20 +19,25 @@ namespace CateringPro.Controllers
     public class CustomerOrdersController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IUserDayDishesRepository _userdishes;
+        private readonly IInvoiceRepository _invoiceRepository;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly ILogger<CompanyUser> _logger;
 
-        public CustomerOrdersController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger)
+        public CustomerOrdersController(AppDbContext context, IInvoiceRepository ir, UserManager<CompanyUser> um, ILogger<CompanyUser> logger)
         {
             _context = context;
             _userManager = um;
-            _userdishes = ud;
+            _invoiceRepository = ir;
             _logger = logger;
         }
         public IActionResult Index()
         {
             return View(DateTime.Now);
+        }
+        public IActionResult CustomerOrderDayComponent(DateTime daydate)
+        {
+            object paramets = new { daydate = daydate };
+            return ViewComponent("CustomerOrdersComponent", paramets);
         }
     }
 }

@@ -135,6 +135,9 @@
   <data name="Category Name" xml:space="preserve">
     <value>Категория</value>
   </data>
+  <data name="CustomerOrders" xml:space="preserve">
+    <value>Заказы моей компании</value>
+  </data>
   <data name="Dish" xml:space="preserve">
     <value>Блюдо</value>
   </data>

@@ -38,6 +38,10 @@ namespace CateringPro.Repositories
                              DishId = dish.Id,
                              CategoryId = dish.CategoriesId,
                              DishName = dish.Name,
+                             DishDescription=dish.Description,
+                             DishIngredientds=string.Join(",",from di in _context.DishIngredients.Where(t=>t.DishId==dish.Id)
+                                               join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
+                                               select ingr.Name),
                              PictureId = dish.PictureId,
                              Date = daydate,
                              Quantity = udayd.Date == daydate? udayd.Quantity:0
@@ -55,7 +59,9 @@ namespace CateringPro.Repositories
                                              DishName = dd.DishName,
                                              Quantity = dd.Quantity,
                                              PictureId = dd.PictureId,
-                                             Enabled = dd.Enabled
+                                             Enabled = dd.Enabled,
+                                             DishDescription=dd.DishDescription,
+                                             DishIngredientds=dd.DishIngredientds
                                          }
                          };
             /* !! not more working on EF 3.0*/

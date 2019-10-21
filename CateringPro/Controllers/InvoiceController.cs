@@ -13,11 +13,11 @@ namespace CateringPro.Controllers
     public class InvoiceController : Controller
     {
         public IJsReportMVCService JsReportMVCService { get; }
-        private readonly IUserDayDishesRepository _userdishes;
-        public InvoiceController(IJsReportMVCService jsReportMVCService, IUserDayDishesRepository ud)
+        private readonly IInvoiceRepository _invoicerepo;
+        public InvoiceController(IJsReportMVCService jsReportMVCService, IInvoiceRepository ir)
         {
             JsReportMVCService = jsReportMVCService;
-            _userdishes = ud;
+            _invoicerepo = ir;
         }
 
         public IActionResult Index()
@@ -26,18 +26,18 @@ namespace CateringPro.Controllers
         }
 
         [MiddlewareFilter(typeof(JsReportPipeline))]
-        public IActionResult Invoice()
+        public IActionResult Invoice(DateTime daydate, string userid)
         {
             HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
 
-            return View(InvoiceModel.Example());
+            return View(_invoicerepo.CustomerInvoice(userid, daydate, User.GetCompanyID()));
         }
         [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult UserInvoice(DateTime daydate,string userid)
         {
             HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
 
-            return View(_userdishes.CustomerOrders(userid,daydate,  User.GetCompanyID()));
+            return View(_invoicerepo.CustomerInvoice (userid,daydate,  User.GetCompanyID()));
         }
 
         [MiddlewareFilter(typeof(JsReportPipeline))]

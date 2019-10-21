@@ -47,7 +47,9 @@
                             </div>
                             <div class="row">
                                 <div class="col col-lg-2 col-md-2">
-                                    @Html.DisplayFor(modelItem => it.UserName)
+                                    @Html.DisplayFor(modelItem => it.User.Name)<br />
+                                    @Html.DisplayFor(modelItem => it.User.Phone)<br />
+                                    @Html.DisplayFor(modelItem => it.User.Email)
                                 </div>
                                 <div class="col col-lg-2 col-md-2">
                                     @Html.DisplayFor(modelItem => it.DishesCount)

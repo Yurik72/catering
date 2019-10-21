@@ -15,7 +15,9 @@ namespace CateringPro.Models
         public int DishId { get; set; }
         public string DishName { get; set; }
 
+        public string DishDescription { get; set; }
 
+        public string DishIngredientds { get; set; }
         public int Quantity { get; set; }
 
         public bool Enabled { get; set; }

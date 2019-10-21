@@ -14,11 +14,11 @@ namespace CateringPro.Components
 {
     public class CustomerOrdersComponent : ViewComponent
     {
-        private readonly IUserDayDishesRepository _udaydishrepo;
+        private readonly IInvoiceRepository _invoiceRepository;
         private readonly UserManager<CompanyUser> _userManager;
-        public CustomerOrdersComponent(IUserDayDishesRepository udaydishrepo, UserManager<CompanyUser> userManager)
+        public CustomerOrdersComponent(IInvoiceRepository ir, UserManager<CompanyUser> userManager)
         {
-            _udaydishrepo = udaydishrepo;
+            _invoiceRepository = ir;
             _userManager = userManager;
         }
 
@@ -28,7 +28,7 @@ namespace CateringPro.Components
             //  daydate = DateTime.Now;
            
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.CustomerOrders(daydate, this.User.GetCompanyID()))); //to do
+            return await Task.FromResult((IViewComponentResult)View("Default", _invoiceRepository.CustomerOrders(daydate, this.User.GetCompanyID()))); //to do
         }
     }
 }

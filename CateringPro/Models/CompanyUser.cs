@@ -16,6 +16,20 @@ namespace CateringPro.Models
 
         public int CompanyId { get; set; }
 
+        [StringLength(10)]
+        public string ZipCode { get; set; }
+
+        [StringLength(15)]
+        public string Country { get; set; }
+        [StringLength(25)]
+        public string City { get; set; }
+
+        [StringLength(40)]
+        public string Address1 { get; set; }
+
+        [StringLength(40)]
+        public string Address2 { get; set; }
+
     }
     public class CompanyRole : IdentityRole
     {

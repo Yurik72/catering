@@ -56,7 +56,7 @@ namespace CateringPro
             services.AddTransient<IDayDishesRepository, DayDishesRepository>();
             services.AddTransient<IUserDayDishesRepository, UserDayDishesRepository>();
             services.AddTransient<IDishesRepository, DishesRepository>();
-
+            services.AddTransient<IInvoiceRepository, InvoiceRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));

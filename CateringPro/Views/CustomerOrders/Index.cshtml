@@ -1,6 +1,7 @@
 ﻿@model DateTime
 @using System.Globalization
 @using CateringPro.Core
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     ViewData["Title"] = "Customer Orders";
 }
@@ -17,8 +18,8 @@
 
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-lg-1 col-md-1 dayselector dayselectback">
-            <span class=" glyphicon glyphicon-backward" aria-hidden="true"></span>
+        <div class="input-group-prepend col-lg-1 col-md-1 dayselector dayselectback">
+            <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
         </div>
         <div class="col-lg-4 col-md-4 ">
@@ -27,8 +28,8 @@
 
             </div>
         </div>
-        <div class="col-lg-1 col-md-1 dayselector dayselectforward">
-            <span class=" glyphicon glyphicon-forward" aria-hidden="true"></span>
+        <div class="input-group-append dayselector dayselectforward">
+            <span><i class="fa fa-angle-double-right input-group-text"></i></span>
 
         </div>
     </div>
@@ -37,64 +38,75 @@
     </div>
 
 </div>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
-<div id="accordion">
+        @{
+            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
+        }
+        @for (int i = 0; i < 7; i++)
+        {
+            <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false"> @dtfi.GetDayName((DayOfWeek)i)</a>
+
+            current_head = current_head.AddDays(1);
+        }
+    </div>
+</nav>
+<div class="tab-content day-content" id="nav-tabContent">
     @{
-
-        DateTime current = daydate.StartOfWeek(DayOfWeek.Sunday); ;
+        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Sunday);
     }
     @for (int i = 0; i < 7; i++)
     {
-
-        <div class="container">
-            <div class="row ">
-                <div class="col-lg-10 col-md-10 ">
-                    <button class="btn btn-link collapsed daydish" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded="false" aria-controls=@("collapse" + i)>
-                        <div class="expand">
-
-
-                        </div>
-                        <div class="dayname">@dtfi.GetDayName((DayOfWeek)i) </div>
-                    </button>
-
-                </div>
-
-            </div>
-            <div class="row">
-                <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion" data-daydate="@current">
-
-                    @await Component.InvokeAsync("CustomerOrdersComponent", current)
-
-                </div>
-            </div>
-
-            @*
-                <div class="card">
-                    <div class="card-header" id=@("heading" + i)>
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded=@(i == 0 ? "true" : "false") aria-controls=@("collapse" + i)>
-                                @dtfi.GetDayName((DayOfWeek)i)
-
-                            </button>
-                        </h5>
-                    </div>
-
-                    <div id=@("collapse" + i) class="collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion">
-                        <div class="card-body">
-                            @await Component.InvokeAsync("DayDishComponent", current)
-                        </div>
-                    </div>
-                </div>
-            *@
-
+        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" aria-labelledby="nav-tab-@i">
+            @await Component.InvokeAsync("CustomerOrdersComponent", current_content)
         </div>
-        current = current.AddDays(1);
+
+        current_content = current_content.AddDays(1);
     }
 </div>
+@*
+    <div id="accordion">
+        @{
+
+            DateTime current = daydate.StartOfWeek(DayOfWeek.Sunday); ;
+        }
+        @for (int i = 0; i < 7; i++)
+        {
+
+            <div class="container">
+                <div class="row ">
+                    <div class="col-lg-10 col-md-10 ">
+                        <button class="btn btn-link collapsed daydish" data-toggle="collapse" data-target=@("#collapse" + i) aria-expanded="false" aria-controls=@("collapse" + i)>
+                            <div class="expand">
+
+
+                            </div>
+                            <div class="dayname">@dtfi.GetDayName((DayOfWeek)i) </div>
+                        </button>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div id=@("collapse" + i) class="col col-lg-8 col-md-8 collapse  aria-labelledby=@("heading" + i)" data-parent="#accordion" data-daydate="@current">
+
+                        @await Component.InvokeAsync("CustomerOrdersComponent", current)
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            current = current.AddDays(1);
+        }
+    </div>
+*@
 
 
 @section Scripts {
-    $("input[type='number']").inputSpinner()
+
     <script type="text/javascript" src="~/js/bootstrap-input-spinner.js" defer></script>
 
     <script>
@@ -106,8 +118,8 @@
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
                 dt.setDate(dt.getDate() - dt.getDay() + dayindex);
-                $('#collapse' + dayindex).html(html_loading);
-                $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+                $('#nav-content-' + dayindex).html(html_loading);
+                $('#nav-content-' + dayindex).load('/CustomerOrders/CustomerOrderDayComponent?daydate=' + encodeURI(dt.toDateString()));
             }
             var weektext = function () {
                 var ms = parseInt($('#currentdate').val());
@@ -137,29 +149,6 @@
                 e.preventDefault();
                 incrementday(7);
             });
-            $(document).on('click', '[data-action="saveuserday"]', function (event) {
-                event.preventDefault();
-                var divform = $(this).closest('[data-form="userday"]');
-                var daydishes = [];
-                divform.find('[data-form="userdaydish"]').each(function (index, day) { //each day
-                    var daydish = {}
-                    $(day).find('[datafield]').each(function (idx, element) {
-                        daydish[$(element).attr("datafield")] = $(element).val();
-                    })
-                    daydishes.push(daydish)
-                });
-
-                $.ajax({
-                    type: "POST",
-                    data: res = { daydishes },
-
-                    url: "/UserDayDishes/SaveDay",
-                    success: function (data) {
-                        // alert(data);
-                    }
-                });
-            });
-
 
 
         });

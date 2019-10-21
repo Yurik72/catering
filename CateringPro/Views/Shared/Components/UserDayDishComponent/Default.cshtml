@@ -29,25 +29,30 @@
 
                 @foreach (var item in itemcategory.UserDayDishes)
                 {
-                    <div class="row row-daydish" data-form="userdaydish">
-                        <div class="col col-md-1">
+            <div class="row row-daydish" data-form="userdaydish">
+                <div class="col col-md-1">
 
-                        </div>
-                        <div class="col col-md-2">
-                            <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:30px;height:30px;" />
+                </div>
+                <div class="col col-md-2">
+                    <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:30px;height:30px;" />
 
 
-                        </div>
-                        <div class="col col-lg-4 col-md-4">
+                </div>
+                <div class="col col-lg-2 col-md-2">
 
-                            @Html.HiddenFor(modelItem => item.DishId, new { datafield = "DishID" })
-                            @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
-                            @Html.DisplayFor(modelItem => item.DishName)
-                        </div>
-                        <div class="col col-lg-4 col-md-4">
-                            @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
-                        </div>
+                    @Html.HiddenFor(modelItem => item.DishId, new { datafield = "DishID" })
+                    @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
+                    @Html.DisplayFor(modelItem => item.DishName)
+                </div>
+                <div class="col col-lg-4 col-md-4 small">
+                    @Html.DisplayFor(modelItem => item.DishDescription)
+                    <p />
+                    @Html.DisplayFor(modelItem => item.DishIngredientds)
+                </div>
+                    <div class="col col-lg-2 col-md-2">
+                        @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
                     </div>
+                </div>
                 }
             </div>
         }

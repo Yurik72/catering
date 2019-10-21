@@ -21,7 +21,7 @@
             vertical-align: top;
         }
 
-        .invoice-box table tr td:nth-child(2) {
+        .invoice-box table tr td:nth-child(3) {
             text-align: right;
         }
 
@@ -57,7 +57,7 @@
             border-bottom: none;
         }
 
-        .invoice-box table tr.total td:nth-child(2) {
+        .invoice-box table tr.total td:nth-child(5) {
             border-top: 2px solid #eee;
             font-weight: bold;
         }

@@ -21,6 +21,7 @@ namespace CateringPro.Models
 
         public decimal Amount { get; set; }
 
+        public CompanyModel User { get; set; }
         public IEnumerable<CustomerOrdersDetailsViewModel>  Details { get; set; }
     }
     public class CustomerOrdersDetailsViewModel

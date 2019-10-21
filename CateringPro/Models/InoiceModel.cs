@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace CateringPro.Models
         public string Number { get; set; }
         public CompanyModel Seller { get; set; }
         public CompanyModel Buyer { get; set; }
-        public IEnumerable<ItemModel> Items { get; set; }
+        public IEnumerable<InvoiceItemModel> Items { get; set; }
 
         public static InvoiceModel Example()
         {
@@ -20,28 +21,28 @@ namespace CateringPro.Models
                 Seller = new CompanyModel()
                 {
                     Name = "Next Step Webs, Inc.",
-                    Road = "12345 Sunny Road",
+                    Address1 = "12345 Sunny Road",
                     Country = "Sunnyville, TX 12345"
                 },
                 Buyer = new CompanyModel()
                 {
                     Name = "Acme Corp.",
-                    Road = "16 Johnson Road",
+                    Address1 = "16 Johnson Road",
                     Country = "Paris, France 8060"
                 },
-                Items = new List<ItemModel>()
+                Items = new List<InvoiceItemModel>()
                 {
-                    new ItemModel()
+                    new InvoiceItemModel()
                     {
                         Name = "Website design",
                         Price = 300
                     },
-                    new ItemModel()
+                    new InvoiceItemModel()
                     {
                         Name = "Implementing specific components",
                         Price = 600
                     },
-                    new ItemModel()
+                    new InvoiceItemModel()
                     {
                         Name = "Maintenance and support",
                         Price = 150
@@ -54,13 +55,27 @@ namespace CateringPro.Models
     public class CompanyModel
     {
         public string Name { get; set; }
-        public string Road { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public string Country { get; set; }
+
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Address1 { get; set; }
+
+        public string Address2 { get; set; }
+
     }
 
-    public class ItemModel
+    public class InvoiceItemModel
     {
+        public string Code { get; set; }
         public string Name { get; set; }
-        public long Price { get; set; }
+
+        public int Quantity { get; set; }
+        [DisplayFormat(DataFormatString = "0.00")]
+        public decimal Price { get; set; }
+        [DisplayFormat(DataFormatString ="0.00") ]
+        public decimal Amount { get; set; }
     }
 }
