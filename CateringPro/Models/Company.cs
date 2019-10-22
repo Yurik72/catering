@@ -39,5 +39,9 @@ namespace CateringPro.Models
         public string Address2 { get; set; }
 
         public int? PictureId { get; set; }
+
+        public int? OrderLeadTimeH { get; set; }
+        public int? OrderThresholdTimeH { get; set; }
+        
     }
 }

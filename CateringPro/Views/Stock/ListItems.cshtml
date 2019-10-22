@@ -39,8 +39,8 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-               
-                @Html.EditorFor(modelItem => item.StockValue,null,new {@class = "stockval"})
+                <input class="stockval" />
+             
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MeasureUnit)
