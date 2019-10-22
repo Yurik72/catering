@@ -37,5 +37,7 @@ namespace CateringPro.Models
 
         [StringLength(40)]
         public string Address2 { get; set; }
+
+        public int? PictureId { get; set; }
     }
 }

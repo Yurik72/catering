@@ -45,7 +45,7 @@
                                     <span>Details</span>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row user-order-content">
                                 <div class="col col-lg-2 col-md-2">
                                     @Html.DisplayFor(modelItem => it.User.Name)<br />
                                     @Html.DisplayFor(modelItem => it.User.Phone)<br />
@@ -72,7 +72,13 @@
             <div class="row dayfoot">
             </div>
 
-            <div class="row dayfoot">
+            <div class="row dayfoot user-order-foot">
+                @if (Model.Count() > 0)
+                { 
+                    @Html.ActionLink("Day Production", "DayProduction", "Invoice", new { daydate = @Model.First().Date }, new { @target = "_blank" });
+                }
+
+
             </div>
         </div>
     </div>

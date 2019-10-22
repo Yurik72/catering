@@ -181,8 +181,8 @@ namespace CateringPro.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);
-                if (pict == null)
-                {
+                if (pict == null || true ) //to do always new
+                 {
                     pict = new Pictures();
                 }
                 var file = Request.Form.Files[0];

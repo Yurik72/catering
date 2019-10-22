@@ -2,6 +2,7 @@
 @using System.Globalization
 @using CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject Microsoft.Extensions.Options.IOptions<UIOption> pageOptions
 @{
     ViewData["Title"] = "My Order";
 }
@@ -17,136 +18,163 @@
 <h2>@Localizer["OrderTitle"]</h2>
 <div class="container">
 
-        <div class="row justify-content-md-center input-group">
-            <div class="input-group-prepend col-lg-1 col-md-1 dayselector dayselectback">
-                <span><i class="fa fa-angle-double-left input-group-text"></i></span>
+    <div class="row justify-content-md-center input-group">
+        <div class="input-group-prepend col-lg-1 col-md-1 dayselector dayselectback">
+            <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
-            </div>
-            <div class="col-lg-6 col-md-6 dayselector ">
-                <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
-                <div id="weekselector">
-
-                </div>
-            </div>
-            <div class="input-group-append dayselector dayselectforward">
-                <span ><i class="fa fa-angle-double-right input-group-text"></i></span>
+        </div>
+        <div class="col-lg-6 col-md-6 dayselector ">
+            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+            <div id="weekselector">
 
             </div>
         </div>
-        <div class="row" style="height:10px">
+        <div class="input-group-append dayselector dayselectforward">
+            <span><i class="fa fa-angle-double-right input-group-text"></i></span>
 
         </div>
+    </div>
+    <div class="row" style="height:10px">
 
     </div>
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
-            @{
-                DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
-            }
-            @for (int i = 0; i < 7; i++)
-            {
-            <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
-               
-                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)
-            </a>
+</div>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
-                current_head = current_head.AddDays(1);
-            }
-        </div>
-    </nav>
-    <div class="tab-content day-content" id="nav-tabContent">
         @{
-            DateTime current_content = daydate.StartOfWeek(DayOfWeek.Sunday);
+            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
         }
         @for (int i = 0; i < 7; i++)
         {
-            <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" aria-labelledby="nav-tab-@i">
-                @await Component.InvokeAsync("UserDayDishComponent", current_content)
-            </div>
+        <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
 
-            current_content = current_content.AddDays(1);
+            @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
+            <span class="shorttabdate">@current_head.ToShortDateString()</span>
+        </a>
+
+            current_head = current_head.AddDays(1);
         }
     </div>
- 
-    @section Scripts {
+</nav>
+<div class="tab-content day-content" id="nav-tabContent">
+    @{
+        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Sunday);
+    }
+    @for (int i = 0; i < 7; i++)
+    {
+        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+            @await Component.InvokeAsync("UserDayDishComponent", current_content)
+        </div>
 
-        <script type="text/javascript" src="~/js/bootstrap-input-spinner.js" defer></script>
+        current_content = current_content.AddDays(1);
+    }
+</div>
 
-        <script>
-            $(function () {
+@section Scripts {
 
-                $("input.numberspinner[type='number']").inputSpinner();
-                $("#weekselected").inputSpinner();
-                var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
-                var reloadDay = function (dayindex) {
-                    var ms = parseInt($('#currentdate').val());
-                    var dt = new Date(ms);
-                    dt.setDate(dt.getDate() - dt.getDay() + dayindex);
-                    $('#nav-content-' + dayindex).html(html_loading);
-                    $('#nav-content-' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+    <script type="text/javascript" src="~/js/bootstrap-input-spinner.js" defer></script>
 
-                    // $('#collapse' + dayindex).html(html_loading);
-                    // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
-                }
-                var weektext = function () {
-                    var ms = parseInt($('#currentdate').val());
-                    var dt = new Date(ms);
-                    firstweekday = new Date(dt.getTime());
-                    lasttweekday = new Date(dt.getTime());
-                    firstweekday.setDate(dt.getDate() - dt.getDay());
-                    lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
-                    return firstweekday.toLocaleDateString() + " - " + lasttweekday.toLocaleDateString();
-                }
+    <script>
+        $(function () {
 
+            $("input.numberspinner[type='number']").inputSpinner();
+            $("#weekselected").inputSpinner();
+            var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
+            var reloadDay = function (dayindex) {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() - dt.getDay() + dayindex);
+                $('#nav-content-' + dayindex).html(html_loading);
+                $('#nav-content-' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+                $('#nav-tab-' + dayindex).find('.shorttabdate').text(dateToshortString(dt));
+                // $('#collapse' + dayindex).html(html_loading);
+                // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+            }
+            var dateToshortString = (dt) => {
+                var dd = dt.getDate();
+                var mm = dt.getMonth() + 1;
+                if (dd < 10) { dd = '0' + dd }
+                if (mm < 10) { mm = '0' + mm }
+                var yyyy = dt.getFullYear(); 
+                return dd + '.' + mm + '.' + yyyy; 
+            }
+            var weektext = function () {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                firstweekday = new Date(dt.getTime());
+                lasttweekday = new Date(dt.getTime());
+                firstweekday.setDate(dt.getDate() - dt.getDay());
+                lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
+                return firstweekday.toLocaleDateString() + " - " + lasttweekday.toLocaleDateString();
+            }
+            var calctotal = (tab, dayindex) => {
+                // var daytab = $('#nav-tabContent').find('[data-dayindex=' + dayindex + ']');
+                var totalQuantity = 0;
+                var totalAmount = 0.0;
+                $(tab).find('[datafield="Quantity"]').each(function (idx, element) {
+                    var quantity = Number.parseInt($(element).val());
+                    var parentform = $(element).parents('[data-form="userdaydish"]');
+                    var price = Number.parseFloat(parentform.find('[datafield="Price"]').val());
+                    totalQuantity += quantity;
+                    totalAmount += quantity * price;
+                });
+                $(tab).find(".total-quantity").text(totalQuantity);
+                $(tab).find(".total-amount").text(totalAmount.toFixed(2));
+            };
+            $(document).on('change', "input.numberspinner[type='number']", function (event) {
+                var parenttab = $(this).parents('.tab-pane');
+                var dayindex = Number.parseInt(parenttab.attr('data-dayindex'));
+                calctotal(parenttab, dayindex);
+            })
+            $('#weekselector').text(weektext());
+            $('#weekselected').text(weektext());
+            var incrementday = function (d) {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() + d);
+                $('#currentdate').val(dt.getTime());
                 $('#weekselector').text(weektext());
-                 $('#weekselected').text(weektext());
-                var incrementday = function (d) {
-                    var ms = parseInt($('#currentdate').val());
-                    var dt = new Date(ms);
-                    dt.setDate(dt.getDate() + d);
-                    $('#currentdate').val(dt.getTime());
-                    $('#weekselector').text(weektext());
-                    $('#weekselected').text(weektext());
-                    for (var i = 0; i < 7; i++)
-                        reloadDay(i);
-                }
-                $('.dayselectback').click((e) => {
-                    e.preventDefault();
-                    incrementday(-7);
-                });
-                $('.dayselectforward').click((e) => {
-                    e.preventDefault();
-                    incrementday(7);
-                });
-                $(document).on('click', '[data-action="saveuserday"]', function (event) {
-                    event.preventDefault();
-                    var divform = $(this).parents(".userdaydish").find('[data-form="userday"]');
-                    var daydishes = [];
-                    divform.find('[data-form="userdaydish"]').each(function (index, day) { //each day
-                        var daydish = {}
-                        $(day).find('[datafield]').each(function (idx, element) {
-                            daydish[$(element).attr("datafield")] = $(element).val();
-                        })
-                        daydishes.push(daydish)
-                    });
-
-                    $.ajax({
-                        type: "POST",
-                        data: res = { daydishes },
-
-                        url: "/UserDayDishes/SaveDay",
-                        success: function (data) {
-                            // alert(data);
-                        }
-                    });
+                $('#weekselected').text(weektext());
+                for (var i = 0; i < 7; i++)
+                    reloadDay(i);
+            }
+            $('.dayselectback').click((e) => {
+                e.preventDefault();
+                incrementday(-7);
+            });
+            $('.dayselectforward').click((e) => {
+                e.preventDefault();
+                incrementday(7);
+            });
+            $(document).on('click', '[data-action="saveuserday"]', function (event) {
+                event.preventDefault();
+                var divform = $(this).parents(".userdaydish").find('[data-form="userday"]');
+                var daydishes = [];
+                divform.find('[data-form="userdaydish"]').each(function (index, day) { //each day
+                    var daydish = {}
+                    $(day).find('[datafield]').each(function (idx, element) {
+                        daydish[$(element).attr("datafield")] = $(element).val();
+                    })
+                    daydishes.push(daydish)
                 });
 
+                $.ajax({
+                    type: "POST",
+                    data: res = { daydishes },
 
-
+                    url: "/UserDayDishes/SaveDay",
+                    success: function (data) {
+                        // alert(data);
+                    }
+                });
             });
 
-        </script>
-    }
+
+
+        });
+
+    </script>
+}
 
 

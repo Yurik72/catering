@@ -12,5 +12,7 @@ namespace CateringPro.Repositories
         CompanyModel GetUserCompany(string UserId);
         InvoiceModel CustomerInvoice(string UserId, DateTime daydate, int companyid);
         IEnumerable<CustomerOrdersViewModel> CustomerOrders( DateTime daydate, int companyid);
+
+        DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid);
     }
 }

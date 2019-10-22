@@ -65,6 +65,7 @@ namespace CateringPro.Models
 
         public string Address2 { get; set; }
 
+        public int? PictureId { get; set; }
     }
 
     public class InvoiceItemModel

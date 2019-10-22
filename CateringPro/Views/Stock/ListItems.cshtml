@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CateringPro.Models.Ingredients>
+
+@using CateringPro.Core
+
+
+@{
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
+
+}
+
+<table class="table">
+    <thead>
+        <tr class="bg-white text-success">
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
+            </th>
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.StockValue, querymodel)
+            </th>
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.MeasureUnit, querymodel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="bg-white text-secondary row-stock">
+            <td>
+                @Html.HiddenFor(modelItem => item.Id )
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+               
+                @Html.EditorFor(modelItem => item.StockValue,null,new {@class = "stockval"})
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeasureUnit)
+            </td>
+            <td>
+
+
+             
+            </td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr class="bg-white text-success rounded border">
+            <td colspan="3">
+                @await this.InvokeComponentAsync(Component, "TablePager", model => model.Name, querymodel)
+            </td>
+        </tr>
+    </tfoot>
+</table>

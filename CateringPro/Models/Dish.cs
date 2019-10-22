@@ -14,7 +14,7 @@ namespace CateringPro.Models
 
         [StringLength(10)]
         [DataType(DataType.Text)]
-        [Required]
+      //  [Required]
         public string Code { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
@@ -30,9 +30,9 @@ namespace CateringPro.Models
         [DisplayName("Dish Price")]
         public decimal Price { get; set; }
 
-        [StringLength(255, MinimumLength = 2)]
+        [StringLength(255)]
         [DataType(DataType.MultilineText)]
-        [Required]
+    //    [Required]
         [DisplayName("Dish Description")]
         public string Description { get; set; }
 

@@ -19,6 +19,13 @@ namespace CateringPro.Models
         [DisplayName("Ingredient Name")]
         public string Name { get; set; }
 
+
+        [DisplayName("Ingredients_MeasureUnit")]
+
+        public string MeasureUnit { get; set; }
+
+        public decimal  StockValue { get; set; }
+
         public virtual ICollection<PizzaIngredients> PizzaIngredients { get; set; }
 
     }

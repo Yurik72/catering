@@ -140,10 +140,10 @@ namespace CateringPro.Controllers
                     if (userDayDish != null)
                     {
                         userDayDish.Quantity = d.Quantity;
-
+                        userDayDish.Price = d.Price;
                         _context.Update(userDayDish);
                     }
-                    else
+                    else if(d.Quantity>0)
                     {
                         //d.UserId = this.User.GetUserId();
                        

@@ -38,14 +38,15 @@ namespace CateringPro.Repositories
                              DishId = dish.Id,
                              CategoryId = dish.CategoriesId,
                              DishName = dish.Name,
-                             Price=dish.Price,
+                             //Price=dish.Price,
                              DishDescription=dish.Description,
                              DishIngredientds=string.Join(",",from di in _context.DishIngredients.Where(t=>t.DishId==dish.Id)
                                                join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
                                                select ingr.Name),
                              PictureId = dish.PictureId,
                              Date = daydate,
-                             Quantity = udayd.Date == daydate? udayd.Quantity:0
+                             Quantity = udayd.Date == daydate? udayd.Quantity:0,
+                             Price = udayd.Date == daydate ? udayd.Price : dish.Price
                          };
             var query2 = from cat in _context.Categories
                          select new UserDayDishViewModelPerGategory()

@@ -28,6 +28,7 @@ namespace CateringPro.Repositories
                     throw new Exception("Company not exists");
                 res = new CompanyModel()
                 {
+                    Name= company.Name,
                     Phone = company.Phone,
                     ZipCode = company.ZipCode,
                     Email = company.Email,
@@ -35,7 +36,8 @@ namespace CateringPro.Repositories
                     City = company.City,
                     Address1 = company.Address1,
                     Address2 = company.Address2,
-                    Country = company.Country
+                    Country = company.Country,
+                    PictureId= company.PictureId,
                 };
 
 
@@ -94,7 +96,7 @@ namespace CateringPro.Repositories
                              Code=d.Code,
                              Name = d.Name,
                              Quantity = ud.Quantity,
-                             Price = d.Price,
+                             Price = ud.Price,
                              Amount = ud.Quantity * d.Price
                          };
                 res.Items = query1.ToList();
@@ -123,7 +125,7 @@ namespace CateringPro.Repositories
                                DishName = d.Name,
                                Date = daydate,
                                Quantity = ud.Quantity,
-                               Price = d.Price,
+                               Price = ud.Price,
                                Amount = ud.Quantity * d.Price
                            };
             var querysingle = query1.FirstOrDefault();
@@ -156,6 +158,37 @@ namespace CateringPro.Repositories
             return res;
             */
             return queryres;
+        }
+        public DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid)
+        {
+            var query1 =
+                           from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+                           join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
+                           join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+                           group ud by new { id = d.Id, name = d.Name ,code=d.Code} into grp
+                           select new
+                           {
+                               DishId = grp.Key.id,
+                               DishCode= grp.Key.code,
+                               DishName = grp.Key.name,
+                               Quantity=grp.Sum(it=>it.Quantity)
+                           };
+            DayProductionViewModel res = new DayProductionViewModel()
+            {
+                Company = GetOwnCompany(companyid),
+                Items= from  q in query1
+                       select new DayProductionDishViewModel()
+                       {
+                           DishCode=q.DishCode,
+                           DishName=q.DishName,
+                           Quantity=q.Quantity
+                       }
+
+
+            };
+          
+
+            return res;
         }
     }
 }

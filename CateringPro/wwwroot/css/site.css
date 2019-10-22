@@ -479,6 +479,14 @@ a.dialog-edit-icon, a.apagebottom {
     font-size:large;
     font-weight:bolder;
 }
+    .dayselector .input-group-text {
+        color: #28a745 !important;
+        border: 2px solid #28a745;
+        border-radius: .4rem;
+        background-color:transparent;
+    }
+
+}
 .day-content{
     margin-top:5px;
     margin-bottom:10px;
@@ -486,5 +494,16 @@ a.dialog-edit-icon, a.apagebottom {
 .daydish-footer {
     padding: 15px;
     margin-top: 15px;
+    box-shadow: 10px 10px 5px grey;
+}
+.daydish-footer .total-order-row{
+    background-color:#5a5a5a;
+    color:#FFFFFF;
+}
+.daydish-footer-cmd{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+.user-order-content {
     box-shadow: 10px 10px 5px grey;
 }

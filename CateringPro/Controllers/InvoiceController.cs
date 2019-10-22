@@ -32,6 +32,14 @@ namespace CateringPro.Controllers
 
             return View(_invoicerepo.CustomerInvoice(userid, daydate, User.GetCompanyID()));
         }
+       [MiddlewareFilter(typeof(JsReportPipeline))]
+        public IActionResult DayProduction(DateTime daydate)
+        {
+            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+
+            return View(_invoicerepo.CompanyDayProduction(daydate, User.GetCompanyID()));
+        }
+
         [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult UserInvoice(DateTime daydate,string userid)
         {

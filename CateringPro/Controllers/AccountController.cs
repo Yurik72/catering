@@ -42,7 +42,16 @@ namespace CateringPro.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new CompanyUser { UserName = model.Email, Email = model.Email,PhoneNumber=model.PhoneNumber };
+                var user = new CompanyUser { 
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    PhoneNumber=model.PhoneNumber,
+                    City=model.City,
+                    Country=model.Country,
+                    ZipCode=model.ZipCode,
+                    Address1=model.Address1,
+                    Address2=model.Address2
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)

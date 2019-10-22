@@ -31,12 +31,18 @@
     <div class="modal-body">
         <form asp-action="EditModal">
             <dl class="">
-              
+
 
                 <dt>  <label asp-for="Name" class="control-label"></label></dt>
                 <dd>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
+                </dd>
+
+                <dt>  <label asp-for="MeasureUnit" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="MeasureUnit" class="form-control" />
+                    <span asp-validation-for="MeasureUnit" class="text-danger"></span>
                 </dd>
             </dl>
         </form>

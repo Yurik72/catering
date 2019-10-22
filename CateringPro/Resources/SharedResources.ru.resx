@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address1" xml:space="preserve">
+    <value>Адрес 1</value>
+  </data>
+  <data name="Address2" xml:space="preserve">
+    <value>Адрес 2</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Отменить</value>
   </data>
@@ -134,6 +140,12 @@
   </data>
   <data name="Category Name" xml:space="preserve">
     <value>Категория</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Страна</value>
   </data>
   <data name="CustomerOrders" xml:space="preserve">
     <value>Заказы моей компании</value>
@@ -198,6 +210,9 @@
   <data name="Ingredients" xml:space="preserve">
     <value>Ингредиенты</value>
   </data>
+  <data name="Ingredients_MeasureUnit" xml:space="preserve">
+    <value>Ед.изм.</value>
+  </data>
   <data name="Login Title" xml:space="preserve">
     <value>Введите данные ниже</value>
   </data>
@@ -231,6 +246,9 @@
   <data name="MenuSearch" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="MenuStock" xml:space="preserve">
+    <value>Склад</value>
+  </data>
   <data name="MenuUserOrder" xml:space="preserve">
     <value>Мои заказы</value>
   </data>
@@ -243,8 +261,14 @@
   <data name="OrderTitle" xml:space="preserve">
     <value>Закажите меню на определенный день</value>
   </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
   <data name="Please login" xml:space="preserve">
     <value>Пожалуйста войдите</value>
+  </data>
+  <data name="Register Title" xml:space="preserve">
+    <value>Зарегестрируйтесь Catering PRO ! Бесплатно !</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
@@ -257,5 +281,8 @@
   </data>
   <data name="UserButtonLogin" xml:space="preserve">
     <value>Вход</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Почт. индекс</value>
   </data>
 </root>
