@@ -150,13 +150,14 @@ namespace CateringPro
 
             CultureInfo[] supportedCultures = new[]
 {
-                new CultureInfo("en"),
-                new CultureInfo("ru"),
-                new CultureInfo("ua")
+                new CultureInfo("en-US"),
+                 new CultureInfo("uk-UA"),
+                new CultureInfo("ru-RU")
+              
             };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture("ru"),
+                DefaultRequestCulture = new RequestCulture("uk"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
                 RequestCultureProviders = new List<IRequestCultureProvider>
