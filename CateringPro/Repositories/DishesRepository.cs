@@ -20,7 +20,7 @@ namespace CateringPro.Repositories
         }
 
   
-        public async Task<bool> UpdateDishIngredients(Dish dish,List<string> ingredients)
+        public async Task<bool> UpdateDishIngredients(Dish dish,List<string> ingredients,int companyid)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace CateringPro.Repositories
 //                                    existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id })
 //                                    );
                     newRange=ing.Where(p2 =>
-                                    existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id });
+                                    existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id,CompanyId= companyid });
                 }
                 _context.UpdateRange(existing);
                 if(newRange!=null)

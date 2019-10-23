@@ -27,6 +27,10 @@
 
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.MeasureUnit, querymodel)
             </th>
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.StockDate, querymodel)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,20 +39,20 @@
         {
         <tr class="bg-white text-secondary row-stock">
             <td>
-                @Html.HiddenFor(modelItem => item.Id )
+                @Html.HiddenFor(modelItem => item.Id)
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <input class="stockval" />
-             
+
+                @Html.EditorFor(modelItem => item.StockValue, new { htmlAttributes = new { @class = "stockval" } })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MeasureUnit)
             </td>
             <td>
-
-
-             
+                @Html.DisplayFor(modelItem => item.StockDate)
+            </td>
+            <td>
             </td>
         </tr>
         }

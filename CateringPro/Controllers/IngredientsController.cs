@@ -64,7 +64,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,MeasureUnit")] Ingredients ing)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,MeasureUnit,StockDate,StockValue")] Ingredients ing)
         {
             if (id != ing.Id)
             {

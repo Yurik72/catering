@@ -124,7 +124,7 @@
     <value>Адреса 2</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Вiдминити</value>
+    <value>Вiдмiнити</value>
   </data>
   <data name="Categories" xml:space="preserve">
     <value>Категорії</value>
@@ -149,6 +149,12 @@
   </data>
   <data name="CustomerOrders" xml:space="preserve">
     <value>Мої замовлення</value>
+  </data>
+  <data name="Day Ingredients" xml:space="preserve">
+    <value>Розрахунок продуктiв</value>
+  </data>
+  <data name="Day Production" xml:space="preserve">
+    <value>Замовлення на день</value>
   </data>
   <data name="Dish" xml:space="preserve">
     <value>Страва</value>
@@ -210,8 +216,17 @@
   <data name="Ingredients" xml:space="preserve">
     <value>Інгредієнти</value>
   </data>
+  <data name="Ingredients_MeasureUnit" xml:space="preserve">
+    <value>Од.вим.</value>
+  </data>
+  <data name="LeadTime" xml:space="preserve">
+    <value>Блок. замовл. до</value>
+  </data>
   <data name="Login Title" xml:space="preserve">
     <value>Введіть дані нижче</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Лого</value>
   </data>
   <data name="MenuAdmin" xml:space="preserve">
     <value>Адмін</value>
@@ -243,11 +258,26 @@
   <data name="MenuSearch" xml:space="preserve">
     <value>Пошук</value>
   </data>
+  <data name="MenuStock" xml:space="preserve">
+    <value>Склад</value>
+  </data>
   <data name="MenuUserOrder" xml:space="preserve">
     <value>Мої замовлення</value>
   </data>
+  <data name="MyOrderDetails" xml:space="preserve">
+    <value>Деталі</value>
+  </data>
+  <data name="MyOrderQuantityTotal" xml:space="preserve">
+    <value>Кiлькiсть</value>
+  </data>
+  <data name="MyOrdersNoOrder" xml:space="preserve">
+    <value>Немає замовлень</value>
+  </data>
   <data name="MyOrdersSave" xml:space="preserve">
     <value>Замовити</value>
+  </data>
+  <data name="MyOrderWho" xml:space="preserve">
+    <value>Замовник</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Назва</value>
@@ -266,6 +296,18 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="StockDate" xml:space="preserve">
+    <value>Дата зал.</value>
+  </data>
+  <data name="StockValue" xml:space="preserve">
+    <value>Залишок</value>
+  </data>
+  <data name="ThresholdTime" xml:space="preserve">
+    <value>Блок. замовл. пiсля</value>
   </data>
   <data name="User Name" xml:space="preserve">
     <value>Користувач</value>

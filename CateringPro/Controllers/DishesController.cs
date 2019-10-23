@@ -177,7 +177,8 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-            
+            if (dish.Code == null) dish.Code = "";
+            if (dish.Description == null) dish.Description = "";
             if (Request.Form.Files.Count > 0)
             {
                 Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);
@@ -200,7 +201,7 @@ namespace CateringPro.Controllers
             ///not work
            // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
             var res=await this.UpdateCompanyDataAsync(dish, _context, _logger);
-            await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds);
+            await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds,User.GetCompanyID());
             return res;
         }
 
@@ -244,6 +245,7 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+            dish.Code = _context.Categories.Count().ToString();
             ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", dish.CategoriesId);
             return PartialView("EditModal",dish);
         }

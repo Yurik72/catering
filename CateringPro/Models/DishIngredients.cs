@@ -2,7 +2,7 @@
 
 namespace CateringPro.Models
 {
-    public class DishIngredients
+    public class DishIngredients: CompanyData
     {
         //public int Id { get; set; }
 
@@ -11,6 +11,8 @@ namespace CateringPro.Models
 
         [DisplayName("Select Ingredient")]
         public int IngredientId { get; set; }
+
+        public decimal Proportion { get; set; }
 
         public virtual Ingredients Ingredient { get; set; }
         public virtual Dish Dish { get; set; }

@@ -8,6 +8,6 @@ namespace CateringPro.Repositories
     public interface IDishesRepository
     {
 
-        Task<bool> UpdateDishIngredients(Dish dish, List<string> ingredients);
+        Task<bool> UpdateDishIngredients(Dish dish, List<string> ingredients, int companyid);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace CateringPro.Models
 {
@@ -37,10 +38,11 @@ namespace CateringPro.Models
 
         [StringLength(40)]
         public string Address2 { get; set; }
-
+        [DisplayName("Logo")]
         public int? PictureId { get; set; }
-
+        [DisplayName("LeadTime")]
         public int? OrderLeadTimeH { get; set; }
+        [DisplayName("ThresholdTime")]
         public int? OrderThresholdTimeH { get; set; }
         
     }

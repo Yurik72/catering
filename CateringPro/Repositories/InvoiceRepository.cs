@@ -190,5 +190,44 @@ namespace CateringPro.Repositories
 
             return res;
         }
+        public DayIngredientsViewModel CompanyDayIngredients(DateTime daydate, int companyid)
+        {
+            {
+                var query1 =
+                               from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+                               join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
+                               join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+                               join di in _context.DishIngredients.Where(ud => ud.CompanyId == companyid ) on dd.DishId equals di.DishId
+                               join ing in _context.Ingredients.Where(ud => ud.CompanyId == companyid) on di.IngredientId equals ing.Id
+                               group new { di,ud} by new { id = ing.Id, name = ing.Name,mu=ing.MeasureUnit} into grp
+                               select new
+                               {
+                                   IngId = grp.Key.id,
+                                   
+                                   IngName = grp.Key.name,
+                                   IngMu = grp.Key.mu,
+                                   Quantity = grp.Sum(it=>it.ud.Quantity*it.di.Proportion),
+                                   DishQuantity = grp.Sum(it => it.ud.Quantity )
+                               };
+                DayIngredientsViewModel res = new DayIngredientsViewModel()
+                {
+                    Company = GetOwnCompany(companyid),
+                    Items = from q in query1
+                            select new DayIngredientsDetails()
+                            {
+                                IngredientId = q.IngId,
+                                IngredientName = q.IngName,
+                                Quantity = q.Quantity,
+                                MeasureUnit=q.IngMu,
+                                DishQuantity=q.DishQuantity
+                            }
+
+
+                };
+
+
+                return res;
+            }
+        }
     }
 }

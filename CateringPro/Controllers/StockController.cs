@@ -66,7 +66,15 @@ namespace CateringPro.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveStock(int id ,decimal stockvalue)
         {
-    
+            var ing = await _context.Ingredients.FindAsync(id);
+            if(ing==null || ing.CompanyId != User.GetCompanyID())
+            {
+                return Json(new { res = "FAIL" });
+            }
+            ing.StockValue = stockvalue;
+            ing.StockDate = DateTime.Now;
+            _context.Update(ing);
+            await _context.SaveChangesAsync();
             return Json(new { res = "OK" });
 
         }

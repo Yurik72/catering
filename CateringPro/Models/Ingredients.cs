@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,9 +24,10 @@ namespace CateringPro.Models
         [DisplayName("Ingredients_MeasureUnit")]
 
         public string MeasureUnit { get; set; }
-
+        [DisplayName("StockValue")]
         public decimal  StockValue { get; set; }
-
+        [DisplayName("StockDate")]
+        public DateTime StockDate { get; set; }
         public virtual ICollection<PizzaIngredients> PizzaIngredients { get; set; }
 
     }

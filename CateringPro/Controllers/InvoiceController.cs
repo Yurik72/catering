@@ -26,18 +26,54 @@ namespace CateringPro.Controllers
         }
 
         [MiddlewareFilter(typeof(JsReportPipeline))]
-        public IActionResult Invoice(DateTime daydate, string userid)
+        public IActionResult Invoice(DateTime daydate, string userid,string format)
         {
-            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            if (format == "xlsx")
+            {
+                HttpContext.JsReportFeature()
+               .Configure(req => req.Options.Preview = true)
+               .Recipe(Recipe.HtmlToXlsx)
+               .Configure((r) => r.Template.HtmlToXlsx = new HtmlToXlsx() { HtmlEngine = "chrome" });
+            }
+            else
+            {
+                HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            }
+
 
             return View(_invoicerepo.CustomerInvoice(userid, daydate, User.GetCompanyID()));
         }
        [MiddlewareFilter(typeof(JsReportPipeline))]
-        public IActionResult DayProduction(DateTime daydate)
+        public IActionResult DayProduction(DateTime daydate, string format)
         {
-            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
-
+            if (format == "xlsx")
+            {
+                HttpContext.JsReportFeature()
+               .Configure(req => req.Options.Preview = true)
+               .Recipe(Recipe.HtmlToXlsx)
+               .Configure((r) => r.Template.HtmlToXlsx = new HtmlToXlsx() { HtmlEngine = "chrome" });
+            }
+            else
+            {
+                HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            }
             return View(_invoicerepo.CompanyDayProduction(daydate, User.GetCompanyID()));
+        }
+        [MiddlewareFilter(typeof(JsReportPipeline))]
+        public IActionResult DayIngredients(DateTime daydate, string format)
+        {
+            if (format == "xlsx")
+            {
+                HttpContext.JsReportFeature()
+               .Configure(req => req.Options.Preview = true)
+               .Recipe(Recipe.HtmlToXlsx)
+               .Configure((r) => r.Template.HtmlToXlsx = new HtmlToXlsx() { HtmlEngine = "chrome" });
+            }
+            else
+            {
+                HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            }
+            return View(_invoicerepo.CompanyDayIngredients(daydate, User.GetCompanyID()));
         }
 
         [MiddlewareFilter(typeof(JsReportPipeline))]

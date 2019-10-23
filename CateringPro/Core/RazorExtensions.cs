@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Core
 {
+   
     public static class RazorExtensions
     {
+      
         public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
         {
             int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;

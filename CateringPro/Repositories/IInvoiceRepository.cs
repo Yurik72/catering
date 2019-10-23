@@ -14,5 +14,7 @@ namespace CateringPro.Repositories
         IEnumerable<CustomerOrdersViewModel> CustomerOrders( DateTime daydate, int companyid);
 
         DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid);
+
+        DayIngredientsViewModel CompanyDayIngredients(DateTime daydate, int companyid);
     }
 }
