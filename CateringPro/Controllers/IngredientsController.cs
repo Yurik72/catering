@@ -100,7 +100,8 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-
+            ing.StockDate = DateTime.Now;
+      
             return PartialView("EditModal", ing);
         }
         // GET: Ingredients/Details/5

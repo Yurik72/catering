@@ -35,15 +35,25 @@
                         <div class="row border border-info">
                             <div class="col col-lg-2 col-md-2">
                                 <span> @Localizer["MyOrderWho"]</span>
-                                
+
                             </div>
-                            <div class="col col-lg-2 col-md-2">
-                                <span>#</span>
-                            </div>
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="col col-lg-1 col-md-1">
                                 <span>@Localizer["MyOrderQuantityTotal"]</span>
                             </div>
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="col col-lg-1 col-md-1">
+                                <span>Amount</span>
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
+                                
+                                <span>@Localizer["MyOrderIsConfirmed"]</span>
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
+                                <span>@Localizer["MyOrderIsPaid"]</span>
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
+                                <span>@Localizer["MyOrderPaidAmount"]</span>
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
                                 <span>@Localizer["MyOrderDetails"]</span>
                             </div>
                         </div>
@@ -54,13 +64,22 @@
                                 @Html.DisplayFor(modelItem => it.User.Address1) <br />
                                 @Html.DisplayFor(modelItem => it.User.Address2)
                             </div>
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="col col-lg-1 col-md-1">
                                 @Html.DisplayFor(modelItem => it.DishesCount)
                             </div>
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="col col-lg-1 col-md-1">
                                 @Html.DisplayFor(modelItem => it.Amount)
                             </div>
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="col col-lg-1 col-md-1">
+                                @Html.DisplayFor(modelItem => it.IsConfirmed)
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
+                                @Html.DisplayFor(modelItem => it.IsPaid)
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
+                                @Html.DisplayFor(modelItem => it.PaidAmount)
+                            </div>
+                            <div class="col col-lg-1 col-md-1">
                                 @Html.ActionLink("", "Invoice", "Invoice",
                                         new { daydate = it.Date, userid = it.UserId }, new { @target = "_blank", @class = "dishitem fa fa-pencil-square-o" })
 

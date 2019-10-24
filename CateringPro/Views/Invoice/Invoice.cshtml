@@ -20,9 +20,9 @@
                                 <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Seller.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
                             </td>
                             <td>
-                                Invoice #: @Model.Number
-                                <br> Created: @DateTime.Now.ToShortDateString()
-                                <br> Due: @DateTime.Now.AddDays(20).ToShortDateString()
+                                Рахунок: @Model.Number
+                                <br> Дата: @DateTime.Now.ToShortDateString()
+
                             </td>
                         </tr>
                     </table>
@@ -47,60 +47,69 @@
                                 @Model.Buyer.Address1
                             </td>
                         </tr>
-            </table>
-        </td>
-    </tr>
+                    </table>
+                </td>
+            </tr>
             <tr class="heading ">
                 <td>
-                    #
+                    Код
                 </td>
                 <td>
-                    Название
+                    Назва
                 </td>
                 <td>
-                    Кол-во
+                    Кiлькiсть
                 </td>
                 <td>
-                    Цена
+                    Вартiсть
                 </td>
                 <td>
-                    Сумма
+                    Сума
                 </td>
             </tr>
 
-    @foreach (var item in Model.Items)
-    {
-        <tr class="item">
-            <td>
-                @item.Code
-            </td>
-            <td>
-                @item.Name
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Quantity)
-              
-            </td>
-            <td>
-               @item.Price.ToString("0.00")
-            </td>
-            <td>
-                @item.Amount.ToString("0.00")
+            @foreach (var item in Model.Items)
+            {
+                <tr class="item">
+                    <td>
+                        @item.Code
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Quantity)
 
-            </td>
-        </tr>
-    }
+                    </td>
+                    <td>
+                        @item.Price.ToString("0.00")
+                    </td>
+                    <td>
+                        @item.Amount.ToString("0.00")
 
-        <tr class="total ">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                Итого: @Model.Items.Sum(i => i.Amount).ToString("0.00")
-            </td>
-        </tr>
-</table>
+                    </td>
+                </tr>
+            }
+
+            <tr class="total ">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    Загальна сума: @Model.Items.Sum(i => i.Amount).ToString("0.00")
+                </td>
+            </tr>
+            <tr class="sign ">
+                <td>Директор</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Seller.StampPictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
+                </td>
+            </tr>
+        </table>
 </div>
 </body>
 </html>

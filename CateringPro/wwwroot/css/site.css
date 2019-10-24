@@ -513,3 +513,7 @@ a.dialog-edit-icon, a.apagebottom {
     position: relative;
     clear: left;
 }
+.payment-form{
+    padding:30px;
+    margin:30px;
+}

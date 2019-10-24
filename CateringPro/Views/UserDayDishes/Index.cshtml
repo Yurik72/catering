@@ -47,11 +47,11 @@
         }
         @for (int i = 0; i < 7; i++)
         {
-        <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
+            <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
 
-            @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
-            <span class="shorttabdate">@current_head.ToShortDateString()</span>
-        </a>
+                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
+                <span class="shorttabdate">@current_head.ToShortDateString()</span>
+            </a>
 
             current_head = current_head.AddDays(1);
         }
@@ -69,6 +69,49 @@
 
         current_content = current_content.AddDays(1);
     }
+</div>
+<div id="modOrderSuccess" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Повiдомлення</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Заява прийнята</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modPayment" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Сплата LiqPay</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" class="payment-form" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
+                <input type="hidden" name="data" value="eyJwdWJsaWNfa2V5IjoiaTAwMDAwMDAwIiwidmVyc2lvbiI6IjMiLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIzIiwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6InRlc3QiLCJvcmRlcl9pZCI6IjAwMDAwMSJ9" />
+                <input type="hidden" name="signature" value="wR+UZDC4jjeL/qUOvIsofIWpZh8=" />
+                <label for="numorder" class="control-label">Code</label>
+                <input type="text" name="amount" id="numorder" class="form-control" />
+                <p />
+                <label for="amount" class="control-label">Сума ₴</label>
+                <input type="number" name="amount" id="amount" class="form-control" />
+                <p />
+                <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" />
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -96,8 +139,8 @@
                 var mm = dt.getMonth() + 1;
                 if (dd < 10) { dd = '0' + dd }
                 if (mm < 10) { mm = '0' + mm }
-                var yyyy = dt.getFullYear(); 
-                return dd + '.' + mm + '.' + yyyy; 
+                var yyyy = dt.getFullYear();
+                return dd + '.' + mm + '.' + yyyy;
             }
             var weektext = function () {
                 var ms = parseInt($('#currentdate').val());
@@ -166,15 +209,32 @@
                     url: "/UserDayDishes/SaveDay",
                     success: function (data) {
                         // alert(data);
+                        $('#modOrderSuccess').modal('show');
+
                     }
                 });
             });
 
-
+            $(document).on('click', '[data-action="payuserday"]', function (event) {
+                event.preventDefault();
+                var divform = $(this).parents(".userdaydish").find('[data-form="userday"]');
+                var daydishes = [];
+                var amount = 0.0
+                divform.find('[data-form="userdaydish"]').each(function (index, day) { //each day
+                    var daydish = {}
+                    $(day).find('[datafield]').each(function (idx, element) {
+                        daydish[$(element).attr("datafield")] = $(element).val();
+                    })
+                    daydishes.push(daydish)
+                    amount += Number.parseFloat(daydish.Price) * Number.parseFloat(daydish.Quantity);
+                });
+                $('#modPayment').find('#amount').val(amount);
+                $('#modPayment').find('#numorder').val('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
+                $('#modPayment').modal('show');
+            })
 
         });
 
     </script>
 }
-
 

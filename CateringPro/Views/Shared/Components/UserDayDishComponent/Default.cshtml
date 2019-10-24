@@ -45,6 +45,11 @@
                         @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
                         @Html.DisplayFor(modelItem => item.DishName)
                     </div>
+                    <div class="col col-lg-1 col-md-1">
+                        @string.Format("{0:0.00} {1}", item.ReadyWeight, Localizer["gr."])
+                        <p />
+                        @string.Format("{0} {1}", item.KKal, Localizer["KKal"])
+                    </div>
                     <div class="col col-lg-4 col-md-4 small">
                         @Html.DisplayFor(modelItem => item.DishDescription)
                         <p />
@@ -57,9 +62,7 @@
                     <div class="col col-lg-2 col-md-2">
                         @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
                     </div>
-                    <div class="col col-lg-1 col-md-1">
 
-                    </div>
                 </div>
             }
         </div>
@@ -79,8 +82,8 @@
 
             <div class="col col-lg-2 col-md-2">
                 <span class="total-amount">@string.Format("{0:0.00}", @Model.Sum(it => it.TotalAmount))</span>
-                <span >@pageOptions.Value.CurrencySymbol</span>
-                
+                <span>@pageOptions.Value.CurrencySymbol</span>
+
 
             </div>
 
@@ -90,6 +93,8 @@
             </div>
             <div class="col col-lg-4 col-md-4">
                 <button type="button" button class="btn btn-primary" data-action="saveuserday" data-action="saveuserday">@Localizer["MyOrdersSave"]</button>
+
+                <button type="button" button class="btn btn-primary" data-action="payuserday" >@Localizer["MyOrdersPayment"]</button>
             </div>
         </div>
     </div>

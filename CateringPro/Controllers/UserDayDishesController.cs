@@ -20,16 +20,18 @@ namespace CateringPro.Controllers
     public class UserDayDishesController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IUserDayDishesRepository _userdishes;
+        private readonly IUserDayDishesRepository _userdaydishesrepo;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly ILogger<CompanyUser> _logger;
+        private readonly IEmailService _email;
 
-        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger)
+        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email)
         {
             _context = context;
             _userManager = um;
-            _userdishes = ud;
+            _userdaydishesrepo = ud;
             _logger = logger;
+            _email = email;
         }
 
         // GET: UserDayDishes
@@ -112,24 +114,14 @@ namespace CateringPro.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveDay(List<UserDayDish> daydishes)
         {
-            //to do make a separate context for async
-            Func<UserDayDish, Task<bool>> saveday = async d =>  {
-              
-                    var userDayDish = await _context.UserDayDish.FindAsync(this.User.GetUserId(), d.Date, d.DishId);
-                    if (userDayDish != null)
-                    {
-                        userDayDish.Quantity = d.Quantity;
-                        _context.Update(userDayDish);
-                    }
-                    else
-                    {
-                        d.UserId = _userManager.GetUserId(HttpContext.User);
-                        _context.Add(d);
-                    }
-                
-                return true;
-                
-            };
+            if(  _userdaydishesrepo.SaveDay(daydishes, this.HttpContext)){
+                return await Task.FromResult(Json(new { res = "OK" }));
+            }
+            else
+            {
+                return await Task.FromResult(Json(new { res = "FAIL" }));
+            }
+            /*
             try
             {
                 daydishes.ForEach(d =>
@@ -159,6 +151,7 @@ namespace CateringPro.Controllers
                 return await Task.FromResult(Json(new { res = "FAIL" }));
             }
             return await Task.FromResult(Json(new { res = "OK" }));
+            */
         }
         // POST: UserDayDishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

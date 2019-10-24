@@ -30,6 +30,17 @@ namespace CateringPro.Models
         [DisplayName("Dish Price")]
         public decimal Price { get; set; }
 
+
+       
+    
+  
+        [DisplayName("Dish ReadyWeight")]
+        public decimal ReadyWeight { get; set; }
+
+
+        [DisplayName("Dish KKal")]
+        public int KKal { get; set; }
+
         [StringLength(255)]
         [DataType(DataType.MultilineText)]
     //    [Required]

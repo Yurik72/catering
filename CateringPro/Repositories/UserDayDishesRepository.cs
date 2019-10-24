@@ -5,18 +5,85 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using CateringPro.Core;
 
 namespace CateringPro.Repositories
 {
     public class UserDayDishesRepository : IUserDayDishesRepository
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<CompanyUser> _logger;
+        private readonly UserManager<CompanyUser> _userManager;
 
-        public UserDayDishesRepository(AppDbContext context)
+        public UserDayDishesRepository(AppDbContext context, ILogger<CompanyUser> logger, UserManager<CompanyUser> userManager)
         {
             _context = context;
+            _logger = logger;
+            _userManager = userManager;
         }
+        public CompanyModel GetOwnCompany(int companyid)
+        {
+            CompanyModel res;
+            try
+            {
+                var company = _context.Companies.Find(companyid);
+                if (company == null)
+                    throw new Exception("Company not exists");
+                res = new CompanyModel()
+                {
+                    Name = company.Name,
+                    Phone = company.Phone,
+                    ZipCode = company.ZipCode,
+                    Email = company.Email,
 
+                    City = company.City,
+                    Address1 = company.Address1,
+                    Address2 = company.Address2,
+                    Country = company.Country,
+                    PictureId = company.PictureId,
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetOwnCompany Company={0} ", companyid);
+                return new CompanyModel(); //to do
+            }
+            return res;
+        }
+        public CompanyModel GetUserCompany(string UserId)
+        {
+            CompanyModel res;
+            try
+            {
+                var user = _context.Users.Find(UserId);
+                if (user == null)
+                    throw new Exception("User not exists");
+                res = new CompanyModel()
+                {
+                    Phone = user.PhoneNumber,
+                    ZipCode = user.ZipCode,
+                    Email = user.Email,
+                    Name = user.UserName,
+                    City = user.City,
+                    Address1 = user.Address1,
+                    Address2 = user.Address2,
+                    Country = user.Country
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetUserCompany User={0} ", UserId);
+                return new CompanyModel(); //to do
+            }
+            return res;
+        }
         public IQueryable<UserDayDishViewModel> DishesPerDay(DateTime daydate, string userId,int companyid)
         {
             var query = from dish in _context.Dishes
@@ -60,6 +127,8 @@ namespace CateringPro.Repositories
                                              DishId = dd.DishId,
                                              DishName = dd.DishName,
                                              Price=dd.Price,
+                                             ReadyWeight=dd.ReadyWeight,
+                                             KKal=dd.KKal,
                                              Quantity = dd.Quantity,
                                              PictureId = dd.PictureId,
                                              Enabled = dd.Enabled,
@@ -104,58 +173,34 @@ namespace CateringPro.Repositories
 
         public IQueryable<CustomerOrdersViewModel> CustomerOrders(DateTime daydate,  int companyid)
         {
-            var query1 =
-                           from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date==daydate)
-                           join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
-                           join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on   dd.DishId equals  ud.DishId
-                           join cu in _context.Users on ud.UserId equals cu.Id
-                           select new CustomerOrdersDetailsViewModel
-                           { 
-                               UserId = cu.Id, 
-                               UserName = cu.NormalizedUserName,
-                               DishId = d.Id, 
-                               CategoryId = d.CategoriesId, 
-                               DishName = d.Name,
-                               Date = daydate, 
-                               Quantity = ud.Quantity, 
-                               Price = d.Price, 
-                               Amount =ud.Quantity * d.Price 
-                           };
-           var query2=from entry in query1
-                      group entry by entry.UserId into grp
-                      select new CustomerOrdersViewModel
-                      {
-                          UserId = grp.Key,
-                          UserName = grp.Min(a=>a.UserName), //! todo
-                          Date = daydate,
-                          DishesCount = grp.Count(),
-                          Amount= grp.Sum(a=>a.Amount)
+            var query1 = from ud in _context.UserDay.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+                         join user in _context.Users on ud.UserId equals user.Id
+                         select new CustomerOrdersViewModel
+                         {
+                             UserId = ud.UserId,
+                             UserName = "", //! todo
+                             Date = daydate,
+                             DishesCount = ud.Quantity,
+                             Amount = ud.Total,
+                             IsConfirmed=ud.IsConfirmed,
+                             IsPaid = ud.IsPaid,
+                             User= new CompanyModel()
+                             {
+                                 Phone = user.PhoneNumber,
+                                 ZipCode = user.ZipCode,
+                                 Email = user.Email,
+                                 Name = user.UserName,
+                                 City = user.City,
+                                 Address1 = user.Address1,
+                                 Address2 = user.Address2,
+                                 Country = user.Country
+                             }
+  
+        };
 
-                      };
 
-/*
-            var query = from entry in (
-                           from dd in _context.DayDish
-                           join d in _context.Dishes on dd.DishId equals d.Id
-                           where dd.Date == daydate && dd.CompanyId == companyid
-                           join ud in _context.UserDayDish on new { dd.DishId, dd.Date, cid = companyid } equals new { ud.DishId, ud.Date, cid = ud.CompanyId }
-                           join cu in _context.Users on ud.UserId equals cu.Id
-                           select new { UserId = cu.Id, UserName = cu.NormalizedUserName, DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, ItemQuanity = ud.Quantity, ItemPrice = d.Price, ItemAmount = ud.Quantity * d.Price }
-                           )
-                        group entry by entry.UserId into ordergroup
-                      //  join cat in _context.Categories on new { id = ordergroup.First().CategoryID, cid = companyid } equals new { id = cat.Id, cid = cat.CompanyId }
-
-                        select new CustomerOrdersViewModel
-                        {
-                            UserId= ordergroup.Key,
-                            UserName = ordergroup.First().UserName,
-                          //  Date = daydate,
-                          //  DishesCount = ordergroup.Count(),
-                          //  Amount= ordergroup.Sum(a=>a.ItemAmount)
-
-                        };
-    */
-            return query2;
+            return query1;
+ 
 
         }
         public CustomerOrdersViewModel CustomerOrders(string UserId,DateTime daydate, int companyid)
@@ -194,5 +239,165 @@ namespace CateringPro.Repositories
             return res;
 
         }
+
+        public bool SaveDay(List<UserDayDish> daydishes,HttpContext httpcontext)
+        {
+
+            try
+            {
+                daydishes.ForEach(d =>
+                {
+                    //await saveday(d);
+                    httpcontext.User.AssignUserAttr(d);
+                    var userDayDish = _context.UserDayDish.Find(d.UserId, d.Date, d.DishId, d.CompanyId);
+                    if (userDayDish != null)
+                    {
+                        userDayDish.Quantity = d.Quantity;
+                        userDayDish.Price = d.Price;
+                        _context.Update(userDayDish);
+                    }
+                    else if (d.Quantity > 0)
+                    {
+                            //d.UserId = this.User.GetUserId();
+
+                            _context.Add(d);
+                    }
+
+                });
+                if (!UpdateUserDay(daydishes, httpcontext))
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update user day dish");
+                return false;
+            }
+            return true;
+        }
+        private bool UpdateUserDay(List<UserDayDish> daydishes, HttpContext httpcontext)
+        {
+            var userid = httpcontext.User.GetUserId();
+            var companyid = httpcontext.User.GetCompanyID();
+            bool isnew = false;
+            UserDay userDay= null;
+            
+            if (daydishes.Count > 0) 
+            {
+                DateTime daydate = daydishes.First().Date;
+                userDay = _context.UserDay.FirstOrDefault(ud => ud.UserId == userid && ud.CompanyId == companyid && ud.Date == daydate);
+                if (userDay == null)
+                {
+                    isnew = true;
+                    userDay = new UserDay() { Date = daydate };
+                    httpcontext.User.AssignUserAttr(userDay);
+                }
+                userDay.Total = daydishes.Sum(d => d.Price * d.Quantity);
+                
+                userDay.Quantity = daydishes.Sum(d =>  d.Quantity);
+                
+            }
+            try
+            {
+                if (isnew && userDay != null)
+                {
+                    _context.Add(userDay);
+                }
+                if (!isnew && userDay != null)
+                {
+                    _context.Update(userDay);
+                }
+                if (userDay != null)
+                    _context.SaveChanges();
+            }
+            catch (Exception ex) {
+                _logger.LogError(ex, "Update user day ");
+                return false;
+            }
+            return true;
+
+
+        }
+
+        /*   old , to be deleted further */
+        public IQueryable<CustomerOrdersViewModel> CustomerOrders_old(DateTime daydate, int companyid)
+        {
+            var query1 =
+                           from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+                           join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
+                           join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+                           join cu in _context.Users on ud.UserId equals cu.Id
+                           select new CustomerOrdersDetailsViewModel
+                           {
+                               UserId = cu.Id,
+                               UserName = cu.NormalizedUserName,
+                               DishId = d.Id,
+                               CategoryId = d.CategoriesId,
+                               DishName = d.Name,
+                               Date = daydate,
+                               Quantity = ud.Quantity,
+                               Price = d.Price,
+                               Amount = ud.Quantity * d.Price
+                           };
+            var query2 = from entry in query1
+                         group entry by entry.UserId into grp
+                         select new CustomerOrdersViewModel
+                         {
+                             UserId = grp.Key,
+                             UserName = grp.Min(a => a.UserName), //! todo
+                             Date = daydate,
+                             DishesCount = grp.Count(),
+                             Amount = grp.Sum(a => a.Amount)
+
+                         };
+
+            /*
+                        var query = from entry in (
+                                       from dd in _context.DayDish
+                                       join d in _context.Dishes on dd.DishId equals d.Id
+                                       where dd.Date == daydate && dd.CompanyId == companyid
+                                       join ud in _context.UserDayDish on new { dd.DishId, dd.Date, cid = companyid } equals new { ud.DishId, ud.Date, cid = ud.CompanyId }
+                                       join cu in _context.Users on ud.UserId equals cu.Id
+                                       select new { UserId = cu.Id, UserName = cu.NormalizedUserName, DishId = d.Id, CategoryID = d.CategoriesId, DishName = d.Name, Date = daydate, ItemQuanity = ud.Quantity, ItemPrice = d.Price, ItemAmount = ud.Quantity * d.Price }
+                                       )
+                                    group entry by entry.UserId into ordergroup
+                                  //  join cat in _context.Categories on new { id = ordergroup.First().CategoryID, cid = companyid } equals new { id = cat.Id, cid = cat.CompanyId }
+
+                                    select new CustomerOrdersViewModel
+                                    {
+                                        UserId= ordergroup.Key,
+                                        UserName = ordergroup.First().UserName,
+                                      //  Date = daydate,
+                                      //  DishesCount = ordergroup.Count(),
+                                      //  Amount= ordergroup.Sum(a=>a.ItemAmount)
+
+                                    };
+                */
+            return query2;
+
+        }
+
     }
 }
+
+
+     //to do make a separate context for async
+     /*
+     Func<UserDayDish, Task<bool>> saveday = async d =>  {
+
+             var userDayDish = await _context.UserDayDish.FindAsync(this.User.GetUserId(), d.Date, d.DishId);
+             if (userDayDish != null)
+             {
+                 userDayDish.Quantity = d.Quantity;
+                 _context.Update(userDayDish);
+             }
+             else
+             {
+                 d.UserId = _userManager.GetUserId(HttpContext.User);
+                 _context.Add(d);
+             }
+
+         return true;
+
+     };
+     */
+                  

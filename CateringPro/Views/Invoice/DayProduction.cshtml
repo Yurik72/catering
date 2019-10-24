@@ -20,9 +20,10 @@
                                 <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
                             </td>
                             <td>
-                                
-                                <br> Created: @DateTime.Now.ToShortDateString()
-                               
+
+                                Звiт кухня кiлькiсть страв
+                                <br /> Дата: @DateTime.Now.ToShortDateString()
+
                             </td>
                         </tr>
                     </table>
@@ -33,10 +34,7 @@
                     <table>
                         <tr>
                             <td>
-                                @Model.Company.Name<br>
-                                @Model.Company.City<br>
-                                @Model.Company.Country<br>
-                                @Model.Company.Address1
+
                             </td>
                             <td></td>
                             <td></td>
@@ -49,13 +47,13 @@
     </tr>
             <tr class="heading ">
                 <td>
-                    #
+                    Код
                 </td>
                 <td>
-                    Название
+                    Назва
                 </td>
                 <td>
-                    Кол-во
+                    Кiлькiсть
                 </td>
 
             </tr>
@@ -82,7 +80,7 @@
             <td></td>
 
             <td>
-                Итого: @Model.Items.Sum(i => i.Quantity).ToString("0.00")
+                Итого: @Model.Items.Sum(i => i.Quantity).ToString("0")
             </td>
         </tr>
 </table>

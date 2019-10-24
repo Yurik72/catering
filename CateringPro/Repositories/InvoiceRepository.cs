@@ -38,6 +38,7 @@ namespace CateringPro.Repositories
                     Address2 = company.Address2,
                     Country = company.Country,
                     PictureId= company.PictureId,
+                    StampPictureId=company.StampPictureId
                 };
 
 
@@ -109,56 +110,7 @@ namespace CateringPro.Repositories
             }
             return res;
         }
-        public IEnumerable<CustomerOrdersViewModel> CustomerOrders( DateTime daydate, int companyid)
-        {
-            var query1 =
-                           from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
-                           join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
-                           join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
-                           join cu in _context.Users on ud.UserId equals cu.Id
-                           select new CustomerOrdersDetailsViewModel
-                           {
-                               UserId = cu.Id,
-                               UserName = cu.NormalizedUserName,
-                               DishId = d.Id,
-                               CategoryId = d.CategoriesId,
-                               DishName = d.Name,
-                               Date = daydate,
-                               Quantity = ud.Quantity,
-                               Price = ud.Price,
-                               Amount = ud.Quantity * d.Price
-                           };
-            var querysingle = query1.FirstOrDefault();
-            var queryres = from ud in query1.ToList()
-                           group ud by ud.UserId into grp
-                           select new CustomerOrdersViewModel()
-                           {
-                               Date= daydate,
-                               Amount= grp.Sum(it=>it.Amount),
-                               DishesCount = grp.Sum(it => it.Quantity),
-                               Details = grp,
-                               UserId = grp.Key,
-                               User= GetUserCompany(grp.Key)
-        };
-                         /*
-            var res = new CustomerOrdersViewModel()
-            {
-
-                Details = query1
-            };
-            if (querysingle != null)
-            {
-                res.UserId = querysingle.UserId;
-                res.UserName = querysingle.UserName;
-                res.Date = querysingle.Date;
-                res.User = GetUserCompany(res.UserId);
-            }
-
-
-            return res;
-            */
-            return queryres;
-        }
+     
         public DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid)
         {
             var query1 =

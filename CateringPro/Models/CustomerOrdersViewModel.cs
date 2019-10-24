@@ -20,7 +20,11 @@ namespace CateringPro.Models
         public int DishesCount { get; set; }
 
         public decimal Amount { get; set; }
+        public decimal PaidAmount { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
+        public bool IsPaid { get; set; }
         public CompanyModel User { get; set; }
         public IEnumerable<CustomerOrdersDetailsViewModel>  Details { get; set; }
     }

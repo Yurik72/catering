@@ -124,6 +124,7 @@ namespace CateringPro
             });
             services.AddOptions();
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));
 
         }

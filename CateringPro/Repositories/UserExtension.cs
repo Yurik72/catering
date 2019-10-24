@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Core;
 using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace CateringPro.Repositories
 {
@@ -15,8 +16,14 @@ namespace CateringPro.Repositories
     {
         public static void AssignUserAttr<TEntity>(this Controller ctl, TEntity entity) where TEntity : UserData
         {
-            entity.CompanyId = ctl.User.GetCompanyID();
-            entity.UserId = ctl.User.GetUserId();
+            //entity.CompanyId = ctl.User.GetCompanyID();
+            //entity.UserId = ctl.User.GetUserId();
+            ctl.User.AssignUserAttr(entity);
+        }
+        public static void AssignUserAttr<TEntity>(this ClaimsPrincipal src , TEntity entity) where TEntity : UserData
+        {
+            entity.CompanyId = src.GetCompanyID();
+            entity.UserId = src.GetUserId();
         }
         public static async Task<IActionResult> UpdateUserDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger) where TEntity : UserData
         {

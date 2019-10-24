@@ -20,6 +20,8 @@ namespace CateringPro.Models
         public string DishIngredientds { get; set; }
 
         public decimal Price { get; set; }
+        public int KKal { get; set; }
+        public decimal ReadyWeight { get; set; }
         public int Quantity { get; set; }
 
         public bool Enabled { get; set; }

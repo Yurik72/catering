@@ -144,6 +144,12 @@
   <data name="City" xml:space="preserve">
     <value>Місто</value>
   </data>
+  <data name="Company Data" xml:space="preserve">
+    <value>Налаштування i даннi</value>
+  </data>
+  <data name="Company Setting Save" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Країна</value>
   </data>
@@ -154,7 +160,7 @@
     <value>Розрахунок продуктiв</value>
   </data>
   <data name="Day Production" xml:space="preserve">
-    <value>Замовлення на день</value>
+    <value>Звiт кухар страви</value>
   </data>
   <data name="Dish" xml:space="preserve">
     <value>Страва</value>
@@ -165,14 +171,23 @@
   <data name="Dish Description" xml:space="preserve">
     <value>Опис</value>
   </data>
+  <data name="Dish KKal" xml:space="preserve">
+    <value>ККал</value>
+  </data>
   <data name="Dish Name" xml:space="preserve">
     <value>Страва</value>
   </data>
   <data name="Dish Price" xml:space="preserve">
     <value>Вартість</value>
   </data>
+  <data name="Dish ReadyWeight" xml:space="preserve">
+    <value>Вихід(гр.)</value>
+  </data>
   <data name="Dishes" xml:space="preserve">
     <value>Страва</value>
+  </data>
+  <data name="DishesWeekMenu" xml:space="preserve">
+    <value>Страви що будуть готоватись цього тижня</value>
   </data>
   <data name="DishIngredientsTab" xml:space="preserve">
     <value>Інгредієнти</value>
@@ -207,6 +222,9 @@
   <data name="DLB Showing all" xml:space="preserve">
     <value>Показати все</value>
   </data>
+  <data name="gr." xml:space="preserve">
+    <value>гр.</value>
+  </data>
   <data name="Ingredient" xml:space="preserve">
     <value>Інгредієнти</value>
   </data>
@@ -218,6 +236,9 @@
   </data>
   <data name="Ingredients_MeasureUnit" xml:space="preserve">
     <value>Од.вим.</value>
+  </data>
+  <data name="KKal" xml:space="preserve">
+    <value>ККал</value>
   </data>
   <data name="LeadTime" xml:space="preserve">
     <value>Блок. замовл. до</value>
@@ -267,11 +288,23 @@
   <data name="MyOrderDetails" xml:space="preserve">
     <value>Деталі</value>
   </data>
+  <data name="MyOrderIsConfirmed" xml:space="preserve">
+    <value>Затв.</value>
+  </data>
+  <data name="MyOrderIsPaid" xml:space="preserve">
+    <value>Сплачено</value>
+  </data>
+  <data name="MyOrderPaidAmount" xml:space="preserve">
+    <value>Сплачено</value>
+  </data>
   <data name="MyOrderQuantityTotal" xml:space="preserve">
     <value>Кiлькiсть</value>
   </data>
   <data name="MyOrdersNoOrder" xml:space="preserve">
     <value>Немає замовлень</value>
+  </data>
+  <data name="MyOrdersPayment" xml:space="preserve">
+    <value>Оплатити</value>
   </data>
   <data name="MyOrdersSave" xml:space="preserve">
     <value>Замовити</value>
@@ -299,6 +332,9 @@
   </data>
   <data name="Setting" xml:space="preserve">
     <value>Налаштування</value>
+  </data>
+  <data name="StampLogo" xml:space="preserve">
+    <value>Печатка</value>
   </data>
   <data name="StockDate" xml:space="preserve">
     <value>Дата зал.</value>

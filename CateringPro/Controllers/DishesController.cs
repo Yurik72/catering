@@ -171,7 +171,7 @@ namespace CateringPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
        
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId")] Dish dish, List<string> IngredientsIds)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId,ReadyWeight")] Dish dish, List<string> IngredientsIds)
         {
             if (id != dish.Id)
             {

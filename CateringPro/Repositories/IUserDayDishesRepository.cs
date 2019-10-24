@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CateringPro.Models;
+using Microsoft.AspNetCore.Http;
+
 namespace CateringPro.Repositories
 {
     public interface IUserDayDishesRepository
@@ -15,6 +17,7 @@ namespace CateringPro.Repositories
 
         IQueryable<CustomerOrdersViewModel> CustomerOrders(DateTime daydate, int companyid);
         CustomerOrdersViewModel CustomerOrders(string UserId, DateTime daydate, int companyid);
+        bool SaveDay(List<UserDayDish> daydishes, HttpContext httpcontext);
     }
 }
 
