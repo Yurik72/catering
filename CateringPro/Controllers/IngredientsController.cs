@@ -194,7 +194,19 @@ namespace CateringPro.Controllers
             }
             return View(ingredients);
         }
+        [HttpGet]
+        public ActionResult Search(string term, bool isShort = true)
+        {
+            var result = _context.Ingredients.Where(d => d.CompanyId == User.GetCompanyID()).Where(d => d.Name.Contains(term));
+            if (isShort)
+            {
+                return Ok(result.Select(d => new { id = d.Id, name = d.Name }));
+            }
 
+            return Ok(result);
+
+
+        }
         // GET: Ingredients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

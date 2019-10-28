@@ -172,7 +172,7 @@
     <value>Опис</value>
   </data>
   <data name="Dish KKal" xml:space="preserve">
-    <value>ККал</value>
+    <value>ккал</value>
   </data>
   <data name="Dish Name" xml:space="preserve">
     <value>Страва</value>
@@ -222,6 +222,12 @@
   <data name="DLB Showing all" xml:space="preserve">
     <value>Показати все</value>
   </data>
+  <data name="Doc" xml:space="preserve">
+    <value>Документ</value>
+  </data>
+  <data name="Docs" xml:space="preserve">
+    <value>Документи</value>
+  </data>
   <data name="gr." xml:space="preserve">
     <value>гр.</value>
   </data>
@@ -264,6 +270,9 @@
   <data name="MenuDishes" xml:space="preserve">
     <value>Список страв</value>
   </data>
+  <data name="MenuDocs" xml:space="preserve">
+    <value>Документи</value>
+  </data>
   <data name="MenuIngredients" xml:space="preserve">
     <value>Інгредієнти</value>
   </data>
@@ -284,6 +293,9 @@
   </data>
   <data name="MenuUserOrder" xml:space="preserve">
     <value>Мої замовлення</value>
+  </data>
+  <data name="MyOrderAmount" xml:space="preserve">
+    <value>Сума</value>
   </data>
   <data name="MyOrderDetails" xml:space="preserve">
     <value>Деталі</value>

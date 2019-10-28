@@ -28,17 +28,19 @@ namespace CateringPro.Repositories
                     throw new Exception("Company not exists");
                 res = new CompanyModel()
                 {
-                    Name= company.Name,
+                    Name = company.Name,
                     Phone = company.Phone,
                     ZipCode = company.ZipCode,
                     Email = company.Email,
-                    
+
                     City = company.City,
                     Address1 = company.Address1,
                     Address2 = company.Address2,
                     Country = company.Country,
-                    PictureId= company.PictureId,
-                    StampPictureId=company.StampPictureId
+                    PictureId = company.PictureId,
+                    StampPictureId = company.StampPictureId,
+                    UrlPicture = string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.PictureId),
+                    UrlStampPicture= string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.StampPictureId)
                 };
 
 

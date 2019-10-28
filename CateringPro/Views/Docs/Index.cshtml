@@ -1,0 +1,110 @@
+@model IEnumerable<Docs>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    var ModelName = "Categories";
+    ViewData["Title"] = ModelName;
+}
+
+
+<div class="container">
+    <div class="row justify-content-end">
+        <div class="col-md-6 right">
+            <h2>@Localizer["Docs"]</h2>
+        </div>
+        <div class="col-md-6 right">
+            <div id="custom-search-input">
+                <div class="input-group">
+                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Docs"]" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" id="search-btn" type="button">
+                            <span class="fa fa-search" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div id="table-content" class="table-content">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
+            <div id="create-btn" class="col-lg-3 col-md-3 create">
+                <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modDialog" class="modal document-modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+          $(function () {
+              setup_listitems({ href: '@Url.Content("~/Docs")' });
+              setAutocomplete($(this).parents("#document"));
+              $(document).on("click", "#create-docline", 
+                  function (e) {
+                      console.log("create new line");
+                      e.preventDefault();
+                      var dlg = $(this).parents("#document");
+                      var id = dlg.attr("data-id");
+                      var linecount = dlg.find("#doc-lines").find(".doc-line").length;
+                      var url = '@Url.Content("~/Docs/CreateNewLine")'+`?docId=${id}&linenum=${linecount}`;
+                      
+                  console.log(url);
+                      $.get(url, function (data) {
+                          dlg.find("#doc-lines").find("#doc-footer").before(data);
+                          setAutocomplete(dlg);
+                });
+                  });
+              $('#modDialog').on('shown.bs.modal', function () {
+                  setAutocomplete($(this));
+              });
+              function setAutocomplete(dlg) {
+                  $(".doc-line-ingname")  
+                  .on("keydown", function (event) {  
+                      if (event.keyCode === $.ui.keyCode.TAB &&  
+                          $(this).autocomplete("instance").menu.active) {  
+                          event.preventDefault();  
+                      }  
+                  })  
+                      .autocomplete({
+                          //source: '@Url.Action("Search","Ingredients")',
+                          source:  function (request, response) {
+                                        $.ajax({
+                                            url: '@Url.Action("Search","Ingredients")',
+                                            dataType: "json",
+                                            data: "term=" + request.term,
+                                            success: function (data) {
+                                                response($.map(data, function (item) {
+                                                    return {
+                                                        label: item.name,
+                                                        value: item.name,
+                                                        id :item.id
+                                                    };
+                                                }));
+                                            }});
+                                    },
+                          select: function (event, ui) {
+                              //$(event.target).prev(".doc-line-ingid").val(ui.item.id);
+                              $(event.target).parent().find(".doc-line-ingid").val(ui.item.id);
+                             // console.log(event);
+                             // console.log(ui);
+                          },
+                          appendTo: "#modDialog"
+
+                         
+                    });  
+              }
+        })
+    </script>
+}

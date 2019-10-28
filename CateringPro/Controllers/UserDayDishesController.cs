@@ -114,7 +114,12 @@ namespace CateringPro.Controllers
         [HttpPost]
         public async Task<JsonResult> SaveDay(List<UserDayDish> daydishes)
         {
-            if(  _userdaydishesrepo.SaveDay(daydishes, this.HttpContext)){
+            //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
+            DateTime daydate = DateTime.Now;
+            if (daydishes.Count > 0)
+                daydate = daydishes.First().Date;
+            await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+            if (  _userdaydishesrepo.SaveDay(daydishes, this.HttpContext)){
                 return await Task.FromResult(Json(new { res = "OK" }));
             }
             else

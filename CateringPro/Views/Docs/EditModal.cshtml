@@ -1,0 +1,158 @@
+﻿@model CateringPro.Models.Docs
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+    <style>
+        form dt {
+            float: left;
+            display: block;
+            width: 30%;
+        }
+
+        dd select {
+            width: 50%;
+        }
+
+        dd textarea {
+            width: 100%;
+        }
+      
+    </style>
+<div class="modal-content" id="document" data-id="@Model.Id">
+    <div class="modal-header">
+        <h5 class="modal-title">@Localizer["Doc"]</h5>
+        <button class="close" data-dismiss="modal" area-hidden="true">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <form asp-action="EditModal">
+            <dl class="">
+
+
+                <dt> </dt>
+                <dd>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CompanyId" />
+                </dd>
+                <dd>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </dd>
+
+                <dt>  <label asp-for="Number" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Number" class="form-control" />
+                    <span asp-validation-for="Number" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="Type" class="control-label"></label></dt>
+                <dd>
+                    <select class="browser-default custom-select" name="Type" id="Type">
+                        <option value="1">Income</option>
+                        <option value="2">OutCome</option>
+                    </select>
+                    
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="Description" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="Amount" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Amount" class="form-control" disabled="disabled"/>
+                  
+                </dd>
+                <dd>
+                    <div class="container doc-lines" id="doc-lines">
+                        <div class="row docline-header">
+                            <div class="col col-lg-1 col-md-1">
+                                #
+                            </div>
+                            <div class="col col-lg-4 col-md-4">
+                                Name
+                            </div>
+
+                            <div class="col col-lg-2 col-md-2">
+                                Quantity
+                            </div>
+
+                            <div class="col col-lg-2 col-md-2">
+                                Price
+                            </div>
+                            <div class="col col-lg-2 col-md-2">
+                                Amount
+                            </div>
+
+                        </div>
+                        @{ 
+                            int i = 0;
+                        }
+                        @foreach(var line in Model.DocLines)
+                        {
+                        <div class="row doc-line" data-lineid="@line.Id" >
+                            <div class="col col-lg-1 col-md-1">
+                                <input type="hidden" name="DocLines[@i].id" asp-for="@line.Id" class="form-control" />
+                                <input type="number" name="DocLines[@i].Number" asp-for="@line.Number" class="form-control doc-line-number" />
+
+                            </div>
+                            <div class="col col-lg-4 col-md-4">
+                                <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
+                                <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
+                                <input type="text" name="none[@i].Ingredients.Name" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" />
+
+                            </div>
+                            <div class="col col-lg-2 col-md-2">
+                                <input type="text" name="DocLines[@i].Quantity" asp-for="@line.Quantity" class="form-control doc-line-quantity" />
+                            </div>
+                            <div class="col col-lg-2 col-md-2">
+                                <input type="text" name="DocLines[@i].Price" asp-for="@line.Price" step=0.001 class="form-control doc-line-price" />
+                                
+                            </div>
+
+                            <div class="col col-lg-2 col-md-2">
+                                <input type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" step=0.001 class="form-control doc-line-amount" />
+                                
+                            </div>
+
+                        </div>
+                            i++;
+                        }
+                    <div class="row docfooter" id="doc-footer">
+                        <div id="create-docline" class="col-lg-3 col-md-3 create">
+                            <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+
+                        </div>
+                    </div>
+                    </div>
+                </dd>
+            </dl>
+        </form>
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
+            </div>
+
+            <div class="col-sm-1">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

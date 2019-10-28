@@ -34,7 +34,7 @@
             {
                 <div class="row row-daydish" data-form="userdaydish">
                     <div class="col col-md-2">
-                        <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=30,height=30})" style="width:30px;height:30px;" />
+                        <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=50,height=50})" style="width:50px;height:50px;" />
 
 
                     </div>
@@ -45,7 +45,7 @@
                         @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
                         @Html.DisplayFor(modelItem => item.DishName)
                     </div>
-                    <div class="col col-lg-1 col-md-1">
+                    <div class="col col-lg-1 col-md-1 small">
                         @string.Format("{0:0.00} {1}", item.ReadyWeight, Localizer["gr."])
                         <p />
                         @string.Format("{0} {1}", item.KKal, Localizer["KKal"])
@@ -56,7 +56,7 @@
                         @Html.DisplayFor(modelItem => item.DishIngredientds)
                     </div>
                     <div class="col col-lg-1 col-md-1">
-                        @string.Format("{0:0.00} {1}", item.Price, pageOptions.Value.CurrencySymbol)
+                        @string.Format("{0:0.00}{1}", item.Price, pageOptions.Value.CurrencySymbol)
 
                     </div>
                     <div class="col col-lg-2 col-md-2">

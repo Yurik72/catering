@@ -33,6 +33,11 @@ namespace CateringPro.Data
         public DbSet<DayDish> DayDish { get; set; }
 
         public DbSet<DishIngredients> DishIngredients { get; set; }
+
+
+        public DbSet<Docs> Docs { get; set; }
+
+        public DbSet<DocLines> DocLines { get; set; }
         public DbSet<UserWeekBasket> UserWeekBasket { get; set; }
 
         public DbSet<UserDay> UserDay { get; set; }
@@ -102,6 +107,20 @@ namespace CateringPro.Data
 
             modelBuilder.Entity<DayDish>()
               .HasKey(d => new { d.Date , d.DishId,d.CompanyId });
+
+            ////documents
+            modelBuilder.Entity<Docs>()
+             .HasKey(d =>  d.Id);
+
+            modelBuilder.Entity<DocLines>()
+                .HasKey(d => d.Id);
+
+            modelBuilder.Entity<DocLines>()
+               .HasOne(d => d.Docs)
+               .WithMany(a => a.DocLines)
+               .IsRequired().OnDelete(DeleteBehavior.ClientCascade);
+               
+
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

@@ -237,6 +237,19 @@ namespace CateringPro.Controllers
                 .Select(di=>new {Value=di.Id,Text=di.Name }).ToListAsync(), "Value", "Text");
             return PartialView(ing);
         }
+        [HttpGet]
+        public ActionResult Search(string term,bool isShort=true)
+        {
+            var result = _context.Dishes.Where(d => d.CompanyId == User.GetCompanyID()).Where(d => d.Name.Contains(term));
+            if (isShort)
+            {
+                return Ok(result.Select(d => new { Id = d.Id, Name = d.Name,Price=d.Price }));
+            }
+
+                return Ok(result);
+
+           
+        }
         public IActionResult CreateModal()
         {
 

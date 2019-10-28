@@ -517,3 +517,19 @@ a.dialog-edit-icon, a.apagebottom {
     padding:30px;
     margin:30px;
 }
+
+/* documents*/
+ .doc-line .form-control{
+     padding-left:0;
+     padding-right:0;
+ }
+.doc-line .col{
+    padding-left:1px;
+    padding-right:1px;
+}
+
+@media (min-width: 1024px) {
+    .document-modal.modal .modal-dialog {
+        max-width: 968px;
+    }
+}

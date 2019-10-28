@@ -43,7 +43,13 @@ namespace CateringPro.Controllers
 
             return View(_invoicerepo.CustomerInvoice(userid, daydate, User.GetCompanyID()));
         }
-       [MiddlewareFilter(typeof(JsReportPipeline))]
+        public IActionResult EmailInvoice(DateTime daydate, string userid)
+        {
+
+
+            return View(_invoicerepo.CustomerInvoice(userid, daydate, User.GetCompanyID()));
+        }
+        [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult DayProduction(DateTime daydate, string format)
         {
             if (format == "xlsx")

@@ -68,6 +68,9 @@ namespace CateringPro.Models
         public int? PictureId { get; set; }
 
         public int? StampPictureId { get; set; }
+
+        public string UrlPicture { get; set; }
+        public string UrlStampPicture { get; set; }
     }
 
     public class InvoiceItemModel

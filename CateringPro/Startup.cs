@@ -57,6 +57,7 @@ namespace CateringPro
             services.AddTransient<IUserDayDishesRepository, UserDayDishesRepository>();
             services.AddTransient<IDishesRepository, DishesRepository>();
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
+            services.AddTransient<IDocRepository, DocRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
@@ -125,6 +126,7 @@ namespace CateringPro
             services.AddOptions();
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));
 
         }
