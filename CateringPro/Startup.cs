@@ -66,6 +66,14 @@ namespace CateringPro
             services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, CustomClaimsPrincipalFactory>();
 
             //services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
+            // Add scheduled tasks & scheduler
+            services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
+
+            services.AddScheduler((sender, args) => 
+            {
+                Console.Write(args.Exception.Message);
+                args.SetObserved();
+            });
 
 
             services.AddMemoryCache();

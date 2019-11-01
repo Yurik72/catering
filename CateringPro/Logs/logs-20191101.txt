@@ -1,0 +1,1024 @@
+2019-11-01 08:58:32.386 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.395 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.397 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.398 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.400 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.401 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.402 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.404 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.405 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'OrderTotal' on entity type 'Order'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.407 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.409 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.411 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.412 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.414 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 08:58:32.444 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:32.861 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-01 08:58:32.938 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-01 08:58:33.126 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-01 08:58:33.650 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-01 08:58:33.653 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-01 08:58:33.655 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-01 08:58:33.747 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-01 08:58:33.760 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-01 08:58:33.876 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:33.996 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__p_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address1], [a].[Address2], [a].[City], [a].[CompanyId], [a].[ConcurrencyStamp], [a].[Country], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [a].[ZipCode]
+FROM [AspNetUsers] AS [a]
+WHERE ([a].[Id] = @__p_0) AND @__p_0 IS NOT NULL
+2019-11-01 08:58:34.248 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE ([a].[UserId] = @__user_Id_0) AND @__user_Id_0 IS NOT NULL
+2019-11-01 08:58:34.319 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__userId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE ([a].[UserId] = @__userId_0) AND @__userId_0 IS NOT NULL
+2019-11-01 08:58:34.345 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE (([a].[NormalizedName] = @__normalizedName_0) AND ([a].[NormalizedName] IS NOT NULL AND @__normalizedName_0 IS NOT NULL)) OR ([a].[NormalizedName] IS NULL AND @__normalizedName_0 IS NULL)
+2019-11-01 08:58:34.376 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE ([a].[RoleId] = @__role_Id_0) AND @__role_Id_0 IS NOT NULL
+2019-11-01 08:58:34.395 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-01 08:58:34.449 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-01 08:58:34.488 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-01 08:58:34.873 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 391.57210000000003ms.
+2019-11-01 08:58:34.887 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 427.1639ms
+2019-11-01 08:58:34.896 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-01 08:58:34.903 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/jquery-ui.css  
+2019-11-01 08:58:34.910 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=V1sfWhW_fW21HwfXlh1sdiDQUV6Vy8wYBWRIoCVkglk  
+2019-11-01 08:58:34.914 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-11-01 08:58:34.917 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-11-01 08:58:34.922 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.bootstrap-duallistbox.js  
+2019-11-01 08:58:34.933 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 1186.8981ms 200 text/html; charset=utf-8
+2019-11-01 08:58:34.954 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-11-01 08:58:34.957 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-11-01 08:58:34.960 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 54.4859ms 200 text/css
+2019-11-01 08:58:34.963 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 65.1234ms 200 application/javascript
+2019-11-01 08:58:34.985 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.bootstrap-duallistbox.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.bootstrap-duallistbox.js'
+2019-11-01 08:58:34.987 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/jquery-ui.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\jquery-ui.css'
+2019-11-01 08:58:34.990 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 83.546ms 200 application/javascript
+2019-11-01 08:58:34.993 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 96.6868ms 200 text/css
+2019-11-01 08:58:34.998 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-11-01 08:58:35.001 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-11-01 08:58:35.003 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-11-01 08:58:35.006 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide11.jpg  
+2019-11-01 08:58:35.011 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 101.76960000000001ms 200 text/css
+2019-11-01 08:58:35.015 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide10.jpg  
+2019-11-01 08:58:35.021 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery-ui.js  
+2019-11-01 08:58:35.035 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-11-01 08:58:35.062 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-11-01 08:58:35.065 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-11-01 08:58:35.068 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 34.2488ms 200 text/css
+2019-11-01 08:58:35.072 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 71.2453ms 200 text/css
+2019-11-01 08:58:35.077 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide10.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide10.jpg'
+2019-11-01 08:58:35.081 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide11.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide11.jpg'
+2019-11-01 08:58:35.084 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle3.jpg  
+2019-11-01 08:58:35.088 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 81.54270000000001ms 200 image/jpeg
+2019-11-01 08:58:35.097 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 79.00110000000001ms 200 image/jpeg
+2019-11-01 08:58:35.105 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-11-01 08:58:35.112 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle1.jpg  
+2019-11-01 08:58:35.115 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 110.7343ms 200 application/javascript
+2019-11-01 08:58:35.119 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle3.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle3.jpg'
+2019-11-01 08:58:35.122 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict1_500x500.jpg  
+2019-11-01 08:58:35.127 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 41.880900000000004ms 200 image/jpeg
+2019-11-01 08:58:35.131 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-11-01 08:58:35.136 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle2.jpg  
+2019-11-01 08:58:35.141 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict3_500x500.jpg  
+2019-11-01 08:58:35.148 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict1_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict1_500x500.jpg'
+2019-11-01 08:58:35.151 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle1.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle1.jpg'
+2019-11-01 08:58:35.154 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 43.5386ms 200 image/jpeg
+2019-11-01 08:58:35.159 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 52.502100000000006ms 200 image/jpeg
+2019-11-01 08:58:35.170 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-11-01 08:58:35.176 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide12.jpg  
+2019-11-01 08:58:35.179 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle2.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle2.jpg'
+2019-11-01 08:58:35.182 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict2_500x500.jpg  
+2019-11-01 08:58:35.185 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 98.1057ms 200 image/jpeg
+2019-11-01 08:58:35.190 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 51.173700000000004ms 200 text/css
+2019-11-01 08:58:35.194 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict3_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict3_500x500.jpg'
+2019-11-01 08:58:35.198 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 59.0262ms 200 image/jpeg
+2019-11-01 08:58:35.202 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap-duallistbox.css  
+2019-11-01 08:58:35.206 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide12.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide12.jpg'
+2019-11-01 08:58:35.210 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-11-01 08:58:35.213 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 45.2068ms 200 image/jpeg
+2019-11-01 08:58:35.219 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict2_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict2_500x500.jpg'
+2019-11-01 08:58:35.224 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap-duallistbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap-duallistbox.css'
+2019-11-01 08:58:35.228 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 48.4315ms 200 image/jpeg
+2019-11-01 08:58:35.231 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 27.024600000000003ms 200 text/css
+2019-11-01 08:58:35.447 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-11-01 08:58:35.451 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 243.5987ms 200 application/javascript
+2019-11-01 08:58:35.609 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery-ui.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery-ui.js'
+2019-11-01 08:58:35.613 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 610.344ms 200 application/javascript
+2019-11-01 08:58:44.544 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs  
+2019-11-01 08:58:44.551 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.Index (CateringPro)'
+2019-11-01 08:58:44.561 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:58:44.594 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:44.602 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+2019-11-01 08:58:44.636 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-01 08:58:44.664 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 13.9091ms.
+2019-11-01 08:58:44.668 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.Index (CateringPro) in 104.9368ms
+2019-11-01 08:58:44.674 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.Index (CateringPro)'
+2019-11-01 08:58:44.679 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 135.435ms 200 text/html; charset=utf-8
+2019-11-01 08:58:44.735 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0  
+2019-11-01 08:58:44.747 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/fonts/fontawesome-webfont.woff2'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2'
+2019-11-01 08:58:44.750 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 14.492600000000001ms 200 font/woff2
+2019-11-01 08:58:44.752 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572591524696  
+2019-11-01 08:58:44.782 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 08:58:44.793 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:58:44.809 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:44.816 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 08:58:44.822 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 08:58:44.901 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 80.027ms.
+2019-11-01 08:58:44.903 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 107.7887ms
+2019-11-01 08:58:44.905 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 08:58:44.907 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 158.1027ms 200 text/html; charset=utf-8
+2019-11-01 08:58:47.137 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572591524697  
+2019-11-01 08:58:47.143 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:58:47.149 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:58:47.154 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:47.200 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 08:58:47.242 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 08:58:47.303 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 61.2008ms.
+2019-11-01 08:58:47.306 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 154.2838ms
+2019-11-01 08:58:47.308 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:58:47.310 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 174.4941ms 200 text/html; charset=utf-8
+2019-11-01 08:58:51.017 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 08:58:51.021 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:58:51.044 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:58:51.073 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:51.195 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 08:58:51.246 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 08:58:51.254 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 207.51850000000002ms
+2019-11-01 08:58:51.256 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:58:51.258 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 241.88230000000001ms 200 application/json; charset=utf-8
+2019-11-01 08:58:51.280 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572591524698  
+2019-11-01 08:58:51.283 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 08:58:51.285 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:58:51.290 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:58:51.295 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 08:58:51.299 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 08:58:51.311 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 9.9984ms.
+2019-11-01 08:58:51.313 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 25.265600000000003ms
+2019-11-01 08:58:51.315 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 08:58:51.317 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 37.4682ms 200 text/html; charset=utf-8
+2019-11-01 08:59:22.745 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572591524699  
+2019-11-01 08:59:22.749 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:59:22.752 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:59:22.755 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:59:22.762 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 08:59:22.770 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 08:59:22.783 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 12.5229ms.
+2019-11-01 08:59:22.785 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 31.1077ms
+2019-11-01 08:59:22.787 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:59:22.790 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 44.6937ms 200 text/html; charset=utf-8
+2019-11-01 08:59:32.002 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 08:59:32.006 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:59:32.009 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:59:32.014 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:59:32.018 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 08:59:32.030 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 08:59:32.032 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 21.4798ms
+2019-11-01 08:59:32.035 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 08:59:32.036 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 34.6122ms 200 application/json; charset=utf-8
+2019-11-01 08:59:32.054 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572591524700  
+2019-11-01 08:59:32.058 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 08:59:32.060 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 08:59:32.062 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 08:59:32.065 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 08:59:32.069 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 08:59:32.079 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 9.3734ms.
+2019-11-01 08:59:32.080 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 18.3394ms
+2019-11-01 08:59:32.082 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 08:59:32.084 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 29.645200000000003ms 200 text/html; charset=utf-8
+2019-11-01 09:35:40.316 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs  
+2019-11-01 09:35:40.320 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 09:35:40.343 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__p_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address1], [a].[Address2], [a].[City], [a].[CompanyId], [a].[ConcurrencyStamp], [a].[Country], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [a].[ZipCode]
+FROM [AspNetUsers] AS [a]
+WHERE ([a].[Id] = @__p_0) AND @__p_0 IS NOT NULL
+2019-11-01 09:35:40.349 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE ([a].[UserId] = @__user_Id_0) AND @__user_Id_0 IS NOT NULL
+2019-11-01 09:35:40.359 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__userId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE ([a].[UserId] = @__userId_0) AND @__userId_0 IS NOT NULL
+2019-11-01 09:35:40.370 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE (([a].[NormalizedName] = @__normalizedName_0) AND ([a].[NormalizedName] IS NOT NULL AND @__normalizedName_0 IS NOT NULL)) OR ([a].[NormalizedName] IS NULL AND @__normalizedName_0 IS NULL)
+2019-11-01 09:35:40.375 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE ([a].[RoleId] = @__role_Id_0) AND @__role_Id_0 IS NOT NULL
+2019-11-01 09:35:40.379 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.Index (CateringPro)'
+2019-11-01 09:35:40.381 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 09:35:40.383 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+2019-11-01 09:35:40.389 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-01 09:35:40.395 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 6.9670000000000005ms.
+2019-11-01 09:35:40.402 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.Index (CateringPro) in 13.5656ms
+2019-11-01 09:35:40.406 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-11-01 09:35:40.407 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-11-01 09:35:40.411 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-11-01 09:35:40.413 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.Index (CateringPro)'
+2019-11-01 09:35:40.420 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-11-01 09:35:40.421 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 104.4394ms 200 text/html; charset=utf-8
+2019-11-01 09:35:40.423 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-11-01 09:35:40.429 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/jquery-ui.css  
+2019-11-01 09:35:40.431 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/jquery-ui.css was not modified
+2019-11-01 09:35:40.433 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /lib/font-awesome/css/font-awesome.css was not modified
+2019-11-01 09:35:40.434 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/bootstrap.min.css was not modified
+2019-11-01 09:35:40.438 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/site.css was not modified
+2019-11-01 09:35:40.441 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 29.1296ms 304 text/css
+2019-11-01 09:35:40.445 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 34.7975ms 304 text/css
+2019-11-01 09:35:40.447 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 34.863ms 304 text/css
+2019-11-01 09:35:40.454 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap-duallistbox.css  
+2019-11-01 09:35:40.456 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery-ui.js  
+2019-11-01 09:35:40.458 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/bootstrap-duallistbox.css was not modified
+2019-11-01 09:35:40.460 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 8.3358ms 304 text/css
+2019-11-01 09:35:40.461 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 13.5641ms 304 text/css
+2019-11-01 09:35:40.463 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/jquery-ui.js was not modified
+2019-11-01 09:35:40.464 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=V1sfWhW_fW21HwfXlh1sdiDQUV6Vy8wYBWRIoCVkglk  
+2019-11-01 09:35:40.466 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 18.105700000000002ms 304 application/javascript
+2019-11-01 09:35:40.467 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-11-01 09:35:40.469 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/site.js was not modified
+2019-11-01 09:35:40.471 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/bootstrap.min.js was not modified
+2019-11-01 09:35:40.473 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 9.106ms 304 application/javascript
+2019-11-01 09:35:40.475 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 6.5913ms 304 application/javascript
+2019-11-01 09:35:40.476 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css was not modified
+2019-11-01 09:35:40.477 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /css/carousel.css was not modified
+2019-11-01 09:35:40.479 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 74.6127ms 304 text/css
+2019-11-01 09:35:40.481 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 72.05850000000001ms 304 text/css
+2019-11-01 09:35:40.482 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.bootstrap-duallistbox.js  
+2019-11-01 09:35:40.483 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-11-01 09:35:40.485 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/jquery.bootstrap-duallistbox.js was not modified
+2019-11-01 09:35:40.488 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /js/jquery.min.js was not modified
+2019-11-01 09:35:40.491 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 44.068400000000004ms 304 application/javascript
+2019-11-01 09:35:40.494 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 51.661500000000004ms 304 application/javascript
+2019-11-01 09:35:40.555 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0  
+2019-11-01 09:35:40.557 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: The file /lib/font-awesome/fonts/fontawesome-webfont.woff2 was not modified
+2019-11-01 09:35:40.560 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 5.368ms 304 font/woff2
+2019-11-01 09:35:40.562 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740517  
+2019-11-01 09:35:40.564 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 09:35:40.566 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 09:35:40.569 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 09:35:40.572 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 09:35:40.578 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 09:35:40.640 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 62.439800000000005ms.
+2019-11-01 09:35:40.642 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 73.5851ms
+2019-11-01 09:35:40.643 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 09:35:40.645 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 83.6487ms 200 text/html; charset=utf-8
+2019-11-01 09:35:42.378 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/4?_=1572593740518  
+2019-11-01 09:35:42.382 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 09:35:42.385 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 09:35:42.388 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 09:35:42.394 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 09:35:42.405 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 09:35:42.416 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 11.853900000000001ms.
+2019-11-01 09:35:42.419 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 31.7541ms
+2019-11-01 09:35:42.421 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 09:35:42.423 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 46.002500000000005ms 200 text/html; charset=utf-8
+2019-11-01 09:35:44.799 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/4 application/x-www-form-urlencoded; charset=UTF-8 541
+2019-11-01 09:35:44.803 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 09:35:44.806 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 09:35:44.812 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 09:35:44.820 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+2019-11-01 09:35:44.871 +02:00 [Error] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (44ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+2019-11-01 09:35:44.937 +02:00 [Error] Microsoft.EntityFrameworkCore.Update: An exception occurred in the database while saving changes for context type 'CateringPro.Data.AppDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'c'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__164_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:cae4a63d-43ea-48e5-afe8-068543915fae
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'c'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__164_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:cae4a63d-43ea-48e5-afe8-068543915fae
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2019-11-01 09:35:45.028 +02:00 [Error] CateringPro.Models.CompanyUser: Update Docs
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'c'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__164_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+ClientConnectionId:cae4a63d-43ea-48e5-afe8-068543915fae
+Error Number:208,State:1,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.CompanyExtension.UpdateDBCompanyDataAsync[TEntity](Controller ctl, TEntity entity, AppDbContext _context, ILogger`1 _logger, EntityWrap`1 wrap) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\CompanyExtension.cs:line 81
+2019-11-01 09:35:45.034 +02:00 [Information] Microsoft.AspNetCore.Mvc.StatusCodeResult: Executing HttpStatusCodeResult, setting HTTP status code 404
+2019-11-01 09:35:45.037 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 228.3521ms
+2019-11-01 09:35:45.039 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 09:35:45.042 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 243.0334ms 404 
+2019-11-01 10:18:10.425 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572593740519  
+2019-11-01 10:18:10.429 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:18:10.447 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__p_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address1], [a].[Address2], [a].[City], [a].[CompanyId], [a].[ConcurrencyStamp], [a].[Country], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [a].[ZipCode]
+FROM [AspNetUsers] AS [a]
+WHERE ([a].[Id] = @__p_0) AND @__p_0 IS NOT NULL
+2019-11-01 10:18:10.464 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE ([a].[UserId] = @__user_Id_0) AND @__user_Id_0 IS NOT NULL
+2019-11-01 10:18:10.468 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__userId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE ([a].[UserId] = @__userId_0) AND @__userId_0 IS NOT NULL
+2019-11-01 10:18:10.474 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE (([a].[NormalizedName] = @__normalizedName_0) AND ([a].[NormalizedName] IS NOT NULL AND @__normalizedName_0 IS NOT NULL)) OR ([a].[NormalizedName] IS NULL AND @__normalizedName_0 IS NULL)
+2019-11-01 10:18:10.503 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE ([a].[RoleId] = @__role_Id_0) AND @__role_Id_0 IS NOT NULL
+2019-11-01 10:18:10.507 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:18:10.510 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:18:10.514 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:18:10.549 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:18:10.560 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 38.1608ms.
+2019-11-01 10:18:10.562 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 50.3654ms
+2019-11-01 10:18:10.564 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:18:10.566 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 141.0439ms 200 text/html; charset=utf-8
+2019-11-01 10:18:12.513 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 10:18:12.516 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:18:12.518 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:18:12.523 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:18:12.530 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 10:18:12.605 +02:00 [Error] CateringPro.Models.CompanyUser: Update Docs
+Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyException(Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithoutPropagationAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.CompanyExtension.UpdateDBCompanyDataAsync[TEntity](Controller ctl, TEntity entity, AppDbContext _context, ILogger`1 _logger, EntityWrap`1 wrap) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\CompanyExtension.cs:line 81
+2019-11-01 10:18:12.610 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 10:18:12.612 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 91.9017ms
+2019-11-01 10:18:12.614 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:18:12.616 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 103.5245ms 200 application/json; charset=utf-8
+2019-11-01 10:18:12.633 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740520  
+2019-11-01 10:18:12.636 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:18:12.639 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:18:12.642 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:18:12.646 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 10:18:12.652 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 10:18:12.662 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 10.533900000000001ms.
+2019-11-01 10:18:12.663 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 23.2299ms
+2019-11-01 10:18:12.665 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:18:12.667 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 33.860800000000005ms 200 text/html; charset=utf-8
+2019-11-01 10:19:13.094 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572593740521  
+2019-11-01 10:19:13.097 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:19:13.099 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:19:13.102 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:19:13.107 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:19:13.120 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:19:13.131 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 14.2041ms.
+2019-11-01 10:19:13.134 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 32.266400000000004ms
+2019-11-01 10:19:13.137 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:19:13.139 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 45.1338ms 200 text/html; charset=utf-8
+2019-11-01 10:19:14.421 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 10:19:14.424 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:19:14.427 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:19:14.430 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:19:14.434 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 10:19:14.516 +02:00 [Error] CateringPro.Models.CompanyUser: Update Docs
+Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyException(Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithoutPropagationAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.CompanyExtension.UpdateDBCompanyDataAsync[TEntity](Controller ctl, TEntity entity, AppDbContext _context, ILogger`1 _logger, EntityWrap`1 wrap) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\CompanyExtension.cs:line 81
+2019-11-01 10:19:14.519 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 10:19:14.523 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 93.074ms
+2019-11-01 10:19:14.525 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:19:14.527 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 110.6851ms 200 application/json; charset=utf-8
+2019-11-01 10:19:14.538 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740522  
+2019-11-01 10:19:14.541 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:19:14.543 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:19:14.545 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:19:14.547 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 10:19:14.551 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 10:19:14.560 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 8.9815ms.
+2019-11-01 10:19:14.562 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 17.321ms
+2019-11-01 10:19:14.564 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:19:14.566 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 27.653200000000002ms 200 text/html; charset=utf-8
+2019-11-01 10:21:16.538 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572593740523  
+2019-11-01 10:21:16.542 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:21:16.545 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:21:16.548 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:21:16.551 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:21:16.564 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:21:16.576 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 11.927100000000001ms.
+2019-11-01 10:21:16.578 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 30.8687ms
+2019-11-01 10:21:16.580 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:21:16.582 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 44.6762ms 200 text/html; charset=utf-8
+2019-11-01 10:21:18.557 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 10:21:18.560 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:21:18.563 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:21:18.567 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:21:18.572 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 10:21:18.639 +02:00 [Error] CateringPro.Models.CompanyUser: Update Docs
+Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyException(Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithoutPropagationAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.CompanyExtension.UpdateDBCompanyDataAsync[TEntity](Controller ctl, TEntity entity, AppDbContext _context, ILogger`1 _logger, EntityWrap`1 wrap) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\CompanyExtension.cs:line 81
+2019-11-01 10:21:18.642 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 10:21:18.644 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 79.6054ms
+2019-11-01 10:21:18.646 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:21:18.649 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 91.70870000000001ms 200 application/json; charset=utf-8
+2019-11-01 10:21:18.661 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740524  
+2019-11-01 10:21:18.666 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:21:18.667 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:21:18.670 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:21:18.673 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 10:21:18.679 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 10:21:18.693 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 14.1843ms.
+2019-11-01 10:21:18.695 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 25.5914ms
+2019-11-01 10:21:18.697 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:21:18.699 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 39.3389ms 200 text/html; charset=utf-8
+2019-11-01 10:22:10.104 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572593740525  
+2019-11-01 10:22:10.107 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:22:10.109 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:22:10.112 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:22:10.115 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:22:10.124 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:22:10.133 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 9.5714ms.
+2019-11-01 10:22:10.135 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 23.807100000000002ms
+2019-11-01 10:22:10.137 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:22:10.139 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 36.3474ms 200 text/html; charset=utf-8
+2019-11-01 10:22:11.718 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 10:22:11.721 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:22:11.722 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:22:11.725 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:22:11.731 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 10:22:11.818 +02:00 [Error] CateringPro.Models.CompanyUser: Update Docs
+Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyException(Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithoutPropagationAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.CompanyExtension.UpdateDBCompanyDataAsync[TEntity](Controller ctl, TEntity entity, AppDbContext _context, ILogger`1 _logger, EntityWrap`1 wrap) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\CompanyExtension.cs:line 81
+2019-11-01 10:22:11.821 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 10:22:11.827 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 99.7685ms
+2019-11-01 10:22:11.830 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:22:11.832 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 113.9611ms 200 application/json; charset=utf-8
+2019-11-01 10:22:11.847 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740526  
+2019-11-01 10:22:11.850 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:22:11.853 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:22:11.855 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:22:11.858 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 10:22:11.864 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 10:22:11.874 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 9.7478ms.
+2019-11-01 10:22:11.876 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 21.0579ms
+2019-11-01 10:22:11.878 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:22:11.881 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 32.988ms 200 text/html; charset=utf-8
+2019-11-01 10:24:05.947 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572593740527  
+2019-11-01 10:24:05.949 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:24:05.951 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:24:05.954 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:24:05.963 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:24:05.973 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:24:05.983 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 9.6998ms.
+2019-11-01 10:24:05.985 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 32.1817ms
+2019-11-01 10:24:05.987 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:24:05.989 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 42.2573ms 200 text/html; charset=utf-8
+2019-11-01 10:24:17.694 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 10:24:17.698 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:24:17.700 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:24:17.705 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:24:17.709 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 10:24:17.783 +02:00 [Error] CateringPro.Models.CompanyUser: Update Docs
+Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions.
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ThrowAggregateUpdateConcurrencyException(Int32 commandIndex, Int32 expectedRowsAffected, Int32 rowsAffected)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetWithoutPropagationAsync(Int32 commandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.CompanyExtension.UpdateDBCompanyDataAsync[TEntity](Controller ctl, TEntity entity, AppDbContext _context, ILogger`1 _logger, EntityWrap`1 wrap) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\CompanyExtension.cs:line 81
+2019-11-01 10:24:17.787 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 10:24:17.790 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 87.09150000000001ms
+2019-11-01 10:24:17.792 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:24:17.794 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 99.8041ms 200 application/json; charset=utf-8
+2019-11-01 10:24:17.819 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740528  
+2019-11-01 10:24:17.822 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:24:17.825 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:24:17.827 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:24:17.830 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 10:24:17.836 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 10:24:17.844 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 8.7352ms.
+2019-11-01 10:24:17.846 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 19.1463ms
+2019-11-01 10:24:17.848 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:24:17.850 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 31.2006ms 200 text/html; charset=utf-8
+2019-11-01 10:25:15.628 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/1?_=1572593740529  
+2019-11-01 10:25:15.632 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:25:15.633 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:25:15.636 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:25:15.640 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:25:15.651 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:25:15.662 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 13.492700000000001ms.
+2019-11-01 10:25:15.664 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 28.512ms
+2019-11-01 10:25:15.666 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:25:15.668 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 39.647400000000005ms 200 text/html; charset=utf-8
+2019-11-01 10:27:21.575 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/Docs/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 1026
+2019-11-01 10:27:21.581 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:27:21.583 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.Docs) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:27:21.587 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:27:21.592 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p15='?' (DbType = Int32), @p8='?' (DbType = Decimal), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Decimal), @p14='?' (DbType = Decimal), @p23='?' (DbType = Int32), @p16='?' (DbType = Decimal), @p17='?' (DbType = Int32), @p18='?' (DbType = Int32), @p19='?' (DbType = Int32), @p20='?' (DbType = Int32), @p21='?' (DbType = Decimal), @p22='?' (DbType = Decimal), @p30='?' (DbType = Int32), @p24='?' (DbType = Decimal), @p25='?' (DbType = Int32), @p26='?' (DbType = DateTime2), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [DocLines] SET [Amount] = @p0, [CompanyId] = @p1, [DocsId] = @p2, [IngredientsId] = @p3, [Number] = @p4, [Price] = @p5, [Quantity] = @p6
+WHERE [Id] = @p7;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p8, [CompanyId] = @p9, [DocsId] = @p10, [IngredientsId] = @p11, [Number] = @p12, [Price] = @p13, [Quantity] = @p14
+WHERE [Id] = @p15;
+SELECT @@ROWCOUNT;
+
+UPDATE [DocLines] SET [Amount] = @p16, [CompanyId] = @p17, [DocsId] = @p18, [IngredientsId] = @p19, [Number] = @p20, [Price] = @p21, [Quantity] = @p22
+WHERE [Id] = @p23;
+SELECT @@ROWCOUNT;
+
+UPDATE [Docs] SET [Amount] = @p24, [CompanyId] = @p25, [Date] = @p26, [Description] = @p27, [Number] = @p28, [Type] = @p29
+WHERE [Id] = @p30;
+SELECT @@ROWCOUNT;
+2019-11-01 10:27:21.621 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType7`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-11-01 10:27:21.627 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 39.385000000000005ms
+2019-11-01 10:27:21.630 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:27:21.634 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 58.464400000000005ms 200 application/json; charset=utf-8
+2019-11-01 10:27:21.646 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/ListItems?searchcriteria=&_=1572593740530  
+2019-11-01 10:27:21.649 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:27:21.651 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:27:21.653 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:27:21.657 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+FROM [Docs] AS [d]
+WHERE ([d].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2019-11-01 10:27:21.661 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2019-11-01 10:27:21.669 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 7.2986ms.
+2019-11-01 10:27:21.670 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.ListItems (CateringPro) in 17.373ms
+2019-11-01 10:27:21.694 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.ListItems (CateringPro)'
+2019-11-01 10:27:21.696 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 50.1418ms 200 text/html; charset=utf-8
+2019-11-01 10:28:16.536 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/Docs/EditModal/4?_=1572593740531  
+2019-11-01 10:28:16.540 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:28:16.543 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "Docs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.DocsController (CateringPro).
+2019-11-01 10:28:16.548 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 10:28:16.553 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__id_0='?' (DbType = Int32), @__GetCompanyID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [t].[Id], [t].[Amount], [t].[CompanyId], [t].[Date], [t].[Description], [t].[Number], [t].[Type], [t0].[Id], [t0].[Amount], [t0].[CompanyId], [t0].[DocsId], [t0].[IngredientsId], [t0].[Number], [t0].[Price], [t0].[Quantity], [t0].[Id0], [t0].[CompanyId0], [t0].[MeasureUnit], [t0].[Name], [t0].[StockDate], [t0].[StockValue]
+FROM (
+    SELECT TOP(2) [d].[Id], [d].[Amount], [d].[CompanyId], [d].[Date], [d].[Description], [d].[Number], [d].[Type]
+    FROM [Docs] AS [d]
+    WHERE (([d].[Id] = @__id_0) AND @__id_0 IS NOT NULL) AND (([d].[CompanyId] = @__GetCompanyID_1) AND @__GetCompanyID_1 IS NOT NULL)
+) AS [t]
+LEFT JOIN (
+    SELECT [d0].[Id], [d0].[Amount], [d0].[CompanyId], [d0].[DocsId], [d0].[IngredientsId], [d0].[Number], [d0].[Price], [d0].[Quantity], [i].[Id] AS [Id0], [i].[CompanyId] AS [CompanyId0], [i].[MeasureUnit], [i].[Name], [i].[StockDate], [i].[StockValue]
+    FROM [DocLines] AS [d0]
+    INNER JOIN [Ingredients] AS [i] ON [d0].[IngredientsId] = [i].[Id]
+) AS [t0] ON [t].[Id] = [t0].[DocsId]
+ORDER BY [t].[Id], [t0].[Id], [t0].[Id0]
+2019-11-01 10:28:16.576 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2019-11-01 10:28:16.584 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 7.7382ms.
+2019-11-01 10:28:16.586 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.DocsController.EditModal (CateringPro) in 40.882400000000004ms
+2019-11-01 10:28:16.588 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.DocsController.EditModal (CateringPro)'
+2019-11-01 10:28:16.590 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 55.4457ms 200 text/html; charset=utf-8
+2019-11-01 12:23:24.062 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.072 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.074 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.076 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.078 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.080 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.082 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.084 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.086 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'OrderTotal' on entity type 'Order'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.089 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.092 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.094 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.096 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.098 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-01 12:23:24.136 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 12:23:24.517 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-01 12:23:24.666 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-01 12:23:24.883 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-01 12:23:25.250 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-01 12:23:25.257 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-01 12:23:25.259 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-01 12:23:25.275 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-01 12:23:25.284 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-01 12:23:25.357 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-01 12:23:25.439 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__p_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address1], [a].[Address2], [a].[City], [a].[CompanyId], [a].[ConcurrencyStamp], [a].[Country], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [a].[ZipCode]
+FROM [AspNetUsers] AS [a]
+WHERE ([a].[Id] = @__p_0) AND @__p_0 IS NOT NULL
+2019-11-01 12:23:25.581 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__user_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE ([a].[UserId] = @__user_Id_0) AND @__user_Id_0 IS NOT NULL
+2019-11-01 12:23:25.614 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__userId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE ([a].[UserId] = @__userId_0) AND @__userId_0 IS NOT NULL
+2019-11-01 12:23:25.628 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE (([a].[NormalizedName] = @__normalizedName_0) AND ([a].[NormalizedName] IS NOT NULL AND @__normalizedName_0 IS NOT NULL)) OR ([a].[NormalizedName] IS NULL AND @__normalizedName_0 IS NULL)
+2019-11-01 12:23:25.642 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__role_Id_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE ([a].[RoleId] = @__role_Id_0) AND @__role_Id_0 IS NOT NULL
+2019-11-01 12:23:25.653 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-01 12:23:25.678 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-01 12:23:25.697 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-01 12:23:25.849 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 155.1475ms.
+2019-11-01 12:23:25.852 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 172.34480000000002ms
+2019-11-01 12:23:25.864 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-01 12:23:25.874 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 597.7108000000001ms 200 text/html; charset=utf-8
