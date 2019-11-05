@@ -10,7 +10,13 @@ namespace CateringPro.Models
 {
     public class Dish: CompanyDataOwnId
     {
+        public Dish()
+        {
+            DishComplex = new HashSet<DishComplex>();
+            DishIngredients = new HashSet<DishIngredients>();
+            DishCategories = new HashSet<DishCategory>();
         
+        }
 
         [StringLength(10)]
         [DataType(DataType.Text)]
@@ -61,5 +67,7 @@ namespace CateringPro.Models
         public virtual ICollection<UserDayDish> UserDayDishes { get; set; }
 
         public virtual ICollection<DishIngredients> DishIngredients { get; set; }
+
+        public virtual ICollection<DishComplex> DishComplex { get; set; }
     }
 }

@@ -25,12 +25,14 @@ namespace CateringPro.Controllers
        
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
+        private IStockRepository _stockrepo;
         private int pageRecords = 20;
-        public StockController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public StockController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration,IStockRepository stockrepo)
         {
             _context = context;
             _logger = logger;
             _configuration = Configuration;
+            _stockrepo = stockrepo;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
@@ -105,6 +107,16 @@ namespace CateringPro.Controllers
 
             return PartialView(ing);
         }
-       
+        public async Task<IActionResult> ConsignmentStock()
+        {
+            //QueryModel querymodel=new QueryModel() { }
+
+
+            var query = _stockrepo.ConsignmentStock(User.GetCompanyID());
+
+
+            return View(await query.ToListAsync());
+
+        }
     }
 }

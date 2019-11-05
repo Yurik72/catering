@@ -85,6 +85,47 @@ namespace CateringPro.Controllers
             //return Json(DishId);
             return Json(DishId);
         }
+        [HttpPost]
+        public async Task<JsonResult> SaveDayComplex(int ComplexId, DateTime daydate, bool enabled)
+        {
+            //daydate = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                DayComplex proto = new DayComplex() { ComplexId = ComplexId, Date = daydate };
+                this.AssignCompantAttr(proto);
+                DayComplex exsistdd = _dayDishesRepo.SelectComplexSingleOrDefault(proto);
+                // this.AssignCompantAttr(exsistdd);
+                try
+                {
+                    if (enabled)
+                    {
+
+                        if (exsistdd != null)
+                        {
+                            //something wrong
+                        }
+                        else
+                        {
+                            await _context.AddAsync(proto);
+                        }
+                    }
+                    else
+                    {
+                        _context.Remove(exsistdd);
+
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Save DayDish");
+                    return Json(-1);
+                }
+            }
+
+            //return Json(DishId);
+            return Json(ComplexId);
+        }
         // GET: DayDishes/Details/5
         public async Task<IActionResult> Details(DateTime? id)
         {

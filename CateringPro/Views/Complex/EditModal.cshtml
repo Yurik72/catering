@@ -1,0 +1,77 @@
+﻿@model CateringPro.Models.Complex
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+    <style>
+        form dt {
+            float: left;
+            display: block;
+            width: 30%;
+        }
+
+        dd select {
+            width: 50%;
+        }
+
+        dd textarea {
+            width: 100%;
+        }
+      
+    </style>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@Localizer["Complex"]</h5>
+        <button class="close" data-dismiss="modal" area-hidden="true">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <form asp-action="EditModal">
+            <dl class="">
+                <dd><input type="hidden" asp-for="Id" /></dd>
+
+
+
+
+                <dt>  <label asp-for="Name" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </dd>
+                <dt> <label asp-for="Price" class="control-label"></label> </dt>
+                <dd>@Html.EditorFor(model => model.Price)</dd>
+                <dt><label asp-for="DishComplex" class="control-label"></label> </dt>
+                <dd>
+                    <div class="dishes-content" >
+
+                    </div>
+                </dd>
+            </dl>
+        </form>
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
+            </div>
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
+            </div>
+
+            <div class="col-sm-1">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

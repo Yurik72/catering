@@ -63,10 +63,27 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                var checkboxes = $(this).find(':checkbox').change(function () {
+                var checkboxes = $(this).find(':checkbox[cp-name="dayselect"]').change(function () {
                     if (this.checked) {
                         // alert("click");
                     }
+                    var dishid = parseInt($(this).parent().find("#item_DishId").val());
+                    //alert(JSON.stringify({ DishId: dishid, daydate: 0, enabled: this.checked }));
+                    $.ajax({
+                        type: "POST",
+                        data: { DishId: dishid, enabled: this.checked },
+
+                        url: "/DayDishes/SaveDayDish",
+                        success: function (data) {
+                            alert(data);
+                        }
+                    });
+                });
+                var checkboxes_complex = $(this).find(':checkbox[cp-name="dayselect-complex"]').change(function () {
+                    if (this.checked) {
+                        alert("click");
+                    }
+                    return;
                     var dishid = parseInt($(this).parent().find("#item_DishId").val());
                     //alert(JSON.stringify({ DishId: dishid, daydate: 0, enabled: this.checked }));
                     $.ajax({

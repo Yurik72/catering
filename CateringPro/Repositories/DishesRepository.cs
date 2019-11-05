@@ -26,7 +26,7 @@ namespace CateringPro.Repositories
             {
                 
                 List<int> ing= ingredients.ConvertAll(int.Parse);
-                var existing = await _context.DishIngredients.Where(di => di.DishId == dish.Id).ToListAsync();
+                var existing = await _context.DishIngredients.WhereCompany(companyid).Where(di => di.DishId == dish.Id).ToListAsync();
                 IEnumerable<DishIngredients> newRange=null;
                 if (ingredients == null || ingredients.Count() == 0)
                 {

@@ -1,6 +1,20 @@
 ﻿
 function setup_listitems(options) {
-    this.options = options;
+    let defaultoptions = { href: '#', onloadedcb: undefined };
+    if (typeof (options) == 'object') {
+       // this.options = { ...defaultoptions, ...options };
+        //edge troubles with es6
+        this.options = defaultoptions
+        this.options.href = options.href;
+        if (options.onloadedcb)
+            this.options.onloadedcb = options.onloadedcb;
+    }
+    else {
+
+        this.options = defaultoptions;
+        this.options.href = options;
+    }
+   
     var self = this; 
         var reload = function (href) {
             if (!href)
@@ -28,6 +42,8 @@ function setup_listitems(options) {
             $.get(url, function (data) {
                 $('#dialogContent').html(data);
                 $('#modDialog').modal('show');
+                if (self.options.onloadedcb)
+                    self.options.onloadedcb();
             });
         });
         $(document).on("click", "a.ahead", function (e) {
@@ -44,6 +60,8 @@ function setup_listitems(options) {
 
                 $('#dialogContent').html(data);
                 $('#modDialog').modal('show');
+                if (self.options.onloadedcb)
+                    self.options.onloadedcb();
             });
         });
 

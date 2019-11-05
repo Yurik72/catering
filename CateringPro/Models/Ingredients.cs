@@ -10,6 +10,7 @@ namespace CateringPro.Models
         public Ingredients()
         {
             PizzaIngredients = new HashSet<PizzaIngredients>();
+            Consignments=new HashSet<Consignment>();
         }
 
        // public int Id { get; set; }
@@ -29,6 +30,8 @@ namespace CateringPro.Models
         [DisplayName("StockDate")]
         public DateTime StockDate { get; set; }
         public virtual ICollection<PizzaIngredients> PizzaIngredients { get; set; }
+
+        public virtual ICollection<Consignment> Consignments { get; set; }
 
     }
 }

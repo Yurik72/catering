@@ -400,6 +400,11 @@ footer {
 }
 .create {
     cursor: pointer;
+    background-color: #0069d9;
+    border-color: #0062cc;
+    color:#FFFFFF;
+    min-width:150px;
+    min-height:50px;
 }
 
 /*  Dialog styles*/
@@ -532,4 +537,10 @@ a.dialog-edit-icon, a.apagebottom {
     .document-modal.modal .modal-dialog {
         max-width: 968px;
     }
+}
+
+/*stock*/
+.stock-consignment {
+    margin: 10px;
+    box-shadow: 10px 10px 5px grey;
 }

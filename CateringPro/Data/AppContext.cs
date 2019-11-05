@@ -32,12 +32,18 @@ namespace CateringPro.Data
 
         public DbSet<DayDish> DayDish { get; set; }
 
+        public DbSet<DayComplex> DayComplex { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
+        public DbSet<Complex> Complex { get; set; }
+
+        public DbSet<DishComplex> DishComplex { get; set; }
 
         public DbSet<Docs> Docs { get; set; }
 
         public DbSet<DocLines> DocLines { get; set; }
+
+        public DbSet<Consignment> Consignment { get; set; }
         public DbSet<UserWeekBasket> UserWeekBasket { get; set; }
 
         public DbSet<UserDay> UserDay { get; set; }
@@ -98,8 +104,23 @@ namespace CateringPro.Data
                .HasOne(ud => ud.Dish).WithMany(a => a.UserDayDishes)
                .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
-            //day dish
 
+            //complex 
+            modelBuilder.Entity<DishComplex>()
+             .HasKey(bc => new { bc.DishId, bc.ComplexId });
+            //day dish
+            modelBuilder.Entity<DishComplex>()
+                 .HasOne(c => c.Dish)
+                 .WithMany(a => a.DishComplex)
+                 .IsRequired()
+                
+                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<DishComplex>()
+                 .HasOne(c => c.Complex)
+                 .WithMany(a => a.DishComplex)
+                 .IsRequired()
+                
+                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<DayDish>()
                    .Property(d => d.Date)
@@ -107,6 +128,14 @@ namespace CateringPro.Data
 
             modelBuilder.Entity<DayDish>()
               .HasKey(d => new { d.Date , d.DishId,d.CompanyId });
+
+
+            modelBuilder.Entity<DayComplex>()
+                   .Property(d => d.Date)
+                   .HasColumnType("date");
+
+            modelBuilder.Entity<DayComplex>()
+              .HasKey(d => new { d.Date, d.ComplexId, d.CompanyId });
 
             ////documents
             modelBuilder.Entity<Docs>()
@@ -119,7 +148,15 @@ namespace CateringPro.Data
                .HasOne(d => d.Docs)
                .WithMany(a => a.DocLines)
                .IsRequired().OnDelete(DeleteBehavior.ClientCascade);
-               
+
+            //stock
+            modelBuilder.Entity<Consignment>()
+             .HasKey(c => new { c.CompanyId, c.LineId,c.IngredientsId });
+            modelBuilder.Entity<Consignment>()
+                 .HasOne(c => c.Ingredients)
+                 .WithMany(a => a.Consignments)
+                 .IsRequired()
+                 .OnDelete(DeleteBehavior.Restrict);
 
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

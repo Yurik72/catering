@@ -375,8 +375,20 @@ namespace CateringPro.Repositories
             return query2;
 
         }
+        public IQueryable<UserDayComplexViewModel> ComplexPerDay(DateTime daydate, string userId, int companyid)
+        {
+            var query = from comp in _context.Complex
+                        join dd in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dd.ComplexId into proto
+                        from dayd in proto.DefaultIfEmpty()
 
+                        select new UserDayComplexViewModel() { 
+                            ComplexId = comp.Id, ComplexName = comp.Name, 
+                            Date = daydate, Enabled = dayd.Date == daydate  /*dayd != null*/
+                        };
+            return query;
+        }
     }
+
 }
 
 

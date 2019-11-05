@@ -1,0 +1,63 @@
+@model IEnumerable<CateringPro.Models.DayComplexViewModel>
+
+@{
+    ViewData["Title"] = "EditDay";
+}
+@{
+    DateTime daydate = DateTime.Now;
+}
+
+
+
+@{
+    int idx = 0;
+}
+
+@foreach (var item in Model)
+{
+
+    <div class="container daydish-category-content border rounded">
+        <div class="row">
+            <div class="col col-lg-12 col-md-12 row-daydish-header">
+                Complex
+            </div>
+        </div>
+@{ 
+    string id_checkbox = daydate.Millisecond.ToString() + "_" + idx;
+}
+                <div class="row row-daycomplex">
+                    <div class="col col-md-2">
+
+                    </div>
+                    <div class="col col-md-1">
+                        <div class="checkbox checkbox-info">
+
+                            @if (item.Enabled)
+                            {
+                                <input type="checkbox" class="checkbox styled" checked="checked" cp-name="dayselect-complex" id="@id_checkbox" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="checkbox styled" cp-name="dayselect-complex" id="@id_checkbox" />
+                            }
+                            <label for="@id_checkbox">
+
+                            </label>
+                            @Html.HiddenFor(modelItem => item.ComplexId)
+                            @Html.HiddenFor(modelItem => item.Date)
+                        </div>
+                    </div>
+                    <div class="col col-lg-4 col-md-4">
+                        @Html.DisplayFor(modelItem => item.ComplexName)
+                    </div>
+                </div>
+@{ 
+    idx++;
+}
+
+            <div class="row dayfoot">
+            </div>
+        </div>
+
+   
+}

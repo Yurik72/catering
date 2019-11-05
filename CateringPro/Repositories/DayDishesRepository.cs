@@ -21,7 +21,7 @@ namespace CateringPro.Repositories
 
         public IQueryable<DayDishViewModel> DishesPerDay(DateTime daydate, int companyid)
         {
-            var query = from dish in _context.Dishes
+            var query = from dish in _context.Dishes.Where(d => d.CompanyId == companyid)
                         join dd in (from subday in _context.DayDish where subday.Date == daydate && subday.CompanyId == companyid select subday) on dish.Id equals dd.DishId into proto
                         from dayd in proto.DefaultIfEmpty()
 
@@ -110,6 +110,25 @@ namespace CateringPro.Repositories
             return _context.DayDish.SingleOrDefault(dd => dd.DishId == src.DishId && dd.Date == src.Date && dd.CompanyId == src.CompanyId);
         }
 
-    
+        public DayComplex SelectComplexSingleOrDefault(int complexId, DateTime daydate)
+        {
+            return _context.DayComplex.SingleOrDefault(dd => dd.ComplexId == complexId && dd.Date == daydate);
+        }
+        public DayComplex SelectComplexSingleOrDefault(DayComplex src)
+        {
+            return _context.DayComplex.SingleOrDefault(dd => dd.ComplexId == src.ComplexId && dd.Date == src.Date && dd.CompanyId == src.CompanyId);
+        }
+
+        public IQueryable<DayComplexViewModel> ComplexDay(DateTime daydate, int companyid)
+        {
+            var query = from comp in _context.Complex.Where(d => d.CompanyId == companyid)
+                        join dd in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dd.ComplexId into proto
+                        from dayd in proto.DefaultIfEmpty()
+
+                        select new DayComplexViewModel() { ComplexId = comp.Id,  ComplexName = comp.Name, Date = daydate, Enabled = dayd.Date == daydate };
+            return query;
+        }
+
+
     }
 }

@@ -36,7 +36,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Index()
         {
           
-            return View(await _context.Dishes.Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
+            return View(await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")]  QueryModel querymodel)
         {
@@ -232,8 +232,8 @@ namespace CateringPro.Controllers
             }
 
             DishIngredientsViewModel ing = new DishIngredientsViewModel();
-            ing.IngredientsIds = await _context.DishIngredients.Where(d => d.DishId == id).Select(d => d.IngredientId.ToString()).ToListAsync();
-            ing.Ingredients= new MultiSelectList(await  _context.Ingredients.OrderBy(di => di.Name)
+            ing.IngredientsIds = await _context.DishIngredients.WhereCompany(User.GetCompanyID()).Where(d => d.DishId == id).Select(d => d.IngredientId.ToString()).ToListAsync();
+            ing.Ingredients= new MultiSelectList(await  _context.Ingredients.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
                 .Select(di=>new {Value=di.Id,Text=di.Name }).ToListAsync(), "Value", "Text");
             return PartialView(ing);
         }

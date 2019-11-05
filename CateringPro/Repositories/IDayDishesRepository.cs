@@ -14,6 +14,9 @@ namespace CateringPro.Repositories
         DayDish SelectSingleOrDefault(int dishId, DateTime daydate);
         DayDish SelectSingleOrDefault(DayDish src);
 
-        
+        DayComplex SelectComplexSingleOrDefault(int complexId, DateTime daydate);
+
+        DayComplex SelectComplexSingleOrDefault(DayComplex src);
+        IQueryable<DayComplexViewModel> ComplexDay(DateTime daydate, int companyid);
     }
 }
