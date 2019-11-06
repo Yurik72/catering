@@ -30,6 +30,7 @@ namespace CateringPro.Models
         [StringLength(40)]
         public string Address2 { get; set; }
 
+        public int?  MenuType { get; set; }
     }
     public class CompanyRole : IdentityRole
     {

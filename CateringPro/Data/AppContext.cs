@@ -49,6 +49,7 @@ namespace CateringPro.Data
         public DbSet<UserDay> UserDay { get; set; }
         public DbSet< UserDayDish> UserDayDish { get; set; }
 
+        public DbSet<UserDayComplex> UserDayComplex { get; set; }
         public DbSet<Pictures> Pictures { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,6 +68,13 @@ namespace CateringPro.Data
                .HasKey(o => new { o.UserId, o.Date,o.DishId, o.CompanyId});
             //many to many Dish <-> catgories
             modelBuilder.Entity<UserDayDish>()
+                   .Property(d => d.Date)
+                   .HasColumnType("date");
+
+            modelBuilder.Entity<UserDayComplex>()
+            .HasKey(o => new { o.UserId, o.Date, o.ComplexId, o.CompanyId });
+            //many to many Dish <-> catgories
+            modelBuilder.Entity<UserDayComplex>()
                    .Property(d => d.Date)
                    .HasColumnType("date");
 

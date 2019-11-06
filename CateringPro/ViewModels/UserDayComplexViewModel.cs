@@ -17,20 +17,35 @@ namespace CateringPro.Models
 
         public string ComplexDescription { get; set; }
 
-        public string DishIngredientds { get; set; }
+      
 
         public decimal Price { get; set; }
-        public int KKal { get; set; }
-        public decimal ReadyWeight { get; set; }
+
+
         public int Quantity { get; set; }
 
         public bool Enabled { get; set; }
 
 
     
-        public IEnumerable<Dish> Dishes { get; set; }
+        public IEnumerable<UserDayComplexDishViewModel> ComplexDishes { get; set; }
+
+    }
+    public class UserDayComplexDishViewModel
+    {
+        public int DishId { get; set; }
+
+        public string  DishName { get; set; }
+
+
+        public string DishDescription { get; set; }
+
+
+        public string DishIngredients { get; set; }
+
+        public int? PictureId { get; set; }
+
 
     }
 
-   
 }

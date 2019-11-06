@@ -279,7 +279,7 @@ footer {
     border-bottom-width:1px;
 }
 
-.row-daydish > .col {
+.row-daydish > .col, .row-daycomplex > .col {
     margin-top: 3px;
     margin-bottom: 3px;
 }
@@ -467,7 +467,7 @@ a.dialog-edit-icon, a.apagebottom {
     
 }
 /* Menus and days*/
-.daydish-category-content {
+.daydish-category-content, .daydish-complex-content {
     margin-top: 10px;
     box-shadow: 10px 10px 5px grey;
 }
@@ -496,18 +496,23 @@ a.dialog-edit-icon, a.apagebottom {
     margin-top:5px;
     margin-bottom:10px;
 }
-.daydish-footer {
+.daydish-footer, .daycomplex-footer {
     padding: 15px;
     margin-top: 15px;
     box-shadow: 10px 10px 5px grey;
 }
-.daydish-footer .total-order-row{
-    background-color:#5a5a5a;
-    color:#FFFFFF;
+.complex-menu-header {
+    text-align: center;
+    padding: 15px;
 }
-.daydish-footer-cmd{
-    padding-top:10px;
-    padding-bottom:10px;
+.daydish-footer .total-order-row, .daycomplex-footer .total-order-row {
+    background-color: #5a5a5a;
+    color: #FFFFFF;
+}
+
+.daydish-footer-cmd, .daycomplex-footer-cmd {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .user-order-content {
     box-shadow: 10px 10px 5px grey;

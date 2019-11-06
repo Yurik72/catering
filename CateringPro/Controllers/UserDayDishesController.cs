@@ -13,6 +13,7 @@ using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Core;
 using Microsoft.Extensions.Logging;
+using CateringPro.ViewModels;
 
 namespace CateringPro.Controllers
 {
@@ -40,13 +41,29 @@ namespace CateringPro.Controllers
         [Route("MyOrders")]
         public async Task<IActionResult> Index()
         {
-            //var appDbContext = _context.UserDayDish.Include(u => u.Dish).Include(u => u.User);
-            return View(DateTime.Now); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
+            var user=await  _userManager.GetUserAsync(HttpContext.User);
+            if(user==null)
+                return NotFound();
+            UserDayEditModel model = new UserDayEditModel()
+            {
+                DayDate = DateTime.Now,
+                ShowComplex= user.MenuType.HasValue && (user.MenuType.Value & 1)>0,
+                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0
+            };
+            return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
         }
-        public IActionResult EditUserDayComponent(DateTime daydate)
+        public async Task<IActionResult>  EditUserDay(DateTime daydate)
         {
-            object paramets = new { daydate = daydate };
-            return ViewComponent("UserDayDishComponent", paramets);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+                return NotFound();
+            UserDayEditModel model = new UserDayEditModel()
+            {
+                DayDate = daydate,
+                ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
+                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0
+            };
+            return PartialView(model);
         }
         // GET: UserDayDishes/Details/5
         public async Task<IActionResult> Details(string id)
@@ -157,6 +174,24 @@ namespace CateringPro.Controllers
             }
             return await Task.FromResult(Json(new { res = "OK" }));
             */
+        }
+        public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> daycomplexes)
+        {
+            //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
+            DateTime daydate = DateTime.Now;
+            if (daycomplexes.Count > 0)
+                daydate = daycomplexes.First().Date;
+            await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+            if (_userdaydishesrepo.SaveDayComplex(daycomplexes, this.HttpContext))
+            {
+                return await Task.FromResult(Json(new { res = "OK" }));
+            }
+            else
+            {
+                return await Task.FromResult(Json(new { res = "FAIL" }));
+            }
+ 
+            
         }
         // POST: UserDayDishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

@@ -1,4 +1,4 @@
-﻿@model DateTime
+﻿@model UserDayEditModel
 @using System.Globalization
 @using CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
@@ -7,7 +7,7 @@
     ViewData["Title"] = "My Order";
 }
 @{
-    DateTime daydate = Model;
+    DateTime daydate = Model.DayDate;
     long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
     CultureInfo ci = new CultureInfo("en-US");
     // Get the DateTimeFormatInfo for the en-US culture.
@@ -63,9 +63,18 @@
     }
     @for (int i = 0; i < 7; i++)
     {
-        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+    <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+       
+        @if (Model.ShowComplex)
+        {
+            @await Component.InvokeAsync("UserDayComplexComponent", current_content)
+        }
+        @if (Model.ShowDishes)
+        {
             @await Component.InvokeAsync("UserDayDishComponent", current_content)
-        </div>
+        }
+
+    </div>
 
         current_content = current_content.AddDays(1);
     }
@@ -131,7 +140,7 @@
                 var dt = new Date(ms);
                 dt.setDate(dt.getDate() - dt.getDay() + dayindex);
                 $('#nav-content-' + dayindex).html(html_loading);
-                $('#nav-content-' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+                $('#nav-content-' + dayindex).load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()));
                 $('#nav-tab-' + dayindex).find('.shorttabdate').text(dateToshortString(dt));
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
@@ -216,7 +225,30 @@
                     }
                 });
             });
+             $(document).on('click', '[data-action="saveuserdaycomplex"]', function (event) {
+                event.preventDefault();
+                var divform = $(this).parents(".userdaycomplex").find('[data-form="userdaycomplex"]');
+                var daycomplexes = [];
+                divform.find('[data-form="userdaycomplexitem"]').each(function (index, day) { //each day
+                    var daydish = {}
+                    $(day).find('[datafield]').each(function (idx, element) {
+                        daydish[$(element).attr("datafield")] = $(element).val();
+                    })
+                    daycomplexes.push(daydish)
+                });
 
+                $.ajax({
+                    type: "POST",
+                    data: res = { daycomplexes },
+
+                    url: "/UserDayDishes/SaveDayComplex",
+                    success: function (data) {
+                        // alert(data);
+                        $('#modOrderSuccess').modal('show');
+
+                    }
+                });
+            });
             $(document).on('click', '[data-action="payuserday"]', function (event) {
                 event.preventDefault();
                 var divform = $(this).parents(".userdaydish").find('[data-form="userday"]');

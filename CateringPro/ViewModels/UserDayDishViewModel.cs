@@ -29,6 +29,8 @@ namespace CateringPro.Models
         public int CategoryId { get; set; }
 
         public int? PictureId { get; set; }
+
+        public decimal Amount { get; set; }
     }
 
     public class UserDayDishViewModelPerGategory

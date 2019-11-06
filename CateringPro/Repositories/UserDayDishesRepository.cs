@@ -248,12 +248,16 @@ namespace CateringPro.Repositories
                 daydishes.ForEach(d =>
                 {
                     //await saveday(d);
+                    d.IsComplex = false;
                     httpcontext.User.AssignUserAttr(d);
+                    
                     var userDayDish = _context.UserDayDish.Find(d.UserId, d.Date, d.DishId, d.CompanyId);
+
                     if (userDayDish != null)
                     {
                         userDayDish.Quantity = d.Quantity;
                         userDayDish.Price = d.Price;
+                        userDayDish.IsComplex = false;
                         _context.Update(userDayDish);
                     }
                     else if (d.Quantity > 0)
@@ -262,6 +266,7 @@ namespace CateringPro.Repositories
 
                             _context.Add(d);
                     }
+                   
 
                 });
                 if (!UpdateUserDay(daydishes, httpcontext))
@@ -274,6 +279,7 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+     
         private bool UpdateUserDay(List<UserDayDish> daydishes, HttpContext httpcontext)
         {
             var userid = httpcontext.User.GetUserId();
@@ -318,6 +324,56 @@ namespace CateringPro.Repositories
 
         }
 
+        public bool SaveDayComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
+        {
+
+            try
+            {
+                daycomplex.ForEach(d =>
+                {
+                    //await saveday(d);
+                    httpcontext.User.AssignUserAttr(d);
+                    var userDayComplex = _context.UserDayComplex.SingleOrDefault(c => c.CompanyId == d.CompanyId
+                                && c.Date == d.Date
+                                && c.UserId == d.UserId
+                                && c.ComplexId == d.ComplexId);
+                    if (userDayComplex != null)
+                    {
+                        userDayComplex.Quantity = d.Quantity;
+                        userDayComplex.Price = d.Price;
+                        _context.Update(userDayComplex);
+                    }
+                    else if (d.Quantity > 0)
+                    {
+                        //d.UserId = this.User.GetUserId();
+
+                        _context.Add(d);
+                    }
+
+                });
+                _context.SaveChanges();
+              //  if (!UpdateUserComplex(daycomplex, httpcontext))
+               //     return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update user day complex");
+                return false;
+            }
+            return true;
+        }
+        private bool UpdateUserComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
+        {
+            var userid = httpcontext.User.GetUserId();
+            var companyid = httpcontext.User.GetCompanyID();
+            bool isnew = false;
+            UserDay userDay = null;
+
+   
+            return true;
+
+
+        }
         /*   old , to be deleted further */
         public IQueryable<CustomerOrdersViewModel> CustomerOrders_old(DateTime daydate, int companyid)
         {
@@ -378,12 +434,31 @@ namespace CateringPro.Repositories
         public IQueryable<UserDayComplexViewModel> ComplexPerDay(DateTime daydate, string userId, int companyid)
         {
             var query = from comp in _context.Complex
-                        join dd in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dd.ComplexId into proto
+                        
+                        join dc in (from subday in _context.DayComplex where  subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dc.ComplexId 
+                        join dd in (from usubday in _context.UserDayComplex where usubday.UserId== userId && usubday.Date == daydate && usubday.CompanyId == companyid select usubday) on  dc.ComplexId equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
 
                         select new UserDayComplexViewModel() { 
                             ComplexId = comp.Id, ComplexName = comp.Name, 
-                            Date = daydate, Enabled = dayd.Date == daydate  /*dayd != null*/
+                            Quantity= dayd.Quantity,
+                            Date = daydate, Enabled = dayd.Date == daydate,  /*dayd != null*/
+                            ComplexDishes=from d in _context.Dishes.WhereCompany(companyid)
+                                          join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
+                                          where dc.ComplexId ==comp.Id
+                                          select new UserDayComplexDishViewModel()
+                                          {
+                                              
+                                              DishId = d.Id,
+                                              DishName = d.Name,
+                                             
+                                              PictureId = d.PictureId,
+                                             
+                                              DishDescription = d.Description,
+                                              DishIngredients = string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
+                                                                                  join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
+                                                                                  select ingr.Name),
+                                          }
                         };
             return query;
         }
