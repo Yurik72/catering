@@ -14,7 +14,8 @@ namespace CateringPro.Models
 
         public virtual Dish Dish { get; set; }
 
-
+        public int? ComplexId { get; set; }
+        public virtual Complex Complex { get; set; }
         public int Quantity { get; set; }
 
         public decimal Price { get; set; }

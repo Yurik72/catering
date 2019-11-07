@@ -42,7 +42,7 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </dd>
                 <dt> <label asp-for="Price" class="control-label"></label> </dt>
-                <dd>@Html.EditorFor(model => model.Price)</dd>
+                <dd> <input asp-for="Price" class="form-control" /></dd>
                 <dt><label asp-for="DishComplex" class="control-label"></label> </dt>
                 <dd>
                     <div class="dishes-content" >

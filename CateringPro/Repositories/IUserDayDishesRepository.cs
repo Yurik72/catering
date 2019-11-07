@@ -9,7 +9,7 @@ namespace CateringPro.Repositories
 {
     public interface IUserDayDishesRepository
     {
-
+        bool IsAllowDayEdit(DateTime dt, int companyid);
         IQueryable<UserDayDishViewModel> DishesPerDay(DateTime dayDate, string userId,int companyid);
         IQueryable<UserDayDishViewModelPerGategory> CategorizedDishesPerDay(DateTime daydate, string userId, int companyid);
 

@@ -46,15 +46,15 @@ body {
     background-color: rgba(0,0,0,.32);
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-top: 20px;
-    min-height: 90%;
-    box-shadow: 10px 10px 5px grey;
-}
+    /* Wrapping element */
+    /* Set some basic padding to keep content from hitting the edges */
+    .body-content {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 20px;
+        min-height: 90%;
+        box-shadow: 10px 10px 5px grey;
+    }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
@@ -283,7 +283,14 @@ footer {
     margin-top: 3px;
     margin-bottom: 3px;
 }
-
+.daycomplex-item {
+    border: solid;
+    border-width:1px;
+    border-radius: 10px;
+    border-color: #5a5a5a;
+    margin-bottom: 10px;
+    
+}
 .btn-link.daydish[aria-expanded="true"]:hover, .btn-link.daydish[aria-expanded="true"]:focus {
     background-color: #4d2800
 }
@@ -353,9 +360,6 @@ footer {
             width: 50%
         }
 
-.accordeon dl dt.active .plus, .accordeon dl dt:hover .plus {
-    background: #fff
-}
 
 .daydish[aria-expanded="true"] .expand::after, .daydish[aria-expanded="true"] .expand::before, .daydish[aria-expanded="true"] .expand::after,
 .daydish[aria-expanded="true"] .expand::before {
@@ -548,4 +552,32 @@ a.dialog-edit-icon, a.apagebottom {
 .stock-consignment {
     margin: 10px;
     box-shadow: 10px 10px 5px grey;
+}
+
+
+/*Complex*/
+@media (min-width: 1024px) {
+    .complex-form.modal .modal-dialog {
+        max-width: 968px;
+    }
+}
+
+.dishes-content {
+    clear: both;
+    width: 100%;
+    height:100%;
+}
+
+.select-complex-dishes{
+
+    min-height:400px;
+}
+
+.select-complex-dishes div{
+    height:100%;
+    width:100%;
+}
+.dishes-content select{
+    max-width:100%;
+    height:100%;
 }

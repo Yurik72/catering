@@ -89,21 +89,33 @@ namespace CateringPro.Repositories
 
                 res.Buyer = GetUserCompany(UserId);
                 res.Seller = GetOwnCompany(companyid);
-                var query1 =
-                         from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
-                         join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
-                         join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
-                         join cu in _context.Users on ud.UserId equals cu.Id
-                         select new InvoiceItemModel
-                         {
-                             Code=d.Code,
-                             Name = d.Name,
-                             Quantity = ud.Quantity,
-                             Price = ud.Price,
-                             Amount = ud.Quantity * d.Price
-                         };
-                res.Items = query1.ToList();
-
+                var query1 = from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+                             join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
+                             join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+                             join cu in _context.Users on ud.UserId equals cu.Id
+                             select new InvoiceItemModel
+                             {
+                                 Code = d.Code,
+                                 Name = d.Name,
+                                 Quantity = ud.Quantity,
+                                 Price = ud.Price,
+                                 Amount = ud.Quantity * d.Price
+                             };
+                var query2= from dd in _context.DayComplex.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+                                  join d in _context.Complex.Where(dd => dd.CompanyId == companyid) on dd.ComplexId equals d.Id
+                                  join ud in _context.UserDayComplex.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
+                                  join cu in _context.Users on ud.UserId equals cu.Id
+                                  select new InvoiceItemModel
+                                  {
+                                      Code = "",
+                                      Name = d.Name,
+                                      Quantity = ud.Quantity,
+                                      Price = ud.Price,
+                                      Amount = ud.Quantity * d.Price
+                                  };
+                var resitems = query1.ToList();
+                resitems.AddRange(query2.ToList());
+                res.Items = resitems;
             }
             catch (Exception ex)
             {

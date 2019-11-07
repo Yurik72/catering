@@ -24,6 +24,24 @@ namespace CateringPro.Repositories
             _logger = logger;
             _userManager = userManager;
         }
+
+        public  bool IsAllowDayEdit( DateTime dt, int companyid)
+        {
+            var company = _context.Companies.Find(companyid);
+            if (company == null)
+                return false;
+            DateTime max = DateTime.Now.AddHours(company.OrderThresholdTimeH.HasValue ? company.OrderThresholdTimeH.Value : 24);
+            DateTime min = DateTime.Now.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
+            if ((dt - min).TotalDays < 7)
+            for(DateTime t=dt;t>min ; t = t.AddDays(-1))
+            {
+                if(t.DayOfWeek== DayOfWeek.Saturday || t.DayOfWeek == DayOfWeek.Sunday)
+                {
+                        min = min.AddDays(-1);
+                }
+            }
+            return dt > min && dt < max;
+        }
         public CompanyModel GetOwnCompany(int companyid)
         {
             CompanyModel res;
@@ -251,7 +269,10 @@ namespace CateringPro.Repositories
                     d.IsComplex = false;
                     httpcontext.User.AssignUserAttr(d);
                     
-                    var userDayDish = _context.UserDayDish.Find(d.UserId, d.Date, d.DishId, d.CompanyId);
+                    var userDayDish = _context.UserDayDish.SingleOrDefault(c => c.CompanyId == d.CompanyId
+                                && c.Date == d.Date
+                                && c.UserId == d.UserId
+                                && c.ComplexId == d.ComplexId);
 
                     if (userDayDish != null)
                     {
@@ -269,8 +290,9 @@ namespace CateringPro.Repositories
                    
 
                 });
-                if (!UpdateUserDay(daydishes, httpcontext))
-                    return false;
+                //if (!UpdateUserDay(daydishes, httpcontext))
+                //    return false;
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -290,7 +312,8 @@ namespace CateringPro.Repositories
             if (daydishes.Count > 0) 
             {
                 DateTime daydate = daydishes.First().Date;
-                userDay = _context.UserDay.FirstOrDefault(ud => ud.UserId == userid && ud.CompanyId == companyid && ud.Date == daydate);
+                userDay = _context.UserDay.FirstOrDefault(ud => ud.UserId == userid 
+                && ud.CompanyId == companyid && ud.Date == daydate);
                 if (userDay == null)
                 {
                     isnew = true;
@@ -442,6 +465,7 @@ namespace CateringPro.Repositories
                         select new UserDayComplexViewModel() { 
                             ComplexId = comp.Id, ComplexName = comp.Name, 
                             Quantity= dayd.Quantity,
+                            Price =comp.Price,
                             Date = daydate, Enabled = dayd.Date == daydate,  /*dayd != null*/
                             ComplexDishes=from d in _context.Dishes.WhereCompany(companyid)
                                           join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId

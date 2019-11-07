@@ -20,6 +20,15 @@ namespace CateringPro.Core
             int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
             return dt.AddDays(-1 * diff).Date;
         }
+        public static DateTime ResetHMS(this DateTime dt)
+        {
+            DateTime res = new DateTime(dt.Year, dt.Month, dt.Day);
+            return res;
+        }
+        public static DateTime OnlyDateNow()
+        {
+            return ResetHMS(DateTime.Now);
+        }
         public static async Task<IHtmlContent> InvokeComponentAsync<TModel,TResult>(this RazorPage<IEnumerable<TModel>> source, IViewComponentHelper comphelper, string componentname,  Expression<Func<TModel, TResult>> expression, object param, object param1 = null)
         {
            // source.Component.

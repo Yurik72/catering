@@ -166,16 +166,30 @@
                 // var daytab = $('#nav-tabContent').find('[data-dayindex=' + dayindex + ']');
                 var totalQuantity = 0;
                 var totalAmount = 0.0;
+                var totalcomplexQuantity = 0;
+                var totalcomplexAmount = 0.0;
                 $(tab).find('[datafield="Quantity"]').each(function (idx, element) {
                     var quantity = Number.parseInt($(element).val());
                     var parentform = $(element).parents('[data-form="userdaydish"]');
                     var price = Number.parseFloat(parentform.find('[datafield="Price"]').val());
-                    totalQuantity += quantity;
-                    totalAmount += quantity * price;
+                    if (!isNaN(price)) {
+                        totalQuantity += quantity;
+                        totalAmount += quantity * price;
+                    }
+                    var parentformcomplex = $(element).parents('[data-form="userdaycomplex"]');
+                    var pricecomplex = Number.parseFloat(parentformcomplex.find('[datafield="Price"]').val());
+                    if (!isNaN(pricecomplex)) {
+                        totalcomplexQuantity += quantity;
+                        totalcomplexAmount += quantity * pricecomplex;
+                    }
                 });
+
                 $(tab).find(".total-quantity").text(totalQuantity);
                 $(tab).find(".total-amount").text(totalAmount.toFixed(2));
+                $(tab).find(".totalcomplex-quantity").text(totalcomplexQuantity);
+                $(tab).find(".totalcomplex-amount").text(totalcomplexAmount.toFixed(2));
             };
+
             $(document).on('change', "input.numberspinner[type='number']", function (event) {
                 var parenttab = $(this).parents('.tab-pane');
                 var dayindex = Number.parseInt(parenttab.attr('data-dayindex'));

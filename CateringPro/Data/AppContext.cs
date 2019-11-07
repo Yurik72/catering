@@ -65,7 +65,7 @@ namespace CateringPro.Data
                 .HasKey(o => new { o.UserId, o.BasketDate });
 
             modelBuilder.Entity<UserDayDish>()
-               .HasKey(o => new { o.UserId, o.Date,o.DishId, o.CompanyId});
+               .HasKey(o => new { o.UserId, o.Date,o.DishId, o.CompanyId,o.ComplexId});
             //many to many Dish <-> catgories
             modelBuilder.Entity<UserDayDish>()
                    .Property(d => d.Date)

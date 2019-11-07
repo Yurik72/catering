@@ -5,12 +5,13 @@
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     ViewData["Title"] = "EditDay";
+    bool allowEdit = (bool)ViewData["AllowEdit"];
 }
 @{
-    DateTime daydate = DateTime.Now;
+        DateTime daydate = DateTime.Now;
 
 
-}
+    }
 @* bootstrap0 grid system *@
 
 <div class="userdaydish">
@@ -92,8 +93,10 @@
             <div class="col col-lg-1 col-md-1">
             </div>
             <div class="col col-lg-4 col-md-4">
-                <button type="button" button class="btn btn-primary" data-action="saveuserday" data-action="saveuserday">@Localizer["MyOrdersSave"]</button>
-
+                @if (allowEdit)
+                {
+                    <button type="button" button class="btn btn-primary" data-action="saveuserday" data-action="saveuserday">@Localizer["MyOrdersSave"]</button>
+                }
                 <button type="button" button class="btn btn-primary" data-action="payuserday" >@Localizer["MyOrdersPayment"]</button>
             </div>
         </div>
