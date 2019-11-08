@@ -12,26 +12,30 @@
     CultureInfo ci = new CultureInfo("en-US");
     // Get the DateTimeFormatInfo for the en-US culture.
     DateTimeFormatInfo dtfi = ci.DateTimeFormat;
+    CultureInfo cultureCurrent = CultureInfo.CurrentUICulture;
 }
 
 
-<h2>@Localizer["OrderTitle"]</h2>
+<h2 class="text-center">@Localizer["OrderTitle"]</h2>
 <div class="container">
 
-    <div class="row justify-content-md-center input-group">
-        <div class="input-group-prepend col-lg-1 col-md-1 dayselector dayselectback">
-            <span><i class="fa fa-angle-double-left input-group-text"></i></span>
-
-        </div>
-        <div class="col-lg-6 col-md-6 dayselector ">
-            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
-            <div id="weekselector">
+    <div class="row  justify-content-center">
+        <div class="col input-group justify-content-centers">
+            <div class="input-group-prepend dayselector dayselectback">
+                <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
             </div>
-        </div>
-        <div class="input-group-append dayselector dayselectforward">
-            <span><i class="fa fa-angle-double-right input-group-text"></i></span>
+           
+                <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+                <div id="weekselector" class="weekselector">
 
+                </div>
+
+           
+            <div class="input-group-append dayselector  dayselectforward">
+                <span><i class="fa fa-angle-double-right input-group-text"></i></span>
+
+            </div>
         </div>
     </div>
     <div class="row" style="height:10px">
@@ -83,14 +87,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Повiдомлення</h5>
+                <h5 class="modal-title">@Localizer["Message"]</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Заява прийнята</p>
-                <p>Деталi надiслано на Вашу почтову скриньку</p>
+                <p>@Localizer["OrderAccepted"]</p>
+                <p>@Localizer["OrdeAcceptedDetail"]</p>
               
             </div>
             <div class="modal-footer">
@@ -100,7 +104,69 @@
         </div>
     </div>
 </div>
+<div id="modOrderFailOutDate" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Message"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["OrderNotAccepted"]</p>
+                <p>@Localizer["OrderNotAcceptedOutDate"]</p>
 
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modOrderEmpty" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Message"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["OrderNotAccepted"]</p>
+                <p>@Localizer["OrderEmpty"]</p>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Message"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["OrderNotAccepted"]</p>
+                <p>@Localizer["InternalError"]</p>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="modPayment" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -133,7 +199,7 @@
         $(function () {
 
             $("input.numberspinner[type='number']").inputSpinner();
-            $("#weekselected").inputSpinner();
+           // $("#weekselected").inputSpinner();
             var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
             var reloadDay = function (dayindex) {
                 var ms = parseInt($('#currentdate').val());
@@ -141,7 +207,9 @@
                 dt.setDate(dt.getDate() - dt.getDay() + dayindex);
                 $('#nav-content-' + dayindex).html(html_loading);
                 $('#nav-content-' + dayindex).load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()));
-                $('#nav-tab-' + dayindex).find('.shorttabdate').text(dateToshortString(dt));
+                var weektext = dateToshortString(dt);
+                weektext = ""+dt.getDate();
+                $('#nav-tab-' + dayindex).find('.shorttabdate').text(weektext);
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
             }
@@ -160,7 +228,16 @@
                 lasttweekday = new Date(dt.getTime());
                 firstweekday.setDate(dt.getDate() - dt.getDay());
                 lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
-                return firstweekday.toLocaleDateString() + " - " + lasttweekday.toLocaleDateString();
+                var locale = "@cultureCurrent.Name";
+                var res = firstweekday.getDate();
+                res += " - ";
+                res += lasttweekday.getDate();
+                res += "  ";
+                res += lasttweekday.toLocaleString(locale, { month: "long" });
+                res += " "+lasttweekday.getFullYear();
+                return res;
+                //return firstweekday.toLocaleDateString() + " - " + lasttweekday.toLocaleDateString();
+
             }
             var calctotal = (tab, dayindex) => {
                 // var daytab = $('#nav-tabContent').find('[data-dayindex=' + dayindex + ']');
@@ -215,6 +292,26 @@
                 e.preventDefault();
                 incrementday(7);
             });
+            var showOrderResult = function (data) {
+                if (!data || !data.res) {
+                    $('#modOrderFail').modal('show');
+                    return;
+                }
+                if (data.res == "FAIL" && data.reason == "OutDate") {
+                    $('#modOrderFailOutDate').modal('show');
+                    return;
+                }
+                 if (data.res == "FAIL" && data.reason == "Empty") {
+                    $('#modOrderEmpty').modal('show');
+                    return;
+                }
+                
+                if (data.res == "OK" ) {
+                    $('#modOrderSuccess').modal('show');
+                    return;
+                }
+                $('#modOrderFail').modal('show');
+            }
             $(document).on('click', '[data-action="saveuserday"]', function (event) {
                 event.preventDefault();
                 var divform = $(this).parents(".userdaydish").find('[data-form="userday"]');
@@ -234,8 +331,8 @@
                     url: "/UserDayDishes/SaveDay",
                     success: function (data) {
                         // alert(data);
-                        $('#modOrderSuccess').modal('show');
-
+                       // $('#modOrderSuccess').modal('show');
+                        showOrderResult(data);
                     }
                 });
             });
@@ -258,8 +355,8 @@
                     url: "/UserDayDishes/SaveDayComplex",
                     success: function (data) {
                         // alert(data);
-                        $('#modOrderSuccess').modal('show');
-
+                       // $('#modOrderSuccess').modal('show');
+                         showOrderResult(data);
                     }
                 });
             });

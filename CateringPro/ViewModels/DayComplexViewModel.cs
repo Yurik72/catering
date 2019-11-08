@@ -18,8 +18,11 @@ namespace CateringPro.Models
 
         public int CategoryId { get; set; }
 
-        public int? PictureId { get; set; }
+        public string  DishesString { get; set; }
+
+
+    public int? PictureId { get; set; }
     }
 
-
+    
 }

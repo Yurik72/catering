@@ -17,11 +17,11 @@
 
         @if (Model.ShowComplex)
         {
-            await Component.InvokeAsync("UserDayComplexComponent", daydate);
+            @await Component.InvokeAsync("UserDayComplexComponent", daydate)
         }
         @if (Model.ShowDishes)
         {
-            await Component.InvokeAsync("UserDayDishComponent", daydate);
+            @await Component.InvokeAsync("UserDayDishComponent", daydate)
         }
 
  

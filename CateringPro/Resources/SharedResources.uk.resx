@@ -157,7 +157,7 @@
     <value>Комплекс</value>
   </data>
   <data name="Complex Dishes" xml:space="preserve">
-    <value>Страви</value>
+    <value>Комплекснi Страви</value>
   </data>
   <data name="Complex Name" xml:space="preserve">
     <value>Назва</value>
@@ -204,6 +204,9 @@
   <data name="DishesWeekMenu" xml:space="preserve">
     <value>Страви що будуть готоватись цього тижня</value>
   </data>
+  <data name="DishIngredientsProportionTab" xml:space="preserve">
+    <value>Пропорцii</value>
+  </data>
   <data name="DishIngredientsTab" xml:space="preserve">
     <value>Інгредієнти</value>
   </data>
@@ -212,6 +215,9 @@
   </data>
   <data name="DishPictureTab" xml:space="preserve">
     <value>Фото</value>
+  </data>
+  <data name="DishReadyWeightMeasureUnit" xml:space="preserve">
+    <value>гр.</value>
   </data>
   <data name="DLB Empty list" xml:space="preserve">
     <value>Пусто</value>
@@ -255,8 +261,14 @@
   <data name="Ingredients" xml:space="preserve">
     <value>Інгредієнти</value>
   </data>
+  <data name="Ingredients Proprotion" xml:space="preserve">
+    <value>Частка</value>
+  </data>
   <data name="Ingredients_MeasureUnit" xml:space="preserve">
     <value>Од.вим.</value>
+  </data>
+  <data name="InternalError" xml:space="preserve">
+    <value>Сталась помилка, будь звернiться у службу пiдтримки</value>
   </data>
   <data name="KKal" xml:space="preserve">
     <value>ККал</value>
@@ -315,6 +327,9 @@
   <data name="MenuUserOrder" xml:space="preserve">
     <value>Мої замовлення</value>
   </data>
+  <data name="Message" xml:space="preserve">
+    <value>Повiдомлення</value>
+  </data>
   <data name="MyOrderAmount" xml:space="preserve">
     <value>Сума</value>
   </data>
@@ -347,6 +362,27 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Назва</value>
+  </data>
+  <data name="NoDishesAtThisDay" xml:space="preserve">
+    <value>Вибачте немаe жодноi страви для замовлення у цей день</value>
+  </data>
+  <data name="OrdeAcceptedDetail" xml:space="preserve">
+    <value>Деталi надiслано на Вашу почтову скриньку</value>
+  </data>
+  <data name="Order Total" xml:space="preserve">
+    <value>Разом</value>
+  </data>
+  <data name="OrderAccepted" xml:space="preserve">
+    <value>Заява прийнята </value>
+  </data>
+  <data name="OrderEmpty" xml:space="preserve">
+    <value>Ваше замовлення порожне</value>
+  </data>
+  <data name="OrderNotAccepted" xml:space="preserve">
+    <value>Заява не прийнята !</value>
+  </data>
+  <data name="OrderNotAcceptedOutDate" xml:space="preserve">
+    <value>Термiн замовлення вичерпано на цей день</value>
   </data>
   <data name="OrderTitle" xml:space="preserve">
     <value>Замовити меню на день</value>

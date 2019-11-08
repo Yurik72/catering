@@ -60,5 +60,19 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        public async Task<bool> WriteOffProductionAsync(DateTime daydate, int companyId)
+        {
+            try
+            {
+                _logger.LogInformation("WriteOffProduction {0},{1}", daydate, companyId);
+                var res =await _context.Database.ExecuteSqlInterpolatedAsync($"exec WriteOffProduction {daydate} , {companyId}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "WriteOffProduction");
+                return false;
+            }
+            return true;
+        }
     }
 }

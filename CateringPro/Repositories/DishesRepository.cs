@@ -20,7 +20,7 @@ namespace CateringPro.Repositories
         }
 
   
-        public async Task<bool> UpdateDishIngredients(Dish dish,List<string> ingredients,int companyid)
+        public async Task<bool> UpdateDishIngredients(Dish dish,List<string> ingredients, List<DishIngredients> proportion,int companyid)
         {
             try
             {
@@ -43,9 +43,13 @@ namespace CateringPro.Repositories
                     newRange=ing.Where(p2 =>
                                     existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id,CompanyId= companyid });
                 }
+                AssignProportion(existing, proportion);
                 _context.UpdateRange(existing);
-                if(newRange!=null)
+                if (newRange != null)
+                {
+                    AssignProportion(newRange, proportion);
                     await _context.AddRangeAsync(newRange);
+                }
                 
                 await _context.SaveChangesAsync();
             }
@@ -55,6 +59,11 @@ namespace CateringPro.Repositories
                 return false;
             }
             return true;
+        }
+        private void AssignProportion(IEnumerable<DishIngredients> target, List<DishIngredients> src)
+        {
+            var merged=target.Join(src, i => i.IngredientId, o => o.IngredientId, (t, s) => new { target = t, proportion = s.Proportion });
+            merged.ToList().ForEach(it => it.target.Proportion = it.proportion);
         }
     }
 }

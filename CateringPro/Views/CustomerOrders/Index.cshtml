@@ -17,20 +17,22 @@
 <h2>@Localizer["CustomerOrders"]</h2>
 
 <div class="container">
-    <div class="row justify-content-md-center">
-        <div class="input-group-prepend col-lg-1 col-md-1 dayselector dayselectback">
-            <span><i class="fa fa-angle-double-left input-group-text"></i></span>
+    <div class="row justify-content-center">
+        <div class="col input-group">
+            <div class="input-group-prepend  dayselector dayselectback">
+                <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
-        </div>
-        <div class="col-lg-4 col-md-4 ">
+            </div>
+
             <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
             <div id="weekselector">
 
             </div>
-        </div>
-        <div class="input-group-append dayselector dayselectforward">
-            <span><i class="fa fa-angle-double-right input-group-text"></i></span>
 
+            <div class="input-group-append  dayselector dayselectforward">
+                <span><i class="fa fa-angle-double-right input-group-text"></i></span>
+
+            </div>
         </div>
     </div>
     <div class="row" style="height:10px">

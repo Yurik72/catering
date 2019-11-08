@@ -10,6 +10,7 @@ namespace CateringPro.Repositories
         IQueryable<ConsignmentStockViewModel> ConsignmentStock(int companyid, bool showZero = false);
 
         bool WriteOffProduction(DateTime daydate, int companyId);
+        Task<bool> WriteOffProductionAsync(DateTime daydate, int companyId);
 
     }
 }

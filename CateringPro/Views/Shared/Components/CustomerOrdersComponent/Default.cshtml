@@ -10,17 +10,17 @@
 
 <div class="well well-lg" data-form="userday">
     <div class="container">
-        <div class="row justify-content-md-center">
+        <div class="row ">
 
         </div>
         @if (Model.Count() == 0)
         {
-            <div class="row row-daydish-category row justify-content-md-center">
+            <div class="row">
                 <div class="container">
                     <div class="row">
-                        <div class="col col-lg-10 col-md-10">
+                        <div class="col col-lg-12 col-md-12 col-12 text-center">
                             <span>@Localizer["MyOrdersNoOrder"]</span>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -32,25 +32,25 @@
             {
                 <div class="row">
                     <div class="container">
-                        <div class="row border border-info">
+                        <div class="row table-head">
                             <div class="col col-lg-2 col-md-2">
                                 <span> @Localizer["MyOrderWho"]</span>
 
                             </div>
-                            <div class="col col-lg-1 col-md-1">
+                            <div class="col col-lg-2 col-md-2 col-2">
                                 <span>@Localizer["MyOrderQuantityTotal"]</span>
                             </div>
-                            <div class="col col-lg-1 col-md-1">
+                            <div class="col col-lg-2 col-md-2 col-2">
                                 <span>@Localizer["MyOrderAmount"]</span>
                             </div>
                             <div class="col col-lg-1 col-md-1">
-                                
+
                                 <span>@Localizer["MyOrderIsConfirmed"]</span>
                             </div>
                             <div class="col col-lg-1 col-md-1">
                                 <span>@Localizer["MyOrderIsPaid"]</span>
                             </div>
-                            <div class="col col-lg-1 col-md-1">
+                            <div class="col col-lg-2 col-md-2 col-2">
                                 <span>@Localizer["MyOrderPaidAmount"]</span>
                             </div>
                             <div class="col col-lg-1 col-md-1">
@@ -64,10 +64,10 @@
                                 @Html.DisplayFor(modelItem => it.User.Address1) <br />
                                 @Html.DisplayFor(modelItem => it.User.Address2)
                             </div>
-                            <div class="col col-lg-1 col-md-1">
+                            <div class="col col-lg-2 col-md-2 col-2">
                                 @Html.DisplayFor(modelItem => it.DishesCount)
                             </div>
-                            <div class="col col-lg-1 col-md-1">
+                            <div class="col col-lg-2 col-md-2 col-2">
                                 @Html.DisplayFor(modelItem => it.Amount)
                             </div>
                             <div class="col col-lg-1 col-md-1">
@@ -76,7 +76,7 @@
                             <div class="col col-lg-1 col-md-1">
                                 @Html.DisplayFor(modelItem => it.IsPaid)
                             </div>
-                            <div class="col col-lg-1 col-md-1">
+                            <div class="col col-lg-2 col-md-2 col-2">
                                 @Html.DisplayFor(modelItem => it.PaidAmount)
                             </div>
                             <div class="col col-lg-1 col-md-1">
@@ -91,27 +91,27 @@
                 </div>
             }
         }
-        <div class="row dayfoot">
-        </div>
+
 
         <div class="row dayfoot user-order-foot">
-            @if (Model.Count() > 0)
-            {
-            <div class="report-link">
-                @Html.ActionLink(Localizer["Day Production"], "DayProduction", "Invoice", new { daydate = @Model.First().Date }, new { @target = "_blank" })
-                <span>   </span>
-                <a href="@Url.Action("DayProduction", "Invoice",new { daydate = @Model.First().Date ,format="xlsx"})" target="_blank">
-                    <span><i class="fa fa-file-excel-o"></i></span>
-                </a>
+            <div class="col">
+                @if (Model.Count() > 0)
+                {
+                    <div class="report-link">
+                        @Html.ActionLink(Localizer["Day Production"], "DayProduction", "Invoice", new { daydate = @Model.First().Date }, new { @target = "_blank" })
+                        <span>   </span>
+                        <a href="@Url.Action("DayProduction", "Invoice",new { daydate = @Model.First().Date ,format="xlsx"})" target="_blank">
+                            <span><i class="fa fa-file-excel-o"></i></span>
+                        </a>
+                    </div>
+                    <div class="report-link">
+                        <br />
+                        @Html.ActionLink(Localizer["Day Ingredients"], "DayIngredients", "Invoice", new { daydate = @Model.First().Date }, new { @target = "_blank" })
+                    </div>
+                }
             </div>
-             <div class="report-link">
-                <br/>
-                @Html.ActionLink(Localizer["Day Ingredients"], "DayIngredients", "Invoice", new { daydate = @Model.First().Date }, new { @target = "_blank" })
-             </div>
-            }
-
 
         </div>
     </div>
-</div>
+    </div>
 

@@ -121,11 +121,17 @@ namespace CateringPro.Repositories
 
         public IQueryable<DayComplexViewModel> ComplexDay(DateTime daydate, int companyid)
         {
-            var query = from comp in _context.Complex.Where(d => d.CompanyId == companyid)
+            var query = from comp in _context.Complex.Include(t=>t.DishComplex).ThenInclude(t=>t.Dish).Where(d => d.CompanyId == companyid)
                         join dd in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
 
-                        select new DayComplexViewModel() { ComplexId = comp.Id,  ComplexName = comp.Name, Date = daydate, Enabled = dayd.Date == daydate };
+                        select new DayComplexViewModel() {
+                            ComplexId = comp.Id,  
+                            ComplexName = comp.Name, 
+                            Date = daydate, Enabled = dayd.Date == daydate,
+                            DishesString=String.Join(",",comp.DishComplex.Select(d=>d.Dish.Name))
+                            
+                        };
             return query;
         }
 

@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "Edit";
 }
-    <div class="form-group">
+    <div class="form-group container select-dishes-ingredients">
         
-        <div class="col-md-9">
+        <div class="col-md-12 col-12 col-lg-12">
             @Html.ListBoxFor(i =>Model.IngredientsIds, Model.Ingredients,
                 new { @class = "form-control select-ingredients" })
             @Html.ValidationMessageFor(i => Model.Ingredients,

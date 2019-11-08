@@ -171,7 +171,7 @@ namespace CateringPro.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
        
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId,ReadyWeight")] Dish dish, List<string> IngredientsIds)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId,ReadyWeight")] Dish dish, List<string> IngredientsIds, List<DishIngredients> proportion)
         {
             if (id != dish.Id)
             {
@@ -201,7 +201,7 @@ namespace CateringPro.Controllers
             ///not work
            // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
             var res=await this.UpdateCompanyDataAsync(dish, _context, _logger);
-            await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds,User.GetCompanyID());
+            await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds, proportion,User.GetCompanyID());
             return res;
         }
 
@@ -236,6 +236,24 @@ namespace CateringPro.Controllers
             ing.Ingredients= new MultiSelectList(await  _context.Ingredients.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
                 .Select(di=>new {Value=di.Id,Text=di.Name }).ToListAsync(), "Value", "Text");
             return PartialView(ing);
+        }
+        public async Task<IActionResult> EditIngredientsProportion(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            
+            var model = await _context.DishIngredients.Include(d=>d.Ingredient).WhereCompany(User.GetCompanyID()).
+                Where(d => d.DishId == id).Select(d => new DishIngredientsProportionViewModel()
+                {
+                    IngredientId = d.Ingredient.Id,
+                    Name=d.Ingredient.Name,
+                    Proportion=d.Proportion
+                }
+                ).ToListAsync();
+            return PartialView(model);
         }
         [HttpGet]
         public ActionResult Search(string term,bool isShort=true)

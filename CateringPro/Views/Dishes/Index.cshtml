@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div id="modDialog" class="modal fade">
+<div id="modDialog" class="modal dishes-modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 
@@ -115,12 +115,20 @@
                     //console.log(data);
 
                     $('#modDialog').modal('show');
-                    loadingredients($('#dialogContent').find("#Id").val());
-
+                    var id = $('#dialogContent').find("#Id").val();
+                    loadingredients(id);
+                    loadingredientsproprotion(id);
                    
                    // $('#dialogContent').find("#nav-tab").tab();
                 });
             });
+            function loadingredientsproprotion(id) {
+                var url = '@Url.Content("~/Dishes/EditIngredientsProportion/")' + id;
+
+                $.get(url, function (data) {
+                    $('#dialogContent').find(".ingredients-content-proportion").html(data);
+                });
+            }
             function loadingredients(id) {
                 var url = '@Url.Content("~/Dishes/EditIngredients/")' + id;
 
@@ -145,7 +153,7 @@
                               // 'string_of_postfix' / false                                                     
                               helperSelectNamePostfix:'_helper',     
                               // minimal height in pixels
-                              selectorMinimalHeight: 100,
+                              selectorMinimalHeight: 200,
                               // whether to show filter inputs
                               showFilterInputs:true,           
                               // string, filter the non selected options                                                

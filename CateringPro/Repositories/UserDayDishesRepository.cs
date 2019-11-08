@@ -475,7 +475,7 @@ namespace CateringPro.Repositories
                                               
                                               DishId = d.Id,
                                               DishName = d.Name,
-                                             
+                                              DishReadyWeight=d.ReadyWeight,
                                               PictureId = d.PictureId,
                                              
                                               DishDescription = d.Description,

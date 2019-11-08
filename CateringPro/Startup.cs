@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace CateringPro
 {
@@ -70,6 +72,7 @@ namespace CateringPro
             //services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
             // Add scheduled tasks & scheduler
             services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
+            services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
 
             services.AddScheduler((sender, args) => 
             {
@@ -138,6 +141,10 @@ namespace CateringPro
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));
+
+          //  services.AddSingleton<HtmlEncoder>(
+          //         HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+          //          UnicodeRanges.CyrillicSupplement }));
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

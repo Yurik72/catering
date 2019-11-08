@@ -37,6 +37,7 @@ namespace CateringPro.Models
 
         public string  DishName { get; set; }
 
+       public  decimal DishReadyWeight { get; set; }
 
         public string DishDescription { get; set; }
 

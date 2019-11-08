@@ -135,13 +135,21 @@ namespace CateringPro.Controllers
             DateTime daydate = DateTime.Now;
             if (daydishes.Count > 0)
                 daydate = daydishes.First().Date;
+            else
+            {
+                return await Task.FromResult(Json(new { res = "FAIL",reason="Empty" }));
+            }
+            if(!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
+            }
             await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
             if (  _userdaydishesrepo.SaveDay(daydishes, this.HttpContext)){
                 return await Task.FromResult(Json(new { res = "OK" }));
             }
             else
             {
-                return await Task.FromResult(Json(new { res = "FAIL" }));
+                return await Task.FromResult(Json(new { res = "FAIL",reason="Error" }));
             }
             /*
             try
@@ -181,6 +189,14 @@ namespace CateringPro.Controllers
             DateTime daydate = DateTime.Now;
             if (daycomplexes.Count > 0)
                 daydate = daycomplexes.First().Date;
+            else
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Empty" }));
+            }
+            if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
+            }
             await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
             if (_userdaydishesrepo.SaveDayComplex(daycomplexes, this.HttpContext))
             {

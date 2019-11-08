@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CateringPro.Models.DishIngredientsProportionViewModel>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    Layout = null;
+    ViewData["Title"] = "Edit";
+    int i = 0;
+}
+<div class="row">
+    <div class="container">
+        <div class="row table-head">
+            <div class="col col-lg-2 col-md-2">
+                <span> </span>
+
+            </div>
+            <div class="col col-lg-2 col-md-2">
+                <span>@Localizer["Ingredient Name"]</span>
+            </div>
+            <div class="col col-lg-1 col-md-1">
+                <span>@Localizer["Ingredients Proprotion"]</span>
+            </div>
+            <div class="col col-lg-1 col-md-1">
+
+
+            </div>
+
+        </div>
+        @foreach (var proportion in Model)
+        {
+
+            <div class="row ">
+                <div class="col col-lg-2 col-md-2">
+
+                    <input type="hidden" name="proportion[@i].IngredientId" asp-for="@proportion.IngredientId" class="form-control" />
+                </div>
+                <div class="col col-lg-2 col-md-2 col-2">
+                    @Html.DisplayFor(modelItem => proportion.Name)
+                </div>
+                <div class="col col-lg-2 col-md-2">
+                   
+                    <input type="text" name="proportion[@i].Proportion" asp-for="@proportion.Proportion" class="form-control" />
+                </div>
+
+            </div>
+ 
+    i++;
+
+
+}
+
+        </div>
+    </div>

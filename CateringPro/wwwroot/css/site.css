@@ -247,9 +247,7 @@ footer {
     display: block;
 }
 
-.dayfoot {
-    height: 20px;
-}
+
 
 .daydish {
     width: 100%;
@@ -399,9 +397,6 @@ footer {
     margin-bottom: 0px;
 }
 
-.dayselector {
-    cursor: pointer;
-}
 .create {
     cursor: pointer;
     background-color: #0069d9;
@@ -477,28 +472,46 @@ a.dialog-edit-icon, a.apagebottom {
 }
 .nav-day {
     color: #28a745 !important;
+    text-align: center;
+  
 }
 .nav-tabs .nav-day.active {
     color: #ffffff !important;
     background-color: #28a745;
+    border-width: 4px !important;
 }
 .dayselector {
     cursor: pointer;
     color: #28a745 !important;
     font-size:large;
     font-weight:bolder;
+    max-width:50px;
 }
     .dayselector .input-group-text {
-        color: #28a745 !important;
-        border: 2px solid #28a745;
+        color: #6c757d !important;
+        border: 0px solid #6c757d;
         border-radius: .4rem;
-        background-color:transparent;
+        background-color: #FFFFFF;
     }
-
+.dayselector .input-group-text:hover {
+    color: #FFFFFF !important;
+    border: 0px solid #FFFFFF;
+    border-radius: .4rem;
+    background-color: #6c757d;
+    text-decoration:none;
 }
-.day-content{
-    margin-top:5px;
-    margin-bottom:10px;
+@media (max-width: 768px) {
+    .weekselector {
+        font-size:70%;
+    }
+}
+.day-content {
+    margin-top: -4px;
+    margin-bottom: 10px;
+    box-shadow: 10px 10px 5px grey;
+    padding: 15px;
+    border:4px solid #dee2e6 !important;
+    border-radius:0.25em;
 }
 .daydish-footer, .daycomplex-footer {
     padding: 15px;
@@ -510,26 +523,28 @@ a.dialog-edit-icon, a.apagebottom {
     padding: 15px;
 }
 .daydish-footer .total-order-row, .daycomplex-footer .total-order-row {
-    background-color: #5a5a5a;
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    color: #6c757d ;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 3px;
+    font-size:130%;
 }
 
 .daydish-footer-cmd, .daycomplex-footer-cmd {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.user-order-content {
-    box-shadow: 10px 10px 5px grey;
+
+
+.user-order-foot{
+
+    margin-top:10px;
+    margin-bottom:15px;
 }
-.report-link, .user-order-foot {
-    float: left;
-    display: inline-block;
-    position: relative;
-    clear: left;
-}
-.payment-form{
-    padding:30px;
-    margin:30px;
+.payment-form {
+    padding: 30px;
+    margin: 30px;
 }
 
 /* documents*/
@@ -546,6 +561,10 @@ a.dialog-edit-icon, a.apagebottom {
     .document-modal.modal .modal-dialog {
         max-width: 968px;
     }
+    .dishes-modal.modal .modal-dialog {
+        max-width: 968px;
+    }
+
 }
 
 /*stock*/
@@ -553,8 +572,11 @@ a.dialog-edit-icon, a.apagebottom {
     margin: 10px;
     box-shadow: 10px 10px 5px grey;
 }
-
-
+.table-head {
+   background-color: #6c757d;
+   color:#ffffff;
+   font-weight:200;
+}
 /*Complex*/
 @media (min-width: 1024px) {
     .complex-form.modal .modal-dialog {
@@ -562,22 +584,22 @@ a.dialog-edit-icon, a.apagebottom {
     }
 }
 
-.dishes-content {
+.dishes-content, .ingredients-content {
     clear: both;
     width: 100%;
-    height:100%;
+    height: 100%;
 }
 
-.select-complex-dishes{
-
-    min-height:400px;
+.select-complex-dishes, .select-dishes-ingredients {
+    min-height: 400px;
 }
-
+/*
 .select-complex-dishes div{
     height:100%;
     width:100%;
 }
-.dishes-content select{
-    max-width:100%;
-    height:100%;
+    */
+.dishes-content select, .ingredients-content select{
+    max-width: 100%;
+    height: 100%;
 }

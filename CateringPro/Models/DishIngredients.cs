@@ -12,6 +12,7 @@ namespace CateringPro.Models
         [DisplayName("Select Ingredient")]
         public int IngredientId { get; set; }
 
+        [DisplayName("Ingredients Proportion")]
         public decimal Proportion { get; set; }
 
         public virtual Ingredients Ingredient { get; set; }
