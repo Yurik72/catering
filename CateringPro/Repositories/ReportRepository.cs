@@ -173,6 +173,7 @@ namespace CateringPro.Repositories
                 d.ProductionQuantity= r.GetDecimal(5);
                 d.DayProduction = r.GetDecimal(6);
                 d.AfterDayStockValue = r.GetDecimal(7);
+                d.MeasureUnit= r.GetString(8);
 
             };
 

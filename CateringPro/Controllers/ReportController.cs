@@ -29,6 +29,7 @@ namespace CateringPro.Controllers
        // [MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> CompanyProductionForecast(DateTime daydate, string format)
         {
+            daydate = DateTime.Now;
             if (format == "xlsx")
             {
                 HttpContext.JsReportFeature()

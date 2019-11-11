@@ -16,28 +16,31 @@
 
 
     <h2>@Localizer["DishesWeekMenu"]</h2>
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-lg-1 col-md-1 dayselector dayselectback">
-            <span><i class="fa fa-angle-double-left"></i></span>
+    <div class="container">
+        <div class="row  justify-content-center">
+            <div class="col input-group justify-content-centers">
+                <div class="input-group-prepend dayselector dayselectback">
+                    <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
-        </div>
-        <div class="col-lg-4 col-md-4 dayselector ">
-            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
-            <div id="weekselector">
+                </div>
 
+                <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+                <div id="weekselector" class="weekselector">
+
+                </div>
+
+
+                <div class="input-group-append dayselector  dayselectforward">
+                    <span><i class="fa fa-angle-double-right input-group-text"></i></span>
+
+                </div>
             </div>
         </div>
-        <div class="col-lg-1 col-md-1 dayselector dayselectforward">
-            <span><i class="fa fa-angle-double-right"></i></span>
+        <div class="row" style="height:10px">
 
         </div>
-    </div>
-    <div class="row" style="height:10px">
 
     </div>
-
-</div>
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
 

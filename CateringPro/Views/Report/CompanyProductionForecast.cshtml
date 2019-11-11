@@ -57,33 +57,38 @@
                     Залишок на кiнець
                 </td>
 
-
+                <td>
+                    Од. вим.
+                </td>
             </tr>
 
             @foreach (var day in Model.Days)
             {
-                <tr class="item ">
-                    <td colspan="4">
-                        @Html.DisplayFor(model => day.Daydate)
+                <tr class="item daydate">
+                    <td colspan="5">
+                        @day.Daydate.ToShortDateString()
                     </td>
 
                 </tr>
                 @foreach (var item in day.Items)
                 {
-                    <tr class="item">
-                        <td>
-                            @Html.DisplayFor(model => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.BeginDay)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.ProductionQuantity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.AfterDayStockValue)
-                        </td>
-                    </tr>
+        <tr class="item">
+            <td>
+                @Html.DisplayFor(model => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BeginDay)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ProductionQuantity)
+            </td>
+            <td class="@(item.AfterDayStockValue<0?"warning":"")">
+                @Html.DisplayFor(model => item.AfterDayStockValue)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.MeasureUnit)
+            </td>
+        </tr>
                 }
             }
 

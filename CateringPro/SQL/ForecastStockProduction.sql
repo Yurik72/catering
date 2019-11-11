@@ -51,15 +51,15 @@ BeginDay=i.StockValue-sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
                 ROWS BETWEEN UNBOUNDED PRECEDING
                          AND CURRENT ROW)+p.ProductionQuantity,
 ProductionQuantity=p.ProductionQuantity,
-DayProductionAcc=sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
+DayProduction=sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
                 ORDER BY p.Date
                 ROWS BETWEEN UNBOUNDED PRECEDING
                          AND CURRENT ROW),
 AfterDayStockValue=i.StockValue-sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
                 ORDER BY p.Date
                 ROWS BETWEEN UNBOUNDED PRECEDING
-                         AND CURRENT ROW)
-
+                         AND CURRENT ROW),
+MeasureUnit=i.MeasureUnit
 from Production p, Ingredients i
 where p.IngredientId=i.Id and i.CompanyId=@CompanyId
 order by p.Date,p.IngredientId
