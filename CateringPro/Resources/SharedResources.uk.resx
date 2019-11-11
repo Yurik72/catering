@@ -168,6 +168,9 @@
   <data name="Country" xml:space="preserve">
     <value>Країна</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
+  </data>
   <data name="CustomerOrders" xml:space="preserve">
     <value>Мої замовлення</value>
   </data>

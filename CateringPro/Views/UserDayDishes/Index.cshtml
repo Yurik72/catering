@@ -48,13 +48,14 @@
 
         @{
             DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
+            
         }
         @for (int i = 0; i < 7; i++)
         {
             <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
 
                 @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
-                <span class="shorttabdate">@current_head.ToShortDateString()</span>
+                <span class="shorttabdate">@current_head.Day</span>
             </a>
 
             current_head = current_head.AddDays(1);

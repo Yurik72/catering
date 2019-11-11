@@ -6,14 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using CateringPro.Core;
+using System.Data;
 
 namespace CateringPro.Repositories
 {
-    public class InvoiceRepository : IInvoiceRepository
+    public class ReportRepository : IReportRepository
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
-        public InvoiceRepository(AppDbContext context,  ILogger<CompanyUser> logger)
+        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger)
         {
             _context = context;
             _logger = logger;
@@ -153,6 +155,39 @@ namespace CateringPro.Repositories
 
             };
           
+
+            return res;
+        }
+        public async Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime daydate, int companyId)
+        {
+            ProductionForecastViewModel res = new ProductionForecastViewModel();
+            res.Company = GetOwnCompany(companyId);
+            Action<IDataRecord, ProductionForecastItemViewModel> materilaize = (r, d) =>   ///to do auto
+            {
+                d.DayDate = r.GetDateTime(0);
+                //d.CompanyId
+                d.IngredientId = r.GetInt32(1);
+                d.Name = r.GetString(2);
+                d.StockValue= r.GetDecimal(3);
+                d.BeginDay= r.GetDecimal(4);
+                d.ProductionQuantity= r.GetDecimal(5);
+                d.DayProduction = r.GetDecimal(6);
+                d.AfterDayStockValue = r.GetDecimal(7);
+
+            };
+
+            var query= await _context.Database.SqlQuery<ProductionForecastItemViewModel>(
+                $"exec ForecastStockProduction '{daydate}' , {companyId}",
+                materilaize).ToListAsync();
+            var query1 = from d in query
+                         group d by d.DayDate into grp
+                         select new ProductionForecastDateViewModel()
+                         {
+                             Daydate = grp.Key,
+                             Items = grp
+
+                         };
+            res.Days = query1;
 
             return res;
         }

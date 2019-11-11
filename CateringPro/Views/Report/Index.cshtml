@@ -1,0 +1,16 @@
+﻿@using CateringPro.Core
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+
+}
+
+
+<h2 class="text-center">@Localizer["Reports"]</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <a  asp-controller="Report" asp-action="CompanyProductionForecast" target="_blank">@Localizer["ForecastStock"]</a>
+        </div>
+    </div>
+
+</div>

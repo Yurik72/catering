@@ -59,6 +59,7 @@ namespace CateringPro
             services.AddTransient<IUserDayDishesRepository, UserDayDishesRepository>();
             services.AddTransient<IDishesRepository, DishesRepository>();
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
+            services.AddTransient<IReportRepository, ReportRepository>();
             services.AddTransient<IDocRepository, DocRepository>();
             services.AddTransient<IStockRepository, StockRepository>();
             services.AddTransient<IComplexRepository, ComplexRepository>();

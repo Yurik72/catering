@@ -142,7 +142,7 @@ namespace CateringPro.Controllers
             }
 
             ComplexDishViewModel ing = new ComplexDishViewModel();
-            ing.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.DishId == id).Select(d => d.ComplexId.ToString()).ToListAsync();
+            ing.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == id).Select(d => d.DishId.ToString()).ToListAsync();
             ing.Dishes = new MultiSelectList(await _context.Dishes.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
                 .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
             return PartialView(ing);

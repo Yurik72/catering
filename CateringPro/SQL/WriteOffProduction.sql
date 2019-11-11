@@ -50,9 +50,11 @@ AS
 
  from UserDayDish ud,Dishes d,DishIngredients di
  where ud.CompanyId=@CompanyId 
+		AND d.CompanyId=@CompanyId 
+		AND di.CompanyId=@CompanyId 
 		AND ud.Date=@DayDate
 		AND d.Id=ud.DishId
-		AND di.DishId=di.DishId
+		AND di.DishId=d.Id
 Group by di.IngredientId
 )
 insert into DocLines(CompanyId,DocsId,IngredientsId,Quantity)

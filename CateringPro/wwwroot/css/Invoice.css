@@ -1,4 +1,4 @@
-﻿.invoice-box {
+﻿.invoice-box, .production-forecast-box {
     max-width: 800px;
     margin: auto;
     padding: 30px;
@@ -10,13 +10,13 @@
     color: #555;
 }
 
-    .invoice-box table {
+    .invoice-box table, production-forecast-box table {
         width: 100%;
         line-height: inherit;
         text-align: left;
     }
 
-        .invoice-box table td {
+        .invoice-box table td, production-forecast-box table td {
             padding: 5px;
             vertical-align: top;
         }
@@ -25,35 +25,35 @@
             text-align: right;
         }
 
-        .invoice-box table tr.top table td {
+        .invoice-box table tr.top table td, .production-forecast-box table tr.top table td {
             padding-bottom: 20px;
         }
 
-            .invoice-box table tr.top table td.title {
+            .invoice-box table tr.top table td.title, .production-forecast-box table tr.top table td.title {
                 font-size: 45px;
                 line-height: 45px;
                 color: #333;
             }
 
-        .invoice-box table tr.information table td {
+        .invoice-box table tr.information table td, .production-forecast-box table tr.information table td {
             padding-bottom: 40px;
         }
 
-        .invoice-box table tr.heading td {
+        .invoice-box table tr.heading td, .production-forecast-box table tr.heading td {
             background: #eee;
             border-bottom: 1px solid #ddd;
             font-weight: bold;
         }
 
-        .invoice-box table tr.details td {
+        .invoice-box table tr.details td, .production-forecast-box table tr.details td {
             padding-bottom: 20px;
         }
 
-        .invoice-box table tr.item td {
+        .invoice-box table tr.item td, .production-forecast-box table tr.item td {
             border-bottom: 1px solid #eee;
         }
 
-        .invoice-box table tr.item.last td {
+        .invoice-box table tr.item.last td, .production-forecast-box table tr.item.last td {
             border-bottom: none;
         }
 
@@ -61,15 +61,31 @@
             border-top: 2px solid #eee;
             font-weight: bold;
         }
+    .production-forecast-box table tr td:nth-child(1) {
+s
+        width: 20%;
+    }
+    .production-forecast-box table tr td:nth-child(2) {
+        text-align: right;
+        width:20%;
+    }
+    .production-forecast-box table tr td:nth-child(3) {
+        text-align: right;
+        width: 20%;
+    }
+    .production-forecast-box table tr td:nth-child(4) {
+        text-align: right;
+        width: 20%;
+    }
 
 @media only screen and (max-width: 600px) {
-    .invoice-box table tr.top table td {
+    .invoice-box table tr.top table td, .production-forecast-box table tr.top table td {
         width: 100%;
         display: block;
         text-align: center;
     }
 
-    .invoice-box table tr.information table td {
+    .invoice-box table tr.information table td, .production-forecast-box table tr.information table td {
         width: 100%;
         display: block;
         text-align: center;

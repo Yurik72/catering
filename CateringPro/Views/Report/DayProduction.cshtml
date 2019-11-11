@@ -1,0 +1,89 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model CateringPro.Models.DayProductionViewModel
+
+<html>
+<head>
+    <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
+                            </td>
+                            <td>
+
+                                Звiт кухня кiлькiсть страв
+                                <br /> Дата: @DateTime.Now.ToShortDateString()
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="information ">
+                <td colspan="2 ">
+                    <table>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+
+                            </td>
+                        </tr>
+            </table>
+        </td>
+    </tr>
+            <tr class="heading ">
+                <td>
+                    Код
+                </td>
+                <td>
+                    Назва
+                </td>
+                <td>
+                    Кiлькiсть
+                </td>
+
+            </tr>
+
+    @foreach (var item in Model.Items)
+    {
+        <tr class="item">
+            <td>
+                @item.DishCode
+            </td>
+            <td>
+                @item.DishName
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Quantity)
+              
+            </td>
+
+        </tr>
+    }
+
+        <tr class="total ">
+            <td></td>
+            <td></td>
+
+            <td>
+                Итого: @Model.Items.Sum(i => i.Quantity).ToString("0")
+            </td>
+        </tr>
+</table>
+</div>
+</body>
+</html>
