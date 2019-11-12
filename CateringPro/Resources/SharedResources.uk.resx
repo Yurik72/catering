@@ -252,8 +252,47 @@
   <data name="Doc" xml:space="preserve">
     <value>Документ</value>
   </data>
+  <data name="Doc Amount" xml:space="preserve">
+    <value>Сума</value>
+  </data>
+  <data name="Doc Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Doc Description" xml:space="preserve">
+    <value>Коментар</value>
+  </data>
+  <data name="Doc Number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="Doc Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="DocLine Amount" xml:space="preserve">
+    <value>Сума</value>
+  </data>
+  <data name="DocLine Ingredient" xml:space="preserve">
+    <value>Артикул</value>
+  </data>
+  <data name="DocLine Number" xml:space="preserve">
+    <value>Номер</value>
+  </data>
+  <data name="DocLine Price" xml:space="preserve">
+    <value>Цiна</value>
+  </data>
+  <data name="DocLine Quantity" xml:space="preserve">
+    <value>Кiлькiсть</value>
+  </data>
   <data name="Docs" xml:space="preserve">
     <value>Документи</value>
+  </data>
+  <data name="DocTypeIncome" xml:space="preserve">
+    <value>Приход</value>
+  </data>
+  <data name="DocTypeOutcome" xml:space="preserve">
+    <value>Расход</value>
+  </data>
+  <data name="DocTypeProduction" xml:space="preserve">
+    <value>Производство</value>
   </data>
   <data name="ForecastProductionStock" xml:space="preserve">
     <value>Потреби и прогноз у продуктах</value>

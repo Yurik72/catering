@@ -121,16 +121,31 @@ namespace CateringPro.Repositories
 
         public IQueryable<DayComplexViewModel> ComplexDay(DateTime daydate, int companyid)
         {
-            var query = from comp in _context.Complex.Include(t=>t.DishComplex).ThenInclude(t=>t.Dish).Where(d => d.CompanyId == companyid)
+            var query = from comp in _context.Complex.Include(t => t.DishComplex).ThenInclude(t => t.Dish).Where(d => d.CompanyId == companyid)
                         join dd in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
 
-                        select new DayComplexViewModel() {
-                            ComplexId = comp.Id,  
-                            ComplexName = comp.Name, 
-                            Date = daydate, Enabled = dayd.Date == daydate,
-                            DishesString=String.Join(",",comp.DishComplex.Select(d=>d.Dish.Name))
-                            
+                        select new DayComplexViewModel()
+                        {
+                            ComplexId = comp.Id,
+                            ComplexName = comp.Name,
+                            Date = daydate,
+                            Enabled = dayd.Date == daydate,
+                            DishesString = String.Join(",", comp.DishComplex.Select(d => d.Dish.Name)),
+                            ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
+                                            join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
+                                            where dc.ComplexId == comp.Id
+                                            select new DayComplexDishesViewModel()
+                                            {
+
+                                                DishId = d.Id,
+                                                DishName = d.Name,
+                                                DishReadyWeight = d.ReadyWeight,
+                                                PictureId = d.PictureId,
+
+                                                DishDescription = d.Description
+
+                                            }
                         };
             return query;
         }

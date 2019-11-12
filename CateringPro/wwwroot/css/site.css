@@ -556,7 +556,13 @@ a.dialog-edit-icon, a.apagebottom {
     padding-left:1px;
     padding-right:1px;
 }
-
+.docline-header {
+    background: #eee;
+}
+.docfooter{
+    margin-top:15px;
+    margin-bottom:15px;
+}
 @media (min-width: 1024px) {
     .document-modal.modal .modal-dialog {
         max-width: 968px;

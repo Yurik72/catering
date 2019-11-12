@@ -14,14 +14,18 @@ namespace CateringPro.Models
         {
             DocLines = new HashSet<DocLines>();
         }
+        [DisplayName("Doc Type")]
         public int Type { get; set; }
-
+        [DisplayName("Doc Number")]
         public string Number { get; set; }
+
+        [DisplayName("Doc Date")]
         public DateTime Date { get; set; }
 
+        [DisplayName("Doc Description")]
         public string Description { get; set; }
 
-
+        [DisplayName("Doc Amount")]
         public decimal Amount { get; set; }
 
         public ICollection<DocLines> DocLines { get; set; }

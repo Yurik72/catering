@@ -264,5 +264,28 @@ namespace CateringPro.Repositories
                 return res;
             }
         }
+
+        public CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid)
+        {
+            var query1 =
+                           from ud in _context.DayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom && ud.Date <= dateto)
+                           join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
+                           group ud by new { id = d.Id, name = d.Name, code = d.Code, daydate = ud.Date } into grp
+                           select new
+                           {
+                               DayDate = grp.Key.daydate,
+                               DishId = grp.Key.id,
+                               DishCode = grp.Key.code,
+                               DishName = grp.Key.name
+                           };
+            CompanyMenuModel res = new CompanyMenuModel()
+            {
+                Company = GetOwnCompany(companyid),
+
+
+            };
+
+            return res;
+        }
     }
 }

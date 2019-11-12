@@ -51,8 +51,8 @@
                 <dt>  <label asp-for="Type" class="control-label"></label></dt>
                 <dd>
                     <select class="browser-default custom-select" name="Type" id="Type">
-                        <option value="1">Income</option>
-                        <option value="2">OutCome</option>
+                        <option value="1">@Localizer["DocTypeIncome"]</option>
+                        <option value="2">@Localizer["DocTypeOutcome"]</option>
                     </select>
                     
                     <span asp-validation-for="Type" class="text-danger"></span>
@@ -71,21 +71,21 @@
                     <div class="container doc-lines" id="doc-lines">
                         <div class="row docline-header">
                             <div class="col col-lg-1 col-md-1">
-                                #
+                                @Localizer["DocLine Number"]
                             </div>
                             <div class="col col-lg-4 col-md-4">
-                                Name
+                                @Localizer["DocLine Ingredient"]
                             </div>
 
                             <div class="col col-lg-2 col-md-2">
-                                Quantity
+                                @Localizer["DocLine Quantity"]
                             </div>
 
                             <div class="col col-lg-2 col-md-2">
-                                Price
+                                @Localizer["DocLine Price"]
                             </div>
                             <div class="col col-lg-2 col-md-2">
-                                Amount
+                                @Localizer["DocLine Amount"]
                             </div>
 
                         </div>
