@@ -25,6 +25,24 @@ namespace CateringPro.Core
             DateTime res = new DateTime(dt.Year, dt.Month, dt.Day);
             return res;
         }
+        public static long MSDateSince1970(this DateTime dt) {
+            return (long)dt.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
+        }
+        public static string ShortSqlDate(this DateTime dt)
+        {
+            
+            return $"{dt.Year}{dt.Month.ToString("D2")}{dt.Day.ToString("D2")}";
+        }
+        public static string ShortJSDate(this DateTime dt)
+        {
+
+            return $"{dt.Year}-{dt.Month.ToString("D2")}-{dt.Day.ToString("D2")}";
+        }
+        public static string AbsoluteContent(this IUrlHelper url, string contentPath)
+        {
+            var request = url.ActionContext.HttpContext.Request;
+            return new Uri(new Uri(request.Scheme + "://" + request.Host.Value), url.Content(contentPath)).ToString();
+        }
         public static DateTime OnlyDateNow()
         {
             return ResetHMS(DateTime.Now);

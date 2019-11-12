@@ -17,6 +17,8 @@ namespace CateringPro.Repositories
 
         DayIngredientsViewModel CompanyDayIngredients(DateTime daydate, int companyid);
 
-        Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime daydate, int companyId);
+        Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime datefrom, DateTime dateto, int companyId);
+
+        DayProductioDayViewModel CompanyDayProduction(DateTime datefrom, DateTime dateto, int companyid);
     }
 }

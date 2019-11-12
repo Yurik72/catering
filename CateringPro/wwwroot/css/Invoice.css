@@ -61,6 +61,16 @@
             border-top: 2px solid #eee;
             font-weight: bold;
         }
+        .invoice-box table tr.daydate td, .production-forecast-box table tr.daydate td {
+            background: #999;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .invoice-box table tr.item td.warning, .production-forecast-box table tr.item td.warning {
+            background: #f6a5a5;
+        }
+
     .production-forecast-box table tr td:nth-child(1) {
 
         width: 20%;
@@ -77,15 +87,7 @@
         text-align: right;
         width: 20%;
     }
-    .production-forecast-box table tr.daydate td {
-        background: #999;
-        font-weight: bold;
-        text-align: center;
-    }
-    .production-forecast-box table tr.item td.warning {
-        background:#f6a5a5;
 
-    }
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td, .production-forecast-box table tr.top table td {
         width: 100%;

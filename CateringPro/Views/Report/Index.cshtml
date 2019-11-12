@@ -6,11 +6,66 @@
 
 
 <h2 class="text-center">@Localizer["Reports"]</h2>
+@* @await Component.InvokeAsync("ReportParamDateRange") *@
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="ui-widget">
+                <label for="datep">@Localizer["Date From"] </label><input id="datefrom" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="ui-widget">
+                <label for="datep">@Localizer["Date To"]</label><input id="dateto" />
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col">
-            <a  asp-controller="Report" asp-action="CompanyProductionForecast" target="_blank">@Localizer["ForecastProductionStock"]</a>
+            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyProductionForecast" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["ForecastProductionStock"]</a>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col">
+            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyDayProduction" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["CompanyDayProduction"]</a>
+        </div>
+    </div>
 </div>
+<script type="text/javascript">
+$(function() {
+
+    var dtfrom=$('#datefrom').datepicker();
+    var dtto= $('#dateto').datepicker();
+    dtfrom.datepicker('setDate', new Date(@DateTime.Today.MSDateSince1970()));
+    dtto.datepicker('setDate', new Date(@DateTime.Today.AddDays(3).MSDateSince1970()));
+    dtfrom.change(function (el) {
+        $(".set-datefrom").each(function ( idx,elem) {
+            var href = $(elem).attr('href');
+            href = buildUrl(href, "datefrom", dtfrom.datepicker('getDate'));
+            $(elem).attr('href', href);
+        });
+    });
+    dtto.change(function (el) {
+         $(".set-dateto").each(function (idx,elem) {
+            var href = $(elem).attr('href');
+            href =buildUrl(href,"dateto", dtfrom.datepicker('getDate'));
+            $(elem).attr('href', href); 
+         });
+
+    });
+    var buildUrl = function (url, paramname, paramvalue) {
+        var newurl = new URL(url, '@Url.AbsoluteContent("~/")');
+        var paramvalstring = paramvalue.toString();
+        if (paramvalue instanceof Date) {
+            paramvalstring = `${paramvalue.getFullYear()}-${paramvalue.getMonth()+1}-${paramvalue.getDate()}`;
+        }
+        newurl.searchParams.set(paramname,paramvalstring);
+
+        return newurl.pathname + newurl.search;
+    }
+
+});
+</script>

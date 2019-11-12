@@ -15,7 +15,8 @@ GO
 -- =============================================
 ALTER PROCEDURE [dbo].[ForecastStockProduction]
 	-- Add the parameters for the stored procedure here
-	@DayDate Date,
+	@DateFrom Date,
+	@DateTo Date,
 	@CompanyId int
 AS
 BEGIN
@@ -35,7 +36,8 @@ where
 		ud.DishId=d.id
 		and di.DishId=d.Id
 		and i.Id=di.IngredientId
-	    and ud.Date>@DayDate
+	    and ud.Date>=@DateFrom
+		and ud.Date<=@DateTo
 		and ud.CompanyId=@CompanyId
 		and d.CompanyId=@CompanyId
 		and di.CompanyId=@CompanyId
@@ -43,7 +45,8 @@ where
 group by ud.date,di.IngredientId
 )
 
-Select p.Date,p.IngredientId,
+Select 
+DayDate=p.Date,p.IngredientId,
 Name=i.Name,
 i.StockValue, 
 BeginDay=i.StockValue-sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId

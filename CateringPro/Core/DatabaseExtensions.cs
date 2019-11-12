@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CateringPro.Core
@@ -22,14 +24,42 @@ namespace CateringPro.Core
                 SQLQuery = sqlQuery
             };
         }
+        public static CustomTypeSqlQuery<T> SqlQuery<T>(
+        this DatabaseFacade database,
+        string sqlQuery) where T : class, new()
+        {
+            return new CustomTypeSqlQuery<T>()
+            {
+                DatabaseFacade = database,
+                SQLQuery = sqlQuery
+            };
+        }
     }
     public class CustomTypeSqlQuery<T> where T : class,new()
     {
-        Action<IDataRecord, T> action_materilaze;
+        private Action<IDataRecord, T> action_materilaze;
+        private AutoMaterilize<T> auto;
+        public Action<IDataRecord, T> Action_materilaze
+        {
+            get
+            {
+               if( action_materilaze!=null)
+                    return this.action_materilaze;
+                if (auto == null)
+                    auto = new AutoMaterilize<T>();
+                this.action_materilaze = auto.Materialize;
+                return this.action_materilaze;
+            }
+             
+        }
 
         public DatabaseFacade DatabaseFacade { get; set; }
         public string SQLQuery { get; set; }
 
+        public CustomTypeSqlQuery()
+        {
+            
+        }
         public CustomTypeSqlQuery(Action<IDataRecord,T> materailize)
         {
             action_materilaze = materailize;
@@ -51,7 +81,7 @@ namespace CateringPro.Core
                         while (reader.Read())
                         {
                             T x = new T();
-                            action_materilaze(reader, x);
+                            Action_materilaze(reader, x);
                             results.Add(x);
                         }
                     reader.Dispose();
@@ -65,5 +95,28 @@ namespace CateringPro.Core
         }
 
        
+    }
+    public class AutoMaterilize<T> where T : class, new()
+    {
+        bool isBuild = false;
+        Dictionary<int, Action<object, object>> fieldset = new Dictionary<int, Action<object, object>>();
+        public void Materialize(IDataRecord record,T src)
+        {
+            if (!isBuild)
+                Build(record,src);
+            foreach (var it in fieldset)
+                it.Value(src, record.GetValue(it.Key));
+
+        }
+        private void Build(IDataRecord record, T src)
+        {
+            for(int i = 0; i < record.FieldCount; i++)
+            {
+                var action = typeof(T).PropertySet(record.GetName(i));
+                if (action != null)
+                    fieldset.Add(i, action);
+            }
+            isBuild = true;
+        }
     }
 }

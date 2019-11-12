@@ -1,0 +1,30 @@
+@model CateringPro.ViewModels.ReportParamDateRangeViewModel
+@using CateringPro.Core
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="ui-widget">
+                <label for="datep">@Localizer["Date From"] </label><input id="datefrom" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="ui-widget">
+                <label for="datep">@Localizer["Date To"]</label><input id="dateto" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+
+    var dtfrom=$('#datefrom').datepicker();
+    var dtto= $('#dateto').datepicker();
+    dtfrom.datepicker('setDate', new Date(@Model.From.MSDateSince1970()));
+    dtto.datepicker('setDate', new Date(@Model.To.MSDateSince1970()));
+});
+</script>

@@ -153,6 +153,9 @@
   <data name="Company Setting Save" xml:space="preserve">
     <value>Зберегти</value>
   </data>
+  <data name="CompanyDayProduction" xml:space="preserve">
+    <value>Потреби у виробництвi</value>
+  </data>
   <data name="Complex" xml:space="preserve">
     <value>Комплекс</value>
   </data>

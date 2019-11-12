@@ -5,9 +5,19 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Models
 {
+    public class DayProductioDayViewModel
+    {
+        public CompanyModel Company { get; set; }
+
+      
+
+        public IEnumerable<DayProductionViewModel> Days { get; set; }
+    }
     public class DayProductionViewModel
     {
         public CompanyModel Company { get; set; }
+
+        public DateTime DayDate { get; set; }
         public IEnumerable<DayProductionDishViewModel> Items { get; set; }
 
     }
