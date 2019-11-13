@@ -1,4 +1,4 @@
-﻿@model CateringPro.Models.DayProductioDayViewModel
+﻿@model CateringPro.Models.CompanyMenuModel
 @{
     Layout = null;
 }
@@ -21,7 +21,7 @@
                             </td>
                             <td>
 
-                                Потреба в виробництвi
+                                Меню
                                 <br /> Дата: @DateTime.Now.ToShortDateString()
 
                             </td>
@@ -51,7 +51,7 @@
                     Назва
                 </td>
                 <td>
-                    Кiлькiсть
+                    Вартiсть
                 </td>
 
             </tr>
@@ -64,19 +64,44 @@
                     </td>
 
                 </tr>
-                @foreach (var item in day.Items)
+                if (day.ComplexItems != null)
                 {
-                <tr class="item">
-                    <td>
-                        @Html.DisplayFor(model => item.DishCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.DishName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Quantity)
-                    </td>
-                </tr>
+                    <tr class="item ">
+                        <td colspan="4">
+                            Complexes
+                        </td>
+
+                    </tr>
+                    @foreach (var complexitem in day.ComplexItems)
+                    {
+                        <tr class="item">
+                            <td>
+                                @Html.DisplayFor(model => complexitem.Name)
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => complexitem.Price)
+                            </td>
+                        </tr>
+                    }
+                }
+                if (day.Items != null)
+                {
+                    @foreach (var item in day.Items)
+                    {
+                        <tr class="item">
+                            <td>
+                                @Html.DisplayFor(model => item.Code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Price)
+                            </td>
+                        </tr>
+                    }
                 }
             }
 

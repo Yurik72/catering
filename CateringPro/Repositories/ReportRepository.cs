@@ -268,20 +268,57 @@ namespace CateringPro.Repositories
         public CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid)
         {
             var query1 =
-                           from ud in _context.DayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom && ud.Date <= dateto)
+                           (from ud in _context.DayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom && ud.Date <= dateto)
                            join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
-                           group ud by new { id = d.Id, name = d.Name, code = d.Code, daydate = ud.Date } into grp
-                           select new
+                           
+                           select new CompanyMenuItemModel()
                            {
-                               DayDate = grp.Key.daydate,
-                               DishId = grp.Key.id,
-                               DishCode = grp.Key.code,
-                               DishName = grp.Key.name
-                           };
+                               DayDate = ud.Date,
+                               Code = d.Code,
+                               Name = d.Name,
+                               Price = d.Price
+                           }).ToList();
+            var query11 = (from q1 in query1
+                          group q1 by q1.DayDate into grp
+                          select new CompanyMenuDayModel()
+                          {
+                              DayDate = grp.Key,
+                              Items = grp
+                          }).ToList();
+
+          var query2 =
+               from dc in _context.DayComplex.Where(dc => dc.CompanyId == companyid && dc.Date >= datefrom && dc.Date <= dateto)
+               join c in _context.Complex.Where(c => c.CompanyId == companyid) on dc.ComplexId equals c.Id
+
+               select new CompanyMenuComplexModel()
+               {
+                   DayDate = dc.Date,
+                  
+                   Name = c.Name,
+                   Price = c.Price
+               };
+            var query21= (from q2 in query2.ToList()
+                         group q2 by q2.DayDate into grp
+                         select new CompanyMenuDayModel()
+                         {
+                             DayDate = grp.Key,
+                             Items=new List<CompanyMenuItemModel>(),
+                             ComplexItems = grp
+                         }).ToList();
+
+            query11.AddRange(query21);
             CompanyMenuModel res = new CompanyMenuModel()
             {
                 Company = GetOwnCompany(companyid),
+                Days=from day in query11
 
+                     group day by day.DayDate into grp
+                     select new CompanyMenuDayModel()
+                     {
+                         DayDate= grp.Key,
+                         Items= grp.SelectMany(it=>it.Items).Where(it=>it!=null),
+                         ComplexItems = grp.SelectMany(it => it.ComplexItems)
+                     }
 
             };
 

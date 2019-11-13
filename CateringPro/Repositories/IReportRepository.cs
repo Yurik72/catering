@@ -20,5 +20,7 @@ namespace CateringPro.Repositories
         Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime datefrom, DateTime dateto, int companyId);
 
         DayProductioDayViewModel CompanyDayProduction(DateTime datefrom, DateTime dateto, int companyid);
+
+        CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid);
     }
 }

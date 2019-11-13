@@ -33,9 +33,9 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-            <div id="create-btn" class="col-lg-3 col-md-3 create">
+            <div id="create-btn" class="col create">
                 <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
-
+                <span >@Localizer["Add"]</span>
             </div>
         </div>
     </div>
@@ -65,7 +65,27 @@
                           dlg.find("#doc-lines").find("#doc-footer").before(data);
                           setAutocomplete(dlg);
                 });
-                  });
+              });
+              $(document).on("click", ".delete-line", 
+                  function (e) {
+                      console.log("delete line");
+                      e.preventDefault();
+                      var dlg = $(this).parents("#document");
+                      var docline = $(this).parents(".doc-line");
+                      docline.remove();
+                      var maxidx = dlg.find(".doc-line").length;
+                      console.log(maxidx);
+                      dlg.find(".doc-line").each(function (lidx, lel) { 
+                          $(lel).find('input[name*="["]').each(function (idx, el) {
+                              var name = $(el).attr('name');
+                              //console.log(name);
+                              var newname = name.replace(/\[\d+\]/g, `[${lidx}]`);
+                              $(el).attr('name', newname);
+                              //console.log(newname);
+                          });
+                      })
+                
+              });         
               $('#modDialog').on('shown.bs.modal', function () {
                   setAutocomplete($(this));
               });

@@ -94,38 +94,42 @@
                         }
                         @foreach(var line in Model.DocLines)
                         {
-                        <div class="row doc-line" data-lineid="@line.Id" >
-                            <div class="col col-lg-1 col-md-1">
-                                <input type="hidden" name="DocLines[@i].id" asp-for="@line.Id" class="form-control" />
-                                <input type="number" name="DocLines[@i].Number" asp-for="@line.Number" class="form-control doc-line-number" />
-
-                            </div>
-                            <div class="col col-lg-4 col-md-4">
-                                <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
-                                <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
-                                <input type="text" name="none[@i].Ingredients.Name" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" />
-
-                            </div>
-                            <div class="col col-lg-2 col-md-2">
-                                <input type="text" name="DocLines[@i].Quantity" asp-for="@line.Quantity" class="form-control doc-line-quantity" />
-                            </div>
-                            <div class="col col-lg-2 col-md-2">
-                                <input type="text" name="DocLines[@i].Price" asp-for="@line.Price" step=0.001 class="form-control doc-line-price" />
-                                
-                            </div>
-
-                            <div class="col col-lg-2 col-md-2">
-                                <input type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" step=0.001 class="form-control doc-line-amount" />
-                                
-                            </div>
+                    <div class="row doc-line" data-lineid="@line.Id">
+                        <div class="col col-lg-1 col-md-1">
+                            <input type="hidden" name="DocLines[@i].id" asp-for="@line.Id" class="form-control" />
+                            <input type="number" name="DocLines[@i].Number" asp-for="@line.Number" class="form-control doc-line-number" />
 
                         </div>
+                        <div class="col col-lg-4 col-md-4">
+                            <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
+                            <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
+                            <input type="text" name="none[@i].Ingredients.Name" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" />
+
+                        </div>
+                        <div class="col col-lg-2 col-md-2">
+                            <input type="text" name="DocLines[@i].Quantity" asp-for="@line.Quantity" class="form-control doc-line-quantity" />
+                        </div>
+                        <div class="col col-lg-2 col-md-2">
+                            <input type="text" name="DocLines[@i].Price" asp-for="@line.Price" step=0.001 class="form-control doc-line-price" />
+
+                        </div>
+
+                        <div class="col col-lg-2 col-md-2">
+                            <input type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" step=0.001 class="form-control doc-line-amount" />
+
+                        </div>
+                        <div class="col-1 delete-line">
+                            <span class="fa fa-trash fa-2x" aria-hidden="true"></span>
+
+                        </div>
+
+                    </div>
                             i++;
                         }
                     <div class="row docfooter" id="doc-footer">
-                        <div id="create-docline" class="col-lg-3 col-md-3 create">
+                        <div id="create-docline" class="col  create">
                             <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
-
+                            <span>@Localizer["Add"]</span>
                         </div>
                     </div>
                     </div>

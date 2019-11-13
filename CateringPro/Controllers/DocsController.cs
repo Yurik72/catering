@@ -76,9 +76,11 @@ namespace CateringPro.Controllers
             if (doc.Description == null) doc.Description = "";
            
             if (doc.Number == null) doc.Number = "";
-           
+            
             return await this.UpdateCompanyDataAsync(
-                doc.ExcludeTrack(typeof(Ingredients)).IncludeCompany(typeof(DocLines)), 
+                doc.ExcludeTrack(typeof(Ingredients))
+                .IncludeCompany(typeof(DocLines))
+                .TrackCollection(_context.DocLines.WhereCompany(User.GetCompanyID()).Where(l => l.DocsId == doc.Id),doc.DocLines), 
                 _context, _logger);
 
         }
@@ -111,7 +113,7 @@ namespace CateringPro.Controllers
 
         public IActionResult CreateNewLine(int docId,int linenum)
         {
-
+           
             var docline = new DocLines();
             docline.DocsId = docId;
             docline.Number = linenum+1;

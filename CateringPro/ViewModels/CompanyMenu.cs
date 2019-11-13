@@ -17,9 +17,21 @@ namespace CateringPro.Models
     {
         public DateTime DayDate { get; set; }
         public IEnumerable<CompanyMenuItemModel> Items { get; set; }
+
+        public IEnumerable<CompanyMenuComplexModel> ComplexItems { get; set; }
+    }
+    public class CompanyMenuComplexModel
+    {
+        public DateTime DayDate { get; set; }
+
+        public string Name { get; set; }
+        [DisplayFormat(DataFormatString = "0.00")]
+        public decimal Price { get; set; }
+        public IEnumerable<CompanyMenuItemModel> Items { get; set; }
     }
     public class CompanyMenuItemModel
         {
+        public DateTime DayDate { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
 

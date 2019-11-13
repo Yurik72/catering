@@ -399,19 +399,32 @@ footer {
 
 .create {
     cursor: pointer;
-    background-color: #0069d9;
-    border-color: #0062cc;
-    color:#FFFFFF;
-
+    background-color: #FFFFFF;
+    border-color: #0069d9;
+    color: #0069d9;
+    border : solid;
+    border-width:2px;
+    border-radius: 5px;
+    max-width:150px;
+    float:left;
+    display:block;
+ 
 }
+.create span{
 
-/*  Dialog styles*/
-a.ahead {
-    color: #28a745 !important;
-    float: left;
-    font-size:16px;
-    font-weight:700;
+    height:100%;
+    vertical-align:middle;
 }
+.delete-line {
+    cursor: pointer;
+}
+    /*  Dialog styles*/
+    a.ahead {
+        color: #28a745 !important;
+        float: left;
+        font-size: 16px;
+        font-weight: 700;
+    }
 a.dialog-edit-icon, a.apagebottom {
     color: #28a745 !important;
 }
