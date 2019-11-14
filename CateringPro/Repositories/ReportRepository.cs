@@ -289,13 +289,21 @@ namespace CateringPro.Repositories
           var query2 =
                from dc in _context.DayComplex.Where(dc => dc.CompanyId == companyid && dc.Date >= datefrom && dc.Date <= dateto)
                join c in _context.Complex.Where(c => c.CompanyId == companyid) on dc.ComplexId equals c.Id
-
+               
                select new CompanyMenuComplexModel()
                {
                    DayDate = dc.Date,
                   
                    Name = c.Name,
-                   Price = c.Price
+                   Price = c.Price,
+                   Items=from dd in _context.DishComplex.WhereCompany(companyid).Where(it=>it.ComplexId==c.Id)
+                         join d in _context.Dishes.WhereCompany(companyid) on dd.DishId equals d.Id
+                         select new CompanyMenuItemModel()
+                         {
+                             Name=d.Name,
+                             Description=d.Description,
+                             Weight=d.ReadyWeight
+                         }
                };
             var query21= (from q2 in query2.ToList()
                          group q2 by q2.DayDate into grp

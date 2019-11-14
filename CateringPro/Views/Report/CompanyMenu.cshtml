@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 
 
 <html>
@@ -10,7 +10,7 @@
     <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <div class="invoice-box">
+    <div class="report-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
@@ -29,6 +29,7 @@
                     </table>
                 </td>
             </tr>
+
             <tr class="information ">
                 <td colspan="2 ">
                     <table>
@@ -43,35 +44,39 @@
                     </table>
                 </td>
             </tr>
-            <tr class="heading ">
-                <td>
-                    Код
-                </td>
-                <td>
-                    Назва
-                </td>
-                <td>
-                    Вартiсть
-                </td>
-
-            </tr>
-
             @foreach (var day in Model.Days)
             {
-                <tr class="item daydate">
-                    <td colspan="5">
-                        @day.DayDate.ToShortDateString()
-                    </td>
 
-                </tr>
-                if (day.ComplexItems != null)
+                if (day.ComplexItems != null && day.ComplexItems.Count() > 0)
                 {
-                    <tr class="item ">
-                        <td colspan="4">
-                            Complexes
+                    <tr class="tabledate">
+                        <td colspan="3">
+                            @day.DayDate.ToString("m", System.Globalization.CultureInfo.CurrentUICulture)
+
                         </td>
 
                     </tr>
+                    <tr class="tablename">
+
+                        <td colspan="4">
+                            @Localizer["Complex Dishes"]
+                        </td>
+
+
+                    </tr>
+                    <tr class="heading ">
+
+                        <td colspan="3">
+                            Назва
+                        </td>
+                        <td>
+                            Вартiсть @Localizer["CurrencySymbol"]
+                        </td>
+
+                    </tr>
+
+
+
                     @foreach (var complexitem in day.ComplexItems)
                     {
                         <tr class="item">
@@ -81,13 +86,72 @@
                             <td>
                             </td>
                             <td>
+                            </td>
+                            <td>
                                 @Html.DisplayFor(model => complexitem.Price)
                             </td>
                         </tr>
+                        <tr class="item">
+                            <td colspan="3">
+                                <table class="sub-table">
+                                    @foreach (var dishitem in complexitem.Items)
+                                    {
+                                    <tr>
+                                        <td class="w-10">
+                                        <td>
+                                            @Html.DisplayFor(model => dishitem.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => dishitem.Weight) @Localizer["gr"]
+                                        </td>
+                                        <td class="text-small">
+                                            @Html.DisplayFor(model => dishitem.Description)
+                                        </td>
+
+                                        <td class="w-10">
+                                        <td>
+                                    </tr>
+                                    }
+                                 </table>
+
+                        </tr>
                     }
+                    <tr class="total ">
+                        <td></td>
+                        <td></td>
+
+                        <td>
+                        </td>
+                    </tr>
                 }
-                if (day.Items != null)
+
+
+                if (day.Items != null && day.Items.Count() > 0)
                 {
+                    <tr class="daydate">
+                        <td colspan="4">
+                            @day.DayDate.ToShortDateString()
+                        </td>
+
+                    </tr>
+                    <tr class="tablename">
+
+                        <td colspan="4">
+                            @Localizer["Complex Dishes"]
+                        </td>
+
+
+                    </tr>
+                    <tr class="heading ">
+
+                        <td colspan="3">
+                            Назва
+                        </td>
+                        <td>
+                            Вартiсть
+                        </td>
+
+                    </tr>
                     @foreach (var item in day.Items)
                     {
                         <tr class="item">
@@ -102,16 +166,18 @@
                             </td>
                         </tr>
                     }
+                    <tr class="total ">
+                        <td></td>
+                        <td></td>
+
+                        <td>
+                        </td>
+                    </tr>
                 }
+
+
+
             }
-
-            <tr class="total ">
-                <td></td>
-                <td></td>
-
-                <td>
-                </td>
-            </tr>
         </table>
     </div>
 </body>

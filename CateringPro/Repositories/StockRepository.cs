@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using CateringPro.Core;
 
 namespace CateringPro.Repositories
 {
@@ -13,10 +14,12 @@ namespace CateringPro.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
-        public StockRepository(AppDbContext context,  ILogger<CompanyUser> logger)
+        SharedViewLocalizer _localizer;
+        public StockRepository(AppDbContext context,  ILogger<CompanyUser> logger, SharedViewLocalizer localizer)
         {
             _context = context;
             _logger = logger;
+            _localizer = localizer;
         }
 
         public IQueryable<ConsignmentStockViewModel> ConsignmentStock( int companyid,bool showZero=false)
@@ -29,6 +32,7 @@ namespace CateringPro.Repositories
                         {
                             DocNumber=d.Number,
                             DocDate=d.Date,
+                            DocTypeName=(d.Type==1? _localizer["DocTypeIncome"]:"..."),
                             LineId  = c.LineId,
                             IngredientId=c.IngredientsId,
                             StockValue = c.Quantity,

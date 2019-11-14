@@ -1,16 +1,13 @@
 ﻿@model IEnumerable<ConsignmentStockViewModel>
-
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
-    var pageName = "Orders";
+    var pageName = @Localizer["ConsignmentStock"];
     ViewData["Title"] = pageName;
 }
 
 <h2>@pageName</h2>
 
-@if (Model.Count() <= 0)
-{
-    <h3>You haven't created any @pageName yet...</h3>
-}
+
 
 
 <table class="table">
@@ -22,7 +19,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.StockValue)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeasureUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValidTo)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -37,26 +39,37 @@
                 @Html.DisplayFor(modelItem => item.StockValue)
             </td>
             <td>
-                @*<a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |*@
+                @Html.DisplayFor(modelItem => item.MeasureUnit)
 
             </td>
-        </tr>
+            <td>
+                @item.ValidTo.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+               
+
+            </td>
             
-            foreach(var detail in item.Consignments)
+        </tr>
+
+            foreach (var detail in item.Consignments)
             {
-            <tr class="stock-consignment small">
-                <td>
-                    @Html.DisplayFor(modelItem => detail.DocDate)
-                    <br />
-                    @Html.DisplayFor(modelItem => detail.DocNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => detail.StockValue)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => detail.ValidUntil)
-                </td>
-            </tr>
+                <tr class="stock-consignment small">
+                    <td>
+                        @Html.DisplayFor(modelItem => detail.DocTypeName)
+                        <br>
+                        @detail.DocDate.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+                            
+                        <br>
+                        @Html.DisplayFor(modelItem => detail.DocNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => detail.StockValue)
+                      
+                    </td>
+                    <td>
+                        @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+                  
+                    </td>
+                </tr>
             }
         }
     </tbody>

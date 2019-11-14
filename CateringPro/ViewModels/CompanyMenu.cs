@@ -35,10 +35,14 @@ namespace CateringPro.Models
         public string Code { get; set; }
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public int Quantity { get; set; }
         [DisplayFormat(DataFormatString = "0.00")]
         public decimal Price { get; set; }
         [DisplayFormat(DataFormatString ="0.00") ]
         public decimal Amount { get; set; }
+
+        public decimal Weight { get; set; }
     }
 }

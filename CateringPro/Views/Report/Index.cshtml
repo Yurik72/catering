@@ -11,29 +11,29 @@
 <div class="container">
     <div class="row">
         <div class="col-4">
-            <div class="ui-widget">
-                <label for="datep">@Localizer["Date From"] </label><input id="datefrom" />
+            <div class="ui-widget report-param-box">
+                <label for="datep">@Localizer["DateFrom"] </label><input id="datefrom" />
             </div>
         </div>
         <div class="col-4">
-            <div class="ui-widget">
-                <label for="datep">@Localizer["Date To"]</label><input id="dateto" />
+            <div class="ui-widget report-param-box">
+                <label for="datep">@Localizer["DateTo"]</label><input id="dateto" />
             </div>
         </div>
     </div>
 </div>
 <div class="container">
-    <div class="row">
+    <div class="row report-name">
         <div class="col">
             <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyProductionForecast" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["ForecastProductionStock"]</a>
         </div>
     </div>
-    <div class="row">
+    <div class="row report-name">
         <div class="col">
             <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyDayProduction" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["CompanyDayProduction"]</a>
         </div>
     </div>
-    <div class="row">
+    <div class="row report-name">
         <div class="col">
             <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyMenu" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["CompanyMenu"]</a>
         </div>

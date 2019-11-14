@@ -156,6 +156,9 @@
   <data name="CompanyDayProduction" xml:space="preserve">
     <value>Потреби у виробництвi</value>
   </data>
+  <data name="CompanyMenu" xml:space="preserve">
+    <value>Меню по днях</value>
+  </data>
   <data name="Complex" xml:space="preserve">
     <value>Комплекс</value>
   </data>
@@ -168,14 +171,38 @@
   <data name="Complex Price" xml:space="preserve">
     <value>Вартiсть</value>
   </data>
+  <data name="Consignment Ingredient Name" xml:space="preserve">
+    <value>Продукт /Партiя</value>
+  </data>
+  <data name="Consignment MeasureUnit" xml:space="preserve">
+    <value>Од. вимiру</value>
+  </data>
+  <data name="Consignment StockValue" xml:space="preserve">
+    <value>Залишок</value>
+  </data>
+  <data name="Consignment ValidTo" xml:space="preserve">
+    <value>Вжити до</value>
+  </data>
+  <data name="ConsignmentStock" xml:space="preserve">
+    <value>Залишки продуктiв</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Країна</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Створити</value>
   </data>
+  <data name="CurrencySymbol" xml:space="preserve">
+    <value>₴</value>
+  </data>
   <data name="CustomerOrders" xml:space="preserve">
     <value>Мої замовлення</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Вiд</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>До</value>
   </data>
   <data name="Day Ingredients" xml:space="preserve">
     <value>Розрахунок продуктiв</value>
@@ -296,6 +323,9 @@
   </data>
   <data name="ForecastProductionStock" xml:space="preserve">
     <value>Потреби и прогноз у продуктах</value>
+  </data>
+  <data name="gr" xml:space="preserve">
+    <value>гр.</value>
   </data>
   <data name="gr." xml:space="preserve">
     <value>гр.</value>
