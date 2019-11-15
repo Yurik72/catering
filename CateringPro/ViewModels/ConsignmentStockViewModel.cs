@@ -37,6 +37,8 @@ namespace CateringPro.Models
         public DateTime DocDate { get; set; }
         public int IngredientId { get; set; }
         public decimal StockValue { get; set; }
+
+        public decimal InitialValue { get; set; }
         public DateTime ValidUntil { get; set; }
     }
 }

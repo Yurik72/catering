@@ -1,0 +1,16 @@
+﻿@model IEnumerable<CompanyUser>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+    <h1 class="bg-info text-white">@Localizer["MenuUsers"]</h1>
+
+
+<table class="table table-sm table-bordered">
+    <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+        </tr>
+    }
+</table>

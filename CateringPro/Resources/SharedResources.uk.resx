@@ -210,6 +210,9 @@
   <data name="Day Production" xml:space="preserve">
     <value>Звiт кухар страви</value>
   </data>
+  <data name="DayClosedForOrder" xml:space="preserve">
+    <value>На цей день замовлення закритi.</value>
+  </data>
   <data name="Dish" xml:space="preserve">
     <value>Страва</value>
   </data>
@@ -309,6 +312,9 @@
   <data name="DocLine Quantity" xml:space="preserve">
     <value>Кiлькiсть</value>
   </data>
+  <data name="DocLine ValidTo" xml:space="preserve">
+    <value>Вжити До</value>
+  </data>
   <data name="Docs" xml:space="preserve">
     <value>Документи</value>
   </data>
@@ -360,6 +366,9 @@
   <data name="Logo" xml:space="preserve">
     <value>Лого</value>
   </data>
+  <data name="MassEmail" xml:space="preserve">
+    <value>Розсилки email</value>
+  </data>
   <data name="MenuAdmin" xml:space="preserve">
     <value>Адмін</value>
   </data>
@@ -402,8 +411,14 @@
   <data name="MenuStockConsignment" xml:space="preserve">
     <value>Склад/Залишки</value>
   </data>
+  <data name="MenuUpdateUser" xml:space="preserve">
+    <value>Mої дані</value>
+  </data>
   <data name="MenuUserOrder" xml:space="preserve">
     <value>Мої замовлення</value>
+  </data>
+  <data name="MenuUsers" xml:space="preserve">
+    <value>Користувачi</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Повiдомлення</value>
@@ -492,8 +507,20 @@
   <data name="StockValue" xml:space="preserve">
     <value>Залишок</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
   <data name="ThresholdTime" xml:space="preserve">
     <value>Блок. замовл. пiсля</value>
+  </data>
+  <data name="UpdateUserEmail" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="UpdateUserNewPassword" xml:space="preserve">
+    <value>Новий пароль</value>
+  </data>
+  <data name="UpdateUserOldPassword" xml:space="preserve">
+    <value>Старий пароль</value>
   </data>
   <data name="User Name" xml:space="preserve">
     <value>Користувач</value>

@@ -2,6 +2,7 @@
 @using System.Globalization
 @using CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject CateringPro.Repositories.IUserDayDishesRepository udrepo;
 @inject Microsoft.Extensions.Options.IOptions<UIOption> pageOptions
 @{
     ViewData["Title"] = "My Order";
@@ -25,13 +26,13 @@
                 <span><i class="fa fa-angle-double-left input-group-text"></i></span>
 
             </div>
-           
-                <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
-                <div id="weekselector" class="weekselector">
 
-                </div>
+            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+            <div id="weekselector" class="weekselector">
 
-           
+            </div>
+
+
             <div class="input-group-append dayselector  dayselectforward">
                 <span><i class="fa fa-angle-double-right input-group-text"></i></span>
 
@@ -48,7 +49,7 @@
 
         @{
             DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
-            
+
         }
         @for (int i = 0; i < 7; i++)
         {
@@ -68,18 +69,23 @@
     }
     @for (int i = 0; i < 7; i++)
     {
-    <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-       
-        @if (Model.ShowComplex)
-        {
-            @await Component.InvokeAsync("UserDayComplexComponent", current_content)
-        }
-        @if (Model.ShowDishes)
-        {
-            @await Component.InvokeAsync("UserDayDishComponent", current_content)
-        }
+        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+            @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
+            {
+            <div class="container day-closed-msg">
+               <h3> @Localizer["DayClosedForOrder"] </h3>
+            </div>
+            }
+            @if (Model.ShowComplex)
+            {
+                @await Component.InvokeAsync("UserDayComplexComponent", current_content)
+            }
+            @if (Model.ShowDishes)
+            {
+                @await Component.InvokeAsync("UserDayDishComponent", current_content)
+            }
 
-    </div>
+        </div>
 
         current_content = current_content.AddDays(1);
     }
@@ -96,7 +102,7 @@
             <div class="modal-body">
                 <p>@Localizer["OrderAccepted"]</p>
                 <p>@Localizer["OrdeAcceptedDetail"]</p>
-              
+
             </div>
             <div class="modal-footer">
 
@@ -206,11 +212,17 @@
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
                 dt.setDate(dt.getDate() - dt.getDay() + dayindex);
-                $('#nav-content-' + dayindex).html(html_loading);
-                $('#nav-content-' + dayindex).load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()));
+                var navcontent = $('#nav-content-' + dayindex);
+                navcontent.html(html_loading);
+                navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()),
+                    function (response, status, xhr) {
+                             navcontent.find("input.numberspinner[type='number']").inputSpinner();
+                    }
+                    );
                 var weektext = dateToshortString(dt);
                 weektext = ""+dt.getDate();
                 $('#nav-tab-' + dayindex).find('.shorttabdate').text(weektext);
+
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
             }
@@ -306,7 +318,7 @@
                     $('#modOrderEmpty').modal('show');
                     return;
                 }
-                
+
                 if (data.res == "OK" ) {
                     $('#modOrderSuccess').modal('show');
                     return;

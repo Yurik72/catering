@@ -111,17 +111,7 @@ namespace CateringPro.Controllers
         // GET: Dishes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
                 return NotFound();
-            }
-
-            var dish = await _context.Dishes.FindAsync(id);
-            if (dish == null)
-            {
-                return NotFound();
-            }
-            return View(dish);
         }
 
         // POST: Dishes/Edit/5
@@ -131,32 +121,8 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Dish dish)
         {
-            if (id != dish.Id)
-            {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(dish);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DishExists(dish.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(dish);
+                return NotFound();
         }
 
    //     public async Task<IActionResult> GetDishPicture(int id)
@@ -214,7 +180,7 @@ namespace CateringPro.Controllers
             }
 
             var dish = await _context.Dishes.FindAsync(id);
-            if (dish == null)
+            if (dish == null || dish.CompanyId!=User.GetCompanyID())
             {
                 return NotFound();
             }

@@ -183,14 +183,8 @@ namespace CateringPro.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriesExists(categories.Id))
-                    {
+
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
                 }
                 return RedirectToAction("Index");
             }
@@ -227,9 +221,6 @@ namespace CateringPro.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool CategoriesExists(int id)
-        {
-            return _categoryRepo.Exists(id);
-        }
+
     }
 }

@@ -6,32 +6,38 @@
     Layout = null;
     int i = (int)(ViewData["lineindex"]);
 }
-<div class="row doc-line" data-lineid="0">
-    <div class="col col-lg-1 col-md-1">
-        <input type="hidden" name="DocLines[@i].DocsId" asp-for="@Model.DocsId" class="form-control" />
-        <input type="hidden" name="DocLines[@i].Id" asp-for="@Model.Id" class="form-control" />
-        <input type="number" name="DocLines[@i].Number" asp-for="@Model.Number" class="form-control doc-line-number" />
-        
+    <div class="row doc-line" data-lineid="0">
+        <div class="col col-lg-1 col-md-1">
+            <input type="hidden" name="DocLines[@i].DocsId" asp-for="@Model.DocsId" class="form-control" />
+            <input type="hidden" name="DocLines[@i].Id" asp-for="@Model.Id" class="form-control" />
+            <input type="number" name="DocLines[@i].Number" asp-for="@Model.Number" class="form-control doc-line-number" />
 
+
+        </div>
+        <div class="col col-lg-4 col-md-4">
+
+            <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@Model.IngredientsId" class="form-control doc-line-ingid" />
+            <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@Model.IngredientsId" class="form-control doc-line-ingid" />
+            <input type="text" name="none[@i].Ingredients.Name" asp-for="@Model.Ingredients.Name" class="form-control doc-line-ingname" />
+
+        </div>
+        <div class="col col-lg-1 col-md-1 col-1">
+            <input type="text" name="DocLines[@i].Quantity" asp-for="@Model.Quantity" class="form-control doc-line-quantity" />
+        </div>
+        <div class="col col-lg-1 col-md-1 col-1">
+            <input type="text" name="DocLines[@i].Price" asp-for="@Model.Price" class="form-control doc-line-price" />
+
+        </div>
+
+        <div class="col col-lg-2 col-md-2">
+            <input type="text" name="DocLines[@i].Amount" asp-for="@Model.Amount" class="form-control doc-line-amount" />
+
+        </div>
+        <div class="col col-lg-2 col-md-2 col-2">
+            <input asp-for="@Model.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control doc-line-validto" />
+        </div>
+        <div class="col-1 delete-line">
+            <span class="fa fa-trash fa-2x" aria-hidden="true"></span>
+
+        </div>
     </div>
-    <div class="col col-lg-4 col-md-4">
-
-        <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@Model.IngredientsId" class="form-control doc-line-ingid" />
-        <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@Model.IngredientsId" class="form-control doc-line-ingid" />
-        <input type="text" name="none[@i].Ingredients.Name" asp-for="@Model.Ingredients.Name" class="form-control doc-line-ingname" />
-
-    </div>
-    <div class="col col-lg-2 col-md-2">
-        <input type="text" name="DocLines[@i].Quantity" asp-for="@Model.Quantity"  class="form-control doc-line-quantity" />
-    </div>
-    <div class="col col-lg-2 col-md-2">
-        <input type="text" name="DocLines[@i].Price" asp-for="@Model.Price"  class="form-control doc-line-price" />
-      
-    </div>
-
-    <div class="col col-lg-2 col-md-2">
-        <input type="text" name="DocLines[@i].Amount" asp-for="@Model.Amount" class="form-control doc-line-amount" />
-
-    </div>
-
-</div>

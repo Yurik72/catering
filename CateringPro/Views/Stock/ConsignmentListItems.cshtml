@@ -1,0 +1,96 @@
+﻿@model IEnumerable<CateringPro.Models.ConsignmentStockViewModel>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@using CateringPro.Core
+
+
+@{
+    Layout = null;
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
+
+}
+
+<table class="table stock-inredients">
+    <thead>
+        <tr class="bg-white text-success">
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.IngredientName, querymodel)
+            </th>
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.StockValue, querymodel)
+            </th>
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.MeasureUnit, querymodel)
+            </th>
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.ValidTo, querymodel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="bg-white text-secondary row-stock">
+                <td>
+                    @Html.HiddenFor(modelItem => item.IngredientId)
+                    @Html.DisplayFor(modelItem => item.IngredientName)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.StockValue, new { htmlAttributes = new { @class = "stockval" } })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeasureUnit)
+                </td>
+                <td>
+                   
+                    
+                </td>
+                <td>
+                </td>
+            </tr>
+            foreach (var detail in item.Consignments)
+            {
+                <tr class="stock-consignment small">
+                    <td>
+                        @Html.DisplayFor(modelItem => detail.DocTypeName)  @Html.DisplayFor(modelItem => detail.InitialValue)  @Html.DisplayFor(modelItem => item.MeasureUnit)
+        
+                        @detail.DocDate.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+
+                        <br>
+                        @Html.DisplayFor(modelItem => detail.DocNumber)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => detail.StockValue)
+
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr class="bg-white text-success rounded border">
+            <td colspan="3">
+                @await this.InvokeComponentAsync(Component, "TablePager", model => model.IngredientName, querymodel)
+            </td>
+        </tr>
+    </tfoot>
+</table>

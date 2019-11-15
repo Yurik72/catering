@@ -1,0 +1,25 @@
+﻿@model DateTime
+@using System.Globalization
+@using CateringPro.Core
+
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    Layout = null;
+}
+@{
+    DateTime daydate = Model;
+    long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
+    CultureInfo ci = new CultureInfo("en-US");
+    // Get the DateTimeFormatInfo for the en-US culture.
+    DateTimeFormatInfo dtfi = ci.DateTimeFormat;
+}
+
+        <div class="row">
+            @await Component.InvokeAsync("DayComplexComponent", Model)
+        </div>
+        <div class="row">
+            @await Component.InvokeAsync("DayDishComponent", Model)
+        </div>
+
+
+ 

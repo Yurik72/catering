@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using CateringPro.Core;
+using CateringPro.ViewModels;
 
 namespace CateringPro.Repositories
 {
@@ -49,6 +50,55 @@ namespace CateringPro.Repositories
 
                          };
             return query1;
+        }
+        public async Task<IEnumerable<ConsignmentStockViewModel>> ConsignmentStock(QueryModel querymodel,int companyid, bool showZero = false)
+        {
+
+            var query = from ing in _context.Ingredients.Where(cs => cs.CompanyId == companyid)
+                        join c in _context.Consignment.Where(cs => cs.CompanyId == companyid) on ing.Id equals c.IngredientsId
+                        join dl in _context.DocLines.Where(cs => cs.CompanyId == companyid) on c.LineId equals dl.Id
+                        join d in _context.Docs.Where(cs => cs.CompanyId == companyid) on dl.DocsId equals d.Id
+                        select new ConsignmentStockDetailViewModel()
+                        {
+                            DocNumber = d.Number,
+                            DocDate = d.Date,
+                            DocTypeName = (d.Type == 1 ? _localizer["DocTypeIncome"] : "..."),
+                            LineId = c.LineId,
+                            IngredientId = c.IngredientsId,
+                            StockValue = c.Quantity,
+                            InitialValue = c.InitialQuantity,
+                            ValidUntil = c.ValidUntil
+                        };
+
+            var query1 = from ing in _context.Ingredients.Where(cs => cs.CompanyId == companyid)
+                         select ing;
+
+            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
+            {
+                query1 = query1.Where(d => d.Name.Contains(querymodel.SearchCriteria));
+
+
+            }
+            if (!string.IsNullOrEmpty(querymodel.SortField))
+            {
+                query1 = query1.OrderByEx(querymodel.SortField, querymodel.SortOrder);
+            }
+            if (querymodel.Page > 0)
+            {
+                query1 = query1.Skip(querymodel.PageRecords * querymodel.Page);
+            }
+            var queryfinal= from ing in query1
+                            select new ConsignmentStockViewModel()
+                            {
+                                IngredientId = ing.Id,
+                                IngredientName = ing.Name,
+                                StockValue=ing.StockValue,
+                                MeasureUnit = ing.MeasureUnit,
+                                Consignments = from entry in query.Where(x => x.IngredientId == ing.Id)
+                                               select entry
+
+                            };
+            return await queryfinal.ToListAsync();
         }
         public bool WriteOffProduction(DateTime daydate, int companyId)
         {

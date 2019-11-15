@@ -130,8 +130,8 @@
                 dt.setDate(dt.getDate() - dt.getDay() + dayindex);
 
                 $('#nav-content-' + dayindex).html(html_loading);
-                $('#nav-content-' + dayindex).load('/DayDishes/EditDayComponent?daydate=' + encodeURI(dt.toDateString()));
-
+               // $('#nav-content-' + dayindex).load('/DayDishes/EditDayComponent?daydate=' + encodeURI(dt.toDateString()));
+                 $('#nav-content-' + dayindex).load('/DayDishes/EditDayContent?daydate=' + encodeURI(dt.toDateString()));
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/DayDishes/EditDayComponent?daydate=' + encodeURI(dt.toDateString()));
             }

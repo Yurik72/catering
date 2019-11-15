@@ -23,6 +23,8 @@ namespace CateringPro.Models
 
         public decimal Amount { get; set; }
 
+
+        public DateTime? ValidTo { get; set; }
         public virtual Docs Docs { get; set; }
 
         public virtual Ingredients Ingredients { get; set; }

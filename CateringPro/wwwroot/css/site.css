@@ -281,14 +281,7 @@ footer {
     margin-top: 3px;
     margin-bottom: 3px;
 }
-.daycomplex-item {
-    border: solid;
-    border-width:1px;
-    border-radius: 10px;
-    border-color: #5a5a5a;
-    margin-bottom: 10px;
-    
-}
+
 .btn-link.daydish[aria-expanded="true"]:hover, .btn-link.daydish[aria-expanded="true"]:focus {
     background-color: #4d2800
 }
@@ -480,7 +473,7 @@ a.dialog-edit-icon, a.apagebottom {
 /* Menus and days*/
 .daydish-category-content, .daydish-complex-content {
     margin-top: 10px;
-    box-shadow: 10px 10px 5px grey;
+   
     margin-bottom: 15px;
 }
 .nav-day {
@@ -534,14 +527,33 @@ a.dialog-edit-icon, a.apagebottom {
 .complex-menu-header {
     text-align: center;
     padding: 15px;
+   
+    margin-top:10px;
+    margin-bottom:15px;
+        ]
+}
+.daycomplex-item {
+    border: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: #5a5a5a;
+    margin-bottom: 10px;
+    box-shadow: 10px 10px 5px grey;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.day-closed-msg{
+    font-size:200%;
+    color: #f99696;
+    text-align:center;
 }
 .daydish-footer .total-order-row, .daycomplex-footer .total-order-row {
     background-color: #FFFFFF;
-    color: #6c757d ;
+    color: #6c757d;
     margin-left: 5px;
     margin-right: 5px;
     border-radius: 3px;
-    font-size:130%;
+    font-size: 130%;
 }
 
 .daydish-footer-cmd, .daycomplex-footer-cmd {
@@ -584,17 +596,27 @@ a.dialog-edit-icon, a.apagebottom {
         max-width: 968px;
     }
 
+    .wide-modal.modal .modal-dialog {
+        max-width: 968px;
+    }
 }
 
 /*stock*/
-.stock-consignment {
-    margin: 10px;
-    box-shadow: 10px 10px 5px grey;
+ table  tr.stock-consignment td {
+    border:none;
+    background-color:#d8d8d8;
+}
+table tr.stock-consignment td:nth-child(1) {
+    padding-left:30px;
+}
+table.stock-inredients td{
+    padding:0em;
+
 }
 .table-head {
-   background-color: #6c757d;
-   color:#ffffff;
-   font-weight:200;
+    background-color: #6c757d;
+    color: #ffffff;
+    font-weight: 200;
 }
 /*Complex*/
 @media (min-width: 1024px) {

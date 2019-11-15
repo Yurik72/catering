@@ -44,10 +44,7 @@ namespace CateringPro.Repositories
             return await _context.Categories.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public bool Exists(int id)
-        {
-            return _context.Pizzas.Any(p => p.Id == id);
-        }
+        
 
         public void Remove(Categories category)
         {

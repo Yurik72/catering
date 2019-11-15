@@ -112,6 +112,14 @@ namespace CateringPro.Repositories
                     ctl.PreApplyWraps(entity, _context, wrap);
                 ctl.AssignCompantAttr(entity);
                 _context.Update(entity);
+                var entry = _context.Entry(entity);
+                if (entry.State == EntityState.Modified)
+                {
+                    if(entry.OriginalValues.GetValue<int>("CompanyId")!= ctl.User.GetCompanyID())  //something wrong with hack
+                    {
+                        throw new Exception("Fobidden");
+                    }
+                }
                 if (wrap != null)
                     ctl.PostApplyWraps(entity, _context, wrap);
                 await _context.SaveChangesAsync();

@@ -148,6 +148,11 @@ namespace CateringPro.Controllers
             object paramets = new { daydate = daydate };
             return ViewComponent("DayDishComponent", paramets);
         }
+        public IActionResult EditDayContent(DateTime daydate)
+        {
+
+            return PartialView( daydate);
+        }
         // GET: DayDishes/Create
         public IActionResult Create()
         {

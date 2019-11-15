@@ -48,7 +48,9 @@ namespace CateringPro.Controllers
             {
                 DayDate = DateTime.Now,
                 ShowComplex= user.MenuType.HasValue && (user.MenuType.Value & 1)>0,
-                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0
+                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0,
+               
+
             };
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
         }

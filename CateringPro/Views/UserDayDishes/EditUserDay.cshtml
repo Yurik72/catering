@@ -2,6 +2,7 @@
 @using System.Globalization
 @using CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject CateringPro.Repositories.IUserDayDishesRepository udrepo;
 @inject Microsoft.Extensions.Options.IOptions<UIOption> pageOptions
 
 @{
@@ -13,15 +14,18 @@
     DateTimeFormatInfo dtfi = ci.DateTimeFormat;
 }
 
+@if (!udrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+{
+    <div class="container day-closed-msg">
+        <h3> @Localizer["DayClosedForOrder"] </h3>
+    </div>
+}
+@if (Model.ShowComplex)
+{
+    @await Component.InvokeAsync("UserDayComplexComponent", daydate)
+}
+@if (Model.ShowDishes)
+{
+    @await Component.InvokeAsync("UserDayDishComponent", daydate)
+}
 
-
-        @if (Model.ShowComplex)
-        {
-            @await Component.InvokeAsync("UserDayComplexComponent", daydate)
-        }
-        @if (Model.ShowDishes)
-        {
-            @await Component.InvokeAsync("UserDayDishComponent", daydate)
-        }
-
- 

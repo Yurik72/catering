@@ -17,13 +17,13 @@ namespace CateringPro.Data
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Categories> Categories { get; set; }
-        public DbSet<Pizzas> Pizzas { get; set; }
+   //     public DbSet<Pizzas> Pizzas { get; set; }
         public DbSet<Ingredients> Ingredients { get; set; }
-        public DbSet<PizzaIngredients> PizzaIngredients { get; set; }
-        public DbSet<Reviews> Reviews { get; set; }
-        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+    //    public DbSet<PizzaIngredients> PizzaIngredients { get; set; }
+    //    public DbSet<Reviews> Reviews { get; set; }
+   //     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+      //  public DbSet<Order> Orders { get; set; }
+    //    public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
         public DbSet<Dish> Dishes { get; set; }
@@ -35,6 +35,8 @@ namespace CateringPro.Data
         public DbSet<DayComplex> DayComplex { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
+
+        public DbSet<MassEmail> MassEmail { get; set; }
         public DbSet<Complex> Complex { get; set; }
 
         public DbSet<DishComplex> DishComplex { get; set; }

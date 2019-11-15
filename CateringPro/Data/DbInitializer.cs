@@ -164,8 +164,7 @@ namespace CateringPro.Data
             _context.Companies.AddRange(comps);
             _context.SaveChanges();
             _context.Categories.AddRange(cats);
-            _context.Pizzas.AddRange(pizs);
-            _context.Reviews.AddRange(revs);
+
 
             _context.Ingredients.AddRange(ings);
            // _context.PizzaIngredients.AddRange(pizIngs);
@@ -179,17 +178,7 @@ namespace CateringPro.Data
 
         private static void ClearDatabase(AppDbContext _context)
         {
-            var pizzaIngredients = _context.PizzaIngredients.ToList();
-            _context.PizzaIngredients.RemoveRange(pizzaIngredients);
-
-            var ingredients = _context.Ingredients.ToList();
-            _context.Ingredients.RemoveRange(ingredients);
-
-            var reviews = _context.Reviews.ToList();
-            _context.Reviews.RemoveRange(reviews);
-
-            var shoppingCartItems = _context.ShoppingCartItems.ToList();
-            _context.ShoppingCartItems.RemoveRange(shoppingCartItems);
+            
 
             var users = _context.Users.ToList();
             var userRoles = _context.UserRoles.ToList();
@@ -202,14 +191,7 @@ namespace CateringPro.Data
                 }
             }
 
-            var orderDetails = _context.OrderDetails.ToList();
-            _context.OrderDetails.RemoveRange(orderDetails);
-
-            var orders = _context.Orders.ToList();
-            _context.Orders.RemoveRange(orders);
-
-            var pizzas = _context.Pizzas.ToList();
-            _context.Pizzas.RemoveRange(pizzas);
+          
 
             var categories = _context.Categories.ToList();
             _context.Categories.RemoveRange(categories);

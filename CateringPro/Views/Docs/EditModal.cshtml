@@ -77,17 +77,19 @@
                                 @Localizer["DocLine Ingredient"]
                             </div>
 
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="ccol col-lg-1 col-md-1 col-1">
                                 @Localizer["DocLine Quantity"]
                             </div>
 
-                            <div class="col col-lg-2 col-md-2">
+                            <div class="col col-lg-1 col-md-1 col-1">
                                 @Localizer["DocLine Price"]
                             </div>
                             <div class="col col-lg-2 col-md-2">
                                 @Localizer["DocLine Amount"]
                             </div>
-
+                            <div class="col col-lg-2 col-md-2 col-2">
+                                @Localizer["DocLine ValidTo"]
+                            </div>
                         </div>
                         @{ 
                             int i = 0;
@@ -106,10 +108,10 @@
                             <input type="text" name="none[@i].Ingredients.Name" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" />
 
                         </div>
-                        <div class="col col-lg-2 col-md-2">
+                        <div class="col col-lg-1 col-md-1 col-1">
                             <input type="text" name="DocLines[@i].Quantity" asp-for="@line.Quantity" class="form-control doc-line-quantity" />
                         </div>
-                        <div class="col col-lg-2 col-md-2">
+                        <div class="col col-lg-1 col-md-1 col-1">
                             <input type="text" name="DocLines[@i].Price" asp-for="@line.Price" step=0.001 class="form-control doc-line-price" />
 
                         </div>
@@ -117,6 +119,9 @@
                         <div class="col col-lg-2 col-md-2">
                             <input type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" step=0.001 class="form-control doc-line-amount" />
 
+                        </div>
+                        <div class="col col-lg-2 col-md-2 col-2">
+                            <input  asp-for="@line.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control doc-line-validto" />
                         </div>
                         <div class="col-1 delete-line">
                             <span class="fa fa-trash fa-2x" aria-hidden="true"></span>

@@ -50,10 +50,10 @@ namespace CateringPro
 
 
            
-            services.AddTransient<IPizzaRepository, PizzaRepository>();
+           
             services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IAdminRepository, AdminRepository>();
+           
+           
 
             services.AddTransient<IDayDishesRepository, DayDishesRepository>();
             services.AddTransient<IUserDayDishesRepository, UserDayDishesRepository>();
@@ -63,9 +63,9 @@ namespace CateringPro
             services.AddTransient<IDocRepository, DocRepository>();
             services.AddTransient<IStockRepository, StockRepository>();
             services.AddTransient<IComplexRepository, ComplexRepository>();
+            services.AddTransient<IMassEmailRepository, MassEmailRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp => ShoppingCart.GetCart(sp));
 
            // services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
             services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, CustomClaimsPrincipalFactory>();

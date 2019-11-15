@@ -65,6 +65,7 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
+
         [HttpPost]
         public async Task<IActionResult> SaveStock(int id ,decimal stockvalue)
         {
@@ -116,6 +117,14 @@ namespace CateringPro.Controllers
 
 
             return View(await query.ToListAsync());
+
+        }
+        public async Task<IActionResult> ConsignmentListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        {
+            //QueryModel querymodel=new QueryModel() { }
+            ViewData["QueryModel"] = querymodel;
+            querymodel.PageRecords = pageRecords;
+            return PartialView(await _stockrepo.ConsignmentStock(querymodel, User.GetCompanyID()));
 
         }
     }

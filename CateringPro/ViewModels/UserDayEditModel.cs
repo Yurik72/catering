@@ -12,5 +12,7 @@ namespace CateringPro.ViewModels
         public bool ShowDishes { get; set; }
 
         public bool ShowComplex { get; set; }
+
+        public bool AllowEdit { get; set; }
     }
 }

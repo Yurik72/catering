@@ -4762,3 +4762,36 @@ ORDER BY [i].[Id], [t2].[Id], [t2].[CompanyId], [t2].[LineId], [t2].[Ingredients
 2019-11-14 15:35:14.920 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
 2019-11-14 15:35:14.920 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 0.5821000000000001ms 404 
 2019-11-14 15:35:14.921 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 25.2189ms 404 
+2019-11-14 15:40:14.077 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-14 15:40:14.089 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-14 15:40:14.094 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-14 15:40:14.099 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/14/2019 15:40:14,1
+2019-11-14 15:40:14.108 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-14 15:40:14.144 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/14/2019 15:40:14,2
+2019-11-14 15:40:14.144 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-14 15:45:14.143 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-14 15:45:14.147 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-14 15:45:14.153 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-14 15:45:14.156 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/14/2019 15:45:14,1
+2019-11-14 15:45:14.157 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-14 15:45:14.197 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/14/2019 15:45:14,2
+2019-11-14 15:45:14.197 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-14 15:50:14.214 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-14 15:50:14.216 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-14 15:50:14.217 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-14 15:50:14.219 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/14/2019 15:50:14,1
+2019-11-14 15:50:14.219 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-14 15:50:14.265 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/14/2019 15:50:14,2
+2019-11-14 15:50:14.265 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1

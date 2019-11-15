@@ -1,6 +1,6 @@
 ﻿
 function setup_listitems(options) {
-    let defaultoptions = { href: '#', onloadedcb: undefined };
+    let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems"};
     if (typeof (options) == 'object') {
        // this.options = { ...defaultoptions, ...options };
         //edge troubles with es6
@@ -8,6 +8,8 @@ function setup_listitems(options) {
         this.options.href = options.href;
         if (options.onloadedcb)
             this.options.onloadedcb = options.onloadedcb;
+        if (options.method)
+            this.options.method = options.method;
     }
     else {
 
@@ -18,9 +20,12 @@ function setup_listitems(options) {
     var self = this; 
         var reload = function (href) {
             if (!href)
-                href = self.options.href+'/ListItems?';
-            else
+                href = self.options.href + `/${self.options.method}?`;
+            else {
                 href += "&";
+                href = href.replace("ListItems", self.options.method);
+                
+            }
             $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
         }

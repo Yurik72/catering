@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Logging;
 using CateringPro.Models;
+using CateringPro.Core;
+using Microsoft.EntityFrameworkCore;
 namespace CateringPro.Controllers
 {
     [AllowAnonymous]
@@ -174,6 +176,72 @@ namespace CateringPro.Controllers
         {
             return View();
         }
-
+        [Authorize]
+        public async Task<IActionResult> Update()
+        {
+            string id=User.GetUserId();
+            CompanyUser user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+                return View(new UpdateUserModel(user));
+            else
+                return RedirectToAction("Index", "Home");
+        }
+        [Authorize]
+        public async Task<IActionResult> Users()
+        {
+            return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2")] UpdateUserModel um )
+        {
+            string logged_id = User.GetUserId();
+            if (logged_id != um.Id)
+            {
+                ModelState.AddModelError("", "User Not Found");
+                return View(null);
+            }
+             CompanyUser user = await _userManager.FindByIdAsync(logged_id);
+            if (user != null)
+            {
+                if (um.IsPasswordChanged)
+                {
+                    var validate = await _signInManager.CheckPasswordSignInAsync(user, um.OldPassword, false);
+                    if (!validate.Succeeded)
+                    {
+                        ModelState.AddModelError("", "Previous password is not correct");
+                        _logger.LogWarning("Update user,  password for user {0} is invalid", user.UserName);
+                    }
+                    else
+                    {
+                        user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    um.CopyTo(user);
+                    if(um.IsPasswordChanged)
+                    {
+                        user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
+                    }
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                        return RedirectToAction("Index","Home");
+                    else
+                    {
+                        Errors(result);
+                        _logger.LogError("Update user fail,  {0} ", string.Join(";", result.Errors));
+                    }
+                }
+            }
+            else
+                ModelState.AddModelError("", "User Not Found");
+            return View(um);
+        }
+        private void Errors(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+        }
     }
 }

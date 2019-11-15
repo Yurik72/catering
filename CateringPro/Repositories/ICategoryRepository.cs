@@ -13,7 +13,7 @@ namespace CateringPro.Repositories
         Categories GetById(int? id);
         Task<Categories> GetByIdAsync(int? id);
 
-        bool Exists(int id);
+
 
         IEnumerable<Categories> GetAll();
         Task<IEnumerable<Categories>> GetAllAsync();
