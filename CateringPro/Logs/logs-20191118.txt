@@ -1,0 +1,642 @@
+2019-11-18 09:44:27.610 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.619 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.621 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.623 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.625 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.627 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.629 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.631 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.655 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.661 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.666 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.670 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.673 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.676 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.678 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.681 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.683 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:44:27.727 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:44:28.181 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 09:44:28.271 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 09:44:28.426 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 09:44:28.788 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 09:44:28.800 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:44:28.841 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 09:44:28.905 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 09:44:28.907 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 09:44:28.909 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 09:44:28.947 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 09:44:28.949 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 09:44:28,1
+2019-11-18 09:44:28.957 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 09:44:28.968 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 09:44:29.004 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 09:44:29.010 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 09:44:40.921 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 09:44:40,2
+2019-11-18 09:44:40.924 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 09:44:40.940 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 09:44:40.954 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:44:41.370 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 09:44:42.779 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 09:45:21.322 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.331 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.333 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.335 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.337 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.339 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.342 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.344 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.346 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.348 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.350 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.353 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.355 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.358 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.360 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.362 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.364 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:45:21.402 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:45:21.815 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 09:45:21.888 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 09:45:22.019 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 09:45:22.234 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 09:45:22.241 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:45:22.283 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 09:45:22.308 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 09:45:22.310 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 09:45:22.312 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 09:45:22.341 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 09:45:22.349 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 09:45:22.384 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 09:45:22,1
+2019-11-18 09:45:22.396 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 09:45:22.408 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 09:45:22.437 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 09:45:22.462 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 09:45:28.236 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 09:45:29.809 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 09:45:29,2
+2019-11-18 09:45:29.811 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 09:45:29.851 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:45:30.208 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 09:46:45.741 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.749 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.750 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.752 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.754 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.756 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.758 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.760 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.761 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.763 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.765 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.767 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.768 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.770 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.771 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.773 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.775 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 09:46:45.808 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:46:46.120 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 09:46:46.193 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 09:46:46.318 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 09:46:46.516 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 09:46:46.529 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:46:46.560 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 09:46:46.588 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 09:46:46.589 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 09:46:46.591 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 09:46:46.614 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 09:46:46.624 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 09:46:46.655 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 09:46:46,1
+2019-11-18 09:46:46.674 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 09:46:46.681 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 09:46:46.718 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 09:46:46.738 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 09:46:50.456 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 09:46:50.463 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 09:46:50,2
+2019-11-18 09:46:50.466 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 09:46:50.501 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 09:46:50.510 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 09:47:05.198 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 14745.6579ms.
+2019-11-18 09:47:05.202 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 18480.5988ms
+2019-11-18 09:47:05.208 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 09:47:05.210 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2019-11-18 09:47:05.212 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/jquery-ui.css  
+2019-11-18 09:47:05.214 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap-duallistbox.css  
+2019-11-18 09:47:05.216 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2019-11-18 09:47:05.220 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2019-11-18 09:47:05.226 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 18612.1145ms 200 text/html; charset=utf-8
+2019-11-18 09:47:05.239 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap-duallistbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap-duallistbox.css'
+2019-11-18 09:47:05.241 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2019-11-18 09:47:05.244 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 31.457600000000003ms 200 text/css
+2019-11-18 09:47:05.246 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2019-11-18 09:47:05.250 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 33.9585ms 200 text/css
+2019-11-18 09:47:05.267 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 38.8637ms 200 text/css
+2019-11-18 09:47:05.273 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/jquery-ui.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\jquery-ui.css'
+2019-11-18 09:47:05.275 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2019-11-18 09:47:05.278 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 67.36110000000001ms 200 text/css
+2019-11-18 09:47:05.280 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2019-11-18 09:47:05.282 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2019-11-18 09:47:05.284 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide10.jpg  
+2019-11-18 09:47:05.286 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery-ui.js  
+2019-11-18 09:47:05.288 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=3q3tMgHAgIzMlgi1BrbAg5DBQ9bH2h7wAEWoK-ukdbc  
+2019-11-18 09:47:05.290 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 67.52770000000001ms 200 text/css
+2019-11-18 09:47:05.294 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2019-11-18 09:47:05.296 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 10.4184ms 200 application/javascript
+2019-11-18 09:47:05.299 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide11.jpg  
+2019-11-18 09:47:05.302 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide10.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide10.jpg'
+2019-11-18 09:47:05.304 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide12.jpg  
+2019-11-18 09:47:05.306 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 27.0986ms 200 image/jpeg
+2019-11-18 09:47:05.312 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide11.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide11.jpg'
+2019-11-18 09:47:05.315 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.bootstrap-duallistbox.js  
+2019-11-18 09:47:05.317 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 18.5892ms 200 image/jpeg
+2019-11-18 09:47:05.320 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide12.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide12.jpg'
+2019-11-18 09:47:05.323 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 20.0213ms 200 image/jpeg
+2019-11-18 09:47:05.325 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2019-11-18 09:47:05.327 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle1.jpg  
+2019-11-18 09:47:05.332 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2019-11-18 09:47:05.336 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 55.755900000000004ms 200 application/javascript
+2019-11-18 09:47:05.338 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle1.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle1.jpg'
+2019-11-18 09:47:05.341 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 13.7484ms 200 image/jpeg
+2019-11-18 09:47:05.343 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle2.jpg  
+2019-11-18 09:47:05.346 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.bootstrap-duallistbox.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.bootstrap-duallistbox.js'
+2019-11-18 09:47:05.348 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict1_500x500.jpg  
+2019-11-18 09:47:05.350 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2019-11-18 09:47:05.352 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 35.959700000000005ms 200 application/javascript
+2019-11-18 09:47:05.354 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 28.214100000000002ms 200 text/css
+2019-11-18 09:47:05.358 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle3.jpg  
+2019-11-18 09:47:05.360 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2019-11-18 09:47:05.362 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle2.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle2.jpg'
+2019-11-18 09:47:05.364 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 21.682000000000002ms 200 image/jpeg
+2019-11-18 09:47:05.366 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict1_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict1_500x500.jpg'
+2019-11-18 09:47:05.369 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 21.4506ms 200 image/jpeg
+2019-11-18 09:47:05.370 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict3_500x500.jpg  
+2019-11-18 09:47:05.373 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle3.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle3.jpg'
+2019-11-18 09:47:05.375 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 17.747500000000002ms 200 image/jpeg
+2019-11-18 09:47:05.378 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/jquery-validation/dist/jquery.validate.js  
+2019-11-18 09:47:05.380 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2019-11-18 09:47:05.382 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js  
+2019-11-18 09:47:05.385 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 23.295ms 200 text/css
+2019-11-18 09:47:05.387 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict3_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict3_500x500.jpg'
+2019-11-18 09:47:05.389 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 19.9087ms 200 image/jpeg
+2019-11-18 09:47:05.393 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict2_500x500.jpg  
+2019-11-18 09:47:05.402 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict2_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict2_500x500.jpg'
+2019-11-18 09:47:05.405 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 14.7002ms 200 image/jpeg
+2019-11-18 09:47:05.409 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js'
+2019-11-18 09:47:05.411 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\jquery-validation\dist\jquery.validate.js'
+2019-11-18 09:47:05.413 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 29.8928ms 200 application/javascript
+2019-11-18 09:47:05.415 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 38.502300000000005ms 200 application/javascript
+2019-11-18 09:47:05.515 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2019-11-18 09:47:05.518 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 236.92970000000003ms 200 application/javascript
+2019-11-18 09:47:05.900 +02:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery-ui.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery-ui.js'
+2019-11-18 09:47:05.902 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 624.4567000000001ms 200 application/javascript
+2019-11-18 10:17:23.236 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.246 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.249 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.252 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.254 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.256 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.259 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.261 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.262 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.264 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.266 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.268 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.271 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.273 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.275 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.278 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.280 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:17:23.325 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:17:23.647 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 10:17:23.718 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 10:17:23.850 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 10:17:24.071 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:17:24.080 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:17:24.116 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 10:17:24.142 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 10:17:24.144 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 10:17:24.146 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 10:17:24.176 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 10:17:24.185 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 10:17:24.218 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:17:24,1
+2019-11-18 10:17:24.234 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:17:24.240 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:17:24.268 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 10:17:24.288 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:17:28.522 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 10:17:28.527 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:17:28,2
+2019-11-18 10:17:28.530 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:17:28.564 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:17:28.582 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 10:18:03.177 +02:00 [Warning] CateringPro.Models.CompanyUser: Mass mail 7 has wrong schedule definition.
+2019-11-18 10:20:40.252 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 191752.0532ms.
+2019-11-18 10:20:40.255 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 195984.1902ms
+2019-11-18 10:20:40.258 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:20:40.263 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 196088.47340000002ms 200 text/html; charset=utf-8
+2019-11-18 10:21:40.123 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:21:40.135 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:21:40.142 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 10:21:40.158 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:21:40,1
+2019-11-18 10:21:40.165 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:21:40.168 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:21:43.606 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:21:43,2
+2019-11-18 10:21:44.074 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:21:46.143 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:21:46.576 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 10:35:22.153 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.163 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.165 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.167 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.169 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.171 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.174 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.176 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.178 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.181 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.183 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.185 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.187 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.189 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.192 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.194 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.196 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:35:22.230 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:35:22.555 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 10:35:22.635 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 10:35:22.766 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 10:35:22.982 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:35:22.991 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:35:23.023 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 10:35:23.049 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 10:35:23.051 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 10:35:23.059 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 10:35:23.079 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 10:35:23.087 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 10:35:23.123 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:35:23,1
+2019-11-18 10:35:23.138 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:35:23.145 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:35:23.169 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 10:35:23.201 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 10:35:23.203 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:35:29.332 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:35:29,2
+2019-11-18 10:35:29.335 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:35:29.375 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:35:29.620 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 10:35:50.716 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 27521.0334ms.
+2019-11-18 10:35:50.732 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 27560.269800000002ms
+2019-11-18 10:35:50.735 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:35:50.742 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 27664.1663ms 200 text/html; charset=utf-8
+2019-11-18 10:35:50.740 +02:00 [Error] Microsoft.EntityFrameworkCore.Update: An exception occurred in the database while saving changes for context type 'CateringPro.Data.AppDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): New transaction is not allowed because there are other threads running in the session.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at Microsoft.Data.SqlClient.TdsParser.TdsExecuteTransactionManagerRequest(Byte[] buffer, TransactionManagerRequestType request, String transactionName, TransactionManagerIsolationLevel isoLevel, Int32 timeout, SqlInternalTransaction transaction, TdsParserStateObject stateObj, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ExecuteTransactionYukon(TransactionRequest transactionRequest, String transactionName, IsolationLevel iso, SqlInternalTransaction internalTransaction, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ExecuteTransaction(TransactionRequest transactionRequest, String name, IsolationLevel iso, SqlInternalTransaction internalTransaction, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.BeginSqlTransaction(IsolationLevel iso, String transactionName, Boolean shouldReconnect)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginTransaction(IsolationLevel iso, String transactionName)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginTransaction(IsolationLevel iso)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginDbTransaction(IsolationLevel isolationLevel)
+   at System.Data.Common.DbConnection.BeginDbTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+ClientConnectionId:32057087-c9ee-466c-ae5a-33e6e4ee1a50
+Error Number:3988,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): New transaction is not allowed because there are other threads running in the session.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at Microsoft.Data.SqlClient.TdsParser.TdsExecuteTransactionManagerRequest(Byte[] buffer, TransactionManagerRequestType request, String transactionName, TransactionManagerIsolationLevel isoLevel, Int32 timeout, SqlInternalTransaction transaction, TdsParserStateObject stateObj, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ExecuteTransactionYukon(TransactionRequest transactionRequest, String transactionName, IsolationLevel iso, SqlInternalTransaction internalTransaction, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ExecuteTransaction(TransactionRequest transactionRequest, String name, IsolationLevel iso, SqlInternalTransaction internalTransaction, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.BeginSqlTransaction(IsolationLevel iso, String transactionName, Boolean shouldReconnect)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginTransaction(IsolationLevel iso, String transactionName)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginTransaction(IsolationLevel iso)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginDbTransaction(IsolationLevel isolationLevel)
+   at System.Data.Common.DbConnection.BeginDbTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+ClientConnectionId:32057087-c9ee-466c-ae5a-33e6e4ee1a50
+Error Number:3988,State:1,Class:16
+2019-11-18 10:35:50.801 +02:00 [Error] CateringPro.Models.CompanyUser: SaveMassEMailAsync error
+Microsoft.Data.SqlClient.SqlException (0x80131904): New transaction is not allowed because there are other threads running in the session.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at Microsoft.Data.SqlClient.TdsParser.TdsExecuteTransactionManagerRequest(Byte[] buffer, TransactionManagerRequestType request, String transactionName, TransactionManagerIsolationLevel isoLevel, Int32 timeout, SqlInternalTransaction transaction, TdsParserStateObject stateObj, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ExecuteTransactionYukon(TransactionRequest transactionRequest, String transactionName, IsolationLevel iso, SqlInternalTransaction internalTransaction, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.ExecuteTransaction(TransactionRequest transactionRequest, String name, IsolationLevel iso, SqlInternalTransaction internalTransaction, Boolean isDelegateControlRequest)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.BeginSqlTransaction(IsolationLevel iso, String transactionName, Boolean shouldReconnect)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginTransaction(IsolationLevel iso, String transactionName)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginTransaction(IsolationLevel iso)
+   at Microsoft.Data.SqlClient.SqlConnection.BeginDbTransaction(IsolationLevel isolationLevel)
+   at System.Data.Common.DbConnection.BeginDbTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(DbContext _, ValueTuple`2 parameters, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at CateringPro.Repositories.MassEmailRepository.SaveMassEMailAsync(MassEmail mail) in C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\Repositories\MassEmailRepository.cs:line 25
+ClientConnectionId:32057087-c9ee-466c-ae5a-33e6e4ee1a50
+Error Number:3988,State:1,Class:16
+2019-11-18 10:38:31.356 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.372 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.375 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.378 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.380 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.382 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.384 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.387 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.389 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.392 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.394 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.396 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.398 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.400 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.403 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.405 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.407 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:38:31.445 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:38:31.767 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 10:38:31.835 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 10:38:31.965 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 10:38:32.209 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:38:32.221 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:38:32.264 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 10:38:32.293 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 10:38:32.295 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 10:38:32.297 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 10:38:32.328 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 10:38:32.345 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 10:38:32.406 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:38:32,1
+2019-11-18 10:38:32.416 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:38:32.427 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:38:32.448 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 10:38:32.484 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 10:38:32.488 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:38:47.999 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:38:47,2
+2019-11-18 10:38:48.002 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:38:48.020 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:38:48.047 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 10:50:41.176 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.186 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.188 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.190 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.192 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.194 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.195 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.198 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.200 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.202 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.204 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.206 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.208 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Pizzas'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.210 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.213 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.215 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.217 +02:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2019-11-18 10:50:41.250 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:50:41.622 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2019-11-18 10:50:41.695 +02:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2019-11-18 10:50:41.821 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2019-11-18 10:50:42.030 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:50:42.042 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:50:42.071 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2019-11-18 10:50:42.096 +02:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2019-11-18 10:50:42.098 +02:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2019-11-18 10:50:42.101 +02:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2019-11-18 10:50:42.125 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2019-11-18 10:50:42.135 +02:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2019-11-18 10:50:42.173 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:50:42,1
+2019-11-18 10:50:42.187 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:50:42.196 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:50:42.221 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2019-11-18 10:50:42.250 +02:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2019-11-18 10:50:47.673 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2019-11-18 10:50:47.695 +02:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 11/18/2019 10:50:47,2
+2019-11-18 10:50:47.698 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2019-11-18 10:50:47.730 +02:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 10:50:47.775 +02:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DistributionList], [m].[DistributionType], [m].[Name], [m].[NextSend], [m].[Schedule], [m].[TemplateText]
+FROM [MassEmail] AS [m]
+2019-11-18 10:50:55.297 +02:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 13047.7576ms.
+2019-11-18 10:50:55.307 +02:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 13076.3642ms
+2019-11-18 10:50:55.310 +02:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2019-11-18 10:50:55.317 +02:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 13191.6862ms 200 text/html; charset=utf-8

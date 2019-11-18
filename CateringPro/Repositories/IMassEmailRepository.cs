@@ -8,6 +8,6 @@ namespace CateringPro.Repositories
 {
     public interface IMassEmailRepository
     {
-      
+        Task<bool> SaveMassEMailAsync(MassEmail mail);
     }
 }

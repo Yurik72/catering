@@ -74,6 +74,7 @@ namespace CateringPro
             // Add scheduled tasks & scheduler
             services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
             services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
+            services.AddSingleton<IScheduledTask, EMailSenderTask>();
 
             services.AddScheduler((sender, args) => 
             {
@@ -140,6 +141,8 @@ namespace CateringPro
             services.AddOptions();
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IMassEmailService, MassEmailService>();
+            
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));
 
