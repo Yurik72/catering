@@ -1,0 +1,91 @@
+﻿.report-box  {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+    font-size: 16px;
+    line-height: 24px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    color: #555;
+}
+
+.report-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+}
+
+.report-box table td{
+    padding: 5px;
+    vertical-align: top;
+}
+
+.report-box table tr.top table td{
+    padding-bottom: 20px;
+}
+
+.report-box table tr.top table td.title {
+    font-size: 45px;
+    line-height: 45px;
+    color: #333;
+}
+
+.report-box table tr.information table td{
+    padding-bottom: 40px;
+}
+
+.report-box table tr.heading td{
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.report-box table tr.details td {
+    padding-bottom: 20px;
+}
+
+.report-box table tr.item td {
+    border-bottom: 1px solid #eee;
+}
+
+.report-box table tr.item.last td{
+    border-bottom: none;
+}
+
+
+.report-box table tr.daydate td{
+    background: #999;
+    font-weight: bold;
+    text-align: center;
+}
+.report-box table tr.tabledate td {
+    background: #ffffff;
+    font-weight: bold;
+    font-size:200%;
+    text-align: center;
+}
+.report-box table tr.tablename td{
+    background: #999;
+    font-weight: bold;
+    font-size: 150%;
+    text-align: center;
+}
+.report-box table tr.item td.warning {
+    background: #f6a5a5;
+}
+.report-box table tr td.w-10 {
+    width: 10%;
+}
+.report-box table tr td.w-20 {
+    width: 20%;
+}
+.report-box table tr td.w-30 {
+    width: 30%;
+}
+.report-box table tr td.text-small {
+    font-size:50%;
+}
+.report-box table.sub-table tr td {
+    border:none !important;
+}

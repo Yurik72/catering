@@ -21,6 +21,7 @@ namespace CateringPro.Repositories
 
         DayProductioDayViewModel CompanyDayProduction(DateTime datefrom, DateTime dateto, int companyid);
 
+        IEnumerable<CompanyMenuComplexModel> CompanyComplexMenu(DateTime datefrom, DateTime dateto, int companyid);
         CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid);
     }
 }

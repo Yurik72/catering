@@ -5,6 +5,11 @@
     ViewData["Title"] = ModelName;
 }
 
+<script type="text/javascript" src="~/js/jquery-cron-min.js"></script>
+
+<link type="text/css" href="~/css/jquery-cron.css" rel="stylesheet" />
+<script type="text/javascript" src="~/js/jquery-gentleSelect-min.js"></script>
+<link type="text/css" href="~/css/jquery-gentleSelect.css" rel="stylesheet" />
 
 <div class="container">
     <div class="row justify-content-end">
@@ -40,14 +45,32 @@
         </div>
     </div>
 </div>
-<div id="modDialog" class="modal fade">
-    <div id="dialogContent" class="modal-dialog wide-modal"></div>
+<div id="modDialog" class="modal wide-modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
 </div>
 @section Scripts
 {
     <script type="text/javascript">
         $(function () {
-            setup_listitems({ href:'@Url.Content("~/MassEmail")' });
+            setup_listitems({ href: '@Url.Content("~/MassEmail")', onloadedcb:loadForm });
+            function loadForm() {
+                var sch = $("#Schedule");
+                var initial = sch.val();
+                if (!initial || initial.length == 0)
+                    initial = "* * * * *";
+                $('#schedule-selector').cron({
+                    initial:initial,//initial,
+                    onChange: function () {
+                        sch.val($(this).cron("value"));
+                    },
+                    customValues: {
+                        "5 Minutes": "*/5 * * * *"
+
+                    },
+    
+                    useGentleSelect: true // default: false);
+                });
+            };
         })
     </script>
 }

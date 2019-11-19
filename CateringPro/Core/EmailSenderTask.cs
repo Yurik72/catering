@@ -51,26 +51,29 @@ namespace CateringPro.Core
                         return;
 
                     }
-
-                    foreach (var em in await context.MassEmail.AsNoTracking().ToListAsync())
+                    var companies = await context.Companies.ToListAsync();
+                    foreach (var comp in companies)
                     {
-                        MassMailWrapper wrap = new MassMailWrapper(em);
-                        if (wrap.InvalidSchedule)
+                        foreach (var em in await context.MassEmail.WhereCompany(comp.Id).AsNoTracking().ToListAsync())
                         {
-                            _logger.LogWarning("Mass mail {0} has wrong schedule definition.",em.Id);
-                            continue;
-                        }
-                        if (!wrap.ShouldSend)
-                        {
-                            continue;
-                        }
-                        IMassEmailService meservice = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
-                        wrap.Increment();
-                        if (await meservice.SendMassEmailAsync(em, wrap.NextRunTime))
-                        {
-                            
-                        }
+                            MassMailWrapper wrap = new MassMailWrapper(em);
+                            if (wrap.InvalidSchedule)
+                            {
+                                _logger.LogWarning("Mass mail {0} has wrong schedule definition.", em.Id);
+                                continue;
+                            }
+                            if (!wrap.ShouldSend)
+                            {
+                                continue;
+                            }
+                            IMassEmailService meservice = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
+                            wrap.Increment();
+                            if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
+                            {
 
+                            }
+
+                        }
                     }
                 }
             }

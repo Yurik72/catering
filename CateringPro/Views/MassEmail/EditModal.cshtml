@@ -1,25 +1,26 @@
 ﻿@model CateringPro.Models.MassEmail
+@using  CateringPro.Models
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Edit";
+    IEnumerable<SelectListItem> templates = ViewData["Templates"] as IEnumerable<SelectListItem>;
 }
-    <style>
-        form dt {
-            float: left;
-            display: block;
-            width: 30%;
-        }
+<style>
+    form dt {
+        float: left;
+        display: block;
+        width: 30%;
+    }
 
-        dd select {
-            width: 50%;
-        }
+    dd select {
+        width: 50%;
+    }
 
-        dd textarea {
-            width: 100%;
-        }
-      
-    </style>
+    dd textarea {
+        width: 100%;
+    }
+</style>
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title">@Localizer["MassEmail"]</h5>
@@ -34,24 +35,52 @@
 
 
                 <dt>  <label asp-for="Name" class="control-label"></label></dt>
-                <dd>
 
-                </dd>
                 <dd>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </dd>
+                <dt>  <label asp-for="OnePerUser" class="control-label"></label></dt>
+                <dd>
+                    <input type="checkbox" asp-for="OnePerUser" class="form-control" />
+                    <span asp-validation-for="OnePerUser" class="text-danger"></span>
+                </dd>
+
+                <dt>  <label asp-for="DistributionType" class="control-label"></label></dt>
+                <dd>
+                    <select asp-for="DistributionType" asp-items="Html.GetEnumSelectList<DistributionEnum>()" class="form-control"></select>
+                    <span asp-validation-for="DistributionType" class="text-danger"></span>
+                </dd>
 
                 <dt>  <label asp-for="Schedule" class="control-label"></label></dt>
                 <dd>
-                    <input asp-for="Schedule" class="form-control" />
+                    <input asp-for="Schedule" class="form-control" type="hidden"/>
+                    <div id="schedule-selector"></div>
                     <span asp-validation-for="Schedule" class="text-danger"></span>
                 </dd>
-
-                <dt>  <label asp-for="TemplateText" class="control-label"></label></dt>
+                <dt>  <label asp-for="TemplateName" class="control-label"></label></dt>
                 <dd>
-                    <input asp-for="TemplateText" class="form-control" />
-                    <span asp-validation-for="TemplateText" class="text-danger"></span>
+                    <select asp-for="TemplateName" asp-items="@templates" class="form-control"></select>
+
+                    <span asp-validation-for="TemplateName" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="Subject" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Subject" class="form-control"  />
+                   
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="Greetings" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="Greetings" class="form-control" />
+                    <span asp-validation-for="Greetings" class="text-danger"></span>
+                </dd>
+
+
+                <dt>  <label asp-for="Text" class="control-label"></label></dt>
+                <dd>
+                    <textarea asp-for="Text" class="form-control" />
+                    <span asp-validation-for="Text" class="text-danger"></span>
                 </dd>
             </dl>
         </form>
@@ -70,6 +99,9 @@
             <div class="col-sm-1">
             </div>
 
+            <div class="col-sm-2">
+                <button type="button" action="@Url.Content("~/MassEmail/SendTest")"  button class="btn btn-primary" data-action="modal">@Localizer["SendTestEmail"]</button>
+            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,141 @@
+﻿@model EmailTemplateViewModel
+@using CateringPro.Helpers
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View</title>
+    
+    <inline-style href="~/css/Report.css" />
+</head>
+<body>
+    @Model.Greeting
+    <br />
+
+    @Model.Message
+    <div class="report-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                            </td>
+                            <td>
+
+                                Меню
+                                <br /> Дата: @DateTime.Now.ToShortDateString()
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information ">
+                <td colspan="2 ">
+                    <table>
+                        <tr>
+                            <td>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            @foreach (var day in Model.Models)
+            {
+
+
+                    <tr class="tabledate">
+                        <td colspan="3">
+                            @day.Key.ToString("m", System.Globalization.CultureInfo.CurrentUICulture)
+
+                        </td>
+
+                    </tr>
+                    <tr class="tablename">
+
+                        <td colspan="4">
+                            
+                        </td>
+
+
+                    </tr>
+                    <tr class="heading ">
+
+                        <td colspan="3">
+                            Назва
+                        </td>
+                        <td>
+                            Вартiсть 
+                        </td>
+
+                    </tr>
+
+
+
+                    @foreach (CompanyMenuComplexModel complexitem in day.Value)
+                    {
+                        <tr class="item">
+                            <td>
+                                @Html.DisplayFor(model => complexitem.Name)
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => complexitem.Price)
+                            </td>
+                        </tr>
+                        <tr class="item">
+                            <td colspan="3">
+                                <table class="sub-table">
+                                    @foreach (var dishitem in complexitem.Items)
+                                    {
+                                        <tr>
+                                            <td class="w-10">
+                                            <td>
+                                                @Html.DisplayFor(model => dishitem.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => dishitem.Weight) 
+                                            </td>
+                                            <td class="text-small">
+                                                @Html.DisplayFor(model => dishitem.Description)
+                                            </td>
+
+                                            <td class="w-10">
+                                            <td>
+                                        </tr>
+                                    }
+                                </table>
+
+                        </tr>
+                    }
+                    <tr class="total ">
+                        <td></td>
+                        <td></td>
+
+                        <td>
+                        </td>
+                    </tr>
+    
+
+
+            
+
+
+
+            }
+        </table>
+    </div>
+</body>
+</html>

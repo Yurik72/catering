@@ -265,6 +265,27 @@ namespace CateringPro.Repositories
             }
         }
 
+        public IEnumerable<CompanyMenuComplexModel> CompanyComplexMenu(DateTime datefrom, DateTime dateto, int companyid)
+        {
+           return from dc in _context.DayComplex.Where(dc => dc.CompanyId == companyid && dc.Date >= datefrom && dc.Date <= dateto)
+            join c in _context.Complex.Where(c => c.CompanyId == companyid) on dc.ComplexId equals c.Id
+
+            select new CompanyMenuComplexModel()
+            {
+                DayDate = dc.Date,
+
+                Name = c.Name,
+                Price = c.Price,
+                Items = from dd in _context.DishComplex.WhereCompany(companyid).Where(it => it.ComplexId == c.Id)
+                        join d in _context.Dishes.WhereCompany(companyid) on dd.DishId equals d.Id
+                        select new CompanyMenuItemModel()
+                        {
+                            Name = d.Name,
+                            Description = d.Description,
+                            Weight = d.ReadyWeight
+                        }
+            };
+        }
         public CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid)
         {
             var query1 =
@@ -286,26 +307,7 @@ namespace CateringPro.Repositories
                               Items = grp
                           }).ToList();
 
-          var query2 =
-               from dc in _context.DayComplex.Where(dc => dc.CompanyId == companyid && dc.Date >= datefrom && dc.Date <= dateto)
-               join c in _context.Complex.Where(c => c.CompanyId == companyid) on dc.ComplexId equals c.Id
-               
-               select new CompanyMenuComplexModel()
-               {
-                   DayDate = dc.Date,
-                  
-                   Name = c.Name,
-                   Price = c.Price,
-                   Items=from dd in _context.DishComplex.WhereCompany(companyid).Where(it=>it.ComplexId==c.Id)
-                         join d in _context.Dishes.WhereCompany(companyid) on dd.DishId equals d.Id
-                         select new CompanyMenuItemModel()
-                         {
-                             Name=d.Name,
-                             Description=d.Description,
-                             Weight=d.ReadyWeight
-                         }
-               };
-            var query21= (from q2 in query2.ToList()
+            var query21= (from q2 in CompanyComplexMenu(datefrom,dateto,companyid).ToList()
                          group q2 by q2.DayDate into grp
                          select new CompanyMenuDayModel()
                          {

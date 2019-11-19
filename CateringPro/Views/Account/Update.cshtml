@@ -39,6 +39,13 @@
             </div>
         </div>
         <div class="row form-group">
+            <label asp-for="NameSurname" class="col-md-2 control-label float-left"></label>
+            <div class="col-md-10 float-left">
+                <input asp-for="NameSurname" class="form-control" />
+                <span asp-validation-for="NameSurname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
             <label asp-for="PhoneNumber" class="col-md-2 control-label float-left"></label>
             <div class="col-md-10 float-left">
                 <input asp-for="PhoneNumber" class="form-control" />

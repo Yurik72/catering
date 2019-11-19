@@ -456,6 +456,9 @@
   <data name="Name" xml:space="preserve">
     <value>Назва</value>
   </data>
+  <data name="NameSurname" xml:space="preserve">
+    <value>Ім'я,Прізвище</value>
+  </data>
   <data name="NoDishesAtThisDay" xml:space="preserve">
     <value>Вибачте немаe жодноi страви для замовлення у цей день</value>
   </data>
@@ -494,6 +497,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Зберегти</value>
+  </data>
+  <data name="SendTestEmail" xml:space="preserve">
+    <value>Протестувати</value>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>Налаштування</value>

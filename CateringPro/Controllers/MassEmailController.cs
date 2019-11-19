@@ -25,14 +25,16 @@ namespace CateringPro.Controllers
        
         private readonly ILogger<CompanyUser> _logger;
         private readonly IMassEmailRepository _mailrepo;
+        private readonly IMassEmailService _massmailservice;
         private IConfiguration _configuration;
         private int pageRecords = 20;
-        public MassEmailController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration, IMassEmailRepository mailrepo)
+        public MassEmailController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration, IMassEmailRepository mailrepo, IMassEmailService massmailservice)
         {
             _context = context;
             _logger = logger;
             _configuration = Configuration;
             _mailrepo = mailrepo;
+            _massmailservice = massmailservice;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
@@ -66,7 +68,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Schedule,TemplateText,DistributionList")] MassEmail em)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject")] MassEmail em)
         {
             if (id != em.Id)
             {
@@ -77,11 +79,26 @@ namespace CateringPro.Controllers
             if (em.Schedule == null) em.Schedule = "";
             if (em.Name == null) em.Name = "";
             if (em.NextSend.Ticks == 0) em.NextSend = DateTime.Now;
-            
+
+
+            ViewData["Templates"] = GetTemplates(em.TemplateName);
             return await this.UpdateCompanyDataAsync(em, _context, _logger);
 
         }
+        public async Task<JsonResult> SendTest([Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject")] MassEmail em)
+        {
+            await _massmailservice.SendMassEmailToUser(User.GetCompanyID(), await _mailrepo.GetUserAsync(User.GetUserId()), em);
+            return Json(0);
+        }
+        private IEnumerable<SelectListItem> GetTemplates(string current="Info")
+        {
+            //            string templates_list = "Info,DayMenu";
+            //          return  templates_list.Split(",").Select(s => new SelectListItem() { Text = s, Value = s, Selected = current == s });
 
+
+            return Enum.GetNames(typeof(EmailTemplateType)).Select(s => new SelectListItem() { Text = s, Value = s, Selected = current == s });
+
+        }
 
         public async Task<IActionResult> EditModal(int? id)
         {
@@ -95,15 +112,15 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["Templates"] = GetTemplates();
             return PartialView(em);
         }
         public IActionResult CreateModal()
         {
 
-            var em = new MassEmail();
+            var em = new MassEmail() {OnePerUser = true };
 
-      
+            ViewData["Templates"] = GetTemplates();
             return PartialView("EditModal", em);
         }
         // GET: Ingredients/Details/5

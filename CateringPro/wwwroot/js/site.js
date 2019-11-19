@@ -69,7 +69,17 @@ function setup_listitems(options) {
                     self.options.onloadedcb();
             });
         });
+    $(document).on('click', '[data-action="modal"]', function (event) {
+            event.preventDefault();
 
+            var form = $(this).parents('.modal-body').find('form');
+            var actionUrl = $(event.target).attr('action');
+            var dataToSend = form.serialize();
+
+            $.post(actionUrl, dataToSend).done(function (data) {
+                var isValid = false;
+            });
+        });
         $(document).on('click', '[data-save="modal"]', function (event) {
             event.preventDefault();
 

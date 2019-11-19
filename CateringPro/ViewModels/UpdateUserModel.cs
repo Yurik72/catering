@@ -61,6 +61,11 @@ namespace CateringPro.ViewModels
 
         [DisplayName("Address2")]
         public string Address2 { get; set; }
+
+        [DisplayName("NameSurname")]
+
+        public string NameSurname { get; set; }
+
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
             if (usr != null)
@@ -73,6 +78,7 @@ namespace CateringPro.ViewModels
                 this.City = usr.City;
                 this.Country = usr.Country;
                 this.PhoneNumber = usr.PhoneNumber;
+                this.NameSurname = usr.NameSurname;
 
             }
 
@@ -89,7 +95,7 @@ namespace CateringPro.ViewModels
                 usr.Address2 = this.Address2;
                 usr.City = this.City;
                 usr.PhoneNumber = this.PhoneNumber;
-                
+                usr.NameSurname = this.NameSurname;
             }
 
             return usr;

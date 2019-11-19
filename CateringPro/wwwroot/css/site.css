@@ -430,6 +430,7 @@ a.dialog-edit-icon, a.apagebottom {
 }
 .table-content {
     box-shadow: 10px 10px 5px grey;
+    overflow-x:auto;
 }
 
 
@@ -470,10 +471,25 @@ a.dialog-edit-icon, a.apagebottom {
 .table.listitems th{
     
 }
+.table.listitems {
+    width: 100% !important;
+}
+.table.listitems th {
+    width: 100% !important;
+}
+.table.listitems tr {
+    width: 100% !important;
+}
+.table.listitems thead {
+    width: 100% !important;
+}
+.table.listitems tbody {
+    width: 100% !important;
+}
+
 /* Menus and days*/
 .daydish-category-content, .daydish-complex-content {
     margin-top: 10px;
-   
     margin-bottom: 15px;
 }
 .nav-day {
@@ -600,7 +616,24 @@ a.dialog-edit-icon, a.apagebottom {
         max-width: 968px;
     }
 }
+.wide-modal form dt {
+    float: left;
+    display: block;
+    width: 30%;
+    clear:both;
+    min-height:38px;
+}
+.wide-modal form dd {
 
+    min-height: 38px;
+}
+.wide-modal form dd select {
+    width: 50%;
+}
+
+.wide-modal form dd textarea {
+    width: 100%;
+}
 /*stock*/
  table  tr.stock-consignment td {
     border:none;

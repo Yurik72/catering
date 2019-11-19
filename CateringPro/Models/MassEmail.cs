@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Models
 {
-    public enum DistibutionEnum:int
+    public enum DistributionEnum:int
     {
         None=0,
         Admin=1,
-        User=2,
-        All=3
+        Users=2,
+        All=3,
+        Dedicated=4
     }
+
     public class MassEmail:CompanyDataOwnId
     {
         public string Name { get; set; }
@@ -25,13 +27,22 @@ namespace CateringPro.Models
 
         public int DistributionType { get; set; }
         [NotMapped]
-        public DistibutionEnum DistribType {
-            get => (DistibutionEnum)this.DistributionType;
+        public DistributionEnum DistribType {
+            get => (DistributionEnum)this.DistributionType;
             set => this.DistributionType = (int)value;
         }
 
         public string DistributionList { get; set; }
 
+        public bool OnePerUser { get; set; }
+
+        public string Subject { get; set; }
+        public string Greetings { get; set; }
+
+        public string TemplateName { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Text { get; set; }
 
         public DateTime NextSend { get; set; }
     }
