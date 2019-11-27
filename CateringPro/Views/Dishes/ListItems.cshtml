@@ -12,19 +12,19 @@
 <table class="table listitems">
     <thead>
         <tr class="bg-white text-secondary">
-            <th>
+            <th  width="20%" >
 
             </th>
-            <th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Category.Name, querymodel,(object)ViewBag.CategoriesId)
+            <th width="10%">
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Category.Name, querymodel, (object)ViewBag.CategoriesId)
             </th>
-            <th>
+            <th  width="20%">
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
             </th>
-            <th>
+            <th  width="10%">
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Price, querymodel)
             </th>
-            <th>
+            <th width="20%">
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
             </th>
             <th></th>

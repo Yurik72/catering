@@ -49,6 +49,15 @@
                     <input asp-for="MeasureUnit" class="form-control" />
                     <span asp-validation-for="MeasureUnit" class="text-danger"></span>
                 </dd>
+                <dt>
+                    <label asp-for="IngredientCategoriesId" class="control-label col-md-2"></label>
+                </dt>
+                <dd>
+
+                    <select asp-for="IngredientCategoriesId" class="form-control" asp-items="ViewBag.IngredientCategoriesId"></select>
+                    <span asp-validation-for="IngredientCategoriesId" class="text-danger"></span>
+
+                </dd>
             </dl>
         </form>
         <div class="row">

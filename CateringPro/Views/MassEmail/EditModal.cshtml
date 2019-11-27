@@ -54,9 +54,21 @@
 
                 <dt>  <label asp-for="Schedule" class="control-label"></label></dt>
                 <dd>
-                    <input asp-for="Schedule" class="form-control" type="hidden"/>
+                    <input asp-for="Schedule" class="form-control" type="hidden" />
                     <div id="schedule-selector"></div>
                     <span asp-validation-for="Schedule" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="DayFrom" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="DayFrom" class="form-control"  />
+                    <div id="schedule-selector"></div>
+                    <span asp-validation-for="DayFrom" class="text-danger"></span>
+                </dd>
+                <dt>  <label asp-for="DayTo" class="control-label"></label></dt>
+                <dd>
+                    <input asp-for="DayTo" class="form-control"  />
+                    <div id="schedule-selector"></div>
+                    <span asp-validation-for="DayTo" class="text-danger"></span>
                 </dd>
                 <dt>  <label asp-for="TemplateName" class="control-label"></label></dt>
                 <dd>
@@ -66,8 +78,8 @@
                 </dd>
                 <dt>  <label asp-for="Subject" class="control-label"></label></dt>
                 <dd>
-                    <input asp-for="Subject" class="form-control"  />
-                   
+                    <input asp-for="Subject" class="form-control" />
+
                     <span asp-validation-for="Subject" class="text-danger"></span>
                 </dd>
                 <dt>  <label asp-for="Greetings" class="control-label"></label></dt>

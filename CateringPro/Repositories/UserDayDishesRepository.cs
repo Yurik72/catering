@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using CateringPro.Core;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CateringPro.Repositories
 {
@@ -17,17 +18,20 @@ namespace CateringPro.Repositories
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
+        private readonly IMemoryCache _cache;
 
-        public UserDayDishesRepository(AppDbContext context, ILogger<CompanyUser> logger, UserManager<CompanyUser> userManager)
+        public UserDayDishesRepository(AppDbContext context, ILogger<CompanyUser> logger,
+            UserManager<CompanyUser> userManager,IMemoryCache cache)
         {
             _context = context;
             _logger = logger;
             _userManager = userManager;
+            _cache = cache;
         }
 
         public  bool IsAllowDayEdit( DateTime dt, int companyid)
         {
-            var company = _context.Companies.Find(companyid);
+            var company =  _cache.GetCachedCompanyAsync(_context, companyid).Result; //_context.Companies.Find(companyid);
             if (company == null)
                 return false;
             DateTime max = DateTime.Now.AddHours(company.OrderThresholdTimeH.HasValue ? company.OrderThresholdTimeH.Value : 24);

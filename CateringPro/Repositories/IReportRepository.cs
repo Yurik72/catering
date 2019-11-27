@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CateringPro.Models;
+using CateringPro.ViewModels;
+
 namespace CateringPro.Repositories
 {
     public interface IReportRepository
@@ -21,7 +23,10 @@ namespace CateringPro.Repositories
 
         DayProductioDayViewModel CompanyDayProduction(DateTime datefrom, DateTime dateto, int companyid);
 
+
         IEnumerable<CompanyMenuComplexModel> CompanyComplexMenu(DateTime datefrom, DateTime dateto, int companyid);
         CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid);
+
+        DishSpecificationViewModel DishSpecification(DateTime datefrom, DateTime dateto, int companyid);
     }
 }

@@ -281,7 +281,13 @@ footer {
     margin-top: 3px;
     margin-bottom: 3px;
 }
-
+.row-daycomplex-item {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+.row-daycomplex .checkbox-info{
+    margin-left:50px;
+}
 .btn-link.daydish[aria-expanded="true"]:hover, .btn-link.daydish[aria-expanded="true"]:focus {
     background-color: #4d2800
 }
@@ -471,18 +477,8 @@ a.dialog-edit-icon, a.apagebottom {
 .table.listitems th{
     
 }
-.table.listitems {
-    width: 100% !important;
-}
-.table.listitems th {
-    width: 100% !important;
-}
-.table.listitems tr {
-    width: 100% !important;
-}
-.table.listitems thead {
-    width: 100% !important;
-}
+
+
 .table.listitems tbody {
     width: 100% !important;
 }
@@ -496,6 +492,9 @@ a.dialog-edit-icon, a.apagebottom {
     color: #28a745 !important;
     text-align: center;
   
+}
+.nav-tabs .nav-day.day-closed, .nav-tabs .nav-day.day-closed.active {
+    color: red !important;
 }
 .nav-tabs .nav-day.active {
     color: #ffffff !important;

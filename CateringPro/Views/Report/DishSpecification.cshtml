@@ -1,0 +1,136 @@
+﻿@model CateringPro.Models.DishSpecificationViewModel
+@{
+    Layout = null;
+}
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+
+<html>
+<head>
+    <link href="~/css/report.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="report-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
+                            </td>
+                            <td>
+
+                                Меню
+                                <br /> Дата: @DateTime.Now.ToShortDateString()
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information ">
+                <td colspan="2 ">
+                    <table>
+                        <tr>
+                            <td>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            @foreach (var d in Model.Items)
+            {
+
+                <tr class="information center grey">
+                    <td colspan="7 ">
+                        Найменування: @Html.DisplayFor(model => d.DishName)
+                    </td>
+                </tr>
+                <tr class="information center grey" >
+                    <td colspan="7 ">
+                        Опис: @Html.DisplayFor(model => d.DishName)
+                    </td>
+                </tr>
+                <tr class="heading ">
+                    <td>
+                        №
+                    </td>
+                    <td>
+                        Найменування продуктів
+                    </td>
+                    <td>
+                        Одиниця виміру
+                    </td>
+                    <td>
+                        Нетто
+                    </td>
+                    <td>
+                        Брутто
+                    </td>
+                    <td>
+                        Ціна
+                    </td>
+                    <td>
+                        Сума
+                    </td>
+                </tr>
+                @foreach (var di in d.Ingredients)
+                {
+                    <tr class="item">
+                        <td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => di.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => di.MeasureUnit)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => di.Proportion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => di.Proportion)
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+                <tr class="information ">
+                    <td colspan="2 ">
+                    </td>
+                    <td colspan="2 ">
+                        Загальна вартість продуктів:
+                    </td>
+                </tr>
+                <tr class="information ">
+                    <td colspan="2 ">
+                    </td>
+                    <td colspan="2 ">
+                        Загальна вартість набору:
+                    </td>
+                </tr>
+                <tr class="information ">
+
+                    <td colspan="2 ">
+                        Зав виробництвом:
+                    </td>
+                </tr>
+                <tr class="information ">
+
+                    <td colspan="2 ">
+                        Калькуляцію виконав:
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

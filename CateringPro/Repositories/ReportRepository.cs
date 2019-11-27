@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using CateringPro.Core;
 using System.Data;
+using CateringPro.ViewModels;
 
 namespace CateringPro.Repositories
 {
@@ -126,6 +127,7 @@ namespace CateringPro.Repositories
             }
             return res;
         }
+
         public DayProductioDayViewModel CompanyDayProduction(DateTime datefrom,DateTime dateto, int companyid)
         {
             var query1 =
@@ -331,6 +333,45 @@ namespace CateringPro.Repositories
                      }
 
             };
+
+            return res;
+        }
+
+        public DishSpecificationViewModel DishSpecification(DateTime datefrom, DateTime dateto, int companyid)
+        {
+            DishSpecificationViewModel res = new DishSpecificationViewModel()
+            {
+                Company = GetOwnCompany(companyid),
+                Items = (from d in _context.Dishes.Include(x => x.DishIngredients).ThenInclude(x => x.Ingredient).WhereCompany(companyid)
+                         select new DishSpecificationItemViewModel()
+                         {
+                             DishId = d.Id,
+                             DishName = d.Name,
+                             Ingredients = d.DishIngredients.Count()>0?
+                             ( from di in d.DishIngredients
+                                select new DishIngredientsProportionViewModel()
+                                {
+                                    IngredientId = di.IngredientId,
+                                    Name = di.Ingredient.Name,
+                                    MeasureUnit=di.Ingredient.MeasureUnit,
+                                    Proportion= di.Proportion
+                                }).ToList()
+                             :new List<DishIngredientsProportionViewModel>()
+                             /*
+                             (from di in _context.DishIngredients.Include(x=>x.Ingredient)
+                                         .WhereCompany(companyid)
+                                        .Where(x=>x.DishId==d.Id)
+                                         select new DishIngredientsProportionViewModel()
+                                         {
+                                             IngredientId=di.IngredientId,
+                                             Name=di.Ingredient.Name,
+                                             Proportion=di.Proportion
+                                         }).ToList()
+                                         */
+
+                         }).ToList()
+            };
+
 
             return res;
         }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace CateringPro.Core
 {
@@ -51,7 +52,7 @@ namespace CateringPro.Core
 
                     }
 
-                    foreach (var cmp in context.Companies)
+                    foreach (var cmp in await context.Companies.AsNoTracking().ToListAsync())
                     {
                         IStockRepository stockrepo = serviceScope.ServiceProvider.GetRequiredService<IStockRepository>();
                         if (stockrepo == null)

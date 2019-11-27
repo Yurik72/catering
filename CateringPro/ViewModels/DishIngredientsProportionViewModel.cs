@@ -11,6 +11,7 @@ namespace CateringPro.Models
         public int IngredientId { get; set; }
         public string Name { get; set; }
 
+        public string MeasureUnit { get; set; }
         public decimal Proportion { get; set; }
     }
 }

@@ -126,6 +126,9 @@
   <data name="Address2" xml:space="preserve">
     <value>Адреса 2</value>
   </data>
+  <data name="AvgPrice" xml:space="preserve">
+    <value>Середня цiна</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Вiдмiнити</value>
   </data>
@@ -255,6 +258,9 @@
   <data name="DishReadyWeightMeasureUnit" xml:space="preserve">
     <value>гр.</value>
   </data>
+  <data name="DishSpecification" xml:space="preserve">
+    <value>Калькуляційна карта</value>
+  </data>
   <data name="DLB Empty list" xml:space="preserve">
     <value>Пусто</value>
   </data>
@@ -339,6 +345,9 @@
   <data name="Ingredient" xml:space="preserve">
     <value>Інгредієнти</value>
   </data>
+  <data name="Ingredient Category" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
   <data name="Ingredient Name" xml:space="preserve">
     <value>Назва</value>
   </data>
@@ -358,7 +367,7 @@
     <value>ККал</value>
   </data>
   <data name="LeadTime" xml:space="preserve">
-    <value>Блок. замовл. до</value>
+    <value>Годин до закриття замовл.</value>
   </data>
   <data name="Login Title" xml:space="preserve">
     <value>Введіть дані нижче</value>
@@ -460,7 +469,7 @@
     <value>Ім'я,Прізвище</value>
   </data>
   <data name="NoDishesAtThisDay" xml:space="preserve">
-    <value>Вибачте немаe жодноi страви для замовлення у цей день</value>
+    <value>Вибачте, немає жодної доступної страви, для замовлення у цей день</value>
   </data>
   <data name="OrdeAcceptedDetail" xml:space="preserve">
     <value>Деталi надiслано на Вашу почтову скриньку</value>
@@ -517,7 +526,7 @@
     <value />
   </data>
   <data name="ThresholdTime" xml:space="preserve">
-    <value>Блок. замовл. пiсля</value>
+    <value>Годин до вiдкриття замовл.</value>
   </data>
   <data name="UpdateUserEmail" xml:space="preserve">
     <value>E-mail</value>

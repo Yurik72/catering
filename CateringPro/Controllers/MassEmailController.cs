@@ -68,7 +68,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject")] MassEmail em)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject,DayFrom,DayTo")] MassEmail em)
         {
             if (id != em.Id)
             {
@@ -118,7 +118,7 @@ namespace CateringPro.Controllers
         public IActionResult CreateModal()
         {
 
-            var em = new MassEmail() {OnePerUser = true };
+            var em = new MassEmail() {OnePerUser = true,DayFrom=1,DayTo=1 };
 
             ViewData["Templates"] = GetTemplates();
             return PartialView("EditModal", em);

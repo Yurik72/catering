@@ -15,30 +15,48 @@
 <table class="table">
     <thead>
         <tr class="bg-white text-success">
-            <th>
+            <th width="20%">
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.IngredientCategory.Name, querymodel, (object)ViewBag.CategoriesId)
+            </th>
+            <th width="20%">
 
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
             </th>
+            <th width="20%">
 
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.MeasureUnit, querymodel)
+            </th>
+            <th width="20%">
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.AvgPrice, querymodel)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="bg-white text-secondary">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+        <tr class="bg-white text-secondary">
+            <td>
+                @Html.DisplayFor(modelItem => item.IngredientCategory.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeasureUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvgPrice)
+            </td>
+            <td>
 
-                <td>
 
-
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    @Html.ActionLink("", "EditModal",
-                                 new { id = item.Id }, new { @class = "catitem dialog-edit-icon fa fa-pencil-square-o" })
-                </td>
-            </tr>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                @Html.ActionLink("", "EditModal",
+                             new { id = item.Id }, new { @class = "catitem dialog-edit-icon fa fa-pencil-square-o" })
+            </td>
+        </tr>
         }
     </tbody>
     <tfoot>

@@ -53,7 +53,7 @@
         }
         @for (int i = 0; i < 7; i++)
         {
-            <a class="nav-item nav-link nav-day @(i==0?" active":"")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
+            <a class="nav-item nav-link nav-day @(i==0?" active":"") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID())?"":"day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
 
                 @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
                 <span class="shorttabdate">@current_head.Day</span>
@@ -208,6 +208,7 @@
             $("input.numberspinner[type='number']").inputSpinner();
            // $("#weekselected").inputSpinner();
             var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
+            
             var reloadDay = function (dayindex) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
@@ -216,15 +217,39 @@
                 navcontent.html(html_loading);
                 navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()),
                     function (response, status, xhr) {
-                             navcontent.find("input.numberspinner[type='number']").inputSpinner();
+                        navcontent.find("input.numberspinner[type='number']").inputSpinner();
+                        setClosedDaystyle(dayindex);
                     }
                     );
-                var weektext = dateToshortString(dt);
-                weektext = ""+dt.getDate();
-                $('#nav-tab-' + dayindex).find('.shorttabdate').text(weektext);
+                var daytabtext = dateToshortString(dt);
+                daytabtext = ""+dt.getDate();
+                $('#nav-tab-' + dayindex).find('.shorttabdate').text(daytabtext);
 
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
+            }
+            var currentDate = () => {
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                return dt;
+            };
+            var firstWeekDayDate = () => {
+                var first = currentDate();
+                first.setDate(first.getDate() - first.getDay());
+                return first;
+            }
+            var setClosedDaystyle = function (dayindex ) {
+                
+            
+                var navcontent = $('#nav-content-' + dayindex);
+                if (navcontent.find(".day-closed-msg").length > 0) {
+                    $('#nav-tab-' + dayindex).addClass("day-closed");
+                }
+                else {
+                    $('#nav-tab-' + dayindex).removeClass("day-closed");
+                }
+                    
+            
             }
             var dateToshortString = (dt) => {
                 var dd = dt.getDate();
@@ -237,8 +262,8 @@
             var weektext = function () {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
-                firstweekday = new Date(dt.getTime());
-                lasttweekday = new Date(dt.getTime());
+                var firstweekday = new Date(dt.getTime());
+                var lasttweekday = new Date(dt.getTime());
                 firstweekday.setDate(dt.getDate() - dt.getDay());
                 lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
                 var locale = "@cultureCurrent.Name";
@@ -296,6 +321,7 @@
                 $('#weekselected').text(weektext());
                 for (var i = 0; i < 7; i++)
                     reloadDay(i);
+                setClosedDaystyle();
             }
             $('.dayselectback').click((e) => {
                 e.preventDefault();

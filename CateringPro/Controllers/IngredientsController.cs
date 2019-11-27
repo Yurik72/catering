@@ -44,7 +44,10 @@ namespace CateringPro.Controllers
             //QueryModel querymodel=new QueryModel() { }
             ViewData["QueryModel"] = querymodel;
 
-            var query = (IQueryable<Ingredients>)_context.Ingredients.WhereCompany(User.GetCompanyID());
+            ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", querymodel.RelationFilter);
+
+
+            var query = (IQueryable<Ingredients>)_context.Ingredients.WhereCompany(User.GetCompanyID()).Include(i => i.IngredientCategory);
 
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
@@ -64,7 +67,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,MeasureUnit,StockDate,StockValue")] Ingredients ing)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,MeasureUnit,StockDate,StockValue,IngredientCategoriesId")] Ingredients ing)
         {
             if (id != ing.Id)
             {
@@ -89,7 +92,7 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", ing.IngredientCategoriesId);
             return PartialView(ing);
         }
         public IActionResult CreateModal()

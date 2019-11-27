@@ -71,7 +71,7 @@
                                 </div>
 
                                 <div class="col col-lg-2 col-md-2 col-2 small">
-                                    @String.Format("{0:f3}", dish.DishReadyWeight)@Localizer["DishReadyWeightMeasureUnit"]
+                                    @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
 
                                 </div>
                                 <div class="col col-lg-4 col-md-4 col-4 small">
@@ -132,7 +132,7 @@
             </div>
 
         }
-        else
+        else if(allowEdit)
         {
             <h2 class="text-center">@Localizer["NoDishesAtThisDay"]</h2>
         }

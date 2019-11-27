@@ -44,6 +44,9 @@ namespace CateringPro.Models
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
+        public int DayFrom { get; set; }
+
+        public int DayTo { get; set; }
         public DateTime NextSend { get; set; }
     }
 }

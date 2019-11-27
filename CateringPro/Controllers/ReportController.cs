@@ -102,7 +102,31 @@ namespace CateringPro.Controllers
             }
             return View(_reportrepo.CompanyMenu(datefrom, dateto, User.GetCompanyID()));
         }
-
+        public IActionResult DishSpecification(DateTime datefrom, DateTime dateto, string format)
+        {
+            if (datefrom.Ticks == 0)
+            {
+                datefrom = DateTime.Today;
+            }
+            if (dateto.Ticks == 0)
+            {
+                dateto = DateTime.Today.AddDays(3);
+            }
+            datefrom = datefrom.ResetHMS();
+            dateto = dateto.ResetHMS();
+            if (format == "xlsx")
+            {
+                HttpContext.JsReportFeature()
+               .Configure(req => req.Options.Preview = true)
+               .Recipe(Recipe.HtmlToXlsx)
+               .Configure((r) => r.Template.HtmlToXlsx = new HtmlToXlsx() { HtmlEngine = "chrome" });
+            }
+            else
+            {
+                // HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            }
+            return View(_reportrepo.DishSpecification(datefrom, dateto, User.GetCompanyID()));
+        }
 
 
     }

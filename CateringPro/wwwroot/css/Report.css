@@ -15,7 +15,13 @@
         line-height: inherit;
         text-align: left;
 }
+.report-box table tr.center {
 
+    text-align: center;
+}
+.report-box table tr.grey {
+    background: #999;
+}
 .report-box table td{
     padding: 5px;
     vertical-align: top;

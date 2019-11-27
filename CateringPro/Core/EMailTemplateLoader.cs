@@ -28,7 +28,9 @@ namespace CateringPro.Core
         [TemplateLoader(typeof(InfoTemplateLoader))]
         Info = 1,
         [TemplateLoader(typeof(DayMenuTemplateLoader))]
-        DayMenu = 2
+        DayMenu = 2,
+        [TemplateLoader(typeof(DayProductionTemplateLoader))]
+        DayProduction=3
 
     }
     public abstract class  EMailTemplateLoader
@@ -41,6 +43,16 @@ namespace CateringPro.Core
             _companyid = companyid;
         }
         public abstract bool LoadModel(MassEmail em, EmailTemplateViewModel template);
+        protected virtual void  DateCycle(MassEmail em, EmailTemplateViewModel template,Action<MassEmail, EmailTemplateViewModel,DateTime> action)
+        {
+            DateTime dayfrom = DateTime.Today.AddDays(em.DayFrom);
+            DateTime dayto = DateTime.Today.AddDays(em.DayTo);
+            for (DateTime dt = dayfrom; dt <= dayto; dt = dt.AddDays(1))
+            {
+                action(em, template, dt);
+               
+            }
+        }
     }
     public class InfoTemplateLoader : EMailTemplateLoader
     {
@@ -61,8 +73,30 @@ namespace CateringPro.Core
         }
         public override bool LoadModel(MassEmail em, EmailTemplateViewModel template)
         {
-            DateTime daydate = DateTime.Today.AddDays(1);
-            template.Models.Add(daydate, _mailRepo.ReportRepository.CompanyComplexMenu(daydate, daydate, _companyid));
+            this.DateCycle(em,template,(em, template, dt) => {
+                template.Models.Add(dt, _mailRepo.ReportRepository.CompanyComplexMenu(dt, dt, _companyid));
+            });
+            /*
+            DateTime dayfrom = DateTime.Today.AddDays(em.DayFrom);
+            DateTime dayto = DateTime.Today.AddDays(em.DayTo);
+            for (DateTime dt = dayfrom; dt<= dayto; dt = dt.AddDays(1)) {
+                template.Models.Add(dt, _mailRepo.ReportRepository.CompanyComplexMenu(dt, dt, _companyid));
+            }*/
+            return true;
+        }
+    }
+    public class DayProductionTemplateLoader : EMailTemplateLoader
+    {
+        public DayProductionTemplateLoader(IMassEmailRepository mailRepo, int companyid) : base(mailRepo, companyid)
+        {
+
+        }
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template)
+        {
+            this.DateCycle(em, template, (em, template, dt) => {
+                template.Models.Add(dt, _mailRepo.ReportRepository.CompanyDayProduction(dt, _companyid));
+            });
+
             return true;
         }
     }

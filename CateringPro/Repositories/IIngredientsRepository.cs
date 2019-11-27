@@ -8,7 +8,7 @@ namespace CateringPro.Repositories
 {
     public interface IIngredientsRepository
     {
-        IEnumerable<Ingredients> Ingredients { get; }
+        
 
         Ingredients GetById(int? id);
         Task<Ingredients> GetByIdAsync(int? id);
