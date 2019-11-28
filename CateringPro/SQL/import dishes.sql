@@ -51,4 +51,4 @@ select * from amenu
 select * from Dishes
 select * from DishIngredients
 
-rollback tran
+commit tran

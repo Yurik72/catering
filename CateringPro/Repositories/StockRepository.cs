@@ -67,10 +67,11 @@ namespace CateringPro.Repositories
                             IngredientId = c.IngredientsId,
                             StockValue = c.Quantity,
                             InitialValue = c.InitialQuantity,
-                            ValidUntil = c.ValidUntil
+                            ValidUntil = c.ValidUntil,
+                            Price =c.Price
                         };
 
-            var query1 = from ing in _context.Ingredients.Where(cs => cs.CompanyId == companyid)
+            var query1 = from ing in _context.Ingredients.Include(x => x.IngredientCategory).Where(cs => cs.CompanyId == companyid)
                          select ing;
 
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
@@ -79,10 +80,10 @@ namespace CateringPro.Repositories
 
 
             }
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query1 = query1.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
+            //if (!string.IsNullOrEmpty(querymodel.SortField))
+           // {
+           //     query1 = query1.OrderByEx(querymodel.SortField, querymodel.SortOrder);
+          //  }
             if (querymodel.Page > 0)
             {
                 query1 = query1.Skip(querymodel.PageRecords * querymodel.Page);
@@ -90,6 +91,8 @@ namespace CateringPro.Repositories
             var queryfinal= from ing in query1
                             select new ConsignmentStockViewModel()
                             {
+                                IngredientCategoryId=ing.IngredientCategory.Id,
+                                IngredientCategoryName = ing.IngredientCategory.Name,
                                 IngredientId = ing.Id,
                                 IngredientName = ing.Name,
                                 StockValue=ing.StockValue,
@@ -98,6 +101,10 @@ namespace CateringPro.Repositories
                                                select entry
 
                             };
+            if (!string.IsNullOrEmpty(querymodel.SortField))
+             {
+                queryfinal = queryfinal.OrderByEx(querymodel.SortField, querymodel.SortOrder);
+              }
             return await queryfinal.ToListAsync();
         }
         public bool WriteOffProduction(DateTime daydate, int companyId)

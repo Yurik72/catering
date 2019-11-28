@@ -18,6 +18,10 @@
         <tr class="bg-white text-success">
             <th>
 
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.IngredientCategoryName, querymodel)
+            </th>
+            <th>
+
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.IngredientName, querymodel)
             </th>
             <th>
@@ -30,6 +34,11 @@
             </th>
             <th>
 
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Price, querymodel)
+            </th>
+
+            <th>
+
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.ValidTo, querymodel)
             </th>
             <th></th>
@@ -38,51 +47,60 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="bg-white text-secondary row-stock">
-                <td>
-                    @Html.HiddenFor(modelItem => item.IngredientId)
-                    @Html.DisplayFor(modelItem => item.IngredientName)
-                </td>
-                <td>
+        <tr class="bg-white text-secondary row-stock">
+            <td>
+                @Html.HiddenFor(modelItem => item.IngredientCategoryId)
+                @Html.DisplayFor(modelItem => item.IngredientCategoryName)
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.IngredientId)
+                @Html.DisplayFor(modelItem => item.IngredientName)
+            </td>
+            <td>
 
-                    @Html.DisplayFor(modelItem => item.StockValue, new { htmlAttributes = new { @class = "stockval" } })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MeasureUnit)
-                </td>
-                <td>
-                   
-                    
-                </td>
-                <td>
-                </td>
-            </tr>
+                @Html.DisplayFor(modelItem => item.StockValue, new { htmlAttributes = new { @class = "stockval" } })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeasureUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+            </td>
+        </tr>
             foreach (var detail in item.Consignments)
             {
-                <tr class="stock-consignment small">
-                    <td>
-                        @Html.DisplayFor(modelItem => detail.DocTypeName)  @Html.DisplayFor(modelItem => detail.InitialValue)  @Html.DisplayFor(modelItem => item.MeasureUnit)
-        
-                        @detail.DocDate.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+    <tr class="stock-consignment small">
+        <td>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => detail.DocTypeName)  @Html.DisplayFor(modelItem => detail.InitialValue)  @Html.DisplayFor(modelItem => item.MeasureUnit)
 
-                        <br>
-                        @Html.DisplayFor(modelItem => detail.DocNumber)
+            @detail.DocDate.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
 
-                    </td>
+            <br>
+            @Html.DisplayFor(modelItem => detail.DocNumber)
 
-                    <td>
-                        @Html.DisplayFor(modelItem => detail.StockValue)
+        </td>
 
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+        <td>
+            @Html.DisplayFor(modelItem => detail.StockValue)
 
-                    </td>
-                    <td>
-                    </td>
-                </tr>
+        </td>
+        <td>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => detail.Price)
+        </td>
+
+        <td>
+            @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+
+        </td>
+        <td>
+        </td>
+    </tr>
             }
         }
     </tbody>

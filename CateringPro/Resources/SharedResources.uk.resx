@@ -174,11 +174,17 @@
   <data name="Complex Price" xml:space="preserve">
     <value>Вартiсть</value>
   </data>
+  <data name="Consignment Ingredient Category Name" xml:space="preserve">
+    <value>Категорія</value>
+  </data>
   <data name="Consignment Ingredient Name" xml:space="preserve">
     <value>Продукт /Партiя</value>
   </data>
   <data name="Consignment MeasureUnit" xml:space="preserve">
     <value>Од. вимiру</value>
+  </data>
+  <data name="Consignment Price" xml:space="preserve">
+    <value>Вартість</value>
   </data>
   <data name="Consignment StockValue" xml:space="preserve">
     <value>Залишок</value>

@@ -13,6 +13,11 @@ namespace CateringPro.Models
             Consignments = new List<ConsignmentStockDetailViewModel>();
         }
 
+        public int IngredientCategoryId { get; set; }
+
+        [DisplayName("Consignment Ingredient Category Name")]
+        public string IngredientCategoryName { get; set; }
+
         public int IngredientId { get; set; }
 
         [DisplayName("Consignment Ingredient Name")]
@@ -26,6 +31,10 @@ namespace CateringPro.Models
 
         [DisplayName("Consignment ValidTo")]
         public DateTime ValidTo { get; set; }
+
+        [DisplayName("Consignment Price")]
+        public decimal Price { get; set; }
+        
         public IEnumerable<ConsignmentStockDetailViewModel> Consignments { get; set; }
     }
     public class ConsignmentStockDetailViewModel
@@ -39,6 +48,8 @@ namespace CateringPro.Models
         public decimal StockValue { get; set; }
 
         public decimal InitialValue { get; set; }
+
+        public decimal Price { get; set; }
         public DateTime ValidUntil { get; set; }
     }
 }
