@@ -14,10 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Home\**" />
     <Compile Remove="Views\OrdersTest\**" />
     <Compile Remove="Views\Orders\**" />
     <Compile Remove="Views\PizzaIngredients\**" />
     <Compile Remove="Views\Pizzas\**" />
+    <Compile Remove="Views\Reviews\**" />
     <Compile Remove="Views\Shared\Components\CarouselMenu\**" />
     <Compile Remove="Views\Shared\Components\ShoppingCartSummary\**" />
     <Compile Remove="Views\ShoppingCart\**" />
@@ -25,20 +27,25 @@
     <Content Remove="Views\Orders\**" />
     <Content Remove="Views\PizzaIngredients\**" />
     <Content Remove="Views\Pizzas\**" />
+    <Content Remove="Views\Reviews\**" />
     <Content Remove="Views\Shared\Components\CarouselMenu\**" />
     <Content Remove="Views\Shared\Components\ShoppingCartSummary\**" />
     <Content Remove="Views\ShoppingCart\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
     <EmbeddedResource Remove="Views\OrdersTest\**" />
     <EmbeddedResource Remove="Views\Orders\**" />
     <EmbeddedResource Remove="Views\PizzaIngredients\**" />
     <EmbeddedResource Remove="Views\Pizzas\**" />
+    <EmbeddedResource Remove="Views\Reviews\**" />
     <EmbeddedResource Remove="Views\Shared\Components\CarouselMenu\**" />
     <EmbeddedResource Remove="Views\Shared\Components\ShoppingCartSummary\**" />
     <EmbeddedResource Remove="Views\ShoppingCart\**" />
+    <None Remove="Views\Home\**" />
     <None Remove="Views\OrdersTest\**" />
     <None Remove="Views\Orders\**" />
     <None Remove="Views\PizzaIngredients\**" />
     <None Remove="Views\Pizzas\**" />
+    <None Remove="Views\Reviews\**" />
     <None Remove="Views\Shared\Components\CarouselMenu\**" />
     <None Remove="Views\Shared\Components\ShoppingCartSummary\**" />
     <None Remove="Views\ShoppingCart\**" />
@@ -59,10 +66,16 @@
     <Compile Remove="Controllers\ShoppingCartController.cs" />
     <Compile Remove="Core\ApplicationClaimsIdentityFactory.cs" />
     <Compile Remove="Data\Migrations\AppDbContextModelSnapshot.cs" />
+    <Compile Remove="Models\Order.cs" />
+    <Compile Remove="Models\OrderDetail.cs" />
+    <Compile Remove="Models\PizzaIngredients.cs" />
+    <Compile Remove="Models\Pizzas.cs" />
+    <Compile Remove="Models\Reviews.cs" />
     <Compile Remove="Models\ShoppingCart.cs" />
     <Compile Remove="Models\ShoppingCartItem.cs" />
     <Compile Remove="Repositories\AdminRepository.cs" />
     <Compile Remove="Repositories\IAdminRepository.cs" />
+    <Compile Remove="Repositories\IOrderRepository.cs" />
     <Compile Remove="Repositories\IPizzaIngredientsRepository.cs" />
     <Compile Remove="Repositories\IPizzaRepository.cs" />
     <Compile Remove="Repositories\IReviewRepository.cs" />
@@ -70,7 +83,13 @@
     <Compile Remove="Repositories\PizzaIngredientsRepository.cs" />
     <Compile Remove="Repositories\PizzaRepository.cs" />
     <Compile Remove="Repositories\ReviewRepository.cs" />
+    <Compile Remove="ViewModels\SearchPizzasViewModel.cs" />
     <Compile Remove="ViewModels\ShoppingCartViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
+    <Content Remove="Views\Shared\PizzaSummary.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

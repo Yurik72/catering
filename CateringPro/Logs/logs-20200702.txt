@@ -1,0 +1,296 @@
+2020-07-02 10:22:15.851 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.862 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.865 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.868 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.870 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.872 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.875 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.877 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.879 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.882 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.885 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.887 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'AvgPrice' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.889 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.892 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.894 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.897 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.900 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:22:15.933 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:22:16.625 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2020-07-02 10:22:16.744 +03:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-07-02 10:22:16.914 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2020-07-02 10:22:17.038 +03:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: Creating key {763c8850-d52b-4546-836e-93c1b7408928} with creation date 2020-07-02 07:22:17Z, activation date 2020-07-02 07:22:16Z, and expiration date 2020-09-30 07:22:16Z.
+2020-07-02 10:22:17.060 +03:00 [Information] Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository: Writing data to file 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys\key-763c8850-d52b-4546-836e-93c1b7408928.xml'.
+2020-07-02 10:22:17.375 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-02 10:22:17.387 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:22:17.466 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-02 10:22:17.482 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-02 10:22:17.500 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/02/2020 10:22:17,1
+2020-07-02 10:22:17.517 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-02 10:22:17.526 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:22:17.534 +03:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2020-07-02 10:22:17.535 +03:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2020-07-02 10:22:17.537 +03:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2020-07-02 10:22:17.557 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-02 10:22:17.585 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2020-07-02 10:22:17.596 +03:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2020-07-02 10:22:17.662 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-02 10:22:17.704 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2020-07-02 10:22:17.707 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/02/2020 10:22:17,2
+2020-07-02 10:22:17.710 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-02 10:22:17.714 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2020-07-02 10:22:17.767 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2020-07-02 10:22:17.771 +03:00 [Error] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: The view 'Index' was not found. Searched locations: /Views/Home/Index.uk.cshtml, /Views/Home/Index.cshtml, /Views/Shared/Index.uk.cshtml, /Views/Shared/Index.cshtml, /Pages/Shared/Index.uk.cshtml, /Pages/Shared/Index.cshtml
+2020-07-02 10:22:17.787 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 65.779ms
+2020-07-02 10:22:17.791 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-02 10:22:17.897 +03:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The view 'Index' was not found. The following locations were searched:
+/Views/Home/Index.uk.cshtml
+/Views/Home/Index.cshtml
+/Views/Shared/Index.uk.cshtml
+/Views/Shared/Index.cshtml
+/Pages/Shared/Index.uk.cshtml
+/Pages/Shared/Index.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-07-02 10:22:17.937 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-02 10:22:17.985 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 401.732ms 500 text/html; charset=utf-8
+2020-07-02 10:22:17.987 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-02 10:22:17.993 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-02 10:22:18.004 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2020-07-02 10:22:18.242 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/favicon.ico  
+2020-07-02 10:22:18.283 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\favicon.ico'
+2020-07-02 10:22:18.289 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 47.086400000000005ms 200 image/x-icon
+2020-07-02 10:25:17.575 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-02 10:25:17.585 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:25:17.596 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-02 10:25:17.600 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-02 10:25:17.602 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:25:17.605 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-02 10:25:17.613 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/02/2020 10:25:17,1
+2020-07-02 10:25:17.615 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2020-07-02 10:25:17.621 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2020-07-02 10:25:17.628 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-02 10:25:17.680 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/02/2020 10:25:17,2
+2020-07-02 10:25:17.682 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-02 10:41:35.237 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Complex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.251 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'InitialQuantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.253 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.255 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'Consignment'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.258 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.261 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'ReadyWeight' on entity type 'Dish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.263 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Proportion' on entity type 'DishIngredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.265 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.267 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.269 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Quantity' on entity type 'DocLines'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.272 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Amount' on entity type 'Docs'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.274 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'AvgPrice' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.277 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'StockValue' on entity type 'Ingredients'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.279 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Total' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.282 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'TotalPaid' on entity type 'UserDay'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.284 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayComplex'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.286 +03:00 [Warning] Microsoft.EntityFrameworkCore.Model.Validation: No type was specified for the decimal column 'Price' on entity type 'UserDayDish'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+2020-07-02 10:41:35.331 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:41:35.850 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2020-07-02 10:41:35.964 +03:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\yurik\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-07-02 10:41:36.173 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2020-07-02 10:41:36.556 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-02 10:41:36.563 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:41:36.662 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-02 10:41:36.670 +03:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2020-07-02 10:41:36.672 +03:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2020-07-02 10:41:36.674 +03:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\yurik\source\repos\Ferolka\catering\CateringPro
+2020-07-02 10:41:36.711 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-02 10:41:36.731 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2020-07-02 10:41:36.736 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/02/2020 10:41:36,1
+2020-07-02 10:41:36.755 +03:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2020-07-02 10:41:36.773 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-02 10:41:36.792 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.0.0 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-02 10:41:36.828 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-02 10:41:36.883 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-02 10:41:36.953 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2020-07-02 10:41:36.999 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/02/2020 10:41:36,2
+2020-07-02 10:41:37.002 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-02 10:41:37.013 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2020-07-02 10:41:37.098 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2020-07-02 10:41:37.117 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executing DbCommand [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__companyId_0) AND @__companyId_0 IS NOT NULL
+2020-07-02 10:41:37.393 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 393.1583ms.
+2020-07-02 10:41:37.398 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 441.8449ms
+2020-07-02 10:41:37.401 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-02 10:41:37.409 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 678.8626ms 200 text/html; charset=utf-8
+2020-07-02 10:41:37.445 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css  
+2020-07-02 10:41:37.454 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/carousel.css  
+2020-07-02 10:41:37.457 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap-duallistbox.css  
+2020-07-02 10:41:37.461 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css  
+2020-07-02 10:41:37.465 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/jquery-ui.css  
+2020-07-02 10:41:37.468 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/font-awesome/css/font-awesome.css  
+2020-07-02 10:41:37.496 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/carousel.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\carousel.css'
+2020-07-02 10:41:37.499 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css'
+2020-07-02 10:41:37.502 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap-duallistbox.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap-duallistbox.css'
+2020-07-02 10:41:37.504 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 46.133300000000006ms 200 text/css
+2020-07-02 10:41:37.507 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 56.879000000000005ms 200 text/css
+2020-07-02 10:41:37.510 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 59.809200000000004ms 200 text/css
+2020-07-02 10:41:37.515 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/site.css  
+2020-07-02 10:41:37.518 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.min.js  
+2020-07-02 10:41:37.521 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery-ui.js  
+2020-07-02 10:41:37.530 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/font-awesome/css/font-awesome.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\font-awesome\css\font-awesome.css'
+2020-07-02 10:41:37.533 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/jquery-ui.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\jquery-ui.css'
+2020-07-02 10:41:37.537 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 92.1288ms 200 text/css
+2020-07-02 10:41:37.541 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 92.3498ms 200 text/css
+2020-07-02 10:41:37.546 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\site.css'
+2020-07-02 10:41:37.548 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/bootstrap.min.js  
+2020-07-02 10:41:37.551 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 35.1196ms 200 text/css
+2020-07-02 10:41:37.553 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/site.js?v=WvUmlE8e_VDlPeR0g6h9Y5zTmjvT0eIH_AR_uNfWDd4  
+2020-07-02 10:41:37.556 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/css/bootstrap.min.css'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\css\bootstrap.min.css'
+2020-07-02 10:41:37.562 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 119.6769ms 200 text/css
+2020-07-02 10:41:37.565 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/js/jquery.bootstrap-duallistbox.js  
+2020-07-02 10:41:37.568 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\site.js'
+2020-07-02 10:41:37.571 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 18.3883ms 200 application/javascript
+2020-07-02 10:41:37.600 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.bootstrap-duallistbox.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.bootstrap-duallistbox.js'
+2020-07-02 10:41:37.605 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 43.4414ms 200 application/javascript
+2020-07-02 10:41:37.622 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/bootstrap.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\bootstrap.min.js'
+2020-07-02 10:41:37.625 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 77.82430000000001ms 200 application/javascript
+2020-07-02 10:41:37.873 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery.min.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery.min.js'
+2020-07-02 10:41:37.876 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 360.7654ms 200 application/javascript
+2020-07-02 10:41:37.889 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/jquery-validation/dist/jquery.validate.js  
+2020-07-02 10:41:37.923 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\jquery-validation\dist\jquery.validate.js'
+2020-07-02 10:41:37.926 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 36.6378ms 200 application/javascript
+2020-07-02 10:41:37.934 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js  
+2020-07-02 10:41:37.963 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js'
+2020-07-02 10:41:37.967 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 32.9852ms 200 application/javascript
+2020-07-02 10:41:37.975 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide10.jpg  
+2020-07-02 10:41:37.993 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide10.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide10.jpg'
+2020-07-02 10:41:37.997 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 21.768700000000003ms 200 image/jpeg
+2020-07-02 10:41:38.004 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide11.jpg  
+2020-07-02 10:41:38.021 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide11.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide11.jpg'
+2020-07-02 10:41:38.025 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 19.5348ms 200 image/jpeg
+2020-07-02 10:41:38.033 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/slide12.jpg  
+2020-07-02 10:41:38.048 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/slide12.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\slide12.jpg'
+2020-07-02 10:41:38.051 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 18.000500000000002ms 200 image/jpeg
+2020-07-02 10:41:38.059 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle1.jpg  
+2020-07-02 10:41:38.070 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle1.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle1.jpg'
+2020-07-02 10:41:38.073 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 14.522200000000002ms 200 image/jpeg
+2020-07-02 10:41:38.079 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle2.jpg  
+2020-07-02 10:41:38.090 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle2.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle2.jpg'
+2020-07-02 10:41:38.094 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 13.8034ms 200 image/jpeg
+2020-07-02 10:41:38.101 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/circle3.jpg  
+2020-07-02 10:41:38.112 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/circle3.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\circle3.jpg'
+2020-07-02 10:41:38.115 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 14.5099ms 200 image/jpeg
+2020-07-02 10:41:38.122 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict1_500x500.jpg  
+2020-07-02 10:41:38.134 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict1_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict1_500x500.jpg'
+2020-07-02 10:41:38.137 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 15.265600000000001ms 200 image/jpeg
+2020-07-02 10:41:38.144 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict2_500x500.jpg  
+2020-07-02 10:41:38.155 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict2_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict2_500x500.jpg'
+2020-07-02 10:41:38.158 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 14.761600000000001ms 200 image/jpeg
+2020-07-02 10:41:38.165 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/images/pict3_500x500.jpg  
+2020-07-02 10:41:38.177 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/images/pict3_500x500.jpg'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\images\pict3_500x500.jpg'
+2020-07-02 10:41:38.180 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 14.308800000000002ms 200 image/jpeg
+2020-07-02 10:41:38.727 +03:00 [Information] Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware: Sending file. Request path: '/js/jquery-ui.js'. Physical path: 'C:\Users\yurik\source\repos\Ferolka\catering\CateringPro\wwwroot\js\jquery-ui.js'
+2020-07-02 10:41:38.730 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 1213.7198ms 200 application/javascript

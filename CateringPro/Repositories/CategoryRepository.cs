@@ -17,7 +17,7 @@ namespace CateringPro.Repositories
             _context = context;
         }
 
-        public IEnumerable<Categories> Categories => _context.Categories.Include(x => x.Pizzas); //include here
+        public IEnumerable<Categories> Categories => _context.Categories; //include here
 
         public void Add(Categories category)
         {

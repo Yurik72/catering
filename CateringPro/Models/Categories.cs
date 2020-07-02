@@ -35,7 +35,7 @@ namespace CateringPro.Models
         [DisplayName("Category Decsciption")]
         public string Description { get; set; }
 
-        public virtual ICollection<Pizzas> Pizzas { get; set; }
+    //    public virtual ICollection<Pizzas> Pizzas { get; set; }
 
 
         public virtual ICollection<Dish> Dishes { get; set; }
