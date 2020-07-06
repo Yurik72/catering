@@ -34,6 +34,7 @@ namespace CateringPro.Models
         [DataType(DataType.Currency)]
         [Required]
         [DisplayName("Dish Price")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
 
@@ -41,6 +42,7 @@ namespace CateringPro.Models
     
   
         [DisplayName("Dish ReadyWeight")]
+        [Column(TypeName = "decimal(18,3)")]
         public decimal ReadyWeight { get; set; }
 
 

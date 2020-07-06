@@ -16,11 +16,11 @@ namespace CateringPro.Models
         public int Number { get; set; }
 
         public int IngredientsId { get; set; }
-
+        [Column(TypeName = "decimal(18,3)")]
         public decimal Quantity { get; set; }
-
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
 

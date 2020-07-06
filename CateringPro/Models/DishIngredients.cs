@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CateringPro.Models
 {
@@ -13,6 +14,7 @@ namespace CateringPro.Models
         public int IngredientId { get; set; }
 
         [DisplayName("Ingredients Proportion")]
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Proportion { get; set; }
 
         public virtual Ingredients Ingredient { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CateringPro.Models
 {
@@ -26,11 +27,13 @@ namespace CateringPro.Models
 
         public string MeasureUnit { get; set; }
         [DisplayName("StockValue")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal  StockValue { get; set; }
         [DisplayName("StockDate")]
         public DateTime StockDate { get; set; }
 
         [DisplayName("AvgPrice")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal AvgPrice { get; set; }
         public virtual ICollection<Consignment> Consignments { get; set; }
         [DisplayName("Ingredient Category")]

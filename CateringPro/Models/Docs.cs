@@ -26,6 +26,7 @@ namespace CateringPro.Models
         public string Description { get; set; }
 
         [DisplayName("Doc Amount")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
 
         public ICollection<DocLines> DocLines { get; set; }

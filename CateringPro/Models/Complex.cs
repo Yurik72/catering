@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CateringPro.Models
 {
@@ -21,6 +22,7 @@ namespace CateringPro.Models
         public string Name { get; set; }
 
         [DisplayName("Complex Price")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         [DisplayName("DishesQuantity")]
