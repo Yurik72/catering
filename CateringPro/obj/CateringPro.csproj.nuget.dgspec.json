@@ -43,7 +43,7 @@
           "dependencies": {
             "MailKit": {
               "target": "Package",
-              "version": "[2.3.2, )"
+              "version": "[2.7.0, )"
             },
             "Microsoft.ApplicationInsights.AspNetCore": {
               "target": "Package",
@@ -103,15 +103,15 @@
             },
             "jsreport.AspNetCore": {
               "target": "Package",
-              "version": "[2.0.2, )"
+              "version": "[2.1.0, )"
             },
             "jsreport.Binary": {
               "target": "Package",
-              "version": "[2.5.0, )"
+              "version": "[2.7.1, )"
             },
             "jsreport.Local": {
               "target": "Package",
-              "version": "[2.1.1, )"
+              "version": "[2.2.2, )"
             },
             "jsreport.MVC": {
               "target": "Package",
@@ -119,7 +119,7 @@
             },
             "jsreport.Shared": {
               "target": "Package",
-              "version": "[2.0.1, )"
+              "version": "[2.2.0, )"
             }
           },
           "imports": [
