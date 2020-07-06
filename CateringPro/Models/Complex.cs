@@ -23,6 +23,9 @@ namespace CateringPro.Models
         [DisplayName("Complex Price")]
         public decimal Price { get; set; }
 
+        [DisplayName("DishesQuantity")]
+        public int DishesQuantity { get; set; }
+
         [DisplayName("Complex Dishes")]
         public virtual ICollection<DishComplex> DishComplex { get; set; }
        

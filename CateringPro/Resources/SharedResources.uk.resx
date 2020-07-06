@@ -246,6 +246,9 @@
   <data name="Dishes" xml:space="preserve">
     <value>Страва</value>
   </data>
+  <data name="DishesQuantity" xml:space="preserve">
+    <value>Колво</value>
+  </data>
   <data name="DishesWeekMenu" xml:space="preserve">
     <value>Страви що будуть готоватись цього тижня</value>
   </data>
