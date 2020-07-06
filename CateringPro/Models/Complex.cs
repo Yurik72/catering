@@ -25,6 +25,9 @@ namespace CateringPro.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
+        [DisplayName("DishesQuantity")]
+        public int DishesQuantity { get; set; }
+
         [DisplayName("Complex Dishes")]
         public virtual ICollection<DishComplex> DishComplex { get; set; }
        

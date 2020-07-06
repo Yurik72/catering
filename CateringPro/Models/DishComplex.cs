@@ -15,6 +15,8 @@ namespace CateringPro.Models
         [DisplayName("Select Complex")]
         public int ComplexId { get; set; }
 
+        [DisplayName("Select Dish course")]
+        public int DishCourse { get; set; }
 
 
         public virtual Dish Dish { get; set; }

@@ -67,7 +67,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price")] Complex cmp, List<string> DishesIds)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price")] Complex cmp, List<string> DishesIds, List<ItemsLine> DishLine)
         {
             if (id != cmp.Id)
             {
@@ -146,6 +146,24 @@ namespace CateringPro.Controllers
             ing.Dishes = new MultiSelectList(await _context.Dishes.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
                 .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
             return PartialView(ing);
+        }
+
+        public async Task<IActionResult> CreateNewCourseAsync(int complexId, int course)
+        {
+          
+            
+            var itemline = new ItemsLine();
+            itemline.ComplexId = complexId;
+            itemline.DishCourse = course + 1;
+            ViewData["courseindex"] = course;
+           // itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Where(d => d.DishCourse == course).Select(d => d.DishId.ToString()).ToListAsync();
+            itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Select(d => d.DishId.ToString()).ToListAsync();
+            itemline.Dishes = new MultiSelectList(await _context.Dishes.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
+                .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
+
+            
+
+            return PartialView("CreateNewCourse", itemline);
         }
 
     }

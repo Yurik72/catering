@@ -4,23 +4,22 @@
 @{
     ViewData["Title"] = "Edit";
 }
-    <style>
-        form dt {
-            float: left;
-            display: block;
-            width: 30%;
-        }
+<style>
+    form dt {
+        float: left;
+        display: block;
+        width: 30%;
+    }
 
-        dd select {
-            width: 50%;
-        }
+    dd select {
+        width: 50%;
+    }
 
-        dd textarea {
-            width: 100%;
-        }
-      
-    </style>
-<div class="modal-content">
+    dd textarea {
+        width: 100%;
+    }
+</style>
+<div class="modal-content" id="complex" data-id="@Model.Id">
     <div class="modal-header">
         <h5 class="modal-title">@Localizer["Complex"]</h5>
         <button class="close" data-dismiss="modal" area-hidden="true">
@@ -43,10 +42,19 @@
                 </dd>
                 <dt> <label asp-for="Price" class="control-label"></label> </dt>
                 <dd> <input asp-for="Price" class="form-control" /></dd>
+                @*<dt> <label asp-for="DishesQuantity" class="control-label"></label> </dt>*@
+                <dd> <input asp-for="DishesQuantity" type="hidden" id="quantity" name="DishesQuantity" min="1" max="10" class="form-control" onchange="changeQuantity()" /></dd>
+                
                 <dt><label asp-for="DishComplex" class="control-label"></label> </dt>
-                <dd>
-                    <div class="dishes-content" >
+                <dd id="dishContainer" class="dishes-container">
+                    <div class="dishes-content dish-line" id="dish">
 
+                    </div>
+                    <div id="dish-footer">
+                        <div id="create-dishline" class="col  create">
+                            <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+                            <span>@Localizer["Add"]</span>
+                        </div>
                     </div>
                 </dd>
             </dl>
@@ -62,7 +70,7 @@
             <div class="col-sm-2">
                 <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
             </div>
-
+            
             <div class="col-sm-1">
             </div>
 
@@ -70,8 +78,150 @@
     </div>
 </div>
 
+<script>
+
+    @*function changeQuantity() {
+        var quantity = document.getElementById("quantity").value;
+        //var values = $('#DishesIds').val();
+        //console.log(values);
+        var dishes = document.getElementsByClassName("dishes-content").length;
+        // console.log(dishes);
+        //let count = quantity;
+        if (quantity > dishes) {
+            //for (var i = dishes; i < quantity; i++) {
+            //    // var res = loaddishes(1);
+            //    var itm = document.getElementById("dish");
+
+            //    var cln = itm.cloneNode(true);
+            //    //count++;
+
+            //    cln.setAttribute("id", "dish" + i);
+            //    // console.log(res);
+            //    document.getElementById("dishContainer").appendChild(cln);
+
+            //}
+            console.log("create new line");
+
+            var dlg = $("#complex");
+
+
+                      var id = dlg.attr("data-id");
+            var course = dlg.find("#dishContainer").find(".dish-line").length;
+                     // var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?dishId=${id}&course=${course}`;
+                      var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?complexId=${id}&course=${course}`;
+                  console.log(url);
+            $.get(url, function (data) {
+                //document.getElementById("dishContainer").appendChild(data);
+                console.log(data);
+                dlg.find("#dishContainer").find("#dish-footer").before(data);
+                $('select').selectpicker({
+                    liveSearch: true,
+                    showSubtext: true
+                });
+                });
+        }
+
+        if (quantity < dishes) {
+            var dlg = $(this).parents("#complex");
+            var docline = $(this).parents(".dish-line");
+            docline.remove();
+            var maxidx = dlg.find(".dish-line").length;
+            console.log(maxidx);
+            dlg.find(".dish-line").each(function (lidx, lel) {
+                $(lel).find('input[name*="["]').each(function (idx, el) {
+                    var name = $(el).attr('name');
+                    //console.log(name);
+                    var newname = name.replace(/\[\d+\]/g, `[${lidx}]`);
+                    $(el).attr('name', newname);
+                    //console.log(newname);
+                });
+            })
+        }
+        $('select').selectpicker({
+            liveSearch: true,
+            showSubtext: true
+        });
+    }
+    // Material Select Initialization
+
+    function send() {
+        console.log("Hello");
+        //return;
+        let count = 1;
+        //while (document.getElementById("dish" + count)!=null) {
+        var dishIds = $('#DishesIds').val();
+        //  }
+
+        $.ajax({
+            type: "POST",
+            data: { DishId: 1, daydate: 2, enabled: 3 },
+
+            url: "/D",
+            success: function (data) {
+                // alert(data);
+            }
+        });
+
+
+
+    }*@
+    $(document).on("click", "#create-dishline",
+        function (e) {
+            console.log("create new line");
+            e.preventDefault();
+            var dlg = $("#complex");
+            var quan = parseInt($("#quantity").val());
+            $("#quantity").val(quan + 1);
+
+                      var id = dlg.attr("data-id");
+            var course = dlg.find("#dishContainer").find(".dish-line").length;
+                     // var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?dishId=${id}&course=${course}`;
+                      var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?complexId=${id}&course=${course}`;
+                  console.log(url);
+            $.get(url, function (data) {
+                //document.getElementById("dishContainer").appendChild(data);
+                console.log(data);
+                dlg.find("#dishContainer").find("#dish-footer").before(data);
+                $('select').selectpicker({
+                    liveSearch: true,
+                    showSubtext: true
+                });
+                });
+        });
+
+    $(document).on("click", ".delete-line",
+        function (e) {
+            console.log("delete line");
+            e.preventDefault();
+            var dlg = $(this).parents("#complex");
+            var docline = $(this).parents(".dish-line");
+            docline.remove();
+            var quan = parseInt( $("#quantity").val());
+            $("#quantity").val(quan - 1);
+            var maxidx = dlg.find(".dish-line").length;
+            console.log(maxidx);
+            dlg.find(".dish-line").each(function (lidx, lel) {
+                $(lel).find('input[name*="["]').each(function (idx, el) {
+                    var name = $(el).attr('name');
+                    //console.log(name);
+                    var newname = name.replace(/\[\d+\]/g, `[${lidx}]`);
+                    $(el).attr('name', newname);
+                    //console.log(newname);
+                });
+            })
+
+        });
+
+
+
+
+
+
+
+</script>
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
