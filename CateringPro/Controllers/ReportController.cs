@@ -52,6 +52,7 @@ namespace CateringPro.Controllers
             }
             return View(await _reportrepo.CompanyProductionForecast(datefrom,dateto, User.GetCompanyID()));
         }
+       // [MiddlewareFilter(typeof(JsReportPipeline))]
         public  IActionResult CompanyDayProduction(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)
@@ -75,6 +76,17 @@ namespace CateringPro.Controllers
             {
                 // HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
             }
+            //test
+            var rs = new jsreport.Local.LocalReporting().UseBinary(jsreport.Binary.JsReportBinary.GetBinary()).AsUtility().Create();
+            var report =  rs.RenderAsync(new RenderRequest()
+            {
+                Template = new Template()
+                {
+                    Recipe = Recipe.ChromePdf,
+                    Engine = Engine.None,
+                    Content = "Hello from pdf",
+                }
+            }).Result;
             return View( _reportrepo.CompanyDayProduction(datefrom, dateto, User.GetCompanyID()));
         }
         public IActionResult CompanyMenu(DateTime datefrom, DateTime dateto, string format)
