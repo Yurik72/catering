@@ -66,6 +66,16 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
+        public async Task<IActionResult> SearchView()
+        {
+           
+           
+            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
+           
+            query = query.Take(pageRecords);
+            return PartialView(await query.ToListAsync());
+
+        }
 
         // GET: Dishes/Details/5
         public async Task<IActionResult> Details(int? id)

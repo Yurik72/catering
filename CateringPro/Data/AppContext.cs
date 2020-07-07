@@ -119,7 +119,7 @@ namespace CateringPro.Data
 
             //complex 
             modelBuilder.Entity<DishComplex>()
-             .HasKey(bc => new { bc.DishId, bc.ComplexId });
+             .HasKey(bc => new { bc.DishId, bc.ComplexId,bc.DishCourse });
             //day dish
             modelBuilder.Entity<DishComplex>()
                  .HasOne(c => c.Dish)

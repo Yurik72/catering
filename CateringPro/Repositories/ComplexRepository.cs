@@ -6,6 +6,7 @@ using CateringPro.Models;
 using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace CateringPro.Repositories
 {
@@ -26,9 +27,28 @@ namespace CateringPro.Repositories
             {
 
                 List<int> ds = dishes.ConvertAll(int.Parse);
+                var dishComplexes = from dl in dishLine
+                                    from dlc in dl.DishesIds
+                                    select new DishComplex()
+                                    {
+                                        CompanyId = companyid,
+                                        ComplexId = complex.Id,
+                                        DishId = dlc,
+                                        DishCourse = dl.DishCourse
+                                    };
+                var existing_db = await _context.DishComplex.WhereCompany(companyid).Where(di => di.ComplexId == complex.Id ).ToListAsync();
+               // IEnumerable<DishComplex> newRange = null;
+               // empty remove all
+                    //remove items which are not in db
+                    // existing_db.RemoveAll(di => !dishComplexes.Any(dc=> dc.DishId== di.DishId && dc.ComplexId==di.ComplexId && dc.DishCourse==di.DishCourse));
+                    //existing_db.RemoveAll(di=>true);
+                    // _context.UpdateRange(existing_db);
+                    _context.RemoveRange(existing_db);
+                     await _context.AddRangeAsync(dishComplexes);
+                    await _context.SaveChangesAsync();
                 
-               
-               // IEnumerable<DishComplex> newRange1 = null;
+                /*
+                // IEnumerable<DishComplex> newRange1 = null;
                 foreach (var dl in dishLine)
                 {
                     var existing = await _context.DishComplex.WhereCompany(companyid).Where(di => di.ComplexId == complex.Id && di.DishCourse== dl.DishCourse).ToListAsync();
@@ -56,7 +76,7 @@ namespace CateringPro.Repositories
 
                 }
 
-
+                */
                 //if (dishes == null || dishes.Count() == 0)
                 //{
                 //    existing.RemoveAll(di => true);

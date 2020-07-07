@@ -91,13 +91,13 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var cat = await _context.Complex.FindAsync(id);
-            if (cat == null)
+            var complex =  await _context.Complex.Include(c=>c.DishComplex).ThenInclude(d=>d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c=>c.Id==id);
+            if (complex == null)
             {
                 return NotFound();
             }
             
-            return PartialView(cat);
+            return PartialView(complex);
         }
         public IActionResult CreateModal()
         {

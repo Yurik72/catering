@@ -41,8 +41,9 @@
         </div>
     </div>
 </div>
-<div id="modDialog" class="modal fade complex-form">
+<div id="modDialog" class="modal fade complex-form" >
     <div id="dialogContent" class="modal-dialog"></div>
+    
 </div>
 
 @section Scripts
@@ -54,7 +55,14 @@
                 href: '@Url.Content("~/Complex")',
                 onloadedcb:loaddishes
             });
-
+            $(document).on('click', 'a.add-complex-line', function (event) {
+                event.preventDefault();
+                $('#modDialogcomplexline').modal('show');
+                var url = '@Url.Content("~/Dishes/SearchView")';// + `?complexId=${id}&course=${course}`;
+                $.get(url, function (data) {
+                    $('#modDialogcomplexline').find(".modal-body").html(data);
+                });
+            });
             function loaddishes(id) {
                 if (!id)
                     id = $('#dialogContent').find("#Id").val();
