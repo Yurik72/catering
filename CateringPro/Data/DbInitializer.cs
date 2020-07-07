@@ -59,11 +59,18 @@ namespace CateringPro.Data
 
         private static void SeedDatabase(AppDbContext _context, RoleManager<CompanyRole> _roleManager, UserManager<CompanyUser> _userManager)
         {
-            var cat1 = new Categories { Code="", Name = "Standard", Description = "The Bakery's Standard pizzas all year around." ,CompanyId = 1 };
+            var cat1 = new Categories { Code = "", Name = "Standard", Description = "The Bakery's Standard pizzas all year around.", CompanyId = 1 };
             var cat2 = new Categories { Code = "", Name = "Spcialities", Description = "The Bakery's Speciality pizzas only for a limited time.", CompanyId = 1 };
             var cat3 = new Categories { Code = "", Name = "News", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
             var cat4 = new Categories { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
             var cat5 = new Categories { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+
+            var usrGr1 = new UserGroups { Code = "", Name = "Group1", Description = "Test group descr", CompanyId = 1 };
+            var usrGr2 = new UserGroups { Code = "", Name = "Group2", Description = "Group test", CompanyId = 1 };
+            var usrGr3 = new UserGroups { Code = "", Name = "Group3", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+            var usrGr4 = new UserGroups { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+            var usrGr5 = new UserGroups { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+
 
             var comp1 = new Company { Code = "BASE", Name = "Default" };
             var comp2 = new Company { Code = "CABACHOK", Name = "Кабачок" };
@@ -72,6 +79,12 @@ namespace CateringPro.Data
             {
                 cat1, cat2, cat3,cat4,cat5
             };
+
+            var usrs = new List<UserGroups>()
+            {
+                usrGr1, usrGr2, usrGr3,usrGr4,usrGr5
+            };
+
 
             var d1=new Dish { Code = "1", Name = "Борщ", Price = 2,  Description = "...", CategoriesId=4,CompanyId=1 };
             var d2 = new Dish { Code = "2", Name = "Котлета", Price = 2, Description = "A normal pizza with a taste from the forest.", CategoriesId = 4, CompanyId = 1 };
@@ -141,6 +154,7 @@ namespace CateringPro.Data
             _context.Companies.AddRange(comps);
             _context.SaveChanges();
             _context.Categories.AddRange(cats);
+            _context.UserGroups.AddRange(usrs);
 
 
             _context.Ingredients.AddRange(ings);
@@ -168,12 +182,17 @@ namespace CateringPro.Data
                 }
             }
 
-          
+
 
             var categories = _context.Categories.ToList();
             _context.Categories.RemoveRange(categories);
 
             _context.SaveChanges();
+
+            //var groupusers = _context.UserGroups.ToList();
+            //_context.UserGroups.RemoveRange(groupusers);
+
+            //_context.SaveChanges();
         }
     }
 }

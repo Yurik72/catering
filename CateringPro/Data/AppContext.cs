@@ -18,6 +18,8 @@ namespace CateringPro.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Categories> Categories { get; set; }
 
+        public DbSet<UserGroups> UserGroups { get; set; }
+
         public DbSet<IngredientCategories> IngredientCategories { get; set; }
         //     public DbSet<Pizzas> Pizzas { get; set; }
         public DbSet<Ingredients> Ingredients { get; set; }
