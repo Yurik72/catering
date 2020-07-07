@@ -47,7 +47,7 @@
                 
                 <dt><label asp-for="DishComplex" class="control-label"></label> </dt>
                 <dd id="dishContainer" class="dishes-container">
-                    <div class="dishes-content dish-line" id="dish">
+                    <div class="dishes-content" id="dish">
 
                     </div>
                     <div id="dish-footer">
@@ -80,69 +80,7 @@
 
 <script>
 
-    @*function changeQuantity() {
-        var quantity = document.getElementById("quantity").value;
-        //var values = $('#DishesIds').val();
-        //console.log(values);
-        var dishes = document.getElementsByClassName("dishes-content").length;
-        // console.log(dishes);
-        //let count = quantity;
-        if (quantity > dishes) {
-            //for (var i = dishes; i < quantity; i++) {
-            //    // var res = loaddishes(1);
-            //    var itm = document.getElementById("dish");
-
-            //    var cln = itm.cloneNode(true);
-            //    //count++;
-
-            //    cln.setAttribute("id", "dish" + i);
-            //    // console.log(res);
-            //    document.getElementById("dishContainer").appendChild(cln);
-
-            //}
-            console.log("create new line");
-
-            var dlg = $("#complex");
-
-
-                      var id = dlg.attr("data-id");
-            var course = dlg.find("#dishContainer").find(".dish-line").length;
-                     // var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?dishId=${id}&course=${course}`;
-                      var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?complexId=${id}&course=${course}`;
-                  console.log(url);
-            $.get(url, function (data) {
-                //document.getElementById("dishContainer").appendChild(data);
-                console.log(data);
-                dlg.find("#dishContainer").find("#dish-footer").before(data);
-                $('select').selectpicker({
-                    liveSearch: true,
-                    showSubtext: true
-                });
-                });
-        }
-
-        if (quantity < dishes) {
-            var dlg = $(this).parents("#complex");
-            var docline = $(this).parents(".dish-line");
-            docline.remove();
-            var maxidx = dlg.find(".dish-line").length;
-            console.log(maxidx);
-            dlg.find(".dish-line").each(function (lidx, lel) {
-                $(lel).find('input[name*="["]').each(function (idx, el) {
-                    var name = $(el).attr('name');
-                    //console.log(name);
-                    var newname = name.replace(/\[\d+\]/g, `[${lidx}]`);
-                    $(el).attr('name', newname);
-                    //console.log(newname);
-                });
-            })
-        }
-        $('select').selectpicker({
-            liveSearch: true,
-            showSubtext: true
-        });
-    }
-    // Material Select Initialization
+    @*
 
     function send() {
         console.log("Hello");
@@ -165,8 +103,9 @@
 
 
     }*@
-    $(document).on("click", "#create-dishline",
-        function (e) {
+   // $(document).on("click", "#create-dishline",
+    $("#create-dishline").unbind().click(
+    function (e) {
             console.log("create new line");
             e.preventDefault();
             var dlg = $("#complex");
@@ -180,7 +119,7 @@
                   console.log(url);
             $.get(url, function (data) {
                 //document.getElementById("dishContainer").appendChild(data);
-                console.log(data);
+                //console.log(data);
                 dlg.find("#dishContainer").find("#dish-footer").before(data);
                 $('select').selectpicker({
                     liveSearch: true,

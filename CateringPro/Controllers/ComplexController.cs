@@ -73,8 +73,12 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+            for (int i= 0; i < DishLine.Count; i ++)
+            {
+                DishLine[i].DishCourse = i;
+            }
             var res=await this.UpdateCompanyDataAsync(cmp, _context, _logger);
-            await _complexRepo.UpdateComplexDishes(cmp, DishesIds, User.GetCompanyID());
+            await _complexRepo.UpdateComplexDishes(cmp, DishesIds, User.GetCompanyID(), DishLine);
             return res;
 
         }
@@ -156,8 +160,9 @@ namespace CateringPro.Controllers
             itemline.ComplexId = complexId;
             itemline.DishCourse = course + 1;
             ViewData["courseindex"] = course;
-           // itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Where(d => d.DishCourse == course).Select(d => d.DishId.ToString()).ToListAsync();
-            itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Select(d => d.DishId.ToString()).ToListAsync();
+            // itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Where(d => d.DishCourse == course).Select(d => d.DishId.ToString()).ToListAsync();
+            itemline.DishesIds = (await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Select(d => d.DishId.ToString()).ToListAsync()).ConvertAll(int.Parse);
+             
             itemline.Dishes = new MultiSelectList(await _context.Dishes.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
                 .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
 

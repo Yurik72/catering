@@ -9,7 +9,7 @@ namespace CateringPro.Repositories
     public interface IComplexRepository
     {
 
-        Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid);
+        Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid, List<ItemsLine> dishLine);
 
     }
 }
