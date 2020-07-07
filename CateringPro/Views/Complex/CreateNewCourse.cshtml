@@ -8,7 +8,7 @@
 <div class="row dish-line" data-courseid="@i">
     <div class="form-group container select-complex-dishes">
         <div class="row">
-            <div class="col col-lg-1 col-md-1 form-control dish-line-number" name="DishLines[@i].Number" asp-for="@Model.DishCourse" >@i</></div>
+            <div class="col col-lg-1 col-md-1 form-control dish-line-number" name="DishLines[@i].Number" asp-for="@Model.DishCourse" >@(i+1)</></div>
             <div class="col-md-10 col-10 col-lg-10">
 
 
@@ -17,7 +17,7 @@
                 <select class="selectpicker form-control" multiple="multiple" name="DishLine[@i].DishesIds">
                     @foreach (var item in Model.Dishes)
                     {
-                        @if (Model.DishesIds.Contains(item.Value))
+                        @if (Model.DishesIds.Contains(int.Parse(item.Value)))
                         {
                                 <option  selected value="@item.Value">@item.Text</option>
                         }

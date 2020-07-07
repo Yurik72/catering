@@ -20,34 +20,63 @@ namespace CateringPro.Repositories
             _logger = logger;
         }
 
-        public async Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid)
+        public async Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid, List<ItemsLine> dishLine)
         {
             try
             {
 
                 List<int> ds = dishes.ConvertAll(int.Parse);
-                var existing = await _context.DishComplex.WhereCompany(companyid).Where(di => di.ComplexId == complex.Id).ToListAsync();
-                IEnumerable<DishComplex> newRange = null;
-                if (dishes == null || dishes.Count() == 0)
+                
+               
+               // IEnumerable<DishComplex> newRange1 = null;
+                foreach (var dl in dishLine)
                 {
-                    existing.RemoveAll(di => true);
+                    var existing = await _context.DishComplex.WhereCompany(companyid).Where(di => di.ComplexId == complex.Id && di.DishCourse== dl.DishCourse).ToListAsync();
+                    IEnumerable<DishComplex> newRange = null;
+                    if (dishLine == null || dishLine.Count() == 0)
+                    {
+                        existing.RemoveAll(di => true);
+                    }
+                    else
+                    {
+
+
+                        existing.RemoveAll(di => !dl.DishesIds.Contains(di.DishId));
+                        //                    existing.AddRange(ing.Where(p2 =>
+                        //                                    existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id })
+                        //                                    );
+                        newRange = ds.Where(p2 =>
+                                          existing.All(p1 => p1.DishId != p2)).Select(it => new DishComplex() { DishId = it, ComplexId = complex.Id, CompanyId = companyid, DishCourse = dl.DishCourse });
+                    }
+                    _context.UpdateRange(existing);
+                    if (newRange != null)
+                        await _context.AddRangeAsync(newRange);
+
+                    await _context.SaveChangesAsync();
+
                 }
-                else
-                {
 
 
-                    existing.RemoveAll(di => !ds.Contains(di.DishId));
-                    //                    existing.AddRange(ing.Where(p2 =>
-                    //                                    existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id })
-                    //                                    );
-                    newRange = ds.Where(p2 =>
-                                      existing.All(p1 => p1.DishId != p2)).Select(it => new DishComplex() { DishId = it, ComplexId = complex.Id, CompanyId = companyid });
-                }
-                _context.UpdateRange(existing);
-                if (newRange != null)
-                    await _context.AddRangeAsync(newRange);
+                //if (dishes == null || dishes.Count() == 0)
+                //{
+                //    existing.RemoveAll(di => true);
+                //}
+                //else
+                //{
 
-                await _context.SaveChangesAsync();
+
+                //    existing.RemoveAll(di => !ds.Contains(di.DishId));
+                //    //                    existing.AddRange(ing.Where(p2 =>
+                //    //                                    existing.All(p1 => p1.IngredientId != p2)).Select(it => new DishIngredients() { IngredientId = it, DishId = dish.Id })
+                //    //                                    );
+                //    newRange = ds.Where(p2 =>
+                //                      existing.All(p1 => p1.DishId != p2)).Select(it => new DishComplex() { DishId = it, ComplexId = complex.Id, CompanyId = companyid });
+                //}
+                //_context.UpdateRange(existing);
+                //if (newRange != null)
+                //    await _context.AddRangeAsync(newRange);
+
+                //await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

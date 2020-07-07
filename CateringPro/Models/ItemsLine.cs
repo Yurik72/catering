@@ -8,7 +8,7 @@ namespace CateringPro.Models
 {
     public class ItemsLine
     {
-        public List<string> DishesIds { get; set; }
+        public List<int> DishesIds { get; set; }
 
 
         public MultiSelectList Dishes { get; set; }
