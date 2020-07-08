@@ -558,4 +558,7 @@
   <data name="ZipCode" xml:space="preserve">
     <value>Пошт. Індекс</value>
   </data>
+  <data name="MenuUsersGroups" xml:space="preserve">
+    <value>Групи Користувачiв</value>
+  </data>
 </root>
