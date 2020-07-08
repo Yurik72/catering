@@ -222,6 +222,9 @@
   <data name="MenuCategories" xml:space="preserve">
     <value>Список категорий</value>
   </data>
+  <data name="MenuUserGroups" xml:space="preserve">
+    <value>Список групп</value>
+  </data>
   <data name="MenuCustomerOrders" xml:space="preserve">
     <value>Заказы</value>
   </data>
