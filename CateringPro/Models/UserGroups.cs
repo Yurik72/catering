@@ -10,9 +10,9 @@ namespace CateringPro.Models
     {
         public UserGroups()
         {
-            Dishes = new HashSet<Dish>();
+           // Dishes = new HashSet<Dish>();
 
-          DishCategories =new  HashSet<DishCategory>();
+         // DishCategories =new  HashSet<DishCategory>();
 
 
         }
@@ -38,8 +38,8 @@ namespace CateringPro.Models
     //    public virtual ICollection<Pizzas> Pizzas { get; set; }
 
 
-        public virtual ICollection<Dish> Dishes { get; set; }
+      //  public virtual ICollection<Dish> Dishes { get; set; }
         
-        public ICollection<DishCategory> DishCategories { get; set; }
+      //  public ICollection<DishCategory> DishCategories { get; set; }
     }
 }
