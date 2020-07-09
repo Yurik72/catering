@@ -6,14 +6,27 @@ using System.Threading.Tasks;
 using CateringPro.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using CateringPro.Core;
+using System.Reflection;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics;
 
 namespace CateringPro.Data
 {
     public class AppDbContext : IdentityDbContext<CompanyUser, CompanyRole,string>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private int companyId=-1;
+        public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
+            _httpContextAccessor = httpContextAccessor;
+        }
 
+        public void SetCompanyID(int val)
+        {
+            companyId = val;
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Categories> Categories { get; set; }
@@ -57,6 +70,15 @@ namespace CateringPro.Data
 
         public DbSet<UserDayComplex> UserDayComplex { get; set; }
         public DbSet<Pictures> Pictures { get; set; }
+
+        protected int CompanyId
+        {
+            get {
+                if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
+                    return _httpContextAccessor.HttpContext.User.GetCompanyID();
+                return companyId;
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -172,6 +194,50 @@ namespace CateringPro.Data
                  .IsRequired()
                  .OnDelete(DeleteBehavior.Restrict);
 
+            Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
+
+            //modelBuilder.Entity<Categories>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
+            //modelBuilder.Entity<Dish>().HasQueryFilter(u =>u.CompanyId== this.CompanyId);
+            // to do dynamically
+            SetGlobalFilters(modelBuilder);
+
+        }
+        private void SetGlobalFilters(ModelBuilder modelBuilder)
+        {
+            Assembly.GetExecutingAssembly().DefinedTypes.ToList().ForEach(ti =>
+            {
+                if(!ti.IsGenericType && !ti.IsAbstract && ti.AsType().IsSubclassOf(typeof(CompanyData)))
+                {
+                    try
+                    {
+                        Type t = ti.AsType();
+                        
+                        
+                        MethodInfo method = typeof(ModelBuilder).GetMethods().
+                        SingleOrDefault(m => m.Name == nameof(ModelBuilder.Entity) && m.ReturnType.IsGenericType);
+                        MethodInfo generic = method.MakeGenericMethod(t);
+                        EntityTypeBuilder x = generic.Invoke(modelBuilder, null) as EntityTypeBuilder;
+                        ParameterExpression parameter = Expression.Parameter(t, "x");
+                        //the left member
+                        MemberExpression leftMember = Expression.Property(parameter, "CompanyId");
+                        //the right member
+                        Expression propertyExpr = Expression.Property(Expression.Constant(this), "CompanyId");
+
+                        Expression equalExpression = Expression.Equal(leftMember, propertyExpr);
+                        //the lambda of the equal expression
+                        LambdaExpression lambda = Expression.Lambda(equalExpression, parameter);
+                        x.HasQueryFilter(lambda);
+                        // Type tf = typeof(Func<,>);
+                      
+
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+
+                }
+            });
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

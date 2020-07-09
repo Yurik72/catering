@@ -439,14 +439,16 @@ a.dialog-edit-icon, a.apagebottom {
     overflow-x:auto;
 }
 
-
+.delete-content {
+    padding :20px;
+}
 .col-select-filter, .col-select-filter:focus {
     border: none !important;
     color: #28a745 !important;
     height: 100% !important;
     font-size: 16px;
     font-weight: 700;
-    padding:0;
+    padding: 0;
     box-shadow: none;
     -moz-appearance: none;
     -webkit-appearance: none;

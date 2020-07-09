@@ -129,14 +129,27 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            //var categories = await _categoryRepo.GetByIdAsync(id);
+           var complex = await _complexRepo.GetByIdAsync(id);
 
          //   if (categories == null)
            // {
           //      return NotFound();
           //  }
 
-            return View(null);
+            return PartialView(complex);
+        }
+
+
+        // POST: Categories/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var complex = await _complexRepo.GetByIdAsync(id);
+            _complexRepo.Remove(complex);
+            await _complexRepo.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> EditDishes(int? id)
         {
@@ -170,6 +183,7 @@ namespace CateringPro.Controllers
 
             return PartialView("CreateNewCourse", itemline);
         }
+
 
     }
 }

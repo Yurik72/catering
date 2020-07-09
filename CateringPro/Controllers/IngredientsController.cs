@@ -35,20 +35,25 @@ namespace CateringPro.Controllers
         }
 
         // GET: Ingredients
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Ingredients.WhereCompany(User.GetCompanyID()).ToListAsync());
+            return View(new List<Ingredients>()); //await _context.Ingredients.WhereCompany(User.GetCompanyID()).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel=new QueryModel() { }
-            ViewData["QueryModel"] = querymodel;
+           // ViewData["QueryModel"] = querymodel;
 
-            ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", querymodel.RelationFilter);
+            ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
 
 
-            var query = (IQueryable<Ingredients>)_context.Ingredients.WhereCompany(User.GetCompanyID()).Include(i => i.IngredientCategory);
+            var query = this.GetQueryList(_context.Ingredients.Include(i => i.IngredientCategory),
+                querymodel,
+                d => d.Name.Contains(querymodel.SearchCriteria),
+                pageRecords);
 
+           // var query = (IQueryable<Ingredients>)_context.Ingredients.WhereCompany(User.GetCompanyID()).Include(i => i.IngredientCategory);
+           /*
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) );
@@ -63,6 +68,7 @@ namespace CateringPro.Controllers
             {
                 query = query.Skip(pageRecords * querymodel.Page);
             }
+           */
             return PartialView(await query.ToListAsync());
 
         }
@@ -225,7 +231,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            return View(ingredients);
+            return PartialView(ingredients);
         }
 
         // POST: Ingredients/Delete/5

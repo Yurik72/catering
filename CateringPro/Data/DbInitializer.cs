@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CateringPro.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CateringPro.Data
@@ -16,16 +17,37 @@ namespace CateringPro.Data
             var roleManager = service.GetRequiredService<RoleManager<CompanyRole>>();
             var userManager = service.GetRequiredService<UserManager<CompanyUser>>();
 
-            if (context.Dishes.Any())
+
+            CreateAdminRole(context, roleManager, userManager);
+            CreateRole("CompanyAdmin", context, roleManager);
+            CreateRole("GroupAdmin", context, roleManager);
+            CreateRole("KitchenAdmin", context, roleManager);
+            CreateRole("UserAdmin", context, roleManager);
+
+            if (context.Dishes.IgnoreQueryFilters().Any())
             {
                 return;
             }
 
             ClearDatabase(context);
             CreateAdminRole(context, roleManager, userManager);
+            CreateRole("CompanyAdmin", context, roleManager);
+            CreateRole("GroupAdmin", context, roleManager);
+            CreateRole("KitchenAdmin", context, roleManager);
+            CreateRole("UserAdmin", context, roleManager);
+
             SeedDatabase(context, roleManager, userManager);
         }
-
+        private static void CreateRole(string name,AppDbContext context, RoleManager<CompanyRole> _roleManager)
+        {
+            if (_roleManager.RoleExistsAsync(name).Result)
+                return;
+            var role = new CompanyRole()
+            {
+                Name = name
+            };
+            _roleManager.CreateAsync(role).Wait();
+        }
         private static void CreateAdminRole(AppDbContext context, RoleManager<CompanyRole> _roleManager, UserManager<CompanyUser> _userManager)
         {
             bool roleExists = _roleManager.RoleExistsAsync("Admin").Result;

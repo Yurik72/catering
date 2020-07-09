@@ -123,6 +123,16 @@
                    // $('#dialogContent').find("#nav-tab").tab();
                 });
             });
+            $(document).on("click", "a.cmd-delete", function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                  //  if (self.options.onloadedcb)
+                  //      self.options.onloadedcb();
+                });
+            });
             function loadingredientsproprotion(id) {
                 var url = '@Url.Content("~/Dishes/EditIngredientsProportion/")' + id;
 

@@ -59,7 +59,7 @@ function setup_listitems(options) {
             e.preventDefault();
             reload(this.href);
         });
-        $(document).on("click", "a.catitem", function (e) {
+     $(document).on("click", "a.cmd-edit", function (e) {
             e.preventDefault();
             $.get(this.href, function (data) {
 
@@ -69,6 +69,16 @@ function setup_listitems(options) {
                     self.options.onloadedcb();
             });
         });
+    $(document).on("click", "a.cmd-delete", function (e) {
+        e.preventDefault();
+        $.get(this.href, function (data) {
+
+            $('#dialogContent').html(data);
+            $('#modDialog').modal('show');
+            //if (self.options.onloadedcb)
+           //     self.options.onloadedcb();
+        });
+    });
     $(document).on('click', '[data-action="modal"]', function (event) {
             event.preventDefault();
 
@@ -108,21 +118,3 @@ function setup_listitems(options) {
 }
 
 
-function listSearchExamplesScript() {
-
-    var value = $("#SearchFieldId").val();
-
-    $.ajax({
-        type: 'GET',
-        url: '/Pizzas/AjaxSearchList',
-        data: { searchString: value }
-    })
-        .done(function (result) {
-            $("#SuggestOutput").html(result);
-            $("#PizzaSummaryId").remove();
-        })
-
-        .fail(function (xhr, status, error) {
-            $("#SuggestOutput").text("No matches where found.");
-        });
-}
