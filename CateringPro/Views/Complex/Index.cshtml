@@ -62,19 +62,19 @@
                 var url = '@Url.Content("~/Dishes/SearchView")' + `?course=${course}`;
                 $.get(url, function (data) {
                     $('#modDialogcomplexline').find(".modal-body").html(data);
-                    setupDishSearch($('#modDialogcomplexline'));
+                    setupDishSearch($('#modDialogcomplexline'), course);
                 });
                 
             });
-            function setupDishSearch(dlg) {
+            function setupDishSearch(dlg,course) {
                 $(dlg).find('.add-item').click(function (e) {
-                    var i = 0; //to do line num
+                   
                          console.log("add dish");
                         e.preventDefault();
                          var dlg = $("#complex");
 
                         var id = $(this).attr("data-id");
-                         console.log(id);
+                         console.log(id );
                          var url = '@Url.Content("~/Dishes/Info/")' + `${id}`;
                         //console.log(url);
                         $.get(url, function (data) {
@@ -85,7 +85,7 @@
                             //dlg.find("#complex-line "+i).find("#course-footer "+i).before(data);
                             $(data).insertBefore(".course-footer-" +i);
                             var el_complexid = $(`<input type='hidden' name='DishComplexes[0].DishId' value='${id}'/>`);  // Create with jQuery
-                            var el_course = $(`<input type='hidden' name='DishComplexes[0].DishCourse' value='${i}'/>`);
+                            var el_course = $(`<input type='hidden' name='DishComplexes[0].DishCourse' value='${course}'/>`);
                             var elid = $("input[name='dishid']");
                             $(elid).after(el_complexid);
                             $(elid).after(el_course);

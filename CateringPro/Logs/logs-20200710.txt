@@ -13717,3 +13717,27 @@ WHERE ([d].[CompanyId] = @__ef_filter__CompanyId_0) AND ([d].[Id] = @__id_0)
 2020-07-10 14:13:16.568 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/css/bootstrap.min.css.map  
 2020-07-10 14:13:16.572 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 4.5195ms 404 
 2020-07-10 14:13:16.575 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 13.2129ms 404 
+2020-07-10 14:15:03.581 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-10 14:15:03.592 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 14:15:03.598 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-10 14:15:03.602 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-10 14:15:03.605 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 14:15:03.609 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/10/2020 14:15:03,1
+2020-07-10 14:15:03.626 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-10 14:15:03.633 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (3ms) [Parameters=[@__ef_filter__CompanyId_0='?' (DbType = Int32), @__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__ef_filter__CompanyId_0) AND ([m].[CompanyId] = @__companyId_0)
+2020-07-10 14:15:03.641 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[@__ef_filter__CompanyId_0='?' (DbType = Int32), @__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE ([m].[CompanyId] = @__ef_filter__CompanyId_0) AND ([m].[CompanyId] = @__companyId_0)
+2020-07-10 14:15:03.681 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (45ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-10 14:15:03.683 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/10/2020 14:15:03,2
+2020-07-10 14:15:03.688 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
