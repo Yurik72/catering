@@ -42,8 +42,23 @@
     </div>
 </div>
 <div id="modDialog" class="modal fade complex-form" >
-    <div id="dialogContent" class="modal-dialog"></div>
+    <div id="dialogContent" class="modal-dialog">
+
+    </div>
     
+</div>
+<div id="modDialogcomplexline" class="modal modal-search fade complex-line" >
+    <div id="dialogContentcomplexline" class="modal-dialog modal-search-dialog">
+    <div class="modal-content modal-content-search">
+        <div class="modal-header">
+            <input type="text" id="search-dishes" class="form-control input-lg" placeholder="...." />
+            <button type="button" class="close" data-toggle="modal" data-target="#modDialogcomplexline">X</button>
+        </div>
+        <div class="modal-body modal-search-body">
+        </div>
+
+    </div>
+    </div>
 </div>
 
 @section Scripts
@@ -51,19 +66,95 @@
     <script type="text/javascript">
 
         $(function () {
+            var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
             setup_listitems({
                 href: '@Url.Content("~/Complex")',
                 onloadedcb:loaddishes
             });
+            function delay(callback, ms) {
+                var timer = 0;
+                return function () {
+                    var context = this, args = arguments;
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        callback.apply(context, args);
+                    }, ms || 0);
+                };
+            };
+            //$('#search-dishes').keyup(function (e) {
+            //    console.log(e);
+           // });
+            $('#search-dishes').keyup(delay(function (e) {
+               //console.log('Time elapsed!', this.value);
+                var url = '@Url.Content("~/Dishes/SearchView")' + `?SearchCriteria=${this.value}`;
+                $('#modDialogcomplexline').find(".modal-body").html(html_loading);
+                $.get(url, function (data) {
+                    $('#modDialogcomplexline').find(".modal-body").html(data);
+                    //$('#modDialog').modal('hide');
+                    //$('#modDialogcomplexline').modal('show');
+                    $('#modDialogcomplexline').modal('handleUpdate');
+                    setupDishSearch($('#modDialogcomplexline'), course, function () {
+                        //  $('#modDialog').modal('show');
+
+                    });
+                });
+            }, 500));
             $(document).on('click', 'a.add-complex-line', function (event) {
                 event.preventDefault();
                 var course = $(this).attr("course");
-                $('#modDialogcomplexline').modal('show');
+
                 var url = '@Url.Content("~/Dishes/SearchView")' + `?course=${course}`;
+                $('#modDialogcomplexline').find(".modal-body").html(html_loading);
+                //$('#modDialog').modal('hide');
+                $('#modDialogcomplexline').modal('show');
                 $.get(url, function (data) {
                     $('#modDialogcomplexline').find(".modal-body").html(data);
+                    //$('#modDialog').modal('hide');
+                    //$('#modDialogcomplexline').modal('show');
+                    $('#modDialogcomplexline').modal('handleUpdate');
+                    setupDishSearch($('#modDialogcomplexline'), course, function () {
+                      //  $('#modDialog').modal('show');
+
+                        });
                 });
+
             });
+            function setupDishSearch(dlg,course,closecb) {
+               // $(dlg).find('.add-item').click(function (e) {
+                $(dlg).find('.table.search-items tr').click(function (e) {
+
+                         console.log("add dish");
+                        e.preventDefault();
+                         var dlg = $("#complex");
+
+                        // var id = $(this).attr("data-id");
+
+                        var id = $(this).find('.add-item').attr("data-id");
+                         console.log(id );
+                         var url = '@Url.Content("~/Dishes/Info/")' + `${id}`;
+                        //console.log(url);
+                        $.get(url, function (data) {
+                            //document.getElementById("dishContainer").appendChild(data);
+                            let name = ".course-footer-" + course;
+                            console.log($(name).html());
+
+                            //dlg.find("#complex-line "+i).find("#course-footer "+i).before(data);
+                            $(data).insertBefore(".course-footer-" + course);
+                            var el_complexid = $(`<input type='hidden' name='DishComplexes[0].DishId' value='${id}'/>`);  // Create with jQuery
+                            var el_course = $(`<input type='hidden' name='DishComplexes[0].DishCourse' value='${course}'/>`);
+                            var elid = $("input[name='dishid']");
+                            $(elid).after(el_complexid);
+                            $(elid).after(el_course);
+                            });
+                });
+                $(dlg).on('hide.bs.modal', function (e) {
+                    console.log('close search');
+                    $('#modDialogcomplexline').find(".modal-body").empty();
+                    if (closecb)
+                        closecb();
+
+                })
+            }
             function loaddishes(id) {
                 if (!id)
                     id = $('#dialogContent').find("#Id").val();
