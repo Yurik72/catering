@@ -72,10 +72,10 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
-        public async Task<IActionResult> SearchView()
+        public async Task<IActionResult> SearchView(int course)
         {
-           
-           
+
+            ViewData["courseindex"] = course;
             var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
            
             query = query.Take(pageRecords);
@@ -99,6 +99,24 @@ namespace CateringPro.Controllers
             }
 
             return View(dish);
+        }
+        //GET: Dishes/Info/5
+        //info about one dish for line 
+        public async Task<IActionResult> Info(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dish = await _context.Dishes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (dish == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("DishInLine", dish);
         }
 
 

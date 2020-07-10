@@ -1,28 +1,44 @@
 ﻿@model IEnumerable<CateringPro.Models.DishComplex>
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+    int i = 0;
+    if (ViewData["courseindex"] != null)
+        i = (int)(ViewData["courseindex"]);
+    else if (Model.Count() > 0)
+        i = Model.First().DishCourse;
+}
 
-    <div class="complex-line container" style="background-color:yellow;">
-        <div class="row">
-            <div class="col-sm-4">
-                <label> line DishCourse </label>
-            </div>
-            <div class="col-sm-4">
-                <a class="add-complex-line"> Додати </a>
-            </div>
+<div class="complex-line container" id="complex-line$@i" >
+    <div class="row course-dish">
+        <div class="col-sm-4">
+            <label>@(i+1) line DishCourse </label>
         </div>
-            @foreach (var it in Model)
-            {
+        <div class="col-sm-4">
+            <a class="add-complex-line" course="@i"> Додати </a>
+        </div>
+        <div class="col-1 delete-line">
+            <span class="fa fa-trash fa-2x" aria-hidden="true"></span>
 
-                <div class="row">
-                    <div class="col-sm-1">
-                        <a class="dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    </div>
-                    <div class="col-sm-4">
-                        <img src="@Url.Action("GetPicture","Pictures",new { id=it.Dish.PictureId,width=40,height=40})" style="width:40px;height:40px;" />
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.DisplayFor(modelItem => it.Dish.Name)
-                    </div>
-                </div>
-            }
         </div>
+    </div>
+    @foreach (var it in Model)
+    {
+
+<div class="row dish-line" dish-id="@it.DishId">
+
+
+    <div class="col-sm-4">
+        <img src="@Url.Action("GetPicture","Pictures",new { id=it.Dish.PictureId,width=40,height=40})" style="width:40px;height:40px;" />
+    </div>
+    <div class="col-sm-2">
+        @Html.DisplayFor(modelItem => it.Dish.Name)
+    </div>
+    <div class="col-sm-1">
+        <a class="dialog-edit-icon delete-item"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+    </div>
+</div>
+    }
+    <div id="course-footer @i" class="course-footer-@i"></div>
+</div>

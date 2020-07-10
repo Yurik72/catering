@@ -167,21 +167,21 @@ namespace CateringPro.Controllers
 
         public async Task<IActionResult> CreateNewCourseAsync(int complexId, int course)
         {
-          
-            
-            var itemline = new ItemsLine();
-            itemline.ComplexId = complexId;
-            itemline.DishCourse = course + 1;
+
+
+            //var itemline = new ItemsLine();
+            //itemline.ComplexId = complexId;
+            //itemline.DishCourse = course + 1;
             ViewData["courseindex"] = course;
-            // itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Where(d => d.DishCourse == course).Select(d => d.DishId.ToString()).ToListAsync();
-            itemline.DishesIds = (await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Select(d => d.DishId.ToString()).ToListAsync()).ConvertAll(int.Parse);
-             
-            itemline.Dishes = new MultiSelectList(await _context.Dishes.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
-                .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
+            //// itemline.DishesIds = await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Where(d => d.DishCourse == course).Select(d => d.DishId.ToString()).ToListAsync();
+            //itemline.DishesIds = (await _context.DishComplex.WhereCompany(User.GetCompanyID()).Where(d => d.ComplexId == complexId).Select(d => d.DishId.ToString()).ToListAsync()).ConvertAll(int.Parse);
 
-            
+            //itemline.Dishes = new MultiSelectList(await _context.Dishes.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
+            //    .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
+            //DishComplex> itemline = new IEnumerable<DishComplex>;
 
-            return PartialView("CreateNewCourse", itemline);
+
+            return PartialView("ComplexLineDishes", new List<DishComplex> ());
         }
 
 

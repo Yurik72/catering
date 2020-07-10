@@ -3,7 +3,10 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = null;
-    int i = (int)(ViewData["courseindex"]);
+    int i = 0;
+    
+         i = (int)(ViewData["courseindex"]);
+  
 }
 <div class="row dish-line" data-courseid="@i">
     <div class="form-group container select-complex-dishes">
