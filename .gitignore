@@ -341,3 +341,11 @@ healthchecksdb
 
 # bin folder exclude //YK
 bin
+
+
+# logs
+
+CateringPro/Logs/
+
+*.suo
+
