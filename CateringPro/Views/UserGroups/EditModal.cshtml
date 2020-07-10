@@ -33,11 +33,11 @@
             <dl class="">
                 <dd><input type="hidden" asp-for="Id" /></dd>
 
-                <dt>  <label asp-for="Code" class="control-label"></label></dt>
+                @*<dt>  <label asp-for="Code" class="control-label"></label></dt>
                 <dd>
                     <input asp-for="Code" class="form-control" />
                     <span asp-validation-for="Code" class="text-danger"></span>
-                </dd>
+                </dd>*@
 
 
                 <dt>  <label asp-for="Name" class="control-label"></label></dt>
@@ -45,8 +45,8 @@
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </dd>
-                <dt> <label asp-for="Description" class="control-label"></label> </dt>
-                <dd>@Html.EditorFor(model => model.Description)</dd>
+                @*<dt> <label asp-for="Description" class="control-label"></label> </dt>
+                <dd>@Html.EditorFor(model => model.Description)</dd>*@
             </dl>
         </form>
         <div class="row">

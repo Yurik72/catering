@@ -391,7 +391,7 @@
     <value>Лист категорій</value>
   </data>
   <data name="MenuUserGroups" xml:space="preserve">
-    <value>Список груп</value>
+    <value>Назва групи</value>
   </data>
   <data name="MenuComplex" xml:space="preserve">
     <value>Комплекс</value>

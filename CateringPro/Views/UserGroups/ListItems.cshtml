@@ -19,10 +19,10 @@
 
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
             </th>
-            <th>
+            @*<th>
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
 
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -33,9 +33,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>
+                </td>*@
                 <td>
 
 
@@ -48,9 +48,9 @@
     </tbody>
     <tfoot>
         <tr class="bg-white text-success rounded border">
-            <td colspan="3">
+            @*<td colspan="3">
                 @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
-            </td>
+            </td>*@
         </tr>
     </tfoot>
 </table>
