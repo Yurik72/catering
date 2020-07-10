@@ -18,7 +18,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
     public class UserGroupsController : Controller
     {
         private readonly AppDbContext _context;
@@ -37,35 +37,21 @@ namespace CateringPro.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _usrGrRepo.GetAllAsync());
+            return View(new List<UserGroups>());
         }
 
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
-            //QueryModel querymodel=new QueryModel() { }
-            ViewData["QueryModel"] = querymodel;
-
-            var query = (IQueryable<UserGroups>)_context.UserGroups.WhereCompany(User.GetCompanyID());
-            
-            //if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            //{
-            //    query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
-                
-
-            //}
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
-            if (querymodel.Page > 0)
-            {
-                query = query.Skip(pageRecords * querymodel.Page);
-            }
+            var query = this.GetQueryList(_context.UserGroups,
+                querymodel,
+                d => d.Name.Contains(querymodel.SearchCriteria),
+                pageRecords);
             return PartialView(await query.ToListAsync());
 
         }
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] UserGroups usrGr)
         {
@@ -206,7 +192,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            return View(userGroups);
+            return PartialView(userGroups);
         }
 
         // POST: Categories/Delete/5

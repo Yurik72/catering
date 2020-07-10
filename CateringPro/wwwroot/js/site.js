@@ -124,6 +124,7 @@ function setup_listitems(options) {
                     isValid = true;
 
                 if (isValid) {
+                    $('#modDialog').attr("_changed", false);
                     $('#modDialog').modal('hide');
                     $('#dialogContent').empty();
                     reload();
@@ -131,6 +132,7 @@ function setup_listitems(options) {
                 else {
                     var newBody = $('.modal-body', data);
                     $(document).find('.modal-body').replaceWith(newBody);
+                    setupChangesChecker($('#modDialog'));
                 }
             })
             .fail(function (xhr, status, error) {

@@ -567,4 +567,7 @@
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
+  <data name="UserGroups" xml:space="preserve">
+    <value>Група користувачiв</value>
+  </data>
 </root>
