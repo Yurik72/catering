@@ -62,8 +62,40 @@
                 var url = '@Url.Content("~/Dishes/SearchView")' + `?course=${course}`;
                 $.get(url, function (data) {
                     $('#modDialogcomplexline').find(".modal-body").html(data);
+                    setupDishSearch($('#modDialogcomplexline'));
                 });
+                
             });
+            function setupDishSearch(dlg) {
+                $(dlg).find('.add-item').click(function (e) {
+                    var i = 0; //to do line num
+                         console.log("add dish");
+                        e.preventDefault();
+                         var dlg = $("#complex");
+
+                        var id = $(this).attr("data-id");
+                         console.log(id);
+                         var url = '@Url.Content("~/Dishes/Info/")' + `${id}`;
+                        //console.log(url);
+                        $.get(url, function (data) {
+                            //document.getElementById("dishContainer").appendChild(data);
+                            let name = ".course-footer-"+i
+                            console.log($(name).html());
+
+                            //dlg.find("#complex-line "+i).find("#course-footer "+i).before(data);
+                            $(data).insertBefore(".course-footer-" +i);
+                            var el_complexid = $(`<input type='hidden' name='DishComplexes[0].DishId' value='${id}'/>`);  // Create with jQuery
+                            var el_course = $(`<input type='hidden' name='DishComplexes[0].DishCourse' value='${i}'/>`);
+                            var elid = $("input[name='dishid']");
+                            $(elid).after(el_complexid);
+                            $(elid).after(el_course);
+                            });
+                });
+                $(dlg).on('hide.bs.modal', function (e) {
+                    console.log('close search');
+                    $('#modDialogcomplexline').find(".modal-body").empty();
+                })
+            }
             function loaddishes(id) {
                 if (!id)
                     id = $('#dialogContent').find("#Id").val();
