@@ -21,6 +21,19 @@ namespace CateringPro.Repositories
             _logger = logger;
         }
 
+        public async Task<Complex> GetByIdAsync(int? id)
+        {
+            return await _context.Complex.FirstOrDefaultAsync(p => p.Id == id);
+        }
+        public void Remove(Complex complex)
+        {
+            _context.Remove(complex);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
         public async Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid, List<ItemsLine> dishLine)
         {
             try

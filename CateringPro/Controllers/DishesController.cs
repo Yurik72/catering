@@ -33,22 +33,27 @@ namespace CateringPro.Controllers
         }
 
         // GET: Dishes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-          
-            return View(await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
+
+            return View(new List<Dish>());// await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")]  QueryModel querymodel)
         {
             _logger.LogWarning("Dish Controllers  - ListItems User.GetCompanyID() {0} ", User.GetCompanyID());
             _logger.LogWarning("ListItems pageRecords {0} ", pageRecords);
             ViewData["QueryModel"] = querymodel;
-            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", querymodel.RelationFilter);
-            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
+            //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
+            var query =this.GetQueryList(_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient),
+                    querymodel,
+                        d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria),
+                     pageRecords);
             if (querymodel.RelationFilter > 0)
             {
                 query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);
             }
+            /*
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
@@ -63,6 +68,7 @@ namespace CateringPro.Controllers
                 query = query.Skip(pageRecords * querymodel.Page);
             }
             query = query.Take(pageRecords);
+            */
             return PartialView(await query.ToListAsync());
 
         }
@@ -289,7 +295,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            return View(dish);
+            return PartialView(dish);
         }
 
         // POST: Dishes/Delete/5

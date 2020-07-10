@@ -47,7 +47,10 @@
                 </dd>
                 <dt> <label asp-for="Description" class="control-label"></label> </dt>
                 <dd>@Html.EditorFor(model => model.Description)</dd>
+
             </dl>
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
         </form>
         <div class="row">
             <div class="col-sm-1">

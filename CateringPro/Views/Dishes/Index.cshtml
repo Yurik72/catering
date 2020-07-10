@@ -107,20 +107,47 @@
 
                 reload(href);
             });
+            function setupChangesChecker(dlg) {
+                $(dlg).attr("_changed", false);
+                $(dlg).find("input,textarea").change(function () {
+                    $(dlg).attr("_changed", true);
+                });
+                $(dlg).on('hide.bs.modal', function (e) {
+                    if ($(dlg).attr("_changed") == "true") {
+                        if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
+                            e.preventDefault();
+                        $(dlg).attr("_changed", false);
+                    }
+                });
 
+            }
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);
                     //console.log(data);
-
+                    $('#modDialog').attr("data-backdrop", false);
+                    $('#modDialog').css("background-color", "rgba(117, 117, 117, 0.5)");
                     $('#modDialog').modal('show');
+                    setupChangesChecker($('#modDialog'));
+                   
                     var id = $('#dialogContent').find("#Id").val();
                     loadingredients(id);
                     loadingredientsproprotion(id);
                    
                    // $('#dialogContent').find("#nav-tab").tab();
+                });
+            });
+
+            $(document).on("click", "a.cmd-delete", function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+
+                    $('#dialogContent').html(data);
+
+                  //  if (self.options.onloadedcb)
+                  //      self.options.onloadedcb();
                 });
             });
             function loadingredientsproprotion(id) {

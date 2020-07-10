@@ -15,7 +15,7 @@ namespace CateringPro.Core
         public static IQueryable<T> GetQueryList<T>(this Controller cont, IQueryable<T> dbSet, QueryModel querymodel, Expression<Func<T, bool>> predicate,int  pageRecords) where T : CompanyData
         {
             cont.ViewData["QueryModel"] = querymodel;
-            var query = dbSet.WhereCompany(cont.User.GetCompanyID());
+            var query = dbSet;//.WhereCompany(cont.User.GetCompanyID());
             if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
             {
                 query = query.Where(predicate);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CateringPro.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CateringPro.Data
@@ -16,16 +17,37 @@ namespace CateringPro.Data
             var roleManager = service.GetRequiredService<RoleManager<CompanyRole>>();
             var userManager = service.GetRequiredService<UserManager<CompanyUser>>();
 
-            if (context.Dishes.Any())
+
+            CreateAdminRole(context, roleManager, userManager);
+            CreateRole("CompanyAdmin", context, roleManager);
+            CreateRole("GroupAdmin", context, roleManager);
+            CreateRole("KitchenAdmin", context, roleManager);
+            CreateRole("UserAdmin", context, roleManager);
+
+            if (context.Dishes.IgnoreQueryFilters().Any())
             {
                 return;
             }
 
             ClearDatabase(context);
             CreateAdminRole(context, roleManager, userManager);
+            CreateRole("CompanyAdmin", context, roleManager);
+            CreateRole("GroupAdmin", context, roleManager);
+            CreateRole("KitchenAdmin", context, roleManager);
+            CreateRole("UserAdmin", context, roleManager);
+
             SeedDatabase(context, roleManager, userManager);
         }
-
+        private static void CreateRole(string name,AppDbContext context, RoleManager<CompanyRole> _roleManager)
+        {
+            if (_roleManager.RoleExistsAsync(name).Result)
+                return;
+            var role = new CompanyRole()
+            {
+                Name = name
+            };
+            _roleManager.CreateAsync(role).Wait();
+        }
         private static void CreateAdminRole(AppDbContext context, RoleManager<CompanyRole> _roleManager, UserManager<CompanyUser> _userManager)
         {
             bool roleExists = _roleManager.RoleExistsAsync("Admin").Result;
@@ -65,11 +87,11 @@ namespace CateringPro.Data
             var cat4 = new Categories { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
             var cat5 = new Categories { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
 
-            var usrGr1 = new UserGroups { Code = "", Name = "Group1", Description = "Test group descr", CompanyId = 1 };
-            var usrGr2 = new UserGroups { Code = "", Name = "Group2", Description = "Group test", CompanyId = 1 };
-            var usrGr3 = new UserGroups { Code = "", Name = "Group3", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
-            var usrGr4 = new UserGroups { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
-            var usrGr5 = new UserGroups { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+            var usrGr1 = new UserGroups { Name = "Group1", CompanyId = 1 };
+            var usrGr2 = new UserGroups { Name = "Group2", CompanyId = 1 };
+            var usrGr3 = new UserGroups { Name = "Group3", CompanyId = 1 };
+            var usrGr4 = new UserGroups { Name = "Завтраки", CompanyId = 1 };
+            var usrGr5 = new UserGroups { Name = "Обед", CompanyId = 1 };
 
 
             var comp1 = new Company { Code = "BASE", Name = "Default" };
@@ -189,10 +211,10 @@ namespace CateringPro.Data
 
             _context.SaveChanges();
 
-            //var groupusers = _context.UserGroups.ToList();
-            //_context.UserGroups.RemoveRange(groupusers);
+            var groupusers = _context.UserGroups.ToList();
+            _context.UserGroups.RemoveRange(groupusers);
 
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

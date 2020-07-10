@@ -391,7 +391,7 @@
     <value>Лист категорій</value>
   </data>
   <data name="MenuUserGroups" xml:space="preserve">
-    <value>Список груп</value>
+    <value>Назва групи</value>
   </data>
   <data name="MenuComplex" xml:space="preserve">
     <value>Комплекс</value>
@@ -557,5 +557,14 @@
   </data>
   <data name="ZipCode" xml:space="preserve">
     <value>Пошт. Індекс</value>
+  </data>
+  <data name="MenuUsersGroups" xml:space="preserve">
+    <value>Групи Користувачiв</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Ви впевненi що хочете видалити ?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
   </data>
 </root>
