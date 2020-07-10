@@ -72,12 +72,14 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
-        public async Task<IActionResult> SearchView(int course)
+        public async Task<IActionResult> SearchView([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
 
-            ViewData["courseindex"] = course;
-            var query = (IQueryable<Dish>)_context.Dishes.WhereCompany(User.GetCompanyID()).Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
-           
+            // ViewData["courseindex"] = course;
+            var query = (IQueryable<Dish>)_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
+
+           if(querymodel!=null && !string.IsNullOrEmpty( querymodel.SearchCriteria))
+                query= query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
             query = query.Take(pageRecords);
             return PartialView(await query.ToListAsync());
 
