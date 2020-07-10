@@ -49,7 +49,7 @@
                 <dd>@Html.EditorFor(model => model.Description)</dd>
 
             </dl>
-
+            @Html.ValidationSummary(true)
             @Html.AntiForgeryToken()
         </form>
         <div class="row">
