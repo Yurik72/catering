@@ -118,5 +118,24 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+
+        public async Task<bool> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
+        {
+            try
+            { 
+                var existing_db = await _context.DishComplex.Where(di => di.ComplexId == complex.Id).ToListAsync();
+                _context.DishComplex.RemoveRange(dishComplexes);
+                await _context.AddRangeAsync(dishComplexes);
+ 
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "UpdateComplexDishes");
+                return false;
+            }
+            return true;
+        }
     }
 }

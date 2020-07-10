@@ -28,7 +28,7 @@
 
 <div class="row dish-line" dish-id="@it.DishId">
 
-
+    <input type="hidden" name="DishComplexes[@i].ComplexId" asp-for="@it.ComplexId" />
     <div class="col-sm-4">
         <img src="@Url.Action("GetPicture","Pictures",new { id=it.Dish.PictureId,width=40,height=40})" style="width:40px;height:40px;" />
     </div>

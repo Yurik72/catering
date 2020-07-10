@@ -45,29 +45,18 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel=new QueryModel() { }
-            ViewData["QueryModel"] = querymodel;
 
-            var query = (IQueryable<Complex>)_context.Complex.WhereCompany(User.GetCompanyID());
-            
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            {
-                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) );
-                
+            var query = this.GetQueryList(_context.Complex,
+                querymodel,
+                d => d.Name.Contains(querymodel.SearchCriteria) ,
+                pageRecords);
 
-            }
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
-            if (querymodel.Page > 0)
-            {
-                query = query.Skip(pageRecords * querymodel.Page);
-            }
+          
             return PartialView(await query.ToListAsync());
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price")] Complex cmp, List<string> DishesIds, List<ItemsLine> DishLine)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity")] Complex cmp, List<string> DishesIds, List<ItemsLine> DishLine, List<DishComplex> DishComplexes)
         {
             if (id != cmp.Id)
             {
@@ -78,7 +67,8 @@ namespace CateringPro.Controllers
                 DishLine[i].DishCourse = i;
             }
             var res=await this.UpdateCompanyDataAsync(cmp, _context, _logger);
-            await _complexRepo.UpdateComplexDishes(cmp, DishesIds, User.GetCompanyID(), DishLine);
+            //await _complexRepo.UpdateComplexDishes(cmp, DishesIds, User.GetCompanyID(), DishLine);
+            await _complexRepo.UpdateComplexDishes(cmp,  User.GetCompanyID(), DishComplexes);
             return res;
 
         }
