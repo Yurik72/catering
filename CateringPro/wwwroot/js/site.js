@@ -66,7 +66,8 @@ function setup_listitems(options) {
         });
         $(dlg).on('hide.bs.modal', function (e) {
            if ($(dlg).attr("_changed")=="true") {
-                if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
+                //if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
+               if (!confirm(get_text_res().confirm_close))
                    e.preventDefault();
                $(dlg).attr("_changed", false);
            }
