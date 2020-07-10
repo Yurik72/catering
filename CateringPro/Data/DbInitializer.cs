@@ -65,11 +65,11 @@ namespace CateringPro.Data
             var cat4 = new Categories { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
             var cat5 = new Categories { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
 
-            var usrGr1 = new UserGroups { Code = "", Name = "Group1", Description = "Test group descr", CompanyId = 1 };
-            var usrGr2 = new UserGroups { Code = "", Name = "Group2", Description = "Group test", CompanyId = 1 };
-            var usrGr3 = new UserGroups { Code = "", Name = "Group3", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
-            var usrGr4 = new UserGroups { Code = "1", Name = "Завтраки", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
-            var usrGr5 = new UserGroups { Code = "2", Name = "Обед", Description = "The Bakery's New pizzas on the menu.", CompanyId = 1 };
+            var usrGr1 = new UserGroups { Name = "Group1", CompanyId = 1 };
+            var usrGr2 = new UserGroups { Name = "Group2", CompanyId = 1 };
+            var usrGr3 = new UserGroups { Name = "Group3", CompanyId = 1 };
+            var usrGr4 = new UserGroups { Name = "Завтраки", CompanyId = 1 };
+            var usrGr5 = new UserGroups { Name = "Обед", CompanyId = 1 };
 
 
             var comp1 = new Company { Code = "BASE", Name = "Default" };
@@ -189,10 +189,10 @@ namespace CateringPro.Data
 
             _context.SaveChanges();
 
-            //var groupusers = _context.UserGroups.ToList();
-            //_context.UserGroups.RemoveRange(groupusers);
+            var groupusers = _context.UserGroups.ToList();
+            _context.UserGroups.RemoveRange(groupusers);
 
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

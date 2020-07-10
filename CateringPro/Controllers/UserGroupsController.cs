@@ -49,12 +49,12 @@ namespace CateringPro.Controllers
 
             var query = (IQueryable<UserGroups>)_context.UserGroups.WhereCompany(User.GetCompanyID());
             
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            {
-                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
+            //if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
+            //{
+            //    query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
                 
 
-            }
+            //}
             if (!string.IsNullOrEmpty(querymodel.SortField))
             {
                 query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);

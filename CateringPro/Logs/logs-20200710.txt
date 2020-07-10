@@ -1,0 +1,411 @@
+2020-07-10 00:00:06.790 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:00:09.500 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (160ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2020-07-10 00:00:09.840 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (208ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2020-07-10 00:00:10.267 +03:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\den4i\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-07-10 00:00:11.534 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2020-07-10 00:00:13.893 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-10 00:00:14.023 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:00:14.335 +03:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2020-07-10 00:00:14.353 +03:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2020-07-10 00:00:14.373 +03:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\den4i\Source\Repos\catering\CateringPro
+2020-07-10 00:00:14.510 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2020-07-10 00:00:14.987 +03:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2020-07-10 00:00:14.989 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-10 00:00:15.039 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (436ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-10 00:00:15.166 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/10/2020 00:00:15,1
+2020-07-10 00:00:15.399 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:00:16.716 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (60ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-10 00:00:17.034 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1,483ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-10 00:00:16.464 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-10 00:00:17.071 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/10/2020 00:00:17,2
+2020-07-10 00:00:17.584 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2020-07-10 00:00:17.805 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2020-07-10 00:00:18.273 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (1,111ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-10 00:00:18.284 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (51ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE [m].[CompanyId] = @__companyId_0
+2020-07-10 00:00:19.348 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 1631.7792ms.
+2020-07-10 00:00:19.356 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 1757.7149ms
+2020-07-10 00:00:19.367 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (51ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-10 00:00:19.390 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-10 00:00:19.539 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 4971.4226ms 200 text/html; charset=utf-8
+2020-07-10 00:00:20.452 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (563ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-10 00:00:21.089 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (296ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE [m].[CompanyId] = @__companyId_0
+2020-07-10 00:00:23.423 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups  
+2020-07-10 00:00:23.465 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:00:23.472 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.Index (CateringPro)'
+2020-07-10 00:00:23.497 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:00:23.521 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:00:23.643 +03:00 [Error] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (67ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+2020-07-10 00:00:23.897 +03:00 [Error] Microsoft.EntityFrameworkCore.Query: An exception occurred while iterating over the results of a query for context type 'CateringPro.Data.AppDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'CompanyId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__164_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__274_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:42703145-26cd-4686-a977-98d0354bb68d
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'CompanyId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__164_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__274_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:42703145-26cd-4686-a977-98d0354bb68d
+Error Number:207,State:1,Class:16
+2020-07-10 00:00:24.381 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.Index (CateringPro) in 875.9603ms
+2020-07-10 00:00:24.391 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.Index (CateringPro)'
+2020-07-10 00:00:24.555 +03:00 [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'CompanyId'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__164_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__274_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(DbContext _, Boolean result, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at CateringPro.Repositories.UserGroupsRepository.GetAllAsync() in C:\Users\den4i\source\repos\catering\CateringPro\Repositories\UserGroupsRepository.cs:line 34
+   at CateringPro.Controllers.UserGroupsController.Index() in C:\Users\den4i\source\repos\catering\CateringPro\Controllers\UserGroupsController.cs:line 42
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+ClientConnectionId:42703145-26cd-4686-a977-98d0354bb68d
+Error Number:207,State:1,Class:16
+2020-07-10 00:00:24.851 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 1391.6048ms 500 text/html; charset=utf-8
+2020-07-10 00:06:30.521 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:31.864 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (87ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2020-07-10 00:06:31.995 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (97ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2020-07-10 00:06:32.083 +03:00 [Information] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: User profile is available. Using 'C:\Users\den4i\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-07-10 00:06:32.508 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Dishes] AS [d]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2020-07-10 00:06:33.191 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-10 00:06:33.212 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:33.471 +03:00 [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2020-07-10 00:06:33.520 +03:00 [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2020-07-10 00:06:33.529 +03:00 [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\den4i\Source\Repos\catering\CateringPro
+2020-07-10 00:06:33.744 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/  
+2020-07-10 00:06:33.779 +03:00 [Information] CateringPro.Models.CompanyUser: Start job to Write Off production day
+2020-07-10 00:06:33.787 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (214ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-10 00:06:33.812 +03:00 [Warning] Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware: Failed to determine the https port for redirect.
+2020-07-10 00:06:33.885 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/10/2020 00:06:33,1
+2020-07-10 00:06:33.980 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:34.161 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-10 00:06:34.236 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address1], [c].[Address2], [c].[City], [c].[Code], [c].[Country], [c].[Email], [c].[Name], [c].[OrderLeadTimeH], [c].[OrderThresholdTimeH], [c].[Phone], [c].[PictureId], [c].[StampPictureId], [c].[ZipCode]
+FROM [Companies] AS [c]
+2020-07-10 00:06:34.366 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index(System.String) on controller CateringPro.Controllers.HomeController (CateringPro).
+2020-07-10 00:06:34.493 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2020-07-10 00:06:34.736 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (734ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-10 00:06:34.748 +03:00 [Information] CateringPro.Models.CompanyUser: WriteOffProduction 07/10/2020 00:06:34,2
+2020-07-10 00:06:34.798 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (9ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE [m].[CompanyId] = @__companyId_0
+2020-07-10 00:06:35.060 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (306ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+exec WriteOffProduction @p0 , @p1
+2020-07-10 00:06:35.207 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 743.8842ms.
+2020-07-10 00:06:35.233 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.HomeController.Index (CateringPro) in 843.0717ms
+2020-07-10 00:06:35.270 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.HomeController.Index (CateringPro)'
+2020-07-10 00:06:35.394 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 1701.306ms 200 text/html; charset=utf-8
+2020-07-10 00:06:35.749 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (172ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-10 00:06:35.970 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (56ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-10 00:06:36.027 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (24ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Boolean), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [MassEmail] SET [CompanyId] = @p0, [DayFrom] = @p1, [DayTo] = @p2, [DistributionList] = @p3, [DistributionType] = @p4, [Greetings] = @p5, [Name] = @p6, [NextSend] = @p7, [OnePerUser] = @p8, [Schedule] = @p9, [Subject] = @p10, [TemplateName] = @p11, [TemplateText] = @p12, [Text] = @p13
+WHERE [Id] = @p14;
+SELECT @@ROWCOUNT;
+2020-07-10 00:06:36.211 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (157ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[Id], [m].[CompanyId], [m].[DayFrom], [m].[DayTo], [m].[DistributionList], [m].[DistributionType], [m].[Greetings], [m].[Name], [m].[NextSend], [m].[OnePerUser], [m].[Schedule], [m].[Subject], [m].[TemplateName], [m].[TemplateText], [m].[Text]
+FROM [MassEmail] AS [m]
+WHERE [m].[CompanyId] = @__companyId_0
+2020-07-10 00:06:45.910 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups  
+2020-07-10 00:06:45.941 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:45.945 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.Index (CateringPro)'
+2020-07-10 00:06:45.971 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:45.988 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:46.011 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+2020-07-10 00:06:46.033 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2020-07-10 00:06:46.069 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 38.1001ms.
+2020-07-10 00:06:46.078 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.Index (CateringPro) in 98.5903ms
+2020-07-10 00:06:46.094 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.Index (CateringPro)'
+2020-07-10 00:06:46.189 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 198.6069ms 200 text/html; charset=utf-8
+2020-07-10 00:06:46.752 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/ListItems?searchcriteria=&_=1594328806311  
+2020-07-10 00:06:46.819 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:46.828 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:06:46.853 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:46.889 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:46.912 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (5ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[CompanyId] = @__companyId_0
+2020-07-10 00:06:46.926 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2020-07-10 00:06:47.013 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 85.7244ms.
+2020-07-10 00:06:47.019 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.ListItems (CateringPro) in 160.7031ms
+2020-07-10 00:06:47.024 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:06:47.029 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 308.0667ms 200 text/html; charset=utf-8
+2020-07-10 00:06:49.173 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/CreateModal?_=1594328806312  
+2020-07-10 00:06:49.187 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:49.192 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.CreateModal (CateringPro)'
+2020-07-10 00:06:49.201 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "CreateModal", controller = "UserGroups"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult CreateModal() on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:49.209 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2020-07-10 00:06:49.273 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view EditModal executed in 66.5297ms.
+2020-07-10 00:06:49.278 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.CreateModal (CateringPro) in 72.1575ms
+2020-07-10 00:06:49.282 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.CreateModal (CateringPro)'
+2020-07-10 00:06:49.286 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 111.9302ms 200 text/html; charset=utf-8
+2020-07-10 00:06:52.063 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/UserGroups/EditModal application/x-www-form-urlencoded; charset=UTF-8 240
+2020-07-10 00:06:52.076 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:52.081 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:06:52.108 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.UserGroups) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:52.170 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:52.240 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 100)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [UserGroups] ([CompanyId], [Name])
+VALUES (@p0, @p1);
+SELECT [Id]
+FROM [UserGroups]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2020-07-10 00:06:52.321 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType6`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2020-07-10 00:06:52.354 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.EditModal (CateringPro) in 239.6806ms
+2020-07-10 00:06:52.369 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:06:52.385 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 317.4739ms 200 application/json; charset=utf-8
+2020-07-10 00:06:52.439 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/ListItems?searchcriteria=&_=1594328806313  
+2020-07-10 00:06:52.452 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:52.457 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:06:52.509 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:52.531 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:52.547 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (9ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[CompanyId] = @__companyId_0
+2020-07-10 00:06:52.553 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2020-07-10 00:06:52.577 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 22.2757ms.
+2020-07-10 00:06:52.592 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.ListItems (CateringPro) in 68.0669ms
+2020-07-10 00:06:52.604 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:06:52.609 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 191.7221ms 200 text/html; charset=utf-8
+2020-07-10 00:06:54.802 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/EditModal/1?_=1594328806314  
+2020-07-10 00:06:54.809 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:54.815 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:06:54.827 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:54.835 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:06:54.870 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[Id] = @__p_0
+2020-07-10 00:06:54.878 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2020-07-10 00:06:54.886 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 7.3427ms.
+2020-07-10 00:06:54.890 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.EditModal (CateringPro) in 59.72ms
+2020-07-10 00:06:54.893 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:06:54.897 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 101.6919ms 200 text/html; charset=utf-8
+2020-07-10 00:06:58.187 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/UserGroups/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 237
+2020-07-10 00:06:58.200 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:06:58.204 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:06:58.208 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.UserGroups) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:06:58.222 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view EditModal.
+2020-07-10 00:06:58.236 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 13.6512ms.
+2020-07-10 00:06:58.240 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.EditModal (CateringPro) in 27.2499ms
+2020-07-10 00:06:58.243 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:06:58.250 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 59.6695ms 200 text/html; charset=utf-8
+2020-07-10 00:07:05.454 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/UserGroups/EditModal/1 application/x-www-form-urlencoded; charset=UTF-8 241
+2020-07-10 00:07:05.462 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:07:05.466 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:07:05.470 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "EditModal", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] EditModal(Int32, CateringPro.Models.UserGroups) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:07:05.476 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:07:05.496 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (5ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (Size = 100)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [UserGroups] SET [CompanyId] = @p0, [Name] = @p1
+WHERE [Id] = @p2;
+SELECT @@ROWCOUNT;
+2020-07-10 00:07:05.504 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.SystemTextJsonResultExecutor: Executing JsonResult, writing value of type '<>f__AnonymousType6`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2020-07-10 00:07:05.509 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.EditModal (CateringPro) in 35.3281ms
+2020-07-10 00:07:05.520 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.EditModal (CateringPro)'
+2020-07-10 00:07:05.525 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 68.7567ms 200 application/json; charset=utf-8
+2020-07-10 00:07:05.590 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/ListItems?searchcriteria=&_=1594328806315  
+2020-07-10 00:07:05.606 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:07:05.640 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:07:05.654 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:07:05.659 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:07:05.669 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (5ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[CompanyId] = @__companyId_0
+2020-07-10 00:07:05.675 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2020-07-10 00:07:05.693 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 15.0646ms.
+2020-07-10 00:07:05.699 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.ListItems (CateringPro) in 38.7202ms
+2020-07-10 00:07:05.704 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:07:05.708 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 139.4469ms 200 text/html; charset=utf-8
+2020-07-10 00:07:07.484 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/Delete/1  
+2020-07-10 00:07:07.492 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:07:07.499 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.Delete (CateringPro)'
+2020-07-10 00:07:07.517 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Delete", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Delete(System.Nullable`1[System.Int32]) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:07:07.526 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:07:07.552 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (6ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[Id] = @__id_0
+2020-07-10 00:07:07.569 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Delete.
+2020-07-10 00:07:07.602 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Delete executed in 33.6596ms.
+2020-07-10 00:07:07.608 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.Delete (CateringPro) in 86.5547ms
+2020-07-10 00:07:07.617 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.Delete (CateringPro)'
+2020-07-10 00:07:07.622 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 138.0013ms 200 text/html; charset=utf-8
+2020-07-10 00:07:08.968 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 POST http://localhost:51321/UserGroups/Delete/1 application/x-www-form-urlencoded 225
+2020-07-10 00:07:08.974 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:07:08.981 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.DeleteConfirmed (CateringPro)'
+2020-07-10 00:07:08.997 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Delete", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteConfirmed(Int32) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:07:09.009 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:07:09.021 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[Id] = @__id_0
+2020-07-10 00:07:09.040 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DELETE FROM [UserGroups]
+WHERE [Id] = @p0;
+SELECT @@ROWCOUNT;
+2020-07-10 00:07:09.053 +03:00 [Information] Microsoft.AspNetCore.Mvc.RedirectToActionResult: Executing RedirectResult, redirecting to /UserGroups.
+2020-07-10 00:07:09.056 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.DeleteConfirmed (CateringPro) in 54.8596ms
+2020-07-10 00:07:09.059 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.DeleteConfirmed (CateringPro)'
+2020-07-10 00:07:09.070 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 101.3803ms 302 
+2020-07-10 00:07:09.082 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups  
+2020-07-10 00:07:09.088 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:07:09.092 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.Index (CateringPro)'
+2020-07-10 00:07:09.107 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "Index", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:07:09.114 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:07:09.128 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+2020-07-10 00:07:09.133 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executing ViewResult, running view Index.
+2020-07-10 00:07:09.147 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor: Executed ViewResult - view Index executed in 10.3713ms.
+2020-07-10 00:07:09.154 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.Index (CateringPro) in 40.6884ms
+2020-07-10 00:07:09.162 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.Index (CateringPro)'
+2020-07-10 00:07:09.168 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 86.684ms 200 text/html; charset=utf-8
+2020-07-10 00:07:09.487 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request starting HTTP/1.1 GET http://localhost:51321/UserGroups/ListItems?searchcriteria=&_=1594328829277  
+2020-07-10 00:07:09.516 +03:00 [Information] Microsoft.AspNetCore.Authorization.DefaultAuthorizationService: Authorization was successful.
+2020-07-10 00:07:09.526 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executing endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:07:09.536 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Route matched with {action = "ListItems", controller = "UserGroups"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ListItems(CateringPro.ViewModels.QueryModel) on controller CateringPro.Controllers.UserGroupsController (CateringPro).
+2020-07-10 00:07:09.550 +03:00 [Information] Microsoft.EntityFrameworkCore.Infrastructure: Entity Framework Core 3.1.5 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2020-07-10 00:07:09.582 +03:00 [Information] Microsoft.EntityFrameworkCore.Database.Command: Executed DbCommand (20ms) [Parameters=[@__companyId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[CompanyId], [u].[Name]
+FROM [UserGroups] AS [u]
+WHERE [u].[CompanyId] = @__companyId_0
+2020-07-10 00:07:09.589 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executing PartialViewResult, running view ListItems.
+2020-07-10 00:07:09.599 +03:00 [Information] Microsoft.AspNetCore.Mvc.ViewFeatures.PartialViewResultExecutor: Executed PartialViewResult - view (null) executed in 8.9861ms.
+2020-07-10 00:07:09.604 +03:00 [Information] Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker: Executed action CateringPro.Controllers.UserGroupsController.ListItems (CateringPro) in 61.7605ms
+2020-07-10 00:07:09.608 +03:00 [Information] Microsoft.AspNetCore.Routing.EndpointMiddleware: Executed endpoint 'CateringPro.Controllers.UserGroupsController.ListItems (CateringPro)'
+2020-07-10 00:07:09.614 +03:00 [Information] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished in 139.3579ms 200 text/html; charset=utf-8
