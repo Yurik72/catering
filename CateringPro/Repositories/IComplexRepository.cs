@@ -11,5 +11,9 @@ namespace CateringPro.Repositories
 
         Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid, List<ItemsLine> dishLine);
 
+        Task<Complex> GetByIdAsync(int? id);
+        void Remove(Complex complex);
+
+        Task SaveChangesAsync();
     }
 }

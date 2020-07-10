@@ -18,7 +18,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class CategoriesController : Controller
     {
         private readonly AppDbContext _context;
@@ -37,9 +37,9 @@ namespace CateringPro.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _categoryRepo.GetAllAsync());
+            return View(new List<Categories>());
         }
 
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
@@ -73,6 +73,7 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Categories cat)
         {
@@ -213,7 +214,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            return View(categories);
+            return PartialView(categories);
         }
 
         // POST: Categories/Delete/5

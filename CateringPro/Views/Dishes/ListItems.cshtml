@@ -35,7 +35,14 @@
         {
         <tr>
             <td>
-                <img src="@Url.Action("GetPicture","Pictures",new { id=item.PictureId,width=80,height=80})" style="width:80px;height:80px;" />
+                @if (item.PictureId.HasValue)
+                {
+                    <img src="@Url.Action("GetPicture", "Pictures", new { id = item.PictureId, width = 80, height = 80 })" style="width:80px;height:80px;" />
+                }
+                else
+                {
+                        <img src="~/images/nophoto.jpg" style="width:80px;height:80px;" />
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
@@ -55,7 +62,7 @@
 
 
 
-                <a asp-action="Delete" asp-route-id="@item.Id" class="dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
                 @Html.ActionLink("", "EditModal",
                              new { id = item.Id }, new { @class = "dishitem dialog-edit-icon fa fa-pencil-square-o" })
             </td>

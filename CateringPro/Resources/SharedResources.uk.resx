@@ -561,4 +561,10 @@
   <data name="MenuUsersGroups" xml:space="preserve">
     <value>Групи Користувачiв</value>
   </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Ви впевненi що хочете видалити ?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
 </root>
