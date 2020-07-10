@@ -57,8 +57,9 @@
             });
             $(document).on('click', 'a.add-complex-line', function (event) {
                 event.preventDefault();
+                var course = $(this).attr("course");
                 $('#modDialogcomplexline').modal('show');
-                var url = '@Url.Content("~/Dishes/SearchView")';// + `?complexId=${id}&course=${course}`;
+                var url = '@Url.Content("~/Dishes/SearchView")' + `?course=${course}`;
                 $.get(url, function (data) {
                     $('#modDialogcomplexline').find(".modal-body").html(data);
                 });

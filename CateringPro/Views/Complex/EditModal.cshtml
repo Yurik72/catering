@@ -63,8 +63,14 @@
         <div class="complex-content container">
             @for (int i = 0; i < Model.DishesQuantity; i++)
             {
-                await Html.RenderPartialAsync("ComplexLineDishes", Model.DishComplex.Where(d => d.DishCourse == (i + 1)));
+                await Html.RenderPartialAsync("ComplexLineDishes", Model.DishComplex.Where(d => d.DishCourse == i ));
             }
+            <div id="dish-footer">
+                <div id="create-dishline" class="col  create">
+                    <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+                    <span>@Localizer["Add"]</span>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-1">
@@ -79,6 +85,7 @@
             </div>
             
             <div class="col-sm-1">
+                <button onclick="send()" button class="btn btn-primary" >Send</button>
             </div>
 
         </div>
@@ -95,31 +102,44 @@
 
     </div>
     </div>
-    <script>
+<script>
 
-    @*
+    
 
     function send() {
-        console.log("Hello");
-        //return;
-        let count = 1;
-        //while (document.getElementById("dish" + count)!=null) {
-        var dishIds = $('#DishesIds').val();
-        //  }
-
+        console.log("Post ");
+        var complexLines = $(".complex-content").find(".complex-line");
+        //console.log($(complexLines[1]).find("dish-line"));
+        //for(let line in complexLines ) {
+        //    console.log(line);
+        //}
+        var sendObj = {};
+        $(complexLines).each(function (i) {
+            var dishLine = $(this).find(".dish-line");
+            sendObj["DishesIdes" + i] = [];
+            $(dishLine).each(function (ind){
+                //console.log("course " + i + " dish " + $(this).attr("dish-id"));
+                sendObj["DishesIdes" + i].push($(this).attr("dish-id"));
+            });
+            
+        });
+        sendObj.Id = $("#Id").val();
+        sendObj.Name = $("#Name").val();
+        sendObj.Price = $("#Price").val();
+        sendObj.DishQuantity = $("#quantity").val();
+        console.log(sendObj);
         $.ajax({
             type: "POST",
-            data: { DishId: 1, daydate: 2, enabled: 3 },
-
-            url: "/D",
+            data: sendObj,
+            url: "/Complex/EditModal",
             success: function (data) {
-                // alert(data);
+                 alert(data);
             }
         });
 
 
 
-    }*@
+    }
    // $(document).on("click", "#create-dishline",
     $("#create-dishline").unbind().click(
     function (e) {
@@ -130,14 +150,15 @@
             $("#quantity").val(quan + 1);
 
                       var id = dlg.attr("data-id");
-            var course = dlg.find("#dishContainer").find(".dish-line").length;
+            var course = dlg.find(".complex-content").find(".complex-line").length;
+
                      // var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?dishId=${id}&course=${course}`;
                       var url = '@Url.Content("~/Complex/CreateNewCourse")' + `?complexId=${id}&course=${course}`;
                   console.log(url);
             $.get(url, function (data) {
                 //document.getElementById("dishContainer").appendChild(data);
                 //console.log(data);
-                dlg.find("#dishContainer").find("#dish-footer").before(data);
+                dlg.find(".container").find("#dish-footer").before(data);
                 $('select').selectpicker({
                     liveSearch: true,
                     showSubtext: true
@@ -150,23 +171,45 @@
             console.log("delete line");
             e.preventDefault();
             var dlg = $(this).parents("#complex");
-            var docline = $(this).parents(".dish-line");
+            var docline = $(this).parents(".complex-line");
             docline.remove();
             var quan = parseInt( $("#quantity").val());
             $("#quantity").val(quan - 1);
+            var maxidx = dlg.find(".complex-line").length;
+            console.log(maxidx);
+            dlg.find(".complex-line").each(function (lidx, lel) {
+                $(lel).find('input[name*="["]').each(function (idx, el) {
+                    var name = $(el).attr('name');
+                    console.log(name);
+                    var newname = name.replace(/\[\d+\]/g, `[${lidx}]`);
+                    $(el).attr('name', newname);
+                    console.log(newname);
+                });
+            })
+
+        });
+    $(document).on("click", ".delete-item",
+        function (e) {
+            console.log("delete item");
+            e.preventDefault();
+            var dlg = $(this).parents("#complex");
+            var docline = $(this).parents(".dish-line");
+            docline.remove();
+            
             var maxidx = dlg.find(".dish-line").length;
             console.log(maxidx);
             dlg.find(".dish-line").each(function (lidx, lel) {
                 $(lel).find('input[name*="["]').each(function (idx, el) {
                     var name = $(el).attr('name');
-                    //console.log(name);
+                    console.log(name);
                     var newname = name.replace(/\[\d+\]/g, `[${lidx}]`);
                     $(el).attr('name', newname);
-                    //console.log(newname);
+                    console.log(newname);
                 });
             })
 
         });
+   
 
 
 
@@ -174,7 +217,7 @@
 
 
 
-    </script>
+</script>
 
 
     @section Scripts {

@@ -1,0 +1,14 @@
+﻿@model CateringPro.Models.Dish
+    <div class="row dish-line" dish-id="@Model.Id">
+
+
+        <div class="col-sm-4">
+            <img src="@Url.Action("GetPicture","Pictures",new { Model.PictureId,width=80,height=80})" style="width:40px;height:40px;">
+        </div>
+        <div class="col-sm-2">
+            @Model.Name
+        </div>
+        <div class="col-sm-1">
+            <a class="dialog-edit-icon delete-item"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+        </div>
+    </div>
