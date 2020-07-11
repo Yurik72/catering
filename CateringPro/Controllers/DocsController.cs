@@ -14,6 +14,7 @@ using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace CateringPro.Controllers
 {
@@ -38,31 +39,21 @@ namespace CateringPro.Controllers
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Docs.ToListAsync());
+            return View(new List<Docs>());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
-            //QueryModel querymodel=new QueryModel() { }
-            ViewData["QueryModel"] = querymodel;
-
-            var query = (IQueryable<Docs>)_context.Docs.WhereCompany(User.GetCompanyID());
-
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            {
-                query = query.Where(d => d.Description.Contains(querymodel.SearchCriteria) || d.Number.Contains(querymodel.SearchCriteria));
 
 
-            }
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
-            if (querymodel.Page > 0)
-            {
-                query = query.Skip(pageRecords * querymodel.Page);
-            }
+            var query = this.GetQueryList(_context.Docs,
+                querymodel,
+               ( d => d.Description.Contains(querymodel.SearchCriteria) || d.Number.Contains(querymodel.SearchCriteria)),
+                pageRecords);
+
+
+
             return PartialView(await query.ToListAsync());
 
         }

@@ -52,23 +52,19 @@ namespace CateringPro.Controllers
                 d => d.Name.Contains(querymodel.SearchCriteria),
                 pageRecords);
 
-           // var query = (IQueryable<Ingredients>)_context.Ingredients.WhereCompany(User.GetCompanyID()).Include(i => i.IngredientCategory);
-           /*
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            {
+
+            return PartialView(await query.ToListAsync());
+
+        }
+        public async Task<IActionResult> SearchView([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
+        {
+
+            // ViewData["courseindex"] = course;
+            var query = (IQueryable<Ingredients>)_context.Ingredients.Include(i => i.IngredientCategory);
+
+            if (querymodel != null && !string.IsNullOrEmpty(querymodel.SearchCriteria))
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) );
-
-
-            }
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
-            if (querymodel.Page > 0)
-            {
-                query = query.Skip(pageRecords * querymodel.Page);
-            }
-           */
+            query = query.Take(pageRecords);
             return PartialView(await query.ToListAsync());
 
         }

@@ -35,7 +35,7 @@
         <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
             <div id="create-btn" class="col create">
                 <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
-                <span >@Localizer["Add"]</span>
+                <span>@Localizer["Add"]</span>
             </div>
         </div>
     </div>
@@ -43,7 +43,9 @@
 <div id="modDialog" class="modal document-modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-
+@{ 
+    await Html.RenderPartialAsync("ModalSearch", "Ingredient");
+}
 @section Scripts
 {
     <script type="text/javascript">
@@ -51,7 +53,7 @@
           $(function () {
               setup_listitems({ href: '@Url.Content("~/Docs")' });
               setAutocomplete($(this).parents("#document"));
-              $(document).on("click", "#create-docline", 
+              $(document).on("click", "#create-docline",
                   function (e) {
                       console.log("create new line");
                       e.preventDefault();
@@ -59,14 +61,14 @@
                       var id = dlg.attr("data-id");
                       var linecount = dlg.find("#doc-lines").find(".doc-line").length;
                       var url = '@Url.Content("~/Docs/CreateNewLine")'+`?docId=${id}&linenum=${linecount}`;
-                      
+
                   console.log(url);
                       $.get(url, function (data) {
                           dlg.find("#doc-lines").find("#doc-footer").before(data);
                           setAutocomplete(dlg);
                 });
               });
-              $(document).on("click", ".delete-line", 
+              $(document).on("click", ".delete-line",
                   function (e) {
                       console.log("delete line");
                       e.preventDefault();
@@ -75,7 +77,7 @@
                       docline.remove();
                       var maxidx = dlg.find(".doc-line").length;
                       console.log(maxidx);
-                      dlg.find(".doc-line").each(function (lidx, lel) { 
+                      dlg.find(".doc-line").each(function (lidx, lel) {
                           $(lel).find('input[name*="["]').each(function (idx, el) {
                               var name = $(el).attr('name');
                               //console.log(name);
@@ -84,19 +86,19 @@
                               //console.log(newname);
                           });
                       })
-                
-              });         
+
+              });
               $('#modDialog').on('shown.bs.modal', function () {
                   setAutocomplete($(this));
               });
               function setAutocomplete(dlg) {
-                  $(".doc-line-ingname")  
-                  .on("keydown", function (event) {  
-                      if (event.keyCode === $.ui.keyCode.TAB &&  
-                          $(this).autocomplete("instance").menu.active) {  
-                          event.preventDefault();  
-                      }  
-                  })  
+                  $(".doc-line-ingname")
+                  .on("keydown", function (event) {
+                      if (event.keyCode === $.ui.keyCode.TAB &&
+                          $(this).autocomplete("instance").menu.active) {
+                          event.preventDefault();
+                      }
+                  })
                       .autocomplete({
                           //source: '@Url.Action("Search","Ingredients")',
                           source:  function (request, response) {
@@ -122,9 +124,19 @@
                           },
                           appendTo: "#modDialog"
 
-                         
-                    });  
+
+                    });
               }
+              setup_search({
+                  href: '@Url.Content("~/Ingredients/SearchView")',
+                  itemselector:'a.select-ingredient',
+                  classname: 'ingredient',
+                  onitemselectedcb: function (src,html_item, item) {
+                      var docline = $(src).parents(".row.doc-line");
+                      docline.find("#line_IngredientsId").val(item.id);
+                      docline.find("#line_Ingredients_Name").val(item.name);
+                  }
+              })
         })
     </script>
 }

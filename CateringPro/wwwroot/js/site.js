@@ -1,4 +1,6 @@
 ﻿
+var html_loading_element = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
+
 function setup_listitems(options) {
     let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems"};
     if (typeof (options) == 'object') {
@@ -143,3 +145,84 @@ function setup_listitems(options) {
 }
 
 
+function setup_search(_options) {
+    let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems",itemselector:"a" ,classname:"",multiselect:false,onitemselectedcb:undefined};
+    this.options = {};
+    if (typeof (_options) == 'object') {
+        // this.options = { ...defaultoptions, ...options };
+        //edge troubles with es6
+        this.options = defaultoptions
+        this.options.href = _options.href;
+        if (_options.onloadedcb)
+            this.options.onloadedcb = _options.onloadedcb;
+        if (_options.method)
+            this.options.method = _options.method;
+        if (_options.multiselect)
+            this.options.multiselect = _options.multiselect;
+        if (_options.onitemselectedcb)
+            this.options.onitemselectedcb = _options.onitemselectedcb;
+        this.options.itemselector = _options.itemselector;
+        this.options.classname = _options.classname;
+        this.options.dialog_id = `#modDialog${this.options.classname}line`
+    }
+    else {
+
+        this.options = defaultoptions;
+        this.options.href = _options;
+    }
+    var self = this;
+    function delay(callback, ms) {
+        var timer = 0;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    };
+    $(document).on('click', this.options.itemselector, function (event) {
+        event.preventDefault();
+        var source_item=this;
+        var dlg = $(self.options.dialog_id);
+        var url = self.options.href;
+        dlg.find(".modal-body").html(html_loading_element);
+        //$('#modDialog').modal('hide');
+        dlg.modal('show');
+        $.get(url, function (data) {
+            dlg.find(".modal-body").html(data);
+
+            dlg.modal('handleUpdate');
+            setupSearchHandlers(dlg, source_item , function () {
+                //  $('#modDialog').modal('show');
+
+            });
+        });
+        $('#search-' + self.options.classname).keyup(delay(function (e) {
+            dlg.find(".modal-body").html(html_loading_element);
+            var url_search = url + `?SearchCriteria=${this.value}`;
+            $.get(url_search, function (data) {
+                dlg.find(".modal-body").html(data);
+
+                dlg.modal('handleUpdate');
+                setupSearchHandlers(dlg, source_item, function () {
+                });
+            });
+        }));
+    });
+    function setupSearchHandlers(dlg, src, closecb) {
+        // $(dlg).find('.add-item').click(function (e) {
+        $(dlg).find('.table.search-items tr').click(function (e) {
+            if (self.options.onitemselectedcb)
+                self.options.onitemselectedcb(src,this, { id: $(this).attr("data-id"), name: $(this).attr("data-name")});
+            if (!self.options.multiselect) {
+                $(dlg).modal('hide');
+                dlg.find(".modal-body").empty();
+                if (closecb) {
+                    closecb();
+                }
+            }
+        });
+
+    }
+}

@@ -499,6 +499,34 @@ a.dialog-edit-icon, a.apagebottom {
 .table.listitems tbody {
     width: 100% !important;
 }
+a.select-item{
+    cursor:pointer;
+}
+.input-search {
+    display: inline-block;
+}
+    /* prevent 100% width */
+.input-search .select-item {
+        position: absolute;
+        left: auto;
+        right: 10px;
+    }
+.input-search {
+    position: relative;
+    color: #aaa;
+    font-size: 16px;
+}
+
+.input-search input {
+
+    background: #fcfcfc;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+    text-indent: 32px;
+    display: inline-block;
+}
+
 .table.search-items{
     overflow-y:auto;
     width:100%;
