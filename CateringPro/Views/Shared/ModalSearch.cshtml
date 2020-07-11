@@ -1,0 +1,17 @@
+﻿@model string
+@{
+    string modelclass = Model.ToLower();
+}
+<div id=@("modDialog"+modelclass+"line") class=@("modal modal-search fade "+modelclass+"-line")>
+    <div id=@("dialogContent"+modelclass+"line") class="modal-dialog modal-search-dialog">
+        <div class="modal-content modal-content-search">
+            <div class="modal-header">
+                <input type="text" id=@("search-"+modelclass) class="form-control input-lg" placeholder="...." />
+                <button type="button" class="close" data-toggle="modal" data-target=@("#modDialog"+modelclass+"line")>X</button>
+            </div>
+            <div class="modal-body modal-search-body">
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -105,8 +105,10 @@
                         <div class="col col-lg-4 col-md-4">
                             <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
                             <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
-                            <input type="text" name="none[@i].Ingredients.Name" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" />
-
+                            <div class="input-search">
+                                 <input type="text" name="none[@i].Ingredients.Name" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" />
+                                 <a class="select-item select-ingredient"><span class="fa fa-search"></span></a>
+                            </div>
                         </div>
                         <div class="col col-lg-1 col-md-1 col-1">
                             <input type="text" name="DocLines[@i].Quantity" asp-for="@line.Quantity" class="form-control doc-line-quantity" />
