@@ -288,4 +288,7 @@
   <data name="ZipCode" xml:space="preserve">
     <value>Почт. индекс</value>
   </data>
+  <data name="DishCourse" xml:space="preserve">
+    <value>Номер блюда</value>
+  </data>
 </root>

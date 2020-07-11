@@ -65,19 +65,20 @@
                 {
                     await Html.RenderPartialAsync("ComplexLineDishes", Model.DishComplex.Where(d => d.DishCourse == i));
                 }
-                <div id="dish-footer">
-                    <div id="create-dishline" class="col  create">
+                <div class="row" id="dish-footer">
+                    <div id="create-dishline" class="col create">
                         <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
                         <span>@Localizer["Add"]</span>
                     </div>
                 </div>
             </div>
         </form>
-        <div class="row">
-            <div class="col-sm-1">
+        <div class="row mt-3">
+            <div class="col-sm-3">
             </div>
             <div class="col-sm-2">
-                <button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
+                @*<button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>*@
+                <button onclick="send()" button class="btn btn-primary" data-dismiss="modal">@Localizer["Save"]</button>
             </div>
             <div class="col-sm-1">
             </div>
@@ -85,16 +86,16 @@
                 <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
             </div>
             
-            <div class="col-sm-1">
-                <button onclick="send()" button class="btn btn-primary" >Send</button>
-            </div>
+            @*<div class="col-sm-1">
+                <button onclick="send()" button class="btn btn-primary" data-save="modal">Send</button>
+            </div>*@
 
         </div>
     </div>
 </div>
 
 
- <script>
+<script>
 
     function send() {
         console.log("Post ");
@@ -104,26 +105,30 @@
         //    console.log(line);
         //}
         var sendObj = {};
+        sendObj.DishComplexes = [];
         $(complexLines).each(function (i) {
             var dishLine = $(this).find(".dish-line");
-            sendObj["DishesIdes" + i] = [];
+           // sendObj.DishComplexes.push() = [];
             $(dishLine).each(function (ind){
                 //console.log("course " + i + " dish " + $(this).attr("dish-id"));
-                sendObj["DishesIdes" + i].push($(this).attr("dish-id"));
+                var dish = { DishId: $(this).attr("dish-id"), DishCourse: i, ComplexId: $("#Id").val()};
+                sendObj.DishComplexes.push(dish);
+               // sendObj["DishesIdes" + i].push($(this).attr("dish-id"));
             });
-            
+
         });
         sendObj.Id = $("#Id").val();
         sendObj.Name = $("#Name").val();
         sendObj.Price = $("#Price").val();
-        sendObj.DishQuantity = $("#quantity").val();
-        console.log(sendObj);
+        sendObj.DishesQuantity = $("#quantity").val();
+       // console.log(sendObj);
         $.ajax({
             type: "POST",
             data: sendObj,
             url: "/Complex/EditModal",
             success: function (data) {
-                 alert(data);
+                if(data.res !="OK")
+                 alert(data.res);
             }
         });
 
@@ -185,7 +190,7 @@
             var dlg = $(this).parents("#complex");
             var docline = $(this).parents(".dish-line");
             docline.remove();
-            
+
             var maxidx = dlg.find(".dish-line").length;
             console.log(maxidx);
             dlg.find(".dish-line").each(function (lidx, lel) {
@@ -199,7 +204,7 @@
             })
 
         });
-   
+
 
 
 

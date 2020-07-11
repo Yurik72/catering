@@ -570,4 +570,7 @@
   <data name="UserGroups" xml:space="preserve">
     <value>Група користувачiв</value>
   </data>
+  <data name="DishCourse" xml:space="preserve">
+    <value>Номер страви </value>
+  </data>
 </root>

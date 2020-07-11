@@ -75,7 +75,6 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> SearchView([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
 
-            // ViewData["courseindex"] = course;
             var query = (IQueryable<Dish>)_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
 
            if(querymodel!=null && !string.IsNullOrEmpty( querymodel.SearchCriteria))

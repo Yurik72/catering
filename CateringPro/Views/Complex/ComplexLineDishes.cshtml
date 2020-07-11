@@ -10,13 +10,13 @@
         i = Model.First().DishCourse;
 }
 
-<div class="complex-line container" id="complex-line$@i" >
+<div class="complex-line container border mb-4" id="complex-line$@i" >
     <div class="row course-dish">
         <div class="col-sm-4">
-            <label>@(i+1) line DishCourse </label>
+            <label class="control-label">@(i+1)-@Localizer["DishCourse"] </label>
         </div>
-        <div class="col-sm-4">
-            <a class="add-complex-line" course="@i"> Додати </a>
+        <div class="col-4">
+            <a class="add-complex-line fa fa-plus-square-o fa-2x" course="@i"></a>
         </div>
         <div class="col-1 delete-line">
             <span class="fa fa-trash fa-2x" aria-hidden="true"></span>
@@ -28,9 +28,11 @@
 
 <div class="row dish-line" dish-id="@it.DishId">
 
-    <input type="hidden" name="DishComplexes[@i].ComplexId" asp-for="@it.ComplexId" />
+    @*<input type="hidden" name="DishComplexes[@count].ComplexId" asp-for="@it.ComplexId" />
+    <input type="hidden" name="DishComplexes[@count].DishCourse" asp-for="@it.DishCourse" />
+    <input type="hidden" name="DishComplexes[@count].DishId" asp-for="@it.DishId" />*@
     <div class="col-sm-4">
-        <img src="@Url.Action("GetPicture","Pictures",new { id=it.Dish.PictureId,width=40,height=40})" style="width:40px;height:40px;" />
+        <img src="@Url.Action("GetPicture", "Pictures", new { id = it.Dish.PictureId, width = 40, height = 40 })" style="width:40px;height:40px;" />
     </div>
     <div class="col-sm-2">
         @Html.DisplayFor(modelItem => it.Dish.Name)
@@ -39,6 +41,9 @@
         <a class="dialog-edit-icon delete-item"> <span class="fa fa-trash" aria-hidden="true"></span></a>
     </div>
 </div>
+   
+    
+
     }
     <div id="course-footer @i" class="course-footer-@i"></div>
 </div>

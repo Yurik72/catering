@@ -744,8 +744,11 @@ table.stock-inredients td{
 }
 a.add-complex-line {
     cursor: pointer;
-    background-color:blue;
-    color:white;
+/*    background-color:blue;*/
+    color:blue !important;
+}
+a.delete-item {
+    cursor: pointer;
 }
 .select-complex-dishes, .select-dishes-ingredients {
     min-height: 400px;
