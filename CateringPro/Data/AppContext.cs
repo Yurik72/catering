@@ -29,6 +29,8 @@ namespace CateringPro.Data
             companyId = val;
         }
         public DbSet<Company> Companies { get; set; }
+
+        public DbSet<CompanyUser> CompanyUser { get; set; }
         public DbSet<Categories> Categories { get; set; }
 
         public DbSet<UserGroups> UserGroups { get; set; }

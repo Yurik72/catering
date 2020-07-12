@@ -1,29 +1,20 @@
-﻿@model IEnumerable<CompanyUser>
+@model IEnumerable<CompanyUser>
 @inject CateringPro.Core.SharedViewLocalizer Localizer
-<h1 class="bg-info text-white">@Localizer["MenuUsers"]</h1>
+@{
+    var ModelName = "CompanyUser";
+    ViewData["Title"] = ModelName;
+}
 
-
-<table class="table table-sm table-bordered">
-    <tr><th>ID</th><th>Name</th><th>Email</th></tr>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.Id</td>
-            <td>@user.UserName</td>
-            <td>@user.Email</td>
-        </tr>
-    }
-</table>
 
 <div class="container">
     <div class="row justify-content-end">
         <div class="col-md-6 right">
-            <h2>@Localizer["UserGroups"]</h2>
+            <h2>@Localizer["CompanyUser"]</h2>
         </div>
         <div class="col-md-6 right">
             <div id="custom-search-input">
                 <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["UserGroups"]" />
+                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["CompanyUser"]" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" id="search-btn" type="button">
                             <span class="fa fa-search" aria-hidden="true"></span>
