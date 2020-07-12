@@ -7,10 +7,7 @@
     {
         querymodel = new QueryModel();
     }
-    int i = 0;
-    if (ViewData["courseindex"] != null)
-        i = (int)(ViewData["courseindex"]);
-   
+
 
 }
     <div class="table-fix-head">
@@ -57,13 +54,13 @@
                     </tr>
                 }
             </tbody>
-            <tfoot>
+            @*<tfoot>
                 <tr class="bg-white text-success rounded border">
                     <td colspan="5">
                         @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
                     </td>
                 </tr>
-            </tfoot>
+            </tfoot>*@
         </table>
 </div>
         <script>

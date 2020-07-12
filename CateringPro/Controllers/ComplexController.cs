@@ -56,18 +56,14 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity")] Complex cmp, List<string> DishesIds, List<ItemsLine> DishLine, List<DishComplex> DishComplexes)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity")] Complex cmp,  List<DishComplex> DishComplexes)
         {
             if (id != cmp.Id)
             {
                 return NotFound();
             }
-            for (int i= 0; i < DishLine.Count; i ++)
-            {
-                DishLine[i].DishCourse = i;
-            }
-            var res=await this.UpdateCompanyDataAsync(cmp, _context, _logger);
-            //await _complexRepo.UpdateComplexDishes(cmp, DishesIds, User.GetCompanyID(), DishLine);
+
+            var res = await this.UpdateCompanyDataAsync(cmp, _context, _logger);
             await _complexRepo.UpdateComplexDishes(cmp,  User.GetCompanyID(), DishComplexes);
             return res;
 
