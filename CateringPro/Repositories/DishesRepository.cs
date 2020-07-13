@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Transactions;
 
 namespace CateringPro.Repositories
 {
@@ -19,7 +21,7 @@ namespace CateringPro.Repositories
             _logger = logger;
         }
 
-  
+       // public AppDbContext Context => _context;
         public async Task<bool> UpdateDishIngredients(Dish dish,List<string> ingredients, List<DishIngredients> proportion,int companyid)
         {
             try
@@ -54,6 +56,45 @@ namespace CateringPro.Repositories
                 await _context.SaveChangesAsync();
             }
             catch(Exception ex)
+            {
+                _logger.LogError(ex, "UpdateDishIngredients");
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> UpdateDishEntity(Dish dish, List<DishIngredients> proportion, int companyid)
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                if (!await dish.UpdateDBCompanyDataAsync(_context, _logger, companyid))
+                    return false;
+
+
+                if (!await UpdateDishIngredients(dish, proportion, companyid))
+                    return false;
+                scope.Complete();
+            }
+            return true;
+        }
+        public async Task<bool> UpdateDishIngredients(Dish dish,  List<DishIngredients> proportion, int companyid)
+        {
+            try
+            {
+
+               // List<int> ing = ingredients.ConvertAll(int.Parse);
+                var existing = await _context.DishIngredients.Where(di => di.DishId == dish.Id).ToListAsync();
+                _context.RemoveRange(existing);
+                proportion.ForEach(p => {
+                    p.CompanyId = companyid;
+                    p.DishId = dish.Id;
+                });
+                await _context.AddRangeAsync(proportion);
+                
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "UpdateDishIngredients");
                 return false;

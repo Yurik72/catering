@@ -50,6 +50,7 @@ namespace CateringPro.Repositories
            
             return res;
         }
+
         public static EntityWrap<TEntity> TrackCollection<TEntity,T>(this EntityWrap<TEntity> src, IEnumerable<T> origin, ICollection<T> current) where TEntity : CompanyData
              where T : CompanyDataOwnId
         {
@@ -87,22 +88,45 @@ namespace CateringPro.Repositories
         {
             entity.CompanyId = ctl.User.GetCompanyID();
         }
-
-        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, EntityWrap<TEntity> wrap, AppDbContext _context, ILogger<CompanyUser> _logger, Action<TEntity> postSaveAction = null) where TEntity : CompanyDataOwnId
+        public static void AssignCompantAttr<TEntity>(this TEntity entity,int companyId) where TEntity : CompanyData
+        {
+            entity.CompanyId = companyId;
+        }
+        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, EntityWrap<TEntity> wrap, AppDbContext _context, ILogger<CompanyUser> _logger, Func<TEntity,Task<bool>>   postSaveAction = null) where TEntity : CompanyDataOwnId
         {
             return await ctl.UpdateCompanyDataAsync(wrap.Src, _context, _logger, postSaveAction, wrap);
         }
-        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger,Action<TEntity> postSaveAction=null, EntityWrap<TEntity> wrap=null) where TEntity : CompanyDataOwnId
+        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger, Func<TEntity, Task<bool>> postSaveAction = null, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
         {
             if (!ctl.ModelState.IsValid)
                 return ctl.PartialView(entity);
-            bool res = await ctl.UpdateDBCompanyDataAsync(entity, _context, _logger,wrap);
+            bool res = await ctl.UpdateDBCompanyDataAsync(entity, _context, _logger, wrap);
             if (!res)
                 return ctl.NotFound();
             if (postSaveAction != null)
-                postSaveAction(entity);
-            return ctl.Json(new { res = "OK" });
+            {
+                if (!await postSaveAction(entity))
+                {
+                    return ctl.BadRequest();
+                }
+            }
+            return ctl.UpdateOk();
+        }
+        public static async Task<IActionResult> UpdateDBCompanyDataAsyncEx<TEntity>(this Controller ctl, TEntity entity,  ILogger<CompanyUser> _logger, Func<TEntity, Task<bool>> funcUpdate = null,EntityWrap < TEntity> wrap = null) where TEntity : CompanyDataOwnId
+        {
+            if (!ctl.ModelState.IsValid)
+                return ctl.PartialView(entity);
 
+            if (!await funcUpdate(entity))
+                return ctl.BadRequest();
+
+
+            return ctl.UpdateOk();
+
+        }
+        public static IActionResult UpdateOk( this Controller ctl)
+        {
+            return ctl.Json(new { res = "OK" });
         }
         public static async Task<bool> UpdateDBCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
         {
@@ -141,10 +165,52 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        public static async Task<bool> UpdateDBCompanyDataAsync<TEntity>(this  TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger,int companyId, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
+        {
+            try
+            {
+                if (wrap != null)
+                    entity.PreApplyWraps( _context, wrap);
+                entity.AssignCompantAttr(companyId);
+                _context.Update(entity);
+                var entry = _context.Entry(entity);
+                if (entry.State == EntityState.Modified)
+                {
+                    if (entry.OriginalValues.GetValue<int>("CompanyId") != companyId)  //something wrong with hack
+                    {
+                        throw new Exception("Fobidden");
+                    }
+                }
+                if (wrap != null)
+                    entity.PostApplyWraps( _context, wrap, companyId);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException exdb)
+            {
+                _logger.LogError(exdb, "Update {0}", entity.GetType().Name);
+                if (_context.Find(entity.GetType(), entity.Id) == null)
+                {
+                    return false;
+                }
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update {0}", entity.GetType().Name);
+                return false; //to do
+            }
+            return true;
+        }
         private static void PreApplyWraps<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, EntityWrap<TEntity> wrap) where TEntity : CompanyDataOwnId
         {
+            entity.PreApplyWraps(_context, wrap);
+
+        }
+        private static void PreApplyWraps<TEntity>(this  TEntity entity, AppDbContext _context, EntityWrap<TEntity> wrap) where TEntity : CompanyDataOwnId
+        {
             foreach (var dels in wrap.CollectionList)
-                ctl.TrackCollection(_context, entity, dels);
+                entity.TrackCollection(_context,  dels);
             foreach (var entry in _context.ChangeTracker.Entries())
             {
                 if (entry.State != EntityState.Deleted)
@@ -170,13 +236,27 @@ namespace CateringPro.Repositories
             }
 
         }
-        private static void TrackCollection<TEntity>(this Controller ctl, AppDbContext _context, TEntity entity, IList deletedcol) where TEntity : CompanyData
+        private static void PostApplyWraps<TEntity>(this TEntity entity, AppDbContext _context, EntityWrap<TEntity> wrap,int companyId) where TEntity : CompanyDataOwnId
         {
-            // var compiled = navigationPath.Compile();
-            // object res = compiled.DynamicInvoke(entity);
-            //_context.Entry(entity).Collection(navigationPath).Load();
+            // return;
+            foreach (var entry in _context.ChangeTracker.Entries())
+            {
+                if (wrap.ExclusionList.Contains(entry.Entity.GetType()))
+                {
+                    entry.State = EntityState.Unchanged;
 
-            
+                    //_context.Entry(entry.Entity).State = EntityState.Detached;
+                }
+                if (wrap.CompanyList.Contains(entry.Entity.GetType()))
+                {
+                   (entry.Entity as CompanyData).AssignCompantAttr(companyId);
+                }
+
+            }
+
+        }
+        private static void TrackCollection<TEntity>(this Controller ctl, AppDbContext _context, TEntity entity, IList deletedcol) where TEntity : CompanyDataOwnId
+        {
             foreach (var entry in _context.ChangeTracker.Entries())
             {
                 if (deletedcol.Contains(entry.Entity))
@@ -185,6 +265,19 @@ namespace CateringPro.Repositories
                     
                 }
                 
+            }
+        }
+        private static void TrackCollection<TEntity>(this TEntity entity, AppDbContext _context, IList deletedcol) where TEntity : CompanyDataOwnId
+        {
+
+            foreach (var entry in _context.ChangeTracker.Entries())
+            {
+                if (deletedcol.Contains(entry.Entity))
+                {
+                    entry.State = EntityState.Deleted;
+
+                }
+
             }
         }
     }

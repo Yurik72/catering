@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Transactions;
 
 namespace CateringPro.Repositories
 {
@@ -138,5 +139,20 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        public async Task<bool> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid)
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                if (!await complex.UpdateDBCompanyDataAsync(_context, _logger, companyid))
+                    return false;
+
+
+                if (!await UpdateComplexDishes(complex, companyid, dishComplexes))
+                    return false;
+                scope.Complete();
+            }
+            return true;
+        }
+
     }
 }

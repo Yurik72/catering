@@ -13,5 +13,7 @@ namespace CateringPro.Models
 
         public string MeasureUnit { get; set; }
         public decimal Proportion { get; set; }
+
+        public int LineIndex { get; set; }
     }
 }

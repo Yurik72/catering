@@ -20,6 +20,9 @@ namespace CateringPro.ViewModels
 
         public string Id { get; set; }
 
+        public string UserName { get; set; }
+        
+
         [DisplayName("UpdateUserNewPassword")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
@@ -66,6 +69,7 @@ namespace CateringPro.ViewModels
 
         public string NameSurname { get; set; }
 
+        public bool IsNew { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
             if (usr != null)
@@ -79,6 +83,7 @@ namespace CateringPro.ViewModels
                 this.Country = usr.Country;
                 this.PhoneNumber = usr.PhoneNumber;
                 this.NameSurname = usr.NameSurname;
+                this.UserName=usr.UserName;
 
             }
 
@@ -96,11 +101,18 @@ namespace CateringPro.ViewModels
                 usr.City = this.City;
                 usr.PhoneNumber = this.PhoneNumber;
                 usr.NameSurname = this.NameSurname;
+                usr.UserName = this.UserName;
             }
 
             return usr;
         }
         public bool IsPasswordChanged {
             get => !string.IsNullOrEmpty(this.NewPassword) && !string.IsNullOrEmpty(this.ConfirmPassword); }
+
+        public void InitializeNew()
+        {
+            this.IsNew = true;
+        }
+
     }
 }

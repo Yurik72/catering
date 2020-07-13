@@ -1,0 +1,18 @@
+﻿@model CateringPro.Models.DishIngredientsProportionViewModel
+
+
+<div class="row ingredient-dishes-line">
+    <div class="col col-lg-2 col-md-2">
+        <input type="hidden" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
+    </div>
+    <div class="col col-lg-2 col-md-2 col-2">
+        @Html.DisplayFor(modelItem => Model.Name)
+    </div>
+    <div class="col col-lg-2 col-md-2">
+
+        <input type="text" name="proportion[@Model.LineIndex].Proportion" asp-for="@Model.Proportion" class="form-control" />
+    </div>
+    <div col col-lg-1 col-md-1>
+        <a class="delete-ingredients-dishes-line fa fa-trash fa-2x"></a>
+    </div>
+</div>

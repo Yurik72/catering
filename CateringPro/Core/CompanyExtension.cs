@@ -8,7 +8,7 @@ namespace CateringPro.Core
 {
     public static class CompanyExtension
     {
-
+        
         public static IEnumerable<string> EMails(this IEnumerable<CompanyUser> src)
         {
             return src.Select(u => u.Email);
