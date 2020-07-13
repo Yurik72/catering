@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CateringPro.Models.CompanyUser>
+
+@using CateringPro.Core
+
+
+@{
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
+
+}
+
+<table class="table">
+    <thead>
+        <tr class="bg-white text-success">
+            <th>
+
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.UserName, querymodel)
+            </th>
+            @*<th>
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
+
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="bg-white text-secondary">
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>*@
+                <td>
+
+
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                    @Html.ActionLink("", "EditModal",
+                                 new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr class="bg-white text-success rounded border">
+            <td colspan="3">
+                @await this.InvokeComponentAsync(Component, "TablePager", model => model.UserName, querymodel)
+            </td>
+        </tr>
+    </tfoot>
+</table>
