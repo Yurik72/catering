@@ -2,7 +2,7 @@
 var html_loading_element = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
 
 function setup_listitems(options) {
-    let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems"};
+    let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems",editmethod:"EditModal",createmethod:"CreateModal"};
     if (typeof (options) == 'object') {
        // this.options = { ...defaultoptions, ...options };
         //edge troubles with es6
@@ -12,6 +12,10 @@ function setup_listitems(options) {
             this.options.onloadedcb = options.onloadedcb;
         if (options.method)
             this.options.method = options.method;
+        if (options.editmethod)
+            this.options.editmethod = options.editmethod;
+        if (options.createmethod)
+            this.options.createmethod = options.createmethod;
     }
     else {
 
@@ -45,7 +49,7 @@ function setup_listitems(options) {
         });
         $('#create-btn').click(function (e) {
             e.preventDefault();
-            var url = self.options.href+'/CreateModal';
+            var url = self.options.href + '/' + self.options.createmethod;
             $.get(url, function (data) {
                 $('#dialogContent').html(data);
                 $('#modDialog').modal('show');

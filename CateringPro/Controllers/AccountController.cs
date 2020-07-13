@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Models;
 using CateringPro.Core;
 using Microsoft.EntityFrameworkCore;
+using CateringPro.Repositories;
+
 namespace CateringPro.Controllers
 {
     [AllowAnonymous]
@@ -186,11 +188,92 @@ namespace CateringPro.Controllers
             else
                 return RedirectToAction("Index", "Home");
         }
-        [Authorize]
-        public async Task<IActionResult> Users()
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        public async Task<IActionResult> EditUserModal(string userId)
         {
-            return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            //string id = User.GetUserId();
+            CompanyUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+                return PartialView(new UpdateUserModel(user));
+            else
+                return NotFound();
         }
+       
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUserModal([FromForm]UpdateUserModel usermodel)
+        {
+            //string id = User.GetUserId();
+            if (!ModelState.IsValid)
+                return PartialView(usermodel);
+            _logger.LogInformation("EditUserModal");
+            try
+            {
+                if (usermodel.IsNew)
+                {
+                    _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
+                    CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
+                    usermodel.CopyTo(usr);
+                    var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("Creating user is not sucess {0}", userResult.ToString());
+
+                        foreach (var err in userResult.Errors)
+                            ModelState.AddModelError(err.Code, err.Description);
+                        return PartialView(usermodel);
+                    }
+
+                }
+                else
+                {
+                    CompanyUser user = await _userManager.FindByIdAsync(usermodel.Id);
+                    if (user == null)
+                    {
+
+                        return BadRequest();
+                    }
+                    var userResult = await _userManager.UpdateAsync(user);
+                    if (!userResult.Succeeded)
+                    {
+                        return PartialView(usermodel);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex,"Error EditUser");
+            }
+            return this.UpdateOk();
+
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        public IActionResult CreateUserModal()
+        {
+
+            var user = new UpdateUserModel();
+            user.InitializeNew();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("EditUserModal", user);
+        }
+        [Authorize]
+        public IActionResult Users()//async Task<IActionResult> Users()
+        {
+            // return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            return View(new List<CompanyUser>());
+        }
+        [Authorize]
+        public async Task<IActionResult> UsersList()
+        {
+            return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+        }
+
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname")] UpdateUserModel um )

@@ -484,6 +484,28 @@ a.dialog-edit-icon, a.apagebottom {
     overflow:hidden;
 
 }
+.modal{
+    height: 90%;
+    overflow: hidden;
+}
+.modal-content,  .modal-dialog {
+    height: 90%;
+}
+.modal-header {
+    height: 7%;
+}
+.modal-body {
+   height: 85%;
+   overflow-y:auto;
+   display:inline-block;
+}
+
+.complex-content {
+    /*    display: inline-block;
+    overflow-y: auto;
+    height: 100%;
+        */
+}
 .modal-search {
     background-color: rgba(117, 117, 117, 0.5);
 }
@@ -740,13 +762,15 @@ table.stock-inredients td{
 .dishes-content, .ingredients-content, .complex-content {
     clear: both;
     width: 100%;
-    height: 100%;
+   position:relative;
+   
 }
-a.add-complex-line, .add-ingredients-dishes-line {
-    cursor: pointer;
-    /*    background-color:blue;*/
-    color: blue !important;
-}
+
+    a.add-complex-line, .add-ingredients-dishes-line {
+        cursor: pointer;
+        /*    background-color:blue;*/
+        color: blue !important;
+    }
 a.delete-ingredients-dishes-line {
     cursor: pointer;
 }

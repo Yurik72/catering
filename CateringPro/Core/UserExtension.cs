@@ -10,13 +10,18 @@ using CateringPro.Repositories;
 using System.Security.Principal;
 using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Policy;
 
 namespace CateringPro.Core
 {
     public static class UserExtension
     {
-       
 
+        public const string UserRole_Admin = "Admin";
+        public const string UserRole_CompanyAdmin = "CompanyAdmin";
+        public const string UserRole_GroupAdmin = "GroupAdmin";
+        public const string UserRole_UserAdmin = "UserAdmin";
+        public const string UserRole_KitchenAdmin = "KitchenAdmin";
         public static string GetUserId(this IPrincipal principal)
         {
             var claimsIdentity = (ClaimsIdentity)principal.Identity;

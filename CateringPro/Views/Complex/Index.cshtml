@@ -154,7 +154,8 @@
                             });
                             if(flag)
                                 $(data).insertBefore(".course-footer-" + course);
-                            $(".modal-dialog").scroll();
+                            //$(".modal-dialog").scroll();
+                            $('#modDialog').modal('handleUpdate');
                             //var el_complexid = $(`<input type='hidden' name='DishComplexes[0].DishId' value='${id}'/>`);  // Create with jQuery
                             //var el_course = $(`<input type='hidden' name='DishComplexes[0].DishCourse' value='${course}'/>`);
                             //var elid = $("input[name='dishid']");

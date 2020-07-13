@@ -5,7 +5,7 @@ using CateringPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using CateringPro.Core;
 namespace CateringPro.Data
 {
     public class DbInitializer
@@ -19,10 +19,10 @@ namespace CateringPro.Data
 
 
             CreateAdminRole(context, roleManager, userManager);
-            CreateRole("CompanyAdmin", context, roleManager);
-            CreateRole("GroupAdmin", context, roleManager);
-            CreateRole("KitchenAdmin", context, roleManager);
-            CreateRole("UserAdmin", context, roleManager);
+            CreateRole(UserExtension.UserRole_CompanyAdmin, context, roleManager);
+            CreateRole(UserExtension.UserRole_GroupAdmin, context, roleManager);
+            CreateRole(UserExtension.UserRole_UserAdmin, context, roleManager);
+            CreateRole(UserExtension.UserRole_KitchenAdmin, context, roleManager);
 
             if (context.Dishes.IgnoreQueryFilters().Any())
             {

@@ -50,6 +50,7 @@ namespace CateringPro.Repositories
            
             return res;
         }
+
         public static EntityWrap<TEntity> TrackCollection<TEntity,T>(this EntityWrap<TEntity> src, IEnumerable<T> origin, ICollection<T> current) where TEntity : CompanyData
              where T : CompanyDataOwnId
         {
@@ -109,7 +110,7 @@ namespace CateringPro.Repositories
                     return ctl.BadRequest();
                 }
             }
-            return ctl.Json(new { res = "OK" });
+            return ctl.UpdateOk();
         }
         public static async Task<IActionResult> UpdateDBCompanyDataAsyncEx<TEntity>(this Controller ctl, TEntity entity,  ILogger<CompanyUser> _logger, Func<TEntity, Task<bool>> funcUpdate = null,EntityWrap < TEntity> wrap = null) where TEntity : CompanyDataOwnId
         {
@@ -119,9 +120,13 @@ namespace CateringPro.Repositories
             if (!await funcUpdate(entity))
                 return ctl.BadRequest();
 
-           
-            return ctl.Json(new { res = "OK" });
 
+            return ctl.UpdateOk();
+
+        }
+        public static IActionResult UpdateOk( this Controller ctl)
+        {
+            return ctl.Json(new { res = "OK" });
         }
         public static async Task<bool> UpdateDBCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
         {

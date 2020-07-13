@@ -74,7 +74,9 @@
     <Compile Remove="Models\ShoppingCart.cs" />
     <Compile Remove="Models\ShoppingCartItem.cs" />
     <Compile Remove="Repositories\AdminRepository.cs" />
+    <Compile Remove="Repositories\CompanyUserRepository.cs" />
     <Compile Remove="Repositories\IAdminRepository.cs" />
+    <Compile Remove="Repositories\ICompanyUserRepository.cs" />
     <Compile Remove="Repositories\IOrderRepository.cs" />
     <Compile Remove="Repositories\IPizzaIngredientsRepository.cs" />
     <Compile Remove="Repositories\IPizzaRepository.cs" />
