@@ -19,6 +19,7 @@ namespace CateringPro.Repositories
         CustomerOrdersViewModel CustomerOrders(string UserId, DateTime daydate, int companyid);
         bool SaveDay(List<UserDayDish> daydishes, HttpContext httpcontext);
         bool SaveDayComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext);
+        bool SaveDayDishInComplex(List<UserDayDish> userDayDishes, HttpContext httpcontext);
         IQueryable<UserDayComplexViewModel> ComplexPerDay(DateTime daydate, string userId, int companyid);
     }
 }

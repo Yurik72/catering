@@ -78,7 +78,7 @@
             </div>
             <div class="col-sm-2">
                 @*<button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>*@
-                <button onclick="send()" button class="btn btn-primary" data-dismiss="modal">@Localizer["Save"]</button>
+                <button id="sendBut"  button class="btn btn-primary" data-dismiss="modal">@Localizer["Save"]</button>
             </div>
             <div class="col-sm-1">
             </div>
@@ -97,7 +97,7 @@
 
 <script>
 
-    function send() {
+    @*function send() {
         console.log("Post ");
         var complexLines = $(".complex-content").find(".complex-line");
         //console.log($(complexLines[1]).find("dish-line"));
@@ -203,14 +203,7 @@
                 });
             })
 
-        });
-
-
-
-
-
-
-
+        });*@
 
 </script>
 

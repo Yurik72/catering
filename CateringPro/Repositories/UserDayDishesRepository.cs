@@ -389,6 +389,45 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+
+        public bool SaveDayDishInComplex(List<UserDayDish> userDayDishes, HttpContext httpcontext)
+        {
+            try
+            {
+                userDayDishes.ForEach(d =>
+                {
+                    //await saveday(d);
+                    httpcontext.User.AssignUserAttr(d);
+                    var userDayDish = _context.UserDayDish.SingleOrDefault(c => c.CompanyId == d.CompanyId
+                                && c.Date == d.Date
+                                && c.UserId == d.UserId);
+                    if (userDayDish != null)
+                    {
+                        userDayDish.Quantity = d.Quantity;
+                        userDayDish.Price = d.Price;
+                        _context.Update(userDayDish);
+                    }
+                    else if (d.Quantity > 0)
+                    {
+                        //d.UserId = this.User.GetUserId();
+
+                        _context.Add(d);
+                    }
+
+                });
+                _context.SaveChanges();
+                //  if (!UpdateUserComplex(daycomplex, httpcontext))
+                //     return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update user day complex");
+                return false;
+            }
+
+            return true;
+        }
+
         private bool UpdateUserComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
         {
             var userid = httpcontext.User.GetUserId();
@@ -473,7 +512,9 @@ namespace CateringPro.Repositories
                             Date = daydate, Enabled = dayd.Date == daydate,  /*dayd != null*/
                             ComplexDishes=from d in _context.Dishes.WhereCompany(companyid)
                                           join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
-                                          where dc.ComplexId ==comp.Id
+                                          //join udd in _context.UserDayDish.WhereCompany(companyid).Where(i => i.Date == daydate && i.UserId == userId)  on d.Id equals udd.DishId
+                                          where dc.ComplexId ==comp.Id 
+                                          orderby dc.DishCourse
                                           select new UserDayComplexDishViewModel()
                                           {
                                               
@@ -481,7 +522,9 @@ namespace CateringPro.Repositories
                                               DishName = d.Name,
                                               DishReadyWeight=d.ReadyWeight,
                                               PictureId = d.PictureId,
-                                             
+                                              DishCourse = dc.DishCourse,
+                                            //  DishQuantity = udd.Quantity,
+                                              
                                               DishDescription = d.Description,
                                               DishIngredients = string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
                                                                                   join ingr in _context.Ingredients on di.IngredientId equals ingr.Id

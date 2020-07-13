@@ -142,9 +142,9 @@ namespace CateringPro.Repositories
                                                 DishName = d.Name,
                                                 DishReadyWeight = d.ReadyWeight,
                                                 PictureId = d.PictureId,
-
-                                                DishDescription = d.Description
-
+                                                
+                                                DishDescription = d.Description,
+                                                DishCourse = dc.DishCourse
                                             }
                         };
             return query;

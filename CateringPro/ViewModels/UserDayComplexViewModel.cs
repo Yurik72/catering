@@ -46,6 +46,9 @@ namespace CateringPro.Models
 
         public int? PictureId { get; set; }
 
+        public int DishCourse { get; set; }
+
+        public int DishQuantity { get; set; }
 
     }
 

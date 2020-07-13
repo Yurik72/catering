@@ -11,6 +11,8 @@ namespace CateringPro.Models
         public DateTime Date { get; set; }
 
         public int ComplexId { get; set; }
+
+        //public DishComplex Dishes { get; set; }
         //public virtual ICollection<Dish> Dishes { get; set; }
 
         public virtual Complex Complex { get; set; }
