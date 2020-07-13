@@ -742,10 +742,13 @@ table.stock-inredients td{
     width: 100%;
     height: 100%;
 }
-a.add-complex-line {
+a.add-complex-line, .add-ingredients-dishes-line {
     cursor: pointer;
-/*    background-color:blue;*/
-    color:blue !important;
+    /*    background-color:blue;*/
+    color: blue !important;
+}
+a.delete-ingredients-dishes-line {
+    cursor: pointer;
 }
 a.delete-item {
     cursor: pointer;

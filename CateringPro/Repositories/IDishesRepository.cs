@@ -9,5 +9,7 @@ namespace CateringPro.Repositories
     {
 
         Task<bool> UpdateDishIngredients(Dish dish, List<string> ingredients, List<DishIngredients> proportion,int companyid);
+        Task<bool> UpdateDishIngredients(Dish dish, List<DishIngredients> proportion, int companyid);
+        Task<bool> UpdateDishEntity(Dish dish, List<DishIngredients> proportion, int companyid);
     }
 }

@@ -63,8 +63,10 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var res = await this.UpdateCompanyDataAsync(cmp, _context, _logger);
-            await _complexRepo.UpdateComplexDishes(cmp,  User.GetCompanyID(), DishComplexes);
+            //  var res = await this.UpdateCompanyDataAsync(cmp, _context, _logger);
+            // await _complexRepo.UpdateComplexDishes(cmp,  User.GetCompanyID(), DishComplexes);
+            var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger,
+                 e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
             return res;
 
         }

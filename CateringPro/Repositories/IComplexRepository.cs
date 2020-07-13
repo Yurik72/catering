@@ -16,5 +16,7 @@ namespace CateringPro.Repositories
         void Remove(Complex complex);
 
         Task SaveChangesAsync();
+
+        Task<bool> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid);
     }
 }

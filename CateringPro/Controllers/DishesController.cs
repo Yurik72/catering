@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using CateringPro.ViewModels;
 
+
 namespace CateringPro.Controllers
 {
     public class DishesController : Controller
@@ -53,22 +54,7 @@ namespace CateringPro.Controllers
             {
                 query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);
             }
-            /*
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            {
-                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
-               
-            }
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
-            if (querymodel.Page > 0)
-            {
-                query = query.Skip(pageRecords * querymodel.Page);
-            }
-            query = query.Take(pageRecords);
-            */
+
             return PartialView(await query.ToListAsync());
 
         }
@@ -171,8 +157,8 @@ namespace CateringPro.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId,ReadyWeight")] Dish dish, List<string> IngredientsIds, List<DishIngredients> proportion)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId,PictureId,ReadyWeight")] Dish dish, /*List<string> IngredientsIds,*/ List<DishIngredients> proportion)
         {
             if (id != dish.Id)
             {
@@ -201,12 +187,26 @@ namespace CateringPro.Controllers
 
             ///not work
            // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
-            var res=await this.UpdateCompanyDataAsync(dish, _context, _logger);
-            await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds, proportion,User.GetCompanyID());
+        //    var res=await this.UpdateCompanyDataAsync(dish, _context, _logger,
+           //     e=> { return _dishesRepo.UpdateDishIngredients(e, proportion, User.GetCompanyID()); });
+
+            var res = await this.UpdateDBCompanyDataAsyncEx(dish, _logger,
+                e => { return _dishesRepo.UpdateDishEntity(e, proportion, User.GetCompanyID()); });
+                
+            //await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds, proportion,User.GetCompanyID());
+            //await _dishesRepo.UpdateDishIngredients(dish,  proportion, User.GetCompanyID());
             return res;
         }
 
-
+        public IActionResult NewIngredientDishesLine(int Index,int IngredientId, string IngredientName)
+        {
+            return PartialView("IngredientDishesLine", new DishIngredientsProportionViewModel()
+            {
+                IngredientId = IngredientId,
+                LineIndex=Index,
+                Name=IngredientName
+            });
+        }
         public async Task<IActionResult> EditModal(int? id)
         {
             if (id == null)
@@ -245,15 +245,17 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            
-            var model = await _context.DishIngredients.Include(d=>d.Ingredient).WhereCompany(User.GetCompanyID()).
-                Where(d => d.DishId == id).Select(d => new DishIngredientsProportionViewModel()
+           
+            var model = await _context.DishIngredients.Include(d => d.Ingredient)/*.WhereCompany(User.GetCompanyID())*/.
+                Where(d => d.DishId == id).Select(d=> new DishIngredientsProportionViewModel()
                 {
                     IngredientId = d.Ingredient.Id,
-                    Name=d.Ingredient.Name,
-                    Proportion=d.Proportion
+                    Name = d.Ingredient.Name,
+                    Proportion = d.Proportion
+                    
                 }
-                ).ToListAsync();
+                )
+                .ToListAsync();
             return PartialView(model);
         }
         [HttpGet]
