@@ -10,6 +10,11 @@ namespace CateringPro.Models
 {
     public class Company
     {
+        public Company()
+        {
+            this.CompanyUserCompany = new HashSet<CompanyUserCompany>();
+        }
+
         public int Id { get; set; }
 
         [StringLength(10)]
@@ -49,6 +54,9 @@ namespace CateringPro.Models
         public int? OrderLeadTimeH { get; set; }
         [DisplayName("ThresholdTime")]
         public int? OrderThresholdTimeH { get; set; }
-        
+
+
+        public virtual ICollection<CompanyUserCompany> CompanyUserCompany { get; set; }
+
     }
 }

@@ -65,7 +65,6 @@
     <Compile Remove="Controllers\ReviewsController.cs" />
     <Compile Remove="Controllers\ShoppingCartController.cs" />
     <Compile Remove="Core\ApplicationClaimsIdentityFactory.cs" />
-    <Compile Remove="Data\Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Remove="Models\Order.cs" />
     <Compile Remove="Models\OrderDetail.cs" />
     <Compile Remove="Models\PizzaIngredients.cs" />
@@ -74,9 +73,7 @@
     <Compile Remove="Models\ShoppingCart.cs" />
     <Compile Remove="Models\ShoppingCartItem.cs" />
     <Compile Remove="Repositories\AdminRepository.cs" />
-    <Compile Remove="Repositories\CompanyUserRepository.cs" />
     <Compile Remove="Repositories\IAdminRepository.cs" />
-    <Compile Remove="Repositories\ICompanyUserRepository.cs" />
     <Compile Remove="Repositories\IOrderRepository.cs" />
     <Compile Remove="Repositories\IPizzaIngredientsRepository.cs" />
     <Compile Remove="Repositories\IPizzaRepository.cs" />
@@ -128,6 +125,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\Migrations\" />
     <Folder Include="Logs\" />
     <Folder Include="SQL\" />
     <Folder Include="Reports\" />

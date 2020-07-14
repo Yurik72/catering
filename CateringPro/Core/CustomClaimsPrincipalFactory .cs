@@ -29,5 +29,15 @@ namespace CateringPro.Core
 
             return principal;
         }
+
+        public static ClaimsPrincipal ChangeCompanyId(ClaimsPrincipal claims,int companyId)
+        {
+            var identity = claims.Identity as ClaimsIdentity;
+            var claim = claims.FindFirst("companyid");
+            if (claim != null)
+                identity.RemoveClaim(claim);
+            identity.AddClaim(new Claim("companyid", companyId.ToString()));
+            return claims;
+        }
     }
 }

@@ -13,7 +13,10 @@ namespace CateringPro.Models
 {
     public class CompanyUser :IdentityUser<string>
     {
-
+        public CompanyUser()
+        {
+            this.CompanyUserCompany = new HashSet<CompanyUserCompany>();
+        }
         public int CompanyId { get; set; }
 
         [StringLength(10)]
@@ -33,7 +36,19 @@ namespace CateringPro.Models
         [StringLength(40)]
         public string NameSurname { get; set; }
 
+
+        [DisplayName("User Group")]
+        public int UserGrpoupId { get; set; }
+
+        [DisplayName("User Group")]
+        public virtual UserGroups UserGroup { get; set; }
+
         public int?  MenuType { get; set; }
+
+        [DefaultValue(false)]
+        public bool ConfirmedByAdmin { get; set; }
+
+        public virtual ICollection<CompanyUserCompany> CompanyUserCompany { get; set; }
     }
     public class CompanyRole : IdentityRole
     {

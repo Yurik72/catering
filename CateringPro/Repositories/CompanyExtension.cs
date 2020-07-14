@@ -13,6 +13,8 @@ using System.Linq.Expressions;
 
 namespace CateringPro.Repositories
 {
+
+
     public class EntityWrap<TEntity> where TEntity : class
     {
         public TEntity Src { get; set; }

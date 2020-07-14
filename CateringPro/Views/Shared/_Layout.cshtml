@@ -2,6 +2,7 @@
 
 @inject SignInManager<CompanyUser> SignInManager
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject CateringPro.Repositories.ICompanyUserRepository cu_repo
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,7 +96,18 @@
     *@
     <header>
         <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white text-dark">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Catering</a>
+            @*<a class="navbar-brand" asp-controller="Home" asp-action="Index">Catering</a>*@
+            @if (SignInManager.IsSignedIn(User))
+            {
+              
+                <a class="navbar-brand" asp-controller="Home" id="selectcompany" asp-action="Index">@cu_repo.GetCurrentCompany()</a>
+                
+            }
+            else
+            {
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Catering</a>
+            }
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -103,7 +115,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li><a class="nav-link" asp-controller="UserDayDishes" asp-action="Index">@Localizer["MenuUserOrder"]</a></li>
 
-</ul>
+                </ul>
                 @await Html.PartialAsync("_LoginPartial")
                 <form class="form-inline mt-2 mt-md-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -139,6 +151,46 @@
 
     @await Html.PartialAsync("_LoginPartialModal")
     @RenderSection("Scripts", required: false)
+<script>
+        var ul_select_company = '<ul class="nav navbar-nav navbar-right show"> <a id="selectcompanyloaded" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">.....</a><li class="nav-item dropdown"><div class="dropdown-menu show" id="companylist"></div></li></ul>';
+        $(function () {
+            $("#selectcompany").click(function (e) {
+                e.preventDefault();
+                var url ='@Url.Content("~/Account/UserOtherCompanies")';
+                var self = this;
+                $.get(url, function (data) {
+                    var ul = $(ul_select_company);
+                    if ($.isArray(data) && data.length>0) {
+                        data.map(function (el) {
+                            ul.find("#companylist").append(`<a class="setcompany dropdown-item" data-id="${el.id}" href="#">${el.name}</a>`)
+                        });
+                        ul.find("#selectcompanyloaded").text($(self).text());
+                        $(self).before(ul);
+                        $(self).empty();
+                        setupcompanychanges(ul);
+                    }
+
+                });
+
+            });
+            function setupcompanychanges(menu) {
+                menu.find(".setcompany").click(function (e) {
+                    e.preventDefault();
+                    var url = '@Url.Content("~/Account/SetCompanyId?CompanyId=")' + $(this).attr("data-id");
+                    $.get(url, function (data) {
+                        //var x = data;
+                    }).done(function () {
+                        //alert("second success");
+                        location.reload();
+                    })
+                    .fail(function () {
+                        //alert("error");
+                    });
+                });
+
+            }
+        })
+</script>
 </body>
 </html>
 

@@ -437,11 +437,19 @@ a.dialog-edit-icon, a.apagebottom {
 .table-content {
     box-shadow: 10px 10px 5px grey;
     overflow-x:auto;
+    width:100%;
+    display:table;
 }
-
-.delete-content {
-    padding :20px;
+.table-content table.table {
+    width: 100%;
+    table-layout: fixed;
 }
+    .table-content table.table td {
+        word-wrap: break-word;
+    }
+    .delete-content {
+        padding: 20px;
+    }
 .col-select-filter, .col-select-filter:focus {
     border: none !important;
     color: #28a745 !important;
@@ -485,7 +493,7 @@ a.dialog-edit-icon, a.apagebottom {
 
 }
 .modal{
-    height: 90%;
+    height: 100%;
     overflow: hidden;
 }
 .modal-content,  .modal-dialog {
