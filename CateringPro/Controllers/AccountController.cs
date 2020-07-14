@@ -21,13 +21,14 @@ namespace CateringPro.Controllers
         private readonly UserManager<CompanyUser> _userManager;
         private readonly SignInManager<CompanyUser> _signInManager;
         private readonly ILogger<CompanyUser> _logger;
-
+        private readonly ICompanyUserRepository _companyuser_repo;
         public AccountController(UserManager<CompanyUser> userManager, 
-                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger)
+                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _companyuser_repo = companyuser_repo;
         }
 
         [AllowAnonymous]
@@ -138,7 +139,7 @@ namespace CateringPro.Controllers
             if (user != null)
             {
                 var claims = await _userManager.GetClaimsAsync(user);
-                claims.Add(new System.Security.Claims.Claim("companyid", "44"));
+               // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
             
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
@@ -268,9 +269,15 @@ namespace CateringPro.Controllers
             return View(new List<CompanyUser>());
         }
         [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> UsersList()
         {
-            return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            var query = _userManager.Users;
+            if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
+                query = query.Where(u => u.CompanyId == User.GetCompanyID());
+            
+            //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            return PartialView(await query.ToListAsync());
         }
 
 
@@ -325,6 +332,27 @@ namespace CateringPro.Controllers
         {
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
+        }
+        [Authorize]
+        public JsonResult UserCompanies()
+        {
+            return Json(_companyuser_repo.GetCurrentUsersCompaniesAsync(User.GetUserId()).Result);
+        }
+        [Authorize]
+        public JsonResult UserOtherCompanies()
+        {
+            return Json(_companyuser_repo.GetCurrentUsersCompaniesAsync(User.GetUserId()).Result.Where(c=>c.Id!= User.GetCompanyID()));
+        }
+        [Authorize]
+        public async Task<IActionResult> SetCompanyId(int CompanyId)
+        {
+            if(!await _companyuser_repo.ChangeUserCompanyAsync(User.GetUserId(),CompanyId,User))
+                 return BadRequest();
+            var user = await _userManager.FindByIdAsync(User.GetUserId());
+            if(user==null)
+                return BadRequest();
+           await  _signInManager.RefreshSignInAsync(user);
+            return new EmptyResult();//RedirectToAction("Index", "Home");
         }
     }
 }

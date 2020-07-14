@@ -31,6 +31,8 @@ namespace CateringPro.Data
         public DbSet<Company> Companies { get; set; }
 
         public DbSet<CompanyUser> CompanyUser { get; set; }
+
+        public DbSet<CompanyUserCompany> CompanyUserCompanies { get; set; }
         public DbSet<Categories> Categories { get; set; }
 
         public DbSet<UserGroups> UserGroups { get; set; }
@@ -73,7 +75,7 @@ namespace CateringPro.Data
         public DbSet<UserDayComplex> UserDayComplex { get; set; }
         public DbSet<Pictures> Pictures { get; set; }
 
-        protected int CompanyId
+        public int CompanyId
         {
             get {
                 if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
@@ -196,7 +198,20 @@ namespace CateringPro.Data
                  .IsRequired()
                  .OnDelete(DeleteBehavior.Restrict);
 
-            Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
+            modelBuilder.Entity<CompanyUserCompany>()
+                .HasKey(cu => new { cu.CompanyId, cu.CompanyUserId });
+            modelBuilder.Entity<CompanyUserCompany>()
+                .HasOne(cu => cu.Company)
+                .WithMany(u => u.CompanyUserCompany)
+                .HasForeignKey(cu => cu.CompanyId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<CompanyUserCompany>()
+                .HasOne(cu => cu.CompanyUser)
+                .WithMany(u => u.CompanyUserCompany)
+                .HasForeignKey(u => u.CompanyUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
 
             //modelBuilder.Entity<Categories>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
             //modelBuilder.Entity<Dish>().HasQueryFilter(u =>u.CompanyId== this.CompanyId);

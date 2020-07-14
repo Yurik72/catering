@@ -2,27 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
 {
     public interface ICompanyUserRepository
     {
-        IEnumerable<CompanyUser> CompanyUser { get; }
+        string GetCurrentCompany();
+        Task<List<Company>> GetCurrentUsersCompaniesAsync(string userId);
 
-        CompanyUser GetById(int? id);
-        Task<CompanyUser> GetByIdAsync(int? id);
+        Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims);
 
-
-
-        IEnumerable<CompanyUser> GetAll();
-        Task<IEnumerable<CompanyUser>> GetAllAsync();
-
-        void Add(CompanyUser usergroups);
-        void Update(CompanyUser usergroups);
-        void Remove(CompanyUser usergroups);
-
-        void SaveChanges();
-        Task SaveChangesAsync();
     }
 }

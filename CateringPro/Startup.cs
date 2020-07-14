@@ -65,6 +65,7 @@ namespace CateringPro
             services.AddTransient<IComplexRepository, ComplexRepository>();
             services.AddTransient<IMassEmailRepository, MassEmailRepository>();
             services.AddTransient<IUserGroupsRepository, UserGroupsRepository>();
+            services.AddTransient<ICompanyUserRepository, CompanyUserRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
