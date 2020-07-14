@@ -36,6 +36,13 @@ namespace CateringPro.Models
         [StringLength(40)]
         public string NameSurname { get; set; }
 
+
+        [DisplayName("User Group")]
+        public int UserGrpoupId { get; set; }
+
+        [DisplayName("User Group")]
+        public virtual UserGroups UserGroup { get; set; }
+
         public int?  MenuType { get; set; }
 
         [DefaultValue(false)]

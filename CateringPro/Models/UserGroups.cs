@@ -30,16 +30,23 @@ namespace CateringPro.Models
         [DisplayName("MenuUserGroups")]
         public string Name { get; set; }
 
+
+        [DisplayName("User Group")]
+        public int UserGrpoupId { get; set; }
+
+        [DisplayName("User Group")]
+        public virtual UserGroups UserGroup { get; set; }
+
         //[StringLength(255, MinimumLength = 2)]
         //[DataType(DataType.MultilineText)]
         //[DisplayName("Category Decsciption")]
         //public string Description { get; set; }
 
-    //    public virtual ICollection<Pizzas> Pizzas { get; set; }
+        //    public virtual ICollection<Pizzas> Pizzas { get; set; }
 
 
-      //  public virtual ICollection<Dish> Dishes { get; set; }
-        
-      //  public ICollection<DishCategory> DishCategories { get; set; }
+        //  public virtual ICollection<Dish> Dishes { get; set; }
+
+        //  public ICollection<DishCategory> DishCategories { get; set; }
     }
 }
