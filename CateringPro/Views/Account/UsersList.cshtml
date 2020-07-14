@@ -26,27 +26,34 @@
                 @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Email, querymodel)
 
             </th>
+            <th>
+                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.UserGroup.Name, querymodel, (object)ViewBag.UserGroupId)
+
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="bg-white text-secondary">
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
+        <tr class="bg-white text-secondary">
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserGroup.Name)
+            </td>
+            <td>
 
 
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    @Html.ActionLink("", "EditUserModal",
-                                 new { userId = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
-                </td>
-            </tr>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                @Html.ActionLink("", "EditUserModal",
+                             new { userId = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+            </td>
+        </tr>
         }
     </tbody>
     <tfoot>

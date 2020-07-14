@@ -69,6 +69,12 @@ namespace CateringPro.ViewModels
 
         public string NameSurname { get; set; }
 
+        [DisplayName("UserGroupId")]
+        public int UserGrpoupId { get; set; }
+
+        [DisplayName("User Group")]
+        public virtual UserGroups UserGroup { get; set; }
+
         public bool IsNew { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
@@ -84,6 +90,7 @@ namespace CateringPro.ViewModels
                 this.PhoneNumber = usr.PhoneNumber;
                 this.NameSurname = usr.NameSurname;
                 this.UserName=usr.UserName;
+                this.UserGrpoupId = usr.UserGrpoupId;
 
             }
 
