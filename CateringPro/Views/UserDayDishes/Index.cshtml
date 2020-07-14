@@ -69,23 +69,24 @@
     }
     @for (int i = 0; i < 7; i++)
     {
-        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-            @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
-            {
+    <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+        @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
+        {
             <div class="container day-closed-msg">
-               <h3> @Localizer["DayClosedForOrder"] </h3>
+                <h3> @Localizer["DayClosedForOrder"] </h3>
             </div>
-            }
-            @if (Model.ShowComplex)
-            {
-                @await Component.InvokeAsync("UserDayComplexComponent", current_content)
-            }
-            @if (Model.ShowDishes)
-            {
-                @await Component.InvokeAsync("UserDayDishComponent", current_content)
-            }
+        }
+        
+        @if (Model.ShowComplex)
+        {
+            @await Component.InvokeAsync("UserDayComplexComponent", current_content)
+        }
+        @if (Model.ShowDishes)
+        {
+            @await Component.InvokeAsync("UserDayDishComponent", current_content)
+        }
 
-        </div>
+    </div>
 
         current_content = current_content.AddDays(1);
     }
@@ -416,6 +417,10 @@
                 $('#modPayment').find('#numorder').val('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
                 $('#modPayment').modal('show');
             })
+
+            $(document).on('click', ".userDayComplexBag", function () {
+                $(this).children(".bagDayComplexItem").slideToggle(300);
+            });
 
         });
 

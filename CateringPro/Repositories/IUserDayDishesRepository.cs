@@ -18,9 +18,12 @@ namespace CateringPro.Repositories
         IQueryable<CustomerOrdersViewModel> CustomerOrders(DateTime daydate, int companyid);
         CustomerOrdersViewModel CustomerOrders(string UserId, DateTime daydate, int companyid);
         bool SaveDay(List<UserDayDish> daydishes, HttpContext httpcontext);
-        bool SaveDayComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext);
-        bool SaveDayDishInComplex(List<UserDayDish> userDayDishes, HttpContext httpcontext);
+        Task<bool> SaveDayComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext);
+        Task<bool> SaveDayDishInComplex(List<UserDayDish> userDayDishes, HttpContext httpcontext);
+        Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, HttpContext httpcontext);
         IQueryable<UserDayComplexViewModel> ComplexPerDay(DateTime daydate, string userId, int companyid);
+        IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid);
+        IQueryable<UserDayComplexViewModel> OrderedComplexDay(DateTime daydate, string userId, int companyid);
     }
 }
 

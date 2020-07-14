@@ -185,11 +185,12 @@ namespace CateringPro.Controllers
             return await Task.FromResult(Json(new { res = "OK" }));
             */
         }
-        public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> daycomplexes,List<UserDayDish> UserDayDish)
+        public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> UserDayComplex, List<UserDayDish> UserDayDish)
         {
+            var daycomplexes = UserDayComplex;
             //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
             DateTime daydate = DateTime.Now;
-            bool res = _userdaydishesrepo.SaveDayDishInComplex(UserDayDish, this.HttpContext);
+  //          bool res = _userdaydishesrepo.SaveDayDishInComplex(UserDayDish, this.HttpContext);
             if (daycomplexes.Count > 0)
                 daydate = daycomplexes.First().Date;
             else
@@ -201,14 +202,14 @@ namespace CateringPro.Controllers
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
             }
             //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
-           
-            if (_userdaydishesrepo.SaveDayComplex(daycomplexes, this.HttpContext))
+            
+            if (!await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, this.HttpContext))
             {
                 return await Task.FromResult(Json(new { res = "OK" }));
             }
             else
             {
-                return await Task.FromResult(Json(new { res = "FAIL" }));
+                return await Task.FromResult(Json(new { res = "FAIL" , reason = "Adding to db" }));
             }
  
             

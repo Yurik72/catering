@@ -656,10 +656,13 @@ a.select-item{
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.day-closed-msg{
-    font-size:200%;
+.bagDayComplexItem {
+    display: none;
+}
+.day-closed-msg {
+    font-size: 200%;
     color: #f99696;
-    text-align:center;
+    text-align: center;
 }
 .daydish-footer .total-order-row, .daycomplex-footer .total-order-row {
     background-color: #FFFFFF;

@@ -10,9 +10,12 @@
 @{
     DateTime daydate = DateTime.Now;
     int com = 0;
+    int dayCom = 0;
 }
 @* bootstrap0 grid system *@
 
+
+@*Add complex to order*@
 <div class="userdaycomplex">
     @if (Model.Count() > 0)
     {
@@ -33,7 +36,9 @@
                         <div class="container daycomplex-item">
                             <div class="row row-daycomplex" data-form="userdaycomplexitem">
                                 <div class="col col-lg-5 col-md-5 col-sm-5">
-
+                                    <input data-val="true" name="UserDayComplex[@dayCom].ComplexId" type="hidden" value="@item.ComplexId">
+                                    <input data-val="true" name="UserDayComplex[@dayCom].Price" type="hidden" value="@item.Price">
+                                    <input data-val="true" name="UserDayComplex[@dayCom].Date" type="hidden" value="@item.Date">
                                     @Html.HiddenFor(modelItem => item.ComplexId, new { datafield = "ComplexID" })
                                     @Html.HiddenFor(modelItem => item.Price, new { datafield = "Price" })
                                     @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
@@ -47,7 +52,8 @@
                                 <div class="col col-lg-4 col-md-4 col-sm-4">
                                     @if (allowEdit)
                                     {
-                                        @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
+                                        <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayComplex[@dayCom].Quantity" type="number" value="0" style="display: none;">
+                                        //@Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
                                     }
                                     else
                                     {
@@ -56,12 +62,15 @@
 
                                 </div>
                             </div>
+                            @{dayCom++;
+                            }
+
                             @foreach (var dish in item.ComplexDishes)
                             {
                                 <div class="row row-daycomplex-item">
                                     @*<div class="col">
-                            @(dish.DishCourse+1)
-                            </div>*@
+                                        @(dish.DishCourse+1)
+                                        </div>*@
                                     <div class="col col-md-2">
                                         @(dish.DishCourse+1)
                                         <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
@@ -91,7 +100,7 @@
                                     @*<div class="col col-lg-4 col-md-4 col-4 small">
 
 
-                            </div>*@
+                                        </div>*@
 
                                     <div class="col col-lg-2 col-md-2 col-2 small">
                                         @if (allowEdit)
@@ -113,7 +122,7 @@
                         </div>
                     </div>
                 }
-               @* <button type="submit" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>*@
+                @* <button type="submit" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>*@
             </form>
         </div>
 
@@ -144,7 +153,7 @@
                 <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
                     @if (allowEdit)
                     {
-                        <button type="submit" form="orderForm" button class="btn btn-primary" >@Localizer["MyOrdersSave"]</button>
+                        <button type="submit" form="orderForm" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>
                         // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
                     }
                 </div>

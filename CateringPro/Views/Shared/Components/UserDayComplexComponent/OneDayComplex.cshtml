@@ -47,14 +47,14 @@
                                 </div>
                                 <div class="col col-lg-4 col-md-4 col-sm-4">
                                     @*@if (allowEdit)
-                {
-                    @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
-                }*@
-
+        {
+            @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
+        }
+        else
+        {
+            @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
+        }*@
+                                    <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" id="complex$@com" value="@item.ComplexId" />
                                 </div>
                             </div>
                             @{course = -1;
@@ -62,14 +62,15 @@
                             @foreach (var dish in item.ComplexDishes)
                             {
                                 @if (dish.DishCourse != course)
-                 {  course = dish.DishCourse;
-                     <div class="form-check">
-                         </div>
-           }
+                                {
+                                    course = dish.DishCourse;
+                                    <div class="form-check">
+                                    </div>
+                                }
                                 <div class="row row-daycomplex-item">
                                     @*<div class="col">
-                @(dish.DishCourse+1)
-                </div>*@
+                                        @(dish.DishCourse+1)
+                                        </div>*@
                                     <div class="col col-md-2">
                                         @(dish.DishCourse+1)
                                         <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
@@ -99,14 +100,14 @@
                                     @*<div class="col col-lg-4 col-md-4 col-4 small">
 
 
-                </div>*@
+                                        </div>*@
 
                                     <div class="col col-lg-2 col-md-2 col-2 small">
                                         @if (allowEdit)
                                         {
                                             @*@Html.EditorFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })*@
                                             // <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayDish[@com].Quantity" type="number" value="0" style="display: none;">
-                                            <input class="form-check-input" type="radio" name="UserDayDish[@com].Quantity" id="exampleRadios1" value="1" checked>
+                                            <input class="form-check-input" type="radio" name="Complex[@item.ComplexId].Course[@dish.DishCourse].DishId" id="exampleRadios1" value="@dish.DishId" />
                                         }
                                         else
                                         {
@@ -117,12 +118,14 @@
 
 
                                 </div>
-                            
-                                com++;
+
+                                
                             }
                         </div>
-                        </div>
-                }
+
+                    </div>
+                                    com++;
+                                }
                 @* <button type="submit" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>*@
             </form>
         </div>
@@ -165,6 +168,7 @@
                 </div>
             </div>
         </div>
+        <button onclick="send()"> Check</button>
 
     }
     else if (allowEdit)
@@ -172,3 +176,11 @@
         <h2 class="text-center">@Localizer["NoDishesAtThisDay"]</h2>
     }
 </div>
+<script>
+    function send() {
+        var count = 0;
+        var check = $(".complex-check");
+        console.log(document.getElementById("complex$" + count));
+        console.log(check);
+    }
+</script>
