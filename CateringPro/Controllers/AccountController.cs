@@ -208,7 +208,7 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm]UpdateUserModel usermodel)
+        public async Task<IActionResult> EditUserModal([FromForm]UpdateUserModel usermodel, [FromForm]string roles)
         {
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
@@ -216,6 +216,7 @@ namespace CateringPro.Controllers
             _logger.LogInformation("EditUserModal");
             try
             {
+                List<string> newRoles = roles.Split(",").Select(s=>s.Trim()).ToList();
                 if (usermodel.IsNew)
                 {
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
@@ -242,6 +243,20 @@ namespace CateringPro.Controllers
                     }
                     usermodel.CopyTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
+                    if (!userResult.Succeeded)
+                        return PartialView(usermodel);
+                    //current  roles
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    //added roles 
+                    var addedRoles = newRoles.Except(userRoles);
+                    //removed roles
+                    var removedRoles = userRoles.Except(newRoles);
+
+                    userResult= await _userManager.AddToRolesAsync(user, addedRoles);
+                    if (!userResult.Succeeded)
+                        return PartialView(usermodel);
+                    userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
                     if (!userResult.Succeeded)
                     {
                         return PartialView(usermodel);
@@ -348,6 +363,23 @@ namespace CateringPro.Controllers
         public JsonResult UserOtherCompanies()
         {
             return Json(_companyuser_repo.GetCurrentUsersCompaniesAsync(User.GetUserId()).Result.Where(c=>c.Id!= User.GetCompanyID()));
+        }
+        [Authorize]
+        public JsonResult UserRoles(string userId)
+        {
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null)
+                return new JsonResult(null) { StatusCode=500};
+            return Json(_userManager.GetRolesAsync(user).Result);
+        }
+        [Authorize]
+        public async Task<IActionResult> RolesForUser(string userId)
+        {
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null)
+                return NotFound();
+            var roles = await _companyuser_repo.GetRolesForUserAsync(user);
+            return PartialView(roles);
         }
         [Authorize]
         public async Task<IActionResult> SetCompanyId(int CompanyId)

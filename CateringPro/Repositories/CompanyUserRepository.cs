@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using CateringPro.Core;
 using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
+using System.Runtime.CompilerServices;
+using CateringPro.ViewModels;
 
 namespace CateringPro.Repositories
 {
@@ -19,16 +21,19 @@ namespace CateringPro.Repositories
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
+        private readonly RoleManager<CompanyRole> _roleManager;
         private readonly IMemoryCache _cache;
       
         public CompanyUserRepository(AppDbContext context, ILogger<CompanyUser> logger,
-            UserManager<CompanyUser> userManager, IMemoryCache cache)
+            UserManager<CompanyUser> userManager, IMemoryCache cache, RoleManager<CompanyRole> rolemanager)
         {
             _context = context;
             _logger = logger;
             _userManager = userManager;
             _cache = cache;
-            
+            _roleManager = rolemanager;
+
+
         }
         public string GetCurrentCompany()
         {
@@ -63,6 +68,17 @@ namespace CateringPro.Repositories
         public async Task<List<UserGroups>> GetUserGroups(int companyId)
         {
             return await _context.UserGroups.ToListAsync();
+        }
+
+        public async Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user)
+        {
+            var userroles = await _userManager.GetRolesAsync(user);
+            return await _roleManager.Roles.Select(r =>  new UserRoleViewModel()
+            {
+                RoleName = r.Name,
+                IsAssigned = userroles.Contains(r.Name),//_userManager.IsInRoleAsync(user,r.Name).Result,
+                userId = user.Id
+            }).ToListAsync();
         }
     }
 }

@@ -27,67 +27,92 @@
         </button>
 
     </div>
-    <div class="modal-body">
+    <div class="modal-body" data-id="@Model.Id">
         @Html.ValidationSummary()
+
         <form asp-action="EditUserModal">
-            <dl class="">
-                <dd><input type="hidden" asp-for="Id" /></dd>
-                <dd><input type="hidden" asp-for="IsNew" /></dd>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tabs" role="tablist">
+                    <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-1" aria-selected="false">Main</a>
+                    <a class="nav-item nav-link nav-roles" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Roles</a>
+                </div>
+                <div class="tab-content day-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
+                        <dl class="">
+                            <dd><input type="hidden" asp-for="Id" /></dd>
+                            <dd><input type="hidden" asp-for="IsNew" /></dd>
 
-                <dt>  <label asp-for="UserName" class="control-label"></label></dt>
-                <dd>
-                    <input asp-for="UserName" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </dd>
-                <dt>  <label asp-for="Email" class="control-label"></label></dt>
-                <dd>
-                    <input asp-for="Email" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </dd>
+                            <dt>  <label asp-for="UserName" class="control-label"></label></dt>
+                            <dd>
+                                <input asp-for="UserName" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </dd>
+                            <dt>  <label asp-for="Email" class="control-label"></label></dt>
+                            <dd>
+                                <input asp-for="Email" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </dd>
 
 
-                <dt>  <label asp-for="PhoneNumber" class="control-label"></label></dt>
-                <dd>
-                    <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </dd>
-                <dt> <label asp-for="City" class="control-label"></label> </dt>
-                <dd> <input asp-for="City" class="form-control" autocomplete="off" /></dd>
+                            <dt>  <label asp-for="PhoneNumber" class="control-label"></label></dt>
+                            <dd>
+                                <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </dd>
+                            <dt> <label asp-for="City" class="control-label"></label> </dt>
+                            <dd> <input asp-for="City" class="form-control" autocomplete="off" /></dd>
 
-                <dt> <label asp-for="NewPassword" class="control-label"></label> </dt>
-                <dd><input asp-for="NewPassword" class="form-control" autocomplete="new-password" /></dd>
+                            <dt> <label asp-for="NewPassword" class="control-label"></label> </dt>
+                            <dd><input asp-for="NewPassword" class="form-control" autocomplete="new-password" /></dd>
 
-                <dt> <label asp-for="ConfirmPassword" class="control-label"></label> </dt>
-                <dd><input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" /></dd>
-                <dt>
-                    <label asp-for="UserGrpoupId" class="control-label col-md-2"></label>
-                </dt>
-                <dd>
+                            <dt> <label asp-for="ConfirmPassword" class="control-label"></label> </dt>
+                            <dd><input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" /></dd>
+                            <dt>
+                                <label asp-for="UserGrpoupId" class="control-label col-md-2"></label>
+                            </dt>
+                            <dd>
 
-                    <select asp-for="UserGrpoupId" class="form-control" asp-items="ViewBag.UserGroupId"></select>
-                    <span asp-validation-for="UserGrpoupId" class="text-danger"></span>
+                                <select asp-for="UserGrpoupId" class="form-control" asp-items="ViewBag.UserGroupId"></select>
+                                <span asp-validation-for="UserGrpoupId" class="text-danger"></span>
 
-                </dd>
-            </dl>
+                            </dd>
 
-            @Html.AntiForgeryToken()
+                        </dl>
+                     </div>
+                    <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
+                        <dl>
+                        <dt>
+                            <label class="control-label col-md-2">User Roles</label>
+                        </dt>
+                        <dd>
+                            <div id="user-roles-content" class="container">
+
+                            </div>
+                        </dd>
+                        </dl>
+                    </div>
+                            @Html.AntiForgeryToken()
+                     </div>
+</nav>
         </form>
-        <div class="row">
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-2">
-                <button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-2">
-                <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
-            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-1 col-sm-1">
+                    </div>
+                    <div class="col-4 col-sm-4">
+                        <button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
+                    </div>
+                    <div class="col-1 col-sm-1">
+                    </div>
+                    <div class="col-4 col-sm-4">
+                        <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
+                    </div>
 
-            <div class="col-sm-1">
-            </div>
+                    <div class="col-1 col-sm-1">
+                    </div>
 
-        </div>
+                </div>
+            </div>
     </div>
 </div>
 

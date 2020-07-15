@@ -1,4 +1,5 @@
 ﻿using CateringPro.Models;
+using CateringPro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace CateringPro.Repositories
         Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims);
 
         Task<List<UserGroups>> GetUserGroups(int companyId);
+
+        Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user);
     }
 }

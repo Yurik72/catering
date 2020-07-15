@@ -496,9 +496,14 @@ a.dialog-edit-icon, a.apagebottom {
     height: 100%;
     overflow: hidden;
 }
-.modal-content,  .modal-dialog {
-    height: 90%;
+/*
+.modal-dialog {
+    height: 80%;
 }
+.modal-content {
+    height: 80%;
+}
+*/
 .modal-header {
     height: 7%;
 }
