@@ -70,7 +70,7 @@ namespace CateringPro.ViewModels
         public string NameSurname { get; set; }
 
         [DisplayName("UserGroupId")]
-        public int UserGrpoupId { get; set; }
+        public int? UserGrpoupId { get; set; }
 
         [DisplayName("User Group")]
         public virtual UserGroups UserGroup { get; set; }
@@ -90,7 +90,7 @@ namespace CateringPro.ViewModels
                 this.PhoneNumber = usr.PhoneNumber;
                 this.NameSurname = usr.NameSurname;
                 this.UserName=usr.UserName;
-                this.UserGrpoupId = usr.UserGrpoupId;
+                this.UserGrpoupId = usr.UserGroupId;
 
             }
 
@@ -109,6 +109,7 @@ namespace CateringPro.ViewModels
                 usr.PhoneNumber = this.PhoneNumber;
                 usr.NameSurname = this.NameSurname;
                 usr.UserName = this.UserName;
+                usr.UserGroupId = this.UserGrpoupId;
             }
 
             return usr;

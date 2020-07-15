@@ -198,6 +198,13 @@ namespace CateringPro.Data
                  .IsRequired()
                  .OnDelete(DeleteBehavior.Restrict);
 
+
+            modelBuilder.Entity<CompanyUser>()
+                 .HasOne(u => u.UserGroup)
+                 .WithMany(a => a.CompanyUsers)
+                
+                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<CompanyUserCompany>()
                 .HasKey(cu => new { cu.CompanyId, cu.CompanyUserId });
             modelBuilder.Entity<CompanyUserCompany>()

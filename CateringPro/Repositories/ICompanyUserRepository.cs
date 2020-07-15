@@ -14,5 +14,6 @@ namespace CateringPro.Repositories
 
         Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims);
 
+        Task<List<UserGroups>> GetUserGroups(int companyId);
     }
 }

@@ -10,19 +10,9 @@ namespace CateringPro.Models
     {
         public UserGroups()
         {
-           // Dishes = new HashSet<Dish>();
-
-         // DishCategories =new  HashSet<DishCategory>();
-
-
+             CompanyUsers =new  HashSet<CompanyUser>();
         }
 
-
-        //[StringLength(10)]
-        //[Required]
-
-        //[DisplayName("Category Code")]
-        //public string Code { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
         [DataType(DataType.Text)]
@@ -32,21 +22,8 @@ namespace CateringPro.Models
 
 
         [DisplayName("User Group")]
-        public int UserGrpoupId { get; set; }
-
-        [DisplayName("User Group")]
         public virtual UserGroups UserGroup { get; set; }
 
-        //[StringLength(255, MinimumLength = 2)]
-        //[DataType(DataType.MultilineText)]
-        //[DisplayName("Category Decsciption")]
-        //public string Description { get; set; }
-
-        //    public virtual ICollection<Pizzas> Pizzas { get; set; }
-
-
-        //  public virtual ICollection<Dish> Dishes { get; set; }
-
-        //  public ICollection<DishCategory> DishCategories { get; set; }
+        public virtual ICollection<CompanyUser> CompanyUsers { get; set; }
     }
 }

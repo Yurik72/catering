@@ -12,6 +12,7 @@ using CateringPro.Models;
 using CateringPro.Core;
 using Microsoft.EntityFrameworkCore;
 using CateringPro.Repositories;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Controllers
 {
@@ -195,7 +196,11 @@ namespace CateringPro.Controllers
             //string id = User.GetUserId();
             CompanyUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
+            {
+                ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
+
                 return PartialView(new UpdateUserModel(user));
+            }
             else
                 return NotFound();
         }
@@ -235,6 +240,7 @@ namespace CateringPro.Controllers
 
                         return BadRequest();
                     }
+                    usermodel.CopyTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
                     if (!userResult.Succeeded)
                     {
@@ -272,10 +278,10 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> UsersList()
         {
-            var query = _userManager.Users;
+            var query = _userManager.Users; ;
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
                 query = query.Where(u => u.CompanyId == User.GetCompanyID());
-            
+            query = query.Include(u => u.UserGroup);
             //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
             return PartialView(await query.ToListAsync());
         }

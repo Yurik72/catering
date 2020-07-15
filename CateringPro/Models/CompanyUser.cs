@@ -38,7 +38,7 @@ namespace CateringPro.Models
 
 
         [DisplayName("User Group")]
-        public int UserGrpoupId { get; set; }
+        public int? UserGroupId { get; set; }
 
         [DisplayName("User Group")]
         public virtual UserGroups UserGroup { get; set; }

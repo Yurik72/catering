@@ -59,5 +59,10 @@ namespace CateringPro.Repositories
 
             return true;
         }
+
+        public async Task<List<UserGroups>> GetUserGroups(int companyId)
+        {
+            return await _context.UserGroups.ToListAsync();
+        }
     }
 }
