@@ -39,6 +39,7 @@ namespace CateringPro.ViewModels
 
         [DisplayName("UpdateUserEmail")]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [DataType(DataType.PhoneNumber)]

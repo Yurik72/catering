@@ -8,7 +8,7 @@
     <input type="hidden" id="roles" name="roles" value="@roles" />
 @foreach (var ur in Model)
 {
-    <li class="role-item list-group-item@(ur.IsAssigned?" active":"")" style="cursor:pointer;" >@ur.RoleName</li>
+    <li class="role-item list-group-item@(ur.IsAssigned?" active fa fa-check-square-o":" fa fa-square-o")" style="cursor:pointer;" >@ur.RoleName</li>
 
 }
 </ul>
