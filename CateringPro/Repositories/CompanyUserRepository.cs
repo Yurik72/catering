@@ -82,5 +82,19 @@ namespace CateringPro.Repositories
                 userId = user==null?"":user.Id
             }).ToListAsync();
         }
+        public async Task<bool> PostUpdateUser(CompanyUser user, bool isNew = false)
+        {
+            try
+            {
+
+                
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Post update user", ex);
+                return false;
+            }
+            return true;
+        }
     }
 }
