@@ -201,7 +201,7 @@ namespace CateringPro.Controllers
             {
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
             }
-            //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+            await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
             
             if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, this.HttpContext))
             {
@@ -281,6 +281,33 @@ namespace CateringPro.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        //delete ordered complex
+        public async Task<JsonResult> DeleteDayComplex(UserDayComplex UserDayComplex)
+        {
+            //var daycomplexes = UserDayComplex;
+            //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
+            DateTime daydate = DateTime.Now;
+            //          bool res = _userdaydishesrepo.SaveDayDishInComplex(UserDayDish, this.HttpContext);
+            
+            if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
+            }
+            //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+
+            if (await _userdaydishesrepo.DeleteDayComplex(UserDayComplex, this.HttpContext))
+            {
+                return await Task.FromResult(Json(new { res = "OK" }));
+            }
+            else
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Deleting in db" }));
+            }
+
+
+        }
+
 
         private bool UserDayDishExists(string id)
         {
