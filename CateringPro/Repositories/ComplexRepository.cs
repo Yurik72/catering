@@ -122,9 +122,14 @@ namespace CateringPro.Repositories
 
         public async Task<bool> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
         {
-            dishComplexes.ForEach(i => i.CompanyId = companyid);
+
+            dishComplexes.ForEach(i => { i.CompanyId = companyid;
+                if(i.ComplexId != complex.Id)                 
+                    i.ComplexId = complex.Id; 
+            });
             try
-            { 
+            {
+                
                 var existing_db = await _context.DishComplex.Where(di => di.ComplexId == complex.Id).ToListAsync();
                 _context.DishComplex.RemoveRange(existing_db);
                 await _context.AddRangeAsync(dishComplexes);

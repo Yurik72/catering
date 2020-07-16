@@ -222,8 +222,12 @@
                         data: sendObj,
                         url: "/Complex/EditModal",
                         success: function (data) {
-                            if (data.res != "OK")
+                            if (data.res != "OK") {
                                 alert(data.res);
+                            } else {
+                                //console.log(data);
+                                $('#modDialog').attr("_changed", false);
+                            }
                         }
                     });
                 }

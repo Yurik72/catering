@@ -417,9 +417,9 @@
                 $('#modPayment').find('#numorder').val('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
                 $('#modPayment').modal('show');
             })
-
-            $(document).on('click', ".userDayComplexBag", function () {
-                $(this).children(".bagDayComplexItem").slideToggle(300);
+            //roll up shoping cart
+            $(document).on('click', ".show-details", function () {
+                $(this).parent(".dayComplexBag").parent(".userDayComplexBag").children(".bagDayComplexItem").slideToggle(300);
             });
 
 
@@ -438,6 +438,11 @@
                     success: function (data) {
                         // alert(data);
                         // $('#modOrderSuccess').modal('show');
+                        if (data.res == "OK") {
+                           // $('#modOrderSuccess').modal('show');
+                            alert("Deleted");
+                            return;
+                        }
                         showOrderResult(data);
                     }
                 });
@@ -454,14 +459,48 @@
                     var dishes = $("[complexdish='" + com + "'][day='" + day + "']");
                     $(dishes).prop('checked', false);
                 }
+                else {
+                    var day = $(this).attr("day");
+                    var com = $(this).attr("complex");
+                    var dishes = $("[complexdish='" + com + "'][day='" + day + "']");
+                    var courses = [];
+                    $(dishes).each(function () {
+                        courses.push(parseInt($(this).attr("course")));
+                    });
+                    console.log(courses);
+                    var max = Math.max.apply(Math,courses);
+                    console.log(max);
+                    for (var i = 0; i <= max; i++) {
+                       var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                        $(dish).prop('checked', true);
+                    }
+                }
             });
 
             $(document).on('click', '.dish-check', function (event) {
                 if ($(this).is(":checked")) {
                     var day = $(this).attr("day");
                     var com = $(this).attr("complexdish");
+                    var chCourse = parseInt($(this).attr("course"));
                     var complex = $("[complex='" + com + "'][day='" + day + "']");
-                    $(complex).prop('checked', true);
+                    if (!$(complex).is(":checked")) {
+                        $(complex).prop('checked', true);
+
+                        var dishes = $("[complexdish='" + com + "'][day='" + day + "']");
+                        var courses = [];
+                        $(dishes).each(function () {
+                            courses.push(parseInt($(this).attr("course")));
+                        });
+                        console.log(courses);
+                        var max = Math.max.apply(Math, courses);
+                        console.log(max);
+                        for (var i = 0; i <= max; i++) {
+                            if (i == chCourse)
+                                continue;
+                            var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                            $(dish).prop('checked', true);
+                        }
+                    }
                 }
             });
 
@@ -503,6 +542,7 @@
                                 dishP.DishId = dish;
                                 dishP.Date = fullDate;
                                 dishP.ComplexId = comp;
+                                dishP.IsComplex = true;
                                 dishP.DishCourse = $(this).attr("course");
                                 UserDayDish.push(dishP);
                             }

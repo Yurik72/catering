@@ -201,11 +201,12 @@ namespace CateringPro.Controllers
             {
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
             }
-            await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
             
-            if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, this.HttpContext))
+            
+            if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
             {
                 return await Task.FromResult(Json(new { res = "OK" }));
+                await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
             }
             else
             {
@@ -296,7 +297,7 @@ namespace CateringPro.Controllers
             }
             //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
 
-            if (await _userdaydishesrepo.DeleteDayComplex(UserDayComplex, this.HttpContext))
+            if (await _userdaydishesrepo.DeleteDayComplex(UserDayComplex, User.GetUserId(), User.GetCompanyID()))
             {
                 return await Task.FromResult(Json(new { res = "OK" }));
             }
