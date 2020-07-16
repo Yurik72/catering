@@ -255,7 +255,7 @@ namespace CateringPro.Controllers
                             ModelState.AddModelError(err.Code, err.Description);
                         return PartialView(usermodel);
                     }
-
+                    await _companyuser_repo.PostUpdateUserAsync(usr, true);
                 }
                 else
                 {
@@ -285,6 +285,7 @@ namespace CateringPro.Controllers
                     {
                         return PartialView(usermodel);
                     }
+                    await _companyuser_repo.PostUpdateUserAsync(user);
                 }
             }
             catch (Exception ex)
