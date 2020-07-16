@@ -192,11 +192,17 @@
                 //for(let line in complexLines ) {
                 //    console.log(line);
                 //}
+                var flag = true;
                 var sendObj = {};
                 sendObj.DishComplexes = [];
                 $(complexLines).each(function (i) {
                     var dishLine = $(this).find(".dish-line");
                     // sendObj.DishComplexes.push() = [];
+                    console.log($(dishLine).length);
+                    if ($(dishLine).length == 0) {
+                        alert("Course can't be without dishes.");
+                        flag = false;
+                    }
                     $(dishLine).each(function (ind) {
                         //console.log("course " + i + " dish " + $(this).attr("dish-id"));
                         var dish = { DishId: $(this).attr("dish-id"), DishCourse: i, ComplexId: $("#Id").val() };
@@ -210,16 +216,17 @@
                 sendObj.Price = $("#Price").val();
                 sendObj.DishesQuantity = $("#quantity").val();
                 // console.log(sendObj);
-                $.ajax({
-                    type: "POST",
-                    data: sendObj,
-                    url: "/Complex/EditModal",
-                    success: function (data) {
-                        if (data.res != "OK")
-                            alert(data.res);
-                    }
-                });
-
+                if (flag) {
+                    $.ajax({
+                        type: "POST",
+                        data: sendObj,
+                        url: "/Complex/EditModal",
+                        success: function (data) {
+                            if (data.res != "OK")
+                                alert(data.res);
+                        }
+                    });
+                }
 
 
             });

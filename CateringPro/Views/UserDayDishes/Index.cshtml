@@ -72,18 +72,18 @@
     <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
         @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
         {
-            <div class="container day-closed-msg">
-                <h3> @Localizer["DayClosedForOrder"] </h3>
-            </div>
+        <div class="container day-closed-msg">
+            <h3> @Localizer["DayClosedForOrder"] </h3>
+        </div>
         }
-        
+        @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
         @if (Model.ShowComplex)
         {
-            @await Component.InvokeAsync("UserDayComplexComponent", current_content)
+        @await Component.InvokeAsync("UserDayComplexComponent", current_content)
         }
         @if (Model.ShowDishes)
         {
-            @await Component.InvokeAsync("UserDayDishComponent", current_content)
+        @await Component.InvokeAsync("UserDayDishComponent", current_content)
         }
 
     </div>
@@ -209,7 +209,7 @@
             $("input.numberspinner[type='number']").inputSpinner();
            // $("#weekselected").inputSpinner();
             var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
-            
+
             var reloadDay = function (dayindex) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
@@ -240,8 +240,8 @@
                 return first;
             }
             var setClosedDaystyle = function (dayindex ) {
-                
-            
+
+
                 var navcontent = $('#nav-content-' + dayindex);
                 if (navcontent.find(".day-closed-msg").length > 0) {
                     $('#nav-tab-' + dayindex).addClass("day-closed");
@@ -249,8 +249,8 @@
                 else {
                     $('#nav-tab-' + dayindex).removeClass("day-closed");
                 }
-                    
-            
+
+
             }
             var dateToshortString = (dt) => {
                 var dd = dt.getDate();
@@ -422,7 +422,129 @@
                 $(this).children(".bagDayComplexItem").slideToggle(300);
             });
 
+
+
+            //delete ordered complex
+
+            $(document).on('click', '.delete-complex', function (event) {
+                var com = $(this).attr("complexId");
+                var date = $(this).attr("date");
+                var UserDayComplex = {ComplexId: com, Date: date};
+                $.ajax({
+                    type: "POST",
+                    data: res = {UserDayComplex },
+
+                    url: "/UserDayDishes/DeleteDayComplex",
+                    success: function (data) {
+                        // alert(data);
+                        // $('#modOrderSuccess').modal('show');
+                        showOrderResult(data);
+                    }
+                });
+            });
+
+
+            
+            //for one option menu
+
+            $(document).on('click', '.complex-check', function (event) {
+                if (!$(this).is(":checked")) {
+                    var day = $(this).attr("day");
+                    var com = $(this).attr("complex");
+                    var dishes = $("[complexdish='" + com + "'][day='" + day + "']");
+                    $(dishes).prop('checked', false);
+                }
+            });
+
+            $(document).on('click', '.dish-check', function (event) {
+                if ($(this).is(":checked")) {
+                    var day = $(this).attr("day");
+                    var com = $(this).attr("complexdish");
+                    var complex = $("[complex='" + com + "'][day='" + day + "']");
+                    $(complex).prop('checked', true);
+                }
+            });
+
+            //post one day complex
+            $(document).on('click', '.send', function (event) {
+                var fullDate = $(this).attr("date-fullDate");
+                var date = $(this).attr("data-date");
+                var form = $("#orderForm-" + date);
+                var complexes = $(form).find(".complex-check");
+                var UserDayDish = [];
+                var UserDayComplex = [];
+                var flag = true;
+                //console.log(complexes);
+                $(complexes).each(function (ind) {
+                    //console.log($(this).is(":checked"));
+                    if ($(this).is(":checked")) {
+                        //console.log("In if");
+                        var com = $(this).attr("complex");
+                        var dishOrdered = 0;
+                        var dishCourses = 0;
+                        var complex = {};
+                        complex.ComplexId = com;
+                        complex.Price = $(this).attr("price");
+                        complex.Date = fullDate;
+                        complex.Quantity = 1;
+                        UserDayComplex.push(complex);
+                        var dishes = $("[complexdish='" + com + "'][day='" + date + "']");
+                        $(dishes).each(function (i) {
+
+                            //console.log("Dish");
+                            var check = $(this).is(":checked");
+                            var comp = $(this).attr("complexdish");
+                            var dish = $(this).val();
+                            dishCourses = parseInt($(this).attr("course")) + 1;
+                            if (check) {
+                                dishOrdered++;
+                                var dishP = {};
+                                dishP.Quantity = 1;
+                                dishP.DishId = dish;
+                                dishP.Date = fullDate;
+                                dishP.ComplexId = comp;
+                                dishP.DishCourse = $(this).attr("course");
+                                UserDayDish.push(dishP);
+                            }
+                            // console.log(comp+"   "+dish + "   " + check);
+                        });
+                        if (dishOrdered != dishCourses) {
+                            //console.log(dishOrdered + "   " + dishCourses);
+                            alert("Please choose all dishes in complex");
+                            flag = false;
+                            return;
+                        }
+                    }
+                    //var com = $(this).attr("complex");
+                    //console.log(com + "  " + val);
+                });
+                if (flag) {
+                    console.log(UserDayDish);
+                    console.log(UserDayComplex);
+                    $.ajax({
+                        type: "POST",
+                        data: res = { UserDayDish, UserDayComplex },
+
+                        url: "/UserDayDishes/SaveDayComplex",
+                        success: function (data) {
+                            // alert(data);
+                            // $('#modOrderSuccess').modal('show');
+                            showOrderResult(data);
+                        }
+                    });
+                }
+
+            });
+
+
+
+
+
         });
+
+
+       
+
 
     </script>
 }
