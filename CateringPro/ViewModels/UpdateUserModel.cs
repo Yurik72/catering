@@ -97,7 +97,7 @@ namespace CateringPro.ViewModels
 
             return this;
         }
-        public CompanyUser CopyTo(CompanyUser usr)
+        public CompanyUser CopyTo(CompanyUser usr,bool isNew=false)
         {
             if (usr != null)
             {
@@ -111,6 +111,8 @@ namespace CateringPro.ViewModels
                 usr.NameSurname = this.NameSurname;
                 usr.UserName = this.UserName;
                 usr.UserGroupId = this.UserGrpoupId;
+                if (isNew)
+                    usr.Email = this.Email;
             }
 
             return usr;

@@ -72,12 +72,14 @@ namespace CateringPro.Repositories
 
         public async Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user)
         {
-            var userroles = await _userManager.GetRolesAsync(user);
+            var userroles = new List<string>();
+            if(user!=null)
+                userroles= (await _userManager.GetRolesAsync(user)).ToList();
             return await _roleManager.Roles.Select(r =>  new UserRoleViewModel()
             {
                 RoleName = r.Name,
                 IsAssigned = userroles.Contains(r.Name),//_userManager.IsInRoleAsync(user,r.Name).Result,
-                userId = user.Id
+                userId = user==null?"":user.Id
             }).ToListAsync();
         }
     }

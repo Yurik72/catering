@@ -216,7 +216,9 @@ namespace CateringPro.Controllers
             _logger.LogInformation("EditUserModal");
             try
             {
-                List<string> newRoles = roles.Split(",").Select(s => s.Trim()).ToList();
+                List<string> newRoles = new List<string>();
+                if(!string.IsNullOrEmpty(roles))
+                    newRoles = roles.Split(",").Select(s => s.Trim()).ToList();
                 //List<string> newRoles = new List<string>();
                 //newRoles.Add("Admin");
                 //newRoles.Add("CompanyAdmin");
@@ -225,9 +227,25 @@ namespace CateringPro.Controllers
                 //newRoles.Add("GroupAdmin");
                 if (usermodel.IsNew)
                 {
+                    if (string.IsNullOrEmpty(usermodel.NewPassword))
+                    {
+                        ModelState.AddModelError("NewPassword", "You must specify a value");
+                        return PartialView(usermodel);
+                    }
+                    if (string.IsNullOrEmpty(usermodel.ConfirmPassword))
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "You must specify a value");
+                        return PartialView(usermodel);
+                    }
+                    if (usermodel.ConfirmPassword!= usermodel.NewPassword)
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "Incorrect value");
+                        return PartialView(usermodel);
+                    }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
                     CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
-                    usermodel.CopyTo(usr);
+                    usermodel.CopyTo(usr,true);
+                    usr.Id = Guid.NewGuid().ToString();
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
                     if (!userResult.Succeeded)
                     {
@@ -272,6 +290,8 @@ namespace CateringPro.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error EditUser");
+                ModelState.AddModelError("", ex.Message);
+                return PartialView(usermodel);
             }
             return this.UpdateOk();
 
@@ -383,8 +403,9 @@ namespace CateringPro.Controllers
         [Authorize]
         public async Task<IActionResult> RolesForUser(string userId)
         {
+            
             var user = _userManager.FindByIdAsync(userId).Result;
-            if (user == null)
+            if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
             var roles = await _companyuser_repo.GetRolesForUserAsync(user);
             return PartialView(roles);
