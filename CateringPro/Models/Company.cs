@@ -55,7 +55,13 @@ namespace CateringPro.Models
         [DisplayName("ThresholdTime")]
         public int? OrderThresholdTimeH { get; set; }
 
+        [DisplayName("IsDefault")]
+        [DefaultValue(false)]
+        public bool? IsDefault { get; set; }
 
+        [DisplayName("OrderType")]
+        [DefaultValue(0)]
+        public int OrderType{ get; set; }
         public virtual ICollection<CompanyUserCompany> CompanyUserCompany { get; set; }
 
     }
