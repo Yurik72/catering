@@ -444,7 +444,70 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        //Delete ordered complex with dishes
+        public async Task<bool> DeleteDayComplex(UserDayComplex userDayComplex, HttpContext httpContext)
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                if (!await DeleteDayComplexDb(userDayComplex, httpContext))
+                    return false;
 
+
+                if (!await DeleteDayDishInComplex(userDayComplex, httpContext))
+                    return false;
+                scope.Complete();
+            }
+            return true;
+        }
+        private async Task<bool> DeleteDayComplexDb(UserDayComplex userDayComplex, HttpContext httpcontext)
+        {
+            var userId = httpcontext.User.GetUserId();
+            var companyId = httpcontext.User.GetCompanyID();
+            try
+            {
+                var existing_db = await _context.UserDayComplex.Where
+                    (di => di.ComplexId == userDayComplex.ComplexId &&
+                    di.CompanyId==companyId &&
+                    di.UserId == userId &&
+                    di.Date==userDayComplex.Date).ToListAsync();
+                _context.UserDayComplex.RemoveRange(existing_db);
+                
+
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete UserDayComplex");
+                return false;
+            }
+            return true;
+        }
+        private async Task<bool> DeleteDayDishInComplex(UserDayComplex userDayComplex, HttpContext httpcontext)
+        {
+            var userId = httpcontext.User.GetUserId();
+            var companyId = httpcontext.User.GetCompanyID();
+            try
+            {
+                var existing_db = await _context.UserDayDish.Where
+                    (di => di.ComplexId == userDayComplex.ComplexId &&
+                    di.CompanyId == companyId &&
+                    di.UserId == userId &&
+                    di.Date == userDayComplex.Date &&
+                    di.IsComplex == true).ToListAsync();
+                _context.UserDayDish.RemoveRange(existing_db);
+
+
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete UserDayDish");
+                return false;
+            }
+            return true;
+        }
         private bool UpdateUserComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
         {
             var userid = httpcontext.User.GetUserId();

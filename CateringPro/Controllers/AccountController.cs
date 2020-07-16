@@ -1,18 +1,17 @@
+using CateringPro.Core;
+using CateringPro.Models;
+using CateringPro.Repositories;
+using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using CateringPro.ViewModels;
-using Microsoft.Extensions.Logging;
-using CateringPro.Models;
-using CateringPro.Core;
-using Microsoft.EntityFrameworkCore;
-using CateringPro.Repositories;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Controllers
 {
@@ -23,7 +22,7 @@ namespace CateringPro.Controllers
         private readonly SignInManager<CompanyUser> _signInManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly ICompanyUserRepository _companyuser_repo;
-        public AccountController(UserManager<CompanyUser> userManager, 
+        public AccountController(UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo)
         {
             _userManager = userManager;
@@ -48,15 +47,16 @@ namespace CateringPro.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new CompanyUser { 
-                    UserName = model.Email, 
+                var user = new CompanyUser
+                {
+                    UserName = model.Email,
                     Email = model.Email,
-                    PhoneNumber=model.PhoneNumber,
-                    City=model.City,
-                    Country=model.Country,
-                    ZipCode=model.ZipCode,
-                    Address1=model.Address1,
-                    Address2=model.Address2
+                    PhoneNumber = model.PhoneNumber,
+                    City = model.City,
+                    Country = model.Country,
+                    ZipCode = model.ZipCode,
+                    Address1 = model.Address1,
+                    Address2 = model.Address2
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -119,7 +119,7 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public IActionResult LoginModal(string returnUrl)
         {
-            return PartialView("LoginModal",new LoginViewModel
+            return PartialView("LoginModal", new LoginViewModel
             {
                 ReturnUrl = returnUrl
             });
@@ -140,8 +140,8 @@ namespace CateringPro.Controllers
             if (user != null)
             {
                 var claims = await _userManager.GetClaimsAsync(user);
-               // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
-            
+                // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
+
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
@@ -149,8 +149,8 @@ namespace CateringPro.Controllers
                 {
                     if (model.IsModal)
                     {
-                        return Ok(new { res = "OK", returnUrl = string.IsNullOrEmpty(model.ReturnUrl) ? Url.Action("Index","Home"): model.ReturnUrl });
-                            //Task.FromResult(Json(new { res="OK",ReturnUrl= string.IsNullOrEmpty(model.ReturnUrl) ? Url.Content("~") : model.ReturnUrl }))
+                        return Ok(new { res = "OK", returnUrl = string.IsNullOrEmpty(model.ReturnUrl) ? Url.Action("Index", "Home") : model.ReturnUrl });
+                        //Task.FromResult(Json(new { res="OK",ReturnUrl= string.IsNullOrEmpty(model.ReturnUrl) ? Url.Content("~") : model.ReturnUrl }))
                     }
                     if (string.IsNullOrEmpty(model.ReturnUrl))
                         return RedirectToAction("Index", "Home");
@@ -165,7 +165,7 @@ namespace CateringPro.Controllers
                 return PartialView("LoginModal", model);
             else
                 return View(model);
-            
+
         }
 
         [Authorize]
@@ -183,7 +183,7 @@ namespace CateringPro.Controllers
         [Authorize]
         public async Task<IActionResult> Update()
         {
-            string id=User.GetUserId();
+            string id = User.GetUserId();
             CompanyUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
                 return View(new UpdateUserModel(user));
@@ -204,11 +204,11 @@ namespace CateringPro.Controllers
             else
                 return NotFound();
         }
-       
+
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm]UpdateUserModel usermodel, [FromForm]string roles)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles)
         {
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
@@ -216,7 +216,13 @@ namespace CateringPro.Controllers
             _logger.LogInformation("EditUserModal");
             try
             {
-                List<string> newRoles = roles.Split(",").Select(s=>s.Trim()).ToList();
+                List<string> newRoles = roles.Split(",").Select(s => s.Trim()).ToList();
+                //List<string> newRoles = new List<string>();
+                //newRoles.Add("Admin");
+                //newRoles.Add("CompanyAdmin");
+                //newRoles.Add("KitchenAdmin");
+                //newRoles.Add("UserAdmin");
+                //newRoles.Add("GroupAdmin");
                 if (usermodel.IsNew)
                 {
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
@@ -252,7 +258,7 @@ namespace CateringPro.Controllers
                     //removed roles
                     var removedRoles = userRoles.Except(newRoles);
 
-                    userResult= await _userManager.AddToRolesAsync(user, addedRoles);
+                    userResult = await _userManager.AddToRolesAsync(user, addedRoles);
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
@@ -263,9 +269,9 @@ namespace CateringPro.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex,"Error EditUser");
+                _logger.LogError(ex, "Error EditUser");
             }
             return this.UpdateOk();
 
@@ -306,7 +312,7 @@ namespace CateringPro.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname")] UpdateUserModel um )
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname")] UpdateUserModel um)
         {
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)
@@ -314,7 +320,7 @@ namespace CateringPro.Controllers
                 ModelState.AddModelError("", "User Not Found");
                 return View(null);
             }
-             CompanyUser user = await _userManager.FindByIdAsync(logged_id);
+            CompanyUser user = await _userManager.FindByIdAsync(logged_id);
             if (user != null)
             {
                 if (um.IsPasswordChanged)
@@ -333,13 +339,13 @@ namespace CateringPro.Controllers
                 if (ModelState.IsValid)
                 {
                     um.CopyTo(user);
-                    if(um.IsPasswordChanged)
+                    if (um.IsPasswordChanged)
                     {
                         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
                     }
                     IdentityResult result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
-                        return RedirectToAction("Index","Home");
+                        return RedirectToAction("Index", "Home");
                     else
                     {
                         Errors(result);
@@ -364,14 +370,14 @@ namespace CateringPro.Controllers
         [Authorize]
         public JsonResult UserOtherCompanies()
         {
-            return Json(_companyuser_repo.GetCurrentUsersCompaniesAsync(User.GetUserId()).Result.Where(c=>c.Id!= User.GetCompanyID()));
+            return Json(_companyuser_repo.GetCurrentUsersCompaniesAsync(User.GetUserId()).Result.Where(c => c.Id != User.GetCompanyID()));
         }
         [Authorize]
         public JsonResult UserRoles(string userId)
         {
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null)
-                return new JsonResult(null) { StatusCode=500};
+                return new JsonResult(null) { StatusCode = 500 };
             return Json(_userManager.GetRolesAsync(user).Result);
         }
         [Authorize]
@@ -386,12 +392,12 @@ namespace CateringPro.Controllers
         [Authorize]
         public async Task<IActionResult> SetCompanyId(int CompanyId)
         {
-            if(!await _companyuser_repo.ChangeUserCompanyAsync(User.GetUserId(),CompanyId,User))
-                 return BadRequest();
-            var user = await _userManager.FindByIdAsync(User.GetUserId());
-            if(user==null)
+            if (!await _companyuser_repo.ChangeUserCompanyAsync(User.GetUserId(), CompanyId, User))
                 return BadRequest();
-           await  _signInManager.RefreshSignInAsync(user);
+            var user = await _userManager.FindByIdAsync(User.GetUserId());
+            if (user == null)
+                return BadRequest();
+            await _signInManager.RefreshSignInAsync(user);
             return new EmptyResult();//RedirectToAction("Index", "Home");
         }
     }

@@ -21,6 +21,7 @@ namespace CateringPro.Repositories
         Task<bool> SaveDayComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext);
         Task<bool> SaveDayDishInComplex(List<UserDayDish> userDayDishes, HttpContext httpcontext);
         Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, HttpContext httpcontext);
+        Task<bool> DeleteDayComplex(UserDayComplex userDayComplex, HttpContext httpContext);
         IQueryable<UserDayComplexViewModel> ComplexPerDay(DateTime daydate, string userId, int companyid);
         IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid);
         IQueryable<UserDayComplexViewModel> OrderedComplexDay(DateTime daydate, string userId, int companyid);

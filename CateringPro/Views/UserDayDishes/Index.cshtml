@@ -424,7 +424,28 @@
 
 
 
+            //delete ordered complex
 
+            $(document).on('click', '.delete-complex', function (event) {
+                var com = $(this).attr("complexId");
+                var date = $(this).attr("date");
+                var UserDayComplex = {ComplexId: com, Date: date};
+                $.ajax({
+                    type: "POST",
+                    data: res = {UserDayComplex },
+
+                    url: "/UserDayDishes/DeleteDayComplex",
+                    success: function (data) {
+                        // alert(data);
+                        // $('#modOrderSuccess').modal('show');
+                        showOrderResult(data);
+                    }
+                });
+            });
+
+
+            
+            //for one option menu
 
             $(document).on('click', '.complex-check', function (event) {
                 if (!$(this).is(":checked")) {
@@ -508,7 +529,7 @@
                         success: function (data) {
                             // alert(data);
                             // $('#modOrderSuccess').modal('show');
-                            //showOrderResult(data);
+                            showOrderResult(data);
                         }
                     });
                 }
