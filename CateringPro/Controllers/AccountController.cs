@@ -280,6 +280,8 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", -1);
+
 
             return PartialView("EditUserModal", user);
         }
