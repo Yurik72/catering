@@ -76,6 +76,9 @@ namespace CateringPro.ViewModels
         [DisplayName("User Group")]
         public virtual UserGroups UserGroup { get; set; }
 
+        [DefaultValue(false)]
+        public bool ConfirmedByAdmin { get; set; }
+
         public bool IsNew { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
@@ -92,6 +95,7 @@ namespace CateringPro.ViewModels
                 this.NameSurname = usr.NameSurname;
                 this.UserName=usr.UserName;
                 this.UserGrpoupId = usr.UserGroupId;
+                this.ConfirmedByAdmin = usr.ConfirmedByAdmin;
 
             }
 

@@ -546,7 +546,7 @@
   <data name="UpdateUserOldPassword" xml:space="preserve">
     <value>Старий пароль</value>
   </data>
-  <data name="User Name" xml:space="preserve">
+  <data name="UserName" xml:space="preserve">
     <value>Користувач</value>
   </data>
   <data name="User Password" xml:space="preserve">
@@ -572,5 +572,23 @@
   </data>
   <data name="DishCourse" xml:space="preserve">
     <value>Номер страви </value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Редагування користувача</value>
+  </data>
+  <data name="UserGroupId" xml:space="preserve">
+    <value>Група</value>
+  </data>
+  <data name="User Roles" xml:space="preserve">
+    <value>Ролі користувача</value>
+  </data>
+  <data name="UserNameLogin" xml:space="preserve">
+    <value>Логін</value>
+  </data>
+  <data name="ConfirmedByAdmin" xml:space="preserve">
+    <value>Підтверджено адміном</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Підтвердіть пароль</value>
   </data>
 </root>

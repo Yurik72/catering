@@ -180,6 +180,9 @@ namespace CateringPro.Migrations
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("ConfirmedByAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
