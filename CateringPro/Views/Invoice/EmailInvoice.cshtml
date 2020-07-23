@@ -6,6 +6,7 @@
 @model CateringPro.Models.InvoiceModel
 @using CateringPro.Core
 @inject Microsoft.Extensions.Options.IOptions<UIOption> pageOptions
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 <html>
 <head>
     <style>
@@ -146,7 +147,7 @@
                     Сума (@pageOptions.Value.CurrencySymbol)
                 </td>
             </tr>
-
+            
             @foreach (var item in Model.Items)
             {
                 <tr class="item">
@@ -176,7 +177,6 @@
                 <td>@Model.Items.Sum(i => i.Amount).ToString("0.00") (@pageOptions.Value.CurrencySymbol)</td>
                 <td></td>
                 <td>
-                   
                 </td>
             </tr>
             <tr class="sign ">
@@ -189,6 +189,96 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="dayComplexBag border border-success rounded">
+
+        @foreach (var item1 in Model.Items)
+        {
+           
+                var item = item1.DayComplex;
+            <div class="userDayComplexBag">
+                @if (item.Quantity > 0)
+                {
+
+
+                    <div class="bagDayComplexItem table-responsive">
+                        <table class="table table-hover shopping-cart-wrap">
+                            <thead class="text-muted">
+                                <tr>
+                                    <th scope="col">@Localizer["DishPictureTab"]</th>
+                                    <th scope="col">@Localizer["Dish Name"]</th>
+                                    <th scope="col">@Localizer["Dish ReadyWeight"]</th>
+                                    <th scope="col">@Localizer["Dish Description"]</th>
+                                    <th scope="col">@Localizer["DishQuantity"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach (var dish in item.ComplexDishes)
+                                {
+                                    <tr>
+
+                                        @*<div class="row ">*@
+                                        @*<div class="col">
+                                        @(dish.DishCourse+1)
+                                        </div>*@
+
+                                        <td>
+                                            @(dish.DishCourse + 1)
+                                            <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
+
+
+                                        </td>
+                                        <td>
+                                            @*<input data-val="true" name="UserDayDish[@com].DishId" type="hidden" value="@dish.DishId">
+                                            <input data-val="true" name="UserDayDish[@com].ComplexId" type="hidden" value="@item.ComplexId">
+                                            <input data-val="true" name="UserDayDish[@com].Date" type="hidden" value="@item.Date">
+                                            <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">*@
+                                            @*@Html.HiddenFor(modelItem => dish.DishId, new { datafield = "DishID" })*@
+
+                                            @Html.DisplayFor(modelItem => dish.DishName)
+
+                                        </td>
+
+                                        <td>
+                                            @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => dish.DishDescription)
+                                            <p />
+                                            @Html.DisplayFor(modelItem => dish.DishIngredients)
+                                        </td>
+                                        @*<div class="col col-lg-4 col-md-4 col-4 small">
+
+
+                                        </div>*@
+
+                                        <td>
+
+
+                                            @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
+
+
+                                        </td>
+
+
+
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+            </div>
+
+                }
+
+            }
     </div>
 </body>
 </html>

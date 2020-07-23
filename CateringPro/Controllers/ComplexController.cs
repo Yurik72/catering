@@ -95,7 +95,7 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-            
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", cat.CategoriesId);
             return PartialView("EditModal", cat);
         }
 
