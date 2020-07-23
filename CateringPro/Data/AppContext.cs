@@ -218,6 +218,12 @@ namespace CateringPro.Data
                 .HasForeignKey(u => u.CompanyUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+
+            modelBuilder.Entity<Complex>()
+                   .HasOne(c => c.Category)
+                   .WithMany(a => a.Complexes)
+                   .HasForeignKey(u => u.CategoriesId).IsRequired(false)
+                   .OnDelete(DeleteBehavior.NoAction);
             //Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
 
             //modelBuilder.Entity<Categories>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
