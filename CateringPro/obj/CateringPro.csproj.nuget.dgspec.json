@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\work\\catering\\CateringPro\\CateringPro.csproj": {}
+    "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj": {}
   },
   "projects": {
-    "D:\\work\\catering\\CateringPro\\CateringPro.csproj": {
+    "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
+        "projectUniqueName": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj",
         "projectName": "CateringPro",
-        "projectPath": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
-        "packagesPath": "C:\\Users\\andry\\.nuget\\packages\\",
-        "outputPath": "D:\\work\\catering\\CateringPro\\obj\\",
+        "projectPath": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj",
+        "packagesPath": "C:\\Users\\yurik\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\yurik\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,11 +57,15 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.6, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[3.1.6, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -68,11 +75,11 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[3.1.6, )"
             },
             "Microsoft.Extensions.Logging.Debug": {
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[3.1.6, )"
             },
             "Microsoft.VisualStudio.Web.BrowserLink": {
               "target": "Package",

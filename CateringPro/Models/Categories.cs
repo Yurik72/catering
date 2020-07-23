@@ -12,8 +12,9 @@ namespace CateringPro.Models
         {
             Dishes = new HashSet<Dish>();
 
-          DishCategories =new  HashSet<DishCategory>();
+            DishCategories =new  HashSet<DishCategory>();
 
+            Complexes = new HashSet<Complex>();
 
         }
 
@@ -41,5 +42,7 @@ namespace CateringPro.Models
         public virtual ICollection<Dish> Dishes { get; set; }
         
         public ICollection<DishCategory> DishCategories { get; set; }
+
+        public ICollection<Complex> Complexes { get; set; }
     }
 }

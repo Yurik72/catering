@@ -30,6 +30,7 @@ namespace CateringPro.Models
         public int DishesQuantity { get; set; }
 
         [DisplayName("ComplexCategory")]
+      
         public int CategoriesId { get; set; }
 
         [DisplayName("Complex Category")]
