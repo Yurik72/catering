@@ -95,6 +95,7 @@ namespace CateringPro.ViewModels
                 this.NameSurname = usr.NameSurname;
                 this.UserName=usr.UserName;
                 this.UserGrpoupId = usr.UserGroupId;
+                this.ConfirmedByAdmin = usr.ConfirmedByAdmin;
 
             }
 
