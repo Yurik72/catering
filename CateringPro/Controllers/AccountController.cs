@@ -56,7 +56,8 @@ namespace CateringPro.Controllers
                     Country = model.Country,
                     ZipCode = model.ZipCode,
                     Address1 = model.Address1,
-                    Address2 = model.Address2
+                    Address2 = model.Address2,
+                    ConfirmedByAdmin = model.ConfirmedByAdmin
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -333,7 +334,7 @@ namespace CateringPro.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname")] UpdateUserModel um)
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname,ConfirmedByAdmin")] UpdateUserModel um)
         {
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)

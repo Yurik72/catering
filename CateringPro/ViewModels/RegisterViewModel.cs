@@ -39,6 +39,9 @@ namespace CateringPro.ViewModels
         [DisplayName("Address2")]
         public string Address2 { get; set; }
 
+        [DisplayName("ConfirmedByAdmin")]
+        public bool ConfirmedByAdmin { get; set; }
+
 
         public List<string> Errors { get; set; }
 
