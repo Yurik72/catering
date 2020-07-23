@@ -115,7 +115,7 @@ namespace CateringPro.Data
             modelBuilder.Entity<UserDay>()
                    .Property(d => d.Date)
                    .HasColumnType("date");
-
+            modelBuilder.Entity<Complex>().HasOne(bc => bc.Category);
             modelBuilder.Entity<DishCategory>()
                 .HasKey(bc => new { bc.DishId, bc.CategoryId });
             modelBuilder.Entity<DishCategory>()

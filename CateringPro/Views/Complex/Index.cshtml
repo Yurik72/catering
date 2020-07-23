@@ -192,13 +192,17 @@
                 //for(let line in complexLines ) {
                 //    console.log(line);
                 //}
+                
+                var selectedCategory = $("select.complex-category").children("option:selected").val();
+                //console.log("category" + selectedCategory);
+               
                 var flag = true;
                 var sendObj = {};
                 sendObj.DishComplexes = [];
                 $(complexLines).each(function (i) {
                     var dishLine = $(this).find(".dish-line");
                     // sendObj.DishComplexes.push() = [];
-                    console.log($(dishLine).length);
+                    //console.log($(dishLine).length);
                     if ($(dishLine).length == 0) {
                         alert("Course can't be without dishes.");
                         flag = false;
@@ -215,6 +219,7 @@
                 sendObj.Name = $("#Name").val();
                 sendObj.Price = $("#Price").val();
                 sendObj.DishesQuantity = $("#quantity").val();
+                sendObj.CategoriesId = selectedCategory;
                 // console.log(sendObj);
                 if (flag) {
                     $.ajax({
@@ -231,7 +236,7 @@
                         }
                     });
                 }
-
+               // $('#modDialog').modal('hide');
 
             });
    $(document).on("click", "#create-dishline",
