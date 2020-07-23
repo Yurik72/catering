@@ -8,6 +8,19 @@ using System.ComponentModel;
 
 namespace CateringPro.Models
 {
+
+    [Flags]
+    public enum OrderTypeEnum
+    {
+        [Display(Name ="None")]
+        None = 1,
+        [Display(Name = "Complex")]
+        Complex = 2,
+        [Display(Name = "Dishes")]
+        Dishes = 4,
+        [Display(Name = "OneComplexType")]
+        OneComplexType = 8
+    }
     public class Company
     {
         public Company()
@@ -62,6 +75,11 @@ namespace CateringPro.Models
         [DisplayName("OrderType")]
         [DefaultValue(0)]
         public int OrderType{ get; set; }
+
+        public OrderTypeEnum GetOrderType()
+        {
+            return (OrderTypeEnum)this.OrderType;
+        }
         public virtual ICollection<CompanyUserCompany> CompanyUserCompany { get; set; }
 
     }

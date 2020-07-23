@@ -1,5 +1,6 @@
 @model Company
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@using CateringPro.Helpers
 @{
     ViewData["Title"] = "Register";
 }
@@ -79,11 +80,24 @@
             </div>
         </div>
         <div class="row form-group">
+            <ul class="list-group">
+                @foreach (var value in @EnumHelper<OrderTypeEnum>.GetValues(Model.GetOrderType()))
+                {
+
+                    var description = EnumHelper<OrderTypeEnum>.GetDisplayValue(value);
+                    var classname = "role-item list-group-item";
+                    if (value == Model.GetOrderType())
+                        classname += " active";
+                    <li class="@classname">@Html.DisplayFor(e => description)</li>
+
+                }
+            </ul>
+        </div>
+        <div class="row form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Localizer["Company Setting Save"]" class="btn btn-primary" />
             </div>
         </div>
-
     </div>
 
 

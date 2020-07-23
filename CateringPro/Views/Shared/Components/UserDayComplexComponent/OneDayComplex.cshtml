@@ -89,7 +89,7 @@
                                     @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
 
                                 </div>
-                                <div class="col col-lg-4 col-md-4 col-4 small">
+                                <div class="col-3 col-lg-4 col-md-4 small">
                                     @Html.DisplayFor(modelItem => dish.DishDescription)
                                     <p />
                                     @Html.DisplayFor(modelItem => dish.DishIngredients)
@@ -115,7 +115,7 @@
 
 
                             </div>
-
+                            <div class="divider"></div>
 
                             }
                         </div>
@@ -129,7 +129,7 @@
 
 
         <div class="container  border rounded daycomplex-footer">
-            <div class="row total-order-row">
+            @*<div class="row total-order-row">
                 <div class="col col-lg-1 col-md-1 col-1">
                 </div>
 
@@ -147,7 +147,7 @@
 
                 </div>
 
-            </div>
+            </div>*@
             <div class="row daycomplex-footer-cmd">
                 <div class="col col-lg-1 col-md-1 col-1 col-sm-1">
                 </div>

@@ -18,5 +18,6 @@ namespace CateringPro.Repositories
         Task<List<UserGroups>> GetUserGroups(int companyId);
 
         Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user);
+        Task<bool> PostUpdateUserAsync(CompanyUser user, bool isNew = false);
     }
 }

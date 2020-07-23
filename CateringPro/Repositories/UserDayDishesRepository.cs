@@ -354,15 +354,15 @@ namespace CateringPro.Repositories
 
         }
 
-        public async Task<bool> SaveDayComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
+        public async Task<bool> SaveDayComplex(List<UserDayComplex> daycomplex, string userId, int companyId)
         {
-
+            daycomplex.ForEach(d => { d.CompanyId = companyId; d.UserId = userId; });
             try
             {
                 daycomplex.ForEach(d =>
                 {
                     //await saveday(d);
-                    httpcontext.User.AssignUserAttr(d);
+                   // httpcontext.User.AssignUserAttr(d);
                     var userDayComplex = _context.UserDayComplex.SingleOrDefault(c => c.CompanyId == d.CompanyId
                                 && c.Date == d.Date
                                 && c.UserId == d.UserId
@@ -393,16 +393,18 @@ namespace CateringPro.Repositories
             return true;
         }
 
-        public async Task<bool> SaveDayDishInComplex(List<UserDayDish> userDayDishes, HttpContext httpcontext)
+        public async Task<bool> SaveDayDishInComplex(List<UserDayDish> userDayDishes, string userId, int companyId)
         {
+            userDayDishes.ForEach(d => { d.CompanyId = companyId; d.UserId = userId; }); 
             try
             {
                 userDayDishes.ForEach(d =>
                 {
                     //await saveday(d);
-                    httpcontext.User.AssignUserAttr(d);
+                    //httpcontext.User.AssignUserAttr(d);
                     var userDayDish = _context.UserDayDish.SingleOrDefault(c => c.CompanyId == d.CompanyId
                                 && c.Date == d.Date
+                                && c.ComplexId == d.ComplexId
                                 && c.UserId == d.UserId);
                     if (userDayDish != null)
                     {
@@ -430,39 +432,39 @@ namespace CateringPro.Repositories
 
             return true;
         }
-        public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, HttpContext httpcontext)
+        public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, string userId, int companyId)
         {
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                if (!await SaveDayComplex(daycomplex, httpcontext))
+                if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
 
 
-                if (!await SaveDayDishInComplex(userDayDishes, httpcontext))
+                if (!await SaveDayDishInComplex(userDayDishes, userId, companyId))
                     return false;
                 scope.Complete();
             }
             return true;
         }
         //Delete ordered complex with dishes
-        public async Task<bool> DeleteDayComplex(UserDayComplex userDayComplex, HttpContext httpContext)
+        public async Task<bool> DeleteDayComplex(UserDayComplex userDayComplex, string userId, int companyId)
         {
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                if (!await DeleteDayComplexDb(userDayComplex, httpContext))
+                if (!await DeleteDayComplexDb(userDayComplex, userId, companyId))
                     return false;
 
 
-                if (!await DeleteDayDishInComplex(userDayComplex, httpContext))
+                if (!await DeleteDayDishInComplex(userDayComplex, userId, companyId))
                     return false;
                 scope.Complete();
             }
             return true;
         }
-        private async Task<bool> DeleteDayComplexDb(UserDayComplex userDayComplex, HttpContext httpcontext)
+        private async Task<bool> DeleteDayComplexDb(UserDayComplex userDayComplex, string userId, int companyId)
         {
-            var userId = httpcontext.User.GetUserId();
-            var companyId = httpcontext.User.GetCompanyID();
+            //var userId = httpcontext.User.GetUserId();
+            //var companyId = httpcontext.User.GetCompanyID();
             try
             {
                 var existing_db = await _context.UserDayComplex.Where
@@ -483,10 +485,10 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        private async Task<bool> DeleteDayDishInComplex(UserDayComplex userDayComplex, HttpContext httpcontext)
+        private async Task<bool> DeleteDayDishInComplex(UserDayComplex userDayComplex, string userId, int companyId)
         {
-            var userId = httpcontext.User.GetUserId();
-            var companyId = httpcontext.User.GetCompanyID();
+            //var userId = httpcontext.User.GetUserId();
+            //var companyId = httpcontext.User.GetCompanyID();
             try
             {
                 var existing_db = await _context.UserDayDish.Where
