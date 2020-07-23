@@ -11,6 +11,7 @@ namespace CateringPro.Models
         public Complex()
         {
             DishComplex = new HashSet<DishComplex>();
+         //   ComplexCategories = new HashSet<ComplexCategory>();
         }
 
         // public int Id { get; set; }
@@ -28,8 +29,16 @@ namespace CateringPro.Models
         [DisplayName("DishesQuantity")]
         public int DishesQuantity { get; set; }
 
+        [DisplayName("ComplexCategory")]
+        public int CategoriesId { get; set; }
+
+        [DisplayName("Complex Category")]
+        public virtual Categories Category { get; set; }
+
         [DisplayName("Complex Dishes")]
         public virtual ICollection<DishComplex> DishComplex { get; set; }
-       
+
+        //public virtual ICollection<ComplexCategory> ComplexCategories { get; set; }
+
     }
 }

@@ -65,6 +65,7 @@
     <Compile Remove="Controllers\ReviewsController.cs" />
     <Compile Remove="Controllers\ShoppingCartController.cs" />
     <Compile Remove="Core\ApplicationClaimsIdentityFactory.cs" />
+    <Compile Remove="Models\ComplexCategory.cs" />
     <Compile Remove="Models\Order.cs" />
     <Compile Remove="Models\OrderDetail.cs" />
     <Compile Remove="Models\PizzaIngredients.cs" />

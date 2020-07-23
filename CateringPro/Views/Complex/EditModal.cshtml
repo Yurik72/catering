@@ -42,22 +42,31 @@
                 </dd>
                 <dt> <label asp-for="Price" class="control-label"></label> </dt>
                 <dd> <input asp-for="Price" class="form-control" /></dd>
+                <dt>
+                    <label asp-for="CategoriesId" class="control-label"></label>
+                </dt>
+                <dd>
+
+                    <select asp-for="CategoriesId" class="form-control complex-category" asp-items="ViewBag.CategoriesId"></select>
+                   @* <span asp-validation-for="CategoriesId" class="text-danger"></span>*@
+
+                </dd>
                 @*<dt> <label asp-for="DishesQuantity" class="control-label"></label> </dt>*@
                 <dd> <input asp-for="DishesQuantity" type="hidden" id="quantity" name="DishesQuantity" min="1" max="10" class="form-control" onchange="changeQuantity()" /></dd>
                 <!--
-        <dt><label asp-for="DishComplex" class="control-label"></label> </dt>
-        <dd id="dishContainer" class="dishes-container">
-            <div class="dishes-content" id="dish">
+    <dt><label asp-for="DishComplex" class="control-label"></label> </dt>
+    <dd id="dishContainer" class="dishes-container">
+        <div class="dishes-content" id="dish">
 
+        </div>
+        <div id="dish-footer">
+            <div id="create-dishline" class="col  create">
+                <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+                <span>@Localizer["Add"]</span>
             </div>
-            <div id="dish-footer">
-                <div id="create-dishline" class="col  create">
-                    <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
-                    <span>@Localizer["Add"]</span>
-                </div>
-            </div>
-        </dd>
-            -->
+        </div>
+    </dd>
+        -->
             </dl>
 
             <div class="complex-content container">
@@ -78,7 +87,7 @@
             </div>
             <div class="col-sm-2">
                 @*<button type="button" button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>*@
-                <button id="sendBut"  button class="btn btn-primary" data-save="modal">@Localizer["Save"]</button>
+                <button id="sendBut"  button class="btn btn-primary" data-dismiss="modal">@Localizer["Save"]</button>
             </div>
             <div class="col-sm-1">
             </div>
@@ -96,7 +105,7 @@
 
 
 <script>
-
+   
     @*function send() {
         console.log("Post ");
         var complexLines = $(".complex-content").find(".complex-line");

@@ -46,7 +46,7 @@ namespace CateringPro.Controllers
         {
             //QueryModel querymodel=new QueryModel() { }
 
-            var query = this.GetQueryList(_context.Complex,
+            var query = this.GetQueryList(_context.Complex.Include(d => d.Category),
                 querymodel,
                 d => d.Name.Contains(querymodel.SearchCriteria) ,
                 pageRecords);
@@ -56,7 +56,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity")] Complex cmp,  List<DishComplex> DishComplexes)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity,CategoriesId")] Complex cmp,  List<DishComplex> DishComplexes)
         {
             if (id != cmp.Id)
             {
@@ -84,7 +84,7 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-            
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", complex.CategoriesId);
             return PartialView(complex);
         }
         public IActionResult CreateModal()

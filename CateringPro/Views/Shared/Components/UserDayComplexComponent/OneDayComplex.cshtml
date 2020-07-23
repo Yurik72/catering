@@ -34,20 +34,23 @@
                     <div class="row">
                         <div class="container daycomplex-item" date="@Model.First().Date">
                             <div class="row row-daycomplex" data-form="userdaycomplexitem">
-                                <div class="col col-lg-5 col-md-5 col-sm-5">
+                                <div class="col col-4">
 
                                     @*@Html.HiddenFor(modelItem => item.ComplexId, new { datafield = "ComplexID" })
-                                    @Html.HiddenFor(modelItem => item.Price, new { datafield = "Price" })
-                                    @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })*@
+            @Html.HiddenFor(modelItem => item.Price, new { datafield = "Price" })
+            @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })*@
 
                                     @Html.DisplayFor(modelItem => item.ComplexName)
                                 </div>
-                                <div class="col col-lg-3 col-md-3 col-sm-3">
-                                    @string.Format("{0:0.00}{1}", item.Price, pageOptions.Value.CurrencySymbol)
-
+                                <div class="col col-3">
+                                    @Html.DisplayFor(modelItem => item.ComplexCategoryName)
                                 </div>
-                                <div class="col col-lg-4 col-md-4 col-sm-4">
-                                    @*@if (allowEdit)
+                                    <div class="col col-2">
+                                        @string.Format("{0:0.00}{1}", item.Price, pageOptions.Value.CurrencySymbol)
+
+                                    </div>
+                                    <div class="col col-2">
+                                        @*@if (allowEdit)
                 {
                     @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
                 }
@@ -55,70 +58,71 @@
                 {
                     @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
                 }*@
-                                    <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id"  day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" />
+                                        <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" />
+                                    </div>
                                 </div>
+                                @{course = -1;}
+                                @foreach (var dish in item.ComplexDishes)
+                                {
+                                    @if (dish.DishCourse != course)
+                                    {
+                                        <div class="col">
+                                            @(dish.DishCourse+1)
+                                        </div>
+                                        <br />
+                                        course++;
+                                    }
+
+                                    <div class="row row-daycomplex-item">
+                                        @*<div class="col">
+                @(dish.DishCourse+1)
+                </div>*@
+                                        <div class="col col-md-2">
+                                            @* @(dish.DishCourse+1)*@
+                                            <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
+
+
+                                        </div>
+                                        <div class="col col-lg-2 col-md-2 col-2">
+
+                                            @Html.DisplayFor(modelItem => dish.DishName)
+
+                                        </div>
+
+                                        <div class="col col-lg-2 col-md-2 col-2 small">
+                                            @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
+
+                                        </div>
+                                        <div class="col-3 col-lg-4 col-md-4 small">
+                                            @Html.DisplayFor(modelItem => dish.DishDescription)
+                                            <p />
+                                            @Html.DisplayFor(modelItem => dish.DishIngredients)
+                                        </div>
+                                        @*<div class="col col-lg-4 col-md-4 col-4 small">
+
+
+                </div>*@
+
+                                        <div class="col col-lg-2 col-md-2 col-2 small">
+                                            @if (allowEdit)
+                                            {
+                                                @*@Html.EditorFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })*@
+                                                // <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayDish[@com].Quantity" type="number" value="0" style="display: none;">
+                                                <input class="form-check-input dish-check" type="radio" name="Complex[@item.ComplexId].Course[@dish.DishCourse].DishId" complexdish="@item.ComplexId" day="@Model.First().Date.Day" course="@dish.DishCourse" value="@dish.DishId" />
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
+                                            }
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="divider"></div>
+
+                                }
                             </div>
-                            @{course=-1;}
-                            @foreach (var dish in item.ComplexDishes)
-                            {
-                            @if(dish.DishCourse!= course){
-                            <div class="col">
-                                @(dish.DishCourse+1)
-                            </div>
-                            <br />
-                            course++;
-                            }
-
-                            <div class="row row-daycomplex-item">
-                                @*<div class="col">
-            @(dish.DishCourse+1)
-            </div>*@
-                                <div class="col col-md-2">
-                                   @* @(dish.DishCourse+1)*@
-                                    <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
-
-
-                                </div>
-                                <div class="col col-lg-2 col-md-2 col-2">
-
-                                    @Html.DisplayFor(modelItem => dish.DishName)
-
-                                </div>
-
-                                <div class="col col-lg-2 col-md-2 col-2 small">
-                                    @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
-
-                                </div>
-                                <div class="col-3 col-lg-4 col-md-4 small">
-                                    @Html.DisplayFor(modelItem => dish.DishDescription)
-                                    <p />
-                                    @Html.DisplayFor(modelItem => dish.DishIngredients)
-                                </div>
-                                @*<div class="col col-lg-4 col-md-4 col-4 small">
-
-
-            </div>*@
-
-                                <div class="col col-lg-2 col-md-2 col-2 small">
-                                    @if (allowEdit)
-                                        {
-                                    @*@Html.EditorFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })*@
-                                            // <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayDish[@com].Quantity" type="number" value="0" style="display: none;">
-                                    <input class="form-check-input dish-check" type="radio" name="Complex[@item.ComplexId].Course[@dish.DishCourse].DishId" complexdish="@item.ComplexId" day="@Model.First().Date.Day" course="@dish.DishCourse" value="@dish.DishId" />
-                                        }
-                                        else
-                                        {
-                                    @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
-                                        }
-
-                                </div>
-
-
-                            </div>
-                            <div class="divider"></div>
-
-                            }
-                        </div>
 
                     </div>
                                     com++;
