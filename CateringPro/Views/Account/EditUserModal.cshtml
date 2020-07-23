@@ -21,7 +21,7 @@
 </style>
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">@Localizer["User"]</h5>
+        <h5 class="modal-title">@Localizer["EditUser"]</h5>
         <button class="close" data-dismiss="modal" area-hidden="true">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -33,8 +33,8 @@
         <form asp-action="EditUserModal">
             <nav>
                 <div class="nav nav-tabs" id="nav-tabs" role="tablist">
-                    <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-1" aria-selected="false">Main</a>
-                    <a class="nav-item nav-link nav-roles" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Roles</a>
+                    <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-1" aria-selected="false">Головна</a>
+                    <a class="nav-item nav-link nav-roles" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Ролі</a>
                 </div>
                 <div class="tab-content day-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
@@ -42,7 +42,7 @@
                             <dd><input type="hidden" asp-for="Id" /></dd>
                             <dd><input type="hidden" asp-for="IsNew" /></dd>
 
-                            <dt>  <label asp-for="UserName" class="control-label"></label></dt>
+                            <dt>  <label asp-for=UserName class="control-label">@Localizer["UserNameLogin"]</label></dt>
                             <dd>
                                 <input asp-for="UserName" class="form-control" autocomplete="off" />
                                 <span asp-validation-for="UserName" class="text-danger"></span>
@@ -68,11 +68,18 @@
                                 <span asp-validation-for="NewPassword" class="text-danger"></span>
                             </dd>
 
-                            <dt> <label asp-for="ConfirmPassword" class="control-label"></label> </dt>
+                            <dt> <label asp-for="ConfirmPassword" class="control-label">@Localizer["ConfirmPassword"]</label></dt>
                             <dd>
                                 <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </dd>
+
+                            <dt> <label asp-for="ConfirmedByAdmin" class="control-label">@Localizer["ConfirmedByAdmin"]</label></dt>
+                            <dd>
+                                <input asp-for="ConfirmedByAdmin" class="form-control"/>
+                                <span asp-validation-for="ConfirmedByAdmin" class="text-danger"></span>
+                            </dd>
+
                             <dt>
                                 <label asp-for="UserGrpoupId" class="control-label col-md-2"></label>
                             </dt>
@@ -88,7 +95,7 @@
                     <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
                         <dl>
                         <dt>
-                            <label class="control-label col-md-2">User Roles</label>
+                            <label class="control-label col-md-2">@Localizer["User Roles"]</label>
                         </dt>
                         <dd>
                             <div id="user-roles-content" class="container">
