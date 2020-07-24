@@ -29,7 +29,10 @@ namespace CateringPro.Repositories
             _userManager = userManager;
             _cache = cache;
         }
-
+        public OrderTypeEnum GetCompanyOrderType(int companyid)
+        {
+            return _cache.GetCachedCompanyAsync(_context, companyid).Result.GetOrderType();
+        }
         public bool IsAllowDayEdit(DateTime dt, int companyid)
         {
             var company = _cache.GetCachedCompanyAsync(_context, companyid).Result; //_context.Companies.Find(companyid);

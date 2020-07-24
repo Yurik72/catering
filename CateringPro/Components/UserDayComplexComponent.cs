@@ -12,15 +12,19 @@ using CateringPro.Core;
 
 
 namespace CateringPro.ViewComponents
-{using System.Threading.Tasks;
+{
+    using Microsoft.Extensions.Caching.Memory;
+    using System.Threading.Tasks;
     public class UserDayComplexComponent: ViewComponent
     {
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly UserManager<CompanyUser> _userManager;
+       
         public UserDayComplexComponent( IUserDayDishesRepository udaydishrepo, UserManager<CompanyUser> userManager)
         {
             _udaydishrepo = udaydishrepo;
             _userManager = userManager;
+           
         }
         
         public async Task<IViewComponentResult> InvokeAsync(DateTime daydate)
@@ -30,15 +34,16 @@ namespace CateringPro.ViewComponents
             //var cid = this.User.GetCompanyID();
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
             ViewData["AllowEdit"] = _udaydishrepo.IsAllowDayEdit(daydate, this.User.GetCompanyID());
-            if (this.User.GetOrderType() == 0)
+          
+            if ((_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.OneComplexType) >0)
+            {
+                return await Task.FromResult((IViewComponentResult)View("OneDayComplex", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
+           }
+            else
             {
                 return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.ComplexPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
             }
-            else
-            {
-                return await Task.FromResult((IViewComponentResult)View("OneDayComplex", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
-            }
-           // return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
+            // return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
         }
 
     }
