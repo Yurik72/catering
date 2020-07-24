@@ -28,7 +28,7 @@
                     <span>@Localizer["Complex Dishes"]</span>
                 </div>
             </div>
-            <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm @Model.First().Date">
+            <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm-@Model.First().Date" data-form="orderForm-@Model.First().Date">
                 @foreach (var item in Model)
                 {
 
@@ -153,7 +153,8 @@
                 <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
                     @if (allowEdit)
                     {
-                        <button type="submit" form="orderForm @Model.First().Date" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>
+                        <button  data-form="orderForm-@Model.First().Date" button class="btn btn-primary sendMany">@Localizer["MyOrdersSave"]</button>
+                        //<button type="submit" form="orderForm @Model.First().Date" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>
                         // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
                     }
                 </div>
