@@ -94,8 +94,8 @@ namespace CateringPro.Repositories
                 res.Seller = GetOwnCompany(companyid);
                 var query1 = from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
                              join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
-                             join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
-                             join cu in _context.Users on ud.UserId equals cu.Id
+                             join ud in _context.UserDayDish.Where(ud => ud.UserId== UserId && ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+                             //join cu in _context.Users on ud.UserId equals cu.Id
                              select new InvoiceItemModel
                              {
                                  Code = d.Code,
@@ -141,23 +141,26 @@ namespace CateringPro.Repositories
                                                                                          select ingr.Name),
                                                   }
                               };
-                
+                var ordered_list=ordered.ToList();
                 var query2 = from dd in _context.DayComplex.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
                              join d in _context.Complex.Where(dd => dd.CompanyId == companyid) on dd.ComplexId equals d.Id
-                             join ud in _context.UserDayComplex.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
-                             join cu in _context.Users on ud.UserId equals cu.Id
+                             join ud in _context.UserDayComplex.Where(ud => ud.UserId == UserId && ud.CompanyId == companyid && ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
+                             //join cu in _context.Users on ud.UserId equals cu.Id
                              select new InvoiceItemModel
                              {
                                  Code = "",
+                                 ComplexId = d.Id,
                                  Name = d.Name,
                                  Quantity = ud.Quantity,
                                  Price = ud.Price,
-                                 Amount = ud.Quantity * d.Price,
-                                 DayComplex = ordered.Where(x => x.ComplexId == d.Id).First()
+                                 Amount = ud.Quantity * d.Price//,
+                               //  DayComplex = ordered_list.Where(x => x.ComplexId == d.Id).FirstOrDefault()
                              };
-               // var query3 = ;
+                var query3 = query2.ToList();
+                query3.ForEach(it => it.DayComplex = ordered_list.Where(x => x.ComplexId == it.ComplexId).FirstOrDefault());
                 var resitems = query1.ToList();
-                resitems.AddRange(query2.ToList());
+                // resitems.AddRange(query2.ToList());
+                resitems.AddRange(query3);
                 res.Items = resitems;
             }
             catch (Exception ex)

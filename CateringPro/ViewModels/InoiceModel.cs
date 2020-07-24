@@ -75,6 +75,7 @@ namespace CateringPro.Models
 
     public class InvoiceItemModel
     {
+        public int ComplexId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
 
