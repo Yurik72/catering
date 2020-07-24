@@ -230,8 +230,11 @@
                             if (data.res != "OK") {
                                 alert(data.res);
                             } else {
-                                //console.log(data);
                                 $('#modDialog').attr("_changed", false);
+                                $('#modDialog').modal('hide');
+                                $('#dialogContent').empty();
+                                //console.log(data);
+                               // $('#modDialog').attr("_changed", false);
                                 pagehandler.reload();
                             }
                         }
