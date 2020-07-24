@@ -7,6 +7,7 @@
 @using CateringPro.Core
 @inject Microsoft.Extensions.Options.IOptions<UIOption> pageOptions
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject CateringPro.Helpers.URLHelperContextLess Url
 <html>
 <head>
     <style>
@@ -97,7 +98,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="@Model.Seller.UrlPicture" style="width:100%; max-width:300px;" />
+                                <img src="@Url.BuildPictureUrl(Model.Seller.PictureId)" style="width:100%; max-width:300px;" />
                             </td>
                             <td>
                                 Рахунок: @Model.Number
@@ -147,7 +148,7 @@
                     Сума (@pageOptions.Value.CurrencySymbol)
                 </td>
             </tr>
-            
+
             @foreach (var item in Model.Items)
             {
                 <tr class="item">
@@ -185,7 +186,7 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />
+                    <img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:300px;" />
                 </td>
             </tr>
         </table>
@@ -194,8 +195,8 @@
 
         @foreach (var item1 in Model.Items)
         {
-           
-                var item = item1.DayComplex;
+
+            var item = item1.DayComplex;
             <div class="userDayComplexBag">
                 @if (item.Quantity > 0)
                 {
@@ -221,20 +222,21 @@
 
                                         @*<div class="row ">*@
                                         @*<div class="col">
-                                        @(dish.DishCourse+1)
-                                        </div>*@
+                                            @(dish.DishCourse+1)
+                                            </div>*@
 
                                         <td>
                                             @(dish.DishCourse + 1)
-                                           @* <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />*@
+                                            @* <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />*@
+                                            <img src="@Url.BuildPictureUrl(dish.PictureId)" style="width:50px;height:50px;" />
 
 
                                         </td>
                                         <td>
                                             @*<input data-val="true" name="UserDayDish[@com].DishId" type="hidden" value="@dish.DishId">
-                                            <input data-val="true" name="UserDayDish[@com].ComplexId" type="hidden" value="@item.ComplexId">
-                                            <input data-val="true" name="UserDayDish[@com].Date" type="hidden" value="@item.Date">
-                                            <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">*@
+                                                <input data-val="true" name="UserDayDish[@com].ComplexId" type="hidden" value="@item.ComplexId">
+                                                <input data-val="true" name="UserDayDish[@com].Date" type="hidden" value="@item.Date">
+                                                <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">*@
                                             @*@Html.HiddenFor(modelItem => dish.DishId, new { datafield = "DishID" })*@
 
                                             @Html.DisplayFor(modelItem => dish.DishName)
@@ -253,7 +255,7 @@
                                         @*<div class="col col-lg-4 col-md-4 col-4 small">
 
 
-                                        </div>*@
+                                            </div>*@
 
                                         <td>
 
@@ -276,9 +278,9 @@
                 }
             </div>
 
-                }
+        }
 
-            }
+        }
     </div>
 </body>
 </html>
