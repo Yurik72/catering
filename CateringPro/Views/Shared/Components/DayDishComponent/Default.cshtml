@@ -1,4 +1,4 @@
-@model IEnumerable<CateringPro.Models.DayDishViewModelPerGategory>
+ @model IEnumerable<CateringPro.Models.DayDishViewModelPerGategory>
 
 @{
     ViewData["Title"] = "EditDay";
@@ -25,7 +25,7 @@
 
             @foreach (var item in itemcategory.DayDishes)
             {
-                string id_checkbox = daydate.Millisecond.ToString() + "_" + idx;
+                string id_checkbox = item.DishId.ToString()+"_"+daydate.Millisecond.ToString() + "_" + idx;
                 <div class="row row-daydish">
                     <div class="col col-md-2">
 
