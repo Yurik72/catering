@@ -78,6 +78,8 @@ namespace CateringPro.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
+
+                    await _companyuser_repo.PostUpdateUserAsync(user, true);
                     //EmailService emailService = new EmailService();
                     await _email.SendEmailAsync(model.Email, "Confirm your account",
                         $"Please confirm registration: <a href='{callbackUrl}'>link</a>");
