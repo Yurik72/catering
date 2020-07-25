@@ -22,13 +22,15 @@ namespace CateringPro.Controllers
         private readonly SignInManager<CompanyUser> _signInManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly ICompanyUserRepository _companyuser_repo;
+        private readonly IEmailService _email;
         public AccountController(UserManager<CompanyUser> userManager,
-                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo)
+                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, IEmailService email)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _companyuser_repo = companyuser_repo;
+            _email = email;
         }
 
         [AllowAnonymous]
@@ -76,8 +78,10 @@ namespace CateringPro.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-                    EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+
+                    await _companyuser_repo.PostUpdateUserAsync(user, true);
+                    //EmailService emailService = new EmailService();
+                    await _email.SendEmailAsync(model.Email, "Confirm your account",
                         $"Please confirm registration: <a href='{callbackUrl}'>link</a>");
 
                     return Content("To finish registrtation, check your mailbox and confirm");

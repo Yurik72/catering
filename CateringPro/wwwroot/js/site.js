@@ -1,6 +1,50 @@
 ﻿
 var html_loading_element = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
 
+$(function () {
+    
+    setup_change_company();
+});
+
+
+function setup_change_company() {
+    var ul_select_company = '<ul class="nav navbar-nav navbar-right show"> <a id="selectcompanyloaded" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">.....</a><li class="nav-item dropdown"><div class="dropdown-menu show" id="companylist"></div></li></ul>';
+    $("#selectcompany").click(function (e) {
+        e.preventDefault();
+        var url = '/Account/UserOtherCompanies';
+        var self = this;
+        $.get(url, function (data) {
+            var ul = $(ul_select_company);
+            if ($.isArray(data) && data.length > 0) {
+                data.map(function (el) {
+                    ul.find("#companylist").append(`<a class="setcompany dropdown-item" data-id="${el.id}" href="#">${el.name}</a>`)
+                });
+                ul.find("#selectcompanyloaded").text($(self).text());
+                $(self).before(ul);
+                $(self).empty();
+                setupcompanychanges(ul);
+            }
+
+        });
+
+    });
+    function setupcompanychanges(menu) {
+        menu.find(".setcompany").click(function (e) {
+            e.preventDefault();
+            var url = '/Account/SetCompanyId?CompanyId=")' + $(this).attr("data-id");
+            $.get(url, function (data) {
+                //var x = data;
+            }).done(function () {
+                //alert("second success");
+                location.reload();
+            })
+                .fail(function () {
+                    //alert("error");
+                });
+        });
+
+    }
+}
 function setup_listitems(options) {
     let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems",editmethod:"EditModal",createmethod:"CreateModal"};
     if (typeof (options) == 'object') {
@@ -74,6 +118,15 @@ function setup_listitems(options) {
         $(dlg).on('hide.bs.modal', function (e) {
            if ($(dlg).attr("_changed")=="true") {
                 //if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
+               e.preventDefault();
+               dialog_yes_no($.text_resource.confirm_close,
+                   function () { //yes
+                       $(dlg).attr("_changed", false);
+                       $('#modDialog').modal('hide');
+                   },
+                   function () { //no
+                   });
+               return;
                if (!confirm(get_text_res().confirm_close))
                    e.preventDefault();
                $(dlg).attr("_changed", false);
@@ -230,4 +283,51 @@ function setup_search(_options) {
         });
 
     }
+}
+
+function dialog_yes_no(message, yesCallback, noCallback) {
+
+    var dlg_html = '   <div id="moddialogyesno" class="modal" tabindex="-1" role="dialog">  ' +
+        '       <div class="modal-dialog modal-sm modal-alert" role="document">  ' +
+        '           <div class="modal-content">  ' +
+        '               <div class="modal-header">  ' +
+        '                   <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>  ' + $.text_resource.confirm_title+'</h5>  ' +
+        '                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">  ' +
+        '                       <span aria-hidden="true">X</span>  ' +
+        '                   </button>  ' +
+        '               </div>  ' +
+        '               <div class="modal-body">  ' +
+        '               <p>' + message+'</p>'+
+        '               </div>  ' +
+        '               <div class="modal-footer">  ' +
+        '     ' +
+        '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes+'</button>  ' +
+        '                   <button id="btnno" type="button" class="btn btn-secondary" >' + $.text_resource.no +'</button>  ' +
+        '               </div>  ' +
+        '           </div>  ' +
+        '       </div>  ' +
+        '  </div>  ';
+   // $("body").append(dlg_html);
+    var dialog = $(dlg_html);
+    $("body").append(dialog);// $('#moddialogyesno');
+   // var dialog = $('#moddialogyesno').dialog();
+    dialog.modal('show');
+    dialog.find('#btnyes').click(function () {
+        dialog.modal('hide');
+        //dialog.empty();
+        if (yesCallback)
+             yesCallback();
+    });
+
+    dialog.find('#btnno').click(function () {
+        dialog.modal('hide');
+        //dialog.empty();
+        if (noCallback)
+            noCallback();
+    });
+    dialog.on('hide.bs.modal', function (e) {
+        dialog.empty();
+       
+    });
+
 }

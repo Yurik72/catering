@@ -151,46 +151,7 @@
 
     @await Html.PartialAsync("_LoginPartialModal")
     @RenderSection("Scripts", required: false)
-<script>
-        var ul_select_company = '<ul class="nav navbar-nav navbar-right show"> <a id="selectcompanyloaded" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">.....</a><li class="nav-item dropdown"><div class="dropdown-menu show" id="companylist"></div></li></ul>';
-        $(function () {
-            $("#selectcompany").click(function (e) {
-                e.preventDefault();
-                var url ='@Url.Content("~/Account/UserOtherCompanies")';
-                var self = this;
-                $.get(url, function (data) {
-                    var ul = $(ul_select_company);
-                    if ($.isArray(data) && data.length>0) {
-                        data.map(function (el) {
-                            ul.find("#companylist").append(`<a class="setcompany dropdown-item" data-id="${el.id}" href="#">${el.name}</a>`)
-                        });
-                        ul.find("#selectcompanyloaded").text($(self).text());
-                        $(self).before(ul);
-                        $(self).empty();
-                        setupcompanychanges(ul);
-                    }
 
-                });
-
-            });
-            function setupcompanychanges(menu) {
-                menu.find(".setcompany").click(function (e) {
-                    e.preventDefault();
-                    var url = '@Url.Content("~/Account/SetCompanyId?CompanyId=")' + $(this).attr("data-id");
-                    $.get(url, function (data) {
-                        //var x = data;
-                    }).done(function () {
-                        //alert("second success");
-                        location.reload();
-                    })
-                    .fail(function () {
-                        //alert("error");
-                    });
-                });
-
-            }
-        })
-</script>
 </body>
 </html>
 
