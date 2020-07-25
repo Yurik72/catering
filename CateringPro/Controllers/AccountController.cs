@@ -57,8 +57,10 @@ namespace CateringPro.Controllers
                     ZipCode = model.ZipCode,
                     Address1 = model.Address1,
                     Address2 = model.Address2,
-                    ConfirmedByAdmin = model.ConfirmedByAdmin
-                };
+                    ConfirmedByAdmin = model.ConfirmedByAdmin,
+                    Id = Guid.NewGuid().ToString()
+            };
+                
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -67,7 +69,7 @@ namespace CateringPro.Controllers
 
                     //TO DO
                     // generating token
-                    /*
+                    
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
@@ -79,9 +81,9 @@ namespace CateringPro.Controllers
                         $"Please confirm registration: <a href='{callbackUrl}'>link</a>");
 
                     return Content("To finish registrtation, check your mailbox and confirm");
-                    */
+                    
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
                 }
                 else
                 {
