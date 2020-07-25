@@ -25,14 +25,16 @@ namespace CateringPro.Controllers
         private readonly UserManager<CompanyUser> _userManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly IEmailService _email;
+        private readonly IUserDayDishesRepository _udaydishrepo;
 
-        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email)
+        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email, IUserDayDishesRepository udaydishrepo)
         {
             _context = context;
             _userManager = um;
             _userdaydishesrepo = ud;
             _logger = logger;
             _email = email;
+            _udaydishrepo = udaydishrepo;
         }
 
         // GET: UserDayDishes
@@ -62,8 +64,9 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = daydate,
-                ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
-                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0
+                ShowComplex = (_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
+                //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
+                ShowDishes = (_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
             };
             return PartialView(model);
         }

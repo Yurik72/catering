@@ -26,33 +26,36 @@
 
                 string id_checkbox = daydate.Millisecond.ToString() + "_" + idx;
 
-            <div class="row row-daycomplex">
+    <div class="row row-daycomplex">
 
-                <div class="col col-md-2 col-2">
-                    <div class="checkbox checkbox-info">
+        <div class="col col-md-2 col-2">
+            <div class="checkbox checkbox-info">
 
-                        @if (item.Enabled)
-                        {
-                            <input type="checkbox" class="checkbox styled" checked="checked" cp-name="dayselect-complex" id="@id_checkbox" />
-                        }
-                        else
-                        {
-                            <input type="checkbox" class="checkbox styled" cp-name="dayselect-complex" id="@id_checkbox" />
-                        }
-                        <label for="@id_checkbox">
+                @if (item.Enabled)
+                {
+                    <input type="checkbox" class="checkbox styled" checked="checked" cp-name="dayselect-complex" id="@id_checkbox" />
+                }
+                else
+                {
+                    <input type="checkbox" class="checkbox styled" cp-name="dayselect-complex" id="@id_checkbox" />
+                }
+                <label for="@id_checkbox">
 
-                        </label>
-                        @Html.HiddenFor(modelItem => item.ComplexId)
-                        @Html.HiddenFor(modelItem => item.Date)
-                    </div>
-                </div>
-                <div class="col col-lg-4 col-md-4 col-4">
-                    @Html.DisplayFor(modelItem => item.ComplexName)
-                </div>
-                <div class="col col-lg-4 col-md-4 col-4 small">
-                    @Html.DisplayFor(modelItem => item.DishesString)
-                </div>
+                </label>
+                @Html.HiddenFor(modelItem => item.ComplexId)
+                @Html.HiddenFor(modelItem => item.Date)
             </div>
+        </div>
+        <div class="col-3">
+            @Html.DisplayFor(modelItem => item.ComplexName)
+        </div>
+        <div class="col-2">
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </div>
+        <div class="col col-lg-4 col-md-4 col-4 small">
+            @Html.DisplayFor(modelItem => item.DishesString)
+        </div>
+    </div>
             @foreach (var dish in item.ComplexDishes)
             {
                 <div class="row row-daycomplex-item">
