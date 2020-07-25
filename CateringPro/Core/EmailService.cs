@@ -33,6 +33,11 @@ namespace CateringPro.Core
             _userManager = userManager;
             _logger = logger;
         }
+
+        public EmailService()
+        {
+        }
+
         public List<EmailMessage> ReceiveEmail(int maxCount = 10)
         {
             return null;
@@ -73,11 +78,11 @@ namespace CateringPro.Core
 
             using (var client = new SmtpClient())
             {
-                //  await client.ConnectAsync("smtp.yandex.ru", 25, false);
-                //  await client.AuthenticateAsync("login@yandex.ru", "password");
-                //  await client.SendAsync(emailMessage);
+                await client.ConnectAsync("mail.catering.in.ua", 25, false);
+                await client.AuthenticateAsync("admin@catering.in.ua", "Test450!");
+                await client.SendAsync(emailMessage);
 
-                // await client.DisconnectAsync(true);
+                await client.DisconnectAsync(true);
                 client.Capabilities &= ~SmtpCapabilities.Pipelining;
                 await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort,MailKit.Security.SecureSocketOptions.None);
                 

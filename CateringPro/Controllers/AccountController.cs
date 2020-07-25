@@ -69,7 +69,7 @@ namespace CateringPro.Controllers
 
                     //TO DO
                     // generating token
-                    
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
@@ -81,7 +81,7 @@ namespace CateringPro.Controllers
                         $"Please confirm registration: <a href='{callbackUrl}'>link</a>");
 
                     return Content("To finish registrtation, check your mailbox and confirm");
-                    
+
 
                     //return RedirectToAction("Index", "Home");
                 }
