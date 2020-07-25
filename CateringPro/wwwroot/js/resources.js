@@ -11,7 +11,9 @@ text_resource["ua"] = {
     confirm_close: "Ви впевненi що хочете закрити вiкно ? Вашi змiни будуть втраченi",
     added: "Додано",
     removed: "Видалено",
-    confirm_title:"Пiдтвердiть"
+    confirm_title: "Пiдтвердiть",
+    yes: "Tak",
+    no:"Нi"
 }
 
 glob_text_resources = text_resource["ua"];

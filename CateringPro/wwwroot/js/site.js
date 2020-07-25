@@ -291,7 +291,7 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '       <div class="modal-dialog modal-sm modal-alert" role="document">  ' +
         '           <div class="modal-content">  ' +
         '               <div class="modal-header">  ' +
-        '                   <h5 class="modal-title">' + $.text_resource.confirm_title+'</h5>  ' +
+        '                   <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>  ' + $.text_resource.confirm_title+'</h5>  ' +
         '                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">  ' +
         '                       <span aria-hidden="true">X</span>  ' +
         '                   </button>  ' +
@@ -301,8 +301,8 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '               </div>  ' +
         '               <div class="modal-footer">  ' +
         '     ' +
-        '                   <button id="btnyes" type="button" class="btn btn-primary" >Yes</button>  ' +
-        '                   <button id="btnno" type="button" class="btn btn-secondary" >No</button>  ' +
+        '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes+'</button>  ' +
+        '                   <button id="btnno" type="button" class="btn btn-secondary" >' + $.text_resource.no +'</button>  ' +
         '               </div>  ' +
         '           </div>  ' +
         '       </div>  ' +
