@@ -499,14 +499,14 @@ a.dialog-edit-icon, a.apagebottom {
 }
 
 .modal-dialog {
-    height: 80%;
+    height: 90%;
 }
 .modal-content {
-    height: 80%;
+    height: 95%;
 }
 
 .modal-header {
-    height: 7%;
+    height: 12%;
 }
 .modal-body {
    height: 85%;

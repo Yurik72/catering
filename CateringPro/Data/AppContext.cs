@@ -28,6 +28,10 @@ namespace CateringPro.Data
         {
             companyId = val;
         }
+        public bool IsHttpContext()
+        {
+            return _httpContextAccessor != null && _httpContextAccessor.HttpContext != null;
+        }
         public DbSet<Company> Companies { get; set; }
 
         public DbSet<CompanyUser> CompanyUser { get; set; }

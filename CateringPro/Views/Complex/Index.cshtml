@@ -228,7 +228,9 @@
                         url: "/Complex/EditModal",
                         success: function (data) {
                             if (data.res != "OK") {
-                                alert(data.res);
+                                var newBody = $('.modal-body', data);
+                                $(document).find('.modal-body').replaceWith(newBody);
+                                setupChangesChecker($('#modDialog'));
                             } else {
                                 $('#modDialog').attr("_changed", false);
                                 $('#modDialog').modal('hide');
@@ -238,6 +240,10 @@
                                 pagehandler.reload();
                             }
                         }
+
+                    })
+                    .fail(function (xhr, status, error) {
+                        alert("ERROR !" + error);
                     });
                 }
                // $('#modDialog').modal('hide');

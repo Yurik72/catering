@@ -18,7 +18,7 @@ namespace CateringPro.Core
 
                 entry.SetPriority(CacheItemPriority.Normal);
                // entry.AddExpirationToken(changeToken);
-                entry.SetSlidingExpiration(TimeSpan.FromSeconds(10));
+                entry.SetSlidingExpiration(TimeSpan.FromMinutes(10));
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(100);
 
                 return await context.Companies.AsNoTracking().ToListAsync();
