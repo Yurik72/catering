@@ -36,5 +36,13 @@ namespace CateringPro.Core
                 return 0;// claim.Value;
             return int.Parse( claim.Value);
         }
+        public static int GetOrderType(this IPrincipal principal)
+        {
+            var claimsIdentity = (ClaimsIdentity)principal.Identity;
+            var claim = claimsIdentity.FindFirst("ordertype");
+            if (claim == null)
+                return 0;// claim.Value;
+            return int.Parse(claim.Value);
+        }
     }
 }

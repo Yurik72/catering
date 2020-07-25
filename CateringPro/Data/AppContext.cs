@@ -28,6 +28,10 @@ namespace CateringPro.Data
         {
             companyId = val;
         }
+        public bool IsHttpContext()
+        {
+            return _httpContextAccessor != null && _httpContextAccessor.HttpContext != null;
+        }
         public DbSet<Company> Companies { get; set; }
 
         public DbSet<CompanyUser> CompanyUser { get; set; }
@@ -115,7 +119,7 @@ namespace CateringPro.Data
             modelBuilder.Entity<UserDay>()
                    .Property(d => d.Date)
                    .HasColumnType("date");
-
+            modelBuilder.Entity<Complex>().HasOne(bc => bc.Category);
             modelBuilder.Entity<DishCategory>()
                 .HasKey(bc => new { bc.DishId, bc.CategoryId });
             modelBuilder.Entity<DishCategory>()
@@ -218,6 +222,12 @@ namespace CateringPro.Data
                 .HasForeignKey(u => u.CompanyUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+
+            modelBuilder.Entity<Complex>()
+                   .HasOne(c => c.Category)
+                   .WithMany(a => a.Complexes)
+                   .HasForeignKey(u => u.CategoriesId).IsRequired(false)
+                   .OnDelete(DeleteBehavior.NoAction);
             //Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
 
             //modelBuilder.Entity<Categories>().HasQueryFilter(u => u.CompanyId == this.CompanyId);

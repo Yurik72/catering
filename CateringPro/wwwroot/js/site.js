@@ -34,7 +34,8 @@ function setup_listitems(options) {
             }
             $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
-        }
+    }
+       self.reload = reload;
         $.ajaxSetup({ cache: false });
        
         reload();
@@ -145,7 +146,7 @@ function setup_listitems(options) {
                 alert("ERROR !" + error);
              });
         });
-
+    return self;
 }
 
 

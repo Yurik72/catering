@@ -349,3 +349,6 @@ CateringPro/Logs/
 
 *.suo
 
+CateringPro/obj/
+
+.vs/

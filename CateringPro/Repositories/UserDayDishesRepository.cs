@@ -29,7 +29,10 @@ namespace CateringPro.Repositories
             _userManager = userManager;
             _cache = cache;
         }
-
+        public OrderTypeEnum GetCompanyOrderType(int companyid)
+        {
+            return _cache.GetCachedCompanyAsync(_context, companyid).Result.GetOrderType();
+        }
         public bool IsAllowDayEdit(DateTime dt, int companyid)
         {
             var company = _cache.GetCachedCompanyAsync(_context, companyid).Result; //_context.Companies.Find(companyid);
@@ -624,12 +627,17 @@ namespace CateringPro.Repositories
 
         public IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid)
         {
+            var ordered = OrderedComplexDay(daydate, userId, companyid);
+
             var query = from comp in _context.Complex
                         join dc in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dc.ComplexId
+                        join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
                         select new UserDayComplexViewModel()
                         {
                             ComplexId = comp.Id,
                             ComplexName = comp.Name,
+                            ComplexCategoryId = cat.Id,
+                            ComplexCategoryName = cat.Name,
                             Quantity = 0,
                             Price = comp.Price,
                             Date = daydate,
@@ -655,21 +663,25 @@ namespace CateringPro.Repositories
                                                                                    select ingr.Name),
                                             }
                         };
-
-
+            foreach (var item in ordered) {
+                query = query.Where(x => x.ComplexCategoryId != item.ComplexCategoryId);
+                    }
             return query;
         }
         public IQueryable<UserDayComplexViewModel> OrderedComplexDay(DateTime daydate, string userId, int companyid)
         {
             var query = from comp in _context.Complex
-                       // join udd in (from subday in _context.UserDayDish where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals udd.ComplexId
+                            // join udd in (from subday in _context.UserDayDish where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals udd.ComplexId
+                        join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
                         join dd in (from usubday in _context.UserDayComplex where usubday.UserId == userId && usubday.Date == daydate && usubday.CompanyId == companyid select usubday) on comp.Id equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
-
+                        where dayd.Quantity>0
                         select new UserDayComplexViewModel()
                         {
                             ComplexId = comp.Id,
                             ComplexName = comp.Name,
+                            ComplexCategoryId = cat.Id,
+                            ComplexCategoryName = cat.Name,
                             Quantity = dayd.Quantity,
                             Price = comp.Price,
                             Date = daydate,

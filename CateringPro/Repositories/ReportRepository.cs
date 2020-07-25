@@ -92,9 +92,9 @@ namespace CateringPro.Repositories
 
                 res.Buyer = GetUserCompany(UserId);
                 res.Seller = GetOwnCompany(companyid);
-                var query1 = from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
-                             join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
-                             join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+                var query1 = from dd in _context.DayDish.Where(dd=> dd.Date == daydate)
+                             join d in _context.Dishes on dd.DishId equals d.Id
+                             join ud in _context.UserDayDish.Where(ud =>   ud.Date == daydate) on dd.DishId equals ud.DishId
                              join cu in _context.Users on ud.UserId equals cu.Id
                              select new InvoiceItemModel
                              {
@@ -104,9 +104,9 @@ namespace CateringPro.Repositories
                                  Price = ud.Price,
                                  Amount = ud.Quantity * d.Price
                              };
-                var query2= from dd in _context.DayComplex.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
-                                  join d in _context.Complex.Where(dd => dd.CompanyId == companyid) on dd.ComplexId equals d.Id
-                                  join ud in _context.UserDayComplex.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
+                var query2= from dd in _context.DayComplex.Where(dd =>  dd.Date == daydate)
+                                  join d in _context.Complex on dd.ComplexId equals d.Id
+                                  join ud in _context.UserDayComplex.Where(ud =>  ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
                                   join cu in _context.Users on ud.UserId equals cu.Id
                                   select new InvoiceItemModel
                                   {
@@ -130,6 +130,10 @@ namespace CateringPro.Repositories
 
         public DayProductioDayViewModel CompanyDayProduction(DateTime datefrom,DateTime dateto, int companyid)
         {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
             var query1 =
                            from ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom   && ud.Date <= dateto) 
                            join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
@@ -166,6 +170,10 @@ namespace CateringPro.Repositories
         }
         public DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid)
         {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
             var query1 =
                            from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
                            join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
@@ -197,6 +205,10 @@ namespace CateringPro.Repositories
         }
         public async Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime datefrom, DateTime dateto, int companyId)
         {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyId);
+            }
             ProductionForecastViewModel res = new ProductionForecastViewModel();
             res.Company = GetOwnCompany(companyId);
             Action<IDataRecord, ProductionForecastItemViewModel> materilaize = (r, d) =>   ///to do auto
@@ -230,6 +242,10 @@ namespace CateringPro.Repositories
         }
         public DayIngredientsViewModel CompanyDayIngredients(DateTime daydate, int companyid)
         {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
             {
                 var query1 =
                                from ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate)
@@ -269,7 +285,11 @@ namespace CateringPro.Repositories
 
         public IEnumerable<CompanyMenuComplexModel> CompanyComplexMenu(DateTime datefrom, DateTime dateto, int companyid)
         {
-           return from dc in _context.DayComplex.Where(dc => dc.CompanyId == companyid && dc.Date >= datefrom && dc.Date <= dateto)
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
+            return from dc in _context.DayComplex.Where(dc => dc.CompanyId == companyid && dc.Date >= datefrom && dc.Date <= dateto)
             join c in _context.Complex.Where(c => c.CompanyId == companyid) on dc.ComplexId equals c.Id
 
             select new CompanyMenuComplexModel()
@@ -290,6 +310,10 @@ namespace CateringPro.Repositories
         }
         public CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid)
         {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
             var query1 =
                            (from ud in _context.DayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom && ud.Date <= dateto)
                            join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
@@ -339,6 +363,10 @@ namespace CateringPro.Repositories
 
         public DishSpecificationViewModel DishSpecification(DateTime datefrom, DateTime dateto, int companyid)
         {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
             DishSpecificationViewModel res = new DishSpecificationViewModel()
             {
                 Company = GetOwnCompany(companyid),

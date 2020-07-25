@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using CateringPro.Helpers;
 
 namespace CateringPro
 {
@@ -98,6 +99,7 @@ namespace CateringPro
              
             });
             services.AddTransient<SharedViewLocalizer>();
+            services.AddTransient<URLHelperContextLess>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
                 .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)

@@ -422,34 +422,39 @@
                 $(this).parent(".dayComplexBag").parent(".userDayComplexBag").children(".bagDayComplexItem").slideToggle(300);
             });
 
-
+           
 
             //delete ordered complex
 
             $(document).on('click', '.delete-complex', function (event) {
-                var com = $(this).attr("complexId");
-                var date = $(this).attr("date");
-                var UserDayComplex = {ComplexId: com, Date: date};
-                $.ajax({
-                    type: "POST",
-                    data: res = {UserDayComplex },
+                var res = confirm("Are you sure you want to delete?");
+                if (res) {
+                    var com = $(this).attr("complexId");
+                    var date = $(this).attr("date");
+                    var UserDayComplex = { ComplexId: com, Date: date };
+                    $.ajax({
+                        type: "POST",
+                        data: res = { UserDayComplex },
 
-                    url: "/UserDayDishes/DeleteDayComplex",
-                    success: function (data) {
-                        // alert(data);
-                        // $('#modOrderSuccess').modal('show');
-                        if (data.res == "OK") {
-                           // $('#modOrderSuccess').modal('show');
-                            alert("Deleted");
-                            return;
+                        url: "/UserDayDishes/DeleteDayComplex",
+                        success: function (data) {
+                            // alert(data);
+                            // $('#modOrderSuccess').modal('show');
+                            if (data.res == "OK") {
+                                // $('#modOrderSuccess').modal('show');
+                                //alert("Deleted");
+                                var day = $(".tab-pane.fade.show.active").attr("data-dayindex");
+                                reloadDay(day);
+                                return;
+                            }
+                            showOrderResult(data);
                         }
-                        showOrderResult(data);
-                    }
-                });
+                    });
+                }
             });
 
 
-            
+
             //for one option menu
 
             $(document).on('click', '.complex-check', function (event) {
@@ -569,6 +574,8 @@
                         success: function (data) {
                             // alert(data);
                             // $('#modOrderSuccess').modal('show');
+                            //var day = $(".tab-pane.fade.show.active").attr("data-dayindex");
+                            //reloadDay(day);
                             showOrderResult(data);
                         }
                     });
@@ -576,14 +583,29 @@
 
             });
 
-
+            $(document).on('click', '.sendMany', function (event) {
+                console.log("Post");
+                var form = $(this).attr("data-form");
+                console.log("Post"+form);
+                console.log($("[data-form='"+form+"']"));
+                $.ajax({
+                    url: '/UserDayDishes/SaveDayComplex',
+                    type: 'post',
+                    dataType: 'json',
+                    data: $("[data-form='" + form + "']").serialize(),
+                    success: function (data) {
+                        showOrderResult(data);
+                    }
+                });
+                
+            });
 
 
 
         });
 
 
-       
+
 
 
     </script>

@@ -205,8 +205,9 @@ namespace CateringPro.Controllers
             
             if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
             {
-                return await Task.FromResult(Json(new { res = "OK" }));
                 await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+                return await Task.FromResult(Json(new { res = "OK" }));
+               
             }
             else
             {

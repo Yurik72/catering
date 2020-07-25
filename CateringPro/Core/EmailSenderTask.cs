@@ -52,8 +52,13 @@ namespace CateringPro.Core
 
                     }
                     var companies = await context.Companies.ToListAsync();
+                   
                     foreach (var comp in companies)
                     {
+                        if (!context.IsHttpContext())
+                        {
+                            context.SetCompanyID(comp.Id);
+                        }
                         foreach (var em in await context.MassEmail.WhereCompany(comp.Id).AsNoTracking().ToListAsync())
                         {
                             MassMailWrapper wrap = new MassMailWrapper(em);

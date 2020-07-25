@@ -67,7 +67,7 @@
         var course;
         $(function () {
             var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
-            setup_listitems({
+            var pagehandler=setup_listitems({
                 href: '@Url.Content("~/Complex")',
                 onloadedcb:loaddishes
             });
@@ -192,13 +192,17 @@
                 //for(let line in complexLines ) {
                 //    console.log(line);
                 //}
+                
+                var selectedCategory = $("select.complex-category").children("option:selected").val();
+                //console.log("category" + selectedCategory);
+               
                 var flag = true;
                 var sendObj = {};
                 sendObj.DishComplexes = [];
                 $(complexLines).each(function (i) {
                     var dishLine = $(this).find(".dish-line");
                     // sendObj.DishComplexes.push() = [];
-                    console.log($(dishLine).length);
+                    //console.log($(dishLine).length);
                     if ($(dishLine).length == 0) {
                         alert("Course can't be without dishes.");
                         flag = false;
@@ -215,6 +219,7 @@
                 sendObj.Name = $("#Name").val();
                 sendObj.Price = $("#Price").val();
                 sendObj.DishesQuantity = $("#quantity").val();
+                sendObj.CategoriesId = selectedCategory;
                 // console.log(sendObj);
                 if (flag) {
                     $.ajax({
@@ -223,15 +228,25 @@
                         url: "/Complex/EditModal",
                         success: function (data) {
                             if (data.res != "OK") {
-                                alert(data.res);
+                                var newBody = $('.modal-body', data);
+                                $(document).find('.modal-body').replaceWith(newBody);
+                                setupChangesChecker($('#modDialog'));
                             } else {
-                                //console.log(data);
                                 $('#modDialog').attr("_changed", false);
+                                $('#modDialog').modal('hide');
+                                $('#dialogContent').empty();
+                                //console.log(data);
+                               // $('#modDialog').attr("_changed", false);
+                                pagehandler.reload();
                             }
                         }
+
+                    })
+                    .fail(function (xhr, status, error) {
+                        alert("ERROR !" + error);
                     });
                 }
-
+               // $('#modDialog').modal('hide');
 
             });
    $(document).on("click", "#create-dishline",
