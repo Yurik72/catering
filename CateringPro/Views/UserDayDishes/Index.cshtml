@@ -443,8 +443,7 @@
                             if (data.res == "OK") {
                                 // $('#modOrderSuccess').modal('show');
                                 //alert("Deleted");
-                                var day = $(".tab-pane.fade.show.active").attr("data-dayindex");
-                                reloadDay(day);
+                                incrementday(0);
                                 return;
                             }
                             showOrderResult(data);
@@ -572,11 +571,8 @@
 
                         url: "/UserDayDishes/SaveDayComplex",
                         success: function (data) {
-                            // alert(data);
-                            // $('#modOrderSuccess').modal('show');
-                            //var day = $(".tab-pane.fade.show.active").attr("data-dayindex");
-                            //reloadDay(day);
                             showOrderResult(data);
+                            incrementday(0);
                         }
                     });
                 }
@@ -595,15 +591,14 @@
                     data: $("[data-form='" + form + "']").serialize(),
                     success: function (data) {
                         showOrderResult(data);
+                        incrementday(0);
                     }
                 });
                 
             });
-
-
+            
 
         });
-
 
 
 

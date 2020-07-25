@@ -22,13 +22,15 @@ namespace CateringPro.Controllers
         private readonly SignInManager<CompanyUser> _signInManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly ICompanyUserRepository _companyuser_repo;
+        private readonly IEmailService _email;
         public AccountController(UserManager<CompanyUser> userManager,
-                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo)
+                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, IEmailService email)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _companyuser_repo = companyuser_repo;
+            _email = email;
         }
 
         [AllowAnonymous]
@@ -57,8 +59,10 @@ namespace CateringPro.Controllers
                     ZipCode = model.ZipCode,
                     Address1 = model.Address1,
                     Address2 = model.Address2,
-                    ConfirmedByAdmin = model.ConfirmedByAdmin
-                };
+                    ConfirmedByAdmin = model.ConfirmedByAdmin,
+                    Id = Guid.NewGuid().ToString()
+            };
+                
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -67,21 +71,21 @@ namespace CateringPro.Controllers
 
                     //TO DO
                     // generating token
-                    /*
+                    
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-                    EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                    //EmailService emailService = new EmailService();
+                    await _email.SendEmailAsync(model.Email, "Confirm your account",
                         $"Please confirm registration: <a href='{callbackUrl}'>link</a>");
 
                     return Content("To finish registrtation, check your mailbox and confirm");
-                    */
+                    
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
                 }
                 else
                 {

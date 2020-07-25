@@ -16,7 +16,7 @@ namespace CateringPro.Models
         public int CompanyId { get; set; }
         public bool Enabled { get; set; }
 
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
 
         public string  DishesString { get; set; }
 
