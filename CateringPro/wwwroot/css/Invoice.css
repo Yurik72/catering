@@ -44,6 +44,7 @@
             border-bottom: 1px solid #ddd;
             font-weight: bold;
         }
+        
 
         .invoice-box table tr.details td, .report-box table tr.details td, .production-forecast-box table tr.details td {
             padding-bottom: 20px;
