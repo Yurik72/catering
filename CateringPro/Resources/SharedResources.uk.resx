@@ -591,4 +591,7 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Підтвердіть пароль</value>
   </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>Поштова адреса {0} вже зареестрована</value>
+  </data>
 </root>

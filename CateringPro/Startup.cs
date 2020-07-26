@@ -45,7 +45,8 @@ namespace CateringPro
             services.AddLogging();
             services.AddIdentity<CompanyUser, CompanyRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
-                   // .AddDefaultUI()
+                    // .AddDefaultUI()
+                    .AddErrorDescriber<LocalizedIdentityErrorDescriber>()
                     .AddDefaultTokenProviders();
                    
 
