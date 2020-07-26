@@ -34,12 +34,11 @@
 
 
                 <dt>  <label asp-for="Name" class="control-label"></label></dt>
+
                 <dd>
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="StockDate" />
                     <input type="hidden" asp-for="StockValue" />
-                </dd>
-                <dd>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </dd>
