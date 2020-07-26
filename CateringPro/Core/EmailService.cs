@@ -85,9 +85,9 @@ namespace CateringPro.Core
                 await client.DisconnectAsync(true);
                 client.Capabilities &= ~SmtpCapabilities.Pipelining;
                 await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort,MailKit.Security.SecureSocketOptions.None);
-                
+
                 //Remove any OAuth functionality as we won't be using it. 
-                //client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                 await client.AuthenticateAsync(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
 
