@@ -66,9 +66,10 @@
                                 {
                                     @if (dish.DishCourse != course)
                                     {
-                                        <div class="col">
-                                            @(dish.DishCourse+1)
-                                        </div>
+                        <div class="col">
+                            @Localizer["Course"+(dish.DishCourse + 1)]
+                            @*@(dish.DishCourse+1)*@
+                        </div>
                                         <br />
                                         course++;
                                     }

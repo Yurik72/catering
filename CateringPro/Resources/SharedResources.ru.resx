@@ -291,4 +291,25 @@
   <data name="DishCourse" xml:space="preserve">
     <value>Номер блюда</value>
   </data>
+  <data name="ComplexCategory" xml:space="preserve">
+    <value>Категория комплекса</value>
+  </data>
+  <data name="Course1" xml:space="preserve">
+    <value>Первое</value>
+  </data>
+  <data name="Course2" xml:space="preserve">
+    <value>Второе</value>
+  </data>
+  <data name="Course3" xml:space="preserve">
+    <value>Третье</value>
+  </data>
+  <data name="Course4" xml:space="preserve">
+    <value>Четвертое</value>
+  </data>
+  <data name="UserDayDish" xml:space="preserve">
+    <value>Заказаный комплекс</value>
+  </data>
+  <data name="DbError" xml:space="preserve">
+    <value>Ошибка базы данных</value>
+  </data>
 </root>

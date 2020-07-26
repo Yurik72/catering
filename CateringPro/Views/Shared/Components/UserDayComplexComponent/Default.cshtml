@@ -11,6 +11,7 @@
     DateTime daydate = DateTime.Now;
     int com = 0;
     int dayCom = 0;
+    int course = 0;
 }
 @* bootstrap0 grid system *@
 
@@ -64,15 +65,24 @@
                             </div>
                             @{dayCom++;
                             }
-
+                            @{course = -1;}
                             @foreach (var dish in item.ComplexDishes)
                             {
+                                @if (dish.DishCourse != course)
+                                {
+                        <div class="col">
+                            @Localizer["Course" + (dish.DishCourse + 1)]
+                            @*@(dish.DishCourse+1)*@
+                        </div>
+                                    <br />
+                                    course++;
+                                }
                                 <div class="row row-daycomplex-item">
                                     @*<div class="col">
-                                        @(dish.DishCourse+1)
-                                        </div>*@
+                @(dish.DishCourse+1)
+                </div>*@
                                     <div class="col col-md-2">
-                                        @(dish.DishCourse+1)
+                                        @*@(dish.DishCourse+1)*@
                                         <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
 
 
@@ -100,7 +110,7 @@
                                     @*<div class="col col-lg-4 col-md-4 col-4 small">
 
 
-                                        </div>*@
+                </div>*@
 
                                     <div class="col col-lg-2 col-md-2 col-2 small">
                                         @if (allowEdit)

@@ -69,24 +69,24 @@
     }
     @for (int i = 0; i < 7; i++)
     {
-    <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-        @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
-        {
-        <div class="container day-closed-msg">
-            <h3> @Localizer["DayClosedForOrder"] </h3>
-        </div>
-        }
-        @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
-        @if (Model.ShowComplex)
-        {
-        @await Component.InvokeAsync("UserDayComplexComponent", current_content)
-        }
-        @if (Model.ShowDishes)
-        {
-        @await Component.InvokeAsync("UserDayDishComponent", current_content)
-        }
+        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+            @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
+            {
+                <div class="container day-closed-msg">
+                    <h3> @Localizer["DayClosedForOrder"] </h3>
+                </div>
+            }
+            @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
+            @if (Model.ShowComplex)
+            {
+                @await Component.InvokeAsync("UserDayComplexComponent", current_content)
+            }
+            @if (Model.ShowDishes)
+            {
+                @await Component.InvokeAsync("UserDayDishComponent", current_content)
+            }
 
-    </div>
+        </div>
 
         current_content = current_content.AddDays(1);
     }
@@ -154,6 +154,13 @@
         </div>
     </div>
 </div>
+<div id="deleteOrder" class="modal">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+@*<div id="deleteOrder" class="modal" tabindex="-1" role="dialog">
+
+    </div>*@
 <div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -175,6 +182,29 @@
         </div>
     </div>
 </div>
+
+<div id="modOrderDbError" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Message"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["DbError"]</p>
+                <p>@Localizer["InternalError"]</p>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="modPayment" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -345,6 +375,10 @@
                     $('#modOrderEmpty').modal('show');
                     return;
                 }
+                if (data.res == "FAIL" && (data.reason == "Deleting in db" | data.reason == "Adding to db")) {
+                    $('#modOrderDbError').modal('show');
+                    return;
+                }
 
                 if (data.res == "OK" ) {
                     $('#modOrderSuccess').modal('show');
@@ -422,34 +456,73 @@
                 $(this).parent(".dayComplexBag").parent(".userDayComplexBag").children(".bagDayComplexItem").slideToggle(300);
             });
 
-           
+
 
             //delete ordered complex
 
             $(document).on('click', '.delete-complex', function (event) {
-                var res = confirm("Are you sure you want to delete ?");
-                if (res) {
-                    var com = $(this).attr("complexId");
-                    var date = $(this).attr("date");
-                    var UserDayComplex = { ComplexId: com, Date: date };
-                    $.ajax({
-                        type: "POST",
-                        data: res = { UserDayComplex },
+                console.log("Delete");
+                var com = $(this).attr("complexId");
+                var date = $(this).attr("date");
+                var UserDayComplex = { ComplexId: com, Date: date };
+                $.ajax({
+                    type: "POST",
+                    data: res = { UserDayComplex },
 
-                        url: "/UserDayDishes/DeleteDayComplex",
-                        success: function (data) {
-                            // alert(data);
-                            // $('#modOrderSuccess').modal('show');
-                            if (data.res == "OK") {
-                                // $('#modOrderSuccess').modal('show');
-                                //alert("Deleted");
-                                incrementday(0);
-                                return;
-                            }
-                            showOrderResult(data);
+                    url: "/UserDayDishes/DeleteCom",
+                    success: function (data) {
+                        console.log(data);
+                        $("#dialogContent").html(data);
+                        $("#deleteOrder").modal('show');
+
+                    }
+                });
+
+
+                //var res = confirm("Are you sure you want to delete ?");
+                //if (res) {
+                //    var com = $(this).attr("complexId");
+                //    var date = $(this).attr("date");
+                //    var UserDayComplex = { ComplexId: com, Date: date };
+                //    $.ajax({
+                //        type: "POST",
+                //        data: res = { UserDayComplex },
+
+                //        url: "/UserDayDishes/DeleteDayComplex",
+                //        success: function (data) {
+                //            // alert(data);
+                //            // $('#modOrderSuccess').modal('show');
+                //            if (data.res == "OK") {
+                //                // $('#modOrderSuccess').modal('show');
+                //                //alert("Deleted");
+                //                incrementday(0);
+                //                return;
+                //            }
+                //            showOrderResult(data);
+                //        }
+                //    });
+                //}
+            });
+            $(document).on('click', '.delete-Ordcomplex', function (event) {
+                console.log("Post");
+                var form = $("#deleteOrd");
+                $.ajax({
+                    url: '/UserDayDishes/DeleteDayComplex',
+                    type: 'post',
+                    dataType: 'json',
+                    data: form.serialize(),
+                    success: function (data) {
+                        $("#deleteOrder").modal('hide');
+                        $("#deleteOrder").empty();
+                        if (data.res == "OK") {
+                            incrementday(0);
+                            return;
                         }
-                    });
-                }
+                        showOrderResult(data);
+
+                    }
+                });
+
             });
 
 
@@ -580,10 +653,10 @@
             });
 
             $(document).on('click', '.sendMany', function (event) {
-                console.log("Post");
+                //console.log("Post");
                 var form = $(this).attr("data-form");
-                console.log("Post"+form);
-                console.log($("[data-form='"+form+"']"));
+                //console.log("Post"+form);
+                //console.log($("[data-form='"+form+"']"));
                 $.ajax({
                     url: '/UserDayDishes/SaveDayComplex',
                     type: 'post',
@@ -594,9 +667,9 @@
                         incrementday(0);
                     }
                 });
-                
+
             });
-            
+
 
         });
 

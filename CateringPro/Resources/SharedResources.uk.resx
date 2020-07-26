@@ -591,4 +591,25 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Підтвердіть пароль</value>
   </data>
+  <data name="ComplexCategory" xml:space="preserve">
+    <value>Категорія комплекса</value>
+  </data>
+  <data name="Course1" xml:space="preserve">
+    <value>Перше</value>
+  </data>
+  <data name="Course2" xml:space="preserve">
+    <value>Друге</value>
+  </data>
+  <data name="Course3" xml:space="preserve">
+    <value>Третє</value>
+  </data>
+  <data name="Course4" xml:space="preserve">
+    <value>Четверте</value>
+  </data>
+  <data name="UserDayDish" xml:space="preserve">
+    <value>Замовлений комплекс</value>
+  </data>
+  <data name="DbError" xml:space="preserve">
+    <value>Помилка бази даних</value>
+  </data>
 </root>

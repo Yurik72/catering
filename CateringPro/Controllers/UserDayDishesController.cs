@@ -257,23 +257,26 @@ namespace CateringPro.Controllers
         }
 
         // GET: UserDayDishes/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCom(UserDayComplex UserDayComplex)
         {
-            if (id == null)
+            if (UserDayComplex == null)
             {
                 return NotFound();
             }
-
-            var userDayDish = await _context.UserDayDish
-                .Include(u => u.Dish)
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var comName = await _context.Complex.FirstOrDefaultAsync(x => x.CompanyId == User.GetCompanyID()
+                && x.Id == UserDayComplex.ComplexId);
+            var userDayDish = await _context.UserDayComplex.
+                FirstOrDefaultAsync(x => x.CompanyId == User.GetCompanyID()
+                && x.Date == UserDayComplex.Date && x.ComplexId == UserDayComplex.ComplexId);
+               
             if (userDayDish == null)
             {
                 return NotFound();
             }
-
-            return View(userDayDish);
+            userDayDish.Complex.Name = comName.Name;
+            return PartialView("Delete",userDayDish);
         }
 
         // POST: UserDayDishes/Delete/5
