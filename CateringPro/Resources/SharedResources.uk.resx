@@ -612,4 +612,7 @@
   <data name="DbError" xml:space="preserve">
     <value>Помилка бази даних</value>
   </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>Поштова адреса {0} вже зареестрована</value>
+  </data>
 </root>
