@@ -89,7 +89,7 @@ namespace CateringPro
 
             services.AddMemoryCache();
             // services.AddDistributedMemoryCache();
-
+            services.AddResponseCaching();
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
@@ -158,7 +158,7 @@ namespace CateringPro
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (  env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -176,7 +176,7 @@ namespace CateringPro
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseResponseCaching();
             CultureInfo[] supportedCultures = new[]
 {
                 new CultureInfo("en-US"),

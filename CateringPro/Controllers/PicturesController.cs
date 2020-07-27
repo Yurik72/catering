@@ -18,33 +18,59 @@ namespace CateringPro.Controllers
     public class PicturesController : Controller
     {
         private readonly AppDbContext _context;
+        private static Image<Rgba32> image_nophoto = null;
 
-
+        
         public PicturesController(AppDbContext context)
         {
             _context = context;
         }
+        private Image<Rgba32> GetNoPhoto()
+        {
+            if (image_nophoto != null)
+                return image_nophoto;
+            string nophotofile = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\images\nophoto.jpg"}";
+            image_nophoto = Image.Load<Rgba32>(nophotofile);
+            return image_nophoto;
+        }
+        private byte[] MutateImageToStream(Image<Rgba32> image , int? width, int? height)
+        {
+            if(image!=null && width.HasValue && width.Value > 0  && height.HasValue && height.Value > 0)
+            {
+                image.Mutate(x => x
+                            .Resize(width.Value, height.Value));
+            }
+            if (image != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    image.SaveAsJpeg(ms);
+                    return ms.GetBuffer();
+                }
+            }
+            return null;
+        }
+        [ResponseCache(VaryByQueryKeys = new string[] { "id","width","height" }, Duration = 300,Location =ResponseCacheLocation.Any,NoStore =false)]
         public async Task<IActionResult> GetPicture(int? id,int? width,int? height)
         {
-            var pict = await _context.Pictures.FindAsync(id);
-            if (!id.HasValue || pict == null || pict.PictureData == null || pict.PictureData.Length == 0) {
-                string nophotofile= $"{Directory.GetCurrentDirectory()}{@"\wwwroot\images\nophoto.jpg"}";
-                using (Image<Rgba32> image = Image.Load<Rgba32>(nophotofile))
+
+            if (id.HasValue)
+            {
+                var pict = await _context.Pictures.FindAsync(id);
+                if (pict != null && pict.PictureData != null && pict.PictureData.Length != 0)
                 {
-                    if (width.HasValue && width.Value > 0 && height.HasValue && height.Value > 0)
+                    using (Image<Rgba32>  image = Image.Load<Rgba32>(pict.PictureData))
                     {
-                        image.Mutate(x => x
-                             .Resize(width.Value, height.Value));
+                        return File(MutateImageToStream(image, width, height), "image/jpeg");
                     }
-                    using (MemoryStream ms = new MemoryStream()) {
-                        image.SaveAsJpeg(ms);
-                        return File(ms.GetBuffer(), "image/jpeg");
-                    }
-                    //image.Save("bar.jpg"); // Automatic encoder selected based on extension.
                 }
-               // return File(System.IO.File.ReadAllBytes(nophotofile), "image/jpeg");
             }
-           return File(pict.PictureData, "image/jpeg");
+
+            return File(MutateImageToStream(GetNoPhoto(), width,height), "image/jpeg");
+            
+             
+            
+         
         }
         // GET: Pictures
         public async Task<IActionResult> Index()
