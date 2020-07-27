@@ -16,6 +16,7 @@ namespace CateringPro.Core
         void Send(EmailMessage emailMessage);
         List<EmailMessage> ReceiveEmail(int maxCount = 10);
         Task SendInvoice(string userid, DateTime daydate, int comapnyid);
+        Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid);
         Task SendEmailAsync(string email, string subject, string message);
     }
     public class EmailService: IEmailService
@@ -59,6 +60,36 @@ namespace CateringPro.Core
                 }
             }
             catch(Exception ex)
+            {
+                _logger.LogError(ex, "SendInvoice ");
+            }
+
+        }
+        public async Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid)
+        {
+            try
+            {
+                var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+                for (int i = 0; i < 6; i++)
+                {
+                    
+                    daydate = daydate.AddDays(1);
+                    var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+                    var items = model.Items.ToList();
+                    items.AddRange(nextModel.Items.ToList());
+                    model.Items = items;
+                   
+                }
+                
+                string body = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Invoice/EmailWeekInvoice.cshtml", model);
+                var user = _userManager.Users.SingleOrDefault(u => u.Id == userid);
+                if (user != null)
+                {
+                    string email = user.Email;
+                    await SendEmailAsync(email, string.Format("Замовлення {0}", daydate.ToShortDateString()), body);
+                }
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "SendInvoice ");
             }

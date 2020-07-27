@@ -208,7 +208,7 @@ namespace CateringPro.Controllers
             
             if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
             {
-                await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+                //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
                 return await Task.FromResult(Json(new { res = "OK" }));
                
             }
@@ -218,6 +218,12 @@ namespace CateringPro.Controllers
             }
  
             
+        }
+        public async Task<IActionResult> SendWeekInvoice(string day)
+        {
+            DateTime daydate = Convert.ToDateTime(day);
+            await _email.SendWeekInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+            return RedirectToAction(nameof(Index));
         }
         // POST: UserDayDishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

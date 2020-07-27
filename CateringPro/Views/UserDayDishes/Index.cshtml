@@ -38,6 +38,7 @@
 
             </div>
         </div>
+        <div class="col "> <a href="/UserDayDishes/SendWeekInvoice?day=@daydate.StartOfWeek(DayOfWeek.Sunday)" data-day="@daydate.StartOfWeek(DayOfWeek.Sunday)">Send email</a></div>
     </div>
     <div class="row" style="height:10px">
 
@@ -513,7 +514,7 @@
                     data: form.serialize(),
                     success: function (data) {
                         $("#deleteOrder").modal('hide');
-                        $("#deleteOrder").empty();
+                        $("#dialogContent").empty();
                         if (data.res == "OK") {
                             incrementday(0);
                             return;
@@ -644,7 +645,9 @@
 
                         url: "/UserDayDishes/SaveDayComplex",
                         success: function (data) {
-                            showOrderResult(data);
+                            if (data.res != "OK") {
+                                showOrderResult(data);
+                            }
                             incrementday(0);
                         }
                     });

@@ -19,7 +19,12 @@
             <div class="col ">
                 <span class="fa fa-shopping-cart fa-2x "></span>
             </div>
-
+            <div class="col ">
+                @if (Model.First().Confirmed)
+                {
+                    <span class="confirmed fa fa-check fa-2x text-success"></span>
+                }
+            </div>
             <div class="col ">
                 <span class="total">@Localizer["Order Total"]</span>
             </div>
@@ -148,6 +153,6 @@
         </div>
         }
 
-
+    @*<button type="button" button class="btn btn-primary" data-action="payuserdaycomplex">@Localizer["MyOrdersPayment"]</button>*@
     }
     </div>
