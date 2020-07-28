@@ -25,7 +25,7 @@ namespace CateringPro.Controllers
         private readonly UserManager<CompanyUser> _userManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly IEmailService _email;
-        private readonly IUserDayDishesRepository _udaydishrepo;
+        //private readonly IUserDayDishesRepository _udaydishrepo;
 
         public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email, IUserDayDishesRepository udaydishrepo)
         {
@@ -34,7 +34,7 @@ namespace CateringPro.Controllers
             _userdaydishesrepo = ud;
             _logger = logger;
             _email = email;
-            _udaydishrepo = udaydishrepo;
+           // _udaydishrepo = udaydishrepo;
         }
 
         // GET: UserDayDishes
@@ -49,9 +49,10 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = DateTime.Now,
-                ShowComplex= user.MenuType.HasValue && (user.MenuType.Value & 1)>0,
-                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0,
-               
+                //ShowComplex= user.MenuType.HasValue && (user.MenuType.Value & 1)>0,
+                //ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0,
+                ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex)) > 0,
+                ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes) > 0
 
             };
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
@@ -64,9 +65,9 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = daydate,
-                ShowComplex = (_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
+                ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
                 //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
-                ShowDishes = (_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
+                ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
             };
             return PartialView(model);
         }

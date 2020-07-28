@@ -82,6 +82,9 @@
         .total {
             background: #6cbf6c;
         }
+        .warning {
+            background-color: red;
+        }
 
         @@media only screen and (max-width: 600px) {
             .invoice-box table tr.top table td {
@@ -161,128 +164,136 @@
                     Сума (@pageOptions.Value.CurrencySymbol)
                 </td>
             </tr>
-            @{ 
+            @{
                 DateTime date = default;
             }
             @foreach (var item in Model.Items)
             {
-                @if(date != item.DayComplex.Date)
+                @if (date != item.DayComplex.Date)
                 {
                     date = item.DayComplex.Date;
                     <tr>
-                        @date.DayOfWeek 
+                        @date.DayOfWeek
                         @date.ToString()
                     </tr>
                 }
-                <tr class="complex-order">
-                    <td>
-                        @item.Code
-                    </td>
-                    <td>
-                        @item.Name
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Quantity)
-
-                    </td>
-                    <td>
-                        @item.Price.ToString("0.00")
-                    </td>
-                    <td>
-                        @item.Amount.ToString("0.00")
-
-                    </td>
-                    
-                </tr>
-                @*complex info start*@
-
-
-
-                @if (item.DayComplex.ComplexDishes.Count() > 0)
+                @if (item.DayComplex.Enabled)
                 {
+                    <tr class="complex-order">
+                        <td>
+                            @item.Code
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Quantity)
 
-                    @foreach (var dish in item.DayComplex.ComplexDishes)
+                        </td>
+                        <td>
+                            @item.Price.ToString("0.00")
+                        </td>
+                        <td>
+                            @item.Amount.ToString("0.00")
+
+                        </td>
+
+                    </tr>
+                }
+                    @*complex info start*@
+
+                    @if (!item.DayComplex.Enabled)
                     {
-                       
-                        <tr>
-
-                            @*<div class="row ">*@
-                            @*<div class="col">
-                                @(dish.DishCourse+1)
-                                </div>*@
-
-                            <td>
-
-                                @*<img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />*@
-                                <img src="@Url.BuildPictureUrl(dish.PictureId)" style="width:50px;height:50px;" />
-
-                            </td>
-                            <td>
-                                @*<input data-val="true" name="UserDayDish[@com].DishId" type="hidden" value="@dish.DishId">
-                                    <input data-val="true" name="UserDayDish[@com].ComplexId" type="hidden" value="@item.ComplexId">
-                                    <input data-val="true" name="UserDayDish[@com].Date" type="hidden" value="@item.Date">
-                                    <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">*@
-                                @*@Html.HiddenFor(modelItem => dish.DishId, new { datafield = "DishID" })*@
-                                @*@(dish.DishCourse + 1)*@
-                                @Html.DisplayFor(modelItem => dish.DishName)
-
-                            </td>
-
-                            @*<td>
-                                    @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
-
-                                </td>*@
-                            @*<td>
-                                    @Html.DisplayFor(modelItem => dish.DishDescription)
-                                    <p />
-                                    @Html.DisplayFor(modelItem => dish.DishIngredients)
-                                </td>*@
-                            @*<div class="col col-lg-4 col-md-4 col-4 small">
-
-
-                                </div>*@
-
-                            <td>
-
-
-                                @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
-
-
-                            </td>
-
-                          
-
-
+                        <tr class="warning">
+                            No dishes ordered!!
                         </tr>
                     }
+                    else if (item.DayComplex.ComplexDishes.Count() > 0)
+                    {
+
+
+                        @foreach (var dish in item.DayComplex.ComplexDishes)
+                        {
+
+                            <tr>
+
+                                @*<div class="row ">*@
+                                @*<div class="col">
+                            @(dish.DishCourse+1)
+                            </div>*@
+
+                                <td>
+
+                                    @*<img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />*@
+                                    <img src="@Url.BuildPictureUrl(dish.PictureId)" style="width:50px;height:50px;" />
+
+                                </td>
+                                <td>
+                                    @*<input data-val="true" name="UserDayDish[@com].DishId" type="hidden" value="@dish.DishId">
+                                <input data-val="true" name="UserDayDish[@com].ComplexId" type="hidden" value="@item.ComplexId">
+                                <input data-val="true" name="UserDayDish[@com].Date" type="hidden" value="@item.Date">
+                                <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">*@
+                                    @*@Html.HiddenFor(modelItem => dish.DishId, new { datafield = "DishID" })*@
+                                    @*@(dish.DishCourse + 1)*@
+                                    @Html.DisplayFor(modelItem => dish.DishName)
+
+                                </td>
+
+                                @*<td>
+                                @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
+
+                            </td>*@
+                                @*<td>
+                                @Html.DisplayFor(modelItem => dish.DishDescription)
+                                <p />
+                                @Html.DisplayFor(modelItem => dish.DishIngredients)
+                            </td>*@
+                                @*<div class="col col-lg-4 col-md-4 col-4 small">
+
+
+                            </div>*@
+
+                                <td>
+
+
+                                    @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
+
+
+                                </td>
+
+
+
+
+                            </tr>
+                        }
+
+                    }
+
+
+
+                    @*complex info end*@
 
                 }
 
-
-
-                @*complex info end*@
-
-            }
-
-            <tr class="total ">
-                <td></td>
-                <td> Загальна сума: </td>
-                <td>@Model.Items.Sum(i => i.Amount).ToString("0.00") (@pageOptions.Value.CurrencySymbol)</td>
-                <td></td>
-                <td>
-                </td>
-            </tr>
-            <tr class="sign ">
-                <td>Директор</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />
-                    @*<img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:300px;" />*@
-                </td>
-            </tr>
-        </table>
+                <tr class="total ">
+                    <td></td>
+                    <td> Загальна сума: </td>
+                    <td>@Model.Items.Sum(i => i.Amount).ToString("0.00") (@pageOptions.Value.CurrencySymbol)</td>
+                    <td></td>
+                    <td>
+                    </td>
+                </tr>
+                <tr class="sign ">
+                    <td>Директор</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />
+                        @*<img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:300px;" />*@
+                    </td>
+                </tr>
+            </table>
     </div>
 
 </body>

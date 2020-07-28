@@ -30,8 +30,9 @@ namespace CateringPro.Core
         [TemplateLoader(typeof(DayMenuTemplateLoader))]
         DayMenu = 2,
         [TemplateLoader(typeof(DayProductionTemplateLoader))]
-        DayProduction=3
-
+        DayProduction=3,
+        [TemplateLoader(typeof(UserDayOrderTemplateLoader))]
+        UserOrderWeek = 4
     }
     public abstract class  EMailTemplateLoader
     {
@@ -88,6 +89,21 @@ namespace CateringPro.Core
     public class DayProductionTemplateLoader : EMailTemplateLoader
     {
         public DayProductionTemplateLoader(IMassEmailRepository mailRepo, int companyid) : base(mailRepo, companyid)
+        {
+
+        }
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template)
+        {
+            this.DateCycle(em, template, (em, template, dt) => {
+                template.Models.Add(dt, _mailRepo.ReportRepository.CompanyDayProduction(dt, _companyid));
+            });
+
+            return true;
+        }
+    }
+    public class UserDayOrderTemplateLoader : EMailTemplateLoader
+    {
+        public UserDayOrderTemplateLoader(IMassEmailRepository mailRepo, int companyid) : base(mailRepo, companyid)
         {
 
         }

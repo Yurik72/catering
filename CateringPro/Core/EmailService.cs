@@ -26,13 +26,15 @@ namespace CateringPro.Core
         private readonly IInvoiceRepository _invoicerepo;
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
-        public EmailService(IEmailConfiguration emailConfiguration, IRazorViewToStringRenderer razorRenderer, IInvoiceRepository invoicerepo, UserManager<CompanyUser> userManager, ILogger<CompanyUser> logger)
+        private readonly IUserDayDishesRepository _udaydishrepo;
+        public EmailService(IEmailConfiguration emailConfiguration, IRazorViewToStringRenderer razorRenderer, IInvoiceRepository invoicerepo, UserManager<CompanyUser> userManager, ILogger<CompanyUser> logger, IUserDayDishesRepository ud)
         {
             _emailConfiguration = emailConfiguration;
             _razorViewToStringRenderer = razorRenderer;
             _invoicerepo = invoicerepo;
             _userManager = userManager;
             _logger = logger;
+            _udaydishrepo = ud;
         }
 
         public EmailService()
@@ -70,15 +72,35 @@ namespace CateringPro.Core
             try
             {
                 var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+                var avaible = _udaydishrepo.AvaibleComplexDay(daydate, userid, comapnyid);
+                var items = model.Items.ToList();
+                if (avaible.Count() > 0 && items.Count() == 0)
+                {
+                    var inItem = new InvoiceItemModel();
+                    inItem.DayComplex.Date = daydate;
+                    items.Add(inItem);
+
+                }
+
                 for (int i = 0; i < 6; i++)
                 {
-                    
                     daydate = daydate.AddDays(1);
+                    avaible = _udaydishrepo.AvaibleComplexDay(daydate, userid, comapnyid);
                     var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
-                    var items = model.Items.ToList();
+                    items = model.Items.ToList();                   
+                    if (avaible.Count() > 0 && nextModel.Items.ToList().Count() == 0)
+                    {
+                        var inItem = new InvoiceItemModel();
+                        inItem.DayComplex = new UserDayComplexViewModel();
+                        inItem.DayComplex.Date = daydate;
+                        inItem.DayComplex.Enabled = false;
+                        items.Add(inItem);
+
+                    }
                     items.AddRange(nextModel.Items.ToList());
                     model.Items = items;
-                   
+                    
+
                 }
                 
                 string body = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Invoice/EmailWeekInvoice.cshtml", model);
