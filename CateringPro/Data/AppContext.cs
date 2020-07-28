@@ -94,8 +94,10 @@ namespace CateringPro.Data
 
             base.OnModelCreating(modelBuilder);
 
-            
 
+            modelBuilder.Entity<CompanyUser>()
+                 .Property(d => d.ChildBirthdayDate)
+                 .HasColumnType("date");
             //P key
             modelBuilder.Entity<UserWeekBasket>()
                 .HasKey(o => new { o.UserId, o.BasketDate });

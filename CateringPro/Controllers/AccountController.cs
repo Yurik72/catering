@@ -429,5 +429,34 @@ namespace CateringPro.Controllers
             await _signInManager.RefreshSignInAsync(user);
             return new EmptyResult();//RedirectToAction("Index", "Home");
         }
+        [Authorize]
+        public async Task<IActionResult>  UserChilds()
+        {
+            List<CompanyUser> childs =await  _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            return PartialView(childs);
+        }
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeUserChild(string UserId)
+        {
+            try
+            {
+                if (User.GetUserId()== UserId)
+                    return Ok();
+                var user = _userManager.FindByIdAsync(UserId).Result;
+                if (user == null)
+                    return BadRequest();
+                var current = await _userManager.FindByIdAsync(User.GetUserId());
+                await _companyuser_repo.PostUpdateChildUserAsync(user, current);
+                await _signInManager.SignOutAsync();
+                await _signInManager.SignInAsync(user, true);
+                return Ok();
+            }
+            catch {
+
+                return BadRequest();
+            }
+        }
     }
 }

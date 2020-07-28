@@ -154,5 +154,24 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        public async Task<List<CompanyUser>> GetUserChilds(string userId,int companyId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return await _userManager.Users.Where(u => u.CompanyId == companyId && u.ParentUserId == userId || u.Id==userId || u.Id== user.ParentUserId).ToListAsync();
+        }
+        public async Task<bool> PostUpdateChildUserAsync(CompanyUser childuser, CompanyUser parentuser)
+        {
+            if (string.IsNullOrEmpty(childuser.ParentUserId) || !string.IsNullOrEmpty(parentuser.ParentUserId))
+                return true; // nothing to do
+            if(childuser.CompanyId!= parentuser.CompanyId)
+            {
+                childuser.CompanyId = parentuser.CompanyId;
+                _context.Update(childuser);
+                await _context.SaveChangesAsync();
+            }
+            var companies= await GetCurrentUsersCompaniesUserAsync(parentuser.Id);
+            var child_companies = companies.Select(c => c.CompanyId).ToList() ;
+            return await AddCompaniesToUserAsync(childuser.Id, child_companies);
+        }
     }
 }

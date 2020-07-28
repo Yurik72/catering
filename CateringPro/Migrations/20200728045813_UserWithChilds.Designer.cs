@@ -4,14 +4,16 @@ using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CateringPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200728045813_UserWithChilds")]
+    partial class UserWithChilds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,10 +165,7 @@ namespace CateringPro.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("ChildNameSurname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ChildrenCount")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(25)")

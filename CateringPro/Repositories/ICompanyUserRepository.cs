@@ -19,5 +19,7 @@ namespace CateringPro.Repositories
 
         Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user);
         Task<bool> PostUpdateUserAsync(CompanyUser user, bool isNew = false);
+        Task<List<CompanyUser>> GetUserChilds(string userId, int companyId);
+        Task<bool> PostUpdateChildUserAsync(CompanyUser childuser, CompanyUser parentuser);
     }
 }
