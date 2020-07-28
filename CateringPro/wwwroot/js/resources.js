@@ -14,7 +14,8 @@ text_resource["ua"] = {
     confirm_title: "Пiдтвердiть",
     yes: "Tak",
     no: "Нi",
-    error:"Помилка"
+    error: "Помилка",
+    select:"Вибрати"
 }
 
 glob_text_resources = text_resource["ua"];

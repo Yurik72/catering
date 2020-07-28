@@ -1,0 +1,35 @@
+﻿@model IEnumerable<CompanyUser>
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject SignInManager<CompanyUser> SignInManager
+
+@{
+
+    string userId = (await SignInManager.UserManager.GetUserAsync(User)).Id;
+}
+<div id="modchangechild" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["MenuChangeChild"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.AntiForgeryToken()
+                <ul class="list-group">
+                    @foreach (var ur in Model)
+                    {
+                        <li class="role-item list-group-item@(userId==@ur.Id?" active":"")" data-id="@ur.Id" style="cursor:pointer;"> @ur.GetChildUserName()</li>
+                    }
+                </ul>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" id="selectchild">@Localizer["Select"]</button>
+            </div>
+        </div>
+    </div>
+</div>

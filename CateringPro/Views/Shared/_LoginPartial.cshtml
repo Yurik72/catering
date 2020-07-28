@@ -5,6 +5,7 @@
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @if (SignInManager.IsSignedIn(User))
 {
+    var current_user = await SignInManager.UserManager.GetUserAsync(User);
     @* <ul class="nav navbar-nav navbar-right">*@
     <ul class="nav navbar-nav">
         @if (User.IsInRole("Admin"))
@@ -37,11 +38,14 @@
         }
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUserMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                @User.Identity.Name
+                @(current_user.GetChildUserName())
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownUserMenuLink">
                 <a class="dropdown-item" asp-controller="Account" asp-action="Update">@Localizer["MenuUpdateUser"]</a>
-
+                @if (current_user.ChildrenCount > 1)
+                {
+                    <a id="changechield" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
+                }
             </div>
         </li>
         <li><a href="" class="nav-link">@User.Identity.Name</a></li>

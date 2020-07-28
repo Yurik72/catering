@@ -4,9 +4,58 @@ var html_loading_element = '<div class="spinner-container"> <div>Loading</div><d
 $(function () {
     
     setup_change_company();
+    setup_changechield();
 });
 
+function setup_changechield() {
+    $("#changechield").click(function (e) {
+        var url = '/Account/UserChilds';
+        var self = this;
+        $.get(url, function (data) {
+            var dialog = $(data);
+            $("body").append(dialog);// $('#moddialogyesno');
+            // var dialog = $('#moddialogyesno').dialog();
+            dialog.modal('show');
+            dialog.on('hide.bs.modal', function (e) {
+                dialog.empty();
 
+            });
+            dialog.find(".role-item").click(function (e) {
+                e.preventDefault();
+                if (!$(this).hasClass('active')) {
+                    dialog.find(".role-item").removeClass('active');
+                    $(this).addClass('active')
+                }
+            });
+            dialog.find("#selectchild").click(function (e) {
+                e.preventDefault();
+                var userid = dialog.find(".role-item.active").attr("data-id");
+                var token = dialog.find("[name='__RequestVerificationToken'").val();
+                
+                $.ajax({
+                    type: "POST",
+                    data: { UserId: userid, __RequestVerificationToken: token },
+
+                    url: "/Account/ChangeUserChild",
+                    success: function (data) {
+                        dialog.modal('hide');
+                        var getUrl = window.location;
+                        var baseUrl = getUrl.protocol + "//" + getUrl.host;
+                        window.location.href = baseUrl;
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    dialog_error(errorThrown);
+                });
+
+            });
+           
+        })
+            .fail(function (xhr, status, error) {
+
+            });
+    });
+}
 function setup_change_company() {
     var ul_select_company = '<ul class="nav navbar-nav navbar-right show"> <a id="selectcompanyloaded" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">.....</a><li class="nav-item dropdown"><div class="dropdown-menu show" id="companylist"></div></li></ul>';
     $("#selectcompany").click(function (e) {

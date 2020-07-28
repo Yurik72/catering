@@ -615,4 +615,10 @@
   <data name="DuplicateEmail" xml:space="preserve">
     <value>Поштова адреса {0} вже зареестрована</value>
   </data>
+  <data name="MenuChangeChild" xml:space="preserve">
+    <value>Вибрати дитину</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Вибрати</value>
+  </data>
 </root>
