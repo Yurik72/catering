@@ -166,82 +166,12 @@
                 <div class="col col-lg-1 col-md-1 col-1 col-sm-1">
                 </div>
                 <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
-                    <button type="button" button class="btn btn-primary" data-action="payuserdaycomplex">@Localizer["MyOrdersPayment"]</button>
+                    @*<button type="button" button class="btn btn-primary" data-action="payuserdaycomplex">@Localizer["MyOrdersPayment"]</button>*@
                 </div>
             </div>
         </div>
         @*<button  data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="send"> Check</button>*@
-        <script>
-    @*$(document).on('click', '.send-@Model.First().Date.Day', function (event) {
-        var fullDate = "@Model.First().Date";
-        var date = $(this).attr("data-date");
-        var form = $("#orderForm-" + date);
-        var complexes = $(form).find(".complex-check");
-        var UserDayDish = [];
-        var UserDayComplex = [];
-        var flag = true;
-        //console.log(complexes);
-        $(complexes).each(function (ind) {
-            //console.log($(this).is(":checked"));
-            if ($(this).is(":checked")) {
-                //console.log("In if");
-                var com = $(this).attr("complex");
-                var dishOrdered = 0;
-                var dishCourses = 0;
-                var complex = {};
-                complex.ComplexId = com;
-                complex.Price = $(this).attr("price");
-                complex.Date = fullDate;
-                complex.Quantity = 1;
-                UserDayComplex.push(complex);
-                var dishes = $("[complexdish='" + com + "'][day='"+date+"']");
-                $(dishes).each(function (i) {
-                    
-                    //console.log("Dish");
-                    var check = $(this).is(":checked");
-                    var comp = $(this).attr("complexdish");
-                    var dish = $(this).val();
-                    dishCourses = parseInt($(this).attr("course"))+1;
-                    if (check) {
-                        dishOrdered++;
-                        var dishP = {};
-                        dishP.Quantity = 1;
-                        dishP.DishId = dish;
-                        dishP.Date = fullDate;
-                        dishP.ComplexId = comp;
-                        dishP.DishCourse = $(this).attr("course");
-                        UserDayDish.push(dishP);
-                    }
-                   // console.log(comp+"   "+dish + "   " + check);
-                });
-                if (dishOrdered != dishCourses) {
-                    //console.log(dishOrdered + "   " + dishCourses);
-                    alert("Please choose all dishes in complex");
-                    flag = false;
-                    return;
-                }
-            }
-            //var com = $(this).attr("complex");
-            //console.log(com + "  " + val);
-        });
-        if (flag) {
-            console.log(UserDayDish);
-            console.log(UserDayComplex);
-            $.ajax({
-                type: "POST",
-                data: res = { UserDayDish, UserDayComplex},
-
-                url: "/UserDayDishes/SaveDayComplex",
-                success: function (data) {
-                    // alert(data);
-                    // $('#modOrderSuccess').modal('show');
-                    //showOrderResult(data);
-                }
-            });
-        }
-        
-    });*@
-        </script>
+       
     }
     else if (allowEdit)
     {
