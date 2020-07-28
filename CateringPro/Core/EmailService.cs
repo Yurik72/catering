@@ -77,6 +77,7 @@ namespace CateringPro.Core
                 if (avaible.Count() > 0 && items.Count() == 0)
                 {
                     var inItem = new InvoiceItemModel();
+                    inItem.DayComplex = new UserDayComplexViewModel();
                     inItem.DayComplex.Date = daydate;
                     items.Add(inItem);
 

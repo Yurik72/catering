@@ -6,7 +6,7 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-
+	return;
 	Insert into UserDay(CompanyId,UserId,Date)
 	Select i.CompanyId,i.UserId,i.date
 	from inserted i

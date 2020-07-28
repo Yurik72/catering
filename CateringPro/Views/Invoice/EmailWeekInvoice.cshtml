@@ -79,11 +79,15 @@
             background-color: #f5f5f5;
         }
 
-        .total {
+        .total-tab {
             background: #6cbf6c;
         }
         .warning {
             background-color: red;
+            color: white;
+        }
+        .day {
+            background-color: #ebf29c;
         }
 
         @@media only screen and (max-width: 600px) {
@@ -113,8 +117,8 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="@Model.Seller.UrlPicture" style="width:100%; max-width:300px;" />
-                                @*<img src="@Url.BuildPictureUrl(Model.Seller.PictureId)" style="width:100%; max-width:300px;" />*@
+                                @*<img src="@Model.Seller.UrlPicture" style="width:100%; max-width:300px;" />*@
+                                <img src="@Url.BuildPictureUrl(Model.Seller.PictureId)" style="width:100%; max-width:300px;" />
                             </td>
                             <td>
                                 Рахунок: @Model.Number
@@ -172,10 +176,17 @@
                 @if (date != item.DayComplex.Date)
                 {
                     date = item.DayComplex.Date;
-                    <tr>
-                        @date.DayOfWeek
-                        @date.ToString()
-                    </tr>
+        <tr>
+            <td class="day">
+                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName(date.DayOfWeek)
+
+                @date.Day
+            </td>
+            <td class="day"></td>
+            <td class="day"></td>
+            <td class="day"></td>
+            <td class="day"></td>
+        </tr>
                 }
                 @if (item.DayComplex.Enabled)
                 {
@@ -205,7 +216,10 @@
                     @if (!item.DayComplex.Enabled)
                     {
                         <tr class="warning">
-                            No dishes ordered!!
+                            <td>
+                               @Localizer["NoOrders"]
+                            </td>
+                            
                         </tr>
                     }
                     else if (item.DayComplex.ComplexDishes.Count() > 0)
@@ -275,7 +289,7 @@
 
                 }
 
-                <tr class="total ">
+                <tr class="total-tab ">
                     <td></td>
                     <td> Загальна сума: </td>
                     <td>@Model.Items.Sum(i => i.Amount).ToString("0.00") (@pageOptions.Value.CurrencySymbol)</td>
@@ -289,8 +303,8 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />
-                        @*<img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:300px;" />*@
+                        @*<img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />*@
+                        <img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:300px;" />
                     </td>
                 </tr>
             </table>

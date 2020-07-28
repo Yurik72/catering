@@ -38,7 +38,10 @@
 
             </div>
         </div>
-        <div class="col "> <a href="/UserDayDishes/SendWeekInvoice?day=@daydate.StartOfWeek(DayOfWeek.Sunday)" data-day="@daydate.StartOfWeek(DayOfWeek.Sunday)">Send email</a></div>
+        <div class="col "> 
+            <button class="getDetails btn btn-primary" > @Localizer["GetWeekInfo"]</button>
+       
+        </div>
     </div>
     <div class="row" style="height:10px">
 
@@ -102,7 +105,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>@Localizer["OrderAccepted"]</p>
+                @*<p>@Localizer["OrderAccepted"]</p>*@
                 <p>@Localizer["OrdeAcceptedDetail"]</p>
 
             </div>
@@ -159,9 +162,24 @@
     <div id="dialogContent" class="modal-dialog">
     </div>
 </div>
-@*<div id="deleteOrder" class="modal" tabindex="-1" role="dialog">
+<div id="OrderWeekDetails" class="modal" role="dialog">
+    <div id="dialogOrderWeek" class="modal-dialog modal-lg">
 
-    </div>*@
+       
+        <div class="modal-content ">
+            <div class="modal-header">
+                <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
+                <button class="close" data-dismiss="modal" area-hidden="true">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class=" modal-body details-content">
+
+            </div>
+        </div>
+    </div>
+    </div>
 <div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -480,29 +498,7 @@
                 });
 
 
-                //var res = confirm("Are you sure you want to delete ?");
-                //if (res) {
-                //    var com = $(this).attr("complexId");
-                //    var date = $(this).attr("date");
-                //    var UserDayComplex = { ComplexId: com, Date: date };
-                //    $.ajax({
-                //        type: "POST",
-                //        data: res = { UserDayComplex },
-
-                //        url: "/UserDayDishes/DeleteDayComplex",
-                //        success: function (data) {
-                //            // alert(data);
-                //            // $('#modOrderSuccess').modal('show');
-                //            if (data.res == "OK") {
-                //                // $('#modOrderSuccess').modal('show');
-                //                //alert("Deleted");
-                //                incrementday(0);
-                //                return;
-                //            }
-                //            showOrderResult(data);
-                //        }
-                //    });
-                //}
+              
             });
             $(document).on('click', '.delete-Ordcomplex', function (event) {
                 console.log("Post");
@@ -525,7 +521,52 @@
                 });
 
             });
+            //get week details
 
+            $(document).on('click', '.getDetails', function (event) {
+                $("#OrderWeekDetails").modal('show');
+                $(".details-content").html(html_loading);
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() - dt.getDay());
+                //console.log(dt);
+                /*dt = dt.StartOfWeek(DayOfWeek.Sunday)*/;
+                $.ajax({
+                    url: '/UserDayDishes/GetWeekOrderDetails?day=' + encodeURI(dt.toDateString()),
+                    type: 'get',
+                    success: function (data) {
+                        //console.log(data);
+                        //$("#OrderWeekDetails").modal('show');
+                        $(".details-content").html(data);
+                        //showOrderResult(data);
+
+                    }
+                    
+                })
+                    .fail(function (xhr, code, error) {
+                        console.log(error);
+                    });
+
+            });
+            $(document).on('click', '.sendWeek', function (event) {
+               
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() - dt.getDay());
+                $(".details-content").html(html_loading);
+                $.ajax({
+                    url: '/UserDayDishes/SendWeekInvoice?day=' + encodeURI(dt.toDateString()),
+                    type: 'get',
+                    success: function (data) {
+                        $("#OrderWeekDetails").modal('hide');
+                        $(".details-content").empty();
+                        
+                            showOrderResult(data);
+                        
+                    }
+
+                })
+             });
 
 
             //for one option menu

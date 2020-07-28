@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Core;
 using System.Data;
 using CateringPro.ViewModels;
+//using AspNetCore;
 
 namespace CateringPro.Repositories
 {
@@ -203,6 +204,99 @@ namespace CateringPro.Repositories
 
             return res;
         }
+        //Mass email week order invoice
+        //public InvoiceModel EmailWeekInvoice (DateTime daydate, int companyid)
+        //{
+        //    if (!_context.IsHttpContext())
+        //    {
+        //        _context.SetCompanyID(companyid);
+        //    }
+        //    InvoiceModel res = new InvoiceModel();
+        //    try
+        //    {
+
+        //       // res.Buyer = GetUserCompany(UserId);
+        //        res.Seller = GetOwnCompany(companyid);
+        //        var query1 = from dd in _context.DayDish.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+        //                     join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on dd.DishId equals d.Id
+        //                     join ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date == daydate) on dd.DishId equals ud.DishId
+        //                     //join cu in _context.Users on ud.UserId equals cu.Id
+        //                     select new InvoiceItemModel
+        //                     {
+        //                         Code = d.Code,
+        //                         Name = d.Name,
+        //                         Quantity = ud.Quantity,
+        //                         Price = ud.Price,
+        //                         Amount = ud.Quantity * d.Price
+        //                     };
+        //        var ordered = from comp in _context.Complex
+        //                          // join udd in (from subday in _context.UserDayDish where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals udd.ComplexId
+        //                      join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
+        //                      join dd in (from usubday in _context.UserDayComplex where usubday.Date == daydate && usubday.CompanyId == companyid select usubday) on comp.Id equals dd.ComplexId into proto
+        //                      from dayd in proto.DefaultIfEmpty()
+        //                      where dayd.Quantity > 0
+        //                      select new UserDayComplexViewModel()
+        //                      {
+        //                          ComplexId = comp.Id,
+        //                          ComplexName = comp.Name,
+        //                          ComplexCategoryId = cat.Id,
+        //                          ComplexCategoryName = cat.Name,
+        //                          Quantity = dayd.Quantity,
+        //                          Price = comp.Price,
+        //                          Date = daydate,
+        //                          Enabled = dayd.Date == daydate,  /*dayd != null*/
+        //                          ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
+        //                                          join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
+        //                                          join udd in _context.UserDayDish.WhereCompany(companyid).Where(i => i.Date == daydate  && i.ComplexId == comp.Id) on d.Id equals udd.DishId
+        //                                          where dc.ComplexId == comp.Id
+        //                                          orderby dc.DishCourse
+        //                                          select new UserDayComplexDishViewModel()
+        //                                          {
+
+        //                                              DishId = d.Id,
+        //                                              DishName = d.Name,
+        //                                              DishReadyWeight = d.ReadyWeight,
+        //                                              PictureId = d.PictureId,
+        //                                              DishCourse = dc.DishCourse,
+        //                                              DishQuantity = udd.Quantity,
+
+        //                                              DishDescription = d.Description,
+        //                                              DishIngredients = string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
+        //                                                                                 join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
+        //                                                                                 select ingr.Name),
+        //                                          }
+        //                      };
+        //        var ordered_list = ordered.ToList();
+        //        var query2 = from dd in _context.DayComplex.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
+        //                     join d in _context.Complex.Where(dd => dd.CompanyId == companyid) on dd.ComplexId equals d.Id
+        //                     join ud in _context.UserDayComplex.Where(ud =>  ud.CompanyId == companyid && ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
+        //                     //join cu in _context.Users on ud.UserId equals cu.Id
+        //                     select new InvoiceItemModel
+        //                     {
+        //                         Code = "",
+        //                         ComplexId = d.Id,
+        //                         Name = d.Name,
+        //                         Quantity = ud.Quantity,
+        //                         Price = ud.Price,
+        //                         Amount = ud.Quantity * d.Price//,
+        //                                                       //  DayComplex = ordered_list.Where(x => x.ComplexId == d.Id).FirstOrDefault()
+        //                     };
+        //        var query3 = query2.ToList();
+        //        query3.ForEach(it => it.DayComplex = ordered_list.Where(x => x.ComplexId == it.ComplexId).FirstOrDefault());
+        //        var resitems = query1.ToList();
+        //        // resitems.AddRange(query2.ToList());
+        //        resitems.AddRange(query3);
+        //        res.Items = resitems;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Mass email User={0} ");
+        //        return res; //to do
+        //    }
+
+
+        //    return res;
+        //}
         public async Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime datefrom, DateTime dateto, int companyId)
         {
             if (!_context.IsHttpContext())
