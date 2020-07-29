@@ -68,6 +68,7 @@ namespace CateringPro
             services.AddTransient<IMassEmailRepository, MassEmailRepository>();
             services.AddTransient<IUserGroupsRepository, UserGroupsRepository>();
             services.AddTransient<ICompanyUserRepository, CompanyUserRepository>();
+            services.AddTransient<IUserFinRepository, UserFinRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -78,6 +79,7 @@ namespace CateringPro
             // Add scheduled tasks & scheduler
             services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
             services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
+            services.AddSingleton<IScheduledTask, MakeOrdersPaymentTask>();
             services.AddSingleton<IScheduledTask, EMailSenderTask>();
 
             services.AddScheduler((sender, args) => 

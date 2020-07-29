@@ -458,5 +458,11 @@ namespace CateringPro.Controllers
                 return BadRequest();
             }
         }
+        [Authorize]
+        public async Task<IActionResult> AddBalance()
+        {
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
+        }
     }
 }

@@ -75,6 +75,8 @@
     <Compile Remove="Migrations\20200723153752_Complex_Category.Designer.cs" />
     <Compile Remove="Migrations\20200723153906_Complex_Category.cs" />
     <Compile Remove="Migrations\20200723153906_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200728134315_Finance.cs" />
+    <Compile Remove="Migrations\20200728134315_Finance.Designer.cs" />
     <Compile Remove="Models\ComplexCategory.cs" />
     <Compile Remove="Models\Order.cs" />
     <Compile Remove="Models\OrderDetail.cs" />
@@ -140,7 +142,6 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Logs\" />
-    <Folder Include="SQL\" />
     <Folder Include="Reports\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />

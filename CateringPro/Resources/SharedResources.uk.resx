@@ -621,4 +621,10 @@
   <data name="Select" xml:space="preserve">
     <value>Вибрати</value>
   </data>
+  <data name="AddBalance" xml:space="preserve">
+    <value>Поповнити Рахунок</value>
+  </data>
+  <data name="CurrentBalance" xml:space="preserve">
+    <value>Поточний баланс</value>
+  </data>
 </root>

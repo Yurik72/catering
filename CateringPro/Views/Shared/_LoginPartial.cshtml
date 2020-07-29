@@ -42,10 +42,12 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownUserMenuLink">
                 <a class="dropdown-item" asp-controller="Account" asp-action="Update">@Localizer["MenuUpdateUser"]</a>
-                @if (current_user.ChildrenCount > 1)
+                <a class="dropdown-item" asp-controller="Account" asp-action="AddBalance">@Localizer["AddBalance"]</a>
+                @if (current_user.ChildrenCount > 1 || current_user.IsChild())
                 {
                     <a id="changechield" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
                 }
+
             </div>
         </li>
         <li><a href="" class="nav-link">@User.Identity.Name</a></li>

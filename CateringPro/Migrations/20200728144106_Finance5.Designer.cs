@@ -4,14 +4,16 @@ using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CateringPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200728144106_Finance5")]
+    partial class Finance5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -817,9 +819,6 @@ namespace CateringPro.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("IncomeType")
                         .HasColumnType("int");
 
@@ -828,8 +827,6 @@ namespace CateringPro.Migrations
                         .HasMaxLength(200);
 
                     b.HasKey("Id", "TransactionDate");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("UserFinIncomes");
                 });
@@ -850,9 +847,6 @@ namespace CateringPro.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ItemsCount")
                         .HasColumnType("int");
 
@@ -865,8 +859,6 @@ namespace CateringPro.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.HasKey("Id", "DayDate");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("UserFinOutComes");
                 });
@@ -881,9 +873,6 @@ namespace CateringPro.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValueSql("(0.0)");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
@@ -916,8 +905,6 @@ namespace CateringPro.Migrations
                         .HasDefaultValueSql("(0)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("UserFinances");
                 });
@@ -1362,12 +1349,6 @@ namespace CateringPro.Migrations
 
             modelBuilder.Entity("CateringPro.Models.UserFinIncome", b =>
                 {
-                    b.HasOne("CateringPro.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CateringPro.Models.UserFinance", "UserFinance")
                         .WithMany("UserFinIncomes")
                         .HasForeignKey("Id")
@@ -1377,12 +1358,6 @@ namespace CateringPro.Migrations
 
             modelBuilder.Entity("CateringPro.Models.UserFinOutCome", b =>
                 {
-                    b.HasOne("CateringPro.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CateringPro.Models.UserFinance", "UserFinance")
                         .WithMany("UserFinOutComes")
                         .HasForeignKey("Id")
@@ -1392,12 +1367,6 @@ namespace CateringPro.Migrations
 
             modelBuilder.Entity("CateringPro.Models.UserFinance", b =>
                 {
-                    b.HasOne("CateringPro.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CateringPro.Models.CompanyUser", "CompanyUser")
                         .WithOne("UserFinance")
                         .HasForeignKey("CateringPro.Models.UserFinance", "Id")
