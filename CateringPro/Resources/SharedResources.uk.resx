@@ -621,16 +621,10 @@
   <data name="Select" xml:space="preserve">
     <value>Вибрати</value>
   </data>
-  <data name="GetWeekInfo" xml:space="preserve">
-    <value>Тижневий звіт</value>
+  <data name="AddBalance" xml:space="preserve">
+    <value>Поповнити Рахунок</value>
   </data>
-  <data name="NoOrders" xml:space="preserve">
-    <value>Немає замовлень</value>
-  </data>
-  <data name="SendEmail" xml:space="preserve">
-    <value>Надіслати на пошту</value>
-  </data>
-  <data name="DishesQuantity" xml:space="preserve">
-    <value>Кількість страв</value>
+  <data name="CurrentBalance" xml:space="preserve">
+    <value>Поточний баланс</value>
   </data>
 </root>

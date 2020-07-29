@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Http;
 using CateringPro.Core;
 using Microsoft.Extensions.Caching.Memory;
@@ -172,6 +173,17 @@ namespace CateringPro.Repositories
             var companies= await GetCurrentUsersCompaniesUserAsync(parentuser.Id);
             var child_companies = companies.Select(c => c.CompanyId).ToList() ;
             return await AddCompaniesToUserAsync(childuser.Id, child_companies);
+        }
+        public async Task<AddBalanceViewModel> AddBalanceViewAsync(string userId)
+        {
+            var user = await _context.Users.Include(u=>u.UserFinance).FirstOrDefaultAsync(u => u.Id == userId);
+            AddBalanceViewModel model = new AddBalanceViewModel()
+            {
+                UserId = userId,
+                CurrentBalance = user.UserFinance.Balance,
+                AmountToAdd = 0
+            };
+            return model;
         }
     }
 }

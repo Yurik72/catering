@@ -79,6 +79,11 @@ namespace CateringPro.Data
         public DbSet<UserDayComplex> UserDayComplex { get; set; }
         public DbSet<Pictures> Pictures { get; set; }
 
+
+        public DbSet<UserFinance> UserFinances { get; set; }
+        public DbSet<UserFinIncome> UserFinIncomes{ get; set; }
+
+        public DbSet<UserFinOutCome> UserFinOutComes { get; set; }
         public int CompanyId
         {
             get {
@@ -230,6 +235,67 @@ namespace CateringPro.Data
                    .WithMany(a => a.Complexes)
                    .HasForeignKey(u => u.CategoriesId).IsRequired(false)
                    .OnDelete(DeleteBehavior.NoAction);
+
+            /* fin section */
+            modelBuilder.Entity<CompanyUser>()
+                 .HasOne(c => c.UserFinance)
+                 .WithOne(b => b.CompanyUser)
+                 .HasForeignKey<UserFinance>(b => b.Id)
+                  .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserFinIncome>()
+               .HasKey(i => new { i.Id,i.TransactionDate });
+            modelBuilder.Entity<UserFinOutCome>()
+              .HasKey(i => new { i.Id, i.DayDate });
+            modelBuilder.Entity<UserFinIncome>()
+                  .HasOne(c => c.UserFinance)
+                  .WithMany(a => a.UserFinIncomes)
+                  .HasForeignKey(f => f.Id)
+                  .IsRequired(true)
+                  .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserFinOutCome>()
+                  .HasOne(c => c.UserFinance)
+                  .WithMany(a => a.UserFinOutComes)
+                  .HasForeignKey(f => f.Id)
+                  .IsRequired(true)
+                  .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserFinOutCome>()
+               .Property(d => d.DayDate)
+               .HasColumnType("date");
+            modelBuilder.Entity<UserFinOutCome>()
+               .Property(d => d.TransactionDate)
+               .HasDefaultValueSql("(getdate())");
+            modelBuilder.Entity<UserFinOutCome>()
+               .Property(d => d.TransactionDate)
+               .HasColumnType("datetime")
+               .HasDefaultValueSql("(getdate())");
+            modelBuilder.Entity<UserFinance>()
+                .Property(d => d.LastUpdated)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("(getdate())");
+
+            modelBuilder.Entity<UserFinance>()
+               .Property(d => d.Balance)
+               .HasDefaultValueSql("(0.0)");
+
+            modelBuilder.Entity<UserFinance>()
+               .Property(d => d.TotalIncome)
+               .HasDefaultValueSql("(0.0)");
+
+            modelBuilder.Entity<UserFinance>()
+               .Property(d => d.TotalOutCome)
+               .HasDefaultValueSql("(0.0)");
+
+
+            modelBuilder.Entity<UserFinance>()
+               .Property(d => d.TotalOrders)
+               .HasDefaultValueSql("(0)");
+            modelBuilder.Entity<UserFinance>()
+               .Property(d => d.TotalPreOrderedAmount)
+               .HasDefaultValueSql("(0.0)");
+
+            modelBuilder.Entity<UserFinance>()
+               .Property(d => d.TotalPreOrders)
+               .HasDefaultValueSql("(0)");
             //Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
 
             //modelBuilder.Entity<Categories>().HasQueryFilter(u => u.CompanyId == this.CompanyId);

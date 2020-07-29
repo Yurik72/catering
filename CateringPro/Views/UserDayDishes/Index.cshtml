@@ -490,7 +490,7 @@
                 console.log("Delete");
                 var com = $(this).attr("complexId");
                 var date = $(this).attr("date");
-                var UserDayComplex = { ComplexId: com, Date: date };
+                var UserDayComplex = { DayDate: '01.01.2010'};
                 $.ajax({
                     type: "POST",
                     data: res = { UserDayComplex },

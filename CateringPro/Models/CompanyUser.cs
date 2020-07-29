@@ -59,6 +59,8 @@ namespace CateringPro.Models
 
         [DefaultValue(1)]
         public int ChildrenCount { get; set; }
+
+        public UserFinance UserFinance { get; set; }
         public string GetChildUserName()
         {
             return string.IsNullOrEmpty(ChildNameSurname) ?
