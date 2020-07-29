@@ -8,16 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.ViewModels;
+using CateringPro.Repositories;
 
 namespace CateringPro.Controllers
 {
     public class ServiceController : Controller
     {
         private readonly AppDbContext _context;
-
-        public ServiceController(AppDbContext context)
+        private readonly IServiceRepository _servicerepo;
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo)
         {
             _context = context;
+            _servicerepo = servicerepo;
         }
 
         // GET: Service
@@ -32,6 +34,11 @@ namespace CateringPro.Controllers
             var response = new ServiceResponse();
             return Json(response);
         }
-
+        [HttpPost]
+        public async Task<JsonResult> RequestForDelivery(ServiceRequest request)
+        {
+            var response = await _servicerepo.ProcessRequestAsync(request);
+            return Json(response);
+        }
     }
 }

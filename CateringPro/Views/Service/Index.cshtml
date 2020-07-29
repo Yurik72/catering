@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Окно выдачи заказов";
     Layout = null;
+    int numDishes = 5;
 }
 
 
@@ -8,55 +9,189 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./css/service.css">
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
 </head>
 <body>
     <header class="main-header">
 
         <h1>Окно выдачи заказов</h1>
+        <h1 id="currentdate"></h1>
     </header>
 
-    <div class="container">
+<div class="container order-service">
         <div class="row">
-            <div class="col-12">
-                <span id="isonline" style="background-color:green; width:100%;">Online</span>
-                <span id="isoffline" style="background-color:red; width:100%;">Offline</span>
+            <div class="col-12 container-state">
+                <span id="isonline" class="service-status online">Online</span>
+                <span id="isoffline" class="service-status offline">Offline</span>
+                <span id="error" class="service-status error" style="visibility:hidden"></span>
+            </div>
+        </div>
+        <div class="row dishes-num">
+            @for (int i = 1; i <= numDishes; i++)
+            {
+                <div class="col-2 container-order-dish-select">
+                    <span data-num="@i" class="order-dish-select">@i Блюдо</span>
+                </div>
+            }
+        </div>
+        <div class="row delivery-command">
+            <div class="col-3">
+                <button id="btnstart" class="service-action">Почати</button>
+            </div>
+            <div class="col-3">
+                <button id="btnstop" class="service-action">Припинити</button>
             </div>
         </div>
         <div class="row">
-            <div class="col-3">
-
+            <div class="col-4">
+                <label for="userid">userid</label>
+                <input id="userid" />
             </div>
-            <div class="col-3">
-
+            <div class="col-4">
+                <button id="btnsend" class="service-action">Send</button>
             </div>
         </div>
+        <div  class="row">
+            <div id="delivery-dishes-content" class="col-12 delivery-dishes-content">
 
+            </div>
 
-
-    </div>
+        </div>
+</div>
 
 
     <script src="./js/jquery.min.js"></script>
     <script src="./js/service.js"></script>
     <script>
         $(function () {
-
+            var isStarted = false;
             var actionUrl = "/Service/Status";
             var ServiceRequest = { DayDate: '01.01.2010' };
             var el_online = $("#isonline");
             var el_offline = $("#isoffline");
+            var el_error = $("#error");
+            el_online.hide();
             el_online.hide();
             el_offline.hide();
+
+            var curr_date = new Date();
+
+            $('#currentdate').text(curr_date.getDate() + "." + (curr_date.getMonth() + 1) + "." + curr_date.getFullYear());
+
             $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                 el_offline.hide();
                 el_online.show();
             })
-                .fail(function (xhr, code, error) {
-                    el_offline.show();
-                    el_online.hide();
-                });
+            .fail(function (xhr, code, error) {
+                el_offline.show();
+                el_online.hide();
+            });
+            $(".order-dish-select").click(function (e) {
+                e.preventDefault();
+                if (isStarted)
+                    return;
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                }
+                else {
+                    $(this).addClass('active')
+                }
 
+            });
+            refreshState();
+            function getdishesnum() {
+                return $('.dishes-num').find('.order-dish-select.active').map(function (index, element) {
+                    return parseInt($(element).attr('data-num'));
+                }).get();
+            }
+            function refreshState() {
+                $("#btnstart").prop('disabled', isStarted);
+                $("#btnstop").prop('disabled', !isStarted);
+                $("#btnsend").prop('disabled', !isStarted);
+                if (isStarted) {
+
+
+                }
+                else {
+
+                }
+            }
+
+            $('#btnstart').click(function (e) {
+                e.preventDefault();
+                isStarted = true;
+                refreshState();
+                console.log(getdishesnum());
+            });
+            $('#btnstop').click(function (e) {
+                e.preventDefault();
+                isStarted = false;
+                refreshState();
+            });
+            $('#btnsend').click(function (e) {
+                e.preventDefault();
+                requestfordelivery(filldeliverydishes);
+
+            });
+            function filldeliverydishes(data) {
+                $('#delivery-dishes-content').empty();
+                if (!data || data.overalResult != "success") {
+                    var div = `<div class="row"><div class="col-8 container-errordelivery"><span class="errordelivery">Помилка${data.errormessage}</span></div></div>`;
+                    $('#delivery-dishes-content').append(div);
+                }
+                else if( !Array.isArray(data.dishes) || data.dishes.length == 0 ) {
+                    var div = `<div class="row"><div class="col-8 container-wrongdelivery"><span class="wrongdelivery">Кошик пустий</span></div></div>`;
+                    $('#delivery-dishes-content').append(div);
+                }
+                else {
+                    var dishesid = data.dishes.map(function (index, element) { return element.id;});
+                    data.dishes.forEach(el => {
+                        var div = $(`<div class="row"><div class="col-8 container-deliverydish"><span class="deliverydish" data-id="${el.id}">${el.name}</span></div></div>`);
+                        $('#delivery-dishes-content').append(div);
+                    });
+                    var divconfirm = $(`<div class="row"><div class="col-8 class="button-deliverydish"><button id="delivery-confirm">Пiдвердити</button></div></div>`);
+                    $('#delivery-dishes-content').append(divconfirm);
+                    divconfirm.find("#delivery-confirm").click(function (e) {
+                        e.preventDefault();
+                        requestforconfirmation(confirmdeliverydishes,dishesid);
+                       
+                    });
+                }
+            }
+            function confirmdeliverydishes(data) {
+               
+                if (!data || data.overalresult != "success") {
+                    var div = `<div class="row"><div class="col-8 container-errordelivery"><span class="errordelivery">Помилка${data.errormessage}</span></div></div>`;
+                    $('#delivery-dishes-content').append(div);
+                } else {
+                    $('#delivery-dishes-content').empty();
+                }
+            }
+            function requestforconfirmation(cb,dishesids) {
+                var actionUrl = "/Service/RequestForDelivery";
+                var dishesnum = getdishesnum();
+                var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: "confirmdelivery", DishesIds: dishesids };
+                $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
+                    cb(data);
+                })
+                    .fail(function (xhr, code, error) {
+                        el_error.val(error);
+                        el_error.show();
+                    });
+            }
+            function requestfordelivery(cb) {
+                var actionUrl = "/Service/RequestForDelivery";
+                var dishesnum = getdishesnum();
+                var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: "askfordelivery", DishesNum: dishesnum };
+                $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
+                    cb(data);
+                })
+                .fail(function (xhr, code, error) {
+                    el_error.val(error);
+                    el_error.show();
+                });
+            }
         });
     </script>
 </body>
