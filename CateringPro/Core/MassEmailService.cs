@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using CateringPro.ViewModels;
 using System.Reflection;
 using System.Linq.Expressions;
+using CateringPro.Data;
 
 namespace CateringPro.Core
 {
@@ -27,12 +28,13 @@ namespace CateringPro.Core
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IMassEmailRepository _mailrepo;
+        private readonly AppDbContext _context;
         public MassEmailService(IEmailConfiguration emailConfiguration,
             IRazorViewToStringRenderer razorRenderer,
             IEmailService mailservice,
             UserManager<CompanyUser> userManager,
             ILogger<CompanyUser> logger,
-            IMassEmailRepository mailrepo)
+            IMassEmailRepository mailrepo, AppDbContext context)
         {
             _emailConfiguration = emailConfiguration;
             _razorViewToStringRenderer = razorRenderer;
@@ -40,6 +42,7 @@ namespace CateringPro.Core
             _userManager = userManager;
             _logger = logger;
             _mailrepo = mailrepo;
+            _context = context;
         }
 
         public async Task<bool> SendMassEmailAsync(int companyid,MassEmail em,DateTime nextRun)
@@ -75,6 +78,7 @@ namespace CateringPro.Core
             {
                 if(users==null)
                     users = await _mailrepo.GetDistributionUsersAsync(companyid);
+                
                 users.ForEach(async u => res &= await SendMassEmailToUser(companyid,u, em));
 
             }
@@ -89,9 +93,17 @@ namespace CateringPro.Core
         {
             try
             {
+                //to do AK send parents email
                 EmailProtoType proto = await CreateEmail(companyid,user, em);
-                await _mailservice.SendEmailAsync(user.Email, proto.Subject, proto.Message);
-
+                if (user.IsChild())
+                {
+                    var email = _context.Users.Where(x => x.Id == user.ParentUserId).Select(x => x.Email).FirstOrDefault();
+                    await _mailservice.SendEmailAsync(email, proto.Subject, proto.Message);
+                }
+                else
+                {
+                    await _mailservice.SendEmailAsync(user.Email, proto.Subject, proto.Message);
+                }
             }
             catch (Exception ex)
             {
@@ -170,7 +182,7 @@ namespace CateringPro.Core
                 if (loader_type == null)
                     return false;
                 EMailTemplateLoader loader= System.Activator.CreateInstance(loader_type.ConstructorArguments[0].Value as Type, _mailrepo, companyid) as EMailTemplateLoader;
-                return loader.LoadModel(em, outtemplate);
+                return loader.LoadModel(em, outtemplate, user);
                // (loader_type. as TemplateLoaderAttribute).LoaderType
             }
             catch (Exception ex)

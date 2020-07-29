@@ -8,6 +8,8 @@ using CateringPro.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Transactions;
+using Org.BouncyCastle.Asn1.Tsp;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace CateringPro.Repositories
 {
@@ -122,14 +124,28 @@ namespace CateringPro.Repositories
 
         public async Task<bool> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
         {
-
+            
             dishComplexes.ForEach(i => { i.CompanyId = companyid;
                 if(i.ComplexId != complex.Id)                 
                     i.ComplexId = complex.Id; 
             });
             try
             {
+                var time = await _context.Companies.Where(x => x.Id == companyid).ToListAsync();
+                int hours = (int)time.FirstOrDefault().OrderLeadTimeH;
+                TimeSpan result = TimeSpan.FromHours(hours);
+                int days = (int)result.TotalDays;
+                DateTime daydate =  DateTime.Now.AddDays(-days);
+                var ordered = await _context.UserDayDish.Where(ord => ord.Date >= daydate && ord.ComplexId == complex.Id).ToListAsync();
+                ordered = ordered.Where(ord => !dishComplexes.Any(dc => dc.DishId == ord.DishId)).ToList();
+                // if(ordered.Any(dc => dishComplexes.Any(ord => dc.DishId == ord.DishId)))
+                if(ordered.Count()>0)
+                {
+                    return false;
+                }
                 
+
+
                 var existing_db = await _context.DishComplex.Where(di => di.ComplexId == complex.Id).ToListAsync();
                 _context.DishComplex.RemoveRange(existing_db);
                 await _context.AddRangeAsync(dishComplexes);

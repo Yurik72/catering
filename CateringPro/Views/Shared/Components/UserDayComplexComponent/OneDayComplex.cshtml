@@ -51,14 +51,17 @@
                                     </div>
                                     <div class="col col-2">
                                         @*@if (allowEdit)
-                {
-                    @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
-                }*@
-                                        <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" />
+        {
+            @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
+        }
+        else
+        {
+            @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
+        }*@
+                                        @if (allowEdit)
+                                        {
+                                            <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" />
+                                        }
                                     </div>
                                 </div>
                                 @{course = -1;}
@@ -111,10 +114,10 @@
                                                 // <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayDish[@com].Quantity" type="number" value="0" style="display: none;">
                                                 <input class="form-check-input dish-check" type="radio" name="Complex[@item.ComplexId].Course[@dish.DishCourse].DishId" complexdish="@item.ComplexId" day="@Model.First().Date.Day" course="@dish.DishCourse" value="@dish.DishId" />
                                             }
-                                            else
+                                            @*else
                                             {
                                                 @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
-                                            }
+                                            }*@
 
                                         </div>
 
@@ -175,7 +178,7 @@
     }
     else if (allowEdit)
     {
-        <h2 class="text-center">@Localizer["NoDishesAtThisDay"]</h2>
+        @*<h2 class="text-center">@Localizer["NoDishesAtThisDay"]</h2>*@
     }
 </div>
 

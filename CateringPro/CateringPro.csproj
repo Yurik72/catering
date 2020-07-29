@@ -98,6 +98,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
     <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
     <Content Remove="Views\Shared\PizzaSummary.cshtml" />
   </ItemGroup>

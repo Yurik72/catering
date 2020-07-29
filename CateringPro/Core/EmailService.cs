@@ -69,6 +69,7 @@ namespace CateringPro.Core
         }
         public async Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid)
         {
+            DateTime first = daydate;
             try
             {
                 var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
@@ -109,7 +110,7 @@ namespace CateringPro.Core
                 if (user != null)
                 {
                     string email = user.Email;
-                    await SendEmailAsync(email, string.Format("Замовлення {0}", daydate.ToShortDateString()), body);
+                    await SendEmailAsync(email, string.Format("Харчування на тиждень "+first.ToShortDateString()+" - {0}", daydate.ToShortDateString()), body);
                 }
             }
             catch (Exception ex)

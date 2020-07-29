@@ -70,12 +70,14 @@
                     <span class="fa fa-info fa-2x" aria-hidden="true"></span>
 
                 </div>
+                @if (allowEdit)
+                {
                 <div class="col col-2 delete-line">
                    @* <span class=" cmd-delete dialog-edit-icon fa fa-trash fa-2x delete-complex" complexId="@item.ComplexId" date="@item.Date" aria-hidden="true"></span>*@
                     <span class="fa fa-trash fa-2x delete-complex" complexId="@item.ComplexId" date="@item.Date" aria-hidden="true"></span>
                    
                 </div>
-
+                }
             </div>
             <div class="bagDayComplexItem table-responsive">
                 <table class="table table-hover shopping-cart-wrap">

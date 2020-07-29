@@ -34,6 +34,10 @@ namespace CateringPro.Repositories
         {
             return _cache.GetCachedCompanyAsync(_context, companyid).Result.GetOrderType();
         }
+        public bool GetConfrimedAdmin(string userid)
+        {
+            return _context.Users.Where(us => us.Id == userid).Select(us => us.ConfirmedByAdmin).FirstOrDefault();
+        }
         public bool IsAllowDayEdit(DateTime dt, int companyid)
         {
             var company = _cache.GetCachedCompanyAsync(_context, companyid).Result; //_context.Companies.Find(companyid);

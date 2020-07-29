@@ -36,13 +36,13 @@ namespace CateringPro.Core
                 return 0;// claim.Value;
             return int.Parse( claim.Value);
         }
-        public static int GetOrderType(this IPrincipal principal)
+        public static bool GetConfirmedByAdmin(this IPrincipal principal)
         {
             var claimsIdentity = (ClaimsIdentity)principal.Identity;
-            var claim = claimsIdentity.FindFirst("ordertype");
+            var claim = claimsIdentity.FindFirst("ConfirmedByAdmin");
             if (claim == null)
-                return 0;// claim.Value;
-            return int.Parse(claim.Value);
+                return false;// claim.Value;
+            return bool.Parse(claim.Value);
         }
     }
 }
