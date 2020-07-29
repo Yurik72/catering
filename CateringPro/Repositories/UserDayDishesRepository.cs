@@ -713,7 +713,7 @@ namespace CateringPro.Repositories
         public IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid)
         {
             var ordered = OrderedComplexDay(daydate, userId, companyid);
-
+            var orderedList = ordered.ToList();
             var query = from comp in _context.Complex
                         join dc in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dc.ComplexId
                         join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
@@ -748,9 +748,10 @@ namespace CateringPro.Repositories
                                                                                    select ingr.Name),
                                             }
                         };
-            foreach (var item in ordered) {
-                query = query.Where(x => x.ComplexCategoryId != item.ComplexCategoryId);
-                    }
+            query = query.Where(x => !ordered.Any(o => o.ComplexCategoryId == x.ComplexCategoryId));
+            //foreach (var item in ordered) {
+            //    query = query.Where(x => x.ComplexCategoryId != item.ComplexCategoryId);
+            //        }
             return query;
         }
         public IQueryable<UserDayComplexViewModel> OrderedComplexDay(DateTime daydate, string userId, int companyid)

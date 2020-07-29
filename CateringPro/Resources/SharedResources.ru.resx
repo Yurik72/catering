@@ -312,4 +312,16 @@
   <data name="DbError" xml:space="preserve">
     <value>Ошибка базы данных</value>
   </data>
+  <data name="GetWeekInfo" xml:space="preserve">
+    <value>Недельный отчет</value>
+  </data>
+  <data name="NoOrders" xml:space="preserve">
+    <value>Нет заказов</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Отправить по почте</value>
+  </data>
+  <data name="DishesQuantity" xml:space="preserve">
+    <value>Количество блюд</value>
+  </data>
 </root>

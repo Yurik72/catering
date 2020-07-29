@@ -28,5 +28,7 @@ namespace CateringPro.Repositories
         CompanyMenuModel CompanyMenu(DateTime datefrom, DateTime dateto, int companyid);
 
         DishSpecificationViewModel DishSpecification(DateTime datefrom, DateTime dateto, int companyid);
+
+        //InvoiceModel EmailWeekInvoice(DateTime daydate, int companyid);
     }
 }
