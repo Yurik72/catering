@@ -426,6 +426,9 @@
   <data name="MenuStock" xml:space="preserve">
     <value>Склад</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
   <data name="MenuStockConsignment" xml:space="preserve">
     <value>Склад/Залишки</value>
   </data>
@@ -591,61 +594,10 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Підтвердіть пароль</value>
   </data>
-  <data name="ComplexCategory" xml:space="preserve">
-    <value>Категорія комплекса</value>
-  </data>
-  <data name="Course1" xml:space="preserve">
-    <value>Перше</value>
-  </data>
-  <data name="Course2" xml:space="preserve">
-    <value>Друге</value>
-  </data>
-  <data name="Course3" xml:space="preserve">
-    <value>Третє</value>
-  </data>
-  <data name="Course4" xml:space="preserve">
-    <value>Четверте</value>
-  </data>
-  <data name="UserDayDish" xml:space="preserve">
-    <value>Замовлений комплекс</value>
-  </data>
-  <data name="DbError" xml:space="preserve">
-    <value>Помилка бази даних</value>
-  </data>
   <data name="DuplicateEmail" xml:space="preserve">
     <value>Поштова адреса {0} вже зареестрована</value>
   </data>
-  <data name="MenuChangeChild" xml:space="preserve">
-    <value>Вибрати дитину</value>
-  </data>
-  <data name="Select" xml:space="preserve">
-    <value>Вибрати</value>
-  </data>
-  <data name="AddBalance" xml:space="preserve">
-    <value>Поповнити Рахунок</value>
-  </data>
-  <data name="CurrentBalance" xml:space="preserve">
-    <value>Поточний баланс</value>
-  </data>
-  <data name="AskAdmin" xml:space="preserve">
-    <value>Зверніться до адміністратора для замовлення</value>
-  </data>
-  <data name="DishesQuantity" xml:space="preserve">
-    <value>Кількість страв</value>
-  </data>
-  <data name="GetWeekInfo" xml:space="preserve">
-    <value>Тижневий звіт</value>
-  </data>
-  <data name="NoDishes" xml:space="preserve">
-    <value>Курс не може бути без страв</value>
-  </data>
-  <data name="NoOrders" xml:space="preserve">
-    <value>Немає замовлень</value>
-  </data>
-  <data name="SameDish" xml:space="preserve">
-    <value>Не можна додати стравау, що вже є в комплексі</value>
-  </data>
-  <data name="SendEmail" xml:space="preserve">
-    <value>Надіслати на пошту</value>
+  <data name="Email Sent Title" xml:space="preserve">
+    <value>Завершення реєстації</value>
   </data>
 </root>

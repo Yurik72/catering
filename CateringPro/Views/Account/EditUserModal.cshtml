@@ -35,6 +35,7 @@
                 <div class="nav nav-tabs" id="nav-tabs" role="tablist">
                     <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-1" aria-selected="false">Головна</a>
                     <a class="nav-item nav-link nav-roles" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Ролі</a>
+                    <a class="nav-item nav-link nav-companies" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Компанії</a>
                 </div>
                 <div class="tab-content day-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
@@ -76,7 +77,7 @@
 
                             <dt> <label asp-for="ConfirmedByAdmin" class="control-label">@Localizer["ConfirmedByAdmin"]</label></dt>
                             <dd>
-                                <input asp-for="ConfirmedByAdmin" class="form-control"/>
+                                <input asp-for="ConfirmedByAdmin" class="form-control" />
                                 <span asp-validation-for="ConfirmedByAdmin" class="text-danger"></span>
                             </dd>
 
@@ -91,21 +92,33 @@
                             </dd>
 
                         </dl>
-                     </div>
+                    </div>
                     <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
                         <dl>
-                        <dt>
-                            <label class="control-label col-md-2">@Localizer["User Roles"]</label>
-                        </dt>
-                        <dd>
-                            <div id="user-roles-content" class="container">
+                            <dt>
+                                <label class="control-label col-md-2">@Localizer["User Roles"]</label>
+                            </dt>
+                            <dd>
+                                <div id="user-roles-content" class="container">
 
-                            </div>
-                        </dd>
+                                </div>
+                            </dd>
                         </dl>
                     </div>
-                            @Html.AntiForgeryToken()
-                     </div>
+                    <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
+                        <dl>
+                            <dt>
+                                <label class="control-label col-md-2">@Localizer["User Roles"]</label>
+                            </dt>
+                            <dd>
+                                <div id="user-roles-content" class="container">
+
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    @Html.AntiForgeryToken()
+                </div>
 </nav>
         </form>
             <div class="container">
