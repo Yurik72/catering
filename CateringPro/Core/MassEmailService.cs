@@ -102,11 +102,11 @@ namespace CateringPro.Core
                 }
                 else 
                 {
-                    var email = _context.Users.Where(x => x.ParentUserId == user.Id);
-                    if (email.Count() == 0)
-                    {
+                    //var email = _context.Users.Where(x => x.ParentUserId == user.Id);
+                    //if (email.Count() == 0)
+                    //{
                         await _mailservice.SendEmailAsync(user.Email, proto.Subject, proto.Message);
-                    }
+                    //}
                 }
             }
             catch (Exception ex)

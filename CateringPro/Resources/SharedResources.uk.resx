@@ -633,10 +633,19 @@
   <data name="DishesQuantity" xml:space="preserve">
     <value>Кількість страв</value>
   </data>
+  <data name="GetWeekInfo" xml:space="preserve">
+    <value>Тижневий звіт</value>
+  </data>
   <data name="NoDishes" xml:space="preserve">
     <value>Курс не може бути без страв</value>
   </data>
+  <data name="NoOrders" xml:space="preserve">
+    <value>Немає замовлень</value>
+  </data>
   <data name="SameDish" xml:space="preserve">
     <value>Не можна додати стравау, що вже є в комплексі</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Надіслати на пошту</value>
   </data>
 </root>
