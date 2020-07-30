@@ -23,7 +23,8 @@ namespace CateringPro.Data
             CreateRole(UserExtension.UserRole_GroupAdmin, context, roleManager);
             CreateRole(UserExtension.UserRole_UserAdmin, context, roleManager);
             CreateRole(UserExtension.UserRole_KitchenAdmin, context, roleManager);
-
+            SQLScriptExecutor executor = new SQLScriptExecutor(context, service);
+            executor.ExecuteStartScripts();
             if (context.Dishes.IgnoreQueryFilters().Any())
             {
                 return;

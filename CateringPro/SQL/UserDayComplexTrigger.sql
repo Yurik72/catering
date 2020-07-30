@@ -1,5 +1,4 @@
-USE [CateringPro]
-GO
+
 
 /****** Object:  Trigger [dbo].[UserDayComplex_Trigger]    Script Date: 07.11.2019 11:01:23 ******/
 SET ANSI_NULLS ON

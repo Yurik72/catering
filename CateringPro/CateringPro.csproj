@@ -150,5 +150,23 @@
     <Folder Include="Views\OrderDetails\" />
     <Folder Include="Views\Shared\Components\CategoryMenu\" />
   </ItemGroup>
-
+<ItemGroup>
+	<Content Include="SQL\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+</ItemGroup>
+<ItemGroup>
+  <Content Update="SQL\cateringpro.bak">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+  <Content Update="SQL\import dishes._sql">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+  <Content Update="SQL\importingredients._sql">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+  <Content Update="SQL\OutStockTest._sql">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
 </Project>

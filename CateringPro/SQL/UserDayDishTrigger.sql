@@ -1,4 +1,4 @@
-ALTER TRIGGER [dbo].[UserDayDish_Trigger]
+CREATE OR ALTER TRIGGER [dbo].[UserDayDish_Trigger]
    ON  [dbo].[UserDayDish]
    AFTER INSERT,DELETE,UPDATE
 AS 

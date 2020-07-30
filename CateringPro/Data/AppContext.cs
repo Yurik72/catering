@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace CateringPro.Data
 {
@@ -90,6 +91,15 @@ namespace CateringPro.Data
                 if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
                     return _httpContextAccessor.HttpContext.User.GetCompanyID();
                 return companyId;
+            }
+        }
+        public ClaimsPrincipal CurrentUser
+        {
+            get
+            {
+                if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
+                    return _httpContextAccessor.HttpContext.User;
+                return null;
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
