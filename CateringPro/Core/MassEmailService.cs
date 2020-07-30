@@ -100,9 +100,13 @@ namespace CateringPro.Core
                     var email = _context.Users.Where(x => x.Id == user.ParentUserId).Select(x => x.Email).FirstOrDefault();
                     await _mailservice.SendEmailAsync(email, proto.Subject, proto.Message);
                 }
-                else
+                else 
                 {
-                    await _mailservice.SendEmailAsync(user.Email, proto.Subject, proto.Message);
+                    var email = _context.Users.Where(x => x.ParentUserId == user.Id);
+                    if (email.Count() == 0)
+                    {
+                        await _mailservice.SendEmailAsync(user.Email, proto.Subject, proto.Message);
+                    }
                 }
             }
             catch (Exception ex)

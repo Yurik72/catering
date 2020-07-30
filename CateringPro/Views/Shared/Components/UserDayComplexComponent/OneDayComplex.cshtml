@@ -6,58 +6,64 @@
 @{
     ViewData["Title"] = "EditDay";
     bool allowEdit = (bool)ViewData["AllowEdit"];
+    bool allowAdmin = (bool)ViewData["AllowAdmin"];
 }
 @{
     DateTime daydate = DateTime.Now;
     int com = 0;
     int course = 0;
-    
+
 }
 @* bootstrap0 grid system *@
 
-<div class="userdaycomplex">
-    @if (Model.Count() > 0)
-    {
+    <div class="userdaycomplex">
+        @if (!allowAdmin)
+        {
+            <br />
+            <h2 class="text-center">@Localizer["AskAdmin"]</h2>
+        }
+        @if (Model.Count() > 0)
+        {
 
 
 
-        <div class="container daydish-complex-content" data-form="userdaycomplex">
-            <div class="row">
-                <div class="col col-lg-12 col-md-12 complex-menu-header">
-                    <span>@Localizer["Complex Dishes"]</span>
+            <div class="container daydish-complex-content" data-form="userdaycomplex">
+                <div class="row">
+                    <div class="col col-lg-12 col-md-12 complex-menu-header">
+                        <span>@Localizer["Complex Dishes"]</span>
+                    </div>
                 </div>
-            </div>
-            <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm-@Model.First().Date.Day">
-                @foreach (var item in Model)
-                {
+                <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm-@Model.First().Date.Day">
+                    @foreach (var item in Model)
+                    {
 
-                    <div class="row">
-                        <div class="container daycomplex-item" date="@Model.First().Date">
-                            <div class="row row-daycomplex" data-form="userdaycomplexitem">
-                                <div class="col col-4">
+                        <div class="row">
+                            <div class="container daycomplex-item" date="@Model.First().Date">
+                                <div class="row row-daycomplex" data-form="userdaycomplexitem">
+                                    <div class="col col-4">
 
-                                    @*@Html.HiddenFor(modelItem => item.ComplexId, new { datafield = "ComplexID" })
-            @Html.HiddenFor(modelItem => item.Price, new { datafield = "Price" })
-            @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })*@
+                                        @*@Html.HiddenFor(modelItem => item.ComplexId, new { datafield = "ComplexID" })
+                                        @Html.HiddenFor(modelItem => item.Price, new { datafield = "Price" })
+                                        @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })*@
 
-                                    @Html.DisplayFor(modelItem => item.ComplexName)
-                                </div>
-                                <div class="col col-3">
-                                    @Html.DisplayFor(modelItem => item.ComplexCategoryName)
-                                </div>
+                                        @Html.DisplayFor(modelItem => item.ComplexName)
+                                    </div>
+                                    <div class="col col-3">
+                                        @Html.DisplayFor(modelItem => item.ComplexCategoryName)
+                                    </div>
                                     <div class="col col-2">
                                         @string.Format("{0:0.00}{1}", item.Price, pageOptions.Value.CurrencySymbol)
 
                                     </div>
                                     <div class="col col-2">
                                         @*@if (allowEdit)
-        {
-            @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
-        }
-        else
-        {
-            @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
-        }*@
+                                        {
+                                            @Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
+                                        }*@
                                         @if (allowEdit)
                                         {
                                             <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" />
@@ -69,18 +75,18 @@
                                 {
                                     @if (dish.DishCourse != course)
                                     {
-                        <div class="col">
-                            @Localizer["Course"+(dish.DishCourse + 1)]
-                            @*@(dish.DishCourse+1)*@
-                        </div>
+                                        <div class="col">
+                                            @Localizer["Course" + (dish.DishCourse + 1)]
+                                            @*@(dish.DishCourse+1)*@
+                                        </div>
                                         <br />
                                         course++;
                                     }
 
                                     <div class="row row-daycomplex-item">
                                         @*<div class="col">
-                @(dish.DishCourse+1)
-                </div>*@
+                                        @(dish.DishCourse+1)
+                                        </div>*@
                                         <div class="col col-md-2">
                                             @* @(dish.DishCourse+1)*@
                                             <img src="@Url.Action("GetPicture", "Pictures", new { id = dish.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
@@ -105,7 +111,7 @@
                                         @*<div class="col col-lg-4 col-md-4 col-4 small">
 
 
-                </div>*@
+                                        </div>*@
 
                                         <div class="col col-lg-2 col-md-2 col-2 small">
                                             @if (allowEdit)
@@ -128,57 +134,57 @@
                                 }
                             </div>
 
-                    </div>
-                                    com++;
-                                }
-                @* <button type="submit" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>*@
-            </form>
-        </div>
-
-
-        <div class="container  border rounded daycomplex-footer">
-            @*<div class="row total-order-row">
-                <div class="col col-lg-1 col-md-1 col-1">
-                </div>
-
-                <div class="col col-lg-6 col-md-6 col-6">
-                    <span class="total">@Localizer["Order Total"]</span>
-                </div>
-                <div class="col col-lg-2 col-md-2 col-2">
-                    <span class="totalcomplex-quantity"> @Model.Sum(it => it.Quantity) </span>
-                </div>
-
-                <div class="col col-lg-3 col-md-3 col-3">
-                    <span class="totalcomplex-amount">@Model.Sum(it => it.Quantity * it.Price) </span>
-                    <span>@pageOptions.Value.CurrencySymbol</span>
-
-
-                </div>
-
-            </div>*@
-            <div class="row daycomplex-footer-cmd">
-                <div class="col col-lg-1 col-md-1 col-1 col-sm-1">
-                </div>
-                <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
-                    @if (allowEdit)
-                    {
-                        <button data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="btn btn-primary send">@Localizer["MyOrdersSave"]</button>
-                        // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
+                        </div>
+                        com++;
                     }
-                </div>
-                <div class="col col-lg-1 col-md-1 col-1 col-sm-1">
-                </div>
-                <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
-                    @*<button type="button" button class="btn btn-primary" data-action="payuserdaycomplex">@Localizer["MyOrdersPayment"]</button>*@
+                    @* <button type="submit" button class="btn btn-primary">@Localizer["MyOrdersSave"]</button>*@
+                </form>
+            </div>
+
+
+            <div class="container  border rounded daycomplex-footer">
+                @*<div class="row total-order-row">
+                    <div class="col col-lg-1 col-md-1 col-1">
+                    </div>
+
+                    <div class="col col-lg-6 col-md-6 col-6">
+                        <span class="total">@Localizer["Order Total"]</span>
+                    </div>
+                    <div class="col col-lg-2 col-md-2 col-2">
+                        <span class="totalcomplex-quantity"> @Model.Sum(it => it.Quantity) </span>
+                    </div>
+
+                    <div class="col col-lg-3 col-md-3 col-3">
+                        <span class="totalcomplex-amount">@Model.Sum(it => it.Quantity * it.Price) </span>
+                        <span>@pageOptions.Value.CurrencySymbol</span>
+
+
+                    </div>
+
+                </div>*@
+                <div class="row daycomplex-footer-cmd">
+                    <div class="col col-lg-1 col-md-1 col-1 col-sm-1">
+                    </div>
+                    <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
+                        @if (allowEdit)
+                        {
+                            <button data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="btn btn-primary send">@Localizer["MyOrdersSave"]</button>
+                            // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
+                        }
+                    </div>
+                    <div class="col col-lg-1 col-md-1 col-1 col-sm-1">
+                    </div>
+                    <div class="col col-lg-4 col-md-4 col-4 col-sm-4">
+                        @*<button type="button" button class="btn btn-primary" data-action="payuserdaycomplex">@Localizer["MyOrdersPayment"]</button>*@
+                    </div>
                 </div>
             </div>
-        </div>
-        @*<button  data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="send"> Check</button>*@
-       
-    }
-    else if (allowEdit)
-    {
-        @*<h2 class="text-center">@Localizer["NoDishesAtThisDay"]</h2>*@
-    }
-</div>
+            @*<button  data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="send"> Check</button>*@
+
+        }
+        else if (allowEdit)
+        {
+            @*<h2 class="text-center">@Localizer["NoDishesAtThisDay"]</h2>*@
+        }
+    </div>
 

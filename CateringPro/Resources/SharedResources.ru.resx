@@ -324,4 +324,13 @@
   <data name="DishesQuantity" xml:space="preserve">
     <value>Количество блюд</value>
   </data>
+  <data name="AskAdmin" xml:space="preserve">
+    <value>Обратитесь к администратору для заказа</value>
+  </data>
+  <data name="NoDishes" xml:space="preserve">
+    <value>Курс не может быть без блюд</value>
+  </data>
+  <data name="SameDish" xml:space="preserve">
+    <value>Нельзя добавить блюдо, что уже есть в комплексе</value>
+  </data>
 </root>

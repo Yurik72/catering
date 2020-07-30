@@ -81,7 +81,7 @@ namespace CateringPro.Core
                     inItem.DayComplex = new UserDayComplexViewModel();
                     inItem.DayComplex.Date = daydate;
                     items.Add(inItem);
-
+                    model.Items = items;
                 }
 
                 for (int i = 0; i < 6; i++)
