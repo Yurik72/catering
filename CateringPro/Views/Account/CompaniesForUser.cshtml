@@ -1,0 +1,14 @@
+﻿@model IEnumerable<CompanyUserCompany>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+@*@{ 
+    string companies = string.Join(",", Model.Where(r => r.CompanyUserId).Select(r => r.User));
+}
+<ul class="list-group">
+    <input type="hidden" id="roles" name="roles" value="@roles" />
+@foreach (var ur in Model)
+{
+    <li class="role-item list-group-item@(ur.IsAssigned?" active fa fa-check-square-o":" fa fa-square-o")" style="cursor:pointer;" >@ur.RoleName</li>
+
+}
+</ul>*@

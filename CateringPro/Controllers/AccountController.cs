@@ -51,7 +51,7 @@ namespace CateringPro.Controllers
             {
                 var user = new CompanyUser
                 {
-                    UserName = model.Email,
+                    UserName = model.UserName,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                     City = model.City,
@@ -81,13 +81,20 @@ namespace CateringPro.Controllers
 
                     await _companyuser_repo.PostUpdateUserAsync(user, true);
                     EmailService emailService = new EmailService();
-                    await _email.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Please confirm registration: <a href='{callbackUrl}'>link</a>");
+                    await _email.SendEmailAsync(model.Email, "Завершення реєстрації",
+                        $"Вітаю, {user.UserName}<br>" +
+                        $"Дякуюєм за реєстрацію на нашому сервісі!<br>" +
+                        $"Перед тим як ви зможете користуватися своїм аккаунтом потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'>Посилання</a><br>" +
+                        $"" +
+                        $"" +
+                        $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
 
-                    return Content("To finish registrtation, check your mailbox and confirm");
+                    //return Content("To finish registrtation, check your mailbox and confirm");
 
+                    //Response.Redirect("~/Account/EmailSent");
 
-                    //return RedirectToAction("Index", "Home");
+                    return RedirectToAction("EmailSent");
                 }
                 else
                 {
@@ -187,6 +194,10 @@ namespace CateringPro.Controllers
         {
             return View();
         }
+        public IActionResult EmailSent()
+        {
+            return View();
+        }
         [Authorize]
         public async Task<IActionResult> Update()
         {
@@ -215,7 +226,7 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
         {
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
@@ -224,14 +235,10 @@ namespace CateringPro.Controllers
             try
             {
                 List<string> newRoles = new List<string>();
-                if(!string.IsNullOrEmpty(roles))
+                List<string> newCompanies = new List<string>();
+                if (!string.IsNullOrEmpty(roles) || !string.IsNullOrEmpty(companies))
                     newRoles = roles.Split(",").Select(s => s.Trim()).ToList();
-                //List<string> newRoles = new List<string>();
-                //newRoles.Add("Admin");
-                //newRoles.Add("CompanyAdmin");
-                //newRoles.Add("KitchenAdmin");
-                //newRoles.Add("UserAdmin");
-                //newRoles.Add("GroupAdmin");
+                    newCompanies = companies.Split(",").Select(s => s.Trim()).ToList();
                 if (usermodel.IsNew)
                 {
                     if (string.IsNullOrEmpty(usermodel.NewPassword))
@@ -411,12 +418,23 @@ namespace CateringPro.Controllers
         [Authorize]
         public async Task<IActionResult> RolesForUser(string userId)
         {
-            
+
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
             var roles = await _companyuser_repo.GetRolesForUserAsync(user);
             return PartialView(roles);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> CompaniesForUser(string userId)
+        {
+
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null && !string.IsNullOrEmpty(userId))
+                return NotFound();
+            var company = await _companyuser_repo.GetCurrentUsersCompaniesAsync(user.Id);
+            return PartialView(company);
         }
         [Authorize]
         public async Task<IActionResult> SetCompanyId(int CompanyId)

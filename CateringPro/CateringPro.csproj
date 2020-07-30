@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="jsreport.AspNetCore" Version="2.1.0" />
     <PackageReference Include="jsreport.Binary" Version="2.7.1" />
     <PackageReference Include="jsreport.Local" Version="2.2.2" />
