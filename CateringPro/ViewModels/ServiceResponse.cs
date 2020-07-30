@@ -29,5 +29,11 @@ namespace CateringPro.ViewModels
     {
         public int ID { get; set; }
         public string Name { get; set; }
+
+        public bool IsComplex { get; set; }
+
+        public int DishNumber {get;set;}
+
+        public int ComplexId { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-USE [CateringPro]
-GO
+
 
 /****** Object:  StoredProcedure [dbo].[WriteOffProduction]    Script Date: 01.11.2019 12:45:55 ******/
 SET ANSI_NULLS ON

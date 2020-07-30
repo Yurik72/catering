@@ -22,5 +22,7 @@ namespace CateringPro.Repositories
         Task<List<CompanyUser>> GetUserChilds(string userId, int companyId);
         Task<bool> PostUpdateChildUserAsync(CompanyUser childuser, CompanyUser parentuser);
         Task<AddBalanceViewModel> AddBalanceViewAsync(string userId);
+        decimal GetUserBalance();
+        Task<decimal> GetUserBalanceAsync();
     }
 }

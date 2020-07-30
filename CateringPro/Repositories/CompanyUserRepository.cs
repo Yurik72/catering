@@ -38,8 +38,46 @@ namespace CateringPro.Repositories
         }
         public string GetCurrentCompany()
         {
+           
+            var company= _cache.GetCachedCompanyAsync(_context, _context.CompanyId).Result;
+            if( company == null && _context.CurrentUser!=null)
+            {
+                var user = _userManager.FindByIdAsync(_context.CurrentUser.GetUserId()).Result;
+                if (user != null)
+                    PostUpdateUserAsync(user).Wait();
+                return string.Empty;
+            }
+            return company.Name;
+        }
+        public decimal GetUserBalance()
+        {
+            if (_context.CurrentUser != null)
+            {
+                
+                var fin = _context.UserFinances.Where(uf => uf.Id == _context.CurrentUser.GetUserId()).FirstOrDefault();
+                if (fin != null)
+                    return fin.Balance;
+                var user = _userManager.FindByIdAsync(_context.CurrentUser.GetUserId()).Result;
+                if (user != null)
+                    PostUpdateUserAsync(user).Wait();
 
-            return _cache.GetCachedCompanyAsync(_context, _context.CompanyId).Result.Name;
+            }
+            return 0;
+        }
+        public async Task<decimal> GetUserBalanceAsync()
+        {
+            if (_context.CurrentUser != null)
+            {
+
+                var fin =await  _context.UserFinances.Where(uf => uf.Id == _context.CurrentUser.GetUserId()).FirstOrDefaultAsync();
+                if (fin != null)
+                    return fin.Balance;
+                var user = await _userManager.FindByIdAsync(_context.CurrentUser.GetUserId());
+                if (user != null)
+                   await  PostUpdateUserAsync(user);
+
+            }
+            return 0;
         }
         public async Task<List<Company>> GetCurrentUsersCompaniesAsync(string userId)
         {
@@ -131,10 +169,31 @@ namespace CateringPro.Repositories
            return GetDefaultCompanyId();
 
         }
-        public async Task<bool> PostUpdateUserAsync(CompanyUser user, bool isNew = false)
+        public async Task<bool> CheckUserFinanceAsync(CompanyUser user)
         {
             try
             {
+                var fin = _context.UserFinances.Where(f => f.Id == user.Id).FirstOrDefault();
+                if (fin == null)
+                {
+                    fin = new UserFinance() { Id = user.Id, CompanyId = user.CompanyId };
+                    _context.Add(fin);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("CheckUserFinance", ex);
+                return false;
+            }
+            return true;
+        }
+        public async Task<bool> PostUpdateUserAsync(CompanyUser user, bool isNew = false)
+        {
+            bool res = true;
+            try
+            {
+               
                 var existing_companies = await GetCurrentUsersCompaniesUserAsync(user.Id);
                 if(!IsCompanyExist(user.CompanyId))
                 {
@@ -145,15 +204,16 @@ namespace CateringPro.Repositories
 
                 if(existing_companies.Count == 0)
                 {
-                    return await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                    res&= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
                 }
+                res &= await CheckUserFinanceAsync(user);
             }
             catch(Exception ex)
             {
                 _logger.LogError("Post update user", ex);
                 return false;
             }
-            return true;
+            return res;
         }
         public async Task<List<CompanyUser>> GetUserChilds(string userId,int companyId)
         {
