@@ -1,0 +1,90 @@
+﻿
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.main-header {
+    text-align: center;
+    background: black;
+    color: white;
+    padding: 3rem 5rem 3rem;
+
+    h1 {
+        margin: 0 0 0.5rem 0;
+    }
+
+    a {
+        color: white;
+    }
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 0 0 1rem 0;
+}
+
+p {
+    margin: 0 0 0.5rem 0;
+}
+
+main.tabs {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.service-status {
+    display: block;
+    
+    width: 100%;
+}
+.service-status.offline, .service-status.error {
+    background-color: red;
+}
+
+.service-status.online {
+    background-color: green;
+}
+.order-dish-select {
+    display: block;
+    width: 100%;
+    background-color: gray;
+    font-size:large;
+    font-weight:bolder;
+    cursor:pointer;
+}
+.order-dish-select.active {
+  background-color:chartreuse;
+}
+.delivery-command {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.wrongdelivery, .errordelivery,.deliverydish {
+    display: block;
+    width: 100%;
+    background-color: gray;
+    font-size: xx-large;
+    font-weight: bold;
+}
+.deliverydish {
+    background-color:aquamarine;
+}
+.wrongdelivery{
+    background-color: coral;
+}
+.errordelivery {
+    background-color: red;
+    color:white;
+}
+.container-order-dish-select, .container-state, .container-wrongdelivery, .container-errordelivery {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

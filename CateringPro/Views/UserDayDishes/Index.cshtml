@@ -38,6 +38,10 @@
 
             </div>
         </div>
+        <div class="col "> 
+            <button class="getDetails btn btn-primary" > @Localizer["GetWeekInfo"]</button>
+       
+        </div>
     </div>
     <div class="row" style="height:10px">
 
@@ -48,16 +52,23 @@
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
         @{
-            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
+            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
 
         }
         @for (int i = 0; i < 7; i++)
         {
-            <a class="nav-item nav-link nav-day @(i==0?" active":"") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID())?"":"day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
-
-                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
-                <span class="shorttabdate">@current_head.Day</span>
-            </a>
+            
+        <a class="nav-item nav-link nav-day @(i==0?" active":"") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID())?"":"day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
+            @if (i == 6)
+            {
+                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)0)<br />
+            }
+            else
+            {
+            @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i + 1)<br />
+            }
+            <span class="shorttabdate">@current_head.Day</span>
+        </a>
 
             current_head = current_head.AddDays(1);
         }
@@ -65,28 +76,28 @@
 </nav>
 <div class="tab-content day-content" id="nav-tabContent">
     @{
-        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Sunday);
+        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
     }
     @for (int i = 0; i < 7; i++)
     {
-    <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-        @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
-        {
-        <div class="container day-closed-msg">
-            <h3> @Localizer["DayClosedForOrder"] </h3>
-        </div>
-        }
-        @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
-        @if (Model.ShowComplex)
-        {
-        @await Component.InvokeAsync("UserDayComplexComponent", current_content)
-        }
-        @if (Model.ShowDishes)
-        {
-        @await Component.InvokeAsync("UserDayDishComponent", current_content)
-        }
+        <div class="tab-pane fade@(i==0?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+            @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
+            {
+                <div class="container day-closed-msg">
+                    <h3> @Localizer["DayClosedForOrder"] </h3>
+                </div>
+            }
+            @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
+            @if (Model.ShowComplex)
+            {
+                @await Component.InvokeAsync("UserDayComplexComponent", current_content)
+            }
+            @if (Model.ShowDishes)
+            {
+                @await Component.InvokeAsync("UserDayDishComponent", current_content)
+            }
 
-    </div>
+        </div>
 
         current_content = current_content.AddDays(1);
     }
@@ -101,7 +112,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>@Localizer["OrderAccepted"]</p>
+                @*<p>@Localizer["OrderAccepted"]</p>*@
                 <p>@Localizer["OrdeAcceptedDetail"]</p>
 
             </div>
@@ -154,6 +165,28 @@
         </div>
     </div>
 </div>
+<div id="deleteOrder" class="modal">
+    <div id="dialogContent" class="modal-dialog">
+    </div>
+</div>
+<div id="OrderWeekDetails" class="modal" role="dialog">
+    <div id="dialogOrderWeek" class="modal-dialog modal-lg">
+
+       
+        <div class="modal-content ">
+            <div class="modal-header">
+                <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
+                <button class="close" data-dismiss="modal" area-hidden="true">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class=" modal-body details-content">
+
+            </div>
+        </div>
+    </div>
+    </div>
 <div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -175,6 +208,29 @@
         </div>
     </div>
 </div>
+
+<div id="modOrderDbError" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Message"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["DbError"]</p>
+                <p>@Localizer["InternalError"]</p>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="modPayment" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -213,7 +269,7 @@
             var reloadDay = function (dayindex) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
-                dt.setDate(dt.getDate() - dt.getDay() + dayindex);
+                dt.setDate(dt.getDate() - dt.getDay() + dayindex+1);
                 var navcontent = $('#nav-content-' + dayindex);
                 navcontent.html(html_loading);
                 navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()),
@@ -265,8 +321,8 @@
                 var dt = new Date(ms);
                 var firstweekday = new Date(dt.getTime());
                 var lasttweekday = new Date(dt.getTime());
-                firstweekday.setDate(dt.getDate() - dt.getDay());
-                lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
+                firstweekday.setDate(dt.getDate() - dt.getDay()+1);
+                lasttweekday.setDate(dt.getDate() + (7 - dt.getDay()));
                 var locale = "@cultureCurrent.Name";
                 var res = firstweekday.getDate();
                 res += " - ";
@@ -343,6 +399,10 @@
                 }
                  if (data.res == "FAIL" && data.reason == "Empty") {
                     $('#modOrderEmpty').modal('show');
+                    return;
+                }
+                if (data.res == "FAIL" && (data.reason == "Deleting in db" | data.reason == "Adding to db")) {
+                    $('#modOrderDbError').modal('show');
                     return;
                 }
 
@@ -422,36 +482,98 @@
                 $(this).parent(".dayComplexBag").parent(".userDayComplexBag").children(".bagDayComplexItem").slideToggle(300);
             });
 
-           
+
 
             //delete ordered complex
 
             $(document).on('click', '.delete-complex', function (event) {
-                var res = confirm("Are you sure you want to delete ?");
-                if (res) {
-                    var com = $(this).attr("complexId");
-                    var date = $(this).attr("date");
-                    var UserDayComplex = { ComplexId: com, Date: date };
-                    $.ajax({
-                        type: "POST",
-                        data: res = { UserDayComplex },
+                console.log("Delete");
+                var com = $(this).attr("complexId");
+                var date = $(this).attr("date");
+                var UserDayComplex = { ComplexId: com, Date: date };
+                $.ajax({
+                    type: "POST",
+                    data: res = { UserDayComplex },
 
-                        url: "/UserDayDishes/DeleteDayComplex",
-                        success: function (data) {
-                            // alert(data);
-                            // $('#modOrderSuccess').modal('show');
-                            if (data.res == "OK") {
-                                // $('#modOrderSuccess').modal('show');
-                                //alert("Deleted");
-                                incrementday(0);
-                                return;
-                            }
-                            showOrderResult(data);
-                        }
-                    });
-                }
+                    url: "/UserDayDishes/DeleteCom",
+                    success: function (data) {
+                        console.log(data);
+                        $("#dialogContent").html(data);
+                        $("#deleteOrder").modal('show');
+
+                    }
+                });
+
+
+              
             });
+            $(document).on('click', '.delete-Ordcomplex', function (event) {
+                console.log("Post");
+                var form = $("#deleteOrd");
+                $.ajax({
+                    url: '/UserDayDishes/DeleteDayComplex',
+                    type: 'post',
+                    dataType: 'json',
+                    data: form.serialize(),
+                    success: function (data) {
+                        $("#deleteOrder").modal('hide');
+                        $("#dialogContent").empty();
+                        if (data.res == "OK") {
+                            incrementday(0);
+                            return;
+                        }
+                        showOrderResult(data);
 
+                    }
+                });
+
+            });
+            //get week details
+
+            $(document).on('click', '.getDetails', function (event) {
+                $("#OrderWeekDetails").modal('show');
+                $(".details-content").html(html_loading);
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() - dt.getDay()+1);
+                //console.log(dt);
+                /*dt = dt.StartOfWeek(DayOfWeek.Sunday)*/;
+                $.ajax({
+                    url: '/UserDayDishes/GetWeekOrderDetails?day=' + encodeURI(dt.toDateString()),
+                    type: 'get',
+                    success: function (data) {
+                        //console.log(data);
+                        //$("#OrderWeekDetails").modal('show');
+                        $(".details-content").html(data);
+                        //showOrderResult(data);
+
+                    }
+                    
+                })
+                    .fail(function (xhr, code, error) {
+                        console.log(error);
+                    });
+
+            });
+            $(document).on('click', '.sendWeek', function (event) {
+               
+                var ms = parseInt($('#currentdate').val());
+                var dt = new Date(ms);
+                dt.setDate(dt.getDate() - dt.getDay()+1);
+                $(".details-content").html(html_loading);
+                $.ajax({
+                    url: '/UserDayDishes/SendWeekInvoice?day=' + encodeURI(dt.toDateString()),
+                    type: 'get',
+                    success: function (data) {
+                        $("#OrderWeekDetails").modal('hide');
+                        $(".details-content").empty();
+                        
+                            showOrderResult(data);
+                        
+                    }
+
+                })
+             });
 
 
             //for one option menu
@@ -571,7 +693,9 @@
 
                         url: "/UserDayDishes/SaveDayComplex",
                         success: function (data) {
-                            showOrderResult(data);
+                            if (data.res != "OK") {
+                                showOrderResult(data);
+                            }
                             incrementday(0);
                         }
                     });
@@ -580,10 +704,10 @@
             });
 
             $(document).on('click', '.sendMany', function (event) {
-                console.log("Post");
+                //console.log("Post");
                 var form = $(this).attr("data-form");
-                console.log("Post"+form);
-                console.log($("[data-form='"+form+"']"));
+                //console.log("Post"+form);
+                //console.log($("[data-form='"+form+"']"));
                 $.ajax({
                     url: '/UserDayDishes/SaveDayComplex',
                     type: 'post',
@@ -594,9 +718,9 @@
                         incrementday(0);
                     }
                 });
-                
+
             });
-            
+
 
         });
 

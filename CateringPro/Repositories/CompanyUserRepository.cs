@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Http;
 using CateringPro.Core;
 using Microsoft.Extensions.Caching.Memory;
@@ -153,6 +154,36 @@ namespace CateringPro.Repositories
                 return false;
             }
             return true;
+        }
+        public async Task<List<CompanyUser>> GetUserChilds(string userId,int companyId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return await _userManager.Users.Where(u => u.CompanyId == companyId && u.ParentUserId == userId || u.Id==userId || u.Id== user.ParentUserId).ToListAsync();
+        }
+        public async Task<bool> PostUpdateChildUserAsync(CompanyUser childuser, CompanyUser parentuser)
+        {
+            if (string.IsNullOrEmpty(childuser.ParentUserId) || !string.IsNullOrEmpty(parentuser.ParentUserId))
+                return true; // nothing to do
+            if(childuser.CompanyId!= parentuser.CompanyId)
+            {
+                childuser.CompanyId = parentuser.CompanyId;
+                _context.Update(childuser);
+                await _context.SaveChangesAsync();
+            }
+            var companies= await GetCurrentUsersCompaniesUserAsync(parentuser.Id);
+            var child_companies = companies.Select(c => c.CompanyId).ToList() ;
+            return await AddCompaniesToUserAsync(childuser.Id, child_companies);
+        }
+        public async Task<AddBalanceViewModel> AddBalanceViewAsync(string userId)
+        {
+            var user = await _context.Users.Include(u=>u.UserFinance).FirstOrDefaultAsync(u => u.Id == userId);
+            AddBalanceViewModel model = new AddBalanceViewModel()
+            {
+                UserId = userId,
+                CurrentBalance = user.UserFinance.Balance,
+                AmountToAdd = 0
+            };
+            return model;
         }
     }
 }

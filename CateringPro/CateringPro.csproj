@@ -75,6 +75,8 @@
     <Compile Remove="Migrations\20200723153752_Complex_Category.Designer.cs" />
     <Compile Remove="Migrations\20200723153906_Complex_Category.cs" />
     <Compile Remove="Migrations\20200723153906_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200728134315_Finance.cs" />
+    <Compile Remove="Migrations\20200728134315_Finance.Designer.cs" />
     <Compile Remove="Models\ComplexCategory.cs" />
     <Compile Remove="Models\Order.cs" />
     <Compile Remove="Models\OrderDetail.cs" />
@@ -98,6 +100,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
     <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
     <Content Remove="Views\Shared\PizzaSummary.cshtml" />
   </ItemGroup>
@@ -122,6 +125,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6">
       <PrivateAssets>all</PrivateAssets>
@@ -140,7 +144,6 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Logs\" />
-    <Folder Include="SQL\" />
     <Folder Include="Reports\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />

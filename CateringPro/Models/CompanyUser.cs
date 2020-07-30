@@ -49,6 +49,28 @@ namespace CateringPro.Models
         public bool ConfirmedByAdmin { get; set; }
 
         public virtual ICollection<CompanyUserCompany> CompanyUserCompany { get; set; }
+
+        [StringLength(100)]
+        public string ParentUserId { get; set; }
+        [StringLength(40)]
+        public string ChildNameSurname { get; set; }
+
+        public DateTime? ChildBirthdayDate { get; set; }
+
+        [DefaultValue(1)]
+        public int ChildrenCount { get; set; }
+
+        public UserFinance UserFinance { get; set; }
+        public string GetChildUserName()
+        {
+            return string.IsNullOrEmpty(ChildNameSurname) ?
+                (string.IsNullOrEmpty(NameSurname) ? UserName : NameSurname)
+                : ChildNameSurname;
+        } 
+        public bool IsChild()
+        {
+            return !string.IsNullOrEmpty(this.ParentUserId);
+        }
     }
     public class CompanyRole : IdentityRole
     {

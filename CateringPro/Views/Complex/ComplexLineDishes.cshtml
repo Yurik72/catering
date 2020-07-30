@@ -13,7 +13,7 @@
 <div class="complex-line container border mb-4" id="complex-line$@i" >
     <div class="row course-dish">
         <div class="col-sm-4">
-            <label class="control-label">@(i+1)-@Localizer["DishCourse"] </label>
+            <label class="control-label">@*@(i+1)-@Localizer["DishCourse"]*@ @Localizer["Course" + (i+ 1)]</label>
         </div>
         <div class="col-4">
             <a class="add-complex-line fa fa-plus-square-o fa-2x" course="@i"></a>

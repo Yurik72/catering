@@ -110,8 +110,8 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="@Model.Seller.UrlPicture" style="width:100%; max-width:300px;" />
-                                @*<img src="@Url.BuildPictureUrl(Model.Seller.PictureId)" style="width:100%; max-width:300px;" />*@
+                               @* <img src="@Model.Seller.UrlPicture" style="width:100%; max-width:300px;" />*@
+                                <img src="@Url.BuildPictureUrl(Model.Seller.PictureId)" style="width:100%; max-width:100px;max-height:100px;" />
                             </td>
                             <td>
                                 Рахунок: @Model.Number
@@ -265,8 +265,8 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />
-                    @*<img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:300px;" />*@
+                    @*<img src="@Model.Seller.UrlStampPicture" style="width:100%; max-width:300px;" />*@
+                    <img src="@Url.BuildPictureUrl(Model.Seller.StampPictureId)" style="width:100%; max-width:100px;max-height:100px;" />
                 </td>
             </tr>
         </table>

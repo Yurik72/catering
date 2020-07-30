@@ -19,7 +19,12 @@
             <div class="col ">
                 <span class="fa fa-shopping-cart fa-2x "></span>
             </div>
-
+            <div class="col ">
+                @if (Model.First().Confirmed)
+                {
+                    <span class="confirmed fa fa-check fa-2x text-success"></span>
+                }
+            </div>
             <div class="col ">
                 <span class="total">@Localizer["Order Total"]</span>
             </div>
@@ -65,12 +70,14 @@
                     <span class="fa fa-info fa-2x" aria-hidden="true"></span>
 
                 </div>
+                @if (allowEdit)
+                {
                 <div class="col col-2 delete-line">
-
+                   @* <span class=" cmd-delete dialog-edit-icon fa fa-trash fa-2x delete-complex" complexId="@item.ComplexId" date="@item.Date" aria-hidden="true"></span>*@
                     <span class="fa fa-trash fa-2x delete-complex" complexId="@item.ComplexId" date="@item.Date" aria-hidden="true"></span>
-
+                   
                 </div>
-
+                }
             </div>
             <div class="bagDayComplexItem table-responsive">
                 <table class="table table-hover shopping-cart-wrap">
@@ -148,6 +155,6 @@
         </div>
         }
 
-
+    @*<button type="button" button class="btn btn-primary" data-action="payuserdaycomplex">@Localizer["MyOrdersPayment"]</button>*@
     }
     </div>

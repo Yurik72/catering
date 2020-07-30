@@ -25,16 +25,18 @@ namespace CateringPro.Controllers
         private readonly UserManager<CompanyUser> _userManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly IEmailService _email;
-        private readonly IUserDayDishesRepository _udaydishrepo;
+        private readonly IInvoiceRepository _invoicerepo;
+        //private readonly IUserDayDishesRepository _udaydishrepo;
 
-        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email, IUserDayDishesRepository udaydishrepo)
+        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email, IInvoiceRepository invoicerepo)
         {
             _context = context;
             _userManager = um;
             _userdaydishesrepo = ud;
             _logger = logger;
             _email = email;
-            _udaydishrepo = udaydishrepo;
+            _invoicerepo = invoicerepo;
+            // _udaydishrepo = udaydishrepo;
         }
 
         // GET: UserDayDishes
@@ -49,9 +51,10 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = DateTime.Now,
-                ShowComplex= user.MenuType.HasValue && (user.MenuType.Value & 1)>0,
-                ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0,
-               
+                //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
+                //ShowDishes = user.MenuType.HasValue && (user.MenuType.Value & 2) > 0,
+                ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex)) > 0,
+                ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes) > 0
 
             };
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
@@ -64,9 +67,9 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = daydate,
-                ShowComplex = (_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
+                ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
                 //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
-                ShowDishes = (_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
+                ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
             };
             return PartialView(model);
         }
@@ -208,7 +211,7 @@ namespace CateringPro.Controllers
             
             if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
             {
-                await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+                //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
                 return await Task.FromResult(Json(new { res = "OK" }));
                
             }
@@ -218,6 +221,62 @@ namespace CateringPro.Controllers
             }
  
             
+        }
+        public async Task<JsonResult> SendWeekInvoice(string day)
+        {
+            DateTime daydate = Convert.ToDateTime(day);
+            await _email.SendWeekInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+            return await Task.FromResult(Json(new { res = "OK" }));
+        }
+        public async Task<IActionResult> GetWeekOrderDetails(string day)
+        {
+            DateTime daydate = Convert.ToDateTime(day);
+            string userid = User.GetUserId();
+            int comapnyid = User.GetCompanyID();
+            try
+            {
+                var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+                var avaible = _userdaydishesrepo.AvaibleComplexDay(daydate, userid, comapnyid);
+                var items = model.Items.ToList();
+                if (avaible.Count() > 0 && items.Count() == 0)
+                {
+                    var inItem = new InvoiceItemModel();
+                    inItem.DayComplex = new UserDayComplexViewModel();
+                    inItem.DayComplex.Date = daydate;
+                    items.Add(inItem);
+
+                }
+                model.Items = items;
+                for (int i = 0; i < 6; i++)
+                {
+                    daydate = daydate.AddDays(1);
+                    avaible = _userdaydishesrepo.AvaibleComplexDay(daydate, userid, comapnyid);
+                    var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+                    items = model.Items.ToList();
+                    if (avaible.Count() > 0 && nextModel.Items.ToList().Count() == 0)
+                    {
+                        var inItem = new InvoiceItemModel();
+                        inItem.DayComplex = new UserDayComplexViewModel();
+                        inItem.DayComplex.Date = daydate;
+                        inItem.DayComplex.Enabled = false;
+                        items.Add(inItem);
+
+                    }
+                    items.AddRange(nextModel.Items.ToList());
+                    model.Items = items;
+
+
+                }
+                return PartialView("~/Views/Invoice/EmailWeekInvoice.cshtml", model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetWeekOrderDetails ");
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+            }
+
+                //await _email.SendWeekInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+                
         }
         // POST: UserDayDishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -257,23 +316,26 @@ namespace CateringPro.Controllers
         }
 
         // GET: UserDayDishes/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCom(UserDayComplex UserDayComplex)
         {
-            if (id == null)
+            if (UserDayComplex == null)
             {
                 return NotFound();
             }
-
-            var userDayDish = await _context.UserDayDish
-                .Include(u => u.Dish)
-                .Include(u => u.User)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var comName = await _context.Complex.FirstOrDefaultAsync(x => x.CompanyId == User.GetCompanyID()
+                && x.Id == UserDayComplex.ComplexId);
+            var userDayDish = await _context.UserDayComplex.
+                FirstOrDefaultAsync(x => x.CompanyId == User.GetCompanyID()
+                && x.Date == UserDayComplex.Date && x.ComplexId == UserDayComplex.ComplexId);
+               
             if (userDayDish == null)
             {
                 return NotFound();
             }
-
-            return View(userDayDish);
+            userDayDish.Complex.Name = comName.Name;
+            return PartialView("Delete",userDayDish);
         }
 
         // POST: UserDayDishes/Delete/5

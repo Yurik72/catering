@@ -32,35 +32,41 @@
                     $('#modDialogLogin').modal('show');
                 });
             });
-            if ($("#autologon").length > 0){
-                $('#loginLink').trigger("click");
-            }
+            //if ($("#autologon").length > 0){
+            //    $('#loginLink').trigger("click");
+            //}
 
-              $(document).on('click', '[data-save="modal"]', function (event) {
-                    event.preventDefault();
+            $(document).on('click', '[data-save="modal"]', function (event) {
+                event.preventDefault();
 
-                    var form = $(this).parent().parents().find('.modal-body').find('form');
-                    var actionUrl = form.attr('action');
-                    var dataToSend = form.serialize();
+                var form = $(this).parent().parents().find('.modal-body').find('form');
+                var actionUrl = form.attr('action');
+                var dataToSend = form.serialize();
 
-                  $.post(actionUrl, dataToSend).done(function (data,statusText, xhr) {
-                      var isValid = false;
+                $.post(actionUrl, dataToSend).done(function (data, statusText, xhr) {
+                    var isValid = false;
 
-                      if (data && data.res && data.res== "OK")
-                                isValid = true;
+                    if (data && data.res && data.res == "OK")
+                        isValid = true;
 
-                      if (isValid) {
-                          $('#modDialog').modal('hide');
-                          $('#dialogContent').empty();
+                    if (isValid) {
+                        $('#modDialog').modal('hide');
+                        $('#dialogContent').empty();
 
-                          window.location.href = data.returnUrl;
-                      }
-                      else {
-                          var newBody = $('.modal-body', data);
-                          $(document).find('.modal-body').replaceWith(newBody);
-                      }
-                    });
+                        window.location.href = data.returnUrl;
+                    }
+                    else {
+                        var newBody = $('.modal-body', data);
+                        $(document).find('.modal-body').replaceWith(newBody);
+                    }
+                }).fail(function (xhr, status, error) {
+                    var message = error + '\r\n';
+                    if (xhr)
+                        message += xhr.responseText;
+                    dialog_error(message);
+                   // $('html').html(xhr.responseText); 
                 });
+            });
         })
     </script>
     await Html.RenderPartialAsync("_ValidationScriptsPartial");

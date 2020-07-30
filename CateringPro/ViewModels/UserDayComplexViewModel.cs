@@ -25,6 +25,7 @@ namespace CateringPro.Models
 
 
         public int Quantity { get; set; }
+        public bool Confirmed { get; set; }
 
         public bool Enabled { get; set; }
 

@@ -29,7 +29,11 @@ namespace CateringPro.Controllers
 
         public IActionResult Error()
         {
-            return View();
+            return PartialView();
+        }
+        public IActionResult UserError()
+        {
+            return View("Error");
         }
     }
 }

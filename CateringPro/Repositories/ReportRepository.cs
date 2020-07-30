@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Core;
 using System.Data;
 using CateringPro.ViewModels;
+//using AspNetCore;
 
 namespace CateringPro.Repositories
 {
@@ -16,10 +17,14 @@ namespace CateringPro.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
-        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger)
+        private readonly IUserDayDishesRepository _udaydishrepo;
+        private readonly IInvoiceRepository _invoicerepo;
+        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo)
         {
             _context = context;
             _logger = logger;
+            _udaydishrepo = ud;
+            _invoicerepo = invoicerepo;
         }
        public CompanyModel GetOwnCompany(int companyid)
         {
@@ -170,6 +175,7 @@ namespace CateringPro.Repositories
         }
         public DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid)
         {
+            
             if (!_context.IsHttpContext())
             {
                 _context.SetCompanyID(companyid);
@@ -202,6 +208,62 @@ namespace CateringPro.Repositories
           
 
             return res;
+        }
+        //Mass email week order invoice
+        public InvoiceModel EmailWeekInvoice(DateTime daydate, int companyid, CompanyUser user)
+        {
+            int daysUntilMonday = ((int)DayOfWeek.Monday - (int)daydate.DayOfWeek + 7) % 7;
+            daydate = daydate.AddDays(daysUntilMonday);
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
+            string userid = user.Id;
+            InvoiceModel res = new InvoiceModel();
+            try
+            {
+
+                var model = _invoicerepo.CustomerInvoice(userid, daydate, companyid);
+                var avaible = _udaydishrepo.AvaibleComplexDay(daydate, userid, companyid);
+                var items = model.Items.ToList();
+                if (avaible.Count() > 0 && items.Count() == 0)
+                {
+                    var inItem = new InvoiceItemModel();
+                    inItem.DayComplex = new UserDayComplexViewModel();
+                    inItem.DayComplex.Date = daydate;
+                    items.Add(inItem);
+                    model.Items = items;
+                }
+                
+                for (int i = 0; i < 6; i++)
+                {
+                    daydate = daydate.AddDays(1);
+                    avaible = _udaydishrepo.AvaibleComplexDay(daydate, userid, companyid);
+                    var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, companyid);
+                    items = model.Items.ToList();
+                    if (avaible.Count() > 0 && nextModel.Items.ToList().Count() == 0)
+                    {
+                        var inItem = new InvoiceItemModel();
+                        inItem.DayComplex = new UserDayComplexViewModel();
+                        inItem.DayComplex.Date = daydate;
+                        inItem.DayComplex.Enabled = false;
+                        items.Add(inItem);
+
+                    }
+                    items.AddRange(nextModel.Items.ToList());
+                    model.Items = items;
+
+
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Mass email User={0} ");
+                return res; //to do
+            }
+
+
         }
         public async Task<ProductionForecastViewModel> CompanyProductionForecast(DateTime datefrom, DateTime dateto, int companyId)
         {

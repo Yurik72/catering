@@ -159,6 +159,16 @@ namespace CateringPro.Migrations
                         .HasColumnType("nvarchar(40)")
                         .HasMaxLength(40);
 
+                    b.Property<DateTime?>("ChildBirthdayDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ChildNameSurname")
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<int>("ChildrenCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(25)")
                         .HasMaxLength(25);
@@ -204,6 +214,10 @@ namespace CateringPro.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<string>("ParentUserId")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -787,6 +801,127 @@ namespace CateringPro.Migrations
                     b.ToTable("UserDayDish");
                 });
 
+            modelBuilder.Entity("CateringPro.Models.UserFinIncome", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IncomeType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransactionData")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id", "TransactionDate");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("UserFinIncomes");
+                });
+
+            modelBuilder.Entity("CateringPro.Models.UserFinOutCome", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("DayDate")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OutComeType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.HasKey("Id", "DayDate");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("UserFinOutComes");
+                });
+
+            modelBuilder.Entity("CateringPro.Models.UserFinance", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<decimal>("Balance")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValueSql("(0.0)");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<decimal>("TotalIncome")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValueSql("(0.0)");
+
+                    b.Property<int>("TotalOrders")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("(0)");
+
+                    b.Property<decimal>("TotalOutCome")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValueSql("(0.0)");
+
+                    b.Property<decimal>("TotalPreOrderedAmount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(18,2)")
+                        .HasDefaultValueSql("(0.0)");
+
+                    b.Property<int>("TotalPreOrders")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("(0)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("UserFinances");
+                });
+
             modelBuilder.Entity("CateringPro.Models.UserGroups", b =>
                 {
                     b.Property<int>("Id")
@@ -1222,6 +1357,51 @@ namespace CateringPro.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CateringPro.Models.UserFinIncome", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CateringPro.Models.UserFinance", "UserFinance")
+                        .WithMany("UserFinIncomes")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CateringPro.Models.UserFinOutCome", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CateringPro.Models.UserFinance", "UserFinance")
+                        .WithMany("UserFinOutComes")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CateringPro.Models.UserFinance", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CateringPro.Models.CompanyUser", "CompanyUser")
+                        .WithOne("UserFinance")
+                        .HasForeignKey("CateringPro.Models.UserFinance", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

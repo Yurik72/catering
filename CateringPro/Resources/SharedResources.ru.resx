@@ -291,4 +291,46 @@
   <data name="DishCourse" xml:space="preserve">
     <value>Номер блюда</value>
   </data>
+  <data name="ComplexCategory" xml:space="preserve">
+    <value>Категория комплекса</value>
+  </data>
+  <data name="Course1" xml:space="preserve">
+    <value>Первое</value>
+  </data>
+  <data name="Course2" xml:space="preserve">
+    <value>Второе</value>
+  </data>
+  <data name="Course3" xml:space="preserve">
+    <value>Третье</value>
+  </data>
+  <data name="Course4" xml:space="preserve">
+    <value>Четвертое</value>
+  </data>
+  <data name="UserDayDish" xml:space="preserve">
+    <value>Заказаный комплекс</value>
+  </data>
+  <data name="DbError" xml:space="preserve">
+    <value>Ошибка базы данных</value>
+  </data>
+  <data name="GetWeekInfo" xml:space="preserve">
+    <value>Недельный отчет</value>
+  </data>
+  <data name="NoOrders" xml:space="preserve">
+    <value>Нет заказов</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Отправить по почте</value>
+  </data>
+  <data name="DishesQuantity" xml:space="preserve">
+    <value>Количество блюд</value>
+  </data>
+  <data name="AskAdmin" xml:space="preserve">
+    <value>Обратитесь к администратору для заказа</value>
+  </data>
+  <data name="NoDishes" xml:space="preserve">
+    <value>Курс не может быть без блюд</value>
+  </data>
+  <data name="SameDish" xml:space="preserve">
+    <value>Нельзя добавить блюдо, что уже есть в комплексе</value>
+  </data>
 </root>

@@ -30,8 +30,9 @@ namespace CateringPro.Core
         [TemplateLoader(typeof(DayMenuTemplateLoader))]
         DayMenu = 2,
         [TemplateLoader(typeof(DayProductionTemplateLoader))]
-        DayProduction=3
-
+        DayProduction=3,
+        [TemplateLoader(typeof(UserDayOrderTemplateLoader))]
+        UserOrderWeek = 4
     }
     public abstract class  EMailTemplateLoader
     {
@@ -42,7 +43,7 @@ namespace CateringPro.Core
             _mailRepo = mailRepo;
             _companyid = companyid;
         }
-        public abstract bool LoadModel(MassEmail em, EmailTemplateViewModel template);
+        public abstract bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user);
         protected virtual void  DateCycle(MassEmail em, EmailTemplateViewModel template,Action<MassEmail, EmailTemplateViewModel,DateTime> action)
         {
             DateTime dayfrom = DateTime.Today.AddDays(em.DayFrom);
@@ -60,7 +61,7 @@ namespace CateringPro.Core
         {
 
         }
-        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template)
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
             return true;
         }
@@ -71,7 +72,7 @@ namespace CateringPro.Core
         {
 
         }
-        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template)
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
             this.DateCycle(em,template,(em, template, dt) => {
                 template.Models.Add(dt, _mailRepo.ReportRepository.CompanyComplexMenu(dt, dt, _companyid));
@@ -91,12 +92,28 @@ namespace CateringPro.Core
         {
 
         }
-        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template)
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
             this.DateCycle(em, template, (em, template, dt) => {
                 template.Models.Add(dt, _mailRepo.ReportRepository.CompanyDayProduction(dt, _companyid));
             });
 
+            return true;
+        }
+    }
+    public class UserDayOrderTemplateLoader : EMailTemplateLoader
+    {
+        public UserDayOrderTemplateLoader(IMassEmailRepository mailRepo, int companyid) : base(mailRepo, companyid)
+        {
+
+        }
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
+        {
+            //this.DateCycle(em, template, (em, template, dt) => {
+            //    template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid,user));
+            //});
+            DateTime dt = DateTime.Now;
+            template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid, user));
             return true;
         }
     }

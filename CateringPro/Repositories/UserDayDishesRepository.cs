@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using CateringPro.Core;
 using Microsoft.Extensions.Caching.Memory;
 using System.Transactions;
+using System.Xml.Schema;
 
 namespace CateringPro.Repositories
 {
@@ -32,6 +33,10 @@ namespace CateringPro.Repositories
         public OrderTypeEnum GetCompanyOrderType(int companyid)
         {
             return _cache.GetCachedCompanyAsync(_context, companyid).Result.GetOrderType();
+        }
+        public bool GetConfrimedAdmin(string userid)
+        {
+            return _context.Users.Where(us => us.Id == userid).Select(us => us.ConfirmedByAdmin).FirstOrDefault();
         }
         public bool IsAllowDayEdit(DateTime dt, int companyid)
         {
@@ -435,8 +440,52 @@ namespace CateringPro.Repositories
 
             return true;
         }
+        public async Task<bool> SaveUserDay(int quantity, decimal total,DateTime date, string userId, int companyId)
+        {
+            UserDay order = new UserDay();
+            order.CompanyId = companyId;
+            order.Date = date;
+            order.UserId = userId;
+            order.Quantity = quantity;
+            order.Total = total;
+            order.IsConfirmed = true;
+            try
+            {
+                
+                    //await saveday(d);
+                    // httpcontext.User.AssignUserAttr(d);
+                    var userDay = _context.UserDay.SingleOrDefault(c => c.CompanyId == order.CompanyId
+                                && c.Date == order.Date
+                                && c.UserId == order.UserId);
+                    if (userDay != null)
+                    {
+                    userDay.Quantity += order.Quantity;
+                    userDay.Total += order.Total;
+                        _context.Update(userDay);
+                    }
+                    else if (order.Quantity > 0)
+                    {
+                        //d.UserId = this.User.GetUserId();
+
+                        _context.Add(order);
+                    }
+
+               
+                _context.SaveChanges();
+                //  if (!UpdateUserComplex(daycomplex, httpcontext))
+                //     return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update user day");
+                return false;
+            }
+            return true;
+        }
         public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, string userId, int companyId)
         {
+            decimal total = 0;
+            daycomplex.ForEach(d => total += d.Price);
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
@@ -445,6 +494,8 @@ namespace CateringPro.Repositories
 
                 if (!await SaveDayDishInComplex(userDayDishes, userId, companyId))
                     return false;
+                if (!await SaveUserDay(daycomplex.Count(), total, daycomplex.First().Date, userId, companyId))
+                    return false;
                 scope.Complete();
             }
             return true;
@@ -452,6 +503,7 @@ namespace CateringPro.Repositories
         //Delete ordered complex with dishes
         public async Task<bool> DeleteDayComplex(UserDayComplex userDayComplex, string userId, int companyId)
         {
+            
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 if (!await DeleteDayComplexDb(userDayComplex, userId, companyId))
@@ -459,6 +511,8 @@ namespace CateringPro.Repositories
 
 
                 if (!await DeleteDayDishInComplex(userDayComplex, userId, companyId))
+                    return false;
+                if (!await DeleteUserDay(userDayComplex.Price, userDayComplex.Date, userId, companyId))
                     return false;
                 scope.Complete();
             }
@@ -509,6 +563,41 @@ namespace CateringPro.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Delete UserDayDish");
+                return false;
+            }
+            return true;
+        }
+        private async Task<bool> DeleteUserDay(decimal total, DateTime date , string userId, int companyId)
+        {
+            //var userId = httpcontext.User.GetUserId();
+            //var companyId = httpcontext.User.GetCompanyID();
+            try
+            {
+                var existing_db = await _context.UserDay.Where
+                    (di => di.CompanyId == companyId &&
+                    di.UserId == userId &&
+                    di.Date == date).ToListAsync();
+                if (existing_db.FirstOrDefault().Quantity > 1)
+                {
+                    var userDay = existing_db.FirstOrDefault();
+                    if (userDay != null)
+                    {
+                        userDay.Quantity -= 1;
+                        userDay.Total -= total;
+                        _context.Update(userDay);
+                    }
+                }
+                else
+                {
+                    _context.UserDay.RemoveRange(existing_db);
+                }
+
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete UserDayComplex");
                 return false;
             }
             return true;
@@ -628,7 +717,7 @@ namespace CateringPro.Repositories
         public IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid)
         {
             var ordered = OrderedComplexDay(daydate, userId, companyid);
-
+            var orderedList = ordered.ToList();
             var query = from comp in _context.Complex
                         join dc in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dc.ComplexId
                         join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
@@ -663,16 +752,21 @@ namespace CateringPro.Repositories
                                                                                    select ingr.Name),
                                             }
                         };
-            foreach (var item in ordered) {
-                query = query.Where(x => x.ComplexCategoryId != item.ComplexCategoryId);
-                    }
+            query = query.Where(x => !ordered.Any(o => o.ComplexCategoryId == x.ComplexCategoryId));
+            //foreach (var item in ordered) {
+            //    query = query.Where(x => x.ComplexCategoryId != item.ComplexCategoryId);
+            //        }
             return query;
         }
         public IQueryable<UserDayComplexViewModel> OrderedComplexDay(DateTime daydate, string userId, int companyid)
         {
+            var confirmed = from ud in _context.UserDay
+                            where ud.CompanyId == companyid & ud.Date == daydate && ud.UserId == userId
+                             select new UserDay();
             var query = from comp in _context.Complex
                             // join udd in (from subday in _context.UserDayDish where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals udd.ComplexId
                         join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
+                        join uday in _context.UserDay.Where(ud => ud.CompanyId == companyid & ud.Date == daydate && ud.UserId == userId) on comp.CompanyId equals uday.CompanyId
                         join dd in (from usubday in _context.UserDayComplex where usubday.UserId == userId && usubday.Date == daydate && usubday.CompanyId == companyid select usubday) on comp.Id equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
                         where dayd.Quantity>0
@@ -685,6 +779,7 @@ namespace CateringPro.Repositories
                             Quantity = dayd.Quantity,
                             Price = comp.Price,
                             Date = daydate,
+                            Confirmed = uday.IsConfirmed,
                             Enabled = dayd.Date == daydate,  /*dayd != null*/
                             ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
                                             join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
@@ -707,6 +802,9 @@ namespace CateringPro.Repositories
                                                                                    select ingr.Name),
                                             }
                         };
+            var query1 = query.ToList();
+            var confirmed1 = confirmed.ToList();
+            query1.ForEach(d => d.Confirmed = confirmed1.FirstOrDefault().IsConfirmed);
             return query;
         }
         }
