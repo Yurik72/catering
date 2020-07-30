@@ -4,100 +4,172 @@
 
 }
 <h2>@Localizer["MenuUpdateUser"]</h2>
+<style>
+    form dt {
+        float: left;
+        display: block;
+        width: 30%;
+    }
+
+    dd select {
+        width: 50%;
+    }
+
+    dd textarea {
+        width: 100%;
+    }
+</style>
 <form asp-controller="Account" asp-action="Update" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 
-    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    
+    <nav>
+        <div class="nav nav-tabs" id="nav-tabs" role="tablist">
+            <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-0" aria-selected="true">Головна</a>
+            <a class="nav-item nav-link nav-childs" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Childs</a>
+            <a class="nav-item nav-link nav-finance" id="nav-tab-fin" data-toggle="tab" href="#nav-content-fin" role="tab" aria-controls="nav-content-fin" aria-selected="false">Finance</a>
+        </div>
 
-    <input type="hidden" asp-for="Id" />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <input type="hidden" asp-for="Id" />
+
+        <div class="tab-content user-content border rounded" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
+                    <dl class="">
+                        <dd><input type="hidden" asp-for="Id" /></dd>
+                        <dt>  <label asp-for=OldPassword class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="OldPassword" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="OldPassword" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=NewPassword class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="NewPassword" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=ConfirmPassword class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Email class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Email" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=NameSurname class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="NameSurname" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="NameSurname" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=PhoneNumber class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=City class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="City" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=ZipCode class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="ZipCode" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="ZipCode" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Country class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Country" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Address1 class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Address1" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Address1" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Address2 class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Address2" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Address2" class="text-danger"></span>
+                        </dd>
+                    </dl>
+
+
+            </div>
+            <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
+                <dl class="">
+                    <dt>  <label asp-for=ChildrenCount class="control-label"></label></dt>
+                    <dd>
+                        <input asp-for="ChildrenCount" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="ChildrenCount" class="text-danger"></span>
+                    </dd>
+                </dl>
+                <div class="container border rounded">
+                    <div class="row">
+                        <div class="col-12  bg-info text-white">
+                            1 Дитина
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <dl>
+
+                                <dt>  <label asp-for=ChildNameSurname class="control-label"></label></dt>
+                                <dd>
+                                    <input asp-for="ChildNameSurname" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="ChildNameSurname" class="text-danger"></span>
+                                </dd>
+                                <dt>  <label asp-for=ChildBirthdayDate class="control-label"></label></dt>
+                                <dd>
+                                    <input asp-for="ChildBirthdayDate" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="ChildBirthdayDate" class="text-danger"></span>
+                                </dd>
+
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                    <div id="nextchilds" class="container">
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <button id="addchild" class="btn btn-primary">@Localizer["Add"]</button>
+                        </div>
+                    </div>
+                
+
+            </div>
+        <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+
+        </div>
+
+    </nav>
     <div class="container">
-        <div class="row form-group">
-            <label asp-for="OldPassword" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="OldPassword" class="form-control" />
-                <span asp-validation-for="OldPassword" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="NewPassword" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="NewPassword" class="form-control" />
-                <span asp-validation-for="NewPassword" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="ConfirmPassword" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="Email" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input readonly="readonly" asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="NameSurname" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="NameSurname" class="form-control" />
-                <span asp-validation-for="NameSurname" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="PhoneNumber" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="City" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="ZipCode" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="ZipCode" class="form-control" />
-                <span asp-validation-for="ZipCode" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="Country" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="Address1" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="Address1" class="form-control" />
-                <span asp-validation-for="Address1" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <label asp-for="Address2" class="col-md-2 control-label float-left"></label>
-            <div class="col-md-10 float-left">
-                <input asp-for="Address2" class="form-control" />
-                <span asp-validation-for="Address2" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row form-group">
+        <div class="row">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Localizer["Company Setting Save"]" class="btn btn-primary" />
             </div>
         </div>
     </div>
-
-
 </form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(function () {
+        $("#nav-content-fin").html(gethtmlloading());
+        $("#nextchilds").html(gethtmlloading());
+        $.get('/Account/UserFinance', function (data) {
+           
+            $("#nav-content-fin").html(data);
+              
+        });
+        $.get('/Account/UserChilds?view=UserChildsData', function (data) {
+
+            $("#nextchilds").html(data);
+
+        });
+        
+    });
+</script>
     }

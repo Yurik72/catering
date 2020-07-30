@@ -187,9 +187,15 @@ namespace CateringPro
                 new CultureInfo("ru-RU")
               
             };
+            UIOption uioption=Configuration.GetSection("UIOption").Get<UIOption>();
+            var cultureInfo = new CultureInfo(uioption.DefaultCulture);
+            cultureInfo.NumberFormat.CurrencySymbol = uioption.CurrencySymbol;
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture("uk"),
+                DefaultRequestCulture = new RequestCulture(uioption.DefaultRequestCulture),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
                 RequestCultureProviders = new List<IRequestCultureProvider>

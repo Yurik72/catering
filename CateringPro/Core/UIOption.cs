@@ -7,6 +7,17 @@ namespace CateringPro.Core
 {
     public class UIOption
     {
+        public UIOption()
+        {
+            CurrencySymbol = "₴";
+            DefaultCulture = "uk-UA";
+            DefaultRequestCulture = "uk";
+        }
         public string CurrencySymbol { get; set; }
+
+        public string DefaultCulture { get; set; }
+
+        public string DefaultRequestCulture { get; set; }
+
     }
 }

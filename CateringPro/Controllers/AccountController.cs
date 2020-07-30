@@ -23,14 +23,19 @@ namespace CateringPro.Controllers
         private readonly ILogger<CompanyUser> _logger;
         private readonly ICompanyUserRepository _companyuser_repo;
         private readonly IEmailService _email;
+        private readonly IUserFinRepository _fin;
         public AccountController(UserManager<CompanyUser> userManager,
-                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, IEmailService email)
+                                 SignInManager<CompanyUser> signInManager, 
+                                 ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, 
+                                 IEmailService email,
+                                 IUserFinRepository fin)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _companyuser_repo = companyuser_repo;
             _email = email;
+            _fin = fin;
         }
 
         [AllowAnonymous]
@@ -448,11 +453,15 @@ namespace CateringPro.Controllers
             return new EmptyResult();//RedirectToAction("Index", "Home");
         }
         [Authorize]
-        public async Task<IActionResult>  UserChilds()
+        public async Task<IActionResult>  UserChilds(string view,bool onlyChild=false)
         {
             List<CompanyUser> childs =await  _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
-            return PartialView(childs);
+            if(string.IsNullOrEmpty(view))
+                 return PartialView(childs);
+            return PartialView(view, childs);
         }
+        [Authorize]
+
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -481,6 +490,13 @@ namespace CateringPro.Controllers
         {
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
             return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> UserFinance()
+        {
+            
+            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(),User.GetCompanyID()));
         }
     }
 }

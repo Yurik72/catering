@@ -79,6 +79,11 @@ namespace CateringPro.ViewModels
         [DefaultValue(false)]
         public bool ConfirmedByAdmin { get; set; }
 
+        public int ChildrenCount { get; set; }
+
+        public string ChildNameSurname { get; set; }
+
+        public DateTime? ChildBirthdayDate { get; set; }
         public bool IsNew { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
@@ -96,8 +101,10 @@ namespace CateringPro.ViewModels
                 this.UserName=usr.UserName;
                 this.UserGrpoupId = usr.UserGroupId;
                 this.ConfirmedByAdmin = usr.ConfirmedByAdmin;
-
-            }
+                this.ChildrenCount = usr.ChildrenCount;
+                this.ChildNameSurname = usr.ChildNameSurname;
+                this.ChildBirthdayDate = usr.ChildBirthdayDate;
+    }
 
             return this;
         }
@@ -116,6 +123,9 @@ namespace CateringPro.ViewModels
                 usr.UserName = this.UserName;
                 usr.UserGroupId = this.UserGrpoupId;
                 usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
+                usr.ChildrenCount = this.ChildrenCount;
+                usr.ChildNameSurname = this.ChildNameSurname;
+                usr.ChildBirthdayDate = this.ChildBirthdayDate;
                 if (isNew)
                     usr.Email = this.Email;
             }
