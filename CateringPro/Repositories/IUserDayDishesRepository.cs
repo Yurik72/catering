@@ -26,6 +26,7 @@ namespace CateringPro.Repositories
         IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid);
         IQueryable<UserDayComplexViewModel> OrderedComplexDay(DateTime daydate, string userId, int companyid);
         OrderTypeEnum GetCompanyOrderType(int companyid);
+        bool GetConfrimedAdmin(string userid);
     }
 }
 

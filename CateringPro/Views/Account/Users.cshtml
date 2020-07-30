@@ -66,22 +66,6 @@
                     setuproleshandler($("#user-roles-content"))
                 });
             }
-            function setuproleshandler(cont) {
-                cont.find(".role-item").click(function (e) {
-                    e.preventDefault();
-                    if ($(this).hasClass('active'))
-                        $(this).removeClass('active').removeClass("fa-check-square-o").addClass("fa-square-o");
-                    else
-                        $(this).removeClass("fa-square-o").addClass('active').addClass("fa-check-square-o");
-
-                    var roles=cont.find(".role-item.active").map(function () {
-                        return $(this).text();
-                    })
-                        .get()
-                        .join(", ");
-                    cont.find("#roles").val(roles);
-                });
-            }
         })
 </script>
 }

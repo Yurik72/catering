@@ -52,16 +52,23 @@
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
         @{
-            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Sunday);
+            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
 
         }
         @for (int i = 0; i < 7; i++)
         {
-            <a class="nav-item nav-link nav-day @(i==0?" active":"") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID())?"":"day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
-
-                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i)<br />
-                <span class="shorttabdate">@current_head.Day</span>
-            </a>
+            
+        <a class="nav-item nav-link nav-day @(i==0?" active":"") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID())?"":"day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
+            @if (i == 6)
+            {
+                @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)0)<br />
+            }
+            else
+            {
+            @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i + 1)<br />
+            }
+            <span class="shorttabdate">@current_head.Day</span>
+        </a>
 
             current_head = current_head.AddDays(1);
         }
@@ -69,7 +76,7 @@
 </nav>
 <div class="tab-content day-content" id="nav-tabContent">
     @{
-        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Sunday);
+        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
     }
     @for (int i = 0; i < 7; i++)
     {
@@ -262,7 +269,7 @@
             var reloadDay = function (dayindex) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
-                dt.setDate(dt.getDate() - dt.getDay() + dayindex);
+                dt.setDate(dt.getDate() - dt.getDay() + dayindex+1);
                 var navcontent = $('#nav-content-' + dayindex);
                 navcontent.html(html_loading);
                 navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()),
@@ -314,8 +321,8 @@
                 var dt = new Date(ms);
                 var firstweekday = new Date(dt.getTime());
                 var lasttweekday = new Date(dt.getTime());
-                firstweekday.setDate(dt.getDate() - dt.getDay());
-                lasttweekday.setDate(dt.getDate() + (6 - dt.getDay()));
+                firstweekday.setDate(dt.getDate() - dt.getDay()+1);
+                lasttweekday.setDate(dt.getDate() + (7 - dt.getDay()));
                 var locale = "@cultureCurrent.Name";
                 var res = firstweekday.getDate();
                 res += " - ";
@@ -483,7 +490,7 @@
                 console.log("Delete");
                 var com = $(this).attr("complexId");
                 var date = $(this).attr("date");
-                var UserDayComplex = { DayDate: '01.01.2010'};
+                var UserDayComplex = { ComplexId: com, Date: date };
                 $.ajax({
                     type: "POST",
                     data: res = { UserDayComplex },
@@ -528,7 +535,7 @@
                 $(".details-content").html(html_loading);
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
-                dt.setDate(dt.getDate() - dt.getDay());
+                dt.setDate(dt.getDate() - dt.getDay()+1);
                 //console.log(dt);
                 /*dt = dt.StartOfWeek(DayOfWeek.Sunday)*/;
                 $.ajax({
@@ -552,7 +559,7 @@
                
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
-                dt.setDate(dt.getDate() - dt.getDay());
+                dt.setDate(dt.getDate() - dt.getDay()+1);
                 $(".details-content").html(html_loading);
                 $.ajax({
                     url: '/UserDayDishes/SendWeekInvoice?day=' + encodeURI(dt.toDateString()),
