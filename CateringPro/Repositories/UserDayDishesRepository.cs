@@ -461,6 +461,7 @@ namespace CateringPro.Repositories
                     {
                     userDay.Quantity += order.Quantity;
                     userDay.Total += order.Total;
+                    userDay.IsConfirmed = true;
                         _context.Update(userDay);
                     }
                     else if (order.Quantity > 0)

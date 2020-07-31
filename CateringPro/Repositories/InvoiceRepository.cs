@@ -69,6 +69,7 @@ namespace CateringPro.Repositories
                     ZipCode = user.ZipCode,
                     Email = user.Email,
                     Name = user.UserName,
+                    ChildName = user.ChildNameSurname,
                     City = user.City,
                     Address1 = user.Address1,
                     Address2 = user.Address2,

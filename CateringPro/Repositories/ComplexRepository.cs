@@ -133,9 +133,9 @@ namespace CateringPro.Repositories
             {
                 var time = await _context.Companies.Where(x => x.Id == companyid).ToListAsync();
                 int hours = (int)time.FirstOrDefault().OrderLeadTimeH;
-                TimeSpan result = TimeSpan.FromHours(hours);
-                int days = (int)result.TotalDays;
-                DateTime daydate =  DateTime.Now.AddDays(-days);
+                //TimeSpan result = TimeSpan.FromHours(hours);
+                //int days = (int)result.TotalDays;
+                DateTime daydate =  DateTime.Now.AddHours(-hours);
                 var ordered = await _context.UserDayDish.Where(ord => ord.Date >= daydate && ord.ComplexId == complex.Id).ToListAsync();
                 ordered = ordered.Where(ord => !dishComplexes.Any(dc => dc.DishId == ord.DishId)).ToList();
                 // if(ordered.Any(dc => dishComplexes.Any(ord => dc.DishId == ord.DishId)))

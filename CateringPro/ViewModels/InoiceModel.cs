@@ -55,6 +55,7 @@ namespace CateringPro.Models
     public class CompanyModel
     {
         public string Name { get; set; }
+        public string ChildName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Country { get; set; }
@@ -78,7 +79,7 @@ namespace CateringPro.Models
         public int ComplexId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-
+        
         public int Quantity { get; set; }
         [DisplayFormat(DataFormatString = "0.00")]
         public decimal Price { get; set; }
