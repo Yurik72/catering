@@ -6,7 +6,9 @@ $(function () {
     setup_change_company();
     setup_changechield();
 });
-
+function gethtmlloading() {
+    return html_loading_element;
+}
 function setup_changechield() {
     $("#changechield").click(function (e) {
         var url = '/Account/UserChilds';

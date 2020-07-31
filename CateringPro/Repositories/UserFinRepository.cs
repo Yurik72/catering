@@ -1,6 +1,7 @@
 ﻿using CateringPro.Core;
 using CateringPro.Data;
 using CateringPro.Models;
+using CateringPro.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -49,6 +50,14 @@ namespace CateringPro.Repositories
                 return false;
             }
             return true;
+        }
+        public async Task<UserFinanceViewModel> GetUserFinModelAsync(string userId,int companyId)
+        {
+            var model=new UserFinanceViewModel();
+            model.Finance =await  _context.UserFinances.FirstOrDefaultAsync(m => m.Id == userId);
+            model.Outcomes  = await _context.UserFinOutComes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
+            model.Incomes = await _context.UserFinIncomes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
+            return model;
         }
     }
 }
