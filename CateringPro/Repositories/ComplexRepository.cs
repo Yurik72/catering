@@ -147,7 +147,7 @@ namespace CateringPro.Repositories
            var deleted_whichexists= deleted.Where(it => existing_dishes_inorder.Any(n => n.DishId == it.DishId));
             if (deleted_whichexists.Any())
             {
-                return new Result() { Success = false, Error = "not possible to delete"+ String.Join(",",deleted_whichexists.Select(d=>d.Dish.Name)) };
+                return new Result() { Success = false, Error = _localizer.GetLocalizedString("DishIsOrdered") +" "+ String.Join(",",deleted_whichexists.Select(d=>d.Dish.Name)) };
             }
             return new Result() { Success = true };
 

@@ -29,13 +29,13 @@
         </button>
 
     </div>
-    <div class="modal-body">
-        @*@if (@Html.ValidationSummary() != null)
+    <div class="modal-body modal-edit-body">
+        @if (@Html.ValidationSummary() != null)
         {
-        <div class="col alert-danger">@Html.ValidationSummary()</div>
+        <div id="error" class="col alert-danger">@Html.ValidationSummary()</div>
         
-        }*@
-        @Html.ValidationSummary()
+        }
+   @*     @Html.ValidationSummary()*@
         <form asp-action="EditModal">
             <dl class="">
                 <dd><input type="hidden" asp-for="Id" /></dd>

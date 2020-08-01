@@ -61,17 +61,14 @@ namespace CateringPro.Controllers
         {
             if (id != cmp.Id)
             {
-               // return Json(new { res = "FAIL", reason = "Not Found!" });
+               
                 return NotFound();
             }
 
-            // var res = _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID());
-            //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger,
-            //      e => {
-            //          return Task.FromResult(Json(new { res = "FAIL", reason = "Deleting in db" }));
-            //      });
+           
             var complex_orig = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
-
+            DishComplexes.ForEach( dc => dc.Dish = _context.Dishes.SingleOrDefaultAsync(c => c.Id == dc.DishId).Result);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", cmp.CategoriesId);
 
             if (!ModelState.IsValid)
             {
@@ -86,17 +83,18 @@ namespace CateringPro.Controllers
                 cmp.DishComplex = complex_orig.DishComplex;
                 return PartialView(cmp);
             }
+         
             var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
-                  e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
+                 e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
+
             //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger);
             if (!ModelState.IsValid){
                
                   cmp.DishComplex = complex_orig.DishComplex;
-               // var er = ModelState["general"].Errors.FirstOrDefault().ErrorMessage;
-              //  ModelState["general"] = SharedViewLocalizer["er"];
                 return PartialView(cmp);
             }
-            //ModelState.AddModelError("deleted", "already exists");
+           
+           
             
             return res;
 

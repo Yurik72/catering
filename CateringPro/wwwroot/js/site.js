@@ -356,7 +356,7 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '               <div class="modal-footer">  ' +
         '     ' +
         '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes+'</button>  ' +
-        '                   <button id="btnno" type="button" class="btn btn-secondary" >' + $.text_resource.no +'</button>  ' +
+        '                   <button id="btnno" type="button" class="btn btn-secondary" data-dismiss="modal">' + $.text_resource.no +'</button>  ' +
         '               </div>  ' +
         '           </div>  ' +
         '       </div>  ' +
@@ -413,8 +413,8 @@ function dialog_error(message) {
     // var dialog = $('#moddialogyesno').dialog();
     dialog.modal('show');
     dialog.find('#btnyes').click(function () {
-        dialog.modal('hide');
-
+        //dialog.modal('hide');
+        $('.modal').modal('hide');
     });
 
 
