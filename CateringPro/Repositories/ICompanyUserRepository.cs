@@ -24,5 +24,9 @@ namespace CateringPro.Repositories
         Task<AddBalanceViewModel> AddBalanceViewAsync(string userId);
         decimal GetUserBalance();
         Task<decimal> GetUserBalanceAsync();
+        Task<bool> AddNewUserChild(string userId, int companyId);
+        Task<List<Company>> GetCompaniesAsync();
+        Task<List<AssignedCompanyEditViewModel>> GetAssignedCompaniesEdit(string userId);
+        Task<bool> AddCompaniesToUserAsync(string userid, IList<int> companiesIds);
     }
 }

@@ -582,7 +582,7 @@
   <data name="UserGroupId" xml:space="preserve">
     <value>Група</value>
   </data>
-  <data name="User Roles" xml:space="preserve">
+  <data name="UserRoles" xml:space="preserve">
     <value>Ролі користувача</value>
   </data>
   <data name="UserNameLogin" xml:space="preserve">
@@ -650,6 +650,30 @@
   </data>
   <data name="SendEmail" xml:space="preserve">
     <value>Надіслати на пошту</value>
+  </data>
+  <data name="Child" xml:space="preserve">
+    <value>Дитина</value>
+  </data>
+  <data name="ChildBirthdayDate" xml:space="preserve">
+    <value>Дата народж.</value>
+  </data>
+  <data name="ChildNameSurname" xml:space="preserve">
+    <value>ПIБ Дитини</value>
+  </data>
+  <data name="ChildrenCount" xml:space="preserve">
+    <value>Кількість дітей</value>
+  </data>
+  <data name="Childs" xml:space="preserve">
+    <value>Діти</value>
+  </data>
+  <data name="Finance" xml:space="preserve">
+    <value>Фінанси</value>
+  </data>
+  <data name="MainData" xml:space="preserve">
+    <value>Основні дані</value>
+  </data>
+  <data name="UserCompanies" xml:space="preserve">
+    <value>Компаніі користувача</value>
   </data>
   <data name="DishIsOrdered" xml:space="preserve">
     <value>Страва вже замовлена</value>

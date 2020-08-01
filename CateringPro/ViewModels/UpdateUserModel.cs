@@ -78,11 +78,11 @@ namespace CateringPro.ViewModels
 
         [DefaultValue(false)]
         public bool ConfirmedByAdmin { get; set; }
-
+        [DisplayName("ChildrenCount")]
         public int ChildrenCount { get; set; }
-
+        [DisplayName("ChildNameSurname")]
         public string ChildNameSurname { get; set; }
-
+        [DisplayName("ChildBirthdayDate")]
         public DateTime? ChildBirthdayDate { get; set; }
         public bool IsNew { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
