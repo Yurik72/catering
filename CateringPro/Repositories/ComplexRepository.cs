@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Transactions;
 using Org.BouncyCastle.Asn1.Tsp;
 using Org.BouncyCastle.Math.EC.Rfc7748;
+using CateringPro.Core;
 
 namespace CateringPro.Repositories
 {
@@ -17,11 +18,13 @@ namespace CateringPro.Repositories
     {
         private readonly AppDbContext _context;
         ILogger<CompanyUser> _logger;
+        SharedViewLocalizer _localizer;
 
-        public ComplexRepository(AppDbContext context, ILogger<CompanyUser> logger)
+        public ComplexRepository(AppDbContext context, ILogger<CompanyUser> logger, SharedViewLocalizer localizer)
         {
             _context = context;
             _logger = logger;
+            _localizer = localizer;
         }
 
         public async Task<Complex> GetByIdAsync(int? id)
@@ -122,9 +125,10 @@ namespace CateringPro.Repositories
             return true;
         }
 
-        public async Task<bool> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
+        public async Task<Result> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
         {
-            
+            Result res = new Result();
+            res.Success = true;
             dishComplexes.ForEach(i => { i.CompanyId = companyid;
                 if(i.ComplexId != complex.Id)                 
                     i.ComplexId = complex.Id; 
@@ -133,15 +137,17 @@ namespace CateringPro.Repositories
             {
                 var time = await _context.Companies.Where(x => x.Id == companyid).ToListAsync();
                 int hours = (int)time.FirstOrDefault().OrderLeadTimeH;
-                TimeSpan result = TimeSpan.FromHours(hours);
-                int days = (int)result.TotalDays;
-                DateTime daydate =  DateTime.Now.AddDays(-days);
+                //TimeSpan result = TimeSpan.FromHours(hours);
+                //int days = (int)result.TotalDays;
+                DateTime daydate =  DateTime.Now.AddHours(-hours);
                 var ordered = await _context.UserDayDish.Where(ord => ord.Date >= daydate && ord.ComplexId == complex.Id).ToListAsync();
                 ordered = ordered.Where(ord => !dishComplexes.Any(dc => dc.DishId == ord.DishId)).ToList();
                 // if(ordered.Any(dc => dishComplexes.Any(ord => dc.DishId == ord.DishId)))
-                if(ordered.Count()>0)
+                if (ordered.Count() > 0)
                 {
-                    return false;
+                    res.Success = false;
+                    res.Error = _localizer.GetLocalizedString( "DishIsOrdered");
+                    return res;
                 }
                 
 
@@ -156,23 +162,28 @@ namespace CateringPro.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "UpdateComplexDishes");
-                return false;
+                res.Success = false;
+                res.Error = "DbError";
+                return res;
             }
-            return true;
+            return res;
         }
-        public async Task<bool> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid)
+        public async Task<Result> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid)
         {
+            Result res = new Result();
+            res.Success = true;
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                if (!await complex.UpdateDBCompanyDataAsync(_context, _logger, companyid))
-                    return false;
+                res.Success = await complex.UpdateDBCompanyDataAsync(_context, _logger, companyid);
+                if (!res.Success)
+                    return res;
 
-
-                if (!await UpdateComplexDishes(complex, companyid, dishComplexes))
-                    return false;
+                res = await UpdateComplexDishes(complex, companyid, dishComplexes);
+                if (!res.Success)
+                    return res;
                 scope.Complete();
             }
-            return true;
+            return res;
         }
 
     }

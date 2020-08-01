@@ -646,7 +646,7 @@
     <value>Немає замовлень</value>
   </data>
   <data name="SameDish" xml:space="preserve">
-    <value>Не можна додати стравау, що вже є в комплексі</value>
+    <value>Не можна додати страву, що вже є в комплексі</value>
   </data>
   <data name="SendEmail" xml:space="preserve">
     <value>Надіслати на пошту</value>
@@ -674,5 +674,8 @@
   </data>
   <data name="UserCompanies" xml:space="preserve">
     <value>Компаніі користувача</value>
+  </data>
+  <data name="DishIsOrdered" xml:space="preserve">
+    <value>Страва вже замовлена</value>
   </data>
 </root>

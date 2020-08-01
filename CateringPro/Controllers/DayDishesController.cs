@@ -111,7 +111,17 @@ namespace CateringPro.Controllers
                     }
                     else
                     {
-                        _context.Remove(exsistdd);
+                        var ordered = _context.UserDayComplex.Where
+                            (x => x.ComplexId == proto.ComplexId && x.Date == proto.Date && x.CompanyId == proto.CompanyId).ToList();
+                        if (ordered.Count() > 0)
+                        {
+                            //you can't delete this complex
+                            return Json(new { res = "FAIL", reason = "Deleting in db" });
+                        }
+                        else
+                        {
+                            _context.Remove(exsistdd);
+                        }
 
                     }
                     await _context.SaveChangesAsync();
