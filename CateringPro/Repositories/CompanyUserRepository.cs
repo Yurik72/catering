@@ -85,6 +85,24 @@ namespace CateringPro.Repositories
             return await _context.CompanyUserCompanies.Include(c => c.Company).Where(cu => cu.CompanyUserId == userId).
                 Select(c => c.Company).ToListAsync();
         }
+        public async Task<List<Company>> GetCompaniesAsync()
+        {
+
+            return await _cache.GetCachedCompaniesAsync(_context);
+        }
+        public async Task<List<AssignedCompanyEditViewModel>> GetAssignedCompaniesEdit(string userId)
+        {
+            var assigned = await GetCurrentUsersCompaniesUserAsync(userId);
+            var model =( await GetCompaniesAsync()).AsQueryable().Select(c => new AssignedCompanyEditViewModel
+            {
+                CompanyID = c.Id,
+                CompanyName = c.Name,
+                IsAssigned = false
+            }).ToList(); ;
+ 
+            model.ForEach(m => m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID));
+            return model;
+        }
         public async Task<List<CompanyUserCompany>> GetCurrentUsersCompaniesUserAsync(string userId)
         {
 
@@ -130,11 +148,12 @@ namespace CateringPro.Repositories
         {
             try
             {
-                var newrecords = companiesIds.Select(it => new CompanyUserCompany() { CompanyId = it, CompanyUserId = userid });
+
+                var newrecords = companiesIds.Select(it => new CompanyUserCompany() { CompanyId = it, CompanyUserId = userid }).ToList();
                 var existing= await GetCurrentUsersCompaniesUserAsync(userid);
 
-                var deleted = existing.Except(newrecords);
-                var added = newrecords.Except(existing);
+                var deleted = existing.Where(it=>!newrecords.Any(n=>n.CompanyId== it.CompanyId));
+                var added = newrecords.Where(it => !existing.Any(n => n.CompanyId == it.CompanyId));//.Except(existing);
                 await _context.AddRangeAsync(added);
                  _context.RemoveRange(deleted);
                 await _context.SaveChangesAsync();
@@ -244,6 +263,43 @@ namespace CateringPro.Repositories
                 AmountToAdd = 0
             };
             return model;
+        }
+
+        public async Task<bool> AddNewUserChild(string userId,int companyId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                _logger.LogError("AddNewUserChild Error user {0} not exists", userId);
+                return false;
+            }
+            CompanyUser usr = new CompanyUser() { CompanyId = companyId };
+            usr.Id = Guid.NewGuid().ToString();
+            string ticks= DateTime.Now.Ticks.ToString();
+            usr.UserName = user.UserName + "_" + ticks;
+            usr.Email = ticks+"_"+user.Email;
+            usr.ParentUserId = userId;
+            var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD"+userId);
+
+            if (!userResult.Succeeded)
+            {
+                _logger.LogError("Creating new children error {0}", userResult.ToString());
+                return false;
+            }
+            try
+            {
+                await PostUpdateUserAsync(usr, true);
+                await CheckUserFinanceAsync(usr);
+                user.ChildrenCount = _context.Users.Where(u => u.ParentUserId == userId).Count();
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("AddNewUserChild error",ex);
+                return false;
+            }
+            return true;
         }
     }
 }

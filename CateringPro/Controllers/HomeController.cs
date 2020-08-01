@@ -8,6 +8,7 @@ namespace CateringPro.Controllers
 {
     public class HomeController : Controller
     {
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult Index(string ReturnUrl)
         {
             //return RedirectToAction("Index", "UserDayDish", new { area = "Admin" });
