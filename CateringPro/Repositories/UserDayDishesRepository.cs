@@ -783,10 +783,10 @@ namespace CateringPro.Repositories
                             Confirmed = uday.IsConfirmed,
                             Enabled = dayd.Date == daydate,  /*dayd != null*/
                             ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
-                                            join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
+                                            //join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
                                             join udd in _context.UserDayDish.WhereCompany(companyid).Where(i => i.Date == daydate && i.UserId == userId && i.ComplexId==comp.Id)  on d.Id equals udd.DishId
-                                            where dc.ComplexId == comp.Id
-                                            orderby dc.DishCourse
+                                            where udd.ComplexId == comp.Id
+                                            //orderby dc.DishCourse
                                             select new UserDayComplexDishViewModel()
                                             {
 
@@ -794,7 +794,7 @@ namespace CateringPro.Repositories
                                                 DishName = d.Name,
                                                 DishReadyWeight = d.ReadyWeight,
                                                 PictureId = d.PictureId,
-                                                DishCourse = dc.DishCourse,
+                                               // DishCourse = dc.DishCourse,
                                                 DishQuantity = udd.Quantity,
 
                                                 DishDescription = d.Description,

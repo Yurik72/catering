@@ -33,7 +33,10 @@ function setup_changechield() {
                 e.preventDefault();
                 var userid = dialog.find(".role-item.active").attr("data-id");
                 var token = dialog.find("[name='__RequestVerificationToken'").val();
-                
+
+                var currentUser = dialog.find(".role-item.active").attr("data-cur") ;
+                if (currentUser == 'true')
+                    return;
                 $.ajax({
                     type: "POST",
                     data: { UserId: userid, __RequestVerificationToken: token },

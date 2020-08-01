@@ -53,6 +53,7 @@
     value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
+
     mimetype: application/x-microsoft.net.object.bytearray.base64
     value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
@@ -645,9 +646,12 @@
     <value>Немає замовлень</value>
   </data>
   <data name="SameDish" xml:space="preserve">
-    <value>Не можна додати стравау, що вже є в комплексі</value>
+    <value>Не можна додати страву, що вже є в комплексі</value>
   </data>
   <data name="SendEmail" xml:space="preserve">
     <value>Надіслати на пошту</value>
+  </data>
+  <data name="DishIsOrdered" xml:space="preserve">
+    <value>Страва вже замовлена</value>
   </data>
 </root>

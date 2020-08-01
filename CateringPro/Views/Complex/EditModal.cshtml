@@ -30,6 +30,11 @@
 
     </div>
     <div class="modal-body">
+        @*@if (@Html.ValidationSummary() != null)
+        {
+        <div class="col alert-danger">@Html.ValidationSummary()</div>
+        
+        }*@
         @Html.ValidationSummary()
         <form asp-action="EditModal">
             <dl class="">

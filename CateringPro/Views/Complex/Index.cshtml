@@ -246,9 +246,14 @@
                         data: sendObj,
                         url: "/Complex/EditModal",
                         success: function (data) {
-                            if (data.res != "OK") {
+                            console.log(data);
+                            if (data.res == "Error") {
+                                showeditdayalert({ class: 'alert-danger', text: "Course" });
+                            }
+                            else if (data.res != "OK") {
                                 var newBody = $('.modal-body', data);
                                 $(document).find('.modal-body').replaceWith(newBody);
+
                                 setupChangesChecker($('#modDialog'));
                             } else {
                                 $('#modDialog').attr("_changed", false);
@@ -262,6 +267,7 @@
 
                     })
                         .fail(function (xhr, status, error) {
+                           // console.log(error);
                             showeditdayalert({ class: 'alert-danger', text: "@Localizer["DbError"]" });
                         //alert("ERROR !" + error);
                     });

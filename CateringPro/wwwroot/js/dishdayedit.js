@@ -52,7 +52,7 @@ $(document).on('change', "input[cp-name='dayselect-complex']", function () {
     if (this.checked) {
        
     }
-
+    var button = $(this);
     //var dishid = parseInt($(this).parent().find("#item_DishId").val());
     // var dishdate = $(this).parent().find("#item_Date").val();
     var complexid = parseInt($(this).parent().find("#item_ComplexId").val());
@@ -65,6 +65,12 @@ $(document).on('change', "input[cp-name='dayselect-complex']", function () {
 
         url: "/DayDishes/SaveDayComplex",
         success: function (data) {
+            if (data.res == "FAIL" && data.reason == "Deleting in db") {
+                showeditdayalert({ class: 'alert-danger', text: $.text_resource.remove_forbidden });
+                // console.log($(this));
+                $(button).prop('checked', true);
+                return;
+            }
             showeditdayalert({ class: 'alert-success', text: checked ? $.text_resource.added : $.text_resource.removed });
         }
     })

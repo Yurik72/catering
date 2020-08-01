@@ -15,6 +15,7 @@ using CateringPro.Data;
 using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace CateringPro.Controllers
 {
@@ -60,13 +61,42 @@ namespace CateringPro.Controllers
         {
             if (id != cmp.Id)
             {
+               // return Json(new { res = "FAIL", reason = "Not Found!" });
                 return NotFound();
             }
 
-            //  var res = await this.UpdateCompanyDataAsync(cmp, _context, _logger);
-            // await _complexRepo.UpdateComplexDishes(cmp,  User.GetCompanyID(), DishComplexes);
-            var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger,
-                 e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
+            // var res = _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID());
+            //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger,
+            //      e => {
+            //          return Task.FromResult(Json(new { res = "FAIL", reason = "Deleting in db" }));
+            //      });
+            if (!ModelState.IsValid)
+            {
+                var complex = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c => c.Id == id);
+
+                cmp.DishComplex = complex.DishComplex;
+                return PartialView(cmp);
+            }
+            var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
+                  e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
+            //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger);
+            if (!ModelState.IsValid){
+               
+                var changedEntriesCopy = _context.ChangeTracker.Entries()
+                    
+                    .ToList();
+
+                foreach (var entry in changedEntriesCopy)
+                    entry.State = EntityState.Detached;
+                //return Json(new { res = "Error", reason = ModelState.FirstOrDefault().Value })
+                var complex = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c => c.Id == id);
+                cmp.DishComplex = complex.DishComplex;
+               // var er = ModelState["general"].Errors.FirstOrDefault().ErrorMessage;
+              //  ModelState["general"] = SharedViewLocalizer["er"];
+                return PartialView(cmp);
+            }
+            //ModelState.AddModelError("deleted", "already exists");
+            
             return res;
 
         }
