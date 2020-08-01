@@ -70,11 +70,20 @@ namespace CateringPro.Controllers
             //      e => {
             //          return Task.FromResult(Json(new { res = "FAIL", reason = "Deleting in db" }));
             //      });
+            var complex_orig = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
+
+
             if (!ModelState.IsValid)
             {
-                var complex = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c => c.Id == id);
-
-                cmp.DishComplex = complex.DishComplex;
+ 
+                cmp.DishComplex = complex_orig.DishComplex;
+                return PartialView(cmp);
+            }
+            var validate_error = await _complexRepo.ValidateComplexUpdate(cmp, User.GetCompanyID(), DishComplexes, complex_orig.DishComplex.ToList());
+            if (!validate_error.Success)
+            {
+                ModelState.AddModelError("", validate_error.Error);
+                cmp.DishComplex = complex_orig.DishComplex;
                 return PartialView(cmp);
             }
             var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
@@ -82,15 +91,7 @@ namespace CateringPro.Controllers
             //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger);
             if (!ModelState.IsValid){
                
-                var changedEntriesCopy = _context.ChangeTracker.Entries()
-                    
-                    .ToList();
-
-                foreach (var entry in changedEntriesCopy)
-                    entry.State = EntityState.Detached;
-                //return Json(new { res = "Error", reason = ModelState.FirstOrDefault().Value })
-                var complex = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c => c.Id == id);
-                cmp.DishComplex = complex.DishComplex;
+                  cmp.DishComplex = complex_orig.DishComplex;
                // var er = ModelState["general"].Errors.FirstOrDefault().ErrorMessage;
               //  ModelState["general"] = SharedViewLocalizer["er"];
                 return PartialView(cmp);

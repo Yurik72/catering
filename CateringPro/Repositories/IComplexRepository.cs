@@ -18,5 +18,6 @@ namespace CateringPro.Repositories
         Task SaveChangesAsync();
 
         Task<Result> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid);
+        Task<Result> ValidateComplexUpdate(Complex complex, int companyid, List<DishComplex> dishComplexes, List<DishComplex> origdishComplexes=default);
     }
 }
