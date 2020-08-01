@@ -61,6 +61,29 @@
                 <span asp-validation-for="OrderThresholdTimeH" class="text-danger"></span>
             </div>
         </div>
+        <div class="row form-group">
+            @{
+                OrderTypeEnum types = Model.GetOrderType();
+                string roles = string.Join(",", types);
+            }
+            <label asp-for="OrderType" class="col-md-2 control-label float-left"></label>
+            <ul class="list-group orderType">
+                @foreach (var value in @EnumHelper<OrderTypeEnum>.GetValues(Model.GetOrderType()))
+                {
+
+                    var description = EnumHelper<OrderTypeEnum>.GetDisplayValue(value);
+                    var classname = "role-item list-group-item";
+
+                    if (types.HasFlag(value))
+                    {
+                        classname += " active";
+                    }
+                    <li class="@classname " style="cursor:pointer;" data-val="@value">@Localizer[value.ToString()]</li>
+
+                }
+            </ul>
+            <input type="hidden" id="orderType" name="orderType" value="@roles" />
+        </div>
         <div class="row  form-group">
             <label asp-for="PictureId" class="col-md-2 control-label float-left"></label>
             <div class="col-md-10 float-left">
@@ -79,20 +102,7 @@
 
             </div>
         </div>
-        <div class="row form-group">
-            <ul class="list-group">
-                @foreach (var value in @EnumHelper<OrderTypeEnum>.GetValues(Model.GetOrderType()))
-                {
 
-                    var description = EnumHelper<OrderTypeEnum>.GetDisplayValue(value);
-                    var classname = "role-item list-group-item";
-                    if (value == Model.GetOrderType())
-                        classname += " active";
-                    <li class="@classname">@Html.DisplayFor(e => description)</li>
-
-                }
-            </ul>
-        </div>
         <div class="row form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Localizer["Company Setting Save"]" class="btn btn-primary" />
@@ -129,6 +139,22 @@
               $(document).on("change","#stampfilepicture",function() {
                   readURL(this,"#imgstamplogofilepicture");
               });
+        $(document).on("click", ".role-item", function (e) {
+            
+                e.preventDefault();
+                if ($(this).hasClass('active'))
+                    $(this).removeClass('active');
+                else
+                    $(this).addClass('active');
+
+            var roles = $(document).find(".role-item.active").map(function () {
+                return $(this).attr("data-val");
+                })
+                    .get()
+                    .join(", ");
+                $("#orderType").val(roles);
+            });
+        
     })
     </script>
 

@@ -678,4 +678,13 @@
   <data name="DishIsOrdered" xml:space="preserve">
     <value>Страва вже замовлена</value>
   </data>
+  <data name="None" xml:space="preserve">
+    <value>Ніякий</value>
+  </data>
+  <data name="OneComplexType" xml:space="preserve">
+    <value>Один комплекс</value>
+  </data>
+  <data name="OrderType" xml:space="preserve">
+    <value>Типи замовлень</value>
+  </data>
 </root>
