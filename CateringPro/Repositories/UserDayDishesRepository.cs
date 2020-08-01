@@ -778,7 +778,7 @@ namespace CateringPro.Repositories
                             ComplexCategoryId = cat.Id,
                             ComplexCategoryName = cat.Name,
                             Quantity = dayd.Quantity,
-                            Price = comp.Price,
+                            Price = dayd.Price,
                             Date = daydate,
                             Confirmed = uday.IsConfirmed,
                             Enabled = dayd.Date == daydate,  /*dayd != null*/
