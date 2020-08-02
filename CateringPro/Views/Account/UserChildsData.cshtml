@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CompanyUser>
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject SignInManager<CompanyUser> SignInManager
+
+@{
+
+    string userId = (await SignInManager.UserManager.GetUserAsync(User)).Id;
+    int i = 2;
+}
+@foreach (var it in Model)
+{
+<div class="container border rounded">
+    <div class="row">
+        <div class="col-12  bg-info text-white">
+            @i  @Localizer["Child"]
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <dl>
+                <dd><input type="hidden" asp-for="@it.Id" /></dd>
+                <dt>  <label class="control-label">@Localizer["ChildNameSurname"]</label></dt>
+                <dd>
+                    <input asp-for="@it.ChildNameSurname" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@it.ChildNameSurname" class="text-danger"></span>
+                </dd>
+                <dt>  <label  class="control-label">@Localizer["ChildBirthdayDate"]</label></dt>
+                <dd>
+                    <input asp-for="@it.ChildBirthdayDate" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@it.ChildBirthdayDate" class="text-danger"></span>
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+    {
+        i++;
+    }
+
+}

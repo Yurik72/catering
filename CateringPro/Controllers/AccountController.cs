@@ -24,14 +24,19 @@ namespace CateringPro.Controllers
         private readonly ILogger<CompanyUser> _logger;
         private readonly ICompanyUserRepository _companyuser_repo;
         private readonly IEmailService _email;
+        private readonly IUserFinRepository _fin;
         public AccountController(UserManager<CompanyUser> userManager,
-                                 SignInManager<CompanyUser> signInManager, ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, IEmailService email)
+                                 SignInManager<CompanyUser> signInManager, 
+                                 ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, 
+                                 IEmailService email,
+                                 IUserFinRepository fin)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _companyuser_repo = companyuser_repo;
             _email = email;
+            _fin = fin;
         }
 
         [AllowAnonymous]
@@ -232,6 +237,7 @@ namespace CateringPro.Controllers
             return View();
         }
         [Authorize]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Update()
         {
             string id = User.GetUserId();
@@ -268,10 +274,19 @@ namespace CateringPro.Controllers
             try
             {
                 List<string> newRoles = new List<string>();
-                List<string> newCompanies = new List<string>();
-                if (!string.IsNullOrEmpty(roles))
+                List<int> newCompanies = new List<int>();
+                if (!string.IsNullOrEmpty(roles) )
                     newRoles = roles.Split(",").Select(s => s.Trim()).ToList();
-                    //newCompanies = companies.Split(",").Select(s => s.Trim()).ToList();
+                if (!string.IsNullOrEmpty(companies))
+                {
+                    try
+                    {
+                        newCompanies = companies.Split(",").Select(s => int.Parse(s.Trim())).ToList();
+                    }
+                    catch (Exception ex) {
+                        _logger.LogError("companies list invalid",ex);
+                    }
+                }
                 if (usermodel.IsNew)
                 {
                     if (string.IsNullOrEmpty(usermodel.NewPassword))
@@ -338,6 +353,8 @@ namespace CateringPro.Controllers
                     var removedRoles = userRoles.Except(newRoles);
 
                     userResult = await _userManager.AddToRolesAsync(user, addedRoles);
+
+                    await _companyuser_repo.AddCompaniesToUserAsync(user.Id, newCompanies);
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
@@ -493,8 +510,8 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            var company = await _companyuser_repo.GetCurrentUsersCompaniesAsync(user.Id);
-            return PartialView(company);
+            var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(user.Id);
+            return PartialView(usercompanies);
         }
         [Authorize]
         public async Task<IActionResult> SetCompanyId(int CompanyId)
@@ -508,11 +525,16 @@ namespace CateringPro.Controllers
             return new EmptyResult();//RedirectToAction("Index", "Home");
         }
         [Authorize]
-        public async Task<IActionResult>  UserChilds()
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public async Task<IActionResult>  UserChilds(string view,bool onlyChild=false)
         {
             List<CompanyUser> childs =await  _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
-            return PartialView(childs);
+            if(string.IsNullOrEmpty(view))
+                 return PartialView(childs);
+            return PartialView(view, childs);
         }
+        [Authorize]
+
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -541,6 +563,24 @@ namespace CateringPro.Controllers
         {
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
             return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> UserFinance()
+        {
+            
+            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(),User.GetCompanyID()));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddNewChild()
+        {
+            if (!await _companyuser_repo.AddNewUserChild(User.GetUserId(), User.GetCompanyID()))
+                return BadRequest();
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+
+            return PartialView("UserChildsData", childs);
         }
     }
 }

@@ -10,13 +10,14 @@ namespace CateringPro.Repositories
     {
 
         Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid, List<ItemsLine> dishLine);
-        Task<bool> UpdateComplexDishes(Complex complex, int companyid, List<DishComplex> dishComplexes);
+        Task<Result> UpdateComplexDishes(Complex complex, int companyid, List<DishComplex> dishComplexes);
 
         Task<Complex> GetByIdAsync(int? id);
         void Remove(Complex complex);
 
         Task SaveChangesAsync();
 
-        Task<bool> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid);
+        Task<Result> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid);
+        Task<Result> ValidateComplexUpdate(Complex complex, int companyid, List<DishComplex> dishComplexes, List<DishComplex> origdishComplexes=default);
     }
 }

@@ -6,7 +6,9 @@ $(function () {
     setup_change_company();
     setup_changechield();
 });
-
+function gethtmlloading() {
+    return html_loading_element;
+}
 function setup_changechield() {
     $("#changechield").click(function (e) {
         var url = '/Account/UserChilds';
@@ -31,7 +33,10 @@ function setup_changechield() {
                 e.preventDefault();
                 var userid = dialog.find(".role-item.active").attr("data-id");
                 var token = dialog.find("[name='__RequestVerificationToken'").val();
-                
+
+                var currentUser = dialog.find(".role-item.active").attr("data-cur") ;
+                if (currentUser == 'true')
+                    return;
                 $.ajax({
                     type: "POST",
                     data: { UserId: userid, __RequestVerificationToken: token },
@@ -351,7 +356,7 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '               <div class="modal-footer">  ' +
         '     ' +
         '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes+'</button>  ' +
-        '                   <button id="btnno" type="button" class="btn btn-secondary" >' + $.text_resource.no +'</button>  ' +
+        '                   <button id="btnno" type="button" class="btn btn-secondary" data-dismiss="modal">' + $.text_resource.no +'</button>  ' +
         '               </div>  ' +
         '           </div>  ' +
         '       </div>  ' +
@@ -408,8 +413,8 @@ function dialog_error(message) {
     // var dialog = $('#moddialogyesno').dialog();
     dialog.modal('show');
     dialog.find('#btnyes').click(function () {
-        dialog.modal('hide');
-
+        //dialog.modal('hide');
+        $('.modal').modal('hide');
     });
 
 

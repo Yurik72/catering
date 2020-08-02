@@ -15,6 +15,7 @@ using CateringPro.Data;
 using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace CateringPro.Controllers
 {
@@ -60,13 +61,41 @@ namespace CateringPro.Controllers
         {
             if (id != cmp.Id)
             {
+               
                 return NotFound();
             }
 
-            //  var res = await this.UpdateCompanyDataAsync(cmp, _context, _logger);
-            // await _complexRepo.UpdateComplexDishes(cmp,  User.GetCompanyID(), DishComplexes);
-            var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger,
+           
+            var complex_orig = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
+            DishComplexes.ForEach( dc => dc.Dish = _context.Dishes.SingleOrDefaultAsync(c => c.Id == dc.DishId).Result);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", cmp.CategoriesId);
+
+            if (!ModelState.IsValid)
+            {
+ 
+                cmp.DishComplex = complex_orig.DishComplex;
+                return PartialView(cmp);
+            }
+            var validate_error = await _complexRepo.ValidateComplexUpdate(cmp, User.GetCompanyID(), DishComplexes, complex_orig.DishComplex.ToList());
+            if (!validate_error.Success)
+            {
+                ModelState.AddModelError("", validate_error.Error);
+                cmp.DishComplex = complex_orig.DishComplex;
+                return PartialView(cmp);
+            }
+         
+            var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
                  e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
+
+            //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger);
+            if (!ModelState.IsValid){
+               
+                  cmp.DishComplex = complex_orig.DishComplex;
+                return PartialView(cmp);
+            }
+           
+           
+            
             return res;
 
         }

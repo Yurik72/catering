@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Transactions;
 using Org.BouncyCastle.Asn1.Tsp;
 using Org.BouncyCastle.Math.EC.Rfc7748;
+using CateringPro.Core;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CateringPro.Repositories
 {
@@ -17,12 +19,16 @@ namespace CateringPro.Repositories
     {
         private readonly AppDbContext _context;
         ILogger<CompanyUser> _logger;
+        SharedViewLocalizer _localizer;
+        private readonly IMemoryCache _cache;
 
-        public ComplexRepository(AppDbContext context, ILogger<CompanyUser> logger)
+        public ComplexRepository(AppDbContext context, ILogger<CompanyUser> logger, SharedViewLocalizer localizer, IMemoryCache cache)
         {
             _context = context;
             _logger = logger;
-        }
+            _localizer = localizer;
+            _cache = cache;
+     }
 
         public async Task<Complex> GetByIdAsync(int? id)
         {
@@ -37,6 +43,7 @@ namespace CateringPro.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
         public async Task<bool> UpdateComplexDishes(Complex complex, List<string> dishes, int companyid, List<ItemsLine> dishLine)
         {
             try
@@ -121,29 +128,56 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-
-        public async Task<bool> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
+        public async Task<Result> ValidateComplexUpdate(Complex complex, int companyid, List<DishComplex> dishComplexes, List<DishComplex> origdishComplexes=default)
         {
-            
+            var company = await _cache.GetCachedCompanyAsync(_context, companyid);
+            if (origdishComplexes == null)
+            {
+                origdishComplexes =( await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).AsNoTracking().SingleOrDefaultAsync(c => c.Id == complex.Id)).DishComplex.ToList();
+
+            }
+            var deleted= origdishComplexes.Where(it => !dishComplexes.Any(n => n.DishId == it.DishId));
+
+            int hours = company.OrderThresholdTimeH.HasValue ? company.OrderThresholdTimeH.Value : 24 * 30;
+            DateTime daydate = DateTime.Now.AddHours(-hours);
+            var existing_dishes_inorder = await ( _context.DishComplex.Where(d => d.ComplexId == complex.Id)
+                       .Where(d => _context.UserDayDish.Any(ord => ord.Date >= daydate && ord.ComplexId == complex.Id && ord.DishId == d.DishId))).ToListAsync();
+                      
+
+           var deleted_whichexists= deleted.Where(it => existing_dishes_inorder.Any(n => n.DishId == it.DishId));
+            if (deleted_whichexists.Any())
+            {
+                return new Result() { Success = false, Error = _localizer.GetLocalizedString("DishIsOrdered") +" "+ String.Join(",",deleted_whichexists.Select(d=>d.Dish.Name)) };
+            }
+            return new Result() { Success = true };
+
+        }
+        public async Task<Result> UpdateComplexDishes(Complex complex,  int companyid, List<DishComplex> dishComplexes)
+        {
+            Result res = new Result();
+            res.Success = true;
             dishComplexes.ForEach(i => { i.CompanyId = companyid;
                 if(i.ComplexId != complex.Id)                 
                     i.ComplexId = complex.Id; 
             });
             try
             {
-                var time = await _context.Companies.Where(x => x.Id == companyid).ToListAsync();
+                /*
+                 var time = await _context.Companies.Where(x => x.Id == companyid).ToListAsync();
                 int hours = (int)time.FirstOrDefault().OrderLeadTimeH;
-                TimeSpan result = TimeSpan.FromHours(hours);
-                int days = (int)result.TotalDays;
-                DateTime daydate =  DateTime.Now.AddDays(-days);
+                //TimeSpan result = TimeSpan.FromHours(hours);
+                //int days = (int)result.TotalDays;
+                DateTime daydate =  DateTime.Now.AddHours(-hours);
                 var ordered = await _context.UserDayDish.Where(ord => ord.Date >= daydate && ord.ComplexId == complex.Id).ToListAsync();
                 ordered = ordered.Where(ord => !dishComplexes.Any(dc => dc.DishId == ord.DishId)).ToList();
                 // if(ordered.Any(dc => dishComplexes.Any(ord => dc.DishId == ord.DishId)))
-                if(ordered.Count()>0)
+                if (ordered.Count() > 0)
                 {
-                    return false;
+                    res.Success = false;
+                    res.Error = _localizer.GetLocalizedString( "DishIsOrdered");
+                    return res;
                 }
-                
+                */
 
 
                 var existing_db = await _context.DishComplex.Where(di => di.ComplexId == complex.Id).ToListAsync();
@@ -156,23 +190,28 @@ namespace CateringPro.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "UpdateComplexDishes");
-                return false;
+                res.Success = false;
+                res.Error = "DbError";
+                return res;
             }
-            return true;
+            return res;
         }
-        public async Task<bool> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid)
+        public async Task<Result> UpdateComplexEntity(Complex complex, List<DishComplex> dishComplexes, int companyid)
         {
+            Result res = new Result();
+            res.Success = true;
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                if (!await complex.UpdateDBCompanyDataAsync(_context, _logger, companyid))
-                    return false;
+                res.Success = await complex.UpdateDBCompanyDataAsync(_context, _logger, companyid);
+                if (!res.Success)
+                    return res;
 
-
-                if (!await UpdateComplexDishes(complex, companyid, dishComplexes))
-                    return false;
+                res = await UpdateComplexDishes(complex, companyid, dishComplexes);
+                if (!res.Success)
+                    return res;
                 scope.Complete();
             }
-            return true;
+            return res;
         }
 
     }

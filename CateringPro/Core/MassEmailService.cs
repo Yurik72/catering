@@ -97,16 +97,19 @@ namespace CateringPro.Core
                 EmailProtoType proto = await CreateEmail(companyid,user, em);
                 if (user.IsChild())
                 {
-                    var email = _context.Users.Where(x => x.Id == user.ParentUserId).Select(x => x.Email).FirstOrDefault();
-                    await _mailservice.SendEmailAsync(email, proto.Subject, proto.Message);
+                    var email = _context.Users.Where(x => x.Id == user.ParentUserId).FirstOrDefault();
+                    if (email.ConfirmedByAdmin)
+                    {
+                        await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message);
+                    }
                 }
                 else 
                 {
-                    //var email = _context.Users.Where(x => x.ParentUserId == user.Id);
-                    //if (email.Count() == 0)
-                    //{
-                        await _mailservice.SendEmailAsync(user.Email, proto.Subject, proto.Message);
-                    //}
+                    var email = _context.Users.Where(x => x.Id == user.Id).FirstOrDefault();
+                    if (email.ConfirmedByAdmin)
+                    {
+                        await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message);
+                    }
                 }
             }
             catch (Exception ex)

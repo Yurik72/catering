@@ -246,22 +246,32 @@
                         data: sendObj,
                         url: "/Complex/EditModal",
                         success: function (data) {
-                            if (data.res != "OK") {
-                                var newBody = $('.modal-body', data);
-                                $(document).find('.modal-body').replaceWith(newBody);
-                                setupChangesChecker($('#modDialog'));
-                            } else {
-                                $('#modDialog').attr("_changed", false);
-                                $('#modDialog').modal('hide');
-                                $('#dialogContent').empty();
-                                //console.log(data);
-                               // $('#modDialog').attr("_changed", false);
-                                pagehandler.reload();
-                            }
+                            console.log(data);
+                            var newBody = $('.modal-edit-body', data);
+                            $(document).find('.modal-edit-body').replaceWith(newBody);
+                            //if (data.res == "Error") {
+                            //    showeditdayalert({ class: 'alert-danger', text: "Course" });
+                            //}
+                            //else
+                            // <div id="error" class="col alert-danger"><div class="validation-summary-valid" data-valmsg-summary="true"><ul><li style="display:none"></li></ul ></div ></div >
+                            var valid = $(".validation-summary-valid").find("li");
+                            console.log(valid[0]);
+                            console.log(valid[0] + "  " + $(valid[0]).is(":empty"));
+                                if ($(valid[0]).is(":empty")) {
+                                    $('#modDialog').attr("_changed", false);
+                                    $('#modDialog').modal('hide');
+                                    $('#dialogContent').empty();
+                                    //console.log(data);
+                                    // $('#modDialog').attr("_changed", false);
+                                    pagehandler.reload();
+                                    return;
+                                }
+                            
                         }
 
                     })
                         .fail(function (xhr, status, error) {
+                           // console.log(error);
                             showeditdayalert({ class: 'alert-danger', text: "@Localizer["DbError"]" });
                         //alert("ERROR !" + error);
                     });

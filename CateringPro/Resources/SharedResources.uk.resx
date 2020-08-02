@@ -585,7 +585,7 @@
   <data name="UserGroupId" xml:space="preserve">
     <value>Група</value>
   </data>
-  <data name="User Roles" xml:space="preserve">
+  <data name="UserRoles" xml:space="preserve">
     <value>Ролі користувача</value>
   </data>
   <data name="UserNameLogin" xml:space="preserve">
@@ -649,18 +649,45 @@
     <value>Немає замовлень</value>
   </data>
   <data name="SameDish" xml:space="preserve">
-    <value>Не можна додати стравау, що вже є в комплексі</value>
+    <value>Не можна додати страву, що вже є в комплексі</value>
   </data>
   <data name="SendEmail" xml:space="preserve">
     <value>Надіслати на пошту</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>реєстрація</value>
+  <data name="Child" xml:space="preserve">
+    <value>Дитина</value>
   </data>
-  <data name="Send" xml:space="preserve">
-    <value>надіслати</value>
+  <data name="ChildBirthdayDate" xml:space="preserve">
+    <value>Дата народж.</value>
   </data>
-  <data name="HomePage" xml:space="preserve">
-    <value>головна</value>
+  <data name="ChildNameSurname" xml:space="preserve">
+    <value>ПIБ Дитини</value>
+  </data>
+  <data name="ChildrenCount" xml:space="preserve">
+    <value>Кількість дітей</value>
+  </data>
+  <data name="Childs" xml:space="preserve">
+    <value>Діти</value>
+  </data>
+  <data name="Finance" xml:space="preserve">
+    <value>Фінанси</value>
+  </data>
+  <data name="MainData" xml:space="preserve">
+    <value>Основні дані</value>
+  </data>
+  <data name="UserCompanies" xml:space="preserve">
+    <value>Компаніі користувача</value>
+  </data>
+  <data name="DishIsOrdered" xml:space="preserve">
+    <value>Страва вже замовлена</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Ніякий</value>
+  </data>
+  <data name="OneComplexType" xml:space="preserve">
+    <value>Один комплекс</value>
+  </data>
+  <data name="OrderType" xml:space="preserve">
+    <value>Типи замовлень</value>
   </data>
 </root>

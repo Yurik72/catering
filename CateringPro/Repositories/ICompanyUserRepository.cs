@@ -19,10 +19,14 @@ namespace CateringPro.Repositories
 
         Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user);
         Task<bool> PostUpdateUserAsync(CompanyUser user, bool isNew = false);
-        Task<List<CompanyUser>> GetUserChilds(string userId, int companyId);
+        Task<List<CompanyUser>> GetUserChilds(string userId, int companyId,bool onlyChild= false);
         Task<bool> PostUpdateChildUserAsync(CompanyUser childuser, CompanyUser parentuser);
         Task<AddBalanceViewModel> AddBalanceViewAsync(string userId);
         decimal GetUserBalance();
         Task<decimal> GetUserBalanceAsync();
+        Task<bool> AddNewUserChild(string userId, int companyId);
+        Task<List<Company>> GetCompaniesAsync();
+        Task<List<AssignedCompanyEditViewModel>> GetAssignedCompaniesEdit(string userId);
+        Task<bool> AddCompaniesToUserAsync(string userid, IList<int> companiesIds);
     }
 }

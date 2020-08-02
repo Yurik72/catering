@@ -66,8 +66,46 @@
                 var url = '@Url.Content("~/Account/RolesForUser?userId=")' + userId;
                 $.get(url, function (data) {
                     $("#user-roles-content").html(data);
-                    setuproleshandler($("#user-roles-content"))
+                    setuproleshandler($("#user-roles-content"));
                 });
+                var urlcomp = '@Url.Content("~/Account/CompaniesForUser?userId=")' + userId;
+                $.get(urlcomp, function (data) {
+                    $("#user-companies-content").html(data);
+                    setupcompanyhandler($("#user-companies-content"))
+                });
+                function setuproleshandler(cont) {
+                    cont.find(".role-item").click(function (e) {
+                        e.preventDefault();
+                        if ($(this).hasClass('active'))
+                            $(this).removeClass('active').removeClass("fa-check-square-o").addClass("fa-square-o");
+                        else
+                            $(this).addClass('active').removeClass("fa-square-o").addClass("fa-check-square-o");
+
+                        var roles = cont.find(".role-item.active").map(function () {
+                            return $(this).text();
+                        })
+                            .get()
+                            .join(", ");
+                        cont.find("#roles").val(roles);
+                    });
+                };
+
+                function setupcompanyhandler(cont) {
+                    cont.find(".company-item").click(function (e) {
+                        e.preventDefault();
+                        if ($(this).hasClass('active'))
+                            $(this).removeClass('active').removeClass("fa-check-square-o").addClass("fa-square-o");
+                        else
+                            $(this).addClass('active').removeClass("fa-square-o").addClass("fa-check-square-o");
+
+                        var roles = cont.find(".company-item.active").map(function () {
+                            return $(this).attr("data-id");
+                        })
+                            .get()
+                            .join(", ");
+                        cont.find("#companies").val(roles);
+                    });
+                };
             }
 
             function setuproleshandler(cont) {

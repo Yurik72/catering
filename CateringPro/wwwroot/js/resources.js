@@ -15,7 +15,8 @@ text_resource["ua"] = {
     yes: "Tak",
     no: "Нi",
     error: "Помилка",
-    select:"Вибрати"
+    select: "Вибрати",
+    remove_forbidden: "Не можна видалити замовлений комплекс!"
 }
 
 glob_text_resources = text_resource["ua"];

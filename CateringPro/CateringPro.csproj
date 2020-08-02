@@ -156,6 +156,18 @@
 	</Content>
 </ItemGroup>
 <ItemGroup>
+  <None Include="wwwroot\img\admin-icon.svg" />
+  <None Include="wwwroot\img\basket-icon.svg" />
+  <None Include="wwwroot\img\close-modal.svg" />
+  <None Include="wwwroot\img\delete-icon.svg" />
+  <None Include="wwwroot\img\login-icon.svg" />
+  <None Include="wwwroot\img\logout-icon.svg" />
+  <None Include="wwwroot\img\pen-icon.svg" />
+  <None Include="wwwroot\img\profile-icon.svg" />
+  <None Include="wwwroot\img\reg-icon.svg" />
+  <None Include="wwwroot\img\Union.svg" />
+</ItemGroup>
+<ItemGroup>
   <Content Update="SQL\cateringpro.bak">
     <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
