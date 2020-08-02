@@ -690,4 +690,13 @@
   <data name="OrderType" xml:space="preserve">
     <value>Типи замовлень</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>реєстрація</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>надіслати</value>
+  </data>
+  <data name="HomePage" xml:space="preserve">
+    <value>головна</value>
+  </data>
 </root>

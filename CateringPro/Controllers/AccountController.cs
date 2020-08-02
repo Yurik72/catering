@@ -2,7 +2,6 @@ using CateringPro.Core;
 using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.ViewModels;
-using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +25,8 @@ namespace CateringPro.Controllers
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
         public AccountController(UserManager<CompanyUser> userManager,
-                                 SignInManager<CompanyUser> signInManager, 
-                                 ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo, 
+                                 SignInManager<CompanyUser> signInManager,
+                                 ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
                                  IEmailService email,
                                  IUserFinRepository fin)
         {
@@ -56,7 +55,7 @@ namespace CateringPro.Controllers
             if (ModelState.IsValid)
             {
                 var user = new CompanyUser
-                { 
+                {
                     UserName = model.UserName,
                     Email = model.Email,
                     NameSurname = model.NameSurname,
@@ -68,9 +67,9 @@ namespace CateringPro.Controllers
                     Address2 = model.Address2,
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
                     Id = Guid.NewGuid().ToString()
-                
-            };
-                
+
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -155,11 +154,10 @@ namespace CateringPro.Controllers
             _logger.LogInformation("User {0} is going to login ", model.UserName);
             var user = await _userManager.FindByNameAsync(model.UserName);
 
-            if (user != null)
+            if (user != null && user.EmailConfirmed)
             {
                 var claims = await _userManager.GetClaimsAsync(user);
                 // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
-
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
@@ -179,6 +177,7 @@ namespace CateringPro.Controllers
             }
             _logger.LogWarning("Can't find registered user {0}", model.UserName);
             ModelState.AddModelError("", "Username or Password was invalid.");
+            ModelState.AddModelError("", "You have to confirm your Email before");
             if (model.IsModal)
                 return PartialView("LoginModal", model);
             else
@@ -205,7 +204,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ResendEmail()
         {
             string logged_id = User.GetUserId();
-            
+
             CompanyUser user = await _userManager.FindByIdAsync(logged_id);
             if (user != null)
             {
@@ -230,7 +229,7 @@ namespace CateringPro.Controllers
             else
                 ModelState.AddModelError("", "User Not Found");
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult EmailConfirmed()
         {
@@ -275,7 +274,7 @@ namespace CateringPro.Controllers
             {
                 List<string> newRoles = new List<string>();
                 List<int> newCompanies = new List<int>();
-                if (!string.IsNullOrEmpty(roles) )
+                if (!string.IsNullOrEmpty(roles))
                     newRoles = roles.Split(",").Select(s => s.Trim()).ToList();
                 if (!string.IsNullOrEmpty(companies))
                 {
@@ -283,8 +282,9 @@ namespace CateringPro.Controllers
                     {
                         newCompanies = companies.Split(",").Select(s => int.Parse(s.Trim())).ToList();
                     }
-                    catch (Exception ex) {
-                        _logger.LogError("companies list invalid",ex);
+                    catch (Exception ex)
+                    {
+                        _logger.LogError("companies list invalid", ex);
                     }
                 }
                 if (usermodel.IsNew)
@@ -299,18 +299,19 @@ namespace CateringPro.Controllers
                         ModelState.AddModelError("ConfirmPassword", "You must specify a value");
                         return PartialView(usermodel);
                     }
-                    if (usermodel.ConfirmPassword!= usermodel.NewPassword)
+                    if (usermodel.ConfirmPassword != usermodel.NewPassword)
                     {
                         ModelState.AddModelError("ConfirmPassword", "Incorrect value");
                         return PartialView(usermodel);
                     }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
                     CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
-                    usermodel.CopyTo(usr,true);
+                    usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
                     if (usr.ConfirmedByAdmin == true)
                     {
+                        usr.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(usr, true);
                         EmailService emailService = new EmailService();
                         await _email.SendEmailAsync(usermodel.Email, "Створення облікового запису",
@@ -526,11 +527,11 @@ namespace CateringPro.Controllers
         }
         [Authorize]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult>  UserChilds(string view,bool onlyChild=false)
+        public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
         {
-            List<CompanyUser> childs =await  _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
-            if(string.IsNullOrEmpty(view))
-                 return PartialView(childs);
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            if (string.IsNullOrEmpty(view))
+                return PartialView(childs);
             return PartialView(view, childs);
         }
         [Authorize]
@@ -542,7 +543,7 @@ namespace CateringPro.Controllers
         {
             try
             {
-                if (User.GetUserId()== UserId)
+                if (User.GetUserId() == UserId)
                     return Ok();
                 var user = _userManager.FindByIdAsync(UserId).Result;
                 if (user == null)
@@ -553,7 +554,8 @@ namespace CateringPro.Controllers
                 await _signInManager.SignInAsync(user, true);
                 return Ok();
             }
-            catch {
+            catch
+            {
 
                 return BadRequest();
             }
@@ -568,8 +570,8 @@ namespace CateringPro.Controllers
         [Authorize]
         public async Task<IActionResult> UserFinance()
         {
-            
-            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(),User.GetCompanyID()));
+
+            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
         }
 
         [HttpPost]

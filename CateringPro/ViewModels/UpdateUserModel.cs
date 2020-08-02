@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using CateringPro.Models;
 namespace CateringPro.ViewModels
@@ -41,6 +42,9 @@ namespace CateringPro.ViewModels
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string Email { get; set; }
+
+        [DisplayName("EmailConfirmed")]
+        public bool EmailConfirmed { get; set; }
 
         [DataType(DataType.PhoneNumber)]
 
@@ -103,6 +107,7 @@ namespace CateringPro.ViewModels
                 this.ChildrenCount = usr.ChildrenCount;
                 this.ChildNameSurname = usr.ChildNameSurname;
                 this.ChildBirthdayDate = usr.ChildBirthdayDate;
+                this.EmailConfirmed = usr.EmailConfirmed;
     }
 
             return this;
@@ -125,6 +130,7 @@ namespace CateringPro.ViewModels
                 usr.ChildrenCount = this.ChildrenCount;
                 usr.ChildNameSurname = this.ChildNameSurname;
                 usr.ChildBirthdayDate = this.ChildBirthdayDate;
+                usr.EmailConfirmed = this.EmailConfirmed;
                 if (isNew)
                     usr.Email = this.Email;
             }
