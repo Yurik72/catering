@@ -67,7 +67,6 @@ namespace CateringPro.ViewModels
         public string Address2 { get; set; }
 
         [DisplayName("NameSurname")]
-
         public string NameSurname { get; set; }
 
         [DisplayName("UserGroupId")]

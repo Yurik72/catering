@@ -1,11 +1,11 @@
 ﻿@model RegisterViewModel
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
-    ViewData["Title"] = "EmailSent";
+    ViewData["Title"] = "EmailConfirmed";
 }
 
 <h2>@Localizer["Email Sent Title"]</h2>
-<form asp-controller="Account" asp-action="EmailSent" method="post" class="form-horizontal" role="form">
+<form asp-controller="Account" asp-action="EmailConfirmed" method="post" class="form-horizontal" role="form">
 
     <hr />
     <html lang="en">
@@ -43,32 +43,13 @@
             </div>
         </nav>
 
-        <section class="site-hero" style="background-image: url(images/image_1.jpg);" id="section-home" data-stellar-background-ratio="0.5">
-            <div class="container">
-                <div class="row intro-text align-items-center justify-content-center">
-                    <div class="col-md-10 text-center pt-5">
-
-                        <h1 class="site-heading site-animate">Майже все!</h1>
-
-                    </div>
-                </div>
-            </div>
-        </section> <!-- section -->
-        
-
             <section class="site-section" id="section-portfolio">
                 <div class="container">
                     <div class="row">
                         <div class="section-heading text-center col-md-12">
-                            <h2>Вам на пошту було відправлено лист для завершення реєстрації</h2>
-                            <div class="section-heading">
-                                <h2>Не отримали лист? </h2>
-                            </div>
-                            <p class="mb-5  ">У разі якщо ви не отримали лист - перевірте папку "спам".</p>
-                            <p class="mb-5  ">Для повторного надсилання натисніть кнопку "надіслати".</p>
-
+                            <h2>Вашу пошту було підтверджено</h2>
                             <p>
-                                <button asp-controller="Account" asp-action="ResendEmail"  type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["Send"]</button>
+                                <button asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["HomePage"]</button>
                             </p>
                         </div>
                     </div>

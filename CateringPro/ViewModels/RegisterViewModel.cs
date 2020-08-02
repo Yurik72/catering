@@ -28,6 +28,10 @@ namespace CateringPro.ViewModels
         [DisplayName("PhoneNumber")]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        [DisplayName("NameSurname")]
+        public string NameSurname { get; set; }
+
         [DisplayName("Country")]
         public string Country { get; set; }
         [DisplayName("City")]
