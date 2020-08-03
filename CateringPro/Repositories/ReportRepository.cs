@@ -163,8 +163,19 @@ namespace CateringPro.Repositories
                                 select new DayProductionDishViewModel()
                                 {
                                     DishCode = it.DishCode,
+                                    DishId = it.DishId,
                                     DishName = it.DishName,
-                                    Quantity = it.Quantity
+                                    Quantity = it.Quantity,
+                                    Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
+                                                   join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
+                                                   where dishIng.DishId == it.DishId
+                                                   select new DayIngredientsDetails()
+                                                   {
+                                                       IngredientId = ing.Id,
+                                                       IngredientName = ing.Name,
+                                                       Quantity = dishIng.Proportion,
+                                                       MeasureUnit = ing.MeasureUnit
+                                                   })
                                 }
                             }
 
@@ -200,7 +211,16 @@ namespace CateringPro.Repositories
                        {
                            DishCode=q.DishCode,
                            DishName=q.DishName,
-                           Quantity=q.Quantity
+                           Quantity=q.Quantity,
+                           Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
+                                          join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
+                                          select new DayIngredientsDetails()
+                                          {
+                                              IngredientId = ing.Id,
+                                              IngredientName = ing.Name,
+                                              Quantity = dishIng.Proportion,
+                                              MeasureUnit = ing.MeasureUnit
+                                          })
                        }
 
 

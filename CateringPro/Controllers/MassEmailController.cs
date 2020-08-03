@@ -85,7 +85,7 @@ namespace CateringPro.Controllers
             return await this.UpdateCompanyDataAsync(em, _context, _logger);
 
         }
-        public async Task<JsonResult> SendTest([Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject")] MassEmail em)
+        public async Task<JsonResult> SendTest([Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject,DayFrom,DayTo")] MassEmail em)
         {
             await _massmailservice.SendMassEmailToUser(User.GetCompanyID(), await _mailrepo.GetUserAsync(User.GetUserId()), em);
             return Json(0);

@@ -56,7 +56,6 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             model.OrderType = (int)types;
-           var n =  ModelState.IsValid;
             if (model.Code == null) model.Code = "";
             if (model.Name == null) model.Name = "";
             if (model.City == null) model.City = "";

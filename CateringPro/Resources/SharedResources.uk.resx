@@ -702,4 +702,7 @@
   <data name="You have to confirm your Email before" xml:space="preserve">
     <value>Спочатку підтвердіть пошту</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
 </root>

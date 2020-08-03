@@ -189,16 +189,25 @@ namespace CateringPro.Repositories
             DayProductionViewModel res = new DayProductionViewModel()
             {
                 Company = GetOwnCompany(companyid),
-                Items= from  q in query1
-                       select new DayProductionDishViewModel()
-                       {
-                           DishCode=q.DishCode,
-                           DishName=q.DishName,
-                           Quantity=q.Quantity
-                       }
+                Items = from q in query1
+                        select new DayProductionDishViewModel()
+                        {
+                            DishCode = q.DishCode,
+                            DishId = q.DishId,
+                            DishName = q.DishName,
+                            Quantity = q.Quantity,
+                            Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
+                                                                               join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
+                                                                               select new DayIngredientsDetails()
+                                                                               {
+                                                                                   IngredientId = ing.Id,
+                                                                                   IngredientName = ing.Name,
+                                                                                   Quantity = dishIng.Proportion,
+                                                                                   MeasureUnit = ing.MeasureUnit
+                                                                               })
 
-
-            };
+                        }
+                        };
           
 
             return res;
