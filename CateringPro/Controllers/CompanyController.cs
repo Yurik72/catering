@@ -39,16 +39,16 @@ namespace CateringPro.Controllers
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Setting(Company model, string orderType)
+        public async Task<IActionResult> Setting(Company model, string orderType1)
         {
             OrderTypeEnum types;
-            if (orderType == ""|| orderType == null)
+            if (orderType1 == ""|| orderType1 == null)
             {
                 types = OrderTypeEnum.None;
             }
             else
             {
-               types = (OrderTypeEnum)Enum.Parse(typeof(OrderTypeEnum), orderType);
+               types = (OrderTypeEnum)Enum.Parse(typeof(OrderTypeEnum), orderType1);
             }
             
             if (User.GetCompanyID() != model.Id)
@@ -56,6 +56,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             model.OrderType = (int)types;
+           var n =  ModelState.IsValid;
             if (model.Code == null) model.Code = "";
             if (model.Name == null) model.Name = "";
             if (model.City == null) model.City = "";
