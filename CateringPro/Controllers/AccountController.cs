@@ -175,9 +175,16 @@ namespace CateringPro.Controllers
                 }
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
             }
-            _logger.LogWarning("Can't find registered user {0}", model.UserName);
-            ModelState.AddModelError("", "Username or Password was invalid.");
-            ModelState.AddModelError("", "You have to confirm your Email before");
+            if(user != null && !user.EmailConfirmed)
+            {
+                ModelState.AddModelError("", "You have to confirm your Email before");
+            }
+            if(user == null)
+            {
+                _logger.LogWarning("Can't find registered user {0}", model.UserName);
+                ModelState.AddModelError("", "Username or Password was invalid.");
+            }
+            
             if (model.IsModal)
                 return PartialView("LoginModal", model);
             else

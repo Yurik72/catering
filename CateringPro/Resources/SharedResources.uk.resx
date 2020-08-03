@@ -699,4 +699,7 @@
   <data name="HomePage" xml:space="preserve">
     <value>головна</value>
   </data>
+  <data name="You have to confirm your Email before" xml:space="preserve">
+    <value>Спочатку підтвердіть пошту</value>
+  </data>
 </root>
