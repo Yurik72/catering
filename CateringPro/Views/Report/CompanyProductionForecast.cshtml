@@ -1,6 +1,7 @@
 ﻿@model CateringPro.Models.ProductionForecastViewModel
 @{
     Layout = null;
+    List<ProductionForecastItemViewModel> peridRep = new List<ProductionForecastItemViewModel>();
 }
 
 
@@ -17,11 +18,11 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
+                                <img src="@Url.Action("GetPicture", "Pictures", new { id = @Model.Company.PictureId, width = 200, height = 100 })" style="width:100%; max-width:300px;" />
                             </td>
                             <td>
 
-                                Потреьа в продуктах/прогноз по днях
+                                Потреба в продуктах/прогноз по днях
                                 <br /> Дата: @DateTime.Now.ToShortDateString()
 
                             </td>
@@ -64,33 +65,93 @@
 
             @foreach (var day in Model.Days)
             {
-                <tr class="item daydate">
+                @*<tr class="item daydate">
                     <td colspan="5">
                         @day.Daydate.ToShortDateString()
                     </td>
 
-                </tr>
+                </tr>*@
                 @foreach (var item in day.Items)
                 {
-        <tr class="item">
-            <td>
-                @Html.DisplayFor(model => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.BeginDay)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.ProductionQuantity)
-            </td>
-            <td class="@(item.AfterDayStockValue<0?"warning":"")">
-                @Html.DisplayFor(model => item.AfterDayStockValue)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.MeasureUnit)
-            </td>
-        </tr>
+                    if (peridRep.Exists(i => i.IngredientId == item.IngredientId))
+                    {
+                        var index = peridRep.FindIndex(c => c.IngredientId == item.IngredientId);
+                        peridRep[index].ProductionQuantity += item.ProductionQuantity;
+                        peridRep[index].AfterDayStockValue = item.AfterDayStockValue;
+                    }
+                    else
+                    {
+                        peridRep.Add(new ProductionForecastItemViewModel()
+                        {
+                            IngredientId = item.IngredientId,
+                            Name = item.Name,
+                            BeginDay = item.BeginDay,
+                            ProductionQuantity = item.ProductionQuantity,
+                            AfterDayStockValue = item.AfterDayStockValue,
+                            IngredientCategoriesName = item.IngredientCategoriesName,
+                            MeasureUnit = item.MeasureUnit
+                        });
+                    }
+                    @*<tr class="item">
+                        <td>
+                            @Html.DisplayFor(model => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.BeginDay)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.ProductionQuantity)
+                        </td>
+                        <td class="@(item.AfterDayStockValue<0?"warning":"")">
+                            @Html.DisplayFor(model => item.AfterDayStockValue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.MeasureUnit)
+                        </td>
+                    </tr>*@
                 }
             }
+            @* period item start*@
+            @if (@Model.Days.FirstOrDefault().Daydate != @Model.Days.LastOrDefault().Daydate)
+            {
+                <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString() - @Model.Days.LastOrDefault().Daydate.ToShortDateString()</td></tr>
+            }
+            else
+            {
+                <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString()</td></tr>
+            }
+            @{
+                peridRep.GroupBy(it => it.IngredientId).SelectMany(c => c).ToList();
+                int ingId = -1;   
+             }
+            @foreach (var item in peridRep)
+            {
+                @if(ingId != item.IngredientCategoriesId)
+                {
+                    <tr><td class="dish">@Html.DisplayFor(model => item.IngredientCategoriesName)</td></tr>
+                    ingId = item.IngredientCategoriesId;
+                }
+                <tr class="item">
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.BeginDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.ProductionQuantity)
+                    </td>
+                    <td class="@(item.AfterDayStockValue < 0 ? "warning" : "")">
+                        @Html.DisplayFor(model => item.AfterDayStockValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.MeasureUnit)
+                    </td>
+                </tr>
+            }
+            @* period item end*@
+
+
 
             <tr class="total ">
                 <td></td>

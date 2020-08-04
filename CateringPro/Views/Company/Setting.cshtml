@@ -83,6 +83,10 @@
                     {
                         classname += " active";
                     }
+                    if(value == OrderTypeEnum.None)
+                    {
+                        continue;
+                    }
                     <li class="@classname " style="cursor:pointer;" data-val="@value">@Localizer[value.ToString()]</li>
 
                 }

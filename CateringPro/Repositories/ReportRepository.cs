@@ -293,20 +293,22 @@ namespace CateringPro.Repositories
             }
             ProductionForecastViewModel res = new ProductionForecastViewModel();
             res.Company = GetOwnCompany(companyId);
-            Action<IDataRecord, ProductionForecastItemViewModel> materilaize = (r, d) =>   ///to do auto
-            {
-                d.DayDate = r.GetDateTime(0);
-                //d.CompanyId
-                d.IngredientId = r.GetInt32(1);
-                d.Name = r.GetString(2);
-                d.StockValue= r.GetDecimal(3);
-                d.BeginDay= r.GetDecimal(4);
-                d.ProductionQuantity= r.GetDecimal(5);
-                d.DayProduction = r.GetDecimal(6);
-                d.AfterDayStockValue = r.GetDecimal(7);
-                d.MeasureUnit= r.GetString(8);
+            //Action<IDataRecord, ProductionForecastItemViewModel> materilaize = (r, d) =>   ///to do auto
+            //{
+            //    d.DayDate = r.GetDateTime(0);
+            //    //d.CompanyId
+            //    d.IngredientId = r.GetInt32(1);
+            //    d.Name = r.GetString(2);
+            //    d.StockValue= r.GetDecimal(3);
+            //    d.BeginDay= r.GetDecimal(4);
+            //    d.ProductionQuantity= r.GetDecimal(5);
+            //    d.DayProduction = r.GetDecimal(6);
+            //    d.AfterDayStockValue = r.GetDecimal(7);
+            //    d.MeasureUnit= r.GetString(8);
+            //    d.IngredientCategoriesId= r.GetInt32(9);
+            //    d.IngridientCategoriesName = r.GetString(10);
 
-            };
+            //};
 
             var query= await _context.Database.SqlQuery<ProductionForecastItemViewModel>(
                 $"exec ForecastStockProduction '{datefrom.ShortSqlDate()}' ,'{dateto.ShortSqlDate()}' , {companyId}").ToListAsync();
