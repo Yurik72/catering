@@ -28,10 +28,13 @@
             </div>
         </div>
         <div class="row dishes-num">
+            <div class="col-2 container-order-dish-select">
+                <span data-num="-1" class="order-dish-select welcome ">Welcome</span>
+            </div>
             @for (int i = 1; i <= numDishes; i++)
             {
                 <div class="col-2 container-order-dish-select">
-                    <span data-num="@i" class="order-dish-select">@i Блюдо</span>
+                    <span data-num="@i" class="order-dish-select dish">@i Блюдо</span>
                 </div>
             }
         </div>
@@ -43,7 +46,7 @@
                 <button id="btnstop" class="service-action btn btn-danger">Припинити</button>
             </div>
         </div>
-        <div class="row">
+        <div id="userinfo" class="row" style="display: none;">
             <div class="col-4">
                 <label for="userid">userid</label>
                 <input id="userid" />
@@ -52,11 +55,17 @@
                 <button id="btnsend" class="service-action btn btn-primary">Send</button>
             </div>
         </div>
-        <div  class="row">
+        <div id="delivery-dishes-row" class="row" style="display: none;">
             <div id="delivery-dishes-content" class="col-12 delivery-dishes-content">
 
             </div>
+        </div>
+        <div id="delivery-queue-row" class="row" style="display: none;">
+            <div  class="col-12">
+                <div id="delivery-queue-content" class="container  delivery-queue-content">
 
+                </div>
+            </div>
         </div>
 </div>
 
@@ -67,6 +76,7 @@
     <script>
         $(function () {
             var isStarted = false;
+            var isQueueMode = true;
             var actionUrl = "/Service/Status";
             var ServiceRequest = { DayDate: '01.01.2010' };
             var el_online = $("#isonline");
@@ -88,15 +98,24 @@
                 el_offline.show();
                 el_online.hide();
             });
+            function IsWelcomeMode() {
+                return $(".order-dish-select.welcome").hasClass('active');
+            }
             $(".order-dish-select").click(function (e) {
                 e.preventDefault();
                 if (isStarted)
                     return;
+                var dishnum = parseInt($(this).attr('data-num'));
+                if (dishnum > 0 && IsWelcomeMode())
+                    return;
+
                 if ($(this).hasClass('active')) {
                     $(this).removeClass('active');
                 }
                 else {
                     $(this).addClass('active')
+                    if (dishnum < 0)
+                        $(".order-dish-select.dish").removeClass('active');
                 }
 
             });
@@ -105,6 +124,15 @@
                 return $('.dishes-num').find('.order-dish-select.active').map(function (index, element) {
                     return parseInt($(element).attr('data-num'));
                 }).get();
+            }
+            function refreshDeliveryContentState() {
+                if (isQueueMode) {
+                    $('#delivery-dishes-row').hide();
+                    $('#delivery-queue-row').show();
+                } else {
+                    $('#delivery-dishes-row').show();
+                    $('#delivery-queue-row').hide();
+                }
             }
             function refreshState() {
                 $("#btnstart").prop('disabled', isStarted);
@@ -118,12 +146,18 @@
 
                 }
             }
+            function getnewQueue() {
 
+            }
             $('#btnstart').click(function (e) {
                 e.preventDefault();
                 isStarted = true;
                 refreshState();
-                console.log(getdishesnum());
+                refreshDeliveryContentState();
+                if (isQueueMode) {
+                   
+                    requestfordeliveryQueue(fillQueue);
+                }
             });
             $('#btnstop').click(function (e) {
                 e.preventDefault();
@@ -135,6 +169,32 @@
                 requestfordelivery(filldeliverydishes);
 
             });
+            function getQueueCount() {
+                return $('#delivery-queue-content').find("user-queue").length;
+            }
+            function fillQueue(data) {
+                var queunum = getQueueCount()+1;
+               // $('#delivery-queue-content').empty(); // to do
+                if (!data || data.overalResult != "success") {
+                    
+                }
+                data.queues.forEach(el => {
+                    var inner_div = el.dishes.map(function (element, index) {
+                        return `<span class="queue-dish" data-queueid="${el.queueId}" data-id=${element.id}>${element.name}</span> `;
+                    });
+                    var div = $(`<div class="row user-queue" data-number="${queunum}">
+                                    <div class="col-4 queue-user">
+                                        <span class="queue-username" >${el.userName}</span>
+                                    </div>
+                                    <div class="col-4 queue-dishes">
+                                        ${inner_div}
+                                     </div>
+                                </div>`);
+                    $('#delivery-queue-content').append(div);
+                    $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
+                    $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
+                });
+            }
             function filldeliverydishes(data) {
                 $('#delivery-dishes-content').empty();
                 if (!data || data.overalResult != "success") {
@@ -182,10 +242,27 @@
                         el_error.show();
                     });
             }
+            function requestfordeliveryQueue(cb) {
+                var actionUrl = "/Service/RequestForDelivery";
+                var dishesnum = getdishesnum();
+                var requesttype = 'askforqueue';
+
+                var ServiceRequest = { DayDate: curr_date.toDateString(),  Type: requesttype, DishesNum: dishesnum };
+                $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
+                    cb(data);
+                })
+                    .fail(function (xhr, code, error) {
+                        el_error.val(error);
+                        el_error.show();
+                    });
+            }
             function requestfordelivery(cb) {
                 var actionUrl = "/Service/RequestForDelivery";
                 var dishesnum = getdishesnum();
-                var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: "askfordelivery", DishesNum: dishesnum };
+                var requesttype = 'askfordelivery';
+                if (IsWelcomeMode())
+                    requesttype = 'askforregister';
+                var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum };
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })

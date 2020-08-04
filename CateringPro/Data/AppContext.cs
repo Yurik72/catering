@@ -59,6 +59,8 @@ namespace CateringPro.Data
         public DbSet<DayDish> DayDish { get; set; }
 
         public DbSet<DayComplex> DayComplex { get; set; }
+
+        public DbSet<DeliveryQueue> DeliveryQueues { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
 
@@ -245,6 +247,10 @@ namespace CateringPro.Data
                    .WithMany(a => a.Complexes)
                    .HasForeignKey(u => u.CategoriesId).IsRequired(false)
                    .OnDelete(DeleteBehavior.NoAction);
+
+            /*delivery*/
+            modelBuilder.Entity<DeliveryQueue>()
+                 .HasIndex(p => new { p.DayDate, p.UserId,p.DishId }).IsUnique(true);
 
             /* fin section */
             modelBuilder.Entity<CompanyUser>()

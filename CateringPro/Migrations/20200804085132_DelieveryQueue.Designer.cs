@@ -4,14 +4,16 @@ using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CateringPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200804085132_DelieveryQueue")]
+    partial class DelieveryQueue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -819,9 +821,6 @@ namespace CateringPro.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsComplex")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelivered")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Price")

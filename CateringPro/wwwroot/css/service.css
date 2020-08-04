@@ -66,15 +66,20 @@ main.tabs {
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.wrongdelivery, .errordelivery,.deliverydish {
+.wrongdelivery, .errordelivery, .deliverydish, .queue-dish {
     display: block;
     width: 100%;
     background-color: gray;
     font-size: xx-large;
     font-weight: bold;
 }
-.deliverydish {
-    background-color:aquamarine;
+.deliverydish, .queue-dish {
+    background-color: aquamarine;
+}
+.queue-first {
+    box-shadow: 10px 10px 5px green;
+    border: solid 2px #E4E4E4;
+    border-radius: 6px;
 }
 .wrongdelivery{
     background-color: coral;
