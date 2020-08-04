@@ -362,12 +362,14 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '       </div>  ' +
         '  </div>  ';
    // $("body").append(dlg_html);
+    console.log("dialog_yes_no");
     var dialog = $(dlg_html);
     $("body").append(dialog);// $('#moddialogyesno');
    // var dialog = $('#moddialogyesno').dialog();
     dialog.modal('show');
     dialog.find('#btnyes').click(function () {
         dialog.modal('hide');
+        dialog.remove();
         //dialog.empty();
         if (yesCallback)
              yesCallback();
@@ -375,12 +377,13 @@ function dialog_yes_no(message, yesCallback, noCallback) {
 
     dialog.find('#btnno').click(function () {
         dialog.modal('hide');
+        dialog.remove();
         //dialog.empty();
         if (noCallback)
             noCallback();
     });
     dialog.on('hide.bs.modal', function (e) {
-        dialog.empty();
+        dialog.remove();
        
     });
 
