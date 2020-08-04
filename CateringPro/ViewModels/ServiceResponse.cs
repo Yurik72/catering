@@ -27,7 +27,9 @@ namespace CateringPro.ViewModels
 
         public string UserId { get; set; }
         public string UserName { get; set; }
-      
+
+        public int? UserPictureId { get; set; }
+
         public IEnumerable<DeliveryDishViewModel> Dishes { get; set; }
     }
     public class ServiceQueueResponse : ServiceResponse
@@ -68,6 +70,7 @@ namespace CateringPro.ViewModels
         public int DishId { get; set; }
 
         public int QueueId { get; set; }
+        public int? UserPictureId { get; set; }
     }
 
 }

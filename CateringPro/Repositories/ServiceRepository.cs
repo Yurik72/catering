@@ -8,7 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,9 +29,9 @@ namespace CateringPro.Repositories
             _cache = cache;
         }
 
-        public async Task<List<DeliveryDishViewModel>> GetDishesToDeliveryAsync(string userId, DateTime dayDate, bool includeDelievered = false)
+        public Task<List<DeliveryDishViewModel>> GetDishesToDeliveryAsync(string userId, DateTime dayDate, bool includeDelievered = false)
         {
-            return await (from ud in _context.UserDayDish.Where(ud => ud.UserId == userId && ud.Date == dayDate && (ud.IsDelivered || includeDelievered))
+            return (from ud in _context.UserDayDish.Where(ud => ud.UserId == userId && ud.Date == dayDate && (!ud.IsDelivered || includeDelievered))
                           join  d in _context.Dishes on ud.DishId equals d.Id
                          
                           select new DeliveryDishViewModel() { ID = d.Id, Name = d.Name, IsComplex = ud.IsComplex, ComplexId = (ud.ComplexId.HasValue ? ud.ComplexId.Value : -1) })
@@ -79,6 +79,7 @@ namespace CateringPro.Repositories
             {
                 request.CompanyId = user.CompanyId;
                 request.User = user;
+               
             }
             else
                 request.CompanyId = _context.CompanyId;
@@ -139,18 +140,20 @@ namespace CateringPro.Repositories
                                    {
                                        QueueId=q.Id,
                                        UserId = u.Id,
-                                       UserName=u.ChildNameSurname,
+                                       UserName=u.GetChildUserName(),
                                        DishId=d.Id,
-                                       DishName=d.Name
+                                       DishName=d.Name,
+                                       UserPictureId=u.PictureId
                                    }
                                    ).ToList();
                 
                 var client_query = from q in query
-                                   group q by new { q.UserId, q.UserName } into grp
+                                   group q by new { q.UserId, q.UserName,q.UserPictureId } into grp
                                    select new ServiceResponse()
                                    {
                                        UserId = grp.Key.UserId,
                                        UserName= grp.Key.UserName,
+                                       UserPictureId= grp.Key.UserPictureId,
                                        Dishes = from it in grp
                                                 select new DeliveryDishViewModel()
                                                 {
@@ -175,7 +178,7 @@ namespace CateringPro.Repositories
             var fail = ServiceResponse.GetFailResult();
 
           
-           var dishes =await GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
+           var dishes = await GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
            
             if (dishes.Count() == 0)
             {
@@ -191,6 +194,11 @@ namespace CateringPro.Repositories
                 await _context.AddRangeAsync(queue_to_add);
                 await _context.SaveChangesAsync();
                 var resp = ServiceResponse.GetSuccessResult();
+                if (request.User != null)
+                {
+                    resp.UserName = request.User.GetChildUserName();
+                    resp.UserPictureId = request.User.PictureId;
+                }
                 resp.Dishes = dishes;
                 return resp;
             }
@@ -213,7 +221,7 @@ namespace CateringPro.Repositories
                 return fail;
             }
 
-            var dishes = await GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
+            var dishes =await  GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
             if (dishes.Any(d => d.IsComplex))
             {
                 var udaycomplex = await (from uc in _context.UserDayComplex.Where(ud => ud.UserId == request.UserId && ud.Date == request.DayDate)

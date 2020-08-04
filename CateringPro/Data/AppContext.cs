@@ -20,6 +20,7 @@ namespace CateringPro.Data
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private int companyId=-1;
+        private bool isCompanyIdSet=false;
         public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -28,6 +29,7 @@ namespace CateringPro.Data
         public void SetCompanyID(int val)
         {
             companyId = val;
+            isCompanyIdSet = true;
         }
         public bool IsHttpContext()
         {
@@ -90,6 +92,8 @@ namespace CateringPro.Data
         public int CompanyId
         {
             get {
+                if (isCompanyIdSet)
+                    return companyId;
                 if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
                     return _httpContextAccessor.HttpContext.User.GetCompanyID();
                 return companyId;
