@@ -305,5 +305,9 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        public string GetTokenForUser(CompanyUser user)
+        {
+            return user.Id;
+        }
     }
 }
