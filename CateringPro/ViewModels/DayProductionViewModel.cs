@@ -24,8 +24,10 @@ namespace CateringPro.Models
     public class DayProductionDishViewModel
     {
         public string DishCode { get; set; }
+        public int DishId { get; set; }
         public string DishName { get; set; }
         public int Quantity { get; set; }
+        public IEnumerable<DayIngredientsDetails> Ingridients { get; set; }
     }
 
     public class DayIngredientsViewModel
@@ -42,6 +44,14 @@ namespace CateringPro.Models
         public int  DishQuantity { get; set; }
 
         public string MeasureUnit { get; set; }
+        public DayIngredientsDetails(int id, string name, decimal quantity, string measure) {
+            IngredientId = id;
+            IngredientName = name;
+            Quantity = quantity;
+            MeasureUnit = measure;
+        }
+        public DayIngredientsDetails() { }
+
     }
 
 }

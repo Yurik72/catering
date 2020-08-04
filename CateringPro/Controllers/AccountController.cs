@@ -58,6 +58,7 @@ namespace CateringPro.Controllers
                 {
                     UserName = model.UserName,
                     Email = model.Email,
+                    NameSurname = model.NameSurname,
                     PhoneNumber = model.PhoneNumber,
                     City = model.City,
                     Country = model.Country,
@@ -66,6 +67,7 @@ namespace CateringPro.Controllers
                     Address2 = model.Address2,
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
                     Id = Guid.NewGuid().ToString()
+
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -87,17 +89,13 @@ namespace CateringPro.Controllers
                     await _companyuser_repo.PostUpdateUserAsync(user, true);
                     EmailService emailService = new EmailService();
                     await _email.SendEmailAsync(model.Email, "Завершення реєстрації",
-                        $"Вітаю, {user.UserName}<br>" +
-                        $"Дякуюєм за реєстрацію на нашому сервісі!<br>" +
-                        $"Перед тим як ви зможете користуватися своїм аккаунтом потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'>Посилання</a><br>" +
+                        $"Вітаю, {user.NameSurname}<br>" +
+                        $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
+                        $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
                         $"" +
                         $"" +
                         $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
                         $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
-
-                    //return Content("To finish registrtation, check your mailbox and confirm");
-
-                    //Response.Redirect("~/Account/EmailSent");
 
                     return RedirectToAction("EmailSent");
                 }
@@ -123,7 +121,7 @@ namespace CateringPro.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("EmailConfirmed");
             else
                 return View("Error");
         }
@@ -156,11 +154,10 @@ namespace CateringPro.Controllers
             _logger.LogInformation("User {0} is going to login ", model.UserName);
             var user = await _userManager.FindByNameAsync(model.UserName);
 
-            if (user != null)
+            if (user != null && user.EmailConfirmed)
             {
                 var claims = await _userManager.GetClaimsAsync(user);
                 // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
-
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
@@ -178,8 +175,16 @@ namespace CateringPro.Controllers
                 }
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
             }
-            _logger.LogWarning("Can't find registered user {0}", model.UserName);
-            ModelState.AddModelError("", "Username or Password was invalid.");
+            if(user != null && !user.EmailConfirmed)
+            {
+                ModelState.AddModelError("", "You have to confirm your Email before");
+            }
+            if(user == null)
+            {
+                _logger.LogWarning("Can't find registered user {0}", model.UserName);
+                ModelState.AddModelError("", "Username or Password was invalid.");
+            }
+            
             if (model.IsModal)
                 return PartialView("LoginModal", model);
             else
@@ -200,6 +205,40 @@ namespace CateringPro.Controllers
             return View();
         }
         public IActionResult EmailSent()
+        {
+            return View();
+        }
+        public async Task<IActionResult> ResendEmail()
+        {
+            string logged_id = User.GetUserId();
+
+            CompanyUser user = await _userManager.FindByIdAsync(logged_id);
+            if (user != null)
+            {
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Action(
+                    "ConfirmEmail",
+                    "Account",
+                    new { userId = user.Id, code = code },
+                    protocol: HttpContext.Request.Scheme);
+
+                await _companyuser_repo.PostUpdateUserAsync(user, true);
+                EmailService emailService = new EmailService();
+                await _email.SendEmailAsync(user.Email, "Завершення реєстрації",
+                    $"Вітаю, {user.NameSurname}<br>" +
+                    $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
+                    $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
+                    $"" +
+                    $"" +
+                    $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                    $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+            }
+            else
+                ModelState.AddModelError("", "User Not Found");
+
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult EmailConfirmed()
         {
             return View();
         }
@@ -277,6 +316,21 @@ namespace CateringPro.Controllers
                     usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
+                    if (usr.ConfirmedByAdmin == true)
+                    {
+                        usr.EmailConfirmed = true;
+                        await _companyuser_repo.PostUpdateUserAsync(usr, true);
+                        EmailService emailService = new EmailService();
+                        await _email.SendEmailAsync(usermodel.Email, "Створення облікового запису",
+                            $"Вітаю, {usr.NameSurname}<br>" +
+                            $"Ваш обліковий запис було створено адміністратором<br>" +
+                            $"Наразі вам доступний весь функціонал.<br>" +
+                            $"Login: {usr.UserName}" +
+                            $"" +
+                            $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                    }
+
                     if (!userResult.Succeeded)
                     {
                         _logger.LogError("Creating user is not sucess {0}", userResult.ToString());
@@ -292,11 +346,11 @@ namespace CateringPro.Controllers
                     CompanyUser user = await _userManager.FindByIdAsync(usermodel.Id);
                     if (user == null)
                     {
-
                         return BadRequest();
                     }
                     usermodel.CopyTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
+
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     //current  roles
@@ -312,6 +366,20 @@ namespace CateringPro.Controllers
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+                    if (user.ConfirmedByAdmin == true)
+                    {
+                        await _companyuser_repo.PostUpdateUserAsync(user, true);
+                        EmailService emailService = new EmailService();
+                        await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",
+                            $"Вітаю, {user.NameSurname}<br>" +
+                            $"Ваш аккаунт було підтверджено адміністратором!<br>" +
+                            $"Наразі вам доступний весь функціонал.<br>" +
+                            $"" +
+                            $"" +
+                            $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                    }
 
                     if (!userResult.Succeeded)
                     {
@@ -340,7 +408,6 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", -1);
-
 
             return PartialView("EditUserModal", user);
         }
@@ -523,16 +590,6 @@ namespace CateringPro.Controllers
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
 
             return PartialView("UserChildsData", childs);
-        }
-        [AllowAnonymous]
-        public async Task<IActionResult> GetTagDataForUserLoginEmail(string loginEmail)
-        {
-            var user = await _userManager.FindByNameAsync(loginEmail);
-            if (user == null)
-                user = await _userManager.FindByEmailAsync(loginEmail);
-            if (user == null)
-                return NotFound();
-            return Json(new { data = _companyuser_repo.GetTokenForUser(user) });
         }
     }
 }

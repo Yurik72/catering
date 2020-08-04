@@ -47,6 +47,13 @@
         </div>
     </div>
     <div class="form-group">
+        <label asp-for="NameSurname" class="col-md-2 control-label float-left"></label>
+        <div class="col-md-10 float-left">
+            <input asp-for="NameSurname" class="form-control" />
+            <span asp-validation-for="NameSurname" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
         <label asp-for="City" class="col-md-2 control-label float-left"></label>
         <div class="col-md-10 float-left">
             <input asp-for="City" class="form-control" />
@@ -83,7 +90,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-2 control-label float-left">
-            <input type="submit" value="Register" class="btn btn-primary" />
+            <input type="submit" value = @Localizer["Register"] class="btn btn-primary" />
         </div>
     </div>
 </form>

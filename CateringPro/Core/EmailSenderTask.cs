@@ -73,10 +73,12 @@ namespace CateringPro.Core
                             }
                             IMassEmailService meservice = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
                             wrap.Increment();
-                            if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
-                            {
+                            //if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
+                            //{
 
-                            }
+                            //}
+                            var b = meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime).Result;
+                            
 
                         }
                     }

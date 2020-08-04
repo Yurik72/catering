@@ -22,6 +22,9 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Resources\SharedResources.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\SharedResources.uk.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

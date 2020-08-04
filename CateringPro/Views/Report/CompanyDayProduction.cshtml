@@ -1,6 +1,7 @@
 ﻿@model CateringPro.Models.DayProductioDayViewModel
 @{
     Layout = null;
+    List<DayIngredientsDetails> ingLs = new List<DayIngredientsDetails>();
 }
 
 
@@ -37,8 +38,8 @@
                             </td>
                             <td></td>
                             <td></td>
-                            <td>
-                            </td>
+                            @*<td>
+                            </td>*@
                         </tr>
                     </table>
                 </td>
@@ -53,30 +54,59 @@
                 <td>
                     Кiлькiсть
                 </td>
-
+                @*<td>
+                Інгрідієнти
+            </td>*@
             </tr>
 
             @foreach (var day in Model.Days)
             {
                 <tr class="item daydate">
-                    <td colspan="5">
+                    <td colspan="3">
                         @day.DayDate.ToShortDateString()
                     </td>
 
                 </tr>
                 @foreach (var item in day.Items)
                 {
-                <tr class="item">
-                    <td>
-                        @Html.DisplayFor(model => item.DishCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.DishName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Quantity)
-                    </td>
-                </tr>
+                    <tr class="dish">
+                        <td>
+                            @Html.DisplayFor(model => item.DishCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DishName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Quantity)
+                        </td>
+
+                    </tr>
+
+                    @foreach (var ing in item.Ingridients)
+                    {
+        <tr>
+            <td></td>
+            <td> @Html.DisplayFor(model => ing.IngredientName)</td>
+           @{ var res = ing.Quantity * item.Quantity;
+               if(ingLs.Exists(i => i.IngredientId == ing.IngredientId))
+               {
+                   var index = ingLs.FindIndex(c => c.IngredientId == ing.IngredientId);
+                   ingLs[index].Quantity += res;
+               }
+               else
+               {
+                   ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, ing.MeasureUnit));
+               }
+           }
+        <td>
+            @Html.DisplayFor(model => res) @Html.DisplayFor(model => ing.MeasureUnit)
+
+        </td>
+            <td></td>
+           
+        </tr>
+                    }
+
                 }
             }
 
@@ -87,6 +117,25 @@
                 <td>
                 </td>
             </tr>
+        </table>
+        <br />
+        <h1>Інгрідієнти</h1>
+        <table>
+            <tr class="heading ">
+                <td>
+                    Назва
+                </td>
+                <td>
+                    Загальна кількість
+                </td>
+            </tr>
+            @foreach(var ing in ingLs)
+            {
+                <tr>
+                    <td> @ing.IngredientName</td>
+                    <td> @ing.Quantity @ing.MeasureUnit</td>
+                </tr>
+            }
         </table>
     </div>
 </body>

@@ -94,9 +94,26 @@ namespace CateringPro.Core
         }
         public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
-            this.DateCycle(em, template, (em, template, dt) => {
-                template.Models.Add(dt, _mailRepo.ReportRepository.CompanyDayProduction(dt, _companyid));
-            });
+            //template.Models.
+            DateTime datefrom = DateTime.Now;
+            datefrom = datefrom.AddDays(em.DayFrom);
+            DateTime dateto = DateTime.Now;
+            int add = em.DayFrom + em.DayTo;
+            dateto = dateto.AddDays(add);
+            if (datefrom.Ticks == 0)
+            {
+                datefrom = DateTime.Today;
+            }
+            if (dateto.Ticks == 0)
+            {
+                dateto = DateTime.Today.AddDays(3);
+            }
+            datefrom = datefrom.ResetHMS();
+            dateto = dateto.ResetHMS();
+            //this.DateCycle(em, template, (em, template, dt) => {
+            //    template.Models.Add(dt, _mailRepo.ReportRepository.CompanyDayProduction(datefrom, dateto, _companyid));
+            //});
+            template.Models.Add(datefrom, _mailRepo.ReportRepository.CompanyDayProduction(datefrom, dateto, _companyid));
 
             return true;
         }

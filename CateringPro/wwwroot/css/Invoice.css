@@ -44,6 +44,9 @@
             border-bottom: 1px solid #ddd;
             font-weight: bold;
         }
+.dish {
+    background: #afb0bb;
+}
         
 
         .invoice-box table tr.details td, .report-box table tr.details td, .production-forecast-box table tr.details td {

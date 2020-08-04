@@ -50,8 +50,24 @@
                             </dd>
                             <dt>  <label asp-for="Email" class="control-label"></label></dt>
                             <dd>
-                                <input asp-for="Email" class="form-control" autocomplete="off" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
+                                 <table border="0">
+                                    <tr>
+                                        <td>
+                                            <input asp-for="Email" class="form-control" autocomplete="off" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </td>
+                                        <td>
+                                            @if (Model.EmailConfirmed)
+                                            {
+                                                <span class="confirmed fa fa-check fa-2x text-success"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="danger fa fa-times fa-2x text-danger"></span>
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
                             </dd>
 
 
@@ -59,6 +75,11 @@
                             <dd>
                                 <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </dd>
+                            <dt>  <label asp-for="NameSurname" class="control-label"></label></dt>
+                            <dd>
+                                <input asp-for="NameSurname" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="NameSurname" class="text-danger"></span>
                             </dd>
                             <dt> <label asp-for="City" class="control-label"></label> </dt>
                             <dd> <input asp-for="City" class="form-control" autocomplete="off" /></dd>
