@@ -34,6 +34,8 @@ namespace CateringPro.Models
         public decimal AfterDayStockValue { get; set; }
 
         public string MeasureUnit { get; set; }
+        public int IngredientCategoriesId { get; set; }
+        public string IngredientCategoriesName { get; set; }
     }
 
    

@@ -24,7 +24,7 @@ SET NOCOUNT ON;
 WITH Production (Date,IngredientId,ProductionQuantity,CompanyId)  
 AS (
 select  
-Date=ud.date,
+Date=ud.date,  
 IngredientId=di.IngredientId,
 ProductionQuantity=Sum(ud.Quantity*di.Proportion),
 CompanyId=@CompanyId
@@ -45,25 +45,28 @@ group by ud.date,di.IngredientId
 )
 
 Select 
-DayDate=p.Date,p.IngredientId,
-Name=i.Name,
-i.StockValue, 
+DayDate=p.Date, --0
+p.IngredientId, --1
+Name=i.Name, --2
+i.StockValue, --3
 BeginDay=i.StockValue-sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
                 ORDER BY p.Date
                 ROWS BETWEEN UNBOUNDED PRECEDING
-                         AND CURRENT ROW)+p.ProductionQuantity,
-ProductionQuantity=p.ProductionQuantity,
+                         AND CURRENT ROW)+p.ProductionQuantity, --4
+ProductionQuantity=p.ProductionQuantity, --5
 DayProduction=sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
                 ORDER BY p.Date
                 ROWS BETWEEN UNBOUNDED PRECEDING
-                         AND CURRENT ROW),
+                         AND CURRENT ROW), --6
 AfterDayStockValue=i.StockValue-sum(p.ProductionQuantity) OVER(PARTITION BY p.IngredientId
                 ORDER BY p.Date
                 ROWS BETWEEN UNBOUNDED PRECEDING
-                         AND CURRENT ROW),
-MeasureUnit=i.MeasureUnit
-from Production p, Ingredients i
-where p.IngredientId=i.Id and i.CompanyId=@CompanyId
+                         AND CURRENT ROW), --7
+MeasureUnit=i.MeasureUnit, --8,
+IngredientCategoriesId=ic.id, --9
+IngredientCategoriesName=ic.Name --10
+from Production p, Ingredients i, IngredientCategories ic
+where p.IngredientId=i.Id and i.CompanyId=@CompanyId and i.IngredientCategoriesId=ic.id
 order by p.Date,p.IngredientId
 	
 END

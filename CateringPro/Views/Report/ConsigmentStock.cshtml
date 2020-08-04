@@ -1,0 +1,158 @@
+﻿@model IEnumerable<CateringPro.Models.ConsignmentStockViewModel>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+
+
+@{
+    Layout = null;
+    //QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    //if (querymodel == null)
+    //{
+    //    querymodel = new QueryModel();
+    //}
+
+}
+
+
+<html>
+<head>
+    <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div class="production-forecast-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                @*<img src="@Url.Action("GetPicture","Pictures",new { id=@Model.FirstOrDefault().Comp.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />*@
+                            </td>
+                            <td>
+
+                                Залишки на складі
+                                <br /> Дата: @DateTime.Now.ToShortDateString()
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="information ">
+                <td colspan="2 ">
+                    <table>
+                        <tr>
+                            <td>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr class="heading ">
+                @*<td>
+                    Категорія
+                </td>*@
+                <td>
+                    Продукт/Партія
+                </td>
+                <td>
+                    Залишок
+                </td>
+                <td style="text-align: center;">
+                    Од. вим.
+                </td>
+
+                <td>
+                    Вартість
+                </td>
+                <td>
+                    Вжити до
+                </td>
+            </tr>
+            @{
+
+                int ingId = -1;
+            }
+
+            @foreach (var item in Model.ToList())
+            {
+                @if (ingId != item.IngredientCategoryId)
+                {
+                    <tr><td class="dish">@Html.DisplayFor(model => item.IngredientCategoryName)</td></tr>
+                    ingId = item.IngredientCategoryId;
+                }
+                <tr class="item">
+                    @*<td>
+                        @Html.HiddenFor(modelItem => item.IngredientCategoryId)
+                        @Html.DisplayFor(modelItem => item.IngredientCategoryName)
+                    </td>*@
+                    <td>
+                        @Html.HiddenFor(modelItem => item.IngredientId)
+                        @Html.DisplayFor(modelItem => item.IngredientName)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.StockValue, new { htmlAttributes = new { @class = "stockval" } })
+                    </td>
+                    <td style="text-align: left;">
+                        @Html.DisplayFor(modelItem => item.MeasureUnit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                foreach (var detail in item.Consignments)
+                {
+                    <tr class="small">
+                        <td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => detail.DocTypeName)  @Html.DisplayFor(modelItem => detail.InitialValue)  @Html.DisplayFor(modelItem => item.MeasureUnit)
+
+                            @detail.DocDate.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+
+                            <br>
+                            @Html.DisplayFor(modelItem => detail.DocNumber)
+
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => detail.StockValue)
+
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => detail.Price)
+                        </td>
+
+                        <td>
+                            @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
+
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            }
+            @* period item end*@
+
+
+
+            <tr class="total ">
+                <td></td>
+                <td></td>
+
+                <td>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
