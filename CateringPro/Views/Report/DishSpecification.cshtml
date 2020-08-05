@@ -21,8 +21,8 @@
                             </td>
                             <td>
 
-                                Меню
-                                <br /> Дата: @DateTime.Now.ToShortDateString()
+                                @Localizer["Menu"]
+                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
 
                             </td>
                         </tr>
@@ -49,35 +49,35 @@
 
                 <tr class="information center grey">
                     <td colspan="7 ">
-                        Найменування: @Html.DisplayFor(model => d.DishName)
+                        @Localizer["Dish Name"]: @Html.DisplayFor(model => d.DishName)
                     </td>
                 </tr>
                 <tr class="information center grey" >
                     <td colspan="7 ">
-                        Опис: @Html.DisplayFor(model => d.DishName)
+                        @Localizer["Dish Description"]: @Html.DisplayFor(model => d.DishName)
                     </td>
                 </tr>
                 <tr class="heading ">
                     <td>
-                        №
+                        @*№*@
                     </td>
                     <td>
-                        Найменування продуктів
+                        @Localizer["Ingredient Name"]
                     </td>
                     <td>
-                        Одиниця виміру
+                        @Localizer["Ingredients_MeasureUnit"]
                     </td>
                     <td>
-                        Нетто
+                        @Localizer["Netto"]
                     </td>
                     <td>
-                        Брутто
+                        @Localizer["Brutto"]
                     </td>
                     <td>
-                        Ціна
+                        @Localizer["DocLine Price"]
                     </td>
                     <td>
-                        Сума
+                        @Localizer["DocLine Amount"]
                     </td>
                 </tr>
                 @foreach (var di in d.Ingredients)
@@ -103,7 +103,7 @@
                         </td>
                     </tr>
                 }
-                <tr class="information ">
+                @*<tr class="information ">
                     <td colspan="2 ">
                     </td>
                     <td colspan="2 ">
@@ -128,7 +128,7 @@
                     <td colspan="2 ">
                         Калькуляцію виконав:
                     </td>
-                </tr>
+                </tr>*@
             }
         </table>
     </div>

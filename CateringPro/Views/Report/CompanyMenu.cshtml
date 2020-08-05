@@ -21,8 +21,8 @@
                             </td>
                             <td>
 
-                                Меню
-                                <br /> Дата: @DateTime.Now.ToShortDateString()
+                                @Localizer["Menu"]
+                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
 
                             </td>
                         </tr>
@@ -67,10 +67,10 @@
                     <tr class="heading ">
 
                         <td colspan="3">
-                            Назва
+                           @Localizer["Name"]
                         </td>
                         <td>
-                            Вартiсть @Localizer["CurrencySymbol"]
+                            @Localizer["Complex Price"] @Localizer["CurrencySymbol"]
                         </td>
 
                     </tr>
@@ -145,10 +145,10 @@
                     <tr class="heading ">
 
                         <td colspan="3">
-                            Назва
+                            @Localizer["Name"]
                         </td>
                         <td>
-                            Вартiсть
+                            @Localizer["Complex Price"]
                         </td>
 
                     </tr>

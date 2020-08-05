@@ -1,4 +1,5 @@
 ﻿@model CateringPro.Models.ProductionForecastViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     Layout = null;
     List<ProductionForecastItemViewModel> peridRep = new List<ProductionForecastItemViewModel>();
@@ -22,8 +23,8 @@
                             </td>
                             <td>
 
-                                Потреба в продуктах/прогноз по днях
-                                <br /> Дата: @DateTime.Now.ToShortDateString()
+                                @Localizer["CompanyProductionForecast"]
+                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
 
                             </td>
                         </tr>
@@ -46,31 +47,31 @@
             </tr>
             <tr class="heading ">
                 <td>
-                    Назва
+                    @Localizer["Name"]
                 </td>
                 <td>
-                    Залишок на початок
+                   @Localizer["ValueBef"]
                 </td>
                 <td>
-                    Потреба
+                    @Localizer["Need"]
                 </td>
                 <td>
-                    Залишок на кiнець
+                    @Localizer["ValueAft"]
                 </td>
 
-                <td>
-                    Од. вим.
+                <td style="text-align:center;">
+                    @Localizer["Ingredients_MeasureUnit"]
                 </td>
             </tr>
 
             @foreach (var day in Model.Days)
             {
                 @*<tr class="item daydate">
-                    <td colspan="5">
-                        @day.Daydate.ToShortDateString()
-                    </td>
+                        <td colspan="5">
+                            @day.Daydate.ToShortDateString()
+                        </td>
 
-                </tr>*@
+                    </tr>*@
                 @foreach (var item in day.Items)
                 {
                     if (peridRep.Exists(i => i.IngredientId == item.IngredientId))
@@ -93,22 +94,22 @@
                         });
                     }
                     @*<tr class="item">
-                        <td>
-                            @Html.DisplayFor(model => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.BeginDay)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.ProductionQuantity)
-                        </td>
-                        <td class="@(item.AfterDayStockValue<0?"warning":"")">
-                            @Html.DisplayFor(model => item.AfterDayStockValue)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.MeasureUnit)
-                        </td>
-                    </tr>*@
+                            <td>
+                                @Html.DisplayFor(model => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.BeginDay)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.ProductionQuantity)
+                            </td>
+                            <td class="@(item.AfterDayStockValue<0?"warning":"")">
+                                @Html.DisplayFor(model => item.AfterDayStockValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.MeasureUnit)
+                            </td>
+                        </tr>*@
                 }
             }
             @* period item start*@
@@ -122,11 +123,11 @@
             }
             @{
                 peridRep.GroupBy(it => it.IngredientId).SelectMany(c => c).ToList();
-                int ingId = -1;   
-             }
+                int ingId = -1;
+            }
             @foreach (var item in peridRep)
             {
-                @if(ingId != item.IngredientCategoriesId)
+                @if (ingId != item.IngredientCategoriesId)
                 {
                     <tr><td class="dish">@Html.DisplayFor(model => item.IngredientCategoriesName)</td></tr>
                     ingId = item.IngredientCategoriesId;
