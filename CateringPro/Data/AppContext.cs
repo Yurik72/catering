@@ -20,6 +20,7 @@ namespace CateringPro.Data
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private int companyId=-1;
+        private bool isCompanyIdSet=false;
         public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -28,6 +29,7 @@ namespace CateringPro.Data
         public void SetCompanyID(int val)
         {
             companyId = val;
+            isCompanyIdSet = true;
         }
         public bool IsHttpContext()
         {
@@ -59,6 +61,8 @@ namespace CateringPro.Data
         public DbSet<DayDish> DayDish { get; set; }
 
         public DbSet<DayComplex> DayComplex { get; set; }
+
+        public DbSet<DeliveryQueue> DeliveryQueues { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
 
@@ -88,6 +92,8 @@ namespace CateringPro.Data
         public int CompanyId
         {
             get {
+                if (isCompanyIdSet)
+                    return companyId;
                 if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null)
                     return _httpContextAccessor.HttpContext.User.GetCompanyID();
                 return companyId;
@@ -245,6 +251,10 @@ namespace CateringPro.Data
                    .WithMany(a => a.Complexes)
                    .HasForeignKey(u => u.CategoriesId).IsRequired(false)
                    .OnDelete(DeleteBehavior.NoAction);
+
+            /*delivery*/
+            modelBuilder.Entity<DeliveryQueue>()
+                 .HasIndex(p => new { p.DayDate, p.UserId,p.DishId }).IsUnique(true);
 
             /* fin section */
             modelBuilder.Entity<CompanyUser>()

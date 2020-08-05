@@ -6,6 +6,11 @@
 }
 
 <h2>@Localizer["Company Data"]</h2>
+@if (@Html.ValidationSummary() != null)
+{
+    <div id="error" class="col alert-danger">@Html.ValidationSummary()</div>
+
+}
 <form asp-controller="Company" asp-action="Setting" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 
     <hr />
@@ -78,11 +83,16 @@
                     {
                         classname += " active";
                     }
+                    if(value == OrderTypeEnum.None)
+                    {
+                        continue;
+                    }
                     <li class="@classname " style="cursor:pointer;" data-val="@value">@Localizer[value.ToString()]</li>
 
                 }
             </ul>
-            <input type="hidden" id="orderType" name="orderType" value="@roles" />
+            <input type="hidden" asp-for="OrderType" />
+            <input type="hidden" id="orderType1" name="orderType1" value="@roles" />
         </div>
         <div class="row  form-group">
             <label asp-for="PictureId" class="col-md-2 control-label float-left"></label>
@@ -118,44 +128,45 @@
 
     <script type="text/javascript">
 
-    $(function () {
+        $(function () {
 
-             function readURL(input,targetcontrolid) {
-                  if (input.files && input.files[0]) {
+            function readURL(input, targetcontrolid) {
+                if (input.files && input.files[0]) {
                     var reader = new FileReader();
-                      var target ='#imgfilepicture';
-                      if (targetcontrolid)
-                          target = targetcontrolid;
-                    reader.onload = function(e) {
-                      $(target).attr('src', e.target.result);
+                    var target = '#imgfilepicture';
+                    if (targetcontrolid)
+                        target = targetcontrolid;
+                    reader.onload = function (e) {
+                        $(target).attr('src', e.target.result);
                     }
 
                     reader.readAsDataURL(input.files[0]);
-                  }
                 }
-             $(document).on("change","#filepicture",function() {
-                  readURL(this);
-              });
-              $(document).on("change","#stampfilepicture",function() {
-                  readURL(this,"#imgstamplogofilepicture");
-              });
-        $(document).on("click", ".role-item", function (e) {
-            
+            }
+            $(document).on("change", "#filepicture", function () {
+                readURL(this);
+            });
+            $(document).on("change", "#stampfilepicture", function () {
+                readURL(this, "#imgstamplogofilepicture");
+            });
+            $(document).on("click", ".role-item", function (e) {
+
                 e.preventDefault();
                 if ($(this).hasClass('active'))
                     $(this).removeClass('active');
                 else
                     $(this).addClass('active');
 
-            var roles = $(document).find(".role-item.active").map(function () {
-                return $(this).attr("data-val");
+                var roles = $(document).find(".role-item.active").map(function () {
+                    return $(this).attr("data-val");
                 })
                     .get()
                     .join(", ");
-                $("#orderType").val(roles);
+                $("#orderType1").val(roles);
             });
-        
-    })
+            
+
+        })
     </script>
 
 }

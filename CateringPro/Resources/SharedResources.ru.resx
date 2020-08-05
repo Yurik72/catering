@@ -339,4 +339,10 @@
   <data name="OneComplexType" xml:space="preserve">
     <value> Один комплекс</value>
   </data>
+  <data name="OrderType" xml:space="preserve">
+    <value>Типы заказов</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,5 +23,7 @@ namespace CateringPro.Models
         public decimal Price { get; set; }
 
         public bool IsComplex { get; set; }
+        [DefaultValue(false)]
+        public bool IsDelivered { get; set; }
     }
 }

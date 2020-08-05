@@ -61,6 +61,8 @@ namespace CateringPro.Models
         public int ChildrenCount { get; set; }
 
         public UserFinance UserFinance { get; set; }
+
+        public int? PictureId { get; set; }
         public string GetChildUserName()
         {
             return string.IsNullOrEmpty(ChildNameSurname) ?

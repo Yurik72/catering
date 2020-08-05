@@ -163,8 +163,19 @@ namespace CateringPro.Repositories
                                 select new DayProductionDishViewModel()
                                 {
                                     DishCode = it.DishCode,
+                                    DishId = it.DishId,
                                     DishName = it.DishName,
-                                    Quantity = it.Quantity
+                                    Quantity = it.Quantity,
+                                    Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
+                                                   join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
+                                                   where dishIng.DishId == it.DishId
+                                                   select new DayIngredientsDetails()
+                                                   {
+                                                       IngredientId = ing.Id,
+                                                       IngredientName = ing.Name,
+                                                       Quantity = dishIng.Proportion,
+                                                       MeasureUnit = ing.MeasureUnit
+                                                   })
                                 }
                             }
 
@@ -200,7 +211,16 @@ namespace CateringPro.Repositories
                        {
                            DishCode=q.DishCode,
                            DishName=q.DishName,
-                           Quantity=q.Quantity
+                           Quantity=q.Quantity,
+                           Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
+                                          join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
+                                          select new DayIngredientsDetails()
+                                          {
+                                              IngredientId = ing.Id,
+                                              IngredientName = ing.Name,
+                                              Quantity = dishIng.Proportion,
+                                              MeasureUnit = ing.MeasureUnit
+                                          })
                        }
 
 
@@ -273,20 +293,22 @@ namespace CateringPro.Repositories
             }
             ProductionForecastViewModel res = new ProductionForecastViewModel();
             res.Company = GetOwnCompany(companyId);
-            Action<IDataRecord, ProductionForecastItemViewModel> materilaize = (r, d) =>   ///to do auto
-            {
-                d.DayDate = r.GetDateTime(0);
-                //d.CompanyId
-                d.IngredientId = r.GetInt32(1);
-                d.Name = r.GetString(2);
-                d.StockValue= r.GetDecimal(3);
-                d.BeginDay= r.GetDecimal(4);
-                d.ProductionQuantity= r.GetDecimal(5);
-                d.DayProduction = r.GetDecimal(6);
-                d.AfterDayStockValue = r.GetDecimal(7);
-                d.MeasureUnit= r.GetString(8);
+            //Action<IDataRecord, ProductionForecastItemViewModel> materilaize = (r, d) =>   ///to do auto
+            //{
+            //    d.DayDate = r.GetDateTime(0);
+            //    //d.CompanyId
+            //    d.IngredientId = r.GetInt32(1);
+            //    d.Name = r.GetString(2);
+            //    d.StockValue= r.GetDecimal(3);
+            //    d.BeginDay= r.GetDecimal(4);
+            //    d.ProductionQuantity= r.GetDecimal(5);
+            //    d.DayProduction = r.GetDecimal(6);
+            //    d.AfterDayStockValue = r.GetDecimal(7);
+            //    d.MeasureUnit= r.GetString(8);
+            //    d.IngredientCategoriesId= r.GetInt32(9);
+            //    d.IngridientCategoriesName = r.GetString(10);
 
-            };
+            //};
 
             var query= await _context.Database.SqlQuery<ProductionForecastItemViewModel>(
                 $"exec ForecastStockProduction '{datefrom.ShortSqlDate()}' ,'{dateto.ShortSqlDate()}' , {companyId}").ToListAsync();

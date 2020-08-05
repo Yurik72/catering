@@ -43,6 +43,11 @@
             <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="DishSpecification" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["DishSpecification"]</a>
         </div>
     </div>
+    <div class="row report-name">
+        <div class="col">
+            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="ConsigmentStock" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["ConsignmentStock"]</a>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
 $(function() {

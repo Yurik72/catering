@@ -1,14 +1,17 @@
 ﻿@model EmailTemplateViewModel
+@*@model CateringPro.Models.DayProductioDayViewModel*@
 @using CateringPro.Helpers
 @{
     Layout = null;
+    var dish = Model.Models.FirstOrDefault().Value;
+    List<DayIngredientsDetails> ingLs = new List<DayIngredientsDetails>();
 }
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>View</title>
-    
+
     <inline-style href="~/css/Report.css" />
 </head>
 <body>
@@ -43,74 +46,103 @@
                             </td>
                             <td></td>
                             <td></td>
-                            <td>
-                            </td>
+                            @*<td>
+                                </td>*@
                         </tr>
                     </table>
                 </td>
             </tr>
-            @foreach (var day in Model.Models)
+            <tr class="heading ">
+                <td>
+                    Код
+                </td>
+                <td>
+                    Назва
+                </td>
+                <td>
+                    Кiлькiсть
+                </td>
+                @*<td>
+                        Інгрідієнти
+                    </td>*@
+            </tr>
+
+            @foreach (var day in dish.Days)
             {
+                <tr class="item daydate">
+                    <td colspan="3">
+                        @day.DayDate.ToShortDateString()
+                    </td>
 
-
-                    <tr class="tabledate">
-                        <td colspan="3">
-                            @day.Key.ToString("m", System.Globalization.CultureInfo.CurrentUICulture)
-
-                        </td>
-
-                    </tr>
-                    <tr class="tablename">
-
-                        <td colspan="4">
-                            
-                        </td>
-
-
-                    </tr>
-                    <tr class="heading ">
-
-                        <td colspan="3">
-                            Назва
+                </tr>
+                @foreach (var item in day.Items)
+                {
+                    <tr class="dish">
+                        <td>
+                            @item.DishCode
                         </td>
                         <td>
-                            Вартiсть 
+                            @item.DishName
+                        </td>
+                        <td>
+                            @item.Quantity
                         </td>
 
                     </tr>
 
-
-
-                    @foreach (DayProductionDishViewModel item in day.Value.Items)
+                    @foreach (var ing in item.Ingridients)
                     {
-                        <tr class="item">
+                        <tr>
+                            <td></td>
+                            <td> @ing.IngredientName</td>
+                            @{ var res = ing.Quantity * item.Quantity;
+                                if (ingLs.Exists(i => i.IngredientId == ing.IngredientId))
+                                {
+                                    var index = ingLs.FindIndex(c => c.IngredientId == ing.IngredientId);
+                                    ingLs[index].Quantity += res;
+                                }
+                                else
+                                {
+                                    ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, ing.MeasureUnit));
+                                }
+                            }
                             <td>
-                                @Html.DisplayFor(model => item.DishName)
+                                @res @ing.MeasureUnit
+
                             </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.Quantity)
-                            </td>
+                            <td></td>
+
                         </tr>
-
                     }
-                    <tr class="total ">
-                        <td></td>
-                        <td></td>
 
-                        <td>
-                        </td>
-                    </tr>
-    
+                }
+            }
 
+            <tr class="total ">
+                <td></td>
+                <td></td>
 
-            
-
-
-
+                <td>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <h1>Інгрідієнти</h1>
+        <table>
+            <tr class="heading ">
+                <td>
+                    Назва
+                </td>
+                <td>
+                    Загальна кількість
+                </td>
+            </tr>
+            @foreach (var ing in ingLs)
+            {
+                <tr>
+                    <td> @ing.IngredientName</td>
+                    <td> @ing.Quantity @ing.MeasureUnit</td>
+                </tr>
             }
         </table>
     </div>
