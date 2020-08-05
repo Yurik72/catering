@@ -119,11 +119,11 @@
             },
             "jsreport.Binary": {
               "target": "Package",
-              "version": "[2.7.1, )"
+              "version": "[2.9.0, )"
             },
             "jsreport.Local": {
               "target": "Package",
-              "version": "[2.2.2, )"
+              "version": "[2.2.3, )"
             },
             "jsreport.MVC": {
               "target": "Package",

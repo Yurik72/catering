@@ -19,11 +19,16 @@
         <h1 id="currentdate"></h1>
     </header>
 
-<div class="container order-service">
+    <div class="container order-service">
         <div class="row">
             <div class="col-12 container-state">
                 <span id="isonline" class="service-status online">Online</span>
                 <span id="isoffline" class="service-status offline">Offline</span>
+                <span id="nfc_isoffline" class="service-status offline" style="display: none;">NFC Reader Offline</span>
+                <span id="nfc_isonline" class="service-status online" style="display: none;">
+                    <img id="nfc_image" src="" style="width:50px;height:50px;" />
+                    NFC Reader Online
+                </span>
                 <span id="error" class="service-status error" style="visibility:hidden"></span>
             </div>
         </div>
@@ -61,43 +66,53 @@
             </div>
         </div>
         <div id="delivery-queue-row" class="row" style="display: none;">
-            <div  class="col-12">
+            <div class="col-12">
                 <div id="delivery-queue-content" class="container  delivery-queue-content">
 
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
     <script src="./js/jquery.min.js"></script>
-@*
-    <script src="./js/service.js"></script>
-*@
+    <script src="./js/nfc.js"></script>
+   
+    <script src="./js/nfcutil.js"></script>
+    @*
+        <script src="./js/service.js"></script>
+    *@
     <script>
         $(function () {
             var isStarted = false;
             var isQueueMode = true;
+            var isNfcConnected = false;
             var actionUrl = "/Service/Status";
             var ServiceRequest = { DayDate: '01.01.2010' };
             var el_online = $("#isonline");
             var el_offline = $("#isoffline");
+            var elnfc_online = $("#nfc_isonline");
+            var elnfc_offline = $("#nfc_isoffline");
             var el_error = $("#error");
             el_online.hide();
-            el_online.hide();
+
             el_offline.hide();
+            elnfc_online.hide();
+            elnfc_offline.show();
 
             var curr_date = new Date();
-
+            //todo
+            setTimeout(function () { enumerateDevices(); },2000)
+            
             $('#currentdate').text(curr_date.getDate() + "." + (curr_date.getMonth() + 1) + "." + curr_date.getFullYear());
 
             $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                 el_offline.hide();
                 el_online.show();
             })
-            .fail(function (xhr, code, error) {
-                el_offline.show();
-                el_online.hide();
-            });
+                .fail(function (xhr, code, error) {
+                    el_offline.show();
+                    el_online.hide();
+                });
             function IsWelcomeMode() {
                 return $(".order-dish-select.welcome").hasClass('active');
             }
@@ -155,7 +170,7 @@
                 refreshState();
                 refreshDeliveryContentState();
                 if (isQueueMode) {
-                   
+
                     requestfordeliveryQueue(fillQueue);
                 }
             });
@@ -173,23 +188,23 @@
                 return $('#delivery-queue-content').find("user-queue").length;
             }
             function fillQueue(data) {
-                var queunum = getQueueCount()+1;
-               // $('#delivery-queue-content').empty(); // to do
+                var queunum = getQueueCount() + 1;
+                // $('#delivery-queue-content').empty(); // to do
                 if (!data || data.overalResult != "success") {
-                    
+
                 }
                 data.queues.forEach(el => {
                     var inner_div = el.dishes.map(function (element, index) {
                         return `<span class="queue-dish" data-queueid="${el.queueId}" data-id=${element.id}>${element.name}</span> `;
                     });
                     var div = $(`<div class="row user-queue" data-number="${queunum}">
-                                    <div class="col-4 queue-user">
-                                        <span class="queue-username" >${el.userName}</span>
-                                    </div>
-                                    <div class="col-4 queue-dishes">
-                                        ${inner_div}
-                                     </div>
-                                </div>`);
+                                        <div class="col-4 queue-user">
+                                            <span class="queue-username" >${el.userName}</span>
+                                        </div>
+                                        <div class="col-4 queue-dishes">
+                                            ${inner_div}
+                                         </div>
+                                    </div>`);
                     $('#delivery-queue-content').append(div);
                     $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
                     $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
@@ -198,16 +213,16 @@
             function filldeliverydishes(data) {
                 $('#delivery-dishes-content').empty();
                 if (!data || data.overalResult != "success") {
-                    
+
                     var div = `<div class="row"><div class="col-8 container-errordelivery"><span class="errordelivery">Помилка:${data.errorMessage}</span></div></div>`;
                     $('#delivery-dishes-content').append(div);
                 }
-                else if( !Array.isArray(data.dishes) || data.dishes.length == 0 ) {
+                else if (!Array.isArray(data.dishes) || data.dishes.length == 0) {
                     var div = `<div class="row"><div class="col-8 container-wrongdelivery"><span class="wrongdelivery">Кошик пустий</span></div></div>`;
                     $('#delivery-dishes-content').append(div);
                 }
                 else {
-                    var dishesid = data.dishes.map(function (index, element) { return element.id;});
+                    var dishesid = data.dishes.map(function (index, element) { return element.id; });
                     data.dishes.forEach(el => {
                         var div = $(`<div class="row"><div class="col-8 container-deliverydish"><span class="deliverydish" data-id="${el.id}">${el.name}</span></div></div>`);
                         $('#delivery-dishes-content').append(div);
@@ -216,13 +231,13 @@
                     $('#delivery-dishes-content').append(divconfirm);
                     divconfirm.find("#delivery-confirm").click(function (e) {
                         e.preventDefault();
-                        requestforconfirmation(confirmdeliverydishes,dishesid);
-                       
+                        requestforconfirmation(confirmdeliverydishes, dishesid);
+
                     });
                 }
             }
             function confirmdeliverydishes(data) {
-               
+
                 if (!data || data.overalresult != "success") {
                     var div = `<div class="row"><div class="col-8 container-errordelivery"><span class="errordelivery">Помилка${data.errormessage}</span></div></div>`;
                     $('#delivery-dishes-content').append(div);
@@ -230,7 +245,7 @@
                     $('#delivery-dishes-content').empty();
                 }
             }
-            function requestforconfirmation(cb,dishesids) {
+            function requestforconfirmation(cb, dishesids) {
                 var actionUrl = "/Service/RequestForDelivery";
                 var dishesnum = getdishesnum();
                 var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: "confirmdelivery", DishesIds: dishesids };
@@ -247,7 +262,7 @@
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
 
-                var ServiceRequest = { DayDate: curr_date.toDateString(),  Type: requesttype, DishesNum: dishesnum };
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum };
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
@@ -266,11 +281,43 @@
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
-                .fail(function (xhr, code, error) {
-                    el_error.val(error);
-                    el_error.show();
+                    .fail(function (xhr, code, error) {
+                        el_error.val(error);
+                        el_error.show();
+                    });
+            }
+            function showDeviceInfo() {
+                var deviceInfo = null;
+                elnfc_online.show();
+                elnfc_offline.hide();
+                for (var i = 0; i < compatibleDevices.length; i++)
+                    if (device.productId === compatibleDevices[i].productId &&
+                        device.vendorId === compatibleDevices[i].vendorId)
+                        deviceInfo = compatibleDevices[i];
+
+                if (!deviceInfo)
+                    return;
+                $('#nfc_image').attr('src', deviceInfo.thumbnailURL);
+                return;
+
+
+
+            }
+            function enumerateDevices() {
+                chrome.nfc.findDevices(function (devices) {
+                    device = devices[0];
+                    isNfcConnected = true;
+                    showDeviceInfo();
                 });
             }
+            $(window).unload(function () {
+                console.log("window unload");
+                chrome.nfc.getdevman().closeAll();
+            });
+            $(document).unload(function () {
+                console.log("window unload");
+                chrome.nfc.getdevman().closeAll();
+            });
         });
     </script>
 </body>
