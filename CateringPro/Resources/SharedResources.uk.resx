@@ -702,4 +702,25 @@
   <data name="You have to confirm your Email before" xml:space="preserve">
     <value>Спочатку підтвердіть пошту</value>
   </data>
+  <data name="RestorePassword" xml:space="preserve">
+    <value>забули пароль?</value>
+  </data>
+  <data name="To restore password" xml:space="preserve">
+    <value>Відновлення паролю</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забули пароль?</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>застосувати</value>
+  </data>
+  <data name="NewPasswordApplied" xml:space="preserve">
+    <value>Ви успішно змінили пароль</value>
+  </data>
+  <data name="PasswordChanging" xml:space="preserve">
+    <value>Зміна паролю</value>
+  </data>
+  <data name="To set new password" xml:space="preserve">
+    <value>Зміна паролю</value>
+  </data>
 </root>

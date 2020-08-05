@@ -74,7 +74,7 @@ namespace CateringPro.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
 
                     //TO DO
                     // generating token
@@ -175,16 +175,16 @@ namespace CateringPro.Controllers
                 }
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
             }
-            if(user != null && !user.EmailConfirmed)
+            if (user != null && !user.EmailConfirmed)
             {
                 ModelState.AddModelError("", "You have to confirm your Email before");
             }
-            if(user == null)
+            if (user == null)
             {
                 _logger.LogWarning("Can't find registered user {0}", model.UserName);
                 ModelState.AddModelError("", "Username or Password was invalid.");
             }
-            
+
             if (model.IsModal)
                 return PartialView("LoginModal", model);
             else
@@ -208,11 +208,9 @@ namespace CateringPro.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> ResendEmail()
+        public async Task<IActionResult> ResendEmail(string inputEmail)
         {
-            string logged_id = User.GetUserId();
-
-            CompanyUser user = await _userManager.FindByIdAsync(logged_id);
+            CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
             if (user != null)
             {
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -236,9 +234,90 @@ namespace CateringPro.Controllers
             else
                 ModelState.AddModelError("", "User Not Found");
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("EmailSent", "Account");
         }
         public IActionResult EmailConfirmed()
+        {
+            return View();
+        }
+        public IActionResult InstructionPasswordEmailSent()
+        {
+            return View();
+        }
+        public async Task<IActionResult> RestoreInputPassword(string inputEmail)
+        {
+            if(inputEmail != null)
+            {
+                CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
+                if (user != null)
+                {
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        "SetNewPassword",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+
+                    await _companyuser_repo.PostUpdateUserAsync(user, true);
+                    EmailService emailService = new EmailService();
+                    await _email.SendEmailAsync(user.Email, "Зміна паролю",
+                        $"Вітаю, {user.NameSurname}<br>" +
+                        $"Ви хочете змінити пароль від вашого облікового запису!<br>" +
+                        $"Підтвердіть зміну паролю, перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
+                        $"" +
+                        $"" +
+                        $"<br><br><br>Якщо це були не Ви - ні в якому разі не переходіть за посиланням.<br>" +
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                    return RedirectToAction("InstructionPasswordEmailSent", "Account");
+                }
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "User Not Found");
+                }
+            }
+            return RedirectToAction("RestorePassword", "Account");
+        }
+
+        public IActionResult RestorePassword()
+        {
+            return View();
+        }
+        public async Task<IActionResult> SetNewPassword(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+
+            var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
+            return View(model);
+        }
+        public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword)
+        {
+            var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            CompanyUser user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            if (inputPassword == null)
+            {
+                ModelState.AddModelError("inputPassword", "You must specify a value");
+                return View("SetNewPassword",model);
+            }
+            var result = await _userManager.ResetPasswordAsync(user, code, inputPassword);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("NewPasswordApplied");
+            }
+            else
+                return View("Error");
+        }
+        public IActionResult NewPasswordApplied()
         {
             return View();
         }
@@ -316,8 +395,14 @@ namespace CateringPro.Controllers
                     usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
-                    if (usr.ConfirmedByAdmin == true)
+                    if (usr.ConfirmedByAdmin)
                     {
+                        var code = await _userManager.GeneratePasswordResetTokenAsync(usr);
+                        var callbackUrl = Url.Action(
+                            "SetNewPassword",
+                            "Account",
+                            new { userId = usr.Id, code = code },
+                            protocol: HttpContext.Request.Scheme);
                         usr.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(usr, true);
                         EmailService emailService = new EmailService();
@@ -325,8 +410,8 @@ namespace CateringPro.Controllers
                             $"Вітаю, {usr.NameSurname}<br>" +
                             $"Ваш обліковий запис було створено адміністратором<br>" +
                             $"Наразі вам доступний весь функціонал.<br>" +
-                            $"Login: {usr.UserName}" +
-                            $"" +
+                            $"Login: {usr.UserName} <br>" +
+                            $"Необхідно перейти за посиланням для встановлення паролю: <a href='{callbackUrl}'> посилання</a><br>" +
                             $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
                             $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
                     }
@@ -367,8 +452,9 @@ namespace CateringPro.Controllers
                         return PartialView(usermodel);
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
-                    if (user.ConfirmedByAdmin == true)
+                    if (user.ConfirmedByAdmin)
                     {
+                        usermodel.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(user, true);
                         EmailService emailService = new EmailService();
                         await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",

@@ -1,7 +1,7 @@
 ﻿@model RegisterViewModel
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
-    ViewData["Title"] = "EmailSent";
+    ViewData["Title"] = @Localizer["Email Sent Title"];
 }
 
 <h2>@Localizer["Email Sent Title"]</h2>
@@ -13,12 +13,6 @@
         <title>Rezume Free Template by Colorlib</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        @*<link rel="stylesheet" href="css/animate.css">
-        <link rel="stylesheet" href="css/flexslider.css">
-        <link rel="stylesheet" href="fonts/icomoon/style.css">
-
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link rel="stylesheet" href="css/style.css">*@
 
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700" rel="stylesheet">
     </head>
@@ -30,16 +24,6 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                @*<div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample09">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="#section-home">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#section-portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#section-resume">Resume</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#section-about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#section-contact">Contact</a></li>
-                    </ul>
-                </div>*@
             </div>
         </nav>
 
@@ -53,9 +37,8 @@
                     </div>
                 </div>
             </div>
-        </section> <!-- section -->
+        </section>
         
-
             <section class="site-section" id="section-portfolio">
                 <div class="container">
                     <div class="row">
@@ -64,36 +47,20 @@
                             <div class="section-heading">
                                 <h2>Не отримали лист? </h2>
                             </div>
-                            <p class="mb-5  ">У разі якщо ви не отримали лист - перевірте папку "спам".</p>
-                            <p class="mb-5  ">Для повторного надсилання натисніть кнопку "надіслати".</p>
-
+                            <p>У разі якщо ви не отримали лист - перевірте папку "спам".</p>
+                            <p>Для повторного надсилання введіть поштовий адрес ще раз і натисніть кнопку "надіслати".</p>
+                            <input asp-controller="Account" asp-action="ResendEmail" class="center-block" name="inputEmail" placeholder="Email">
+                            <br />
+                            <br />
                             <p>
-                                <button asp-controller="Account" asp-action="ResendEmail"  type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["Send"]</button>
+                                <button asp-controller="Account" asp-action="ResendEmail" type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["Send"]</button>
                             </p>
                         </div>
                     </div>
-
                 </div>
             </section>
-            <!-- .section -->
-            @*<script src="js/vendor/jquery.min.js"></script>
-            <script src="js/vendor/jquery-migrate-3.0.1.min.js"></script>
-            <script src="js/vendor/popper.min.js"></script>
-            <script src="js/vendor/bootstrap.min.js"></script>
-
-            <script src="js/vendor/jquery.easing.1.3.js"></script>
-
-            <script src="js/vendor/jquery.stellar.min.js"></script>
-            <script src="js/vendor/jquery.waypoints.min.js"></script>*@
-
             <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
             <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-            @*<script src="js/custom.js"></script>*@
-
-            <!-- Google Map -->
-            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-            <script src="js/google-map.js"></script> -->
-        
     </body>
 </html>
     </form>

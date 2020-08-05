@@ -14,6 +14,12 @@ namespace CateringPro.ViewModels
         [DisplayName("UserName")]
         public string UserName { get; set; }
 
+        [DisplayName("UserId")]
+        public string UserId { get; set; }
+
+        [DisplayName("TokenCode")]
+        public string TokenCode { get; set; }
+
         [Required]
         [DataType(DataType.EmailAddress)]
         [DisplayName("Email")]
