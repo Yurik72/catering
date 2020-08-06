@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using CateringPro.Helpers;
+using Westwind.AspNetCore.Markdown;
 
 namespace CateringPro
 {
@@ -48,11 +49,11 @@ namespace CateringPro
                     // .AddDefaultUI()
                     .AddErrorDescriber<LocalizedIdentityErrorDescriber>()
                     .AddDefaultTokenProviders();
-                   
+
+            //add Markdown
+            services.AddMarkdown();
 
 
-           
-           
             services.AddTransient<ICategoryRepository, CategoryRepository>();
            
            
@@ -174,6 +175,9 @@ namespace CateringPro
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //add Markdown
+            app.UseMarkdown();
 
             app.UseRouting();
 

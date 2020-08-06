@@ -72,7 +72,7 @@
                 <td>
                     @Localizer["Consignment Price"]
                 </td>
-                <td>
+                <td style="text-align: center;">
                     @Localizer["Consignment ValidTo"]
                     
                 </td>
@@ -136,7 +136,7 @@
                             @Html.DisplayFor(modelItem => detail.Price)
                         </td>
 
-                        <td>
+                        <td style="text-align: right;">
                             @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
 
                         </td>

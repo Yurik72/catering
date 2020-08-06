@@ -489,6 +489,9 @@ namespace CateringPro.Repositories
         }
         public async Task<bool> UserFinanceEdit(decimal total, string userId, int companyId, bool add)
         {
+//            exec MakeOrderPayment '2020-08-07', 1
+//Select*
+//from UserFinOutComes
             DateTime date =  DateTime.Now;
             try
             {
