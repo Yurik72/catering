@@ -11277,19 +11277,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\andry\\.nuget\\packages\\": {}
+    "C:\\Users\\yurik\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
+      "projectUniqueName": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj",
       "projectName": "CateringPro",
-      "projectPath": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
-      "packagesPath": "C:\\Users\\andry\\.nuget\\packages\\",
-      "outputPath": "D:\\work\\catering\\CateringPro\\obj\\",
+      "projectPath": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj",
+      "packagesPath": "C:\\Users\\yurik\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\andry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\yurik\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11424,7 +11428,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
       }
     }
   },
