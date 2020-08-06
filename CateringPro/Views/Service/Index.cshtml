@@ -102,7 +102,11 @@
             var curr_date = new Date();
             //todo
             setTimeout(function () { enumerateDevices(); },2000)
-            
+
+            $(document).keydown(function (e) {
+                console.log(e);
+            })
+
             $('#currentdate').text(curr_date.getDate() + "." + (curr_date.getMonth() + 1) + "." + curr_date.getFullYear());
 
             $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
