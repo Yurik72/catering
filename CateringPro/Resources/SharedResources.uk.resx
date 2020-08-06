@@ -702,7 +702,55 @@
   <data name="You have to confirm your Email before" xml:space="preserve">
     <value>Спочатку підтвердіть пошту</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>Закрити</value>
+  <data name="RestorePassword" xml:space="preserve">
+    <value>забули пароль?</value>
+  </data>
+  <data name="To restore password" xml:space="preserve">
+    <value>Відновлення паролю</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забули пароль?</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>застосувати</value>
+  </data>
+  <data name="NewPasswordApplied" xml:space="preserve">
+    <value>Ви успішно змінили пароль</value>
+  </data>
+  <data name="PasswordChanging" xml:space="preserve">
+    <value>Зміна паролю</value>
+  </data>
+  <data name="To set new password" xml:space="preserve">
+    <value>Зміна паролю</value>
+  </data>
+  <data name="Brutto" xml:space="preserve">
+    <value>Брутто</value>
+  </data>
+  <data name="CompanyProductionForecast" xml:space="preserve">
+    <value>Потреба в продуктах/прогноз по днях</value>
+  </data>
+  <data name="Consigment Stock" xml:space="preserve">
+    <value>Залишки на складі</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="Need" xml:space="preserve">
+    <value>Потреба</value>
+  </data>
+  <data name="Netto" xml:space="preserve">
+    <value>Нетто</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Кількість</value>
+  </data>
+  <data name="ValueAft" xml:space="preserve">
+    <value>Залишок на кiнець</value>
+  </data>
+  <data name="ValueBef" xml:space="preserve">
+    <value>Залишок на початок</value>
   </data>
 </root>

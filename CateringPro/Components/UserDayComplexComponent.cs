@@ -33,7 +33,7 @@ namespace CateringPro.ViewComponents
             //  daydate = DateTime.Now;
             //var cid = this.User.GetCompanyID();
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            ViewData["AllowEdit"] = _udaydishrepo.IsAllowDayEdit(daydate, this.User.GetCompanyID()) && _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId());
+            ViewData["AllowEdit"] = _udaydishrepo.IsAllowDayEdit(daydate, this.User.GetCompanyID()) && _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId()) && _udaydishrepo.IsBalancePositive(this.User.GetUserId());
             ViewData["AllowAdmin"] = _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId());
             if ((_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.OneComplexType) >0)
             {

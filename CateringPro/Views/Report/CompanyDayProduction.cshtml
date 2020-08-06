@@ -1,4 +1,5 @@
 ﻿@model CateringPro.Models.DayProductioDayViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     Layout = null;
     List<DayIngredientsDetails> ingLs = new List<DayIngredientsDetails>();
@@ -22,8 +23,8 @@
                             </td>
                             <td>
 
-                                Потреба в виробництвi
-                                <br /> Дата: @DateTime.Now.ToShortDateString()
+                                @Localizer["CompanyDayProduction"]
+                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
 
                             </td>
                         </tr>
@@ -39,24 +40,24 @@
                             <td></td>
                             <td></td>
                             @*<td>
-                            </td>*@
+                                </td>*@
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr class="heading ">
                 <td>
-                    Код
+                    @Localizer["Category Code"]
                 </td>
                 <td>
-                    Назва
+                    @Localizer["Complex Name"]
                 </td>
                 <td>
-                    Кiлькiсть
+                    @Localizer["Quantity"]
                 </td>
                 @*<td>
-                Інгрідієнти
-            </td>*@
+                        Інгрідієнти
+                    </td>*@
             </tr>
 
             @foreach (var day in Model.Days)
@@ -84,27 +85,27 @@
 
                     @foreach (var ing in item.Ingridients)
                     {
-        <tr>
-            <td></td>
-            <td> @Html.DisplayFor(model => ing.IngredientName)</td>
-           @{ var res = ing.Quantity * item.Quantity;
-               if(ingLs.Exists(i => i.IngredientId == ing.IngredientId))
-               {
-                   var index = ingLs.FindIndex(c => c.IngredientId == ing.IngredientId);
-                   ingLs[index].Quantity += res;
-               }
-               else
-               {
-                   ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, ing.MeasureUnit));
-               }
-           }
-        <td>
-            @Html.DisplayFor(model => res) @Html.DisplayFor(model => ing.MeasureUnit)
+                        <tr>
+                            <td></td>
+                            <td> @Html.DisplayFor(model => ing.IngredientName)</td>
+                            @{ var res = ing.Quantity * item.Quantity;
+                                if (ingLs.Exists(i => i.IngredientId == ing.IngredientId))
+                                {
+                                    var index = ingLs.FindIndex(c => c.IngredientId == ing.IngredientId);
+                                    ingLs[index].Quantity += res;
+                                }
+                                else
+                                {
+                                    ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, ing.MeasureUnit));
+                                }
+                            }
+                            <td>
+                                @Html.DisplayFor(model => res) @Html.DisplayFor(model => ing.MeasureUnit)
 
-        </td>
-            <td></td>
-           
-        </tr>
+                            </td>
+                            <td></td>
+
+                        </tr>
                     }
 
                 }
@@ -119,17 +120,17 @@
             </tr>
         </table>
         <br />
-        <h1>Інгрідієнти</h1>
+        <h1>@Localizer["Ingredient"]</h1>
         <table>
             <tr class="heading ">
                 <td>
-                    Назва
+                    @Localizer["Ingredient Name"]
                 </td>
                 <td>
-                    Загальна кількість
+                    @Localizer["Quantity"]
                 </td>
             </tr>
-            @foreach(var ing in ingLs)
+            @foreach (var ing in ingLs)
             {
                 <tr>
                     <td> @ing.IngredientName</td>

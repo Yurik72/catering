@@ -45,7 +45,10 @@
             font-weight: bold;
         }
 .dish {
-    background: #afb0bb;
+    background-color: #999;
+}
+.stock-consignment {
+    background-color: #d8d8d8;
 }
         
 

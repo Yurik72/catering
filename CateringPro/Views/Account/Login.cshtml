@@ -1,4 +1,5 @@
-@model LoginViewModel
+@*@model LoginViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Login";
@@ -28,42 +29,43 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Log in" />
-        </div>
-    </div>
-
 </form>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <button asp-controller="Account" asp-action="RestorePassword" type="button" class="btn btn-primary mr-auto">@Localizer["RestorePassword"]</button>
+        <input asp-controller="Account" asp-action="Login" type="submit" class="btn btn-primary" value="Log in" />
+    </div>
+</div>*@
 
 @*<h2>Login</h2>
 
-<form asp-action="Login">
-    <div class="form-horizontal">
-        <h4>LoginViewModel</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="UserName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+    <form asp-action="Login">
+        <div class="form-horizontal">
+            <h4>LoginViewModel</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Password" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</form>*@
+    </form>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
