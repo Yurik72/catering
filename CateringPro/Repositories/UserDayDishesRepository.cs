@@ -545,8 +545,8 @@ namespace CateringPro.Repositories
                     return false;
                 if (!await SaveUserDay(daycomplex.Count(), total, daycomplex.First().Date, userId, companyId))
                     return false;
-                if (!await UserFinanceEdit(total,userId, companyId,false))
-                    return false;
+                //if (!await UserFinanceEdit(total,userId, companyId,false))
+                //    return false;
                 scope.Complete();
             }
             return true;
@@ -565,8 +565,8 @@ namespace CateringPro.Repositories
                     return false;
                 if (!await DeleteUserDay(userDayComplex.Price, userDayComplex.Date, userId, companyId))
                     return false;
-                if (!await UserFinanceEdit(userDayComplex.Price, userId, companyId, true))
-                    return false;
+                //if (!await UserFinanceEdit(userDayComplex.Price, userId, companyId, true))
+                //    return false;
                 scope.Complete();
             }
             return true;

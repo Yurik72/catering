@@ -10,7 +10,7 @@ Update UserFinances
 SET 
     TotalOutCome=ISNULL(d.Amount,0),
 	Balance=TotalIncome-ISNULL(d.Amount,0),
-	TotalPreOrderBalance = (TotalIncome-ISNULL(d.Amount,0)) - TotalPreOrderedAmount
+	TotalPreOrderBalance = (Balance-ISNULL(d.Amount,0)) - TotalPreOrderedAmount
 FROM UserFinances uf,
 (
 	select distinct Id,CompanyId from inserted
