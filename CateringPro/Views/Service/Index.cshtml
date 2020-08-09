@@ -24,8 +24,12 @@
             <div class="col-12 container-state">
                 <span id="isonline" class="service-status online">Online</span>
                 <span id="isoffline" class="service-status offline">Offline</span>
-                <span id="nfc_isoffline" class="service-status offline" style="display: none;">NFC Reader Offline</span>
+                <span id="nfc_isoffline" class="service-status offline" style="display: none;">
+                    NFC Reader Offline
+                    <button id="connectnfc">Connect NFC</button>
+                </span>
                 <span id="nfc_isonline" class="service-status online" style="display: none;">
+                    <span id="nfc_readername"></span>
                     <img id="nfc_image" src="" style="width:50px;height:50px;" />
                     NFC Reader Online
                 </span>
@@ -72,17 +76,25 @@
                 </div>
             </div>
         </div>
+        <div id="delivery-welcome-row" class="row" style="display: none;">
+            <div class="col-12">
+                <div id="delivery-welcome-content" class="container  delivery-welcome-content">
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="./js/jquery.min.js"></script>
-    <script src="./js/nfc.js"></script>
-   
-    <script src="./js/nfcutil.js"></script>
+    <script src="./js/nfcsocket.js"></script>
+
     @*
         <script src="./js/service.js"></script>
     *@
     <script>
         $(function () {
+            var basehost = 'http://localhost:51321';
+            var baseurl = basehost + '/Service'
             var isStarted = false;
             var isQueueMode = true;
             var isNfcConnected = false;
@@ -100,9 +112,41 @@
             elnfc_offline.show();
 
             var curr_date = new Date();
-            //todo
-            setTimeout(function () { enumerateDevices(); },2000)
 
+            var nfcsock = new nfc_socket('wss://localhost:44360/ws',
+                function (data) {
+                    console.log(data);
+                },
+                function (cmd, event) {
+                    console.log(cmd);
+                    console.log(event);
+                    if (cmd === 'open') {
+                        nfcsock.getstatus(function () { });
+                    }
+                }
+            );
+            //todo
+            $('#connectnfc').click(function (e) {
+                e.preventDefault();
+                nfcsock.connect();
+                
+            });
+            nfcsock.on('status', function (msg) {
+                showNfcInfo(msg);
+            });
+            nfcsock.on('cardreaded', function (msg) {
+                $('#userid').val(msg.Cardtag);
+                if (IsWelcomeMode() && isQueueMode) {
+                    requestfordelivery(filldeliverydishes);
+                }
+                else if (isQueueMode) {
+                    requestfordeliveryQueue(fillQueue);
+                }
+                else {
+                    requestfordelivery(filldeliverydishes);
+                }
+
+            });
             $(document).keydown(function (e) {
                 console.log(e);
             })
@@ -145,12 +189,17 @@
                 }).get();
             }
             function refreshDeliveryContentState() {
-                if (isQueueMode) {
-                    $('#delivery-dishes-row').hide();
+                $('#delivery-dishes-row').hide();
+                $('#delivery-queue-row').hide();
+                $('#delivery-welcome-row').hide();
+                if (IsWelcomeMode()) {
+                    $('#delivery-welcome-row').show();
+                }
+                else if (isQueueMode) {
                     $('#delivery-queue-row').show();
                 } else {
                     $('#delivery-dishes-row').show();
-                    $('#delivery-queue-row').hide();
+
                 }
             }
             function refreshState() {
@@ -175,7 +224,7 @@
                 refreshDeliveryContentState();
                 if (isQueueMode) {
 
-                    requestfordeliveryQueue(fillQueue);
+                  //  requestfordeliveryQueue(fillQueue);
                 }
             });
             $('#btnstop').click(function (e) {
@@ -190,6 +239,31 @@
             });
             function getQueueCount() {
                 return $('#delivery-queue-content').find("user-queue").length;
+            }
+            function fillWelcome(data) {
+                $('#delivery-welcome-content').empty();
+                if (!data || data.overalResult != "success") {
+
+                    var div = `<div class="row"><div class="col-8 container-errordelivery"><span class="errordelivery">Помилка:${data.errorMessage}</span></div></div>`;
+                    $('#delivery-welcome-content').append(div);
+                }
+                //var inner_div = data.dishes.map(function (element, index) {
+                var inner_div = "";
+                data.dishes.forEach(element => {
+                    inner_div += `<span class="welcome-dish" data-id="${element.id}" data-id=${element.id}>${element.name}</span>`;
+                });
+
+                var pictureURL = basehost + '/Pictures/GetPicture?id=' + data.userPictureId;
+                var div = $(`<div class="row user-welcome" >
+                                    <div class="col-4 welcome-user">
+                                        <span class="welcome-username" >${data.userName}</span>
+                                        <img src="${pictureURL}"/>
+                                    </div>
+                                    <div class="col-4 welcome-dishes">
+                                        ${inner_div}
+                                     </div>
+                                </div>`);
+                $('#delivery-welcome-content').append(div);
             }
             function fillQueue(data) {
                 var queunum = getQueueCount() + 1;
@@ -215,6 +289,11 @@
                 });
             }
             function filldeliverydishes(data) {
+                if (IsWelcomeMode()) {
+                    fillWelcome(data);
+                    return;
+                }
+
                 $('#delivery-dishes-content').empty();
                 if (!data || data.overalResult != "success") {
 
@@ -290,6 +369,17 @@
                         el_error.show();
                     });
             }
+            function showNfcInfo(msg) {
+                if (msg && msg.Isreaderconnected && msg.Ismonitoring) {
+                    elnfc_online.show();
+                    elnfc_offline.hide();
+                    $('#nfc_readername').text(msg.Readername);
+                }
+                else {
+                    elnfc_online.hide();
+                    elnfc_offline.show();
+                }
+            }
             function showDeviceInfo() {
                 var deviceInfo = null;
                 elnfc_online.show();
@@ -307,21 +397,8 @@
 
 
             }
-            function enumerateDevices() {
-                chrome.nfc.findDevices(function (devices) {
-                    device = devices[0];
-                    isNfcConnected = true;
-                    showDeviceInfo();
-                });
-            }
-            $(window).unload(function () {
-                console.log("window unload");
-                chrome.nfc.getdevman().closeAll();
-            });
-            $(document).unload(function () {
-                console.log("window unload");
-                chrome.nfc.getdevman().closeAll();
-            });
+
+
         });
     </script>
 </body>
