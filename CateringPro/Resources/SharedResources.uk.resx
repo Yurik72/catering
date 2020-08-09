@@ -732,6 +732,9 @@
   <data name="Consigment Stock" xml:space="preserve">
     <value>Залишки на складі</value>
   </data>
+  <data name="CookingTechnologie" xml:space="preserve">
+    <value>Технологія приготування</value>
+  </data>
   <data name="Format" xml:space="preserve">
     <value>Формат</value>
   </data>

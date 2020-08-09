@@ -27,6 +27,10 @@ SET
 
 	TotalPreOrders=ISNULL(d.cnt,0),
 	TotalPreOrderedAmount=ISNULL(d.Total,0),
+	--Andry added
+	TotalPreOrderBalance = (Balance-ISNULL(d.Total,0)),
+	--TotalPreOrderBalance = (Balance-ISNULL(d.Amount,0)) - TotalPreOrderedAmount,
+	--
 	LastUpdated=getdate()
 FROM UserFinances uf,
 (

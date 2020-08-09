@@ -113,6 +113,8 @@
                 }
             }
             @* period item start*@
+            @if (@Model.Days.Count() >0)
+            {
             @if (@Model.Days.FirstOrDefault().Daydate != @Model.Days.LastOrDefault().Daydate)
             {
                 <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString() - @Model.Days.LastOrDefault().Daydate.ToShortDateString()</td></tr>
@@ -120,6 +122,7 @@
             else
             {
                 <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString()</td></tr>
+            }
             }
             @{
                 peridRep.GroupBy(it => it.IngredientId).SelectMany(c => c).ToList();
