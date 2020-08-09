@@ -20,32 +20,42 @@
                 <label for="datep">@Localizer["DateTo"]</label><input id="dateto" />
             </div>
         </div>
+        <div class="col-4">
+            <div class="ui-widget report-param-box">
+                <label for="format">@Localizer["Format"]</label>
+                <select class="form-control" id="format">
+                    <option value="pdf">Pdf</option>
+                    <option value="xlsx">Exel</option>
+                    <option value="html">Html</option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 <div class="container">
     <div class="row report-name">
         <div class="col">
-            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyProductionForecast" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["ForecastProductionStock"]</a>
+            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyProductionForecast" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["ForecastProductionStock"]</a>
         </div>
     </div>
     <div class="row report-name">
         <div class="col">
-            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyDayProduction" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["CompanyDayProduction"]</a>
+            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyDayProduction" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["CompanyDayProduction"]</a>
         </div>
     </div>
     <div class="row report-name">
         <div class="col">
-            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="CompanyMenu" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["CompanyMenu"]</a>
+            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyMenu" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["CompanyMenu"]</a>
         </div>
     </div>
     <div class="row report-name">
         <div class="col">
-            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="DishSpecification" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["DishSpecification"]</a>
+            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="DishSpecification" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["DishSpecification"]</a>
         </div>
     </div>
     <div class="row report-name">
         <div class="col">
-            <a class="set-datefrom set-dateto" asp-controller="Report" asp-action="ConsigmentStock" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" target="_blank">@Localizer["ConsignmentStock"]</a>
+            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="ConsigmentStock" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["ConsignmentStock"]</a>
         </div>
     </div>
 </div>
@@ -53,7 +63,8 @@
 $(function() {
 
     var dtfrom=$('#datefrom').datepicker();
-    var dtto= $('#dateto').datepicker();
+    var dtto = $('#dateto').datepicker();
+    var format = $("#format").val("html");
     dtfrom.datepicker('setDate', new Date(@DateTime.Today.MSDateSince1970()));
     dtto.datepicker('setDate', new Date(@DateTime.Today.AddDays(3).MSDateSince1970()));
     dtfrom.change(function (el) {
@@ -70,6 +81,14 @@ $(function() {
             $(elem).attr('href', href); 
          });
 
+    });
+    format.change(function (el) {
+        $(".set-format").each(function (idx, elem) {
+            var href = $(elem).attr('href');
+            href = buildUrl(href, "format", format.children("option:selected").val());
+            console.log(href);
+            $(elem).attr('href', href);
+        });
     });
     var buildUrl = function (url, paramname, paramvalue) {
         var newurl = new URL(url, '@Url.AbsoluteContent("~/")');

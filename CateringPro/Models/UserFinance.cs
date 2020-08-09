@@ -39,6 +39,10 @@ namespace CateringPro.Models
         [Column(TypeName = "decimal(18,2)")]
         [DefaultValue(0.0)]
         public decimal TotalPreOrderedAmount { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        [DefaultValue(0.0)]
+        public decimal TotalPreOrderBalance { get; set; }
         public DateTime LastUpdated { get; set; }
 
         public CompanyUser CompanyUser { get; set; }

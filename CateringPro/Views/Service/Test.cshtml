@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Окно выдачи заказов";
+    Layout = null;
+    int numDishes = 5;
+}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="main-header">
+
+        <h1>Окно выдачи заказов</h1>
+        <h1 id="currentdate"></h1>
+    </header>
+
+    <div class="container order-service">
+        <button id="test">Test</button>
+    </div>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/nfc.js"></script>
+    <script src="../js/nfcserial.js"></script>
+    <script src="../js/nfcutil.js"></script>
+    <script>
+
+        $(function () {
+            var device = null;
+
+            
+            let port;
+            let serial = getserial();
+            'use strict';
+            $("#test").click(function (e) {
+                e.preventDefault();
+                if (port) {
+                    port.disconnect();
+                    //connectButton.textContent = 'Connect';
+                    // statusDisplay.textContent = '';
+                    port = null;
+                } else {
+                    serial.requestPort().then(selectedPort => {
+                        port = selectedPort;
+                        port.connect();
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                }
+            })
+
+
+
+        });
+    </script>
+</body>
+</html>

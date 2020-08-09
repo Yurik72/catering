@@ -112,8 +112,8 @@
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="jsreport.AspNetCore" Version="2.1.0" />
-    <PackageReference Include="jsreport.Binary" Version="2.7.1" />
-    <PackageReference Include="jsreport.Local" Version="2.2.2" />
+    <PackageReference Include="jsreport.Binary" Version="2.9.0" />
+    <PackageReference Include="jsreport.Local" Version="2.2.3" />
     <PackageReference Include="jsreport.MVC" Version="2.1.1" />
     <PackageReference Include="jsreport.Shared" Version="2.2.0" />
     <PackageReference Include="MailKit" Version="2.8.0" />
@@ -137,6 +137,7 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.76" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.3.8" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />

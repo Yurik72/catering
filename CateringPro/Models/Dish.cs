@@ -58,6 +58,9 @@ namespace CateringPro.Models
         [DisplayName("Dish Category")]
         public int CategoriesId { get; set; }
 
+        [DisplayName("Cooking Technologie")]
+        public string CookingTechnologie { get; set; }
+
         [DisplayName("Dish Category")]
         public virtual Categories Category { get; set; }
 

@@ -38,6 +38,10 @@ namespace CateringPro.Repositories
         {
             return _context.Users.Where(us => us.Id == userid).Select(us => us.ConfirmedByAdmin).FirstOrDefault();
         }
+        public bool IsBalancePositive(string userid)
+        {
+            return _context.UserFinances.Where(us => us.Id == userid).Select(us => us.TotalPreOrderBalance).FirstOrDefault()>0;
+        }
         public bool IsAllowDayEdit(DateTime dt, int companyid)
         {
             var company = _cache.GetCachedCompanyAsync(_context, companyid).Result; //_context.Companies.Find(companyid);
@@ -483,6 +487,50 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        public async Task<bool> UserFinanceEdit(decimal total, string userId, int companyId, bool add)
+        {
+//            exec MakeOrderPayment '2020-08-07', 1
+//Select*
+//from UserFinOutComes
+            DateTime date =  DateTime.Now;
+            try
+            {
+
+                //await saveday(d);
+                // httpcontext.User.AssignUserAttr(d);
+                var userFinance = _context.UserFinances.SingleOrDefault(c => c.CompanyId == companyId && c.Id == userId);
+                if (userFinance != null)
+                {
+                    userFinance.LastUpdated = date;
+                    if (add)
+                    {
+                        userFinance.TotalPreOrderBalance += total;
+                    }
+                    else
+                    {
+                        userFinance.TotalPreOrderBalance -= total;
+                    }
+                    _context.Update(userFinance);
+                }
+                else 
+                {
+                    //d.UserId = this.User.GetUserId();
+
+                    //_context.Add(order);
+                }
+
+
+                _context.SaveChanges();
+                //  if (!UpdateUserComplex(daycomplex, httpcontext))
+                //     return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update user finance");
+                return false;
+            }
+            return true;
+        }
         public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, string userId, int companyId)
         {
             decimal total = 0;
@@ -497,6 +545,8 @@ namespace CateringPro.Repositories
                     return false;
                 if (!await SaveUserDay(daycomplex.Count(), total, daycomplex.First().Date, userId, companyId))
                     return false;
+                //if (!await UserFinanceEdit(total,userId, companyId,false))
+                //    return false;
                 scope.Complete();
             }
             return true;
@@ -515,6 +565,8 @@ namespace CateringPro.Repositories
                     return false;
                 if (!await DeleteUserDay(userDayComplex.Price, userDayComplex.Date, userId, companyId))
                     return false;
+                //if (!await UserFinanceEdit(userDayComplex.Price, userId, companyId, true))
+                //    return false;
                 scope.Complete();
             }
             return true;

@@ -783,4 +783,37 @@
   <data name="DefaultIdentityError" xml:space="preserve">
     <value>Стандартна помилка</value>
   </data>
+  <data name="Brutto" xml:space="preserve">
+    <value>Брутто</value>
+  </data>
+  <data name="CompanyProductionForecast" xml:space="preserve">
+    <value>Потреба в продуктах/прогноз по днях</value>
+  </data>
+  <data name="Consigment Stock" xml:space="preserve">
+    <value>Залишки на складі</value>
+  </data>
+  <data name="CookingTechnologie" xml:space="preserve">
+    <value>Технологія приготування</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="Need" xml:space="preserve">
+    <value>Потреба</value>
+  </data>
+  <data name="Netto" xml:space="preserve">
+    <value>Нетто</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Кількість</value>
+  </data>
+  <data name="ValueAft" xml:space="preserve">
+    <value>Залишок на кiнець</value>
+  </data>
+  <data name="ValueBef" xml:space="preserve">
+    <value>Залишок на початок</value>
+  </data>
 </root>

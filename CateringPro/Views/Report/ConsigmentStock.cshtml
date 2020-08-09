@@ -21,7 +21,8 @@
 <body>
     <div class="production-forecast-box">
         <table cellpadding="0" cellspacing="0">
-            <tr class="top">
+            @*<tr class="top">*@
+                <tr>
                 <td colspan="2">
                     <table>
                         <tr>
@@ -30,8 +31,8 @@
                             </td>
                             <td>
 
-                                Залишки на складі
-                                <br /> Дата: @DateTime.Now.ToShortDateString()
+                                @Localizer["Consigment Stock"]
+                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
 
                             </td>
                         </tr>
@@ -53,24 +54,27 @@
                 </td>
             </tr>
             <tr class="heading ">
+                @*<tr>*@
                 @*<td>
                     Категорія
                 </td>*@
                 <td>
-                    Продукт/Партія
+                    @Localizer["Consignment Ingredient Name"]
                 </td>
                 <td>
-                    Залишок
+                    @Localizer["Consignment StockValue"]
                 </td>
                 <td style="text-align: center;">
-                    Од. вим.
+                    @Localizer["Consignment MeasureUnit"]
+                   @* Од. вим.*@
                 </td>
 
                 <td>
-                    Вартість
+                    @Localizer["Consignment Price"]
                 </td>
-                <td>
-                    Вжити до
+                <td style="text-align: center;">
+                    @Localizer["Consignment ValidTo"]
+                    
                 </td>
             </tr>
             @{
@@ -82,7 +86,7 @@
             {
                 @if (ingId != item.IngredientCategoryId)
                 {
-                    <tr><td class="dish">@Html.DisplayFor(model => item.IngredientCategoryName)</td></tr>
+                    <tr class="dish"><td colspan="5">@Html.DisplayFor(model => item.IngredientCategoryName)</td></tr>
                     ingId = item.IngredientCategoryId;
                 }
                 <tr class="item">
@@ -109,9 +113,9 @@
                 </tr>
                 foreach (var detail in item.Consignments)
                 {
-                    <tr class="small">
-                        <td>
-                        </td>
+                    <tr class="stock-consignment">
+                        @*<td>
+                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => detail.DocTypeName)  @Html.DisplayFor(modelItem => detail.InitialValue)  @Html.DisplayFor(modelItem => item.MeasureUnit)
 
@@ -132,12 +136,12 @@
                             @Html.DisplayFor(modelItem => detail.Price)
                         </td>
 
-                        <td>
+                        <td style="text-align: right;">
                             @detail.ValidUntil.ToString("d", System.Globalization.CultureInfo.CurrentUICulture)
 
                         </td>
-                        <td>
-                        </td>
+                        @*<td>
+                        </td>*@
                     </tr>
                 }
             }
