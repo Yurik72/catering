@@ -621,6 +621,9 @@
   <data name="DuplicateEmail" xml:space="preserve">
     <value>Поштова адреса {0} вже зареестрована</value>
   </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>Користувач {0} вже зареестрований</value>
+  </data>
   <data name="MenuChangeChild" xml:space="preserve">
     <value>Вибрати дитину</value>
   </data>
@@ -722,5 +725,62 @@
   </data>
   <data name="To set new password" xml:space="preserve">
     <value>Зміна паролю</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Пошта {0} - некоректна</value>
+  </data>
+  <data name="DuplicateRoleName" xml:space="preserve">
+    <value>Роль {0} вже присутня</value>
+  </data>
+  <data name="InvalidRoleName" xml:space="preserve">
+    <value>Ролі {0} нема</value>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>Ім'я користувача не коректне</value>
+  </data>
+  <data name="LoginAlreadyAssociated" xml:space="preserve">
+    <value>Вже авторизовано</value>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Паролі не співпадають</value>
+  </data>
+  <data name="PasswordRequiresDigit" xml:space="preserve">
+    <value>У паролі мають бути цифри</value>
+  </data>
+  <data name="PasswordRequiresLower" xml:space="preserve">
+    <value>Пароль має мати декілька малих літер</value>
+  </data>
+  <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+    <value>Пароль повинен містити хоча б одни спеціальний символ</value>
+  </data>
+  <data name="PasswordRequiresUniqueChars" xml:space="preserve">
+    <value>Пароль повинен містити унікальні значення</value>
+  </data>
+  <data name="PasswordRequiresUpper" xml:space="preserve">
+    <value>Пароль повинен містити хоча б одну велику літеру</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>Пароль занадто короткий</value>
+  </data>
+  <data name="UserAlreadyHasPassword" xml:space="preserve">
+    <value>У користувача вже встановлено пароль</value>
+  </data>
+  <data name="UserAlreadyInRole" xml:space="preserve">
+    <value>У користувача вже є роль</value>
+  </data>
+  <data name="UserNotInRole" xml:space="preserve">
+    <value>У користувача не має ролей</value>
+  </data>
+  <data name="UserLockoutNotEnabled" xml:space="preserve">
+    <value>У користувача не ввімкнене блокування</value>
+  </data>
+  <data name="RecoveryCodeRedemptionFailed" xml:space="preserve">
+    <value>Помилка відновлення коду обнулення</value>
+  </data>
+  <data name="ConcurrencyFailure" xml:space="preserve">
+    <value>Помилка одночасного виконання</value>
+  </data>
+  <data name="DefaultIdentityError" xml:space="preserve">
+    <value>Стандартна помилка</value>
   </data>
 </root>

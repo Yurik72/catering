@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CateringPro.Core;
+using CateringPro.Data;
+using CateringPro.Models;
+using CateringPro.Repositories;
+using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CateringPro.Data;
-using CateringPro.Models;
-using CateringPro.Core;
-using CateringPro.Repositories;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using CateringPro.ViewModels;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace CateringPro.Controllers
@@ -24,7 +23,7 @@ namespace CateringPro.Controllers
         private readonly IDishesRepository _dishesRepo;
         private int pageRecords = 20;
 
-        public DishesController(AppDbContext context, IDishesRepository dishesRepo,ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public DishesController(AppDbContext context, IDishesRepository dishesRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
         {
             _context = context;
             _logger = logger;
@@ -39,14 +38,14 @@ namespace CateringPro.Controllers
 
             return View(new List<Dish>());// await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
-        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")]  QueryModel querymodel)
+        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
             _logger.LogWarning("Dish Controllers  - ListItems User.GetCompanyID() {0} ", User.GetCompanyID());
             _logger.LogWarning("ListItems pageRecords {0} ", pageRecords);
             ViewData["QueryModel"] = querymodel;
             ViewData["CategoriesId"] = new SelectList(_context.Categories/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
             //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
-            var query =this.GetQueryList(_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient),
+            var query = this.GetQueryList(_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient),
                     querymodel,
                         d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria),
                      pageRecords);
@@ -63,8 +62,8 @@ namespace CateringPro.Controllers
 
             var query = (IQueryable<Dish>)_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
 
-           if(querymodel!=null && !string.IsNullOrEmpty( querymodel.SearchCriteria))
-                query= query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
+            if (querymodel != null && !string.IsNullOrEmpty(querymodel.SearchCriteria))
+                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
             query = query.Take(pageRecords);
             return PartialView(await query.ToListAsync());
 
@@ -132,7 +131,7 @@ namespace CateringPro.Controllers
         // GET: Dishes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-                return NotFound();
+            return NotFound();
         }
 
         // POST: Dishes/Edit/5
@@ -143,16 +142,16 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Dish dish)
         {
 
-                return NotFound();
+            return NotFound();
         }
 
-   //     public async Task<IActionResult> GetDishPicture(int id)
-       // {
-           // var dish = await _context.Dishes.SingleOrDefaultAsync(d=>d.Id==id && d.CompanyId== this.User.GetCompanyID());
-          //  if (dish == null || dish.DishPicture==null || dish.DishPicture.Length == 0)
-          //      return File(new byte[0], "image/jpeg"); ;
-          //  return File(dish.DishPicture, "image/jpeg");
-    //    }
+        //     public async Task<IActionResult> GetDishPicture(int id)
+        // {
+        // var dish = await _context.Dishes.SingleOrDefaultAsync(d=>d.Id==id && d.CompanyId== this.User.GetCompanyID());
+        //  if (dish == null || dish.DishPicture==null || dish.DishPicture.Length == 0)
+        //      return File(new byte[0], "image/jpeg"); ;
+        //  return File(dish.DishPicture, "image/jpeg");
+        //    }
         // POST: Dishes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -169,8 +168,8 @@ namespace CateringPro.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);
-                if (pict == null || true ) //to do always new
-                 {
+                if (pict == null || true) //to do always new
+                {
                     pict = new Pictures();
                 }
                 var file = Request.Form.Files[0];
@@ -186,25 +185,25 @@ namespace CateringPro.Controllers
             }
 
             ///not work
-           // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
-        //    var res=await this.UpdateCompanyDataAsync(dish, _context, _logger,
-           //     e=> { return _dishesRepo.UpdateDishIngredients(e, proportion, User.GetCompanyID()); });
+            // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
+            //    var res=await this.UpdateCompanyDataAsync(dish, _context, _logger,
+            //     e=> { return _dishesRepo.UpdateDishIngredients(e, proportion, User.GetCompanyID()); });
 
             var res = await this.UpdateDBCompanyDataAsyncEx(dish, _logger,
                 e => { return _dishesRepo.UpdateDishEntity(e, proportion, User.GetCompanyID()); });
-                
+
             //await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds, proportion,User.GetCompanyID());
             //await _dishesRepo.UpdateDishIngredients(dish,  proportion, User.GetCompanyID());
             return res;
         }
 
-        public IActionResult NewIngredientDishesLine(int Index,int IngredientId, string IngredientName)
+        public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName)
         {
             return PartialView("IngredientDishesLine", new DishIngredientsProportionViewModel()
             {
                 IngredientId = IngredientId,
-                LineIndex=Index,
-                Name=IngredientName
+                LineIndex = Index,
+                Name = IngredientName
             });
         }
         public async Task<IActionResult> EditModal(int? id)
@@ -215,11 +214,11 @@ namespace CateringPro.Controllers
             }
 
             var dish = await _context.Dishes.FindAsync(id);
-            if (dish == null || dish.CompanyId!=User.GetCompanyID())
+            if (dish == null || dish.CompanyId != User.GetCompanyID())
             {
                 return NotFound();
             }
-            _context.Entry(dish).Collection(d => d.DishIngredients).Query().Include(d=>d.Ingredient).Load();
+            _context.Entry(dish).Collection(d => d.DishIngredients).Query().Include(d => d.Ingredient).Load();
 
             ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", dish.CategoriesId);
             return PartialView(dish);
@@ -234,8 +233,8 @@ namespace CateringPro.Controllers
 
             DishIngredientsViewModel ing = new DishIngredientsViewModel();
             ing.IngredientsIds = await _context.DishIngredients.WhereCompany(User.GetCompanyID()).Where(d => d.DishId == id).Select(d => d.IngredientId.ToString()).ToListAsync();
-            ing.Ingredients= new MultiSelectList(await  _context.Ingredients.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
-                .Select(di=>new {Value=di.Id,Text=di.Name }).ToListAsync(), "Value", "Text");
+            ing.Ingredients = new MultiSelectList(await _context.Ingredients.WhereCompany(User.GetCompanyID()).OrderBy(di => di.Name)
+                .Select(di => new { Value = di.Id, Text = di.Name }).ToListAsync(), "Value", "Text");
             return PartialView(ing);
         }
         public async Task<IActionResult> EditIngredientsProportion(int? id)
@@ -245,31 +244,31 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-           
+
             var model = await _context.DishIngredients.Include(d => d.Ingredient)/*.WhereCompany(User.GetCompanyID())*/.
-                Where(d => d.DishId == id).Select(d=> new DishIngredientsProportionViewModel()
+                Where(d => d.DishId == id).Select(d => new DishIngredientsProportionViewModel()
                 {
                     IngredientId = d.Ingredient.Id,
                     Name = d.Ingredient.Name,
                     Proportion = d.Proportion
-                    
+
                 }
                 )
                 .ToListAsync();
             return PartialView(model);
         }
         [HttpGet]
-        public ActionResult Search(string term,bool isShort=true)
+        public ActionResult Search(string term, bool isShort = true)
         {
             var result = _context.Dishes.Where(d => d.CompanyId == User.GetCompanyID()).Where(d => d.Name.Contains(term));
             if (isShort)
             {
-                return Ok(result.Select(d => new { Id = d.Id, Name = d.Name,Price=d.Price }));
+                return Ok(result.Select(d => new { Id = d.Id, Name = d.Name, Price = d.Price }));
             }
 
-                return Ok(result);
+            return Ok(result);
 
-           
+
         }
         public IActionResult CreateModal()
         {
@@ -281,7 +280,7 @@ namespace CateringPro.Controllers
             }
             dish.Code = _context.Categories.Count().ToString();
             ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", dish.CategoriesId);
-            return PartialView("EditModal",dish);
+            return PartialView("EditModal", dish);
         }
         // GET: Dishes/Delete/5
         public async Task<IActionResult> Delete(int? id)

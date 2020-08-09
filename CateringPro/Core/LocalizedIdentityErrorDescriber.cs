@@ -34,13 +34,13 @@ namespace CateringPro.Core
                 Description = SafeFormat("DuplicateEmail", email)
             };
         }
-        /*
+
         public override IdentityError DuplicateUserName(string userName)
         {
             return new IdentityError
             {
                 Code = nameof(DuplicateUserName),
-                Description = string.Format(LocalizedIdentityErrorMessages.DuplicateUserName, userName)
+                Description = SafeFormat("DuplicateUserName", userName)
             };
         }
 
@@ -49,7 +49,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(InvalidEmail),
-                Description = string.Format(LocalizedIdentityErrorMessages.InvalidEmail, email)
+                Description = SafeFormat("InvalidEmail", email)
             };
         }
 
@@ -58,7 +58,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(DuplicateRoleName),
-                Description = string.Format(LocalizedIdentityErrorMessages.DuplicateRoleName, role)
+                Description = SafeFormat("DuplicateRoleName", role)
             };
         }
 
@@ -67,7 +67,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(InvalidRoleName),
-                Description = string.Format(LocalizedIdentityErrorMessages.InvalidRoleName, role)
+                Description = SafeFormat("InvalidRoleName", role)
             };
         }
 
@@ -76,7 +76,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(InvalidToken),
-                Description = LocalizedIdentityErrorMessages.InvalidToken
+                Description = SafeFormat("InvalidToken")
             };
         }
 
@@ -85,7 +85,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(InvalidUserName),
-                Description = string.Format(LocalizedIdentityErrorMessages.InvalidUserName, userName)
+                Description = SafeFormat("InvalidUserName", userName)
             };
         }
 
@@ -94,7 +94,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(LoginAlreadyAssociated),
-                Description = LocalizedIdentityErrorMessages.LoginAlreadyAssociated
+                Description = SafeFormat("LoginAlreadyAssociated")
             };
         }
 
@@ -103,7 +103,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordMismatch),
-                Description = LocalizedIdentityErrorMessages.PasswordMismatch
+                Description = SafeFormat("PasswordMismatch")
             };
         }
 
@@ -112,7 +112,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresDigit),
-                Description = LocalizedIdentityErrorMessages.PasswordRequiresDigit
+                Description = SafeFormat("PasswordRequiresDigit")
             };
         }
 
@@ -121,7 +121,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresLower),
-                Description = LocalizedIdentityErrorMessages.PasswordRequiresLower
+                Description = SafeFormat("PasswordRequiresLower")
             };
         }
 
@@ -130,7 +130,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresNonAlphanumeric),
-                Description = LocalizedIdentityErrorMessages.PasswordRequiresNonAlphanumeric
+                Description = SafeFormat("PasswordRequiresNonAlphanumeric")
             };
         }
 
@@ -139,7 +139,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUniqueChars),
-                Description = string.Format(LocalizedIdentityErrorMessages.PasswordRequiresUniqueChars, uniqueChars)
+                Description = SafeFormat("PasswordRequiresUniqueChars", uniqueChars)
             };
         }
 
@@ -148,7 +148,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUpper),
-                Description = LocalizedIdentityErrorMessages.PasswordRequiresUpper
+                Description = SafeFormat("PasswordRequiresUpper")
             };
         }
 
@@ -157,7 +157,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(PasswordTooShort),
-                Description = string.Format(LocalizedIdentityErrorMessages.PasswordTooShort, length)
+                Description = SafeFormat("PasswordTooShort", length)
             };
         }
 
@@ -166,7 +166,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(UserAlreadyHasPassword),
-                Description = LocalizedIdentityErrorMessages.UserAlreadyHasPassword
+                Description = ("UserAlreadyHasPassword")
             };
         }
 
@@ -175,7 +175,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(UserAlreadyInRole),
-                Description = string.Format(LocalizedIdentityErrorMessages.UserAlreadyInRole, role)
+                Description = SafeFormat("UserAlreadyInRole", role)
             };
         }
 
@@ -184,7 +184,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(UserNotInRole),
-                Description = string.Format(LocalizedIdentityErrorMessages.UserNotInRole, role)
+                Description = SafeFormat("UserNotInRole", role)
             };
         }
 
@@ -193,7 +193,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(UserLockoutNotEnabled),
-                Description = LocalizedIdentityErrorMessages.UserLockoutNotEnabled
+                Description = SafeFormat("UserLockoutNotEnabled")
             };
         }
 
@@ -202,7 +202,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(RecoveryCodeRedemptionFailed),
-                Description = LocalizedIdentityErrorMessages.RecoveryCodeRedemptionFailed
+                Description = ("RecoveryCodeRedemptionFailed")
             };
         }
 
@@ -211,7 +211,7 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(ConcurrencyFailure),
-                Description = LocalizedIdentityErrorMessages.ConcurrencyFailure
+                Description = ("ConcurrencyFailure")
             };
         }
 
@@ -220,10 +220,10 @@ namespace CateringPro.Core
             return new IdentityError
             {
                 Code = nameof(DefaultError),
-                Description = LocalizedIdentityErrorMessages.DefaultIdentityError
+                Description = ("DefaultIdentityError")
             };
         }
-        */
+
     }
-       
+
 }

@@ -87,6 +87,8 @@ namespace CateringPro.ViewModels
         public string ChildNameSurname { get; set; }
         [DisplayName("ChildBirthdayDate")]
         public DateTime? ChildBirthdayDate { get; set; }
+        public int? PictureId { get; set; }
+        [DisplayName("PictureId")]
         public bool IsNew { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
@@ -108,6 +110,7 @@ namespace CateringPro.ViewModels
                 this.ChildNameSurname = usr.ChildNameSurname;
                 this.ChildBirthdayDate = usr.ChildBirthdayDate;
                 this.EmailConfirmed = usr.EmailConfirmed;
+                this.PictureId = usr.PictureId;
     }
 
             return this;
@@ -131,6 +134,7 @@ namespace CateringPro.ViewModels
                 usr.ChildNameSurname = this.ChildNameSurname;
                 usr.ChildBirthdayDate = this.ChildBirthdayDate;
                 usr.EmailConfirmed = this.EmailConfirmed;
+                usr.PictureId = this.PictureId;
                 if (isNew)
                     usr.Email = this.Email;
             }
