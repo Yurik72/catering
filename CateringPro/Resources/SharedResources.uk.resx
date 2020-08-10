@@ -816,4 +816,7 @@
   <data name="ValueBef" xml:space="preserve">
     <value>Залишок на початок</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
 </root>
