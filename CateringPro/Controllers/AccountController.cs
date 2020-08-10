@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,13 @@ namespace CateringPro.Controllers
         private readonly ICompanyUserRepository _companyuser_repo;
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
+        private readonly SharedViewLocalizer _localizer;
         public AccountController(AppDbContext context ,UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
                                  IEmailService email,
-                                 IUserFinRepository fin)
+                                 IUserFinRepository fin,
+                                 SharedViewLocalizer localizer)
         {
             _context = context;
             _userManager = userManager;
@@ -39,6 +42,7 @@ namespace CateringPro.Controllers
             _companyuser_repo = companyuser_repo;
             _email = email;
             _fin = fin;
+            _localizer = localizer;
         }
 
         [AllowAnonymous]
@@ -176,6 +180,7 @@ namespace CateringPro.Controllers
 
                     return Redirect(model.ReturnUrl);
                 }
+                ModelState.AddModelError("", _localizer.GetLocalizedString("IncorrectPassword"));
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
             }
             if (user != null && !user.EmailConfirmed)
@@ -185,7 +190,7 @@ namespace CateringPro.Controllers
             if (user == null)
             {
                 _logger.LogWarning("Can't find registered user {0}", model.UserName);
-                ModelState.AddModelError("", "Username or Password was invalid.");
+                ModelState.AddModelError("", _localizer.GetLocalizedString("UserNotFound"));
             }
 
             if (model.IsModal)
@@ -207,10 +212,12 @@ namespace CateringPro.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         public IActionResult EmailSent()
         {
             return View();
         }
+        [AllowAnonymous]
         public async Task<IActionResult> ResendEmail(string inputEmail)
         {
             CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
@@ -235,20 +242,24 @@ namespace CateringPro.Controllers
                     $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
             }
             else
-                ModelState.AddModelError("", "User Not Found");
+                ModelState.AddModelError("", _localizer.GetLocalizedString("UserNotFound"));
 
             return RedirectToAction("EmailSent", "Account");
         }
+        [AllowAnonymous]
         public IActionResult EmailConfirmed()
         {
             return View();
         }
+        [AllowAnonymous]
         public IActionResult InstructionPasswordEmailSent()
         {
             return View();
         }
+        [AllowAnonymous]
         public async Task<IActionResult> RestoreInputPassword(string inputEmail)
         {
+            var model = new RegisterViewModel(){};
             if(inputEmail != null)
             {
                 CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
@@ -275,17 +286,19 @@ namespace CateringPro.Controllers
                 }
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "User Not Found");
+                    ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("UserEmailNotFound"));
+                    return View("RestorePassword", model);
                 }
             }
-            return RedirectToAction("RestorePassword", "Account");
+            ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("CanNotBeEmpty"));
+            return View("RestorePassword", model);
         }
-
+        [AllowAnonymous]
         public IActionResult RestorePassword()
         {
             return View();
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> SetNewPassword(string userId, string code)
         {
             if (userId == null || code == null)
@@ -295,8 +308,7 @@ namespace CateringPro.Controllers
             var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
             return View(model);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword, string inputPasswordConfirm)
         {
             var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
@@ -311,12 +323,12 @@ namespace CateringPro.Controllers
             }
             if (inputPassword == null || inputPasswordConfirm == null)
             {
-                ModelState.AddModelError("inputPassword", "You must specify a value");
+                ModelState.AddModelError("inputPassword", _localizer.GetLocalizedString("CanNotBeEmpty"));
                 return View("SetNewPassword",model);
             }
             if ((inputPassword != null && inputPasswordConfirm != null) && !inputPassword.Equals(inputPasswordConfirm))
             {
-                ModelState.AddModelError("passwords do not match", "You must specify a value");
+                ModelState.AddModelError("inputPasswordConfirm", _localizer.GetLocalizedString("PasswordMismatch"));
                 return View("SetNewPassword", model);
             }
             if (inputPassword.Equals(inputPasswordConfirm))
@@ -329,6 +341,7 @@ namespace CateringPro.Controllers
             }
             return View("Error");
         }
+        [AllowAnonymous]
         public IActionResult NewPasswordApplied()
         {
             return View();
@@ -655,7 +668,7 @@ namespace CateringPro.Controllers
         }
         [Authorize]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
+        public async Task<IActionResult> UserChilds(string view, bool onlyChild = true)
         {
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
             if (string.IsNullOrEmpty(view))
