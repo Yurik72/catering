@@ -280,9 +280,10 @@ namespace CateringPro.Repositories
             }
             CompanyUser usr = new CompanyUser() { CompanyId = companyId };
             usr.Id = Guid.NewGuid().ToString();
-            string ticks = DateTime.Now.Ticks.ToString();
-            usr.UserName = user.UserName + "_" + ticks;
-            usr.Email = ticks + "_" + user.Email;
+            string ticks= DateTime.Now.Ticks.ToString();
+            string translit_text = Translit.cyr2lat(user.ChildNameSurname);
+            usr.UserName = user.UserName + "_" + translit_text;
+            usr.Email = ticks+"_"+user.Email;
             usr.ParentUserId = userId;
             var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD" + userId);
 

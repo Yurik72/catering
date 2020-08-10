@@ -112,7 +112,6 @@
                     <div class="row">
                         <div class="col-12">
                             <dl>
-
                                 <dt>  <label asp-for=ChildNameSurname class="control-label"></label></dt>
                                 <dd>
                                     <input asp-for="ChildNameSurname" class="form-control" autocomplete="off" />
@@ -122,8 +121,12 @@
                                 <dd>
                                     <input asp-for="ChildBirthdayDate" class="form-control" autocomplete="off" />
                                     <span asp-validation-for="ChildBirthdayDate" class="text-danger"></span>
+                                </dd> 
+                                <dd>
+                                    <input type="hidden" asp-for="PictureId" />
+                                    <input type="file" class="form-control" id="filepicture" name="filepicture" />
+                                    <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture","Pictures",new { id=Model.PictureId,width=450,height=300})" />
                                 </dd>
-
                             </dl>
                         </div>
                     </div>
@@ -181,8 +184,6 @@
                 dialog_error(error);
             });
         });
-
-        
     });
 </script>
     }

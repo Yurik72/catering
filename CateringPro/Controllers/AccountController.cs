@@ -1,4 +1,5 @@
 using CateringPro.Core;
+using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.ViewModels;
@@ -18,18 +19,20 @@ namespace CateringPro.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly SignInManager<CompanyUser> _signInManager;
         private readonly ILogger<CompanyUser> _logger;
         private readonly ICompanyUserRepository _companyuser_repo;
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
-        public AccountController(UserManager<CompanyUser> userManager,
+        public AccountController(AppDbContext context ,UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
                                  IEmailService email,
                                  IUserFinRepository fin)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -282,17 +285,19 @@ namespace CateringPro.Controllers
         {
             return View();
         }
+
         public async Task<IActionResult> SetNewPassword(string userId, string code)
         {
             if (userId == null || code == null)
             {
                 return View("Error");
             }
-
             var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
             return View(model);
         }
-        public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword, string inputPasswordConfirm)
         {
             var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
             if (userId == null || code == null)
@@ -304,18 +309,25 @@ namespace CateringPro.Controllers
             {
                 return View("Error");
             }
-            if (inputPassword == null)
+            if (inputPassword == null || inputPasswordConfirm == null)
             {
                 ModelState.AddModelError("inputPassword", "You must specify a value");
                 return View("SetNewPassword",model);
             }
-            var result = await _userManager.ResetPasswordAsync(user, code, inputPassword);
-            if (result.Succeeded)
+            if ((inputPassword != null && inputPasswordConfirm != null) && !inputPassword.Equals(inputPasswordConfirm))
             {
-                return RedirectToAction("NewPasswordApplied");
+                ModelState.AddModelError("passwords do not match", "You must specify a value");
+                return View("SetNewPassword", model);
             }
-            else
-                return View("Error");
+            if (inputPassword.Equals(inputPasswordConfirm))
+            {
+                var result = await _userManager.ResetPasswordAsync(user, code, inputPassword);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("NewPasswordApplied");
+                }
+            }
+            return View("Error");
         }
         public IActionResult NewPasswordApplied()
         {
@@ -434,6 +446,7 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
+                    usermodel.EmailConfirmed = user.EmailConfirmed;
                     usermodel.CopyTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
 
@@ -519,7 +532,7 @@ namespace CateringPro.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname,ConfirmedByAdmin")] UpdateUserModel um)
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname,ConfirmedByAdmin,ChildNameSurname")] UpdateUserModel um)
         {
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)
@@ -543,8 +556,29 @@ namespace CateringPro.Controllers
                         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
                     }
                 }
+                if (Request.Form.Files.Count > 0)
+                {
+                    Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == um.PictureId);
+                    if (pict == null || true) //to do always new
+                    {
+                        pict = new Pictures();
+                    }
+                    var file = Request.Form.Files[0];
+                    using (var stream = Request.Form.Files[0].OpenReadStream())
+                    {
+                        byte[] imgdata = new byte[stream.Length];
+                        stream.Read(imgdata, 0, (int)stream.Length);
+                        pict.PictureData = imgdata;
+                    }
+                    _context.Add(pict);
+                    await _context.SaveChangesAsync();
+                    um.PictureId = pict.Id;
+                }
                 if (ModelState.IsValid)
                 {
+                    um.UserName = user.UserName;
+                    um.ConfirmedByAdmin = user.ConfirmedByAdmin;
+                    um.EmailConfirmed = user.EmailConfirmed;
                     um.CopyTo(user);
                     if (um.IsPasswordChanged)
                     {

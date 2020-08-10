@@ -31,7 +31,11 @@
                     <input asp-for="@it.ChildBirthdayDate" class="form-control" autocomplete="off" />
                     <span asp-validation-for="@it.ChildBirthdayDate" class="text-danger"></span>
                 </dd>
-
+                <dd>
+                    <input type="hidden" asp-for="@it.PictureId" />
+                    <input type="file" class="form-control" id="filepicture" name="filepicture" />
+                    <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture","Pictures",new { id=@it.PictureId,width=450,height=300})" />
+                </dd>
             </dl>
         </div>
     </div>
@@ -39,5 +43,4 @@
     {
         i++;
     }
-
 }
