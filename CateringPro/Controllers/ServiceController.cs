@@ -45,6 +45,17 @@ namespace CateringPro.Controllers
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
             return View();
         }
+        public async Task<IActionResult> Cards()
+        {
+            //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
+            return View();
+        }
+        public async Task<IActionResult> CardsList(QueryModel querymodel)
+        {
+            //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
+            return PartialView(await _servicerepo.GetUserCardsAsync(querymodel));
+        }
+
         [HttpPost]
         public async Task<JsonResult> Status(ServiceRequest request)
         {

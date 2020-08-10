@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Управление картами пользователей";
+    Layout = null;
+   
+}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="main-header">
+
+        <h1>@ViewData["Title"]</h1>
+
+    </header>
+
+    <div class="container card-service">
+        <div class="row">
+            <div class="col-12 container-state">
+                <span id="nfc_isoffline" class="service-status offline" style="display: none;">
+                    NFC Reader Offline
+                    <button id="connectnfc">Connect NFC</button>
+                </span>
+                <span id="nfc_isonline" class="service-status online" style="display: none;">
+                    <span id="nfc_readername"></span>
+                    <img id="nfc_image" src="" style="width:50px;height:50px;" />
+                    NFC Reader Online
+                </span>
+                <span id="error" class="service-status error" style="visibility:hidden"></span>
+            </div>
+        </div>
+        <div class="row user-card-search">
+            <div class="col-2 container-order-dish-select">
+                <span data-num="-1" class="order-dish-select welcome ">Welcome</span>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="users-cards-content" class="container users-cards-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/nfcsocket.js"></script>
+
+    <script>
+        $(function () {
+            var elnfc_online = $("#nfc_isonline");
+            var elnfc_offline = $("#nfc_isoffline");
+            elnfc_online.hide();
+            elnfc_offline.show();
+
+            function LoadCards() {
+
+                var url = '/Service/CardsList';
+                $('#users-cards-content').load(url);
+                // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+
+            }
+            $.ajaxSetup({ cache: false });
+
+            LoadCards();
+        });
+    </script>
+
+
+</body>
+</html>
