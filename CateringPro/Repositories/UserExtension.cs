@@ -9,11 +9,17 @@ using CateringPro.Core;
 using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace CateringPro.Repositories
 {
     public static class UserExtension
     {
+        public static async  Task<CompanyUser> FindByCardTokenAsync(this UserManager<CompanyUser> src,string cardtoken)
+        {
+            return await src.Users.FirstOrDefaultAsync(u => u.CardTag == cardtoken);
+          
+        }
         public static void AssignUserAttr<TEntity>(this Controller ctl, TEntity entity) where TEntity : UserData
         {
             //entity.CompanyId = ctl.User.GetCompanyID();

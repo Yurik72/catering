@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using MimeKit.Encodings;
 using System;
 using System.Collections.Generic;
-
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -237,6 +238,21 @@ namespace CateringPro.Repositories
             var response = ServiceResponse.GetSuccessResult();
             response.Dishes = dishes;
             return response;
+        }
+        public async Task<IEnumerable<UserCardViewModel>> GetUserCardsAsync(QueryModel queryModel)
+        {
+           return await _context.CompanyUser.Select(u => new UserCardViewModel()
+           { 
+               UserId=u.Id,
+               UserName=u.NameSurname,
+               UserChildName=u.ChildNameSurname,
+               UserLogin=u.UserName,
+               UserEmail=u.Email,
+               CardToken=u.CardTag,
+               PictureId=u.PictureId
+           
+           }
+           ).ToListAsync();
         }
     }
 }

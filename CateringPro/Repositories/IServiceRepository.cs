@@ -8,6 +8,7 @@ namespace CateringPro.Repositories
 {
     public interface IServiceRepository
     {
+        Task<IEnumerable<UserCardViewModel>> GetUserCardsAsync(QueryModel queryModel);
         Task<ServiceResponse> ProcessRequestAsync(ServiceRequest request);
     }
 }

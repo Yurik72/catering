@@ -92,3 +92,9 @@ nfc_socket.prototype.writecard = function (tag) {
     this.socket.send(JSON.stringify(request));
 
 };
+nfc_socket.prototype.close=function (){
+    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+        console.log("closing not connected socket");
+    }
+    this.socket.close(1000, "Closing from client");
+}

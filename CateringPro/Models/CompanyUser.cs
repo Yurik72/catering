@@ -63,6 +63,9 @@ namespace CateringPro.Models
         public UserFinance UserFinance { get; set; }
 
         public int? PictureId { get; set; }
+
+        [StringLength(64)]
+        public string CardTag { get; set; }
         public string GetChildUserName()
         {
             return string.IsNullOrEmpty(ChildNameSurname) ?

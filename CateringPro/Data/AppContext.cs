@@ -256,6 +256,9 @@ namespace CateringPro.Data
             modelBuilder.Entity<DeliveryQueue>()
                  .HasIndex(p => new { p.DayDate, p.UserId,p.DishId }).IsUnique(true);
 
+            modelBuilder.Entity<CompanyUser>()
+                 .HasIndex(p => new { p.CardTag }).IsUnique(true);
+
             /* fin section */
             modelBuilder.Entity<CompanyUser>()
                  .HasOne(c => c.UserFinance)
