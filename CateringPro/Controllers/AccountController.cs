@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly AppDbContext _context;
@@ -344,6 +344,7 @@ namespace CateringPro.Controllers
             else
                 return RedirectToAction("Index", "Home");
         }
+        [Authorize]
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> EditUserModal(string userId)
         {

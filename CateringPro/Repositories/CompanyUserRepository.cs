@@ -14,17 +14,18 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
 using System.Runtime.CompilerServices;
 using CateringPro.ViewModels;
+using System.Text;
 
 namespace CateringPro.Repositories
 {
-   public class CompanyUserRepository: ICompanyUserRepository
+    public class CompanyUserRepository : ICompanyUserRepository
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly RoleManager<CompanyRole> _roleManager;
         private readonly IMemoryCache _cache;
-      
+
         public CompanyUserRepository(AppDbContext context, ILogger<CompanyUser> logger,
             UserManager<CompanyUser> userManager, IMemoryCache cache, RoleManager<CompanyRole> rolemanager)
         {
@@ -38,9 +39,9 @@ namespace CateringPro.Repositories
         }
         public string GetCurrentCompany()
         {
-           
-            var company= _cache.GetCachedCompanyAsync(_context, _context.CompanyId).Result;
-            if( company == null && _context.CurrentUser!=null)
+
+            var company = _cache.GetCachedCompanyAsync(_context, _context.CompanyId).Result;
+            if (company == null && _context.CurrentUser != null)
             {
                 var user = _userManager.FindByIdAsync(_context.CurrentUser.GetUserId()).Result;
                 if (user != null)
@@ -53,7 +54,7 @@ namespace CateringPro.Repositories
         {
             if (_context.CurrentUser != null)
             {
-                
+
                 var fin = _context.UserFinances.Where(uf => uf.Id == _context.CurrentUser.GetUserId()).FirstOrDefault();
                 if (fin != null)
                     return fin.Balance;
@@ -69,12 +70,12 @@ namespace CateringPro.Repositories
             if (_context.CurrentUser != null)
             {
 
-                var fin =await  _context.UserFinances.Where(uf => uf.Id == _context.CurrentUser.GetUserId()).FirstOrDefaultAsync();
+                var fin = await _context.UserFinances.Where(uf => uf.Id == _context.CurrentUser.GetUserId()).FirstOrDefaultAsync();
                 if (fin != null)
                     return fin.Balance;
                 var user = await _userManager.FindByIdAsync(_context.CurrentUser.GetUserId());
                 if (user != null)
-                   await  PostUpdateUserAsync(user);
+                    await PostUpdateUserAsync(user);
 
             }
             return 0;
@@ -93,13 +94,13 @@ namespace CateringPro.Repositories
         public async Task<List<AssignedCompanyEditViewModel>> GetAssignedCompaniesEdit(string userId)
         {
             var assigned = await GetCurrentUsersCompaniesUserAsync(userId);
-            var model =( await GetCompaniesAsync()).AsQueryable().Select(c => new AssignedCompanyEditViewModel
+            var model = (await GetCompaniesAsync()).AsQueryable().Select(c => new AssignedCompanyEditViewModel
             {
                 CompanyID = c.Id,
                 CompanyName = c.Name,
                 IsAssigned = false
             }).ToList(); ;
- 
+
             model.ForEach(m => m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID));
             return model;
         }
@@ -107,9 +108,9 @@ namespace CateringPro.Repositories
         {
 
             return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).ToListAsync();
-                
+
         }
-        public async Task<bool> ChangeUserCompanyAsync(string userId,int companyid,ClaimsPrincipal claims)
+        public async Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims)
         {
             if (companyid == _context.CompanyId)
                 return true;
@@ -135,27 +136,27 @@ namespace CateringPro.Repositories
         public async Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user)
         {
             var userroles = new List<string>();
-            if(user!=null)
-                userroles= (await _userManager.GetRolesAsync(user)).ToList();
-            return await _roleManager.Roles.Select(r =>  new UserRoleViewModel()
+            if (user != null)
+                userroles = (await _userManager.GetRolesAsync(user)).ToList();
+            return await _roleManager.Roles.Select(r => new UserRoleViewModel()
             {
                 RoleName = r.Name,
                 IsAssigned = userroles.Contains(r.Name),//_userManager.IsInRoleAsync(user,r.Name).Result,
-                userId = user==null?"":user.Id
+                userId = user == null ? "" : user.Id
             }).ToListAsync();
         }
-        public async Task<bool> AddCompaniesToUserAsync(string userid,IList<int> companiesIds)
+        public async Task<bool> AddCompaniesToUserAsync(string userid, IList<int> companiesIds)
         {
             try
             {
 
                 var newrecords = companiesIds.Select(it => new CompanyUserCompany() { CompanyId = it, CompanyUserId = userid }).ToList();
-                var existing= await GetCurrentUsersCompaniesUserAsync(userid);
+                var existing = await GetCurrentUsersCompaniesUserAsync(userid);
 
-                var deleted = existing.Where(it=>!newrecords.Any(n=>n.CompanyId== it.CompanyId));
+                var deleted = existing.Where(it => !newrecords.Any(n => n.CompanyId == it.CompanyId));
                 var added = newrecords.Where(it => !existing.Any(n => n.CompanyId == it.CompanyId));//.Except(existing);
                 await _context.AddRangeAsync(added);
-                 _context.RemoveRange(deleted);
+                _context.RemoveRange(deleted);
                 await _context.SaveChangesAsync();
 
             }
@@ -185,7 +186,7 @@ namespace CateringPro.Repositories
             var existing_companies = await GetCurrentUsersCompaniesUserAsync(user.Id);
             if (IsCompanyExist(user.CompanyId))
                 return user.CompanyId;
-           return GetDefaultCompanyId();
+            return GetDefaultCompanyId();
 
         }
         public async Task<bool> CheckUserFinanceAsync(CompanyUser user)
@@ -200,7 +201,7 @@ namespace CateringPro.Repositories
                     await _context.SaveChangesAsync();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("CheckUserFinance", ex);
                 return false;
@@ -212,22 +213,22 @@ namespace CateringPro.Repositories
             bool res = true;
             try
             {
-               
+
                 var existing_companies = await GetCurrentUsersCompaniesUserAsync(user.Id);
-                if(!IsCompanyExist(user.CompanyId))
+                if (!IsCompanyExist(user.CompanyId))
                 {
                     user.CompanyId = await GetDefaultCompanyForUser(user);
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
 
-                if(existing_companies.Count == 0)
+                if (existing_companies.Count == 0)
                 {
-                    res&= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                    res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
                 }
                 res &= await CheckUserFinanceAsync(user);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("Post update user", ex);
                 return false;
@@ -242,24 +243,24 @@ namespace CateringPro.Repositories
             var childs = await _userManager.Users.Where(u => u.CompanyId == companyId && u.ParentUserId == userId || (u.Id == userId && onlyChild) || u.Id == user.ParentUserId).ToListAsync();
             childs.Add(user);
             return childs;
-        }  
+        }
         public async Task<bool> PostUpdateChildUserAsync(CompanyUser childuser, CompanyUser parentuser)
         {
             if (string.IsNullOrEmpty(childuser.ParentUserId) || !string.IsNullOrEmpty(parentuser.ParentUserId))
                 return true; // nothing to do
-            if(childuser.CompanyId!= parentuser.CompanyId)
+            if (childuser.CompanyId != parentuser.CompanyId)
             {
                 childuser.CompanyId = parentuser.CompanyId;
                 _context.Update(childuser);
                 await _context.SaveChangesAsync();
             }
-            var companies= await GetCurrentUsersCompaniesUserAsync(parentuser.Id);
-            var child_companies = companies.Select(c => c.CompanyId).ToList() ;
+            var companies = await GetCurrentUsersCompaniesUserAsync(parentuser.Id);
+            var child_companies = companies.Select(c => c.CompanyId).ToList();
             return await AddCompaniesToUserAsync(childuser.Id, child_companies);
         }
         public async Task<AddBalanceViewModel> AddBalanceViewAsync(string userId)
         {
-            var user = await _context.Users.Include(u=>u.UserFinance).FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.Include(u => u.UserFinance).FirstOrDefaultAsync(u => u.Id == userId);
             AddBalanceViewModel model = new AddBalanceViewModel()
             {
                 UserId = userId,
@@ -269,7 +270,7 @@ namespace CateringPro.Repositories
             return model;
         }
 
-        public async Task<bool> AddNewUserChild(string userId,int companyId)
+        public async Task<bool> AddNewUserChild(string userId, int companyId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
@@ -289,7 +290,7 @@ namespace CateringPro.Repositories
             }
             usr.Email = ticks+"_"+user.Email;
             usr.ParentUserId = userId;
-            var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD"+userId);
+            var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD" + userId);
 
             if (!userResult.Succeeded)
             {
@@ -304,9 +305,9 @@ namespace CateringPro.Repositories
                 _context.Update(user);
                 await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError("AddNewUserChild error",ex);
+                _logger.LogError("AddNewUserChild error", ex);
                 return false;
             }
             return true;
@@ -315,5 +316,38 @@ namespace CateringPro.Repositories
         {
             return user.Id;
         }
+        public string GenerateNewCardToken(string userid, string cardUid, bool addHash = false)
+        {
+            var result = Guid.NewGuid().ToString();
+            if (addHash)
+            {
+                var hashbase = result + cardUid + userid;
+                var md5 = System.Security.Cryptography.MD5.Create();
+                var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(hashbase));
+                result += Convert.ToBase64String(hash);
+
+
+            }
+            return result;
+
+        }
+        public async Task<bool> SaveUserCardToken(string userId, string token)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                user.CardTag = token;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("SaveUserCardToken", ex);
+                return false;
+            }
+            return true;
+        }
+
     }
 }
