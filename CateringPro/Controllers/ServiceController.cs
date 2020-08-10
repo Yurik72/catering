@@ -9,17 +9,21 @@ using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.ViewModels;
 using CateringPro.Repositories;
+using Microsoft.AspNetCore.Identity;
+using CateringPro.Core;
 
 namespace CateringPro.Controllers
 {
     public class ServiceController : Controller
     {
+        private readonly UserManager<CompanyUser> _userManager;
         private readonly AppDbContext _context;
         private readonly IServiceRepository _servicerepo;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo)
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, UserManager<CompanyUser> userManager)
         {
             _context = context;
             _servicerepo = servicerepo;
+            _userManager = userManager;
         }
 
         // GET: Service
@@ -27,6 +31,14 @@ namespace CateringPro.Controllers
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
             return View();
+        }
+        public async Task<IActionResult> NfcCards()
+        {
+            var query = _userManager.Users; ;
+            if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
+                query = query.Where(u => u.CompanyId == User.GetCompanyID());
+            UserNfcCardViewModel nfcUsers = new UserNfcCardViewModel() { Users = query.ToList() };
+            return View(nfcUsers);
         }
         public async Task<IActionResult> Test()
         {
