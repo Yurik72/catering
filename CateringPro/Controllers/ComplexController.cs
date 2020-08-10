@@ -76,12 +76,15 @@ namespace CateringPro.Controllers
                 cmp.DishComplex = complex_orig.DishComplex;
                 return PartialView(cmp);
             }
-            var validate_error = await _complexRepo.ValidateComplexUpdate(cmp, User.GetCompanyID(), DishComplexes, complex_orig.DishComplex.ToList());
-            if (!validate_error.Success)
+            if (complex_orig != null)
             {
-                ModelState.AddModelError("", validate_error.Error);
-                cmp.DishComplex = complex_orig.DishComplex;
-                return PartialView(cmp);
+                var validate_error = await _complexRepo.ValidateComplexUpdate(cmp, User.GetCompanyID(), DishComplexes, complex_orig.DishComplex.ToList());
+                if (!validate_error.Success)
+                {
+                    ModelState.AddModelError("", validate_error.Error);
+                    cmp.DishComplex = complex_orig.DishComplex;
+                    return PartialView(cmp);
+                }
             }
          
             var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
