@@ -282,6 +282,11 @@ namespace CateringPro.Repositories
             string ticks= DateTime.Now.Ticks.ToString();
             string translit_text = Translit.cyr2lat(user.ChildNameSurname);
             usr.UserName = user.UserName + "_" + translit_text;
+            var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;
+            if (resultUser != null)
+            {
+                usr.UserName = user.UserName + "_" + translit_text + "_1";
+            }
             usr.Email = ticks+"_"+user.Email;
             usr.ParentUserId = userId;
             var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD"+userId);
