@@ -1,0 +1,63 @@
+﻿@model CateringPro.ViewModels.UserNfcCardViewModel
+@{
+    ViewData["Title"] = "Редагування карток";
+    Layout = null;
+    int numDishes = 5;
+}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="main-header">
+
+        <h1>Редагування карток</h1>
+        <h1 id="currentdate"></h1>
+    </header>
+
+    <div class="container order-service">
+        <a class="" href="/Service">Service</a>
+        <div class="col-3">
+            <button id="scanButton" class="btn btn-primary">Scan</button>
+        </div>
+    </div>
+    <script src="../../js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            //NfC android
+            if (!("NDEFReader" in window))
+                console.log(
+                    "Web NFC is not available.\n" +
+                    'Please make sure the "Experimental Web Platform features" flag is enabled on Android.'
+                );
+
+            //scanButton.addEventListener("click", async () => {
+            $(document).on("click", "#scanButton", async () => {
+                console.log("User clicked scan button");
+
+                try {
+                    const reader = new NDEFReader();
+                    await reader.scan();
+                    console.log("> Scan started");
+
+                    reader.addEventListener("error", (event) => {
+                        console.log(`Argh! ${event.message}`);
+                    });
+
+                    reader.addEventListener("reading", ({ message, serialNumber }) => {
+                        console.log(`> Serial Number: ${serialNumber}`);
+                        console.log(`> Records: (${message.records.length})`);
+                    });
+                } catch (error) {
+                    console.log("Argh! " + error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

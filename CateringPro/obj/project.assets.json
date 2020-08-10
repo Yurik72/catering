@@ -43,10 +43,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "jsreport.Binary/2.7.1": {
+      "jsreport.Binary/2.9.0": {
         "type": "package",
         "dependencies": {
-          "jsreport.Shared": "2.1.0"
+          "jsreport.Shared": "2.2.0"
         },
         "compile": {
           "lib/netstandard2.0/jsreport.Binary.dll": {}
@@ -72,13 +72,13 @@
           "lib/netstandard1.6/jsreport.Client.dll": {}
         }
       },
-      "jsreport.Local/2.2.2": {
+      "jsreport.Local/2.2.3": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "10.0.3",
           "jsreport.Client": "3.0.1",
-          "jsreport.Shared": "2.1.0",
-          "jsreport.Types": "2.6.1"
+          "jsreport.Shared": "2.2.0",
+          "jsreport.Types": "2.7.0"
         },
         "compile": {
           "lib/netstandard2.0/jsreport.Local.dll": {}
@@ -136,6 +136,15 @@
         },
         "runtime": {
           "lib/netstandard2.0/MailKit.dll": {}
+        }
+      },
+      "Markdig/0.18.1": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.1/Markdig.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/Markdig.dll": {}
         }
       },
       "Microsoft.ApplicationInsights/2.14.0": {
@@ -3678,6 +3687,21 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Westwind.AspNetCore.Markdown/3.3.8": {
+        "type": "package",
+        "dependencies": {
+          "Markdig": "0.18.1"
+        },
+        "compile": {
+          "lib/netcoreapp3.0/Westwind.AspNetCore.Markdown.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Westwind.AspNetCore.Markdown.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -3768,14 +3792,14 @@
         "lib/netstandard2.0/jsreport.AspNetCore.xml"
       ]
     },
-    "jsreport.Binary/2.7.1": {
-      "sha512": "3Rmwy1YrcJ7+Cp53DzumE5tf4Oy6+mE5uSxVs9zNir/LyUG+hnfimaO7ncKmt1v02/nE6KDC32Kzg3lEshnSZg==",
+    "jsreport.Binary/2.9.0": {
+      "sha512": "rkd+GwLNm/93no0qAOCOUkFWigZIM8mE+uRb+lLEbAxIDUm6JzjJp1iYI8WztiiQ66d0fyho9WnmSgQvIR65nQ==",
       "type": "package",
-      "path": "jsreport.binary/2.7.1",
+      "path": "jsreport.binary/2.9.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "jsreport.binary.2.7.1.nupkg.sha512",
+        "jsreport.binary.2.9.0.nupkg.sha512",
         "jsreport.binary.nuspec",
         "lib/netstandard2.0/jsreport.Binary.dll"
       ]
@@ -3793,14 +3817,14 @@
         "lib/netstandard1.6/jsreport.Client.dll"
       ]
     },
-    "jsreport.Local/2.2.2": {
-      "sha512": "4oOa1BYCdkLYi3zqcNcpfdu9oR+mhFI5Z95ik7Br6+vLEpNrHJfYbU5LbdU40TYctvu8N8xosn16udtGdhAkkw==",
+    "jsreport.Local/2.2.3": {
+      "sha512": "SOpz5iND9+0WvtYvmHtRKccfbAlSdmalH6zweH0rWZUTNQoYfAadStlVIi5JacSvRi/1ip+SBFdezw1DTbO3Zg==",
       "type": "package",
-      "path": "jsreport.local/2.2.2",
+      "path": "jsreport.local/2.2.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "jsreport.local.2.2.2.nupkg.sha512",
+        "jsreport.local.2.2.3.nupkg.sha512",
         "jsreport.local.nuspec",
         "lib/net45/jsreport.Local.dll",
         "lib/net45/jsreport.Local.xml",
@@ -3881,6 +3905,33 @@
         "lib/netstandard2.0/MailKit.xml",
         "mailkit.2.8.0.nupkg.sha512",
         "mailkit.nuspec"
+      ]
+    },
+    "Markdig/0.18.1": {
+      "sha512": "xCxTVEMi0WISjP1I7XCISCzCZ9eNzlUpK2OQdNTXx0ajstMbSPFX/KvXQVWN1irwFkm7VxsX7PekYJCbZwk8mw==",
+      "type": "package",
+      "path": "markdig/0.18.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/Markdig.dll",
+        "lib/net35/Markdig.pdb",
+        "lib/net35/Markdig.xml",
+        "lib/net40/Markdig.dll",
+        "lib/net40/Markdig.pdb",
+        "lib/net40/Markdig.xml",
+        "lib/netcoreapp2.1/Markdig.dll",
+        "lib/netcoreapp2.1/Markdig.pdb",
+        "lib/netcoreapp2.1/Markdig.xml",
+        "lib/netstandard2.0/Markdig.dll",
+        "lib/netstandard2.0/Markdig.pdb",
+        "lib/netstandard2.0/Markdig.xml",
+        "lib/uap10.0/Markdig.dll",
+        "lib/uap10.0/Markdig.pdb",
+        "lib/uap10.0/Markdig.pri",
+        "lib/uap10.0/Markdig.xml",
+        "markdig.0.18.1.nupkg.sha512",
+        "markdig.nuspec"
       ]
     },
     "Microsoft.ApplicationInsights/2.14.0": {
@@ -6324,11 +6375,12 @@
       ]
     },
     "runtime.native.System.Net.Security/4.3.0": {
-      "sha512": "ARfgeRYF2AnYIcqEvy9VE0agN/3zexMMPtcegq1THpOMS63rIGMi706vCo6pbv9Xzw4qhdX1Gu1zyLZHj2WtLA==",
+      "sha512": "M2nN92ePS8BgQ2oi6Jj3PlTUzadYSIWLdZrHY1n1ZcW9o4wAQQ6W+aQ2lfq1ysZQfVCgDwY58alUdowrzezztg==",
       "type": "package",
       "path": "runtime.native.system.net.security/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -7113,11 +7165,12 @@
       ]
     },
     "System.ComponentModel.Primitives/4.3.0": {
-      "sha512": "KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
+      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
       "type": "package",
       "path": "system.componentmodel.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7151,11 +7204,12 @@
       ]
     },
     "System.ComponentModel.TypeConverter/4.3.0": {
-      "sha512": "HZiP0DwTHJ+C+rdFqP47nBYUh5283kcwXIGY2zOVVhsJmVI/2tYiX2zNRdjRQRHsTox58Ydkec6h0pWSh8wAsw==",
+      "sha512": "16pQ6P+EdhcXzPiEK4kbA953Fu0MNG2ovxTZU81/qsCd1zPRsKc3uif5NgvllCY598k6bI0KUyKW8fanlfaDQg==",
       "type": "package",
       "path": "system.componentmodel.typeconverter/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10052,11 +10106,12 @@
       ]
     },
     "System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "vOYy7Jv9KsG3ld2hLt0GoERd82SZi4BelrbXLwI9yFBYX7kpbvUCWYo4eyevk47cuJXZ9ZLVAryANcc7iY71aA==",
+      "sha512": "h4CEgOgv5PKVF/HwaHzJRiVboL2THYCou97zpmhjghx5frc7fIvlkY1jL+lnIQyChrJDMNEXS6r7byGif8Cy4w==",
       "type": "package",
       "path": "system.security.cryptography.openssl/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll",
@@ -11175,11 +11230,12 @@
       ]
     },
     "System.Xml.XmlSerializer/4.3.0": {
-      "sha512": "VShQJhOxgD/5M2Z1IWm1vMaSqlbjo1zdFf8H7Ahte6bTvSUhUko/gDpAVVhGgGgTDeue4QyNg1fu1Zz2GKSEuQ==",
+      "sha512": "MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "type": "package",
       "path": "system.xml.xmlserializer/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11243,6 +11299,19 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "Westwind.AspNetCore.Markdown/3.3.8": {
+      "sha512": "4jV3IpJXsBp07vkqtxofkmc7jnFYLi5FBvICDxr0Vwq1SVPE1WAbXa03IYqqaOrMQEvrnzFOIOQGdATBl6aywg==",
+      "type": "package",
+      "path": "westwind.aspnetcore.markdown/3.3.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp2.1/Westwind.AspNetCore.Markdown.dll",
+        "lib/netcoreapp3.0/Westwind.AspNetCore.Markdown.dll",
+        "westwind.aspnetcore.markdown.3.3.8.nupkg.sha512",
+        "westwind.aspnetcore.markdown.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -11263,32 +11332,29 @@
       "Microsoft.Web.LibraryManager.Build >= 2.1.76",
       "Newtonsoft.Json >= 12.0.3",
       "SixLabors.ImageSharp >= 1.0.0-beta0007",
+      "Westwind.AspNetCore.Markdown >= 3.3.8",
       "awesome-bootstrap-checkbox >= 0.3.4.1",
       "jsreport.AspNetCore >= 2.1.0",
-      "jsreport.Binary >= 2.7.1",
-      "jsreport.Local >= 2.2.2",
+      "jsreport.Binary >= 2.9.0",
+      "jsreport.Local >= 2.2.3",
       "jsreport.MVC >= 2.1.1",
       "jsreport.Shared >= 2.2.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\den4i\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\andry\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
+      "projectUniqueName": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
       "projectName": "CateringPro",
-      "projectPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
-      "packagesPath": "C:\\Users\\den4i\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\obj\\",
+      "projectPath": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
+      "packagesPath": "C:\\Users\\andry\\.nuget\\packages\\",
+      "outputPath": "D:\\work\\catering\\CateringPro\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\den4i\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\andry\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11380,6 +11446,10 @@
             "target": "Package",
             "version": "[1.0.0-beta0007, )"
           },
+          "Westwind.AspNetCore.Markdown": {
+            "target": "Package",
+            "version": "[3.3.8, )"
+          },
           "awesome-bootstrap-checkbox": {
             "target": "Package",
             "version": "[0.3.4.1, )"
@@ -11390,11 +11460,11 @@
           },
           "jsreport.Binary": {
             "target": "Package",
-            "version": "[2.7.1, )"
+            "version": "[2.9.0, )"
           },
           "jsreport.Local": {
             "target": "Package",
-            "version": "[2.2.2, )"
+            "version": "[2.2.3, )"
           },
           "jsreport.MVC": {
             "target": "Package",

@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj": {}
+    "D:\\work\\catering\\CateringPro\\CateringPro.csproj": {}
   },
   "projects": {
-    "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj": {
+    "D:\\work\\catering\\CateringPro\\CateringPro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
+        "projectUniqueName": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
         "projectName": "CateringPro",
-        "projectPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
-        "packagesPath": "C:\\Users\\den4i\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\obj\\",
+        "projectPath": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
+        "packagesPath": "C:\\Users\\andry\\.nuget\\packages\\",
+        "outputPath": "D:\\work\\catering\\CateringPro\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\den4i\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\andry\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -109,6 +106,10 @@
               "target": "Package",
               "version": "[1.0.0-beta0007, )"
             },
+            "Westwind.AspNetCore.Markdown": {
+              "target": "Package",
+              "version": "[3.3.8, )"
+            },
             "awesome-bootstrap-checkbox": {
               "target": "Package",
               "version": "[0.3.4.1, )"
@@ -119,11 +120,11 @@
             },
             "jsreport.Binary": {
               "target": "Package",
-              "version": "[2.7.1, )"
+              "version": "[2.9.0, )"
             },
             "jsreport.Local": {
               "target": "Package",
-              "version": "[2.2.2, )"
+              "version": "[2.2.3, )"
             },
             "jsreport.MVC": {
               "target": "Package",
