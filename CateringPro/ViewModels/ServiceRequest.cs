@@ -11,6 +11,7 @@ namespace CateringPro.ViewModels
         public DateTime DayDate { get; set; }
         public string UserId { get; set; }
 
+        public string UserToken { get; set; }
         public string Type { get; set; }
         public int[] DishesNum { get; set; }
         public int[] DishesIds { get; set; }
@@ -21,6 +22,8 @@ namespace CateringPro.ViewModels
 
         public int TerminalId { get; set; }
 
+        public int MaxQueue { get; set; }
+        public int LastQueueId { get; set; }
         public bool IsRequiredUser()
         {
             return Type != "askforqueue";

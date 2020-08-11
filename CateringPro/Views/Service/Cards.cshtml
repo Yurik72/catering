@@ -21,20 +21,43 @@
     </header>
 
     <div class="container card-service">
-        <div class="row">
-            <div class="col-12 container-state">
-                <span id="nfc_isoffline" class="service-status offline" style="display: none;">
+        <div id="nfc_isoffline" class="row container-state bg-danger text-white" style="display: none;">
+            <div class="col-4 container-state">
+                <span id="nfc_isoffline">
                     NFC Reader Offline
-                    <input id="nfcurl" value="wss://localhost:44360/ws" />
-                    <button id="connectnfc">Connect NFC</button>
                 </span>
-                <span id="nfc_isonline" class="service-status online" style="display: none;">
+                <span id="error-offline" class="service-status error"></span>
+            </div>
+            <div class="col-4 container-state">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" ">URL</span>
+                    </div>
+                    <input id="nfcurl" class="form-control" value="wss://localhost:44360/ws" />
+                </div>
+
+
+            </div>
+            <div class="col-4 container-state">
+                <button id="connectnfc" class="btn btn-info">Connect NFC</button>
+            </div>
+        </div>
+        <div id="nfc_isonline" class="row bg-success text-white" style="display: none;">
+            <div class="col-4 container-state">
+                <img id="nfc_image" src="~/images/acr122u.png" style="width:50px;height:50px;" />
+
+            </div>
+            <div class="col-4 container-state">
+                <span class="service-status online">
                     <span id="nfc_readername"></span>
-                    <img id="nfc_image" src="~/images/acr122u.png" style="width:50px;height:50px;" />
                     NFC Reader Online
                 </span>
+
+                <span id="error-online" class="service-status error"></span>
+            </div>
+            <div class="col-4 container-state">
                 <span>Scan card at any time to detect user</span>
-                <span id="error" class="service-status error" style="visibility:hidden"></span>
+
             </div>
         </div>
         <div class="row">
@@ -59,17 +82,20 @@
             </div>
         </div>
 
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div id="users-cards-content" class="container users-cards-content">
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="users-cards-content" class="container users-cards-content">
 
-                </div>
             </div>
         </div>
     </div>
 
+
     <script src="../js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="../js/resources.js"></script>
+    <script src="../js/site.js"></script>
     <script src="../js/nfcsocket.js"></script>
 
     <script>
@@ -78,10 +104,15 @@
             var elnfc_offline = $("#nfc_isoffline");
             elnfc_online.hide();
             elnfc_offline.show();
+            var baseUrl = '/Service';
+            const key_url = 'nfcurl';
+            $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:44360/ws');
 
             var nfcsock;
             $('#connectnfc').click(function (e) {
+                $('#connectnfc').prop('disabled', true);
                 e.preventDefault();
+                localStorage[key_url] = $('#nfcurl').val();
                 nfcsock = new nfc_socket($('#nfcurl').val(),
                     function (data) {
                         console.log(data);
@@ -89,9 +120,9 @@
                     function (cmd, event) {
                         console.log(cmd);
                         console.log(event);
-                        if (cmd === 'open') {
-                            nfcsock.getstatus(function () { });
-                        }
+                        //if (cmd === 'open') {
+                        //    nfcsock.getstatus(function () { });
+                        //}
                     }
                 );
                 nfcsock.connect();
@@ -99,13 +130,17 @@
                     showNfcInfo(msg);
                 });
                 nfcsock.on('cardreaded', fillCardScan);
+                nfcsock.on('error', function (msg) {
+                    $('#connectnfc').prop('disabled', false);
+                    dialog_error(msg);
+                });
             });
             function LoadCards() {
 
                 var url = `/Service/CardsList/?searchcriteria=${$('#search-val').val()}`;
                 $('#users-cards-content').load(url, function () { attachEvents(); });
                 // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
-               
+
             }
             function attachEvents() {
                 $('#users-cards-content').find(".burn-card").click(function (e) {
@@ -128,36 +163,41 @@
             });
             LoadCards();
             function burnProcess(userid) {
-                var baseUrl = '/Service';
-             
-                fetch(
-                    `${baseUrl}/GenUserCardToken?userId=${userid}`,
-                    { method: 'GET' }
-                 )
-                .then(response =>  response.json() )
-                .then(json => {
-                     if( !json.isSuccess)
-                         throw "Error generating token";
-                      return nfcsock.writecard(json.cardTag);
-                    })
-                .then(data => {
-                    console.log(data);
-                    if (!data.IsSuccess) {
-                        throw "Error writing";
-                    }
-                    return fetch(
-                        `${baseUrl}/GenUserCardTokenConfirm?userId=${userid}&token=${data.Cardtag}`,
+
+                if (!nfcsock || !nfcsock.NFCReady) {
+                    dialog_error('NFC is not connected yet');
+                    return;
+                }
+                promise_dialog_yes_no('Подтвердите дейтсвие. <p/> В результате этой операции, предыдущая карточка будет недействительна.  <p/> Карточка NFC будет перезаписана.')
+                    .then(data => fetch(
+                        `${baseUrl}/GenUserCardToken?userId=${userid}`,
                         { method: 'GET' }
-                    );
-                })
-                .then(data => {
-                    console.log(data);
-                    alert("success");
-                })
-                .catch(error => console.error('error:', error));
+                    ))
+                    .then(response => response.json())
+                    .then(json => {
+                        if (!json.isSuccess)
+                            throw "Error generating token";
+                        return nfcsock.writecard(json.cardTag);
+                    })
+                    .then(data => {
+                        console.log(data);
+                        if (!data.IsSuccess) {
+                            throw "Error writing";
+                        }
+                        return fetch(
+                            `${baseUrl}/GenUserCardTokenConfirm?userId=${userid}&token=${data.Cardtag}`,
+                            { method: 'GET' }
+                        );
+                    })
+                    .then(data => {
+                        console.log(data);
+                        alert("success");
+                    })
+                    .catch(error => console.error('error:', error));
             }
             function showNfcInfo(msg) {
-                if (msg && msg.Isreaderconnected && msg.Ismonitoring) {
+                $('#connectnfc').prop('disabled', false);
+                if (msg && msg.Isreaderconnected) {
                     elnfc_online.show();
                     elnfc_offline.hide();
                     $('#nfc_readername').text(msg.Readername);
@@ -169,23 +209,50 @@
             }
             function fillCardScan(carddata) {
                 $('#card-info').empty();
-                var divcard = $(`<div class="row user-welcome" >
-                                     <div class="col-4 card-info-scan">
-                                        <span class="card-info-scan" >Card Details</span>
-                                    </div>
-                                    <div class="col-4 card-info-scan">
-                                        <span class="card-info-scan" >${carddata.Cardtag}</span>
-                                    </div>
-                                </div>
-                                <div class="row user-card-details" >
-                                    <div class="col-4 card-info-scan">
-                                         <span class="card-info-scan" >..Fetchind user data</span>
-                                     </div>
-                                </div>`);
-               
-                $('#card-info').append(divcard);
-            }
-        });
+                    var token = carddata.Cardtag;
+                    var addclass = '';
+                var askdetails = true;
+                if (carddata.Cardtag === undefined) {
+                        token = "ERROR READING";
+                        addclass = 'bg-danger text-white';
+                        askdetails = false;
+                    }
+                    else if (carddata.Cardtag.length == 0) {
+                        token = "Card is empty";
+                        addclass = 'bg-warning text-dark';
+                        askdetails = false;
+                    };
+                    var divcard = $(`<div class="row user-welcome bg-info text-white" >
+                                                 <div class="col-4 card-info-scan">
+                                                    <span class="card-info-scan" >Card Details</span>
+                                                </div>
+                                                <div class="col-8 card-info-scan ${addclass}">
+                                                    <span class="card-info-scan" >${token}</span>
+                                                </div>
+                                            </div>
+                                            <div id="user-card-details-temp" class="row user-card-details" >
+                                                <div class="col-4 card-info-scan">
+                                                     <span class="card-info-scan" >..Fetchind user data</span>
+                                                 </div>
+                                            </div>`);
+
+                    $('#card-info').append(divcard);
+                    if (!askdetails) {
+                        return;
+                    }
+                    fetch(
+                        `${baseUrl}/UserCardDetails?token=${carddata.Cardtag}`,
+                        { method: 'GET' }
+                    )
+                        .then(response => response.text())
+                        .then(data => {
+                            console.log(data);
+                            $("#user-card-details-temp").remove();
+                            $('#card-info').append($(data));
+                        })
+                        .catch(error => console.error('error:', error))
+                }
+            });
     </script>
 
 

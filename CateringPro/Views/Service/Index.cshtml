@@ -20,42 +20,66 @@
     </header>
 
     <div class="container order-service">
-        <div class="row">
-            <div class="col-12 container-state">
-                <a class="" href="/Service/NfcCards">NFC Cards</a>
-                <span id="isonline" class="service-status online">Online</span>
-                <span id="isoffline" class="service-status offline">Offline</span>
-                <span id="nfc_isoffline" class="service-status offline" style="display: none;">
+        <div id="nfc_isoffline" class="row container-state bg-danger text-white" style="display: none;">
+            <div class="col-4 container-state">
+                <span id="nfc_isoffline">
                     NFC Reader Offline
-                    <button id="connectnfc">Connect NFC</button>
                 </span>
-                <span id="nfc_isonline" class="service-status online" style="display: none;">
+                <span id="error-offline" class="service-status error"></span>
+            </div>
+            <div class="col-4 container-state">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" ">URL</span>
+                    </div>
+                    <input id="nfcurl" class="form-control" value="wss://localhost:44360/ws" />
+                </div>
+
+
+            </div>
+            <div class="col-4 container-state">
+                <button id="connectnfc" class="btn btn-info">Connect NFC</button>
+            </div>
+        </div>
+        <div id="nfc_isonline" class="row bg-success text-white" style="display: none;">
+            <div class="col-4 container-state">
+                <img id="nfc_image" src="~/images/acr122u.png" style="width:50px;height:50px;" />
+
+            </div>
+            <div class="col-4 container-state">
+                <span class="service-status online">
                     <span id="nfc_readername"></span>
-                    <img id="nfc_image" src="" style="width:50px;height:50px;" />
                     NFC Reader Online
                 </span>
-                <span id="error" class="service-status error" style="visibility:hidden"></span>
+
+                <span id="error-online" class="service-status error"></span>
+            </div>
+            <div class="col-4 container-state">
+                <span>Scan card at any time to detect user</span>
+
             </div>
         </div>
         <div class="row dishes-num">
-            <div class="col-2 container-order-dish-select">
-                <span data-num="-1" class="order-dish-select welcome ">Welcome</span>
+            <div data-num="-1" class="col-2 order-dish-select welcome border rounded bg-secondary text-white btn">
+                @* <span data-num="-1" class="order-dish-select welcome w-100">Welcome</span>*@
+                Welcome
+
             </div>
             @for (int i = 1; i <= numDishes; i++)
             {
-                <div class="col-2 container-order-dish-select">
-                    <span data-num="@i" class="order-dish-select dish">@i Блюдо</span>
+                <div data-num="@i" class="col-2 order-dish-select border rounded bg-secondary text-white btn">
+                    @i Блюдо
                 </div>
             }
         </div>
-        <div class="row delivery-command">
-            <div class="col-3">
-                <button id="btnstart" class="service-action btn btn-success">Почати</button>
+        <div class="row delivery-command text-center">
+            <div class="col-6">
+                <button id="btnstart" class="service-action btn btn-primary">Почати</button>
             </div>
-            <div class="col-3">
+            <div class="col-6">
                 <button id="btnstop" class="service-action btn btn-danger">Припинити</button>
             </div>
-           
+
         </div>
         <div id="userinfo" class="row" style="display: none;">
             <div class="col-4">
@@ -88,6 +112,9 @@
     </div>
 
     <script src="./js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="../js/resources.js"></script>
+    <script src="../js/site.js"></script>
     <script src="./js/nfcsocket.js"></script>
 
     @*
@@ -95,27 +122,34 @@
     *@
     <script>
         $(function () {
-            var basehost = 'http://localhost:51321';
-            var baseurl = basehost + '/Service'
-            var isStarted = false;
+//setting
             var isQueueMode = true;
+            const max_queue = 5;
+
+//session state
+            var isStarted = false;
             var isNfcConnected = false;
-            var actionUrl = "/Service/Status";
-            var ServiceRequest = { DayDate: '01.01.2010' };
+            var lastQueueid = -1;
+
+
+
             var el_online = $("#isonline");
             var el_offline = $("#isoffline");
             var elnfc_online = $("#nfc_isonline");
             var elnfc_offline = $("#nfc_isoffline");
             var el_error = $("#error");
             el_online.hide();
-
+            const key_url = 'nfcurl';
             el_offline.hide();
             elnfc_online.hide();
             elnfc_offline.show();
-
+            $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:44360/ws');
             var curr_date = new Date();
-
-            var nfcsock = new nfc_socket('wss://localhost:44360/ws',
+            var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
+            //$('#currentdate').text(curr_date.getDate() + "." + (curr_date.getMonth() + 1) + "." + curr_date.getFullYear());
+            $('#currentdate').text(readable_date);
+            localStorage[key_url] = $('#nfcurl').val();
+            var nfcsock = new nfc_socket($('#nfcurl').val(),
                 function (data) {
                     console.log(data);
                 },
@@ -130,31 +164,34 @@
             //todo
             $('#connectnfc').click(function (e) {
                 e.preventDefault();
+                $('#connectnfc').prop('disabled', true);
                 nfcsock.connect();
-                
+
             });
             nfcsock.on('status', function (msg) {
                 showNfcInfo(msg);
             });
+            nfcsock.on('error', function (msg) {
+                $('#connectnfc').prop('disabled', false);
+                dialog_error(msg);
+            });
             nfcsock.on('cardreaded', function (msg) {
                 $('#userid').val(msg.Cardtag);
-                if (IsWelcomeMode() && isQueueMode) {
+                if (IsWelcomeMode() && isQueueMode && isStarted) {
                     requestfordelivery(filldeliverydishes);
                 }
-                else if (isQueueMode) {
-                    requestfordeliveryQueue(fillQueue);
-                }
-                else {
-                    requestfordelivery(filldeliverydishes);
-                }
+               // else if (isQueueMode) {
+               //     requestfordeliveryQueue(fillQueue);
+              //  }
+              //  else {
+              //      requestfordelivery(filldeliverydishes);
+              //  }
 
             });
-            $(document).keydown(function (e) {
-                console.log(e);
-            })
 
-            $('#currentdate').text(curr_date.getDate() + "." + (curr_date.getMonth() + 1) + "." + curr_date.getFullYear());
 
+           
+        /*  TO DOfor service worker
             $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                 el_offline.hide();
                 el_online.show();
@@ -163,6 +200,7 @@
                     el_offline.show();
                     el_online.hide();
                 });
+            */
             function IsWelcomeMode() {
                 return $(".order-dish-select.welcome").hasClass('active');
             }
@@ -178,11 +216,15 @@
                     $(this).removeClass('active');
                 }
                 else {
-                    $(this).addClass('active')
+                   
                     if (dishnum < 0)
-                        $(".order-dish-select.dish").removeClass('active');
+                        $('.order-dish-select').removeClass('active');
+                    $(this).addClass('active')
                 }
-
+                $('.order-dish-select').not('active').removeClass("bg-success").addClass('bg-secondary');
+                $('.order-dish-select.active').removeClass('bg-secondary').addClass("bg-success");
+                refreshNfcState();
+                
             });
             refreshState();
             function getdishesnum() {
@@ -215,9 +257,28 @@
                 else {
 
                 }
+                refreshNfcState();
+            }
+            function refreshNfcState(){
+                if (!IsWelcomeMode()) {
+                    elnfc_online.hide();
+                    elnfc_offline.hide();
+                }
+                else if (isNfcConnected) {
+                    elnfc_online.show();
+                    elnfc_offline.hide();
+                }
+                else {
+                    elnfc_online.hide();
+                    elnfc_offline.show();
+                }
             }
             function getnewQueue() {
 
+                requestfordeliveryQueue(fillQueue);
+                if (isStarted) {
+                    setTimeout(getnewQueue, 1000);
+                }
             }
             $('#btnstart').click(function (e) {
                 e.preventDefault();
@@ -226,7 +287,7 @@
                 refreshDeliveryContentState();
                 if (isQueueMode) {
 
-                  //  requestfordeliveryQueue(fillQueue);
+                    getnewQueue();
                 }
             });
             $('#btnstop').click(function (e) {
@@ -245,26 +306,38 @@
             function fillWelcome(data) {
                 $('#delivery-welcome-content').empty();
                 if (!data || data.overalResult != "success") {
-
-                    var div = `<div class="row"><div class="col-8 container-errordelivery"><span class="errordelivery">Помилка:${data.errorMessage}</span></div></div>`;
+                    if (data && data.userFound) {
+                        var pictURL = '/Pictures/GetPicture?id=' + data.userPictureId;
+                        var divuser = `<div class="row user-welcome bg-danger text-white h1" >
+                                        <div class="col-6 welcome-user">
+                                            <img src="${pictURL}"/>
+                                        </div>
+                                      <div class="col-6 welcome-user ">
+                                            ${data.userName}
+                                        </div>
+                                        </div>`
+                        $('#delivery-welcome-content').append(divuser);
+                    }
+                    var div = `<div class="row bg-danger text-white h1"><div class="col-12 container-errordelivery">Помилка:${data.errorMessage}</div></div>`;
                     $('#delivery-welcome-content').append(div);
+                    return;
                 }
                 //var inner_div = data.dishes.map(function (element, index) {
                 var inner_div = "";
                 data.dishes.forEach(element => {
-                    inner_div += `<span class="welcome-dish" data-id="${element.id}" data-id=${element.id}>${element.name}</span>`;
+                    inner_div += `<div class="row"><div class="col-12 welcome-dish bg-primary text-white h2" data-id="${element.id}" data-id=${element.id}>${element.name}</div></div>`;
                 });
 
-                var pictureURL = basehost + '/Pictures/GetPicture?id=' + data.userPictureId;
-                var div = $(`<div class="row user-welcome" >
-                                    <div class="col-4 welcome-user">
-                                        <span class="welcome-username" >${data.userName}</span>
-                                        <img src="${pictureURL}"/>
-                                    </div>
-                                    <div class="col-4 welcome-dishes">
-                                        ${inner_div}
-                                     </div>
-                                </div>`);
+                var pictureURL =  '/Pictures/GetPicture?id=' + data.userPictureId;
+                var div = $(`<div class="row user-welcome bg-info text-white py-2" >
+                                        <div class="col-6 welcome-user h1 bg-info text-white">
+                                            <span class="welcome-username" >${data.userName}</span>
+                                            <img src="${pictureURL}"/>
+                                        </div>
+                                        <div class="col-6 welcome-dishes">
+                                            ${inner_div}
+                                         </div>
+                                    </div>`);
                 $('#delivery-welcome-content').append(div);
             }
             function fillQueue(data) {
@@ -278,13 +351,13 @@
                         return `<span class="queue-dish" data-queueid="${el.queueId}" data-id=${element.id}>${element.name}</span> `;
                     });
                     var div = $(`<div class="row user-queue" data-number="${queunum}">
-                                        <div class="col-4 queue-user">
-                                            <span class="queue-username" >${el.userName}</span>
-                                        </div>
-                                        <div class="col-4 queue-dishes">
-                                            ${inner_div}
-                                         </div>
-                                    </div>`);
+                                            <div class="col-4 queue-user">
+                                                <span class="queue-username" >${el.userName}</span>
+                                            </div>
+                                            <div class="col-4 queue-dishes">
+                                                ${inner_div}
+                                             </div>
+                                        </div>`);
                     $('#delivery-queue-content').append(div);
                     $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
                     $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
@@ -333,7 +406,7 @@
             function requestforconfirmation(cb, dishesids) {
                 var actionUrl = "/Service/RequestForDelivery";
                 var dishesnum = getdishesnum();
-                var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: "confirmdelivery", DishesIds: dishesids };
+                var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: "confirmdelivery", DishesIds: dishesids };
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
@@ -347,7 +420,7 @@
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
 
-                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum };
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue=max_queue, LastQueueId=lastQueueid };
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
@@ -362,7 +435,7 @@
                 var requesttype = 'askfordelivery';
                 if (IsWelcomeMode())
                     requesttype = 'askforregister';
-                var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum };
+                var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum };
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
@@ -372,33 +445,22 @@
                     });
             }
             function showNfcInfo(msg) {
+                $('#connectnfc').prop('disabled', false);
                 if (msg && msg.Isreaderconnected && msg.Ismonitoring) {
                     elnfc_online.show();
                     elnfc_offline.hide();
+
                     $('#nfc_readername').text(msg.Readername);
+                    isNfcConnected = true;
                 }
                 else {
                     elnfc_online.hide();
                     elnfc_offline.show();
+                    isNfcConnected = true;
                 }
+                refreshState();
             }
-            function showDeviceInfo() {
-                var deviceInfo = null;
-                elnfc_online.show();
-                elnfc_offline.hide();
-                for (var i = 0; i < compatibleDevices.length; i++)
-                    if (device.productId === compatibleDevices[i].productId &&
-                        device.vendorId === compatibleDevices[i].vendorId)
-                        deviceInfo = compatibleDevices[i];
 
-                if (!deviceInfo)
-                    return;
-                $('#nfc_image').attr('src', deviceInfo.thumbnailURL);
-                return;
-
-
-
-            }
 
 
         });

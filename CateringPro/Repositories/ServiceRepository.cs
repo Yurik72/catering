@@ -67,8 +67,8 @@ namespace CateringPro.Repositories
         public async Task<ServiceResponse> PrevalidateRequestAsync(ServiceRequest request)
         {
             var fail = ServiceResponse.GetFailResult();
-            var user = await _userManager.FindByIdAsync(request.UserId);
-
+            //var user = await _userManager.FindByIdAsync(request.UserId);  //now by tag
+            var user = await _userManager.FindByCardTokenAsync(request.UserToken);  //now by tag
 
             if (user == null && request.IsRequiredUser())
             {
@@ -80,7 +80,9 @@ namespace CateringPro.Repositories
             {
                 request.CompanyId = user.CompanyId;
                 request.User = user;
-               
+                request.UserId = user.Id;
+
+
             }
             else
                 request.CompanyId = _context.CompanyId;
@@ -176,7 +178,7 @@ namespace CateringPro.Repositories
         }
         public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
         {
-            var fail = ServiceResponse.GetFailResult();
+            var fail = ServiceResponse.GetFailResult(request);
 
           
            var dishes = await GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
@@ -194,12 +196,8 @@ namespace CateringPro.Repositories
             {
                 await _context.AddRangeAsync(queue_to_add);
                 await _context.SaveChangesAsync();
-                var resp = ServiceResponse.GetSuccessResult();
-                if (request.User != null)
-                {
-                    resp.UserName = request.User.GetChildUserName();
-                    resp.UserPictureId = request.User.PictureId;
-                }
+                var resp = ServiceResponse.GetSuccessResult(request);
+
                 resp.Dishes = dishes;
                 return resp;
             }
@@ -269,6 +267,8 @@ namespace CateringPro.Repositories
         }
         public async Task<UserCardViewModel> GetUserCardAsync(string cardToken)
         {
+            if (string.IsNullOrEmpty(cardToken))
+                return null;
             var user = await _userManager.FindByCardTokenAsync(cardToken);
             if (user == null)
                 return null;

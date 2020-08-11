@@ -11,13 +11,30 @@ namespace CateringPro.ViewModels
         {
             Dishes = new HashSet<DeliveryDishViewModel>();
         }
+        public ServiceResponse(ServiceRequest request):this()
+        {
+            if (request.User != null)
+            {
+                this.UserName = request.User.GetChildUserName();
+                this.UserPictureId = request.User.PictureId;
+                this.UserFound = true;
+            }
+        }
         public static ServiceResponse GetFailResult()
         {
             return new ServiceResponse() { OveralResult = "fail" };
         }
+        public static ServiceResponse GetFailResult(ServiceRequest request)
+        {
+           return  new ServiceResponse(request) { OveralResult = "fail" };
+        }
         public static ServiceResponse GetSuccessResult()
         {
             return new ServiceResponse() { OveralResult = "success" };
+        }
+        public static ServiceResponse GetSuccessResult(ServiceRequest request)
+        {
+            return new ServiceResponse(request) { OveralResult = "success" };
         }
         public bool IsSuccess() { return OveralResult == "success"; }
         public DateTime DayDate { get; set; }
@@ -29,6 +46,8 @@ namespace CateringPro.ViewModels
         public string UserName { get; set; }
 
         public int? UserPictureId { get; set; }
+
+        public bool UserFound { get; set; }
 
         public IEnumerable<DeliveryDishViewModel> Dishes { get; set; }
     }
