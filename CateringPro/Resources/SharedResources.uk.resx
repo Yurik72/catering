@@ -744,6 +744,9 @@
   <data name="PasswordMismatch" xml:space="preserve">
     <value>Паролі не співпадають</value>
   </data>
+  <data name="CanNotBeEmpty" xml:space="preserve">
+    <value>Поле не може бути пустим</value>
+  </data>
   <data name="PasswordRequiresDigit" xml:space="preserve">
     <value>У паролі мають бути цифри</value>
   </data>
@@ -815,5 +818,18 @@
   </data>
   <data name="ValueBef" xml:space="preserve">
     <value>Залишок на початок</value>
+  </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Невірний пароль</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Користувача з таким ім'ям не знайдено</value>
+  </data>
+  <data name="UserEmailNotFound" xml:space="preserve">
+    <value>Користувача з такою поштою не знайдено</value>
+  </data>
+
+  <data name="Close" xml:space="preserve">
+    <value>Закрити</value>
   </data>
 </root>
