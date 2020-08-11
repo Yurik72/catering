@@ -30,7 +30,7 @@ namespace CateringPro.Core
         {
             try
             {
-                _logger.LogInformation("Executing startup scripts");
+                _logger.LogWarning("Executing startup scripts");
                 string path = Path.Combine(AppContext.BaseDirectory, "SQL");
                 var files = new DirectoryInfo(path)
                        .GetFiles("*.sql");
@@ -45,7 +45,7 @@ namespace CateringPro.Core
         {
             try
             {
-                _logger.LogInformation("Executing startup scripts from file {0}",filename);
+                _logger.LogWarning("Executing startup scripts from file {0}",filename);
                 string sql = File.ReadAllText(filename);
                 Queue<string> batches = new Queue<string>();
                 GetBatches(sql, batches);
