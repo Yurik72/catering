@@ -109,9 +109,8 @@ namespace CateringPro
                 .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (t, f) => f.Create(typeof(SharedResources)));
 
-            //services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
             services.AddJsReport(new LocalReporting()
-                .Configure(cfg =>
+                .Configure(cfg=>
                 {
                     cfg.HttpPort = 14740;
                     return cfg;
