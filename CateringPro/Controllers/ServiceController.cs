@@ -9,6 +9,8 @@ using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.ViewModels;
 using CateringPro.Repositories;
+using System.Data.Entity.Core.Mapping;
+using Newtonsoft.Json;
 
 namespace CateringPro.Controllers
 {
@@ -16,10 +18,12 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IServiceRepository _servicerepo;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo)
+        private readonly ICompanyUserRepository _companyuserreporepo;
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo)
         {
             _context = context;
             _servicerepo = servicerepo;
+            _companyuserreporepo = companyuserreporepo;
         }
 
         // GET: Service
@@ -38,17 +42,27 @@ namespace CateringPro.Controllers
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
             return View();
         }
-        public async Task<IActionResult> CardsList(QueryModel querymodel)
+        public async Task<IActionResult> CardsList([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
             return PartialView(await _servicerepo.GetUserCardsAsync(querymodel));
         }
+        public async Task<JsonResult> GenUserCardToken(string userId)
+        {
+            var token = _companyuserreporepo.GenerateNewCardToken(userId, "", false);
+            return Json(new { isSuccess = true, CardTag = token,cmd="generate" });
+        }
+        public async Task<JsonResult> GenUserCardTokenConfirm(string userId,string token)
+        {
 
+            var success = _companyuserreporepo.SaveUserCardTokenAsync(userId, token);
+            return await Task.FromResult(Json(new { isSuccess = success, CardTag = token, cmd = "save" }));
+        }
         [HttpPost]
         public async Task<JsonResult> Status(ServiceRequest request)
         {
             var response = new ServiceResponse();
-            return Json(response);
+            return await Task.FromResult(Json(response));
         }
         [HttpPost]
         public async Task<JsonResult> RequestForDelivery(ServiceRequest request)

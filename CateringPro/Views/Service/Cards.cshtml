@@ -25,20 +25,39 @@
             <div class="col-12 container-state">
                 <span id="nfc_isoffline" class="service-status offline" style="display: none;">
                     NFC Reader Offline
+                    <input id="nfcurl" value="wss://localhost:44360/ws" />
                     <button id="connectnfc">Connect NFC</button>
                 </span>
                 <span id="nfc_isonline" class="service-status online" style="display: none;">
                     <span id="nfc_readername"></span>
-                    <img id="nfc_image" src="" style="width:50px;height:50px;" />
+                    <img id="nfc_image" src="~/images/acr122u.png" style="width:50px;height:50px;" />
                     NFC Reader Online
                 </span>
+                <span>Scan card at any time to detect user</span>
                 <span id="error" class="service-status error" style="visibility:hidden"></span>
             </div>
         </div>
-        <div class="row user-card-search">
-            <div class="col-2 container-order-dish-select">
-                <span data-num="-1" class="order-dish-select welcome ">Welcome</span>
+        <div class="row">
+            <div class="col-12">
+                <div id="card-info" class="container">
+
+                </div>
             </div>
+        </div>
+        <div class="row user-card-search justify-content-end my-2">
+            <div class="col-6">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" id="search-val" class="form-control input-lg" placeholder="Search" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg search-card-btn" id="search-card-btn" type="button">
+                                <span class="fa fa-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         </div>
         <div class="row">
@@ -60,16 +79,112 @@
             elnfc_online.hide();
             elnfc_offline.show();
 
+            var nfcsock;
+            $('#connectnfc').click(function (e) {
+                e.preventDefault();
+                nfcsock = new nfc_socket($('#nfcurl').val(),
+                    function (data) {
+                        console.log(data);
+                    },
+                    function (cmd, event) {
+                        console.log(cmd);
+                        console.log(event);
+                        if (cmd === 'open') {
+                            nfcsock.getstatus(function () { });
+                        }
+                    }
+                );
+                nfcsock.connect();
+                nfcsock.on('status', function (msg) {
+                    showNfcInfo(msg);
+                });
+                nfcsock.on('cardreaded', fillCardScan);
+            });
             function LoadCards() {
 
-                var url = '/Service/CardsList';
-                $('#users-cards-content').load(url);
+                var url = `/Service/CardsList/?searchcriteria=${$('#search-val').val()}`;
+                $('#users-cards-content').load(url, function () { attachEvents(); });
                 // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
-
+               
             }
-            $.ajaxSetup({ cache: false });
+            function attachEvents() {
+                $('#users-cards-content').find(".burn-card").click(function (e) {
+                    e.preventDefault();
+                    burnProcess($(this).attr('data-id'));
+                });
+            }
 
+            $.ajaxSetup({ cache: false });
+            $('#search-card-btn').click(function (e) {
+                e.preventDefault();
+                LoadCards();
+            })
+
+            $('#search-val').keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    LoadCards();
+                }
+            });
             LoadCards();
+            function burnProcess(userid) {
+                var baseUrl = '/Service';
+             
+                fetch(
+                    `${baseUrl}/GenUserCardToken?userId=${userid}`,
+                    { method: 'GET' }
+                 )
+                .then(response =>  response.json() )
+                .then(json => {
+                     if( !json.isSuccess)
+                         throw "Error generating token";
+                      return nfcsock.writecard(json.cardTag);
+                    })
+                .then(data => {
+                    console.log(data);
+                    if (!data.IsSuccess) {
+                        throw "Error writing";
+                    }
+                    return fetch(
+                        `${baseUrl}/GenUserCardTokenConfirm?userId=${userid}&token=${data.Cardtag}`,
+                        { method: 'GET' }
+                    );
+                })
+                .then(data => {
+                    console.log(data);
+                    alert("success");
+                })
+                .catch(error => console.error('error:', error));
+            }
+            function showNfcInfo(msg) {
+                if (msg && msg.Isreaderconnected && msg.Ismonitoring) {
+                    elnfc_online.show();
+                    elnfc_offline.hide();
+                    $('#nfc_readername').text(msg.Readername);
+                }
+                else {
+                    elnfc_online.hide();
+                    elnfc_offline.show();
+                }
+            }
+            function fillCardScan(carddata) {
+                $('#card-info').empty();
+                var divcard = $(`<div class="row user-welcome" >
+                                     <div class="col-4 card-info-scan">
+                                        <span class="card-info-scan" >Card Details</span>
+                                    </div>
+                                    <div class="col-4 card-info-scan">
+                                        <span class="card-info-scan" >${carddata.Cardtag}</span>
+                                    </div>
+                                </div>
+                                <div class="row user-card-details" >
+                                    <div class="col-4 card-info-scan">
+                                         <span class="card-info-scan" >..Fetchind user data</span>
+                                     </div>
+                                </div>`);
+               
+                $('#card-info').append(divcard);
+            }
         });
     </script>
 

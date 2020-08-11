@@ -241,18 +241,52 @@ namespace CateringPro.Repositories
         }
         public async Task<IEnumerable<UserCardViewModel>> GetUserCardsAsync(QueryModel queryModel)
         {
-           return await _context.CompanyUser.Select(u => new UserCardViewModel()
-           { 
-               UserId=u.Id,
-               UserName=u.NameSurname,
-               UserChildName=u.ChildNameSurname,
-               UserLogin=u.UserName,
-               UserEmail=u.Email,
-               CardToken=u.CardTag,
-               PictureId=u.PictureId
+           return await _context.CompanyUser
+                .Where(u=>
+                        string.IsNullOrEmpty(queryModel.SearchCriteria)
+                        ||
+                        u.UserName.Contains(queryModel.SearchCriteria)
+                        ||
+                        u.ChildNameSurname.Contains(queryModel.SearchCriteria)
+                        ||
+                        u.Email.Contains(queryModel.SearchCriteria)
+                        ||
+                        u.NameSurname.Contains(queryModel.SearchCriteria)
+                        )
+                .Take(50)
+                .Select(u => new UserCardViewModel()
+               { 
+                   UserId=u.Id,
+                   UserName=u.NameSurname,
+                   UserChildName=u.ChildNameSurname,
+                   UserLogin=u.UserName,
+                   UserEmail=u.Email,
+                   CardToken=u.CardTag,
+                   PictureId=u.PictureId
            
-           }
-           ).ToListAsync();
+               }
+               ).ToListAsync();
         }
+        public async Task<UserCardViewModel> GetUserCardAsync(string cardToken)
+        {
+            var user = await _userManager.FindByCardTokenAsync(cardToken);
+            if (user == null)
+                return null;
+            var res = new UserCardViewModel()
+            {
+                UserId = user.Id,
+                UserName = user.NameSurname,
+                UserChildName = user.ChildNameSurname,
+                UserLogin = user.UserName,
+                UserEmail = user.Email,
+                CardToken = user.CardTag,
+                PictureId = user.PictureId
+
+            };
+            return res;
+
+        }
+
+
     }
 }
