@@ -25,6 +25,19 @@ namespace CateringPro.Controllers
         {
             _context = context;
         }
+        public static bool CompressPicture(Pictures pict, int width,int height)
+        {
+            using (Image<Rgba32> image = Image.Load<Rgba32>(pict.PictureData))
+            {
+                image.Mutate(x => x.Resize(width, height));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    image.SaveAsJpeg(ms);
+                    pict.PictureData= ms.GetBuffer();
+                }
+            }
+            return true;
+        }
         private Image<Rgba32> GetNoPhoto()
         {
             if (image_nophoto != null)
@@ -33,7 +46,7 @@ namespace CateringPro.Controllers
             image_nophoto = Image.Load<Rgba32>(nophotofile);
             return image_nophoto;
         }
-        private byte[] MutateImageToStream(Image<Rgba32> image , int? width, int? height)
+        public static byte[] MutateImageToStream(Image image , int? width, int? height)
         {
             if(image!=null && width.HasValue && width.Value > 0  && height.HasValue && height.Value > 0)
             {

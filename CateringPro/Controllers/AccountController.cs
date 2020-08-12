@@ -4,15 +4,21 @@ using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Drawing;
+using Image = System.Drawing.Image;
+using Org.BouncyCastle.Crypto.Tls;
 
 namespace CateringPro.Controllers
 {
@@ -563,6 +569,7 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
         }
 
+        
 
         [Authorize]
         [HttpPost]
@@ -596,7 +603,64 @@ namespace CateringPro.Controllers
                     var i = 0;
                     foreach (var reb in it)
                     {
-                        if(i < Request.Form.Files.Count)
+                       // IFormFile filePict = null;
+                        var filePict= Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
+                        /*
+                        for (var idx = 0; idx < Request.Form.Files.Count; idx++)
+                        {
+                            var fileindex = -1;
+                            Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
+                            Match match = regex.Match(Request.Form.Files[idx].Name);
+
+                            if (!match.Success  || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex!=i)
+                            {
+                                continue;
+                            }
+                            filePict = Request.Form.Files[idx];
+                            break;
+                        }
+                        */
+                        CompanyUser user_to_update;
+                        if (reb.Id == um.Id)
+                        {
+                            //um.ChildNameSurname = reb.ChildNameSurname;
+                            //  um.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            // um.ChildrenCount = user.ChildrenCount;
+                            um.CopyTo(user);
+                            user_to_update = user;
+                        }
+                        else
+                        {
+                            user_to_update= await _userManager.FindByIdAsync(reb.Id);
+                        }
+                        if (user_to_update == null)
+                        {
+                            ModelState.AddModelError("", "User Not Found");
+                            break;
+                        }
+                        if (filePict != null)
+                        {
+                            Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict == null)
+                            {
+                                pict = new Pictures();
+                                _context.Add(pict);
+                            }
+                            using (var stream = filePict.OpenReadStream())
+                            {
+                                byte[] imgdata = new byte[stream.Length];
+                                stream.Read(imgdata, 0, (int)stream.Length);
+                                pict.PictureData = imgdata;
+                            }
+                            PicturesController.CompressPicture(pict, 30, 30);
+                            if (_context.Entry(pict).State != EntityState.Added)
+                                _context.Update(pict);
+                            await _context.SaveChangesAsync();
+                            user_to_update.PictureId = pict.Id;
+
+                        }
+                        /*
+                        if (i < Request.Form.Files.Count)
                         {
                             if (Request.Form.Files.Count > 0)
                             {
@@ -605,12 +669,24 @@ namespace CateringPro.Controllers
                                 {
                                     pict = new Pictures();
                                 }
+                                //var fileName = Request.Form.Files[i].FileName;
                                 var file = Request.Form.Files[i];
-                                using (var stream = Request.Form.Files[i].OpenReadStream())
+                                //Image image = Image.FromStream(file.OpenReadStream());
+                                var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
+                                if (Request.Form.Files[i].Length > 5242880)
                                 {
-                                    byte[] imgdata = new byte[stream.Length];
-                                    stream.Read(imgdata, 0, (int)stream.Length);
+                                    var resizedFile = PicturesController.MutateImageToStream(image, 450, 300);
+                                    byte[] imgdata = resizedFile;
                                     pict.PictureData = imgdata;
+                                    
+                                }
+                                if (Request.Form.Files[i].Length <= 5242880) {
+                                    using (var stream = file.OpenReadStream())
+                                    {
+                                        byte[] imgdata = new byte[stream.Length];
+                                        stream.Read(imgdata, 0, (int)stream.Length);
+                                        pict.PictureData = imgdata;
+                                    }
                                 }
                                 _context.Add(pict);
                                 await _context.SaveChangesAsync();
@@ -640,7 +716,8 @@ namespace CateringPro.Controllers
                         {
                             user1.PictureId = reb.PictureId;
                         }
-                        IdentityResult rebResult = await _userManager.UpdateAsync(user1);
+                        */
+                        IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
                         if (!rebResult.Succeeded)
                         {
                             return View();
@@ -724,7 +801,7 @@ namespace CateringPro.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
         {
-            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID(),false);
             if (childs.Count == 1)
             {
                 onlyChild = true;

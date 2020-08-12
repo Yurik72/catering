@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
-using CateringPro.Models;
 using CateringPro.ViewModels;
 using CateringPro.Repositories;
-using System.Data.Entity.Core.Mapping;
-using Newtonsoft.Json;
 
 namespace CateringPro.Controllers
 {
