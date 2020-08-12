@@ -47,12 +47,12 @@
             </div>
             <div class="col-lg-4 col-12 p-0 d-none d-md-block">
                 <div class="col-12 p-0 justify-content-center" style="height: 48px">
-                    <button type="button"
+                    <button type="button" id="create-btn" 
                             class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
                             onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
                             onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
                             style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                        &#65291; СТВОРИТИ
+                        &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
                     </button>
                 </div>
             </div>
@@ -172,6 +172,7 @@ else
                 $.get(url, function (data) {
                     $('#dialogContent').html(data);
                     $('#modDialog').modal('show');
+                    setup_search_ingredients();
                 });
             });
             $(document).on("click", "a.ahead", function (e) {
@@ -234,12 +235,15 @@ else
                 $.get(this.href, function (data) {
 
                     $('#dialogContent').html(data);
-
+                    $('#modDialog').attr("data-backdrop", false);
+                    $('#modDialog').css("background-color", "rgba(117, 117, 117, 0.5)");
+                    $('#modDialog').modal('show');
                   //  if (self.options.onloadedcb)
                   //      self.options.onloadedcb();
                 });
             });
             function loadingredientsproprotion(id) {
+                console.log("load ingredient");
                 var url = '@Url.Content("~/Dishes/EditIngredientsProportion/")' + id;
 
                 $.get(url, function (data) {
@@ -264,6 +268,7 @@ else
                 $('#modDialog').attr("_changed", true);
             });
             function setup_search_ingredients() {
+                console.log("add ingredient");
                 setup_search({
                     href: '@Url.Content("~/Ingredients/SearchView")',
                     itemselector: 'a.add-ingredients-dishes-line',
@@ -278,6 +283,9 @@ else
                     }
                 });
             }
+            $(document).on('hidden.bs.modal', '.modal', function () {
+                $('.modal:visible').length && $(document.body).addClass('modal-open');
+            });
             function loadingredients(id) {
                 var url = '@Url.Content("~/Dishes/EditIngredients/")' + id;
 
