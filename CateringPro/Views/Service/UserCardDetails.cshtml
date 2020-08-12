@@ -1,0 +1,42 @@
+﻿@model UserCardViewModel
+@{
+
+    Layout = null;
+
+}
+<div class="container users-cards-list-content">
+
+    @if (Model == null)
+    {
+        <div class="row user-card  border border-danger rounded justify-content-center my-2">
+            <div class="col-12 justify-content-center bg-danger text-white">
+                <span>NO RECORDS</span>
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="row user-card border border-dark rounded bg-primary text-white text-wrap text-break word-break align-middle" data-id="@Model.UserId">
+            <div class="col-2 user-card-picture p-2">
+                <img src="@Url.Action("GetPicture", "Pictures", new { id = Model.PictureId, width = 80, height = 80 })" style="width:80px;height:80px;" />
+
+            </div>
+
+            <div class="col-2 user-card-name">
+                @Model.UserName
+            </div>
+            <div class="col-2 user-card-email">
+                @Model.UserEmail
+            </div>
+            <div class="col-2 user-card-name">
+                @Model.UserChildName
+            </div>
+            <div class="col-2 user-card-name">
+                @Model.CardToken
+            </div>
+            
+
+        </div>
+    }
+</div>

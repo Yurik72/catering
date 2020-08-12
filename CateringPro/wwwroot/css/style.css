@@ -8,6 +8,154 @@ body {
     font-family: Raleway, sans-serif;
 }
 
+.span-gray-bg {
+    background: none;
+}
+
+.change-w {
+    font-size: 16px;
+}
+
+.money-w {
+    font-size: 16px;
+}
+
+.shadow-cust {
+    border-bottom: 1px solid #EAEAEA;;
+}
+
+
+@media (max-width: 767px) {
+    .span-gray-bg {
+        background: #E8E8E8;
+    }
+
+    .bold-w {
+        font-weight: bold;
+    }
+
+    .change-w {
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .money-w {
+        font-weight: bold;
+        font-size: 18px;
+        position: absolute;
+        top: -80px;
+        left: 67%;
+    }
+
+    .shadow-cust {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 413px) {
+    .money-w {
+
+        left: 71%;
+    }
+}
+
+
+@media (max-width: 575px) {
+    .money-w {
+
+        left: 69%;
+    }
+}
+
+.modal-backdrop {
+    width: 100%;
+}
+
+.category-drp {
+    background: #ffffff;
+}
+
+.category-drp:hover {
+    background: #FDF5F1;
+    color: #f4875b;
+}
+
+#category-choose {
+    background: white url("../img/arrow-drp.svg") no-repeat 98%;
+    cursor: pointer;
+}
+
+#self-button {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+#self-button::before {
+    content: url("../img/before-dwn.svg");
+    width: 16px;
+    margin-right: 10px;
+}
+
+#self-button::after {
+    content: "Обзор";
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    bottom: 0;
+    z-index: 3;
+    width: 106px;
+    display: block;
+    height: 38px;
+    margin: 0 auto;
+    line-height: 1.5;
+    background: #EDEDED;
+    border-radius: 4px;
+    border: 1px solid #B1B1B1;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    color: #797979;
+}
+
+#dropdown-admin::after {
+    content: none;
+}
+
+#dropdown-buttons-hover .dropdown-item {
+    box-sizing: border-box;
+    border-left: 2px solid transparent;
+
+}
+
+#dropdown-buttons-hover .dropdown-item:hover {
+    background: #FDF5F1;
+    border-left: 2px solid #F15E25;
+    color: #f4875b;
+}
+
+#dropdown-type .drpdwn-btn {
+    border-radius: 4px !important;
+    border: none !important;
+    width: 160px !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+#dropdown-type .drpdwn-btn:hover {
+    color: white !important;
+    background: #F05E25 !important;
+}
+
+.drpdwn-btn {
+    border: none;
+}
+
+.drpdwn-btn:hover {
+    color: white !important;
+    background: #F05E25 !important;
+}
 
 .text-main-color-dark {
     color: var(--main-font-color);
@@ -18,18 +166,27 @@ body {
     line-height: 16px;
 }
 
-.card-hover-eff:hover {
-    box-shadow: 0 0 22px rgba(0, 0, 0, 0.15);
-    transition: 0.2s ease-in-out;
-}
-
-.card-hover-eff-gone {
-    transition: 0.2s ease-in-out;
-}
-
 .active-custom {
     background: #F15E25;
     color: #ffffff !important;
+}
+
+.navbar-visible {
+    position: absolute;
+    top: 0;
+    right: 50px;
+}
+
+.sort-span {
+    display: flex;
+    align-items: center;
+}
+
+.sort-span::after {
+    margin-left: 7px;
+    content: url("../img/sort-icon.svg");
+    width: 10px;
+    margin-top: 2px;
 }
 
 @font-face {
@@ -37,7 +194,9 @@ body {
     font-style: normal;
     font-weight: 400;
     src: url('../fonts/open-sans/OpenSans-Regular.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/open-sans/OpenSans-Regular.ttf') format('truetype') /* IE6-IE8 */
+    src: local(''),
+    url('../fonts/open-sans/OpenSans-Regular.ttf') format('truetype') /* IE6-IE8 */
+
 }
 
 @font-face {
@@ -45,7 +204,9 @@ body {
     font-style: normal;
     font-weight: 700;
     src: url('../fonts/open-sans/OpenSans-Bold.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/open-sans/OpenSans-Bold.ttf') format('truetype') /* IE6-IE8 */
+    src: local(''),
+    url('../fonts/open-sans/OpenSans-Bold.ttf') format('truetype') /* IE6-IE8 */
+
 }
 
 
@@ -55,69 +216,88 @@ body {
     font-style: normal;
     font-weight: 100;
     src: url('../fonts/Raleway/Raleway-Thin.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-Thin.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-Thin.ttf') format('truetype')/* Safari, Android, iOS */
+
 }
+
 /* raleway-200 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 200;
     src: url('../fonts/Raleway/Raleway-ExtraLight.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-ExtraLight.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-ExtraLight.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-300 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 300;
     src: url('../fonts/Raleway/Raleway-Light.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-Light.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-Light.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-regular - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 400;
     src: url('../fonts/Raleway/Raleway-Regular.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-Regular.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-Regular.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-500 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 500;
     src: url('../fonts/Raleway/Raleway-Medium.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-Medium.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-Medium.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-600 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 600;
     src: url('../fonts/Raleway/Raleway-SemiBold.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-SemiBold.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-SemiBold.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-700 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 700;
     src: url('../fonts/Raleway/Raleway-Bold.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-Bold.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-Bold.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-800 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 800;
     src: url('../fonts/Raleway/Raleway-ExtraBold.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-ExtraBold.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-ExtraBold.ttf') format('truetype')/* Safari, Android, iOS */
 }
+
 /* raleway-900 - latin_cyrillic */
 @font-face {
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 900;
     src: url('../fonts/Raleway/Raleway-Black.ttf'); /* IE9 Compat Modes */
-    src: local(''), url('../fonts/Raleway/Raleway-Black.ttf') format('truetype') /* Safari, Android, iOS */
+    src: local(''),
+    url('../fonts/Raleway/Raleway-Black.ttf') format('truetype')/* Safari, Android, iOS */
+
 }

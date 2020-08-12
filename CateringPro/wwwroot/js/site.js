@@ -338,7 +338,16 @@ function setup_search(_options) {
 
     }
 }
+function promise_dialog_yes_no(message) {
 
+    var promisedlg = new Promise((resolve, reject) => {
+        dialog_yes_no(message, resolve, reject)
+    });
+
+
+ 
+    return promisedlg;
+}
 function dialog_yes_no(message, yesCallback, noCallback) {
 
     var dlg_html = '   <div id="moddialogyesno" class="modal" tabindex="-1" role="dialog">  ' +

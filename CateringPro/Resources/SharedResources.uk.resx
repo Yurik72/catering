@@ -829,4 +829,7 @@
     <value>Користувача з такою поштою не знайдено</value>
   </data>
 
+  <data name="Close" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
 </root>

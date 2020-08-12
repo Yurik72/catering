@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CateringPro.Models.Dish>
 
-
+@using  CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
@@ -10,46 +10,115 @@
 }
 
 
-
-<div class="container">
-    <div class="row justify-content-end">
-        <div class="col-md-6 right">
-            <h2>@ModelName</h2>
+@if (Layout == "_LayoutCabachok")
+{
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+                <p class="h2" style="font-weight: 600">
+                    @ModelName
+                </p>
+            </div>
         </div>
-        <div class="col-md-6 right">
-            <div id="custom-search-input">
-                <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@ModelName" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" id="search-btn" type="button">
-                            <span class="fa fa-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-lg-start justify-content-center"
+                     style="display: flex; flex-wrap: nowrap">
+                    <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
+
+                    <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
+                            style="border: none">
+                        <option class="drpdwn-btn selection" value="price"
+                                style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                            по ціні
+                        </option>
+                        <option class="drpdwn-btn" value="popular">по популярності</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    <form id="search-form" class="form-inline col-12 p-0" style=" display: flex;">
+                        <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
+                               style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; СТВОРИТИ
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
+             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+            <div class="col-1">
+            </div>
+            @Html.DisplayListHeaderForEx(model => model.Category.Name)
+            @Html.DisplayListHeaderForEx(model => model.Name)
+            @Html.DisplayListHeaderForEx(model => model.Description,new { colnumbers = 4})
+            @Html.DisplayListHeaderForEx(model => model.Price)
+            @* <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
+        <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
+        <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
+        <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>*@
+            <div class="col-2"></div>
+
+        </div>
+        <div id="table-content" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-6 right">
+                <h2>@ModelName</h2>
+            </div>
+            <div class="col-md-6 right">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" id="search-val" class="form-control input-lg" placeholder="@ModelName" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" id="search-btn" type="button">
+                                <span class="fa fa-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div id="table-content" class="table-content">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
+                <div id="create-btn" class="col-lg-3 col-md-3 create">
+                    <span>@Localizer["Create"]</span>
+                    <span class="fa fa-plus" aria-hidden="true"></span>
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12">
-            <div id="table-content" class="table-content">
 
-            </div>
-        </div>
+    <div id="modDialog" class="modal dishes-modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-            <div id="create-btn" class="col-lg-3 col-md-3 create">
-                <span>@Localizer["Create"]</span>
-                <span class="fa fa-plus" aria-hidden="true"></span>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modDialog" class="modal dishes-modal fade">
-    <div id="dialogContent" class="modal-dialog"></div>
-</div>
+}
 @{
     await Html.RenderPartialAsync("ModalSearch", "Ingredient");
 }
@@ -63,11 +132,14 @@
         $(function () {
 
             var reload = function (href) {
-                 if (!href)
+                if (!href)
                     href = '/Dishes/ListItems?';
                 else
                     href += "&";
-                $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+                var searchcriteria = '';
+                if ($('#search-val').length > 0)
+                    searchcriteria = $('#search-val').val()
+                $('#table-content').load(href + 'searchcriteria=' + searchcriteria);
 
             }
 
@@ -77,11 +149,14 @@
             $('#search-btn').click(function (e) {
                 reload();
             });
-            $('#custom-search-input').keydown((event) => {
+            $('#search-val').keydown((event) => {
                 if (event.which == 13) {
                     event.preventDefault();
                     reload();
                 }
+            });
+            $("#search-form").submit(function (e) {
+                return false;
             });
             $('#create-btn').click(function (e) {
                 e.preventDefault();
@@ -95,7 +170,10 @@
                 e.preventDefault();
                 reload(this.href);
             });
-
+            $(document).on("click", "a.apagebottom", function (e) {
+                e.preventDefault();
+                reload(this.href);
+            });
             $(document).on("change", "select.col-select-filter", function (e) {
                 e.preventDefault();
                 var href = $(this).next().attr('href');
@@ -123,6 +201,7 @@
                 });
 
             }
+            
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 
@@ -192,7 +271,7 @@
             }
             function loadingredients(id) {
                 var url = '@Url.Content("~/Dishes/EditIngredients/")' + id;
-              
+
             }
              function readURL(input) {
                   if (input.files && input.files[0]) {

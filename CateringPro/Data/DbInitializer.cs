@@ -29,7 +29,7 @@ namespace CateringPro.Data
             {
                 return;
             }
-
+            return; //danger
             ClearDatabase(context);
             CreateAdminRole(context, roleManager, userManager);
             CreateRole("CompanyAdmin", context, roleManager);

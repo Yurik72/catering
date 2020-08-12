@@ -47,7 +47,7 @@ namespace CateringPro.Controllers
             //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
             var query = this.GetQueryList(_context.Dishes.Include(d => d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient),
                     querymodel,
-                        d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria),
+                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria),
                      pageRecords);
             if (querymodel.RelationFilter > 0)
             {

@@ -5,6 +5,9 @@ function nfc_socket(url, callbackdata,callbackstatechange) {
     this.options.url = url;
     this.options.callbackdata = callbackdata;
     this.options.callbackstatechange = callbackstatechange;
+    this.cb = {};
+    this.isNFCReady = false;
+    this.isNFCMonitoring = false;
     this.events = new function () {
         var _triggers = {};
 
@@ -22,6 +25,12 @@ function nfc_socket(url, callbackdata,callbackstatechange) {
         }
     };
 }
+nfc_socket.prototype.NFCReady = function () {
+    return this.isNFCReady;
+}
+nfc_socket.prototype.NFCMonitoring = function () {
+    return this.isNFCMonitoring;
+}
 nfc_socket.prototype.on = function (event, callback) {
     this.events.on(event, callback);
 }
@@ -32,7 +41,12 @@ nfc_socket.prototype.connect=function (){
         var msg;
         try {
             msg = JSON.parse(data);
+            self.isNFCReady = msg.Isreaderconnected;
+            self.isNFCMonitoring = msg.Ismonitoring;
             self.events.triggerHandler(msg.Responsetype, msg);
+            if (msg.CallId && self.cb[msg.CallId]) {
+                self.cb[msg.CallId](msg);
+            }
         }
         catch{
             self.events.triggerHandler("ontext",data);
@@ -44,13 +58,16 @@ nfc_socket.prototype.connect=function (){
             self.options.callbackstatechange(cmd, event);
     }
     this.socket.onopen = function (event) {
-        stateupdate('open',event);
+        stateupdate('open', event);
+        self.getstatus(function () {
+        });
     };
     this.socket.onclose = function (event) {
         stateupdate('close',event);
     };
     this.socket.onerror = function (event) {
         stateupdate('error', event);
+        self.events.triggerHandler('error', "NFC Connection Error");
     };
     this.socket.onmessage = function (event) {
         if (self.options.callbackdata)
@@ -80,16 +97,34 @@ nfc_socket.prototype.getstatus = function (cb) {
     this.socket.send(JSON.stringify(request));
 
 };
-nfc_socket.prototype.writecard = function (tag) {
+nfc_socket.prototype.writecard = function (tag,callbackresponse) {
 
     if (!this.socket || this.socket.readyState != WebSocket.OPEN) {
         return false;
     }
-    var request = { Command: "writecard", CardTag: tag };
-    var cmd = { isconected: false, readername: '', ismonitoring: false, socketstate: WebSocket.CLOSED };
-
-
+    var callId = Date.now().toString();;
+    var request = { callId: callId,Command: "writecard", CardTag: tag };
+    var cmd = { callId: callId, isconected: false, readername: '', ismonitoring: false, socketstate: WebSocket.CLOSED };
+    var self = this;
+    var resolver_class = function () {
+        this.resolve = function (data) { };
+        this.callback = function (data) { };
+    };
+    var resolver = new resolver_class();
+    this.cb[callId] = function (data) {
+        var _resv = resolver;
+        if (callbackresponse)
+            callbackresponse(data);
+        _resv.resolve(data);
+        self.cb[callId] = undefined;
+    }
+    var writepromise = new Promise((resolve, reject) => {
+        resolver.resolve = resolve;
+    });
     this.socket.send(JSON.stringify(request));
+    return writepromise;
+
+    
 
 };
 nfc_socket.prototype.close=function (){

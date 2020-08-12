@@ -331,7 +331,7 @@ namespace CateringPro.Repositories
             return result;
 
         }
-        public async Task<bool> SaveUserCardToken(string userId, string token)
+        public async Task<bool> SaveUserCardTokenAsync(string userId, string token)
         {
             try
             {

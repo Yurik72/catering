@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -99,6 +101,42 @@ namespace CateringPro.Core
             if (dispnameattr != null && dispnameattr.ConstructorArguments.Count>0)
                 return dispnameattr.ConstructorArguments[0].Value.ToString();
             return ((PropertyInfo)memberExpression.Member).Name;
+        }
+
+        public static IHtmlContent DisplayNameForEx<TModel,TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression, string templateName,  object additionalViewData)
+        {
+            string displayname = GetDisplayName(expression);
+            return src.DisplayFor(x => displayname, templateName, additionalViewData);
+           
+        }
+
+        public static IHtmlContent DisplayListHeaderForEx<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression,  dynamic additionalViewData=null)
+        {
+            string displayname = GetDisplayName(expression);
+            dynamic addviewdata = new { colnumbers = 2 };
+            if (additionalViewData != null)
+                addviewdata = Merge(addviewdata, additionalViewData);
+            return src.DisplayFor(x => displayname, "ListHeader", (object)addviewdata);
+
+        }
+
+        private static dynamic Merge(object item1, object item2)
+        {
+            IDictionary<string, object> result = new ExpandoObject();
+
+            foreach (var property in item1.GetType().GetProperties())
+            {
+                if (property.CanRead)
+                    result[property.Name] = property.GetValue(item1);
+            }
+
+            foreach (var property in item2.GetType().GetProperties())
+            {
+                if (property.CanRead)
+                    result[property.Name] = property.GetValue(item2);
+            }
+
+            return result;
         }
     }
 }

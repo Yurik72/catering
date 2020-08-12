@@ -8,6 +8,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using CateringPro.Models;
 using Microsoft.Extensions.Logging;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Core
 {
@@ -27,7 +29,13 @@ namespace CateringPro.Core
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IUserDayDishesRepository _udaydishrepo;
-        public EmailService(IEmailConfiguration emailConfiguration, IRazorViewToStringRenderer razorRenderer, IInvoiceRepository invoicerepo, UserManager<CompanyUser> userManager, ILogger<CompanyUser> logger, IUserDayDishesRepository ud)
+        private readonly IConfiguration _config;
+        public EmailService(IEmailConfiguration emailConfiguration, 
+            IRazorViewToStringRenderer razorRenderer, 
+            IInvoiceRepository invoicerepo, 
+            UserManager<CompanyUser> userManager, 
+            ILogger<CompanyUser> logger, 
+            IUserDayDishesRepository ud, IConfiguration iConfig)
         {
             _emailConfiguration = emailConfiguration;
             _razorViewToStringRenderer = razorRenderer;
@@ -35,6 +43,7 @@ namespace CateringPro.Core
             _userManager = userManager;
             _logger = logger;
             _udaydishrepo = ud;
+            _config = iConfig;
         }
 
         public EmailService()
@@ -123,7 +132,8 @@ namespace CateringPro.Core
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Catering service", "admin@catering.in.ua"));
+            emailMessage.From.Add(new MailboxAddress("Catering service", _config.GetSection("EmailConfiguration").GetSection("SmtpUsername").Value));
+            //emailMessage.From.Add(new MailboxAddress("Catering service", "admin@catering.in.ua"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

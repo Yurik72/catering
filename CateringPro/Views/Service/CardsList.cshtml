@@ -5,27 +5,62 @@
 
 }
 <div class="container users-cards-list-content">
-@foreach(var it in @Model)
-{
-    <div class="row user-card border rounded" data-id="@it.UserId">
+    <div class="row user-card bg-info text-white my-2">
         <div class="col-2 user-card-picture">
-            <img src="@Url.Action("GetPicture", "Pictures", new { id = it.PictureId, width = 80, height = 80 })" style="width:80px;height:80px;" />
-
+            <span>Фото</span>
         </div>
 
         <div class="col-2 user-card-name overflow-hidden">
-            @it.UserName
+            <span>Имя</span>
         </div>
         <div class="col-2 user-card-email overflow-hidden">
-            @it.UserEmail
+            <span>email</span>
         </div>
         <div class="col-2 user-card-name overflow-hidden">
-            @it.UserChildName
+            <span>Ребенок</span>
+        </div>
+        <div class="col-2 user-card-name overflow-hidden">
+           <span>token</span>
         </div>
         <div class="col-2 user-card-action overflow-hidden">
-
+            <span>Действия</span>
         </div>
 
     </div>
-}
+    @if (Model.Count() == 0)
+    {
+        <div class="row user-card border rounded">
+            <div class="col-12 ">
+
+                NO RECORDS
+            </div>
+        </div>
+    }
+
+    @foreach (var it in @Model)
+    {
+        <div class="row user-card border-bottom text-wrap text-break word-break align-middle" data-id="@it.UserId">
+            <div class="col-2 user-card-picture p-2">
+                <img src="@Url.Action("GetPicture", "Pictures", new { id = it.PictureId, width = 80, height = 80 })" style="width:80px;height:80px;" />
+
+            </div>
+
+            <div class="col-2 user-card-name">
+                @it.UserName
+            </div>
+            <div class="col-2 user-card-email">
+                @it.UserEmail
+            </div>
+            <div class="col-2 user-card-name">
+                @it.UserChildName
+            </div>
+            <div class="col-2 user-card-name">
+                @it.CardToken
+            </div>
+            <div class="col-2 user-card-action  align-middle">
+                <button class="burn-card btn btn-danger" data-id="@it.UserId">Burn</button>
+            </div>
+
+        </div>
+    }
 </div>
