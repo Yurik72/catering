@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -606,7 +607,11 @@ namespace CateringPro.Controllers
                                     pict = new Pictures();
                                 }
                                 var file = Request.Form.Files[i];
-                                using (var stream = Request.Form.Files[i].OpenReadStream())
+                                //if (file.Length > 5242880)
+                                //{
+                                //    var resizedFile = PicturesController.MutateImageToStream(file,450,300);
+                                //}
+                                using (var stream = file.OpenReadStream())
                                 {
                                     byte[] imgdata = new byte[stream.Length];
                                     stream.Read(imgdata, 0, (int)stream.Length);
