@@ -226,7 +226,7 @@ function setup_listitems(options) {
         });
         $(document).on('click', '[data-save="modal"]', function (event) {
             event.preventDefault();
-
+           // console.log("Data Save");
             var form = $(this).parents('.modal-body').find('form');
             var actionUrl = form.attr('action');
             var dataToSend = form.serialize();

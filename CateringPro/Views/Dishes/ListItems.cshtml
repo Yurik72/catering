@@ -40,28 +40,32 @@
                         </div>
                     </div>
 
-                </div>
-                <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
-                    <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
-                        <span class="col-12 align-content-center d-flex change-w">
-                            @item.Description
-                        </span>
-                    </div>
-                    <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
-                        <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
-                                style="height: 30px">
-                            <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
-                                    style="font-family: Open-Sans">@item.Price @pageOptions.Value.CurrencySymbol</span>
+                        </div>
+                        <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                            <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                                <span class="col-12 align-content-center d-flex change-w">
+                                    @item.Description
+                                </span>
                             </div>
-                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
-                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
-                                    <img src="~/img/pen-icon.svg" alt="Change item">
+                            <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                                <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                     style="height: 30px">
+                                    <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                          style="font-family: Open-Sans">@item.Price @pageOptions.Value.CurrencySymbol</span>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                        <div class="btn " data-toggle="modal" data-target="#change-item-modal">
+                                            <a class="dishitem dialog-edit-icon" href="@Url.Action("EditModal","Dishes",
+                                  new { id = item.Id }, null)">
+
+                                                <img src="~/img/pen-icon.svg" alt="Change item">
+                                            </a>
+                                        </div>
+                                        <a href="#" class="btn"><img src="~/img/delete-icon.svg" alt="Delete item"></a>
+                                    </div>
                                 </div>
-                                <a href="#" class="btn"><img src="~/img/delete-icon.svg" alt="Delete item"></a>
                             </div>
                         </div>
-                    </div>
-                </div>
 
 
             </div>

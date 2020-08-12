@@ -5,6 +5,8 @@
     ViewData["Title"] = "Edit";
     int i = 0;
 }
+@if (false)
+{
 <div class="row">
     <div class="container">
         <div class="row table-head">
@@ -31,3 +33,16 @@
 
         </div>
     </div>
+}
+else
+{
+<div>
+    @foreach (var proportion in Model)
+    {
+        proportion.LineIndex = i;
+        await Html.RenderPartialAsync("IngredientDishesLine", proportion);
+        i++;
+    }
+
+</div>
+}

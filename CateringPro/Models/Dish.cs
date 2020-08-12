@@ -20,7 +20,8 @@ namespace CateringPro.Models
 
         [StringLength(10)]
         [DataType(DataType.Text)]
-      //  [Required]
+        [DisplayName("Code")]
+        //  [Required]
         public string Code { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
