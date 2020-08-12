@@ -12,69 +12,77 @@
 
 @if (Layout == "_LayoutCabachok")
 {
-<div class="container-xl container container-md container-sm container-lg">
-    <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
-        <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
-            <p class="h2" style="font-weight: 600">
-                @ModelName
-            </p>
-        </div>
-    </div>
-    <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
-        <div class="col-lg-4 col-12 p-0 ">
-            <div class="col-12 p-0 justify-content-lg-start justify-content-center"
-                 style="display: flex; flex-wrap: nowrap">
-                <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
-
-                <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
-                        style="border: none">
-                    <option class="drpdwn-btn selection" value="price"
-                            style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
-                        по ціні
-                    </option>
-                    <option class="drpdwn-btn" value="popular">по популярності</option>
-                </select>
-
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+                <p class="h2" style="font-weight: 600">
+                    @ModelName
+                </p>
             </div>
         </div>
-        <div class="col-lg-4 col-12 p-0 ">
-            <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
-                <form class="form-inline col-12 p-0" style=" display: flex;">
-                    <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
-                           style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
-                </form>
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-lg-start justify-content-center"
+                     style="display: flex; flex-wrap: nowrap">
+                    <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
+
+                    <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
+                            style="border: none">
+                        <option class="drpdwn-btn selection" value="price"
+                                style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                            по ціні
+                        </option>
+                        <option class="drpdwn-btn" value="popular">по популярності</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    <form class="form-inline col-12 p-0" style=" display: flex;">
+                        <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
+                               style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button id="create-btn" type="button"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="col-lg-4 col-12 p-0 d-none d-md-block">
-            <div class="col-12 p-0 justify-content-center" style="height: 48px">
-                <button type="button"
-                        class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
-                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                        style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                    &#65291; СТВОРИТИ
-                </button>
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
+             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+            <div class="col-1">
             </div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
+            <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>
+            <div class="col-2"></div>
+
+        </div>
+        <div id="table-content" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
+
         </div>
     </div>
-    <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
-         style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
-        <div class="col-1">
+    <div class="modal fade" @*id="change-item-modal"*@ id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
         </div>
-        <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
-        <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
-        <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
-        <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>
-        <div class="col-2"></div>
-
     </div>
-    <div id="table-content" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
-
-    </div>
-    </div>
-    }
-    else
-    {
+    @*<div id="modDialog" class="modal dishes-modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>*@
+}
+else
+{
     <div class="container">
         <div class="row justify-content-end">
             <div class="col-md-6 right">
@@ -114,16 +122,16 @@
     <div id="modDialog" class="modal dishes-modal fade">
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
-    }
-    @{
-        await Html.RenderPartialAsync("ModalSearch", "Ingredient");
-    }
+}
+@{
+    await Html.RenderPartialAsync("ModalSearch", "Ingredient");
+}
 
 
-    @section scripts
+@section scripts
 {
-        <script src="http://malsup.github.com/jquery.form.js"></script>
-        <script type="text/javascript">
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+    <script type="text/javascript">
 
         $(function () {
 
@@ -228,8 +236,9 @@
                     setup_search_ingredients();
                 });
             }
-            $(document).on("click", "a.delete-ingredients-dishes-line", function (e) {
+            $(document).on("click", ".delete-ingredients-dishes-line", function (e) {
                 e.preventDefault();
+                //console.log("delte");
                 var content = $(this).parents(".ingredients-content-proportion");
                 $(this).parents(".ingredient-dishes-line").remove();
                 content.find(".ingredient-dishes-line").each(function (lidx, lel) {
@@ -277,9 +286,13 @@
                   readURL(this);
               });
               $(document).on('click', '[data-save="modal"]', function (event) {
-                    event.preventDefault();
-
-                    var form = $(this).parents('.modal-body').find('form');
+                  event.preventDefault();
+                  console.log("send");
+                  //old design
+                 // var form = $(this).parents('.modal-body').find('form');
+                  //new design
+                  var form = $(this).parents('.modal-content').find('form');
+                  console.log(form);
                     var actionUrl = form.attr('action');
                     //var dataToSend = form.serialize();
                     // var formData = new FormData(form[0]);
@@ -320,5 +333,5 @@
 
                 });
         })
-        </script>
-    }
+    </script>
+}

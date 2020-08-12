@@ -232,7 +232,7 @@
     <value>Опис</value>
   </data>
   <data name="Dish KKal" xml:space="preserve">
-    <value>ккал</value>
+    <value>Kкал</value>
   </data>
   <data name="Dish Name" xml:space="preserve">
     <value>Страва</value>
@@ -828,8 +828,10 @@
   <data name="UserEmailNotFound" xml:space="preserve">
     <value>Користувача з такою поштою не знайдено</value>
   </data>
-
   <data name="Close" xml:space="preserve">
     <value>Закрити</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Код</value>
   </data>
 </root>

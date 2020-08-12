@@ -1,18 +1,40 @@
 ﻿@model CateringPro.Models.DishIngredientsProportionViewModel
 
+@if (false)
+{
+    <div class="row ingredient-dishes-line">
+        <div class="col col-lg-2 col-md-2">
+            <input type="hidden" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
+        </div>
+        <div class="col col-lg-2 col-md-2 col-2">
+            @Html.DisplayFor(modelItem => Model.Name)
+        </div>
+        <div class="col col-lg-2 col-md-2">
 
-<div class="row ingredient-dishes-line">
-    <div class="col col-lg-2 col-md-2">
-        <input type="hidden" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
+            <input type="text" name="proportion[@Model.LineIndex].Proportion" asp-for="@Model.Proportion" class="form-control" />
+        </div>
+        <div col col-lg-1 col-md-1>
+            <a class="delete-ingredients-dishes-line fa fa-trash fa-2x"></a>
+        </div>
     </div>
-    <div class="col col-lg-2 col-md-2 col-2">
-        @Html.DisplayFor(modelItem => Model.Name)
+}
+else
+{
+<div class="row align-items-center parent-delete ingredient-dishes-line" style="margin-bottom: 9px">
+    <input type="hidden" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
+    <label class="col-4" asp-for="@Model.LineIndex"
+           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">@Model.Name</label>
+    <div class="col-5">
+        <input id="@Model.LineIndex" class="form-control" 
+               type="text" name="proportion[@Model.LineIndex].Proportion" asp-for="@Model.Proportion"
+               placeholder="Код"
+               style="max-width: 153px; height: 34px; font-family: Open-Sans">
     </div>
-    <div class="col col-lg-2 col-md-2">
-
-        <input type="text" name="proportion[@Model.LineIndex].Proportion" asp-for="@Model.Proportion" class="form-control" />
-    </div>
-    <div col col-lg-1 col-md-1>
-        <a class="delete-ingredients-dishes-line fa fa-trash fa-2x"></a>
+    <div class="col-3">
+        <button class="btn delete-parent delete-ingredients-dishes-line"
+                style="background: none; border: none">
+            <img src="./img/delete-icon.svg" alt="Delete item">
+        </button>
     </div>
 </div>
+}

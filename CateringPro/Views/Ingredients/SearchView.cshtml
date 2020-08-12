@@ -18,10 +18,12 @@
             <thead>
                 <tr class="bg-white text-secondary">
                     <th width="40%">
-                        @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
+                       @* @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)*@
+                        Назва
                     </th>
                     <th width="40%">
-                        @await this.InvokeComponentAsync(Component, "TableColumn", model => model.IngredientCategory.Name, querymodel)
+                        Категорія
+                       @* @await this.InvokeComponentAsync(Component, "TableColumn", model => model.IngredientCategory.Name, querymodel)*@
                     </th>
 
                     
