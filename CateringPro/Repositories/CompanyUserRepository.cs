@@ -286,7 +286,7 @@ namespace CateringPro.Repositories
             var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;
             if (resultUser != null)
             {
-                usr.UserName = user.UserName + "_" + translit_text + "_1";
+                usr.UserName = user.UserName + "_" + translit_text + "_" + ticks;
             }
             usr.Email = ticks+"_"+user.Email;
             usr.ParentUserId = userId;
@@ -301,7 +301,7 @@ namespace CateringPro.Repositories
             {
                 await PostUpdateUserAsync(usr, true);
                 await CheckUserFinanceAsync(usr);
-                user.ChildrenCount = _context.Users.Where(u => u.ParentUserId == userId).Count();
+                user.ChildrenCount = _context.Users.Where(u => u.ParentUserId == userId).Count() + 1;
                 _context.Update(user);
                 await _context.SaveChangesAsync();
             }
