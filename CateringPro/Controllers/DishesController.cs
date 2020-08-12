@@ -165,6 +165,7 @@ namespace CateringPro.Controllers
             }
             if (dish.Code == null) dish.Code = "";
             if (dish.Description == null) dish.Description = "";
+            if (dish.CookingTechnologie == null) dish.CookingTechnologie = "";
             if (Request.Form.Files.Count > 0)
             {
                 Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);

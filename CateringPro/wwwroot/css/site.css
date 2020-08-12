@@ -1,4 +1,4 @@
-﻿
+﻿/*
 html, body {
     height: 100%;
     min-height: 100%;
@@ -36,7 +36,6 @@ main {
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-   /* background-image: url('../images/catering-background.jpg');*/
     background-repeat: repeat;
     font-family: Verdana, Geneva, Tahoma, sans-serif
 }
@@ -45,7 +44,7 @@ body {
     background-color: #1f1f1f;
     background-color: rgba(0,0,0,.32);
 }
-
+*/
     /* Wrapping element */
     /* Set some basic padding to keep content from hitting the edges */
     .body-content {
@@ -83,33 +82,7 @@ textarea {
 }
 
 @media (min-width: 768px) {
-    /*
-    .navbar {
-        border-radius: 0;
-        border-width: 0;
-        height: 100%;
-    }
-
-    .navbar-nav {
-        float: unset !important;
-    }
-}
-
-.navbar {
-    background-image: url("../images/darkwood.jpg")!important;
-    background-color: transparent !important;
-}
-
-.navbar-nav, .navbar {
-    z-index: 1030 !important;
-}
-
-    .navbar > .container-fluid {
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-    }
-    
-*/
+ 
 }
 .container {
     width: 100% !important;
@@ -170,9 +143,7 @@ textarea {
 }
 
 
-/*.thumbnail img {
-    width: 100%;
-}*/
+
 
 .thumbnail {
     padding: 0;

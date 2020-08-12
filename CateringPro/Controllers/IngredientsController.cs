@@ -64,7 +64,8 @@ namespace CateringPro.Controllers
 
             if (querymodel != null && !string.IsNullOrEmpty(querymodel.SearchCriteria))
                 query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) );
-            query = query.Take(pageRecords);
+           // query = query.Take(pageRecords);
+            query = query.Take(10);
             return PartialView(await query.ToListAsync());
 
         }

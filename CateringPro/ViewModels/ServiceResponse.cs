@@ -37,6 +37,8 @@ namespace CateringPro.ViewModels
             return new ServiceResponse(request) { OveralResult = "success" };
         }
         public bool IsSuccess() { return OveralResult == "success"; }
+
+
         public DateTime DayDate { get; set; }
         public string OveralResult { get; set; }
 
