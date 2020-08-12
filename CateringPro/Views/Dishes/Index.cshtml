@@ -76,6 +76,14 @@
 
         </div>
     </div>
+    <div class="modal fade" @*id="change-item-modal"*@ id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
+        </div>
+    </div>
+    @*<div id="modDialog" class="modal dishes-modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>*@
 }
 else
 {
@@ -239,8 +247,9 @@ else
                     setup_search_ingredients();
                 });
             }
-            $(document).on("click", "a.delete-ingredients-dishes-line", function (e) {
+            $(document).on("click", ".delete-ingredients-dishes-line", function (e) {
                 e.preventDefault();
+                //console.log("delte");
                 var content = $(this).parents(".ingredients-content-proportion");
                 $(this).parents(".ingredient-dishes-line").remove();
                 content.find(".ingredient-dishes-line").each(function (lidx, lel) {
@@ -288,9 +297,13 @@ else
                   readURL(this);
               });
               $(document).on('click', '[data-save="modal"]', function (event) {
-                    event.preventDefault();
-
-                    var form = $(this).parents('.modal-body').find('form');
+                  event.preventDefault();
+                  console.log("send");
+                  //old design
+                 // var form = $(this).parents('.modal-body').find('form');
+                  //new design
+                  var form = $(this).parents('.modal-content').find('form');
+                  console.log(form);
                     var actionUrl = form.attr('action');
                     //var dataToSend = form.serialize();
                     // var formData = new FormData(form[0]);
