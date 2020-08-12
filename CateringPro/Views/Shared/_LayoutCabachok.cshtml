@@ -3,6 +3,12 @@
 @inject SignInManager<CompanyUser> SignInManager
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @inject CateringPro.Repositories.ICompanyUserRepository cu_repo
+@{ 
+
+    string[] newDesignPathes = { "Dishes"};
+    bool isNewDesign = Context.Request.Path.ToString().Split("/").Any(s => newDesignPathes.Contains(s)) || Context.Request.Path=="/";
+    string test = "";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +17,17 @@
     <title>Кабачок</title>
     <environment names="Development,Staging,Production">
         <link rel="stylesheet" href="~/css/bootstrap.min.css"
-               crossorigin="anonymous" />
+              crossorigin="anonymous" />
         <link rel="stylesheet" href="~/css/style.css" />
         <link rel="stylesheet" href="~/css/custom-select.css" />
+        @if (!isNewDesign)
+        {
+            <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+            <link rel="stylesheet" href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
+
+            <link rel="stylesheet" href="~/css/jquery-ui.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        }
     </environment>
 </head>
 
