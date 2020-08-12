@@ -598,7 +598,9 @@ namespace CateringPro.Controllers
                     var i = 0;
                     foreach (var reb in it)
                     {
-                        IFormFile filePict = null;
+                       // IFormFile filePict = null;
+                        var filePict= Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
+                        /*
                         for (var idx = 0; idx < Request.Form.Files.Count; idx++)
                         {
                             var fileindex = -1;
@@ -612,7 +614,7 @@ namespace CateringPro.Controllers
                             filePict = Request.Form.Files[idx];
                             break;
                         }
-
+                        */
                         CompanyUser user_to_update;
                         if (reb.Id == um.Id)
                         {
