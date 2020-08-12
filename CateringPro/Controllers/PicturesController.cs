@@ -25,6 +25,19 @@ namespace CateringPro.Controllers
         {
             _context = context;
         }
+        public static bool CompressPicture(Pictures pict, int width,int height)
+        {
+            using (Image<Rgba32> image = Image.Load<Rgba32>(pict.PictureData))
+            {
+                image.Mutate(x => x.Resize(width, height));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    image.SaveAsJpeg(ms);
+                    pict.PictureData= ms.GetBuffer();
+                }
+            }
+            return true;
+        }
         private Image<Rgba32> GetNoPhoto()
         {
             if (image_nophoto != null)
