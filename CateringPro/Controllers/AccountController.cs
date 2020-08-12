@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,7 @@ namespace CateringPro.Controllers
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
         private readonly SharedViewLocalizer _localizer;
-        public AccountController(AppDbContext context ,UserManager<CompanyUser> userManager,
+        public AccountController(AppDbContext context, UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
                                  IEmailService email,
@@ -180,6 +179,12 @@ namespace CateringPro.Controllers
 
                     return Redirect(model.ReturnUrl);
                 }
+                //if(user.AccessFailedCount >= 3)
+                //{
+                //    ModelState.AddModelError("", "Contact to admin to unlock your account");
+                //}
+                //user.AccessFailedCount += 1;
+                //await _companyuser_repo.PostUpdateUserAsync(user, true);
                 ModelState.AddModelError("", _localizer.GetLocalizedString("IncorrectPassword"));
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
             }
@@ -259,8 +264,8 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RestoreInputPassword(string inputEmail)
         {
-            var model = new RegisterViewModel(){};
-            if(inputEmail != null)
+            var model = new RegisterViewModel() { };
+            if (inputEmail != null)
             {
                 CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
                 if (user != null)
@@ -324,7 +329,7 @@ namespace CateringPro.Controllers
             if (inputPassword == null || inputPasswordConfirm == null)
             {
                 ModelState.AddModelError("inputPassword", _localizer.GetLocalizedString("CanNotBeEmpty"));
-                return View("SetNewPassword",model);
+                return View("SetNewPassword", model);
             }
             if ((inputPassword != null && inputPasswordConfirm != null) && !inputPassword.Equals(inputPasswordConfirm))
             {
@@ -421,6 +426,21 @@ namespace CateringPro.Controllers
                     usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
+                    //current  roles
+                    var userRoles = await _userManager.GetRolesAsync(usr);
+                    //added roles 
+                    var addedRoles = newRoles.Except(userRoles);
+                    //removed roles
+                    var removedRoles = userRoles.Except(newRoles);
+
+                    userResult = await _userManager.AddToRolesAsync(usr, addedRoles);
+
+                    if (!userResult.Succeeded)
+                        return PartialView(usermodel);
+                    userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
+
+                    usr.ChildrenCount = 1;
+
                     if (usr.ConfirmedByAdmin)
                     {
                         var code = await _userManager.GeneratePasswordResetTokenAsync(usr);
@@ -459,6 +479,7 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
+                    usermodel.ChildrenCount = user.ChildrenCount;
                     usermodel.EmailConfirmed = user.EmailConfirmed;
                     usermodel.CopyTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
@@ -545,7 +566,7 @@ namespace CateringPro.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname,ConfirmedByAdmin,ChildNameSurname")] UpdateUserModel um)
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname,ConfirmedByAdmin,ChildNameSurname")] UpdateUserModel um, IEnumerable<CompanyUser> it)
         {
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)
@@ -569,30 +590,63 @@ namespace CateringPro.Controllers
                         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
                     }
                 }
-                if (Request.Form.Files.Count > 0)
-                {
-                    Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == um.PictureId);
-                    if (pict == null || true) //to do always new
-                    {
-                        pict = new Pictures();
-                    }
-                    var file = Request.Form.Files[0];
-                    using (var stream = Request.Form.Files[0].OpenReadStream())
-                    {
-                        byte[] imgdata = new byte[stream.Length];
-                        stream.Read(imgdata, 0, (int)stream.Length);
-                        pict.PictureData = imgdata;
-                    }
-                    _context.Add(pict);
-                    await _context.SaveChangesAsync();
-                    um.PictureId = pict.Id;
-                }
+                
                 if (ModelState.IsValid)
                 {
-                    um.UserName = user.UserName;
-                    um.ConfirmedByAdmin = user.ConfirmedByAdmin;
-                    um.EmailConfirmed = user.EmailConfirmed;
-                    um.CopyTo(user);
+                    var i = 0;
+                    foreach (var reb in it)
+                    {
+                        if(i < Request.Form.Files.Count)
+                        {
+                            if (Request.Form.Files.Count > 0)
+                            {
+                                Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == um.PictureId);
+                                if (pict == null || true) //to do always new
+                                {
+                                    pict = new Pictures();
+                                }
+                                var file = Request.Form.Files[i];
+                                using (var stream = Request.Form.Files[i].OpenReadStream())
+                                {
+                                    byte[] imgdata = new byte[stream.Length];
+                                    stream.Read(imgdata, 0, (int)stream.Length);
+                                    pict.PictureData = imgdata;
+                                }
+                                _context.Add(pict);
+                                await _context.SaveChangesAsync();
+                                reb.PictureId = pict.Id;
+                            }
+                        }
+                        
+                        if (reb.Id == um.Id)
+                        {
+                            um.ChildNameSurname = it.LastOrDefault().ChildNameSurname;
+                            um.ChildBirthdayDate = it.LastOrDefault().ChildBirthdayDate;
+                            um.ChildrenCount = user.ChildrenCount;
+                            um.UserName = user.UserName;
+                            if(um.PictureId == null)
+                            {
+                                um.PictureId = reb.PictureId;
+                            }
+                            um.ConfirmedByAdmin = user.ConfirmedByAdmin;
+                            um.EmailConfirmed = user.EmailConfirmed;
+                            um.CopyTo(user);
+                            continue;
+                        }
+                        CompanyUser user1 = await _userManager.FindByIdAsync(reb.Id);
+                        user1.ChildNameSurname = reb.ChildNameSurname;
+                        user1.ChildBirthdayDate = reb.ChildBirthdayDate;
+                        if(user1.PictureId == null)
+                        {
+                            user1.PictureId = reb.PictureId;
+                        }
+                        IdentityResult rebResult = await _userManager.UpdateAsync(user1);
+                        if (!rebResult.Succeeded)
+                        {
+                            return View();
+                        }
+                        i++;
+                    }
                     if (um.IsPasswordChanged)
                     {
                         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
@@ -668,9 +722,13 @@ namespace CateringPro.Controllers
         }
         [Authorize]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> UserChilds(string view, bool onlyChild = true)
+        public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
         {
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            if (childs.Count == 1)
+            {
+                onlyChild = true;
+            }
             if (string.IsNullOrEmpty(view))
                 return PartialView(childs);
             return PartialView(view, childs);
@@ -725,5 +783,6 @@ namespace CateringPro.Controllers
 
             return PartialView("UserChildsData", childs);
         }
+
     }
 }

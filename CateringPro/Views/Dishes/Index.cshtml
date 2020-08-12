@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CateringPro.Models.Dish>
 
-
+@using  CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
@@ -39,7 +39,7 @@
             </div>
             <div class="col-lg-4 col-12 p-0 ">
                 <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
-                    <form class="form-inline col-12 p-0" style=" display: flex;">
+                    <form id="search-form" class="form-inline col-12 p-0" style=" display: flex;">
                         <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
                                style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
                     </form>
@@ -47,12 +47,12 @@
             </div>
             <div class="col-lg-4 col-12 p-0 d-none d-md-block">
                 <div class="col-12 p-0 justify-content-center" style="height: 48px">
-                    <button id="create-btn" type="button"
+                    <button type="button"
                             class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
                             onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
                             onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
                             style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                        &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
+                        &#65291; СТВОРИТИ
                     </button>
                 </div>
             </div>
@@ -61,10 +61,14 @@
              style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
             <div class="col-1">
             </div>
-            <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
-            <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
-            <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
-            <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>
+            @Html.DisplayListHeaderForEx(model => model.Category.Name)
+            @Html.DisplayListHeaderForEx(model => model.Name)
+            @Html.DisplayListHeaderForEx(model => model.Description,new { colnumbers = 4})
+            @Html.DisplayListHeaderForEx(model => model.Price)
+            @* <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
+        <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
+        <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
+        <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>*@
             <div class="col-2"></div>
 
         </div>
@@ -153,11 +157,14 @@ else
             $('#search-btn').click(function (e) {
                 reload();
             });
-            $('#custom-search-input').keydown((event) => {
+            $('#search-val').keydown((event) => {
                 if (event.which == 13) {
                     event.preventDefault();
                     reload();
                 }
+            });
+            $("#search-form").submit(function (e) {
+                return false;
             });
             $('#create-btn').click(function (e) {
                 e.preventDefault();
@@ -171,7 +178,10 @@ else
                 e.preventDefault();
                 reload(this.href);
             });
-
+            $(document).on("click", "a.apagebottom", function (e) {
+                e.preventDefault();
+                reload(this.href);
+            });
             $(document).on("change", "select.col-select-filter", function (e) {
                 e.preventDefault();
                 var href = $(this).next().attr('href');
@@ -199,6 +209,7 @@ else
                 });
 
             }
+            
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 

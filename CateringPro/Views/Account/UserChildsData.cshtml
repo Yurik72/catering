@@ -7,33 +7,37 @@
 @{
 
     string userId = (await SignInManager.UserManager.GetUserAsync(User)).Id;
-    int i = 2;
+    int i = 0;
 }
 @foreach (var it in Model)
 {
+    //if (it.ChildrenCount == 1)
+    //{
+    //    continue;
+    //}
 <div class="container border rounded">
     <div class="row">
         <div class="col-12  bg-info text-white">
-            @i  @Localizer["Child"]
+            @(i+1)  @Localizer["Child"]
         </div>
     </div>
     <div class="row">
         <div class="col-12">
             <dl>
-                <dd><input type="hidden" asp-for="@it.Id" /></dd>
+                <dd><input type="hidden" asp-for="@it.Id" name="it[@i].Id" /></dd>
                 <dt>  <label class="control-label">@Localizer["ChildNameSurname"]</label></dt>
                 <dd>
-                    <input asp-for="@it.ChildNameSurname" class="form-control" autocomplete="off" />
+                    <input asp-for="@it.ChildNameSurname" name="it[@i].ChildNameSurname" class="form-control" autocomplete="off" />
                     <span asp-validation-for="@it.ChildNameSurname" class="text-danger"></span>
                 </dd>
                 <dt>  <label  class="control-label">@Localizer["ChildBirthdayDate"]</label></dt>
                 <dd>
-                    <input asp-for="@it.ChildBirthdayDate" class="form-control" autocomplete="off" />
+                    <input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate" class="form-control" autocomplete="off" />
                     <span asp-validation-for="@it.ChildBirthdayDate" class="text-danger"></span>
                 </dd>
                 <dd>
-                    <input type="hidden" asp-for="@it.PictureId" />
-                    <input type="file" class="form-control" id="filepicture" name="filepicture" />
+                    <input type="hidden" name="it[@i].PictureId" asp-for="@it.PictureId" />
+                    <input type="file" class="form-control" id="filepicture" name="it[@i].Picture" />
                     <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture","Pictures",new { id=@it.PictureId,width=450,height=300})" />
                 </dd>
             </dl>
