@@ -274,8 +274,9 @@
                 }
             }
             function getnewQueue() {
-
-                requestfordeliveryQueue(fillQueue);
+                if (getQueueCount() <= max_queue) {
+                    requestfordeliveryQueue(fillQueue);
+                }
                 if (isStarted) {
                     setTimeout(getnewQueue, 1000);
                 }
@@ -301,7 +302,12 @@
 
             });
             function getQueueCount() {
-                return $('#delivery-queue-content').find("user-queue").length;
+                return $('#delivery-queue-content').find(".user-queue").length;
+            }
+            function getLastQueueid() {
+                var arofqueue = $('#delivery-queue-content').find(".user-queue");
+                var max_queue = arofqueue.reduce((max, p) => parseInt(p.attr('data-maxid')) > max ? parseInt(p.attr('data-maxid')) : max, parseInt(arofqueue[0].attr('data-maxid')));
+                    
             }
             function fillWelcome(data) {
                 $('#delivery-welcome-content').empty();
@@ -347,17 +353,35 @@
 
                 }
                 data.queues.forEach(el => {
-                    var inner_div = el.dishes.map(function (element, index) {
-                        return `<span class="queue-dish" data-queueid="${el.queueId}" data-id=${element.id}>${element.name}</span> `;
+                    var inner_div = '';
+                    el.dishes.map(function (element, index) {
+                        inner_div += `<div class="row queue-dish" class="queue-dish" data-queueid="${el.queueId}" data-id=${element.id}>
+                                        <div class="col-12 h2">
+                                           ${element.name}
+                                        </div>           
+                                      </div> `;
                     });
-                    var div = $(`<div class="row user-queue" data-number="${queunum}">
-                                            <div class="col-4 queue-user">
-                                                <span class="queue-username" >${el.userName}</span>
+                    var maxid = el.dishes.reduce((max, p) => p.queueId > max ? p.queueId : max, el.dishes[0].queueId);
+                    lastQueueid = maxid;
+
+                    var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
+                    var div = $(`<div class="row user-queue" data-number="${queunum} data-maxid=${maxid} ">
+                                        <div class="col-4 queue-user">
+                                            <div class="row">
+                                                <div class="col-12 h2">
+                                                    ${el.userName}
+                                                </div>
                                             </div>
-                                            <div class="col-4 queue-dishes">
-                                                ${inner_div}
-                                             </div>
-                                        </div>`);
+                                            <div class="row">
+                                                <div class="col-12 ">
+                                                    <img src="${pictureURL}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 queue-dishes">
+                                            ${inner_div}
+                                            </div>
+                                    </div>`);
                     $('#delivery-queue-content').append(div);
                     $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
                     $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
@@ -420,7 +444,7 @@
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
 
-                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue=max_queue, LastQueueId=lastQueueid };
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue:max_queue, LastQueueId:lastQueueid };
                 $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
