@@ -10,11 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Drawing;
+using Image = System.Drawing.Image;
+using Org.BouncyCastle.Crypto.Tls;
 
 namespace CateringPro.Controllers
 {
@@ -565,6 +569,7 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
         }
 
+        
 
         [Authorize]
         [HttpPost]
@@ -664,12 +669,24 @@ namespace CateringPro.Controllers
                                 {
                                     pict = new Pictures();
                                 }
+                                //var fileName = Request.Form.Files[i].FileName;
                                 var file = Request.Form.Files[i];
-                                using (var stream = Request.Form.Files[i].OpenReadStream())
+                                //Image image = Image.FromStream(file.OpenReadStream());
+                                var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
+                                if (Request.Form.Files[i].Length > 5242880)
                                 {
-                                    byte[] imgdata = new byte[stream.Length];
-                                    stream.Read(imgdata, 0, (int)stream.Length);
+                                    var resizedFile = PicturesController.MutateImageToStream(image, 450, 300);
+                                    byte[] imgdata = resizedFile;
                                     pict.PictureData = imgdata;
+                                    
+                                }
+                                if (Request.Form.Files[i].Length <= 5242880) {
+                                    using (var stream = file.OpenReadStream())
+                                    {
+                                        byte[] imgdata = new byte[stream.Length];
+                                        stream.Read(imgdata, 0, (int)stream.Length);
+                                        pict.PictureData = imgdata;
+                                    }
                                 }
                                 _context.Add(pict);
                                 await _context.SaveChangesAsync();

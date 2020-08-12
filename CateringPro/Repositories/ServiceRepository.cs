@@ -1,15 +1,12 @@
 ﻿using CateringPro.Data;
-using CateringPro.Migrations;
 using CateringPro.Models;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using MimeKit.Encodings;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Threading.Tasks;
 
