@@ -33,7 +33,7 @@ namespace CateringPro.Controllers
             image_nophoto = Image.Load<Rgba32>(nophotofile);
             return image_nophoto;
         }
-        public static byte[] MutateImageToStream(Image<Rgba32> image , int? width, int? height)
+        public static byte[] MutateImageToStream(Image image , int? width, int? height)
         {
             if(image!=null && width.HasValue && width.Value > 0  && height.HasValue && height.Value > 0)
             {
