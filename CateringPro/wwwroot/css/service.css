@@ -51,7 +51,7 @@ main.tabs {
 .service-status.online {
     background-color: green;
 }
-.order-dish-select {
+.order-dish-select1 {
     display: block;
     width: 100%;
     background-color: gray;
@@ -59,7 +59,7 @@ main.tabs {
     font-weight:bolder;
     cursor:pointer;
 }
-.order-dish-select.active {
+.order-dish-select.active1 {
   background-color:chartreuse;
 }
 .delivery-command {

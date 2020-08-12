@@ -6,6 +6,8 @@ function nfc_socket(url, callbackdata,callbackstatechange) {
     this.options.callbackdata = callbackdata;
     this.options.callbackstatechange = callbackstatechange;
     this.cb = {};
+    this.isNFCReady = false;
+    this.isNFCMonitoring = false;
     this.events = new function () {
         var _triggers = {};
 
@@ -23,6 +25,12 @@ function nfc_socket(url, callbackdata,callbackstatechange) {
         }
     };
 }
+nfc_socket.prototype.NFCReady = function () {
+    return this.isNFCReady;
+}
+nfc_socket.prototype.NFCMonitoring = function () {
+    return this.isNFCMonitoring;
+}
 nfc_socket.prototype.on = function (event, callback) {
     this.events.on(event, callback);
 }
@@ -33,6 +41,8 @@ nfc_socket.prototype.connect=function (){
         var msg;
         try {
             msg = JSON.parse(data);
+            self.isNFCReady = msg.Isreaderconnected;
+            self.isNFCMonitoring = msg.Ismonitoring;
             self.events.triggerHandler(msg.Responsetype, msg);
             if (msg.CallId && self.cb[msg.CallId]) {
                 self.cb[msg.CallId](msg);
@@ -48,13 +58,16 @@ nfc_socket.prototype.connect=function (){
             self.options.callbackstatechange(cmd, event);
     }
     this.socket.onopen = function (event) {
-        stateupdate('open',event);
+        stateupdate('open', event);
+        self.getstatus(function () {
+        });
     };
     this.socket.onclose = function (event) {
         stateupdate('close',event);
     };
     this.socket.onerror = function (event) {
         stateupdate('error', event);
+        self.events.triggerHandler('error', "NFC Connection Error");
     };
     this.socket.onmessage = function (event) {
         if (self.options.callbackdata)

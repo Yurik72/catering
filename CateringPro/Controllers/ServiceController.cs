@@ -58,6 +58,15 @@ namespace CateringPro.Controllers
             var success = _companyuserreporepo.SaveUserCardTokenAsync(userId, token);
             return await Task.FromResult(Json(new { isSuccess = success, CardTag = token, cmd = "save" }));
         }
+        public async Task<IActionResult> UserCardDetails(string token)
+        {
+
+            var card = await _servicerepo.GetUserCardAsync( token);
+        //    if (card == null)
+        //        return NotFound();
+
+            return PartialView( card);
+        }
         [HttpPost]
         public async Task<JsonResult> Status(ServiceRequest request)
         {
