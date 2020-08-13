@@ -223,7 +223,7 @@ else
                 $(dlg).find("input,textarea").change(function () {
                     $(dlg).attr("_changed", true);
                 });
-                $(dlg).on('hide.bs.modal', function (e) {
+                function hidehandler(e) {
                     if ($(dlg).attr("_changed") == "true") {
                         //if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
                         e.preventDefault();
@@ -231,6 +231,8 @@ else
                             function () { //yes
                                 $(dlg).attr("_changed", false);
                                 $('#modDialog').modal('hide');
+                                $('#modDialog').find('#dialogContent').empty();
+                                $(dlg).off('hide.bs.modal', hidehandler);
                             },
                             function () { //no
                             });
@@ -239,7 +241,9 @@ else
                             e.preventDefault();
                         $(dlg).attr("_changed", false);
                     }
-                });
+                }
+                
+                $(dlg).on('hide.bs.modal', hidehandler);
 
             }
             
@@ -331,8 +335,17 @@ else
                 var url = '@Url.Content("~/Dishes/EditIngredients/")' + id;
 
             }
+            function isFileImage(file) {
+                const acceptedImageTypes = ['image/jpeg', 'image/png'];
+
+                return file && acceptedImageTypes.includes(file['type'])
+            }
              function readURL(input) {
-                  if (input.files && input.files[0]) {
+                 if (input.files && input.files[0]) {
+                     if (!isFileImage(input.files[0])) {
+                         $("#filepicture").val('');
+                         return;
+                     }
                     var reader = new FileReader();
 
                     reader.onload = function(e) {

@@ -169,23 +169,27 @@ function setup_listitems(options) {
         $(dlg).find("input,textarea").change(function () {
             $(dlg).attr("_changed", true);
         });
-        $(dlg).on('hide.bs.modal', function (e) {
-           if ($(dlg).attr("_changed")=="true") {
+        function hidehandler(e) {
+            if ($(dlg).attr("_changed") == "true") {
                 //if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
-               e.preventDefault();
-               dialog_yes_no($.text_resource.confirm_close,
-                   function () { //yes
-                       $(dlg).attr("_changed", false);
-                       $('#modDialog').modal('hide');
-                   },
-                   function () { //no
-                   });
-               return;
-               if (!confirm(get_text_res().confirm_close))
-                   e.preventDefault();
-               $(dlg).attr("_changed", false);
-           }
-        }); 
+                e.preventDefault();
+                dialog_yes_no($.text_resource.confirm_close,
+                    function () { //yes
+                        $(dlg).attr("_changed", false);
+                        $('#modDialog').modal('hide');
+                        $('#modDialog').find('#dialogContent').empty();
+                        $(dlg).off('hide.bs.modal', hidehandler);
+                    },
+                    function () { //no
+                    });
+                return;
+                if (!confirm(get_text_res().confirm_close))
+                    e.preventDefault();
+                $(dlg).attr("_changed", false);
+            }
+        }
+
+        $(dlg).on('hide.bs.modal', hidehandler);
 
     }
      $(document).on("click", "a.cmd-edit", function (e) {

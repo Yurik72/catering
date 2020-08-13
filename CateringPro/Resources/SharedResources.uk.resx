@@ -837,4 +837,7 @@
   <data name="SameIngredient" xml:space="preserve">
     <value>Інгредієнт вже додано</value>
   </data>
+  <data name="Incorrect data" xml:space="preserve">
+    <value>Некоректні дані</value>
+  </data>
 </root>
