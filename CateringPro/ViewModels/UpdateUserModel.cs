@@ -115,6 +115,27 @@ namespace CateringPro.ViewModels
 
             return this;
         }
+        public CompanyUser CopyEditedModalDataTo(CompanyUser usr, bool isNew = false)
+        {
+            if (usr != null)
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                    usr.Id = this.Id;
+                usr.Email = this.Email;
+                usr.City = this.City;
+                usr.PhoneNumber = this.PhoneNumber;
+                usr.NameSurname = this.NameSurname;
+                if (!string.IsNullOrEmpty(this.UserName))
+                    usr.UserName = this.UserName;
+                usr.UserGroupId = this.UserGrpoupId;
+                usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
+                if (isNew)
+                    usr.Email = this.Email;
+            }
+
+            return usr;
+        }
+
         public CompanyUser CopyTo(CompanyUser usr, bool isNew = false)
         {
             if (usr != null)

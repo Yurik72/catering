@@ -485,7 +485,7 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
-                    usermodel.CopyEditedParamsTo(user);
+                    usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
 
                     if (!userResult.Succeeded)
