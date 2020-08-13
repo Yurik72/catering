@@ -2,7 +2,7 @@
 
 @if (false)
 {
-    <div class="row ingredient-dishes-line">
+    <div class="row ingredient-dishes-line" data-id="@Model.IngredientId">
         <div class="col col-lg-2 col-md-2">
             <input type="hidden" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
         </div>
@@ -20,8 +20,8 @@
 }
 else
 {
-<div class="row align-items-center parent-delete ingredient-dishes-line" style="margin-bottom: 9px">
-    <input type="hidden" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
+<div class="row align-items-center parent-delete ingredient-dishes-line" data-id="@Model.IngredientId" style="margin-bottom: 9px">
+    <input type="hidden" id="proportion[@Model.LineIndex].IngredientId" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
     <label class="col-4" asp-for="@Model.LineIndex"
            style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">@Model.Name</label>
     <div class="col-5">

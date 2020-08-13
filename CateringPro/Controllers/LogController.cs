@@ -26,7 +26,7 @@ namespace CateringPro.Controllers
             {
                 // string text = System.IO.File.ReadAllText(@"..\wwwroot\Logs\logs-"+date+".txt");
                 string path = Path.Combine(AppContext.BaseDirectory, "Logs");
-                string[] lines = System.IO.File.ReadAllLines(@"path\logs-" + date + ".txt");
+                string[] lines = System.IO.File.ReadAllLines(path+"\\logs-" + date + ".txt");
 
                 // Display the file contents by using a foreach loop.
                 foreach (string line in lines)

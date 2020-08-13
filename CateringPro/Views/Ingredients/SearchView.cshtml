@@ -32,7 +32,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-id=@item.Id data-name=@item.Name>
+                    <tr data-id=@item.Id data-name="@item.Name" style="cursor:pointer">
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
