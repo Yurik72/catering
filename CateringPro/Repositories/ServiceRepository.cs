@@ -54,7 +54,8 @@ namespace CateringPro.Repositories
                     return await ProcessConfirmRequestAsync(request);
                 case "askforqueue":
                     return await ProcessQueueRequestAsync(request);
-                    
+                case "askforqueueconfirm":
+                    return await ProcessQueueConfirmRequestAsync(request);
                 default:
                     break;
             }
@@ -172,6 +173,11 @@ namespace CateringPro.Repositories
             {
                 return ServiceQueueResponse.GetFailResult();
             }
+        }
+        public async Task<ServiceResponse> ProcessQueueConfirmRequestAsync(ServiceRequest request)
+        {
+            var res=ServiceResponse.GetSuccessResult(request);
+            return res;
         }
         public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
         {

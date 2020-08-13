@@ -105,11 +105,16 @@ main.tabs {
     width: 200px;
     height: 200px;
 }
-.w100x100 {
+.img.queue-img ,.w100x100 {
     width: 100px;
     height: 100px;
 }
 .w150x150 {
+    width: 150px;
+    height: 150px;
+}
+
+.queue-first  img.queue-img {
     width: 150px;
     height: 150px;
 }

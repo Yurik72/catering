@@ -370,7 +370,8 @@
                     lastQueueid = maxid;
 
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
-                    var div = $(`<div class="row user-queue shadow p-1 mb-5" data-number="${queunum} data-maxid=${maxid} ">
+                    var timestamp = Date.now();
+                    var div = $(`<div class="row user-queue shadow p-1 mb-5" data-timestampt="${timestamp}" data-number="${queunum} data-maxid=${maxid} ">
                                         <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
                                         <div class="col-4 queue-user">
                                             <div class="row">
@@ -378,7 +379,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 ">
-                                                    <img src="${pictureURL}" class="w150x150"/>
+                                                    <img src="${pictureURL}" class="queue-img"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -386,15 +387,35 @@
                                             ${inner_div}
                                          </div>
                                          <div class="col-3">
-                                             <button class="btn btn-primary btn-confirm-queue" data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
+                                             <button class="btn btn-primary btn-confirm-queue" data-timestampt="${timestamp}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
                                          </div>
                                     </div>`);
                     $('#delivery-queue-content').append(div);
                     $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
                     $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
+                    queueHandler(div);
                 });
             }
-            function queueHandler(divq) {
+            function queueHandler(div) {
+                $(div).find('.btn-confirm-queue').click(function (e) {
+                    e.preventDefault();
+                    var request = { DayDate: curr_date.toDateString(), CardToken: $('#userid').val(), UserId: $('#userid').val(), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) }
+                    fetch('/Service/RequestForDelivery', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(request)
+                    })
+                    .then(response => response.json())
+                    .then(data => { })
+                    .catch(error => {
+                        console.error('error:', error)
+                    });
+                });
+            }
+            function queueconfirmed() {
 
             }
             function filldeliverydishes(data) {
