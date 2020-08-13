@@ -8,6 +8,10 @@ namespace CateringPro.ViewModels
 {
     public class ServiceRequest
     {
+        public ServiceRequest()
+        {
+            MaxQueue = 5;
+        }
         public DateTime DayDate { get; set; }
         public string UserId { get; set; }
 

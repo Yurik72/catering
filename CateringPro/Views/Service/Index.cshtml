@@ -102,9 +102,9 @@
                 </div>
             </div>
         </div>
-        <div id="delivery-welcome-row" class="row" style="display: none;">
+        <div id="delivery-welcome-row" class="row fo" style="display: none;">
             <div class="col-12">
-                <div id="delivery-welcome-content" class="container  delivery-welcome-content">
+                <div id="delivery-welcome-content" class="container d-flex h-100 delivery-welcome-content">
 
                 </div>
             </div>
@@ -275,11 +275,14 @@
             }
             function getnewQueue() {
                 if (getQueueCount() <= max_queue) {
-                    requestfordeliveryQueue(fillQueue);
+                    requestfordeliveryQueue(function (data) {
+                        fillQueue(data);
+                        if (isStarted) {
+                            setTimeout(getnewQueue, 1000);  //start only when last finished completelly
+                        }
+                    });
                 }
-                if (isStarted) {
-                    setTimeout(getnewQueue, 1000);
-                }
+
             }
             $('#btnstart').click(function (e) {
                 e.preventDefault();
@@ -354,38 +357,45 @@
                 }
                 data.queues.forEach(el => {
                     var inner_div = '';
+                    var queue_list = [];
                     el.dishes.map(function (element, index) {
-                        inner_div += `<div class="row queue-dish" class="queue-dish" data-queueid="${el.queueId}" data-id=${element.id}>
+                        inner_div += `<div class="row queue-dish " class="queue-dish" data-queueid="${element.queueId}" data-id=${element.id}>
                                         <div class="col-12 h2">
                                            ${element.name}
                                         </div>           
                                       </div> `;
+                        queue_list.push(element.queueId);
                     });
                     var maxid = el.dishes.reduce((max, p) => p.queueId > max ? p.queueId : max, el.dishes[0].queueId);
                     lastQueueid = maxid;
 
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
-                    var div = $(`<div class="row user-queue" data-number="${queunum} data-maxid=${maxid} ">
+                    var div = $(`<div class="row user-queue shadow p-1 mb-5" data-number="${queunum} data-maxid=${maxid} ">
+                                        <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
                                         <div class="col-4 queue-user">
                                             <div class="row">
-                                                <div class="col-12 h2">
-                                                    ${el.userName}
-                                                </div>
+                                                <div class="col-12 h2">${el.userName}</div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 ">
-                                                    <img src="${pictureURL}"/>
+                                                    <img src="${pictureURL}" class="w150x150"/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4 queue-dishes">
+                                        <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
                                             ${inner_div}
-                                            </div>
+                                         </div>
+                                         <div class="col-3">
+                                             <button class="btn btn-primary btn-confirm-queue" data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
+                                         </div>
                                     </div>`);
                     $('#delivery-queue-content').append(div);
                     $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
                     $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
                 });
+            }
+            function queueHandler(divq) {
+
             }
             function filldeliverydishes(data) {
                 if (IsWelcomeMode()) {
