@@ -107,7 +107,7 @@ namespace CateringPro.Controllers
                         $"" +
                         $"" +
                         $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
 
                     return RedirectToAction("EmailSent");
                 }
@@ -250,7 +250,7 @@ namespace CateringPro.Controllers
                     $"" +
                     $"" +
                     $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                    $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                    $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
             }
             else
                 ModelState.AddModelError("", _localizer.GetLocalizedString("UserNotFound"));
@@ -292,7 +292,7 @@ namespace CateringPro.Controllers
                         $"" +
                         $"" +
                         $"<br><br><br>Якщо це були не Ви - ні в якому разі не переходіть за посиланням.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     return RedirectToAction("InstructionPasswordEmailSent", "Account");
                 }
                 if (user == null)
@@ -465,7 +465,7 @@ namespace CateringPro.Controllers
                             $"Login: {usr.UserName} <br>" +
                             $"Необхідно перейти за посиланням для встановлення паролю: <a href='{callbackUrl}'> посилання</a><br>" +
                             $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     }
 
                     if (!userResult.Succeeded)

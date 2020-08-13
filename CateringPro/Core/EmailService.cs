@@ -57,6 +57,12 @@ namespace CateringPro.Core
         public void Send(EmailMessage emailMessage) 
         {
         }
+
+        //public string GetSmtpAdress()
+        //{
+        //    return _emailConfiguration.SmtpServer;
+        //}
+
         public async Task SendInvoice(string userid, DateTime daydate,int comapnyid)
         {
             try
