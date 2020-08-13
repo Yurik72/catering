@@ -4,6 +4,7 @@ using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,14 +22,20 @@ namespace CateringPro.Controllers
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
         private readonly IDishesRepository _dishesRepo;
+        private readonly SharedViewLocalizer _localizer;
         private int pageRecords = 20;
 
-        public DishesController(AppDbContext context, IDishesRepository dishesRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public DishesController(AppDbContext context, 
+            IDishesRepository dishesRepo, 
+            ILogger<CompanyUser> logger, 
+            IConfiguration Configuration,
+            SharedViewLocalizer localizer)
         {
             _context = context;
             _logger = logger;
             _configuration = Configuration;
             _dishesRepo = dishesRepo;
+            _localizer = localizer;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
@@ -166,8 +173,8 @@ namespace CateringPro.Controllers
             if (dish.Code == null) dish.Code = "";
             if (dish.Description == null) dish.Description = "";
             if (dish.CookingTechnologie == null) dish.CookingTechnologie = "";
-            var dish_orig = await _context.Dishes.FindAsync(id);
-            _context.Entry(dish_orig).Collection(d => d.DishIngredients).Query().Include(d => d.Ingredient).Load();
+            var dish_orig = await _context.Dishes.Include(d => d.DishIngredients).ThenInclude(d => d.Ingredient).AsNoTracking().Where(d=>d.Id==id).FirstOrDefaultAsync();
+            //_context.Entry(dish_orig).Collection(d => d.DishIngredients).Query().Include(d => d.Ingredient).Load();
             if (Request.Form.Files.Count > 0)
             {
                 Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);
@@ -193,6 +200,32 @@ namespace CateringPro.Controllers
                 e => { return _dishesRepo.UpdateDishEntity(e, proportion, User.GetCompanyID()); });
             if (!ModelState.IsValid)
             {
+                if (ModelState["Name"].Errors.Count > 0)
+                {
+                    ModelState["Name"].Errors.Clear();
+                    ModelState["Name"].Errors.Add(_localizer["Incorrect data"]);
+                }
+                if (ModelState["Code"].Errors.Count > 0)
+                {
+                    ModelState["Code"].Errors.Clear();
+                    ModelState["Code"].Errors.Add(_localizer["Incorrect data"]);
+                }
+                if (ModelState["Price"].Errors.Count > 0)
+                {
+                    ModelState["Price"].Errors.Clear();
+                    ModelState["Price"].Errors.Add(_localizer["Incorrect data"]);
+                }
+                if (ModelState["ReadyWeight"].Errors.Count > 0)
+                {
+                    ModelState["ReadyWeight"].Errors.Clear();
+                    ModelState["ReadyWeight"].Errors.Add(_localizer["Incorrect data"]);
+                }
+                if (ModelState["Description"].Errors.Count > 0)
+                {
+                    ModelState["Description"].Errors.Clear();
+                    ModelState["Description"].Errors.Add(_localizer["Incorrect data"]);
+                }
+
 
                 dish.DishIngredients = dish_orig.DishIngredients;
                 return PartialView(dish);
@@ -200,6 +233,7 @@ namespace CateringPro.Controllers
 
             return res;
         }
+        
 
         public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName)
         {

@@ -846,4 +846,7 @@
   <data name="OutCome" xml:space="preserve">
     <value>Витрати</value>
   </data>
+  <data name="Incorrect data" xml:space="preserve">
+    <value>Некоректні дані</value>
+  </data>
 </root>
