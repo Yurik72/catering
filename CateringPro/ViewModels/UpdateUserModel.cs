@@ -115,12 +115,12 @@ namespace CateringPro.ViewModels
 
             return this;
         }
-        public CompanyUser CopyTo(CompanyUser usr,bool isNew=false)
+        public CompanyUser CopyTo(CompanyUser usr, bool isNew = false)
         {
             if (usr != null)
             {
                 if (!string.IsNullOrEmpty(this.Id))
-                    usr.Id=this.Id ;
+                    usr.Id = this.Id;
                 //usr.Email=this.Email;
                 usr.ZipCode = this.ZipCode;
                 usr.Address1 = this.Address1;
@@ -128,14 +128,39 @@ namespace CateringPro.ViewModels
                 usr.City = this.City;
                 usr.PhoneNumber = this.PhoneNumber;
                 usr.NameSurname = this.NameSurname;
-                if(!string.IsNullOrEmpty(this.UserName) )
-                     usr.UserName = this.UserName;
+                if (!string.IsNullOrEmpty(this.UserName))
+                    usr.UserName = this.UserName;
                 usr.UserGroupId = this.UserGrpoupId;
                 usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
                 usr.ChildrenCount = this.ChildrenCount;
                 usr.ChildNameSurname = this.ChildNameSurname;
                 usr.ChildBirthdayDate = this.ChildBirthdayDate;
-               // usr.EmailConfirmed = this.EmailConfirmed;
+                // usr.EmailConfirmed = this.EmailConfirmed;
+                usr.PictureId = this.PictureId;
+                if (isNew)
+                    usr.Email = this.Email;
+            }
+
+            return usr;
+        }
+
+        public CompanyUser CopyEditedParamsTo(CompanyUser usr, bool isNew = false)
+        {
+            if (usr != null)
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                    usr.Id = this.Id;
+                usr.ZipCode = this.ZipCode;
+                usr.Email=this.Email;
+                usr.Address1 = this.Address1;
+                usr.Address2 = this.Address2;
+                usr.City = this.City;
+                usr.PhoneNumber = this.PhoneNumber;
+                usr.NameSurname = this.NameSurname;
+                if (!string.IsNullOrEmpty(this.UserName))
+                    usr.UserName = this.UserName;
+                usr.ChildNameSurname = this.ChildNameSurname;
+                usr.ChildBirthdayDate = this.ChildBirthdayDate;
                 usr.PictureId = this.PictureId;
                 if (isNew)
                     usr.Email = this.Email;
