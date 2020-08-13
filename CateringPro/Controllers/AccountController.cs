@@ -485,9 +485,7 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
-                    usermodel.ChildrenCount = user.ChildrenCount;
-                    usermodel.EmailConfirmed = user.EmailConfirmed;
-                    usermodel.CopyTo(user);
+                    usermodel.CopyEditedParamsTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
 
                     if (!userResult.Succeeded)
@@ -573,7 +571,7 @@ namespace CateringPro.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname,ConfirmedByAdmin,ChildNameSurname")] UpdateUserModel um, IEnumerable<CompanyUser> it)
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname")] UpdateUserModel um, IEnumerable<CompanyUser> it)
         {
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)
@@ -605,33 +603,37 @@ namespace CateringPro.Controllers
                     {
                        // IFormFile filePict = null;
                         var filePict= Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
-                        /*
+
                         for (var idx = 0; idx < Request.Form.Files.Count; idx++)
                         {
                             var fileindex = -1;
                             Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
                             Match match = regex.Match(Request.Form.Files[idx].Name);
 
-                            if (!match.Success  || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex!=i)
+                            if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
                             {
                                 continue;
                             }
                             filePict = Request.Form.Files[idx];
                             break;
                         }
-                        */
+
                         CompanyUser user_to_update;
                         if (reb.Id == um.Id)
                         {
-                            //um.ChildNameSurname = reb.ChildNameSurname;
-                            //  um.ChildBirthdayDate = reb.ChildBirthdayDate;
-                            // um.ChildrenCount = user.ChildrenCount;
-                            um.CopyTo(user);
+                            um.ChildNameSurname = reb.ChildNameSurname;
+                            um.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            um.CopyEditedParamsTo(user);
                             user_to_update = user;
                         }
                         else
                         {
                             user_to_update= await _userManager.FindByIdAsync(reb.Id);
+                            if (user_to_update != null)
+                            {
+                                user_to_update.ChildNameSurname = reb.ChildNameSurname;
+                                user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            }
                         }
                         if (user_to_update == null)
                         {
@@ -652,7 +654,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 30, 30);
+                            PicturesController.CompressPicture(pict, 300, 300);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
