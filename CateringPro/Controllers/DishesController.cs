@@ -166,6 +166,8 @@ namespace CateringPro.Controllers
             if (dish.Code == null) dish.Code = "";
             if (dish.Description == null) dish.Description = "";
             if (dish.CookingTechnologie == null) dish.CookingTechnologie = "";
+            var dish_orig = await _context.Dishes.FindAsync(id);
+            _context.Entry(dish_orig).Collection(d => d.DishIngredients).Query().Include(d => d.Ingredient).Load();
             if (Request.Form.Files.Count > 0)
             {
                 Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == dish.PictureId);
@@ -185,16 +187,17 @@ namespace CateringPro.Controllers
                 dish.PictureId = pict.Id;
             }
 
-            ///not work
-            // Action<Dish> postSave =async ( d) => {await this.UpdateDishIngredients(d, IngredientsIds); };
-            //    var res=await this.UpdateCompanyDataAsync(dish, _context, _logger,
-            //     e=> { return _dishesRepo.UpdateDishIngredients(e, proportion, User.GetCompanyID()); });
-
+       
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", dish.CategoriesId);
             var res = await this.UpdateDBCompanyDataAsyncEx(dish, _logger,
                 e => { return _dishesRepo.UpdateDishEntity(e, proportion, User.GetCompanyID()); });
+            if (!ModelState.IsValid)
+            {
 
-            //await _dishesRepo.UpdateDishIngredients(dish, IngredientsIds, proportion,User.GetCompanyID());
-            //await _dishesRepo.UpdateDishIngredients(dish,  proportion, User.GetCompanyID());
+                dish.DishIngredients = dish_orig.DishIngredients;
+                return PartialView(dish);
+            }
+
             return res;
         }
 

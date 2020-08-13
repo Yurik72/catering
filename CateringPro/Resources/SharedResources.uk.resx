@@ -834,4 +834,7 @@
   <data name="Code" xml:space="preserve">
     <value>Код</value>
   </data>
+  <data name="SameIngredient" xml:space="preserve">
+    <value>Інгредієнт вже додано</value>
+  </data>
 </root>
