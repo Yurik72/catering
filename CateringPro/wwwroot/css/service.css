@@ -23,7 +23,7 @@ body {
         color: white;
     }
 }
-
+/*
 h1 {
     font-size: 3rem;
     margin: 0 0 1rem 0;
@@ -44,6 +44,7 @@ main.tabs {
     
     width: 100%;
 }
+ */
 .service-status.offline, .service-status.error {
     background-color: red;
 }
@@ -76,11 +77,13 @@ main.tabs {
 .deliverydish, .queue-dish {
     background-color: aquamarine;
 }
+/*
 .queue-first {
     box-shadow: 10px 10px 5px green;
     border: solid 2px #E4E4E4;
     border-radius: 6px;
 }
+*/
 .wrongdelivery{
     background-color: coral;
 }
@@ -97,4 +100,16 @@ main.tabs {
 .search-card-btn{
 
     height:100%;
+}
+.w200x200 {
+    width: 200px;
+    height: 200px;
+}
+.w100x100 {
+    width: 100px;
+    height: 100px;
+}
+.w150x150 {
+    width: 150px;
+    height: 150px;
 }

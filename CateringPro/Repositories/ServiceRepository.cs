@@ -130,7 +130,7 @@ namespace CateringPro.Repositories
             */
             try
             {
-                var query = (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate)
+                var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate && q.Id>0 /*to do*/)
                              join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate) on q.DishId equals ud.DishId
                              join d in _context.Dishes on q.DishId equals d.Id
                              join u in _context.CompanyUser on q.UserId equals u.Id
@@ -145,7 +145,7 @@ namespace CateringPro.Repositories
                                        DishName=d.Name,
                                        UserPictureId=u.PictureId
                                    }
-                                   ).ToList();
+                                   ).Take(request.MaxQueue).ToListAsync();
                 
                 var client_query = from q in query
                                    group q by new { q.UserId, q.UserName,q.UserPictureId } into grp
