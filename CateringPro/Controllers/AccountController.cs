@@ -387,8 +387,9 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies, [FromForm] UserFinanceViewModel finmodel)
         {
+            
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
                 return PartialView(usermodel);
@@ -428,6 +429,7 @@ namespace CateringPro.Controllers
                         return PartialView(usermodel);
                     }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
+                    //CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
                     CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
                     usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
@@ -488,6 +490,11 @@ namespace CateringPro.Controllers
                     usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
 
+                    //if (user != null)
+                    //{
+                    //   await UserFinance();
+                    //}
+
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     //current  roles
@@ -506,7 +513,7 @@ namespace CateringPro.Controllers
 
                     if (user.ConfirmedByAdmin)
                     {
-                        usermodel.EmailConfirmed = true;
+                        user.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(user, true);
                         EmailService emailService = new EmailService();
                         await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",
@@ -785,7 +792,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(user.Id);
+            var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(userId);
             return PartialView(usercompanies);
         }
         [Authorize]
@@ -846,10 +853,12 @@ namespace CateringPro.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> UserFinance()
+        public async Task<IActionResult> UserFinance(string userId)
         {
-
-            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null && !string.IsNullOrEmpty(userId))
+                return NotFound();
+            return PartialView(await _fin.GetUserFinModelAsync(userId, user.CompanyId));
         }
 
         [HttpPost]

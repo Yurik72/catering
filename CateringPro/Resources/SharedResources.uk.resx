@@ -837,4 +837,13 @@
   <data name="SameIngredient" xml:space="preserve">
     <value>Інгредієнт вже додано</value>
   </data>
+  <data name="Balance" xml:space="preserve">
+    <value>На балансі</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Надходження</value>
+  </data>
+  <data name="OutCome" xml:space="preserve">
+    <value>Витрати</value>
+  </data>
 </root>

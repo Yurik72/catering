@@ -146,7 +146,7 @@
             <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
 
             </div>
-
+        </div>
     </nav>
     <div class="container">
         <div class="row">
@@ -176,13 +176,13 @@
     //    readURL(this);
     //});
     $(function () {
-        $("#nav-content-fin").html(gethtmlloading());
+        //$("#nav-content-fin").html(gethtmlloading());
         $("#nextchilds").html(gethtmlloading());
-        $.get('/Account/UserFinance', function (data) {
+        //$.get('/Account/UserFinance', function (data) {
            
-            $("#nav-content-fin").html(data);
+        //    $("#nav-content-fin").html(data);
               
-        });
+        //});
         $.get('/Account/UserChilds?view=UserChildsData', function (data) {
 
             $("#nextchilds").html(data);
