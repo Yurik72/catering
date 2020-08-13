@@ -156,7 +156,7 @@ else
 
 @section scripts
 {
-    <script src="http://malsup.github.com/jquery.form.js"></script>
+    @*<script src="http://malsup.github.com/jquery.form.js"></script>*@
     <script type="text/javascript">
 
         $(function () {
@@ -225,14 +225,24 @@ else
                 });
                 $(dlg).on('hide.bs.modal', function (e) {
                     if ($(dlg).attr("_changed") == "true") {
-                        if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
+                        //if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
+                        e.preventDefault();
+                        dialog_yes_no($.text_resource.confirm_close,
+                            function () { //yes
+                                $(dlg).attr("_changed", false);
+                                $('#modDialog').modal('hide');
+                            },
+                            function () { //no
+                            });
+                        return;
+                        if (!confirm(get_text_res().confirm_close))
                             e.preventDefault();
                         $(dlg).attr("_changed", false);
                     }
                 });
 
             }
-
+            
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 
