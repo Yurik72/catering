@@ -119,6 +119,13 @@ namespace CateringPro.Core
             return src.DisplayFor(x => displayname, "ListHeader", (object)addviewdata);
 
         }
+        public static SortControlBuilder<TModel> DisplaySortField<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression)
+        {
+            var builder = new SortControlBuilder<TModel>(src);
+            builder.AddSortField(expression);
+            return builder;
+
+        }
 
         private static dynamic Merge(object item1, object item2)
         {

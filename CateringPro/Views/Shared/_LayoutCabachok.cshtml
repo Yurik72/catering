@@ -27,6 +27,7 @@
 
             <link rel="stylesheet" href="~/css/jquery-ui.css" />
             <link rel="stylesheet" href="~/css/site.css" />
+            <link rel="stylesheet" href="~/css/custom-select.css" />
         }
     </environment>
 </head>
@@ -47,25 +48,67 @@
 
 
     @await Html.PartialAsync("_Footer")
-    <environment names="Development,Staging,Production">
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        @*
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-                    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-                    crossorigin="anonymous"></script>
-        *@
-        <script src="~/js/jquery.min.js"></script>
-        <script src="~/js/jquery-ui.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                
+<environment names="Development,Staging,Production">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    @*
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
                 crossorigin="anonymous"></script>
-        <script src="~/js/bootstrap.min.js" 
-                crossorigin="anonymous"></script>
-
-    </environment>
+    *@
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            crossorigin="anonymous"></script>
+    <script src="~/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
     <script src="~/js/resources.js" asp-append-version="false"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $('#sources').each(function () {
+            let classes = $(this).attr("class"),
+                id = $(this).attr("id"),
+                name = $(this).attr("name");
+            let template = '<div class="' + classes + '">';
+            template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+            template += '<div class="custom-options">';
+            $(this).find("option").each(function () {
+                template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+            });
+            template += '</div></div>';
+
+            $(this).wrap('<div class="custom-select-wrapper"></div>');
+            $(this).hide();
+            $(this).after(template);
+        });
+        $(".custom-option:first-of-type").hover(function () {
+            $(this).parents(".custom-options").addClass("option-hover");
+        }, function () {
+            $(this).parents(".custom-options").removeClass("option-hover");
+        });
+        $(".custom-select-trigger").on("click", function () {
+            $('html').one('click', function () {
+                $(".custom-select").removeClass("opened");
+            });
+            $(this).parents(".custom-select").toggleClass("opened");
+            event.stopPropagation();
+        });
+        $(".custom-option").on("click", function () {
+            $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+            $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+            $(this).addClass("selection");
+            $(this).parents(".custom-select").removeClass("opened");
+            $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+        });
+
+        $('.delete-parent').click(function () {
+            $(this).closest('.parent-delete').remove();
+        });
+
+
+    </script>
+</environment>
+
     @RenderSection("Scripts", required: false)
     @await Html.PartialAsync("_LoginPartialModal")
 

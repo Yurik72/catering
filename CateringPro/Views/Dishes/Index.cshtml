@@ -21,6 +21,10 @@
         </div>
     </div>
     <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
+
+        @Html.DisplaySortField(model => model.Name).AddSortField(model=>model.Description).Display()
+
+        @*
         <div class="col-lg-4 col-12 p-0 ">
             <div class="col-12 p-0 justify-content-lg-start justify-content-center"
                  style="display: flex; flex-wrap: nowrap">
@@ -28,11 +32,11 @@
 
                 <select name="sources" id="sort" class="custom-select sources" placeholder="по ціні"
                         style="border: none">
-                    @*<option class="drpdwn-btn selection" value="price"
+                    <option class="drpdwn-btn selection" value="price"
                             style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
                         по ціні
                     </option>
-                    <option class="drpdwn-btn" value="popular">по популярності</option>*@
+                    <option class="drpdwn-btn" value="popular">по популярності</option>
                     <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=asc" style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">@Html.DisplayListHeaderForEx(model => model.Name) А-Я</option>
                     <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Name) Я-А</option>
                     <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=asc">@Html.DisplayListHeaderForEx(model => model.Category.Name) А-Я</option>
@@ -41,6 +45,7 @@
 
             </div>
         </div>
+        *@
         <div class="col-lg-4 col-12 p-0 ">
             <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
                 <form id="search-form" class="form-inline col-12 p-0" style=" display: flex;">
@@ -178,11 +183,15 @@ else
             }
 
                 // sort
+            /*
             $("#sort").change(function () {
                 var selectedSort = $(this).children("option:selected").val();
                 reload(selectedSort);
             });
-
+            */
+            $(".custom-option").on("click", function () {
+                reload($(this).data('value'));
+            });
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
             reload();
