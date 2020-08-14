@@ -8,7 +8,7 @@
     var current_user = await SignInManager.UserManager.GetUserAsync(User);
     @* <ul class="nav navbar-nav navbar-right">*@
     <ul class="nav navbar-nav">
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin"))
         {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
