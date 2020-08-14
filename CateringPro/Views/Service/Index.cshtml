@@ -67,7 +67,7 @@
             </div>
             @for (int i = 1; i <= numDishes; i++)
             {
-                <div data-num="@i" class="col-2 order-dish-select border rounded bg-secondary text-white btn">
+                <div data-num="@(i-1)" class="col-2 order-dish-select border rounded bg-secondary text-white btn">
                     @i Блюдо
                 </div>
             }
@@ -104,7 +104,7 @@
         </div>
         <div id="delivery-welcome-row" class="row fo" style="display: none;">
             <div class="col-12">
-                <div id="delivery-welcome-content" class="container d-flex h-100 delivery-welcome-content">
+                <div id="delivery-welcome-content" class="container  h-100 delivery-welcome-content">
 
                 </div>
             </div>
@@ -132,7 +132,7 @@
             var lastQueueid = -1;
 
 
-
+            var serviceurl = "/Service/RequestForDelivery";
             var el_online = $("#isonline");
             var el_offline = $("#isoffline");
             var elnfc_online = $("#nfc_isonline");
@@ -282,6 +282,11 @@
                         }
                     });
                 }
+                else {
+                    if (isStarted) {
+                        setTimeout(getnewQueue, 1000);
+                    }
+                }
 
             }
             $('#btnstart').click(function (e) {
@@ -289,7 +294,7 @@
                 isStarted = true;
                 refreshState();
                 refreshDeliveryContentState();
-                if (isQueueMode) {
+                if (isQueueMode && !IsWelcomeMode()) {
 
                     getnewQueue();
                 }
@@ -317,13 +322,13 @@
                 if (!data || data.overalResult != "success") {
                     if (data && data.userFound) {
                         var pictURL = '/Pictures/GetPicture?id=' + data.userPictureId;
-                        var divuser = `<div class="row user-welcome bg-danger text-white h1" >
-                                        <div class="col-6 welcome-user">
-                                            <img src="${pictURL}"/>
-                                        </div>
-                                      <div class="col-6 welcome-user ">
-                                            ${data.userName}
-                                        </div>
+                        var divuser = `<div class="row user-welcome py-2 bg-danger text-white h1 justify-content-center align-self-center" >
+                                            <div class="col-6 welcome-user">
+                                                <img src="${pictURL}" class="w200x200"/>
+                                            </div>
+                                            <div class="col-6 welcome-user justify-content-center align-self-center ">
+                                                 ${data.userName}
+                                            </div>
                                         </div>`
                         $('#delivery-welcome-content').append(divuser);
                     }
@@ -334,16 +339,22 @@
                 //var inner_div = data.dishes.map(function (element, index) {
                 var inner_div = "";
                 data.dishes.forEach(element => {
-                    inner_div += `<div class="row"><div class="col-12 welcome-dish bg-primary text-white h2" data-id="${element.id}" data-id=${element.id}>${element.name}</div></div>`;
+                    inner_div += `<div class="row"><div class="col-12 welcome-dish  h2" data-id="${element.id}" data-id=${element.id}>${element.name}</div></div>`;
                 });
 
                 var pictureURL =  '/Pictures/GetPicture?id=' + data.userPictureId;
-                var div = $(`<div class="row user-welcome bg-info text-white py-2" >
-                                        <div class="col-6 welcome-user h1 bg-info text-white">
-                                            <span class="welcome-username" >${data.userName}</span>
-                                            <img src="${pictureURL}"/>
+                var div = $(`<div class="row user-welcome bg-success text-white py-2" >
+                                        <div class="col-6 welcome-user h1 ">
+                                            <div class="row">
+                                                <div class="col-12 justify-content-center align-self-center text-center">${data.userName}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 justify-content-center align-self-center ">
+                                                    <img src="${pictureURL}" class="w200x200 rounded mx-auto d-block"/>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-6 welcome-dishes">
+                                        <div class="col-6 welcome-dishes h-100 justify-content-center align-self-center  ">
                                             ${inner_div}
                                          </div>
                                     </div>`);
@@ -352,6 +363,7 @@
             function fillQueue(data) {
                 var queunum = getQueueCount() + 1;
                 // $('#delivery-queue-content').empty(); // to do
+                var content = $('#delivery-queue-content');
                 if (!data || data.overalResult != "success") {
 
                 }
@@ -370,8 +382,8 @@
                     lastQueueid = maxid;
 
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
-                    var timestamp = Date.now();
-                    var div = $(`<div class="row user-queue shadow p-1 mb-5" data-timestampt="${timestamp}" data-number="${queunum} data-maxid=${maxid} ">
+                    var timestam = Date.now();
+                    var div = $(`<div class="row user-queue shadow p-1 mb-5" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
                                         <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
                                         <div class="col-4 queue-user">
                                             <div class="row">
@@ -386,21 +398,22 @@
                                         <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
                                             ${inner_div}
                                          </div>
-                                         <div class="col-3">
-                                             <button class="btn btn-primary btn-confirm-queue" data-timestampt="${timestamp}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
+                                         <div class="col-3  align-self-end ">
+                                             <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
                                          </div>
                                     </div>`);
-                    $('#delivery-queue-content').append(div);
-                    $('#delivery-queue-content').find(".user-queue").removeClass("queue-first");
-                    $('#delivery-queue-content').find(".user-queue").first().addClass("queue-first");
+                    content.append(div);
+                    content.find(".user-queue").removeClass("queue-first");
+                    content.find(".user-queue").first().addClass("queue-first");
                     queueHandler(div);
                 });
             }
             function queueHandler(div) {
                 $(div).find('.btn-confirm-queue').click(function (e) {
                     e.preventDefault();
-                    var request = { DayDate: curr_date.toDateString(), CardToken: $('#userid').val(), UserId: $('#userid').val(), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) }
-                    fetch('/Service/RequestForDelivery', {
+                    var timestamp = $(this).attr('data-timestamp');
+                    var request = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) }
+                    fetch(serviceurl, {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -409,15 +422,29 @@
                         body: JSON.stringify(request)
                     })
                     .then(response => response.json())
-                    .then(data => { })
+                        .then(data => {
+                            console.log(data);
+                            removeQueue(timestamp);
+                        })
                     .catch(error => {
                         console.error('error:', error)
                     });
                 });
             }
-            function queueconfirmed() {
-
+            function removeQueue(timestamp) {
+                var content = $('#delivery-queue-content');
+                var queue = content.find(`.user-queue[data-timestamp="${timestamp}"]`);
+                queue.remove();
+                recalcqueues();
             }
+            function recalcqueues() {
+                var content = $('#delivery-queue-content');
+                content.find(".user-queue").each(function (index, element) {
+                    $(element).find('.queue-number').text(index + 1);
+                    if (index == 0)
+                        $(element).addClass("queue-first");
+                });
+            } 
             function filldeliverydishes(data) {
                 if (IsWelcomeMode()) {
                     fillWelcome(data);
@@ -459,10 +486,10 @@
                 }
             }
             function requestforconfirmation(cb, dishesids) {
-                var actionUrl = "/Service/RequestForDelivery";
+               
                 var dishesnum = getdishesnum();
                 var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: "confirmdelivery", DishesIds: dishesids };
-                $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
+                $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
                     .fail(function (xhr, code, error) {
@@ -471,12 +498,12 @@
                     });
             }
             function requestfordeliveryQueue(cb) {
-                var actionUrl = "/Service/RequestForDelivery";
+                
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
 
                 var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue:max_queue, LastQueueId:lastQueueid };
-                $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
+                $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
                     .fail(function (xhr, code, error) {
@@ -485,13 +512,13 @@
                     });
             }
             function requestfordelivery(cb) {
-                var actionUrl = "/Service/RequestForDelivery";
+              
                 var dishesnum = getdishesnum();
                 var requesttype = 'askfordelivery';
                 if (IsWelcomeMode())
                     requesttype = 'askforregister';
                 var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum };
-                $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
+                $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
                     .fail(function (xhr, code, error) {
