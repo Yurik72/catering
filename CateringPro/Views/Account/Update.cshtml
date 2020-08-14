@@ -4,150 +4,164 @@
 
 }
 <h2>@Localizer["MenuUpdateUser"]</h2>
-<style>
-    form dt {
-        float: left;
-        display: block;
-        width: 30%;
-    }
 
-    dd select {
-        width: 50%;
-    }
-
-    dd textarea {
-        width: 100%;
-    }
-</style>
-<form asp-controller="Account" asp-action="Update" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-
-    
-    <nav>
-        <div class="nav nav-tabs" id="nav-tabs" role="tablist">
-            <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-0" aria-selected="true">@Localizer["MainData"]</a>
-            <a class="nav-item nav-link nav-childs" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">@Localizer["Childs"]</a>
-            <a class="nav-item nav-link nav-finance" id="nav-tab-fin" data-toggle="tab" href="#nav-content-fin" role="tab" aria-controls="nav-content-fin" aria-selected="false">@Localizer["Finance"]</a>
-        </div>
-
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-        <input type="hidden" asp-for="Id" />
-        @Html.AntiForgeryToken()
-        <div class="tab-content user-content border rounded" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
-                <dl class="">
-                    <dd><input type="hidden" asp-for="Id" /></dd>
-                    <dt>  <label asp-for=OldPassword class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="OldPassword" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="OldPassword" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=NewPassword class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="NewPassword" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="NewPassword" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=ConfirmPassword class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=Email class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="Email" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=NameSurname class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="NameSurname" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="NameSurname" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=PhoneNumber class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=City class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="City" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="City" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=ZipCode class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="ZipCode" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="ZipCode" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=Country class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="Country" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="Country" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=Address1 class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="Address1" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="Address1" class="text-danger"></span>
-                    </dd>
-                    <dt>  <label asp-for=Address2 class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="Address2" class="form-control" autocomplete="off" />
-                        <span asp-validation-for="Address2" class="text-danger"></span>
-                    </dd>
-                </dl>
+@if (true)
+{
 
 
-            </div>
-            <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
-                <dl class="">
-                    <dt>  <label asp-for=ChildrenCount class="control-label"></label></dt>
-                    <dd>
-                        <input asp-for="ChildrenCount" class="form-control" autocomplete="off" readonly />
-                        <span asp-validation-for="ChildrenCount" class="text-danger"></span>
-                    </dd>
-                </dl>
-                <div class="container border rounded">
-                    @*<div class="row">
-                        <div class="col-12  bg-info text-white">
-                            @Localizer["Child"]
+<body asp-controller="Account" asp-action="Update" method="post" style="display: flex; flex-direction: column; min-height: 100%">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <input type="hidden" asp-for="Id" />
+    @Html.AntiForgeryToken()
+    <main accesskey="" class="row mr-0 ml-0 flex-grow-1">
+        <div class="container-xl container container-md container-sm container-lg">
+            <ul class="nav nav-tabs justify-content-lg-center justify-content-md-center justify-content-between " id="tab-profile" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link " style="width: 100%;" id="home-tab" data-toggle="tab" href="#profile-home"
+                       role="tab"
+                       aria-controls="home"
+                       aria-selected="true">@Localizer["MainData"]</a>
+                </li>
+                <li class="nav-item mr-2 ml-2">
+                    <a class="nav-link" style="width: 100%;" id="child-tab" data-toggle="tab" href="#profile-child"
+                       role="tab"
+                       aria-controls="childs"
+                       aria-selected="false">@Localizer["Childs"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" style="width: 100%;" id="finance-tab" data-toggle="tab" href="#nav-content-fin"
+                       role="tab"
+                       aria-controls="finance"
+                       aria-selected="false">@Localizer["Finance"]</a>
+                </li>
+            </ul>
+            <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="profile-tab">
+                <div class="tab-pane fade " id="profile-home" role="tabpanel" aria-labelledby="home-tab">
+                    <form>
+                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for="NameSurname"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                                <input asp-for="NameSurname"
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-name"
+                                       placeholder="Ім'я" style="height: 34px">
+                            </div>
                         </div>
-                    </div>*@
-                    @*<div class="row child">
-                        <div class="col-12">
-                            <dl>
-                                <dt>  <label asp-for=ChildNameSurname class="control-label"></label></dt>
-                                <dd>
-                                    <input asp-for="ChildNameSurname" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="ChildNameSurname" class="text-danger"></span>
-                                </dd>
-                                <dt>  <label asp-for=ChildBirthdayDate class="control-label"></label></dt>
-                                <dd>
-                                    <input asp-for="ChildBirthdayDate" class="form-control" autocomplete="off" />
-                                    <span asp-validation-for="ChildBirthdayDate" class="text-danger"></span>
-                                </dd> 
-                                <dd>
-                                    <input type="hidden" asp-for="PictureId" />
-                                    <input type="file" class="form-control" id="filepicture" name="filepicture" />
-                                    <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture","Pictures",new { id=Model.PictureId,width=450,height=300})" />
-                                </dd>
-                            </dl>
+                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for=PhoneNumber
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                                <input asp-for=PhoneNumber
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-phone-number" placeholder="(XXX) XXX - XXXX">
+                            </div>
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                                <label asp-for=Country
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0"></label>
+                                <input asp-for=Country
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-country"
+                                       placeholder="Країна">
+                            </div>
                         </div>
-                    </div>*@
+                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for=City
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                                <input asp-for=City
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-city"
+                                       placeholder="">
+                            </div>
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                                <label asp-for=ZipCode
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
+                                </label>
+                                <input asp-for=ZipCode
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-post-index"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for=Address1
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0">
+                                </label>
+                                <input asp-for=Address1
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-first-address" placeholder="">
+                            </div>
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                                <label asp-for=Address2
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
+                                </label>
+                                <input asp-for=Address2
+                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-second-address" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row p-0 flex-column">
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for="OldPassword"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0 font-weight-bold">
+                                </label>
+                                <input asp-for="OldPassword"
+                                       type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-old-password" placeholder="" style="height: 34px">
+                            </div>
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for="NewPassword"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center md-0 font-weight-bold">
+                                </label>
+                                <input asp-for="NewPassword"
+                                       type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-new-password" placeholder="" style="height: 34px">
+                            </div>
+                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                                <label asp-for="ConfirmPassword"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0 font-weight-bold">Підтвердити</label>
+                                <input asp-for="ConfirmPassword"
+                                       type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-confirm-new-password" placeholder="" style="height: 34px">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div id="nextchilds" class="container">
-                </div>
-                <div class="container">
-                    <div class="row justify-content-end">
-                        <div class="col-4">
-                            <button id="addchild" class="btn btn-primary">@Localizer["Add"]</button>
+                <div class="tab-pane fade"
+                     id="profile-child" role="tabpanel"
+                     aria-labelledby="child-tab">
+                    <div class="d-flex justify-content-center flex-column align-items-center">
+                        <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-center">
+                            <div class="col-6 col-md-6 col-lg-6 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                                <label asp-for=ChildrenCount
+                                       class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
+                                </label>
+                                <input asp-for="ChildrenCount" class="form-control col-12 col-lg-6 col-md-6 pl-3" autocomplete="off" readonly />
+                                <span asp-validation-for="ChildrenCount" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="col-6 p-0 d-flex justify-content-end align-self-end align-self-sm-end align-self-md-center"
+                                 style="height: 34px">
+                                <button type="button" id="addchild"
+                                        class=" btn  btn-xl btn-outline-danger justify-content-center float-md-none font-weight-bold btn-block col-lg-5 col-md-5 col-7 m-0 p-0"
+                                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                        style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                                    &#65291; @Localizer["Add"]
+                                </button>
+                            </div>
                         </div>
                     </div>
+
+                    <div id="nextchilds">
+                    </div>
                 </div>
+                <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
 
-
-            </div>
-            <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
-
+                </div>
             </div>
         </div>
-    </nav>
+
+    </main>
     <div class="container">
         <div class="row">
             <div class="col-md-offset-2 col-md-10">
@@ -155,49 +169,218 @@
             </div>
         </div>
     </div>
-</form>
+</body>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script>
-    //function readURL(input) {
-    //    if (input.files && input.files[0]) {
-    //        var reader = new FileReader();
+        <script>
+            $(function () {
 
-    //        reader.onload = function (e) {
-    //            $('#imgfilepicture').attr('src', e.target.result);
-    //        }
+                $("#nav-content-fin").html(gethtmlloading());
+                $("#nextchilds").html(gethtmlloading());
+                $.get('/Account/UserFinance', function (data) {
 
-    //        reader.readAsDataURL(input.files[0]);
-    //    }
-    //}
-    //$(document).on("change", "#filepicture", function () {
-    //    readURL(this);
-    //});
-    $(function () {
-        //$("#nav-content-fin").html(gethtmlloading());
-        $("#nextchilds").html(gethtmlloading());
-        //$.get('/Account/UserFinance', function (data) {
-           
-        //    $("#nav-content-fin").html(data);
-              
-        //});
-        $.get('/Account/UserChilds?view=UserChildsData', function (data) {
+                    $("#nav-content-fin").html(data);
 
-            $("#nextchilds").html(data);
+                });
+                $.get('/Account/UserChilds?view=UserChildsData', function (data) {
 
-        });
-        $("#addchild").click(function (e) {
-            e.preventDefault();
-            var token = $("[name='__RequestVerificationToken'").val();
-            $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
-                window.location.href = '/Account/Update';
-            })
-            .fail(function (xhr, code, error) {
-                dialog_error(error);
+                    $("#nextchilds").html(data);
+
+                });
+                $("#addchild").click(function (e) {
+                    e.preventDefault();
+                    var token = $("[name='__RequestVerificationToken'").val();
+                    $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
+                        window.location.href = '/Account/Update';
+                    })
+                        .fail(function (xhr, code, error) {
+                            dialog_error(error);
+                        });
+                });
             });
-        });
-    });
-</script>
+        </script>
     }
+
+}
+            
+else
+{
+
+    <style>
+        form dt {
+            float: left;
+            display: block;
+            width: 30%;
+        }
+
+        dd select {
+            width: 50%;
+        }
+
+        dd textarea {
+            width: 100%;
+        }
+    </style>
+    <form asp-controller="Account" asp-action="Update" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tabs" role="tablist">
+                <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-0" aria-selected="true">@Localizer["MainData"]</a>
+                <a class="nav-item nav-link nav-childs" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">@Localizer["Childs"]</a>
+                <a class="nav-item nav-link nav-finance" id="nav-tab-fin" data-toggle="tab" href="#nav-content-fin" role="tab" aria-controls="nav-content-fin" aria-selected="false">@Localizer["Finance"]</a>
+            </div>
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <input type="hidden" asp-for="Id" />
+            @Html.AntiForgeryToken()
+            <div class="tab-content user-content border rounded" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
+                    <dl class="">
+                        <dd><input type="hidden" asp-for="Id" /></dd>
+                        <dt>  <label asp-for=OldPassword class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="OldPassword" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="OldPassword" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=NewPassword class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="NewPassword" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=ConfirmPassword class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Email class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Email" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=NameSurname class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="NameSurname" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="NameSurname" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=PhoneNumber class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=City class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="City" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=ZipCode class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="ZipCode" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="ZipCode" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Country class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Country" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Address1 class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Address1" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Address1" class="text-danger"></span>
+                        </dd>
+                        <dt>  <label asp-for=Address2 class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="Address2" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Address2" class="text-danger"></span>
+                        </dd>
+                    </dl>
+
+
+                </div>
+                <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
+                    <dl class="">
+                        <dt>  <label asp-for=ChildrenCount class="control-label"></label></dt>
+                        <dd>
+                            <input asp-for="ChildrenCount" class="form-control" autocomplete="off" readonly />
+                            <span asp-validation-for="ChildrenCount" class="text-danger"></span>
+                        </dd>
+                    </dl>
+                    <div class="container border rounded">
+                    </div>
+                    <div id="nextchilds" class="container">
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-end">
+                            <div class="col-4">
+                                <button id="addchild" class="btn btn-primary">@Localizer["Add"]</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@Localizer["Company Setting Save"]" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script>
+            //function readURL(input) {
+            //    if (input.files && input.files[0]) {
+            //        var reader = new FileReader();
+
+            //        reader.onload = function (e) {
+            //            $('#imgfilepicture').attr('src', e.target.result);
+            //        }
+
+            //        reader.readAsDataURL(input.files[0]);
+            //    }
+            //}
+            //$(document).on("change", "#filepicture", function () {
+            //    readURL(this);
+            //});
+            $(function () {
+
+                $("#nav-content-fin").html(gethtmlloading());
+                $("#nextchilds").html(gethtmlloading());
+                $.get('/Account/UserFinance', function (data) {
+
+                    $("#nav-content-fin").html(data);
+
+                });
+                $.get('/Account/UserChilds?view=UserChildsData', function (data) {
+
+                    $("#nextchilds").html(data);
+
+                });
+                $("#addchild").click(function (e) {
+                    e.preventDefault();
+                    var token = $("[name='__RequestVerificationToken'").val();
+                    $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
+                        window.location.href = '/Account/Update';
+                    })
+                        .fail(function (xhr, code, error) {
+                            dialog_error(error);
+                        });
+                });
+            });
+        </script>
+    }
+
+
+}
+
+
+

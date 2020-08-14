@@ -36,7 +36,7 @@
                     <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-1" aria-selected="false">Головна</a>
                     <a class="nav-item nav-link nav-roles" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Ролі</a>
                     <a class="nav-item nav-link nav-companies" id="nav-tab-1" data-toggle="tab" href="#nav-content-2" role="tab" aria-controls="nav-content-2" aria-selected="false">Компанії</a>
-                    <a class="nav-item nav-link nav-finance" id="nav-tab-fin" data-toggle="tab" href="#nav-content-fin" role="tab" aria-controls="nav-content-fin" aria-selected="false">@Localizer["Finance"]</a>
+                    <a class="nav-item nav-link nav-finance" id="nav-tab-fin-of-user" data-toggle="tab" href="#nav-content-fin-of-user" role="tab" aria-controls="nav-content-fin-of-user" aria-selected="false">@Localizer["Finance"]</a>
                 </div>
                 <div class="tab-content day-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
@@ -139,7 +139,7 @@
                             </dd>
                         </dl>
                     </div>
-                    <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+                    <div class="tab-pane fade" id="nav-content-fin-of-user" role="tabpanel" aria-labelledby="nav-tab-fin-of-user">
                         
                     </div>
                     @Html.AntiForgeryToken()
@@ -171,14 +171,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
-    $(function () {
-        $("#nav-content-fin").html(gethtmlloading());
-        $.get('/Account/UserFinance', function (data) {
-
-            $("#nav-content-fin").html(data);
-
+@*<script>
+        $(function () {
+        var userId = $('.modal-body').attr('data-id');
+        var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
+        $.get(urlfin, function (data) {
+            $("#nav-content-fin-of-user").html(data);
         });
     });
-    </script>
+</script>*@
 }

@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\work\\catering\\CateringPro\\CateringPro.csproj": {}
+    "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj": {}
   },
   "projects": {
-    "D:\\work\\catering\\CateringPro\\CateringPro.csproj": {
+    "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
+        "projectUniqueName": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
         "projectName": "CateringPro",
-        "projectPath": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
-        "packagesPath": "C:\\Users\\andry\\.nuget\\packages\\",
-        "outputPath": "D:\\work\\catering\\CateringPro\\obj\\",
+        "projectPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
+        "packagesPath": "C:\\Users\\den4i\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\andry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\den4i\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +41,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[2.8.0, )"
@@ -53,6 +60,10 @@
             "Microsoft.AspNetCore.StaticFiles": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.7, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

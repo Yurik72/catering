@@ -1,0 +1,76 @@
+﻿@model UserFinanceViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <span>@Localizer["Balance"]</span>
+            </div>
+            <div class="col-4">
+                <span>@Model.Finance.Balance</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <span>@Localizer["Income"]</span>
+            </div>
+            <div class="col-4">
+                <span>@Model.Finance.TotalIncome</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <span>@Localizer["OutCome"]</span>
+            </div>
+            <div class="col-4">
+                <span>@Model.Finance.TotalOutCome</span>
+            </div>
+        </div>
+        <div class="container border rounded">
+            <div class="row justify-content-center">
+                <div class="col-12 bg-info text-white">
+                    @Localizer["Income"]
+                </div>
+
+            </div>
+
+            @foreach (var it in Model.Incomes)
+            {
+                <div class="row">
+
+                    <div class="col-4">
+                        <span>@it.TransactionDate</span>
+                    </div>
+                    <div class="col-4">
+                        <span>@it.Comments</span>
+                    </div>
+                    <div class="col-4">
+                        <span>@it.Amount</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="container border rounded">
+            <div class="row justify-content-center">
+                <div class="col-12 bg-info text-white">
+                    @Localizer["OutCome"]
+                </div>
+
+            </div>
+            @foreach (var it in Model.Outcomes)
+            {
+                <div class="row">
+
+                    <div class="col-4">
+                        <span>@it.TransactionDate</span>
+                    </div>
+                    <div class="col-4">
+                        <span>@it.Comments</span>
+                    </div>
+                    <div class="col-4">
+                        <span>@it.Amount</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>

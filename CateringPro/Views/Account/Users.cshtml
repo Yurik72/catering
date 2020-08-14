@@ -73,9 +73,9 @@
                     $("#user-companies-content").html(data);
                     setupcompanyhandler($("#user-companies-content"))
                 });
-                var urlfin = '@Url.Content("~/Account/UserFinance?userId=")' + userId;
+                var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
                 $.get(urlfin, function (data) {
-                    $("#nav-content-fin").html(data);
+                    $("#nav-content-fin-of-user").html(data);
                 });
                 function setuproleshandler(cont) {
                     cont.find(".role-item").click(function (e) {
