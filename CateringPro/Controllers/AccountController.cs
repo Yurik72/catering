@@ -868,12 +868,17 @@ namespace CateringPro.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> UserFinance(string userId)
+        public async Task<IActionResult> UserFinanceOfUser(string userId)
         {
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
             return PartialView(await _fin.GetUserFinModelAsync(userId, user.CompanyId));
+        }
+        [Authorize]
+        public async Task<IActionResult> UserFinance()
+        {
+            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
         }
 
         [HttpPost]

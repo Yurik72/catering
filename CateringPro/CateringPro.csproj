@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="jsreport.AspNetCore" Version="2.1.0" />
     <PackageReference Include="jsreport.Binary" Version="2.9.0" />
     <PackageReference Include="jsreport.Local" Version="2.2.3" />
@@ -119,6 +120,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

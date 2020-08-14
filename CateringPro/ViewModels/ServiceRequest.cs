@@ -20,6 +20,8 @@ namespace CateringPro.ViewModels
         public int[] DishesNum { get; set; }
         public int[] DishesIds { get; set; }
 
+        public int[] QueueIds { get; set; }
+
         public int CompanyId { get; set; }
 
         public CompanyUser User { get; set; }

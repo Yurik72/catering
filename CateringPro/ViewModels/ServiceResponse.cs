@@ -88,6 +88,8 @@ namespace CateringPro.ViewModels
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string DishName { get; set; }
+
+        public int DishCource { get; set; }
         public int DishId { get; set; }
 
         public int QueueId { get; set; }
