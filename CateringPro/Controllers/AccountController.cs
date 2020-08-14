@@ -107,7 +107,7 @@ namespace CateringPro.Controllers
                         $"" +
                         $"" +
                         $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
 
                     return RedirectToAction("EmailSent");
                 }
@@ -250,7 +250,7 @@ namespace CateringPro.Controllers
                     $"" +
                     $"" +
                     $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                    $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                    $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
             }
             else
                 ModelState.AddModelError("", _localizer.GetLocalizedString("UserNotFound"));
@@ -292,7 +292,7 @@ namespace CateringPro.Controllers
                         $"" +
                         $"" +
                         $"<br><br><br>Якщо це були не Ви - ні в якому разі не переходіть за посиланням.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     return RedirectToAction("InstructionPasswordEmailSent", "Account");
                 }
                 if (user == null)
@@ -387,8 +387,9 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies, [FromForm] UserFinanceViewModel finmodel)
         {
+            
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
                 return PartialView(usermodel);
@@ -428,6 +429,7 @@ namespace CateringPro.Controllers
                         return PartialView(usermodel);
                     }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
+                    //CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
                     CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
                     usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
@@ -465,7 +467,7 @@ namespace CateringPro.Controllers
                             $"Login: {usr.UserName} <br>" +
                             $"Необхідно перейти за посиланням для встановлення паролю: <a href='{callbackUrl}'> посилання</a><br>" +
                             $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     }
 
                     if (!userResult.Succeeded)
@@ -485,8 +487,13 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
-                    usermodel.CopyEditedParamsTo(user);
+                    usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
+
+                    //if (user != null)
+                    //{
+                    //   await UserFinance();
+                    //}
 
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
@@ -506,7 +513,7 @@ namespace CateringPro.Controllers
 
                     if (user.ConfirmedByAdmin)
                     {
-                        usermodel.EmailConfirmed = true;
+                        user.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(user, true);
                         EmailService emailService = new EmailService();
                         await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",
@@ -785,7 +792,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(user.Id);
+            var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(userId);
             return PartialView(usercompanies);
         }
         [Authorize]
@@ -846,9 +853,16 @@ namespace CateringPro.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> UserFinanceOfUser(string userId)
+        {
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null && !string.IsNullOrEmpty(userId))
+                return NotFound();
+            return PartialView(await _fin.GetUserFinModelAsync(userId, user.CompanyId));
+        }
+        [Authorize]
         public async Task<IActionResult> UserFinance()
         {
-
             return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
         }
 

@@ -58,8 +58,8 @@
                 onloadedcb: onload
             });
 
-            
-                
+
+
 
             function onload() {
                 var userId = $('.modal-body').attr('data-id');
@@ -72,6 +72,10 @@
                 $.get(urlcomp, function (data) {
                     $("#user-companies-content").html(data);
                     setupcompanyhandler($("#user-companies-content"))
+                });
+                var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
+                $.get(urlfin, function (data) {
+                    $("#nav-content-fin-of-user").html(data);
                 });
                 function setuproleshandler(cont) {
                     cont.find(".role-item").click(function (e) {
