@@ -35,26 +35,27 @@
                  alt="" class="px-2">@Localizer["MenuAdmin"]
             </div>
 
-            <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
-                 style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
-                <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">@Localizer["MenuDishes"]</a>
-                <a class="dropdown-item" asp-controller="Categories" asp-action="Index">@Localizer["MenuCategories"]</a>
-                <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index">@Localizer["MenuIngredients"]</a>
-                <a class="dropdown-item" asp-controller="Complex" asp-action="Index">@Localizer["MenuComplex"]</a>
-                <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">@Localizer["MenuDayDishes"]</a>
-                <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">@Localizer["MenuCustomerOrders"]</a>
-                <a class="dropdown-item" asp-controller="Stock" asp-action="Index">@Localizer["MenuStock"]</a>
-                <a class="dropdown-item" asp-controller="Stock" asp-action="ConsignmentStock">@Localizer["MenuStockConsignment"]</a>
-                <a class="dropdown-item" asp-controller="Docs" asp-action="Index">@Localizer["MenuDocs"]</a>
-                <a class="dropdown-item" asp-controller="Company" asp-action="Setting">@Localizer["Setting"]</a>
-                <a class="dropdown-item" asp-controller="Report" asp-action="Index">@Localizer["Reports"]</a>
-                <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
-                <a class="dropdown-item" asp-controller="UserGroups" asp-action="Index">@Localizer["MenuUsersGroups"]</a>
-                <a class="dropdown-item" asp-controller="MassEmail" asp-action="Index">@Localizer["MassEmail"]</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
+             style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+            <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">@Localizer["MenuDishes"]</a>
+            <a class="dropdown-item" asp-controller="Categories" asp-action="Index">@Localizer["MenuCategories"]</a>
+            <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index">@Localizer["MenuIngredients"]</a>
+            <a class="dropdown-item" asp-controller="IngredientCategories" asp-action="Index">@Localizer["IngredientCategories"]</a>
+            <a class="dropdown-item" asp-controller="Complex" asp-action="Index">@Localizer["MenuComplex"]</a>
+            <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">@Localizer["MenuDayDishes"]</a>
+            <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">@Localizer["MenuCustomerOrders"]</a>
+            <a class="dropdown-item" asp-controller="Stock" asp-action="Index">@Localizer["MenuStock"]</a>
+            <a class="dropdown-item" asp-controller="Stock" asp-action="ConsignmentStock">@Localizer["MenuStockConsignment"]</a>
+            <a class="dropdown-item" asp-controller="Docs" asp-action="Index">@Localizer["MenuDocs"]</a>
+            <a class="dropdown-item" asp-controller="Company" asp-action="Setting">@Localizer["Setting"]</a>
+            <a class="dropdown-item" asp-controller="Report" asp-action="Index">@Localizer["Reports"]</a>
+            <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
+            <a class="dropdown-item" asp-controller="UserGroups" asp-action="Index">@Localizer["MenuUsersGroups"]</a>
+            <a class="dropdown-item" asp-controller="MassEmail" asp-action="Index">@Localizer["MassEmail"]</a>
 
 
 
-            </div>
+        </div>
         </li>
                 }
                 <li class="nav-item ml-3 dropdown">

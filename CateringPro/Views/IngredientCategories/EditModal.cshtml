@@ -1,4 +1,4 @@
-﻿@model CateringPro.Models.Ingredients
+﻿@model CateringPro.Models.IngredientCategories
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
@@ -22,7 +22,7 @@
     </style>
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">@Localizer["Ingredient"]</h5>
+        <h5 class="modal-title">@Localizer["IngredientCategories"]</h5>
         <button class="close" data-dismiss="modal" area-hidden="true">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -37,29 +37,22 @@
 
                 <dd>
                     <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="StockDate" />
-                    <input type="hidden" asp-for="StockValue" />
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </dd>
 
-                <dt>  <label asp-for="MeasureUnit" class="control-label"></label></dt>
+                <dt>  <label asp-for="Code" class="control-label"></label></dt>
                 <dd>
-                    <input asp-for="MeasureUnit" class="form-control" />
-                    <span asp-validation-for="MeasureUnit" class="text-danger"></span>
-                </dd>
-                <dt>  <label asp-for="AvgPrice" class="control-label"></label></dt>
-                <dd>
-                    <input asp-for="AvgPrice" class="form-control" />
-                    <span asp-validation-for="AvgPrice" class="text-danger"></span>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
                 </dd>
                 <dt>
-                    <label asp-for="IngredientCategoriesId" class="control-label col-md-2"></label>
+                    <label asp-for="Description" class="control-label col-md-2"></label>
                 </dt>
                 <dd>
 
-                    <select asp-for="IngredientCategoriesId" class="form-control" asp-items="ViewBag.IngredientCategoriesId"></select>
-                    <span asp-validation-for="IngredientCategoriesId" class="text-danger"></span>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
 
                 </dd>
             </dl>

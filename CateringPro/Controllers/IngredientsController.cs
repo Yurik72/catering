@@ -70,7 +70,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,MeasureUnit,StockDate,StockValue,IngredientCategoriesId")] Ingredients ing)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,MeasureUnit,AvgPrice,StockDate,StockValue,IngredientCategoriesId")] Ingredients ing)
         {
             if (id != ing.Id)
             {
@@ -107,7 +107,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             ing.StockDate = DateTime.Now;
-      
+            ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", ing.IngredientCategoriesId);
             return PartialView("EditModal", ing);
         }
         // GET: Ingredients/Details/5

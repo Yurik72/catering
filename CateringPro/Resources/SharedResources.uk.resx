@@ -849,4 +849,7 @@
   <data name="Incorrect data" xml:space="preserve">
     <value>Некоректні дані</value>
   </data>
+  <data name="IngredientCategories" xml:space="preserve">
+    <value>Категорії Інгрідієнта</value>
+  </data>
 </root>
