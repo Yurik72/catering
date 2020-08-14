@@ -7,6 +7,10 @@ namespace CateringPro.ViewModels
 {
     public class QueryModel
     {
+        public QueryModel()
+        {
+            SortOrder = "ASC";
+        }
         public string SortField { get; set; }
         public string SortOrder { get; set; }
         public int Page { get; set; }

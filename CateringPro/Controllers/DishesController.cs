@@ -44,7 +44,7 @@ namespace CateringPro.Controllers
         // GET: Dishes
         public IActionResult Index()
         {
-
+            ViewData["QueryModel"] = new QueryModel() { SortField="Name"};
             return View(new List<Dish>());// await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
