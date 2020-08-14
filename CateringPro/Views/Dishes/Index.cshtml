@@ -26,13 +26,17 @@
                  style="display: flex; flex-wrap: nowrap">
                 <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
 
-                <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
+                <select name="sources" id="sort" class="custom-select sources" placeholder="по ціні"
                         style="border: none">
-                    <option class="drpdwn-btn selection" value="price"
+                    @*<option class="drpdwn-btn selection" value="price"
                             style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
                         по ціні
                     </option>
-                    <option class="drpdwn-btn" value="popular">по популярності</option>
+                    <option class="drpdwn-btn" value="popular">по популярності</option>*@
+                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=asc" style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">@Html.DisplayListHeaderForEx(model => model.Name) А-Я</option>
+                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Name) Я-А</option>
+                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=asc">@Html.DisplayListHeaderForEx(model => model.Category.Name) А-Я</option>
+                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Category.Name) Я-А</option>
                 </select>
 
             </div>
@@ -172,6 +176,12 @@ else
                 $('#table-content').load(href + 'searchcriteria=' + searchcriteria);
 
             }
+
+                // sort
+            $("#sort").change(function () {
+                var selectedSort = $(this).children("option:selected").val();
+                reload(selectedSort);
+            });
 
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');

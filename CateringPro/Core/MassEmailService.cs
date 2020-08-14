@@ -78,9 +78,12 @@ namespace CateringPro.Core
             {
                 if(users==null)
                     users = await _mailrepo.GetDistributionUsersAsync(companyid);
-                
-                users.ForEach(async u => res &= await SendMassEmailToUser(companyid,u, em));
-
+                //for (int i = 0; i < 50; ++i)
+                //{
+                //    CompanyUser andry = await _mailrepo.GetUserAsync("27fb457f-8b4f-4a66-96ce-5e98ae2f1d91");
+                //    users = Enumerable.Repeat(andry, 10).ToList();
+                    users.ForEach(async u => res &= await SendMassEmailToUser(companyid, u, em));
+                //}
             }
             catch (Exception ex)
             {
