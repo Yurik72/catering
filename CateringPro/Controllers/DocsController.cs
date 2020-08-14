@@ -18,6 +18,7 @@ using System.Collections.Generic;
 
 namespace CateringPro.Controllers
 {
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class DocsController : Controller
     {
      

@@ -54,7 +54,8 @@ namespace CateringPro.Repositories
                     return await ProcessConfirmRequestAsync(request);
                 case "askforqueue":
                     return await ProcessQueueRequestAsync(request);
-                    
+                case "askforqueueconfirm":
+                    return await ProcessQueueConfirmRequestAsync(request);
                 default:
                     break;
             }
@@ -130,11 +131,15 @@ namespace CateringPro.Repositories
             */
             try
             {
-                var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate && q.Id>0 /*to do*/)
+                var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate 
+                                   && q.Id>0
+                                  
+                                   /*to do*/)
                              join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate) on q.DishId equals ud.DishId
                              join d in _context.Dishes on q.DishId equals d.Id
                              join u in _context.CompanyUser on q.UserId equals u.Id
-                                    
+                             where request.DishesNum.Contains(q.DishCourse)
+
                                    // select new { userid = u.Id, dishid = d.Id, dishname = d.Name }
                                    select new DeliveryQueueForGroup()
                                    {
@@ -143,9 +148,12 @@ namespace CateringPro.Repositories
                                        UserName=u.GetChildUserName(),
                                        DishId=d.Id,
                                        DishName=d.Name,
-                                       UserPictureId=u.PictureId
+                                       UserPictureId=u.PictureId,
+                                       DishCource=q.DishCourse
                                    }
-                                   ).Take(request.MaxQueue).ToListAsync();
+                                   ).Take(request.MaxQueue)
+                                   //.Any(value => request.DishesNum.Contains(value.DishCource)))
+                                    .ToListAsync();
                 
                 var client_query = from q in query
                                    group q by new { q.UserId, q.UserName,q.UserPictureId } into grp
@@ -172,6 +180,11 @@ namespace CateringPro.Repositories
             {
                 return ServiceQueueResponse.GetFailResult();
             }
+        }
+        public async Task<ServiceResponse> ProcessQueueConfirmRequestAsync(ServiceRequest request)
+        {
+            var res=ServiceResponse.GetSuccessResult(request);
+            return res;
         }
         public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
         {

@@ -18,7 +18,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
     public class MassEmailController : Controller
     {
         private readonly AppDbContext _context;

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Controllers
 {
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class DishesController : Controller
     {
         private readonly AppDbContext _context;
@@ -42,7 +44,7 @@ namespace CateringPro.Controllers
         // GET: Dishes
         public IActionResult Index()
         {
-
+            ViewData["QueryModel"] = new QueryModel() { SortField="Name"};
             return View(new List<Dish>());// await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)

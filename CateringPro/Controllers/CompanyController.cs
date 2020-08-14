@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin")]
     public class CompanyController : Controller
     {
         private readonly AppDbContext _context;

@@ -6,6 +6,7 @@ using jsreport.Types;
 using System.Threading.Tasks;
 using CateringPro.Models;
 using CateringPro.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using CateringPro.Core;
 using CateringPro.ViewModels;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Collections;
 
 namespace CateringPro.Controllers
 {
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin,UserAdmin")]
     public class ReportController : Controller
     {
         public IJsReportMVCService JsReportMVCService { get; }

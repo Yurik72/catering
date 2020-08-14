@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Controllers
 {
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin,UserAdmin")]
     public class CustomerOrdersController : Controller
     {
         private readonly AppDbContext _context;

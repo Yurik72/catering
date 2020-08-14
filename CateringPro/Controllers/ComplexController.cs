@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class ComplexController : Controller
     {
         private readonly AppDbContext _context;
