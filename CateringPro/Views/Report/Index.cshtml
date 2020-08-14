@@ -33,6 +33,8 @@
     </div>
 </div>
 <div class="container">
+    @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("KitchenAdmin"))
+    {
     <div class="row report-name">
         <div class="col">
             <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyProductionForecast" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["ForecastProductionStock"]</a>
@@ -58,6 +60,7 @@
             <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="ConsigmentStock" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["ConsignmentStock"]</a>
         </div>
     </div>
+    }
 </div>
 <script type="text/javascript">
 $(function() {

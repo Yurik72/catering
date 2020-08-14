@@ -18,7 +18,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class StockController : Controller
     {
         private readonly AppDbContext _context;

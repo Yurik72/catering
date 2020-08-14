@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Core;
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class DayDishesController : Controller
     {
         private readonly AppDbContext _context;

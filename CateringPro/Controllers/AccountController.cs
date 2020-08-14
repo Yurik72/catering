@@ -369,11 +369,20 @@ namespace CateringPro.Controllers
                 return RedirectToAction("Index", "Home");
         }
         [Authorize]
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         public async Task<IActionResult> EditUserModal(string userId)
         {
+            
             //string id = User.GetUserId();
             CompanyUser user = await _userManager.FindByIdAsync(userId);
+            if (User.IsInRole("GroupAdmin"))
+            {
+                var admin = await _userManager.FindByIdAsync(User.GetUserId());
+                if (user.UserGroupId != admin.UserGroupId)
+                {
+                    return Forbid();
+                }
+            }
             if (user != null)
             {
                 ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
@@ -384,7 +393,7 @@ namespace CateringPro.Controllers
                 return NotFound();
         }
 
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies, [FromForm] UserFinanceViewModel finmodel)
@@ -556,20 +565,26 @@ namespace CateringPro.Controllers
 
             return PartialView("EditUserModal", user);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         public IActionResult Users()//async Task<IActionResult> Users()
         {
             // return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
             return View(new List<CompanyUser>());
         }
         [Authorize]
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         public async Task<IActionResult> UsersList()
         {
-            var query = _userManager.Users; ;
+            
+                var query = _userManager.Users; ;
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
                 query = query.Where(u => u.CompanyId == User.GetCompanyID());
             query = query.Include(u => u.UserGroup);
+            if (User.IsInRole("GroupAdmin"))
+            {
+                var admin = await _userManager.FindByIdAsync(User.GetUserId());
+                query = query.Where(u => u.UserGroupId == admin.UserGroupId);
+            }
             //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
             return PartialView(await query.ToListAsync());
         }
@@ -766,7 +781,7 @@ namespace CateringPro.Controllers
         {
             return Json(_companyuser_repo.GetCurrentUsersCompaniesAsync(User.GetUserId()).Result.Where(c => c.Id != User.GetCompanyID()));
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public JsonResult UserRoles(string userId)
         {
             var user = _userManager.FindByIdAsync(userId).Result;
@@ -774,7 +789,7 @@ namespace CateringPro.Controllers
                 return new JsonResult(null) { StatusCode = 500 };
             return Json(_userManager.GetRolesAsync(user).Result);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> RolesForUser(string userId)
         {
 
@@ -785,7 +800,7 @@ namespace CateringPro.Controllers
             return PartialView(roles);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> CompaniesForUser(string userId)
         {
 
@@ -795,7 +810,7 @@ namespace CateringPro.Controllers
             var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(userId);
             return PartialView(usercompanies);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> SetCompanyId(int CompanyId)
         {
             if (!await _companyuser_repo.ChangeUserCompanyAsync(User.GetUserId(), CompanyId, User))
@@ -806,7 +821,7 @@ namespace CateringPro.Controllers
             await _signInManager.RefreshSignInAsync(user);
             return new EmptyResult();//RedirectToAction("Index", "Home");
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
         {
@@ -845,7 +860,7 @@ namespace CateringPro.Controllers
                 return BadRequest();
             }
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> AddBalance()
         {
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
