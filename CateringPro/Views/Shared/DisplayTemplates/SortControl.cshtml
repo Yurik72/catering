@@ -13,7 +13,7 @@
                 style="border: none">
             @foreach (var it in Model.FieldList)
             {
-            <option class="drpdwn-btn selection" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder=asc")
+            <option class="drpdwn-btn selection" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder=asc")
                     style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
                 @Localizer[it.DisplayName] @Html.Raw(it.SortType=="asc"? "&#8595;":"&#8593;")
             </option>

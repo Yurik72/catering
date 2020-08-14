@@ -56,7 +56,7 @@
             <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
                 <form id="search-form" class="form-inline col-12 p-0" style=" display: flex;">
                     <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
-                           style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
+                           style="font-size: 16px; color:#797979; height: 48px; background:  url('/img/search-icon.svg') no-repeat; background-position: 95%">
                 </form>
             </div>
         </div>
@@ -73,7 +73,8 @@
         </div>
     </div>
     <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
-         style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+         style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;"
+         >
         <div class="col-1">
         </div>
         @Html.DisplayListHeaderForEx(model => model.Category.Name)
@@ -87,13 +88,13 @@
         <div class="col-2"></div>
 
     </div>
-    <div id="table-content" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
+    <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
 
     </div>
 </div>
 <div class="modal fade" @*id="change-item-modal"*@ id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
+    <div class="modal-dialog" id="dialogContent"  style="max-width: 850px">
     </div>
 </div>
 
@@ -181,6 +182,7 @@ else
                     href = '/Dishes/ListItems?';
                 else
                     href += "&";
+                var getstr = `searchcriteria=${$("#table-content").data("filter")}&sortfield=${$("#table-content").data("sortfield")}&sortorder=${ $("#table-content").data("sortorder")}`;
                 var searchcriteria = '';
                 if ($('#search-val').length > 0)
                     searchcriteria = $('#search-val').val()
@@ -197,16 +199,24 @@ else
             */
             $(".custom-option").on("click", function () {
                 reload($(this).data('value'));
+                const urlParams = new URLSearchParams($(this).data('value'));
+                const field = urlParams.get('sortfield');
+                const order = urlParams.get('sortorder');
             });
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
             reload();
             $('#search-btn').click(function (e) {
+
                 reload();
             });
+           // $('#search-val').change(function (e) {
+           //     $("#table-content").data("filter", $(this).value())
+           // });
             $('#search-val').keydown((event) => {
                 if (event.which == 13) {
                     event.preventDefault();
+                    $("#table-content").data("filter", $('#search-val').val());
                     reload();
                 }
             });
