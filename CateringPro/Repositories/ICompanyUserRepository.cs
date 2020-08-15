@@ -32,5 +32,6 @@ namespace CateringPro.Repositories
         string GenerateNewCardToken(string userid, string cardUid, bool addHash = false);
         Task<bool> SaveUserCardTokenAsync(string userId, string token);
         Task<int> GetUserCompanyCount(string userId);
+        Task<List<AssignedCompanyEditViewModel>> GetAssignedEditCompanies(string userId);
     }
 }
