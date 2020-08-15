@@ -28,7 +28,7 @@
     </div>
     <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
 
-        @Html.DisplaySortField(model => model.Name).AddSortField(model=>model.Description).Display(querymodel)
+        @Html.DisplaySortField(model => model.Name).AddSortField(model=>model.Category.Name).Display(querymodel)
 
         @*
         <div class="col-lg-4 col-12 p-0 ">
@@ -199,13 +199,20 @@ else
             */
             $(".custom-option").on("click", function () {
                 reload($(this).data('value'));
-                const urlParams = new URLSearchParams($(this).data('value'));
+               // console.log($('#table-content').data('sortfield'));
+                var url = $(this).data('value').split('?').pop();
+                const urlParams = new URLSearchParams(url);
                 const field = urlParams.get('sortfield');
                 const order = urlParams.get('sortorder');
+               
+                $('#table-content').attr('data-sortfield', field);
+                $('#table-content').attr('data-sortorder', order);
             });
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
-            reload();
+
+            
+            reload($(".selection").val());
             $('#search-btn').click(function (e) {
 
                 reload();
@@ -216,8 +223,9 @@ else
             $('#search-val').keydown((event) => {
                 if (event.which == 13) {
                     event.preventDefault();
-                    $("#table-content").data("filter", $('#search-val').val());
-                    reload();
+                    $("#table-content").attr("data-filter", $('#search-val').val());
+                   // console.log($("span.selection").attr("data-value"));
+                    reload($("span.selection").attr("data-value"));
                 }
             });
             $("#search-form").submit(function (e) {

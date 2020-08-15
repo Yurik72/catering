@@ -3,8 +3,9 @@ var html_loading_element = '<div class="spinner-container"> <div>Loading</div><d
 
 $(function () {
     
-    setup_change_company();
+    //setup_change_company();
     setup_changechield();
+    setup_changecompany();
 });
 function gethtmlloading() {
     return html_loading_element;
@@ -61,44 +62,98 @@ function setup_changechield() {
             });
     });
 }
-function setup_change_company() {
-    var ul_select_company = '<ul class="nav navbar-nav navbar-right show"> <a id="selectcompanyloaded" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">.....</a><li class="nav-item dropdown"><div class="dropdown-menu show" id="companylist"></div></li></ul>';
+//function setup_change_company() {
+//    var ul_select_company = '<ul class="nav navbar-nav navbar-right show"> <a id="selectcompanyloaded" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">.....</a><li class="nav-item dropdown"><div class="dropdown-menu show" id="companylist"></div></li></ul>';
+//    $("#selectcompany").click(function (e) {
+//        e.preventDefault();
+//        var url = '/Account/UserOtherCompanies';
+//        var self = this;
+//        $.get(url, function (data) {
+//            var ul = $(ul_select_company);
+//            if ($.isArray(data) && data.length > 0) {
+//                data.map(function (el) {
+//                    ul.find("#companylist").append(`<a class="setcompany dropdown-item" data-id="${el.id}" href="#">${el.name}</a>`)
+//                });
+//                ul.find("#selectcompanyloaded").text($(self).text());
+//                $(self).before(ul);
+//                $(self).empty();
+//                setupcompanychanges(ul);
+//            }
+
+//        });
+
+//    });
+//    function setupcompanychanges(menu) {
+//        menu.find(".setcompany").click(function (e) {
+//            e.preventDefault();
+//            var url = '/Account/SetCompanyId?CompanyId=")' + $(this).attr("data-id");
+//            $.get(url, function (data) {
+//                //var x = data;
+//            }).done(function () {
+//                //alert("second success");
+//                location.reload();
+//            })
+//                .fail(function () {
+//                    //alert("error");
+//                });
+//        });
+
+//    }
+//}
+function setup_changecompany() {
     $("#selectcompany").click(function (e) {
-        e.preventDefault();
-        var url = '/Account/UserOtherCompanies';
+        var id = $(this).attr("data-userid");
+        var url = '/Account/CompaniesForUser?userId='+id;
         var self = this;
         $.get(url, function (data) {
-            var ul = $(ul_select_company);
-            if ($.isArray(data) && data.length > 0) {
-                data.map(function (el) {
-                    ul.find("#companylist").append(`<a class="setcompany dropdown-item" data-id="${el.id}" href="#">${el.name}</a>`)
-                });
-                ul.find("#selectcompanyloaded").text($(self).text());
-                $(self).before(ul);
-                $(self).empty();
-                setupcompanychanges(ul);
-            }
+            var dialog = $(data);
+            $("body").append(dialog);// $('#moddialogyesno');
+            // var dialog = $('#moddialogyesno').dialog();
+            dialog.modal('show');
+            dialog.on('hide.bs.modal', function (e) {
+                dialog.empty();
 
-        });
+            });
+            dialog.find(".company-item").click(function (e) {
+                e.preventDefault();
+                if (!$(this).hasClass('active')) {
+                    dialog.find(".company-item").removeClass('active');
+                    $(this).addClass('active')
+                }
+            });
+            dialog.find("#selectcompany").click(function (e) {
+                e.preventDefault();
+                var companyid = dialog.find(".company-item.active").attr("data-id");
+                var token = dialog.find("[name='__RequestVerificationToken'").val();
 
+                var currentUser = dialog.find(".company-item.active").attr("data-cur");
+                if (currentUser == 'true')
+                    return;
+                $.ajax({
+                    type: "POST",
+                    data: { CompanyId: companyid, __RequestVerificationToken: token },
+
+                    url: "/Account/SetCompanyId",
+                    success: function (data) {
+                        dialog.modal('hide');
+                        var getUrl = window.location;
+                        var baseUrl = getUrl.protocol + "//" + getUrl.host;
+                        window.location.href = baseUrl;
+                    }
+                })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        dialog_error(errorThrown);
+                    });
+
+            });
+
+        })
+            .fail(function (xhr, status, error) {
+
+            });
     });
-    function setupcompanychanges(menu) {
-        menu.find(".setcompany").click(function (e) {
-            e.preventDefault();
-            var url = '/Account/SetCompanyId?CompanyId=")' + $(this).attr("data-id");
-            $.get(url, function (data) {
-                //var x = data;
-            }).done(function () {
-                //alert("second success");
-                location.reload();
-            })
-                .fail(function () {
-                    //alert("error");
-                });
-        });
-
-    }
 }
+
 function setup_listitems(options) {
     let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems",editmethod:"EditModal",createmethod:"CreateModal"};
     if (typeof (options) == 'object') {

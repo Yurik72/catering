@@ -9,17 +9,27 @@
     <div class="col-12 p-0 justify-content-lg-start justify-content-center"
          style="display: flex; flex-wrap: nowrap">
         <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
-        <select name="sources" id="sources" class="custom-select sources" placeholder="..."
+        <select name="sources" id="sources" class="custom-select sources" placeholder=" @Localizer[Model.FieldList.First().DisplayName] &#8595;"
                 style="border: none">
             @foreach (var it in Model.FieldList)
             {
-            <option class="drpdwn-btn selection" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder=asc")
-                    style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
-                @Localizer[it.DisplayName] @Html.Raw(it.SortType=="asc"? "&#8595;":"&#8593;")
-            </option>
-                @*
-                    <option class="drpdwn-btn" value="popular">по популярності</option>
-                *@
+                if (it == Model.FieldList.First())
+                {
+                    <option class="drpdwn-btn selection" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder={it.SortType}")
+                            style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                        @Localizer[it.DisplayName] @Html.Raw(it.SortType == "asc" ? "&#8595;" : "&#8593;")
+                    </option>
+                }
+                else
+                {
+                    <option class="drpdwn-btn" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder={it.SortType}")
+                            style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                        @Localizer[it.DisplayName] @Html.Raw(it.SortType == "asc" ? "&#8595;" : "&#8593;")
+                    </option>
+                    @*
+                <option class="drpdwn-btn" value="popular">по популярності</option>
+                    *@
+                }
             }
         </select>
     </div>

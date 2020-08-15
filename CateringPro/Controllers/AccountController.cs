@@ -800,7 +800,7 @@ namespace CateringPro.Controllers
             return PartialView(roles);
         }
 
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize]
         public async Task<IActionResult> CompaniesForUser(string userId)
         {
 
