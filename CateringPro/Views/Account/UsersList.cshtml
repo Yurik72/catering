@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<CompanyUser>
 @inject CateringPro.Core.SharedViewLocalizer Localizer
-
-
-
 @using CateringPro.Core
 
 
@@ -15,52 +12,102 @@
 
 }
 
-<table class="table">
-    <thead>
-        <tr class="bg-white text-success">
-            <th>
+@if (true)
+{
+    @foreach (var item in Model)
+    {
+        <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
 
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.UserName, querymodel)
-            </th>
-            <th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Email, querymodel)
+            <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                 style=" border: none">
+                <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                    <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                        <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                            <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                  style="font-size: 16px; height: 22px; ">@Html.DisplayFor(modelItem => item.UserName)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                    <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                        <span class="col-12 align-content-center d-flex change-w">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </span>
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                        <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                             style="height: 30px">
+                            <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                  style="font-family: Open-Sans">@Html.DisplayFor(modelItem => item.UserGroup.Name)</span>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                            <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                
+                                @Html.ActionLink("", "EditUserModal",
+                                             new { userId = item.Id })
+                                <img src="~/img/pen-icon.svg" alt="Change item">
+                            </div>
+                            <a href="#" class="btn"><img src="~/img/delete-icon.svg" alt="Delete item"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            </th>
-            <th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.UserGroup.Name, querymodel, (object)ViewBag.UserGroupId)
 
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr class="bg-white text-secondary">
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserGroup.Name)
-            </td>
-            <td>
+        </div>
+    }
+    @Html.DisplayFor(model => querymodel, "PageNavigation", null)
+}
+
+else
+{
+    <table class="table">
+        <thead>
+            <tr class="bg-white text-success">
+                <th>
+
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.UserName, querymodel)
+                </th>
+                <th>
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Email, querymodel)
+
+                </th>
+                <th>
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.UserGroup.Name, querymodel, (object)ViewBag.UserGroupId)
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="bg-white text-secondary">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserGroup.Name)
+                    </td>
+                    <td>
 
 
-                <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                @Html.ActionLink("", "EditUserModal",
-                             new { userId = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
-            </td>
-        </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr class="bg-white text-success rounded border">
-            <td colspan="3">
-                @await this.InvokeComponentAsync(Component, "TablePager", model => model.UserName, querymodel)
-            </td>
-        </tr>
-    </tfoot>
-</table>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                        @Html.ActionLink("", "EditUserModal",
+                                     new { userId = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="bg-white text-success rounded border">
+                <td colspan="3">
+                    @await this.InvokeComponentAsync(Component, "TablePager", model => model.UserName, querymodel)
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
