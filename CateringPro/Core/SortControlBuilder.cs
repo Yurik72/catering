@@ -44,8 +44,8 @@ namespace CateringPro.Core
         {
             var model = new SortFieldModel(querymodel);
             FieldList.ForEach(f => {
-                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "ASC" });
-                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "DESC" });
+                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "asc" });
+                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "desc" });
                 }
             );
             return htmlhelper.DisplayFor(x=> model, "SortControl");

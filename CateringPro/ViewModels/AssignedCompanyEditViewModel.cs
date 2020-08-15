@@ -10,5 +10,6 @@ namespace CateringPro.ViewModels
         public int CompanyID { get; set; }
         public string CompanyName { get; set; }
         public bool IsAssigned { get; set; }
+        public bool IsCurrent { get; set; }
     }
 }

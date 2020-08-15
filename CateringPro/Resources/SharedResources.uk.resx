@@ -852,4 +852,7 @@
   <data name="IngredientCategories" xml:space="preserve">
     <value>Категорії Інгрідієнта</value>
   </data>
+  <data name="MenuChangeCompany" xml:space="preserve">
+    <value>Вибрати компанію</value>
+  </data>
 </root>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/custom-select.css">
+    <title>Кабачок - Мої дані</title>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100%">
+<header>
+    <div class="container-xl container-md container-sm container">
+        <nav class="navbar navbar-light navbar-expand-lg flex-grow-0 px-0">
+            <a class="navbar-brand" href="../index.html"><img src="../img/logo.png" alt="Catering logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarburger1"
+                    aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation"
+                    style="border: none; outline: none">
+                <img src="../img/hamburger-icon.svg" alt="">
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarburger1">
+                <ul class="navbar-nav nav justify-content-end float-right mr-0" id="nav-bar-burger"
+                    style="background: #ffffff">
+                    <li class="nav-item ml-3">
+                        <a class="nav-link px-0 navbar-size-14" href="#" style="color: #232323"><img
+                                src="../img/login-icon.svg"
+                                alt=""
+                                class="px-2">Увійти</a>
+                    </li>
+                    <li class="nav-item ml-3 float-right">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img src="../img/reg-icon.svg"
+                                                       alt="" class="px-2">Реєстрація</a>
+                    </li>
+                    <li class="nav-item ml-3 dropdown">
+                        <div class="nav-link text-main-color-dark px-0 navbar-size-14 dropdown-toggle"
+                             id="dropdown-admin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                             style="color: #232323; cursor: pointer"><img
+                                src="../img/admin-icon.svg"
+                                alt="" class="px-2">Адміністрування
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
+                             style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+                            <button class="dropdown-item" type="button">Список страв</button>
+                            <button class="dropdown-item" type="button">Лист категорій</button>
+                            <button class="dropdown-item" type="button">Інгредієнти</button>
+                            <button class="dropdown-item" type="button">Комплекс</button>
+                            <button class="dropdown-item" type="button">Меню на день / тиждень</button>
+                            <button class="dropdown-item" type="button">Замовлення</button>
+                            <button class="dropdown-item" type="button">Склад</button>
+                            <button class="dropdown-item" type="button">Склад/Залишки</button>
+                            <button class="dropdown-item" type="button">Документи</button>
+                            <button class="dropdown-item" type="button">Налаштування</button>
+                            <button class="dropdown-item" type="button">Звiти</button>
+                            <button class="dropdown-item" type="button">Користувачi</button>
+                            <button class="dropdown-item" type="button">Групи Користувачiв</button>
+                            <button class="dropdown-item" type="button">Розсилки email</button>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark  pl-0 navbar-size-14 selected-nav-item"
+                           href="profile.html"
+                           style="color: #232323"><img
+                                src="../img/profile-icon.svg"
+                                alt="" class="px-2">Мій
+                            профіль</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/basket-icon.svg"
+                                alt="" class="px-2">Мої
+                            замовлення</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/logout-icon.svg"
+                                alt="" class="px-2">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<main class="row mr-0 ml-0 flex-grow-1">
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2"
+                                                                                                  style="font-weight: 600; font-size: 34px">
+                Мої дані</p></div>
+        </div>
+        <ul class="nav nav-tabs justify-content-lg-center justify-content-md-center justify-content-between " id="tab-profile" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link " style="width: 100%;" id="home-tab" data-toggle="tab" href="#profile-home"
+                   role="tab"
+                   aria-controls="home"
+                   aria-selected="true">Головна</a>
+            </li>
+            <li class="nav-item mr-2 ml-2">
+                <a class="nav-link" style="width: 100%;" id="child-tab" data-toggle="tab" href="#profile-child"
+                   role="tab"
+                   aria-controls="childs"
+                   aria-selected="false">Діти</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" style="width: 100%;" id="finance-tab" data-toggle="tab" href="#profile-finance"
+                   role="tab"
+                   aria-controls="finance"
+                   aria-selected="false">Фінанси</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="profile-tab">
+            <div class="tab-pane fade " id="profile-home" role="tabpanel" aria-labelledby="home-tab">
+                <form>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-name"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0">Ім'я</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-name"
+                                   placeholder="Ім'я" style="height: 34px">
+                        </div>
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                            <label for="input-surname"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">Прізвище</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-surname"
+                                   placeholder="Прізвище" style="height: 34px">
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-phone-number"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0">Телефон</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   id="input-phone-number" placeholder="(XXX) XXX - XXXX">
+                        </div>
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                            <label for="input-country"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">Країна</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-country"
+                                   placeholder="Країна">
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-city"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0">Місто</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-city"
+                                   placeholder="">
+                        </div>
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                            <label for="input-post-index"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">Пошт.
+                                індекс</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-post-index"
+                                   placeholder="">
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-first-address"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0">Адреса
+                                1</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   id="input-first-address" placeholder="">
+                        </div>
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                            <label for="input-second-address"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center  pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">Адреса
+                                2</label>
+                            <input type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   id="input-second-address" placeholder="">
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-old-password"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0 font-weight-bold">Старий
+                                пароль</label>
+                            <input type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   id="input-old-password" placeholder="" style="height: 34px">
+                        </div>
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-new-password"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center md-0 font-weight-bold">Новий
+                                пароль</label>
+                            <input type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   id="input-new-password" placeholder="" style="height: 34px">
+                        </div>
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="input-confirm-new-password"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0 font-weight-bold">Підтвердити</label>
+                            <input type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   id="input-confirm-new-password" placeholder="" style="height: 34px">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade"
+                 id="profile-child" role="tabpanel"
+                 aria-labelledby="child-tab">
+                <div class="d-flex justify-content-center flex-column align-items-center">
+                    <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-center">
+                        <div class="col-6 col-md-6 col-lg-6 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                            <label for="input-name"
+                                   class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">Кількість
+                                дітей</label>
+                            <span id="child-amount">
+                        <input type="number" min="0" value="0">
+                                            <div class="child-amount-control"
+                                                 onclick="this.previousElementSibling.stepUp()">+</div>
+                                            <div class="child-amount-control"
+                                                 onclick="this.previousElementSibling.previousElementSibling.stepDown()">-</div>
+                        </span>
+                        </div>
+                        <div class="col-6 p-0 d-flex justify-content-end align-self-end align-self-sm-end align-self-md-center"
+                             style="height: 34px">
+                            <button type="button"
+                                    class=" btn  btn-xl btn-outline-danger justify-content-center float-md-none font-weight-bold btn-block col-lg-5 col-md-5 col-7 m-0 p-0"
+                                    onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                    onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                    style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                                &#65291; ДОДАТИ
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-start mt-3 mt-lg-4 mt-md-4 flex-column justify-content-around"
+                         style="border: 1px solid #B1B1B1; border-radius: 4px; max-height: 154px; min-height: 110px">
+                        <div class="col-12 col-md-7 my-2 col-lg-6 p-0 pl-3 pr-3 pr-md-0 pr-lg-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                            <label for="child-name"
+                                   class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">Ім'я</label>
+                            <input id="child-name" class="child-inputs" type="text" min="0" value="0"
+                                   placeholder="Ім'я">
+                        </div>
+                        <div class="col-12 col-md-7 my-2 col-lg-6 p-0 pl-3 pr-3 pr-md-0 pr-lg-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                            <label for="child-date"
+                                   class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">День
+                                народження</label>
+                            <input id="child-date" class="child-inputs" type="date" class="form-control" id="date"
+                                   name="date" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="profile-finance" role="tabpanel" aria-labelledby="finance-tab">
+                <div class="d-flex justify-content-center flex-column align-items-center">
+                    <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-start  flex-column">
+                        <span class="h2 mb-3" style="font-weight: 500; font-size: 18px; line-height: 21px; color: #232323;">Фінанси</span>
+                        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+                        style="font-weight: normal; font-size: 16px;">
+                            <span class=" m-0">Balance</span>
+                            <span class=" m-0" style="font-family: Open-Sans">0,00</span>
+                        </div>
+                        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+                        style="font-weight: normal; font-size: 16px;">
+                            <span class=" m-0">InCome</span>
+                            <span class=" m-0" style="font-family: Open-Sans">0,00</span>
+                        </div>
+                        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+                        style="font-weight: normal; font-size: 16px;">
+                            <span class=" m-0">OutCome</span>
+                            <span class=" m-0" style="font-family: Open-Sans">0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer row ml-0 mr-0"
+        style="min-height: 91px; background: #222222; display:flex; align-items: center; margin-top: 56px">
+    <div class="container container-sm container-md container-lg" style="height: 100%">
+        <div class="row justify-content-between mr-2 ml-2 flex-column-reverse align-items-center flex-xl-row flex-lg-row flex-md-column-reverse">
+            <div class="col-10 justify-content-center justify-content-lg-start mt-3 mt-lg-0 col-md-5">
+                <div class="h5 justify-content-center justify-content-lg-start"
+                     style="color: #ffffff; font-size: 14px; line-height: 16px; display: flex; justify-content: center">
+                    <span>© 2017-2018 Company, Inc.</span></div>
+            </div>
+            <div class="col-12 col-lg-5  col-sm-5 col-md-5 justify-content-center">
+                <nav class="nav justify-content-center justify-content-lg-end">
+                    <a class="nav-link p-0 pl-4 pr-4  pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
+                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Privacy</a>
+                    <div class="align-self-center" style="color: #f15e25">|</div>
+                    <a class="nav-link p-0 pl-4 pr-4 pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
+                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Terms</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="../js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script>
+    let tabsLinkProfile = [...document.getElementById('tab-profile').querySelectorAll('.nav-link')];
+
+
+</script>
+</body>
+</html>
