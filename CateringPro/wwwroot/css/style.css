@@ -52,6 +52,25 @@ body {
         border-radius: 4px;
         border-bottom: none;
     }
+
+    #tab-profile .nav-item {
+        width: 85px !important;
+    }
+
+    #tab-profile .nav-link {
+        width: 85px !important;
+    }
+
+    .profile-form-title {
+        font-weight: bold !important;
+        font-size: 14px !important;
+    }
+
+    .child-inputs {
+        max-width: none !important;
+    }
+
+
 }
 
 @media (max-width: 413px) {
@@ -66,6 +85,15 @@ body {
     .money-w {
 
         left: 69%;
+    }
+
+    #tab-profile {
+        border-bottom: none;
+    }
+
+    #tab-profile .nav-link {
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
     }
 }
 
@@ -187,6 +215,134 @@ body {
     content: url("../img/sort-icon.svg");
     width: 10px;
     margin-top: 2px;
+}
+
+.selected-nav-item {
+    background: #FDF5F1;
+    color: #f4875b;
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+
+#tab-profile .nav-link {
+    text-align: center;
+    color: #232323;
+    font-family: Open-Sans;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    border-bottom: 2px solid transparent;
+    max-width: 135px;
+}
+
+.nav-tabs .nav-link {
+    border: 0;
+}
+
+#tab-profile .active {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #F05E25;
+    color: #F05E25;
+}
+
+#tab-profile .nav-item {
+    width: 135px;
+}
+
+.profile-form-title {
+    font-weight: normal;
+    font-size: 16px;
+    color: #232323;
+}
+
+.input-row-black input::placeholder {
+    color: #232323;
+}
+
+#input-phone-number::placeholder {
+    color: gray;
+}
+
+#child-amount .child-amount-control {
+    background: #EBEBEB;
+    width: 30px;
+    height: 30px;
+}
+
+#child-amount {
+    position: relative;
+    display: inline-block;
+    max-width: 231px;
+    min-width: 200px;
+    flex-grow: 1;
+}
+
+#child-amount input {
+    font-size: 1em;
+    -moz-appearance: textfield;
+    height: 34px;
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+#child-amount input::-webkit-inner-spin-button {
+    display: none;
+}
+
+#child-amount .child-amount-control {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-size: 20px;
+    color: #232323;
+}
+
+#child-amount .child-amount-control:hover {
+    background: #FDF5F1;
+}
+
+#child-amount .child-amount-control:nth-of-type(1) {
+    bottom: 2px;
+    right: 34px;
+}
+
+#child-amount .child-amount-control:nth-of-type(2) {
+    bottom: 2px;
+    right: 2px;
+
+}
+
+.child-inputs {
+    -moz-appearance: textfield;
+    height: 34px;
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 10px;
+    width: 100%;
+    display: inline-block;
+    max-width: 231px;
+    min-width: 200px;
+    flex-grow: 1;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    display: block;
+    background: url('../img/calendar-icon.svg') no-repeat;
+    width: 20px;
+    height: 20px;
+    border-width: thin;
 }
 
 @font-face {
