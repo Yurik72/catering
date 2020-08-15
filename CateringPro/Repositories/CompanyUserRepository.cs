@@ -117,6 +117,10 @@ namespace CateringPro.Repositories
             return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).ToListAsync();
 
         }
+        public async Task<int> GetUserCompanyCount(string userId)
+        {
+            return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).CountAsync();
+        }
         public async Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims)
         {
             if (companyid == _context.CompanyId)

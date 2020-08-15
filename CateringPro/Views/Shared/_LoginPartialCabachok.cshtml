@@ -3,6 +3,7 @@
 
 @inject SignInManager<CompanyUser> SignInManager
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject CateringPro.Repositories.ICompanyUserRepository com_rep
 @{
     var current_user = await SignInManager.UserManager.GetUserAsync(User);
 }
@@ -26,10 +27,10 @@
         else
         {
             @if (User.IsInRole("Admin")
-               || User.IsInRole("CompanyAdmin")
-               || User.IsInRole("UserAdmin")
-               || User.IsInRole("KitchenAdmin")
-               || User.IsInRole("GroupAdmin"))
+|| User.IsInRole("CompanyAdmin")
+|| User.IsInRole("UserAdmin")
+|| User.IsInRole("KitchenAdmin")
+|| User.IsInRole("GroupAdmin"))
             {
                 <li class="nav-item ml-3 dropdown">
                     <div class="nav-link text-main-color-dark px-0 navbar-size-14 dropdown-toggle"
@@ -39,46 +40,46 @@
                              alt="" class="px-2">@Localizer["MenuAdmin"]
                         </div>
 
-                    <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
-                         style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
-                        @if (User.IsInRole("Admin")
-                         || User.IsInRole("CompanyAdmin")
-                         || User.IsInRole("KitchenAdmin"))
-                        {
-                            <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">@Localizer["MenuDishes"]</a>
-                            <a class="dropdown-item" asp-controller="Categories" asp-action="Index">@Localizer["MenuCategories"]</a>
-                            <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index">@Localizer["MenuIngredients"]</a>
-                            <a class="dropdown-item" asp-controller="IngredientCategories" asp-action="Index">@Localizer["IngredientCategories"]</a>
-                            <a class="dropdown-item" asp-controller="Complex" asp-action="Index">@Localizer["MenuComplex"]</a>
-                            <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">@Localizer["MenuDayDishes"]</a>
-                            <a class="dropdown-item" asp-controller="Stock" asp-action="Index">@Localizer["MenuStock"]</a>
-                            <a class="dropdown-item" asp-controller="Stock" asp-action="ConsignmentStock">@Localizer["MenuStockConsignment"]</a>
-                            <a class="dropdown-item" asp-controller="Docs" asp-action="Index">@Localizer["MenuDocs"]</a>
-                            <a class="dropdown-item" asp-controller="Report" asp-action="Index">@Localizer["Reports"]</a>
-                        }
-                        @if (User.IsInRole("Admin")
-                       || User.IsInRole("CompanyAdmin")
-                       || User.IsInRole("UserAdmin")
-                       || User.IsInRole("KitchenAdmin"))
-                        {
-                            <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">@Localizer["MenuCustomerOrders"]</a>
-                        }
-                        @if (User.IsInRole("Admin")
-                          || User.IsInRole("CompanyAdmin")
-                          || User.IsInRole("UserAdmin"))
-                        {
-                            <a class="dropdown-item" asp-controller="Company" asp-action="Setting">@Localizer["Setting"]</a>
-                            <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
-                            <a class="dropdown-item" asp-controller="UserGroups" asp-action="Index">@Localizer["MenuUsersGroups"]</a>
-                            <a class="dropdown-item" asp-controller="MassEmail" asp-action="Index">@Localizer["MassEmail"]</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
+                             style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+                            @if (User.IsInRole("Admin")
+|| User.IsInRole("CompanyAdmin")
+|| User.IsInRole("KitchenAdmin"))
+                            {
+                                <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">@Localizer["MenuDishes"]</a>
+                                <a class="dropdown-item" asp-controller="Categories" asp-action="Index">@Localizer["MenuCategories"]</a>
+                                <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index">@Localizer["MenuIngredients"]</a>
+                                <a class="dropdown-item" asp-controller="IngredientCategories" asp-action="Index">@Localizer["IngredientCategories"]</a>
+                                <a class="dropdown-item" asp-controller="Complex" asp-action="Index">@Localizer["MenuComplex"]</a>
+                                <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">@Localizer["MenuDayDishes"]</a>
+                                <a class="dropdown-item" asp-controller="Stock" asp-action="Index">@Localizer["MenuStock"]</a>
+                                <a class="dropdown-item" asp-controller="Stock" asp-action="ConsignmentStock">@Localizer["MenuStockConsignment"]</a>
+                                <a class="dropdown-item" asp-controller="Docs" asp-action="Index">@Localizer["MenuDocs"]</a>
+                                <a class="dropdown-item" asp-controller="Report" asp-action="Index">@Localizer["Reports"]</a>
+                            }
+                            @if (User.IsInRole("Admin")
+|| User.IsInRole("CompanyAdmin")
+|| User.IsInRole("UserAdmin")
+|| User.IsInRole("KitchenAdmin"))
+                            {
+                                <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">@Localizer["MenuCustomerOrders"]</a>
+                            }
+                            @if (User.IsInRole("Admin")
+|| User.IsInRole("CompanyAdmin")
+|| User.IsInRole("UserAdmin"))
+                            {
+                                <a class="dropdown-item" asp-controller="Company" asp-action="Setting">@Localizer["Setting"]</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
+                                <a class="dropdown-item" asp-controller="UserGroups" asp-action="Index">@Localizer["MenuUsersGroups"]</a>
+                                <a class="dropdown-item" asp-controller="MassEmail" asp-action="Index">@Localizer["MassEmail"]</a>
 
-                        }
-                        @if ( User.IsInRole("GroupAdmin"))
-                        {
-                            <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
-                        }
+                            }
+                            @if (User.IsInRole("GroupAdmin"))
+                            {
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
+                            }
 
-                    </div>
+                        </div>
                     </li>
                 }
             <li class="nav-item ml-3 dropdown">
@@ -95,7 +96,10 @@
                         <a id="changechield" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
                     }
 
-                    <a id="selectcompany" class="dropdown-item" data-userid="@current_user.Id" href="#">@Localizer["MenuChangeCompany"]</a>
+                    @if (com_rep.GetUserCompanyCount(current_user.Id).Result > 1)
+                    {
+                        <a id="selectcompany" class="dropdown-item" data-userid="@current_user.Id" href="#">@Localizer["MenuChangeCompany"]</a>
+                    }
                 </div>
             </li>
             <li class="nav-item ml-3">
