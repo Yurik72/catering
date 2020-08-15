@@ -10,6 +10,8 @@ namespace CateringPro.ViewModels
         public QueryModel()
         {
             SortOrder = "ASC";
+            SortField = "";
+            SearchCriteria = "";
         }
         public string SortField { get; set; }
         public string SortOrder { get; set; }
