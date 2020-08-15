@@ -1,0 +1,17 @@
+﻿@model UserFinIncome
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+    <div class="container">
+        <dt> <label asp-for="Amount" class="control-label">@Localizer["AmountOfMoney"]</label></dt>
+        <dd>
+            <input type="hidden" asp-for="Id" />
+            <input name="UserFin.Amount" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </dd>
+        <dt> <label asp-for="Comments" class="control-label">@Localizer["Comment"]</label></dt>
+        <dd>
+            <input name="UserFin.Comments" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="Comments" class="text-danger"></span>
+        </dd>
+    </div>
+    
