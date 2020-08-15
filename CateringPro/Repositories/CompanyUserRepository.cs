@@ -93,7 +93,8 @@ namespace CateringPro.Repositories
         }
         public async Task<List<AssignedCompanyEditViewModel>> GetAssignedCompaniesEdit(string userId)
         {
-            var assigned = await GetCurrentUserCompanie(userId);
+            var assigned = await GetCurrentUsersCompaniesUserAsync(userId);
+            var cur = await GetCurrentUserCompanie(userId);
             var model = (await GetCompaniesAsync()).AsQueryable().Select(c => new AssignedCompanyEditViewModel
             {
                 CompanyID = c.Id,
@@ -101,7 +102,7 @@ namespace CateringPro.Repositories
                 IsAssigned = false
             }).ToList(); ;
 
-            model.ForEach(m => m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID));
+            model.ForEach(m => { m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID); m.IsCurrent = cur.Any(c => c.CompanyId == m.CompanyID); }); 
             return model;
         }
         public async Task<List<CompanyUser>> GetCurrentUserCompanie(string userId)

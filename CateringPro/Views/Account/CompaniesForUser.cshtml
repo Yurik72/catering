@@ -20,8 +20,10 @@
 
                     @foreach (var ur in Model)
                     {
-                        <li data-id="@ur.CompanyID" class="company-item list-group-item@(ur.IsAssigned?" active fa fa-check-square-o":" fa fa-square-o")" data-cur="@(ur.IsAssigned?"true":"false")" style="cursor:pointer;">&nbsp;@ur.CompanyName</li>
-
+                        if (ur.IsAssigned)
+                        {
+                        <li data-id="@ur.CompanyID" class="company-item list-group-item@(ur.IsCurrent ? " active fa fa-check-square-o" : " fa fa-square-o")" data-cur="@(ur.IsCurrent ? "true" : "false")" style="cursor:pointer;">&nbsp;@ur.CompanyName</li>
+                        }
                     }
                 </ul>
             </div>
