@@ -16,7 +16,7 @@
 
 }
 
-@if (true)
+@if (false)
 {
 
         <div class="container-xl container container-md container-sm container-lg">
@@ -215,7 +215,7 @@ else
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
         $(function () {
             setup_listitems({
@@ -243,6 +243,10 @@ else
                 var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
                 $.get(urlfin, function (data) {
                     $("#nav-content-fin-of-user").html(data);
+                });
+                var urlmoney = '@Url.Content("~/Account/AddMoney?userId=")' + userId;
+                $.get(urlmoney, function (data) {
+                    $("#nav-content-fin-money").html(data);
                 });
                 function setuproleshandler(cont) {
                     cont.find(".role-item").click(function (e) {
@@ -295,6 +299,6 @@ else
                 });
             }
         })
-    </script>
+</script>
 }
 
