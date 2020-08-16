@@ -497,9 +497,14 @@ namespace CateringPro.Controllers
                     }
                     usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
-                    UserFin.Id = user.Id;
-                    AddMoneyTo(UserFin);
 
+
+                    if(UserFin.Amount != 0)
+                    {
+                        UserFin.Id = user.Id;
+                        AddMoneyTo(UserFin);
+                    }
+                    
                     //if (user != null)
                     //{
                     //   await UserFinance();
