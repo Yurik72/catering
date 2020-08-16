@@ -457,7 +457,6 @@ namespace CateringPro.Controllers
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
 
                     usr.ChildrenCount = 1;
-
                     if (usr.ConfirmedByAdmin)
                     {
                         var code = await _userManager.GeneratePasswordResetTokenAsync(usr);
@@ -879,7 +878,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(finIncome.Id).Result;
             if (user != null)
             {
-                if (finIncome.Amount != null)
+                if (finIncome.Amount != 0)
                 {
                     finIncome.Id = user.Id;
                     finIncome.TransactionDate = DateTime.Now;
