@@ -31,13 +31,13 @@
         @Html.ValidationSummary()
 
         <form asp-action="EditUserModal">
+             @Html.AntiForgeryToken()
             <nav>
                 <div class="nav nav-tabs" id="nav-tabs" role="tablist">
                     <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-1" aria-selected="false">Головна</a>
                     <a class="nav-item nav-link nav-roles" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">Ролі</a>
                     <a class="nav-item nav-link nav-companies" id="nav-tab-1" data-toggle="tab" href="#nav-content-2" role="tab" aria-controls="nav-content-2" aria-selected="false">Компанії</a>
                     <a class="nav-item nav-link nav-finance" id="nav-tab-fin-of-user" data-toggle="tab" href="#nav-content-fin-of-user" role="tab" aria-controls="nav-content-fin-of-user" aria-selected="false">@Localizer["Finance"]</a>
-                    <a class="nav-item nav-link nav-finance-add-money" id="nav-tab-fin-add-money" data-toggle="tab" href="#nav-content-fin-money" role="tab" aria-controls="nav-content-fin-of-user" aria-selected="false">@Localizer["AddMoney"]</a>
                 </div>
                 <div class="tab-content day-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
@@ -143,10 +143,8 @@
                     <div class="tab-pane fade" id="nav-content-fin-of-user" role="tabpanel" aria-labelledby="nav-tab-fin-of-user">
 
                     </div>
-                    <div class="tab-pane fade" id="nav-content-fin-money" role="tabpanel" aria-labelledby="nav-tab-fin-add-money">
-                       
-                    </div>
-                    @Html.AntiForgeryToken()
+
+
                 </div>
             </nav>
         </form>

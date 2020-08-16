@@ -1,4 +1,5 @@
-﻿using CateringPro.ViewModels;
+﻿using CateringPro.Models;
+using CateringPro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace CateringPro.Repositories
 {
     public interface IUserFinRepository
     {
+        Task<bool> AddBalanceToAsync(UserFinIncome userincome);
         Task<UserFinanceViewModel> GetUserFinModelAsync(string userId, int companyId);
         bool MakeOrderPayment(DateTime daydate, int companyId);
         Task<bool> MakeOrderPaymentAsync(DateTime daydate, int companyId);
