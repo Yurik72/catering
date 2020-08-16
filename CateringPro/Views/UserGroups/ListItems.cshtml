@@ -11,46 +11,89 @@
     }
 
 }
+@if (true)
+{
+    @foreach (var item in Model)
+    {
+        <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
 
-<table class="table">
-    <thead>
-        <tr class="bg-white text-success">
-            <th>
+            <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                 style=" border: none">
+                <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
 
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
-            </th>
-            @*<th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
+                    <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                        <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                style="height: 38px">
+                            <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                    style=" height: 38px">@item.Name</span>
+                            </div>
+                        </div>
 
-            </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="bg-white text-secondary">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>*@
-                <td>
+                </div>
+                <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+
+                    <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                        <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn " data-toggle="modal" data-target="#change-item-modal">
+                                    <a class="cmd-edit dialog-edit-icon" href="@Url.Action("EditModal","UserGroups",
+                                            new { id = item.Id }, null)">
+
+                                        <img src="~/img/pen-icon.svg" alt="Change item">
+                                    </a>
+                                </div>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn cmd-delete dialog-edit-icon"><img src="~/img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                </div>
+                     
+
+            </div>
+        </div>
+ }
+    @Html.DisplayFor(model => querymodel, "PageNavigation", null)
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr class="bg-white text-success">
+                <th>
+
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
+                </th>
+                @*<th>
+                        @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
+
+                    </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="bg-white text-secondary">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>*@
+                    <td>
 
 
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    @Html.ActionLink("", "EditModal",
-                                 new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                        @Html.ActionLink("", "EditModal",
+                              new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="bg-white text-success rounded border">
+                <td colspan="3">
+                    @await this.InvokeComponentAsync(Component, "TablePager", model => model.Name, querymodel)
                 </td>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr class="bg-white text-success rounded border">
-            <td colspan="3">
-                @await this.InvokeComponentAsync(Component, "TablePager", model => model.Name, querymodel)
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        </tfoot>
+    </table>
+}
