@@ -809,6 +809,16 @@ namespace CateringPro.Controllers
             var usercompanies = await _companyuser_repo.GetAssignedCompaniesEdit(userId);
             return PartialView(usercompanies);
         }
+        [Authorize]
+        public async Task<IActionResult> EditCompaniesForUser(string userId)
+        {
+
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null && !string.IsNullOrEmpty(userId))
+                return NotFound();
+            var usercompanies = await _companyuser_repo.GetAssignedEditCompanies(userId);
+            return PartialView(usercompanies);
+        }
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> SetCompanyId(int CompanyId)
         {

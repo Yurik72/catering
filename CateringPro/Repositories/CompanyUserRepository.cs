@@ -105,6 +105,20 @@ namespace CateringPro.Repositories
             model.ForEach(m => { m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID); m.IsCurrent = cur.Any(c => c.CompanyId == m.CompanyID); }); 
             return model;
         }
+        public async Task<List<AssignedCompanyEditViewModel>> GetAssignedEditCompanies(string userId)
+        {
+            var assigned = await GetCurrentUsersCompaniesUserAsync(userId);
+            //var cur = await GetCurrentUserCompanie(userId);
+            var model = (await GetCompaniesAsync()).AsQueryable().Select(c => new AssignedCompanyEditViewModel
+            {
+                CompanyID = c.Id,
+                CompanyName = c.Name,
+                IsAssigned = false
+            }).ToList(); ;
+
+            model.ForEach(m =>  m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID));
+            return model;
+        }
         public async Task<List<CompanyUser>> GetCurrentUserCompanie(string userId)
         {
 
@@ -116,6 +130,10 @@ namespace CateringPro.Repositories
 
             return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).ToListAsync();
 
+        }
+        public async Task<int> GetUserCompanyCount(string userId)
+        {
+            return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).CountAsync();
         }
         public async Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims)
         {
