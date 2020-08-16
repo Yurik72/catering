@@ -293,7 +293,7 @@ else
                     $("#user-roles-content").html(data);
                     setuproleshandler($("#user-roles-content"));
                 });
-                var urlcomp = '@Url.Content("~/Account/CompaniesForUser?userId=")' + userId;
+                var urlcomp = '@Url.Content("~/Account/EditCompaniesForUser?userId=")' + userId;
                 $.get(urlcomp, function (data) {
                     $("#user-companies-content").html(data);
                     setupcompanyhandler($("#user-companies-content"))
