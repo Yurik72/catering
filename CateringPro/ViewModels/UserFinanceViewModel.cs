@@ -13,6 +13,8 @@ namespace CateringPro.ViewModels
             Incomes = new HashSet<UserFinIncome>();
             Outcomes = new HashSet<UserFinOutCome>();
         }
+        public string UserId { get; set; }
+        public int CompanyId { get; set; }
         public UserFinance Finance { get; set; }
 
         public ICollection<UserFinIncome> Incomes { get; set; }

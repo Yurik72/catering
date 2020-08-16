@@ -19,150 +19,108 @@
 @if (false)
 {
 
-        <div class="container-xl container container-md container-sm container-lg">
-            <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
-                <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
-                    <p class="h2" style="font-weight: 600">
-                        @Localizer["MenuUsers"]
-                    </p>
-                </div>
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+                <p class="h2" style="font-weight: 600">
+                    @Localizer["MenuUsers"]
+                </p>
             </div>
-            <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
+        </div>
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
 
-                @Html.DisplaySortField(model => model.UserName).AddSortField(model => model.Email).AddSortField(model => model.UserGroup.Name).Display(querymodel)
+            @Html.DisplaySortField(model => model.UserName).AddSortField(model => model.Email).AddSortField(model => model.UserGroup.Name).Display(querymodel)
 
-                @*<div class="col-lg-4 col-12 p-0 ">
-                        <div class="col-12 p-0 justify-content-lg-start justify-content-center"
-                                style="display: flex; flex-wrap: nowrap">
-                            <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
+            @*<div class="col-lg-4 col-12 p-0 ">
+                    <div class="col-12 p-0 justify-content-lg-start justify-content-center"
+                            style="display: flex; flex-wrap: nowrap">
+                        <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
 
-                            <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
-                                    style="border: none">
-                                <option class="drpdwn-btn selection" value="price"
-                                        style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">по ціні
-                                </option>
-                                <option class="drpdwn-btn" value="popular">по популярності</option>
-                            </select>
-                        </div>
-                    </div>*@
-                <div class="col-lg-4 col-12 p-0 ">
-                    <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
-                        <form class="form-inline col-12 p-0" style=" display: flex;">
-                            <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
-                                    style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-12 p-0 d-none d-md-block">
-                    <div class="col-12 p-0 justify-content-center" style="height: 48px">
-                        <button id="create-btn" type="button"
-                                class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
-                                onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                                onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                                style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                            &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
-                    style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
-                <div class="col-1">
-                </div>
-                @Html.DisplayListHeaderForEx(model => model.UserName)
-                @Html.DisplayListHeaderForEx(model => model.Email)
-                @Html.DisplayListHeaderForEx(model => model.UserGroup.Name)
-                @*<div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
-                    <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
-                    <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
-                    <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>*@
-                <div class="col-2"></div>
-            </div>
-            <div id="table-content" class="row ml-0 mr-0 mt-0 justify-content-center w-100">
-            </div>
-            @*<div class="row" style="margin-top: 92px">
-                    <div class="col-sm">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Previous"
-                                        style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
-                                        <span aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
-                                                            style="border: none; color: #232323; font-family: Open-Sans; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">1</a>
-                                </li>
-                                <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
-                                                            style="border: none; color: #232323; font-family: Open-Sans; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0 active-custom"
-                                                            href="#"
-                                                            style="border: none; color: #232323; font-family: Open-Sans; font-size: 16px; line-height: 22px; width: 40px; height: 40px;  text-align: center">3<span
-                                        class="sr-only">(current)</span></a></li>
-                                <li class="page-item">
-                                    <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Next"
-                                        style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
-                                        <span aria-hidden="true">></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
+                                style="border: none">
+                            <option class="drpdwn-btn selection" value="price"
+                                    style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">по ціні
+                            </option>
+                            <option class="drpdwn-btn" value="popular">по популярності</option>
+                        </select>
                     </div>
                 </div>*@
-
-        </div>
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    <form class="form-inline col-12 p-0" style=" display: flex;">
+                        <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
+                               style="font-size: 16px; color:#797979; height: 48px; background: url('~/img/search-icon.svg') no-repeat; background-position: 95%">
+                    </form>
                 </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button id="create-btn" type="button"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
+                    </button>
+                </div>
+            </div>
         </div>
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
+             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+            <div class="col-1">
+            </div>
+            @Html.DisplayListHeaderForEx(model => model.UserName)
+            @Html.DisplayListHeaderForEx(model => model.Email)
+            @Html.DisplayListHeaderForEx(model => model.UserGroup.Name)
+            @*<div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
+                <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
+                <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
+                <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>*@
+            <div class="col-2"></div>
+        </div>
+        <div id="table-content" class="row ml-0 mr-0 mt-0 justify-content-center w-100">
+        </div>
+        @*<div class="row" style="margin-top: 92px">
+                <div class="col-sm">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Previous"
+                                    style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
+                                    <span aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
+                                                        style="border: none; color: #232323; font-family: Open-Sans; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">1</a>
+                            </li>
+                            <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
+                                                        style="border: none; color: #232323; font-family: Open-Sans; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">2</a>
+                            </li>
+                            <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0 active-custom"
+                                                        href="#"
+                                                        style="border: none; color: #232323; font-family: Open-Sans; font-size: 16px; line-height: 22px; width: 40px; height: 40px;  text-align: center">3<span
+                                    class="sr-only">(current)</span></a></li>
+                            <li class="page-item">
+                                <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Next"
+                                    style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
+                                    <span aria-hidden="true">></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>*@
 
-        <script>
-            $('#sources').each(function () {
-                let classes = $(this).attr("class"),
-                    id = $(this).attr("id"),
-                    name = $(this).attr("name");
-                let template = '<div class="' + classes + '">';
-                template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
-                template += '<div class="custom-options">';
-                $(this).find("option").each(function () {
-                    template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
-                });
-                template += '</div></div>';
-
-                $(this).wrap('<div class="custom-select-wrapper"></div>');
-                $(this).hide();
-                $(this).after(template);
-            });
-            $(".custom-option:first-of-type").hover(function () {
-                $(this).parents(".custom-options").addClass("option-hover");
-            }, function () {
-                $(this).parents(".custom-options").removeClass("option-hover");
-            });
-            $(".custom-select-trigger").on("click", function () {
-                $('html').one('click', function () {
-                    $(".custom-select").removeClass("opened");
-                });
-                $(this).parents(".custom-select").toggleClass("opened");
-                event.stopPropagation();
-            });
-            $(".custom-option").on("click", function () {
-                $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
-                $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
-                $(this).addClass("selection");
-                $(this).parents(".custom-select").removeClass("opened");
-                $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
-            });
-
-            $('.delete-parent').click(function () {
-                $(this).closest('.parent-delete').remove();
-            });
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
+        </div>
+    </div>
 
 
-        </script>
 }
 
 else
@@ -207,7 +165,61 @@ else
     </div>
 }
 
+<div id="modDialog-addbalance" class="modal fade wide-modal" tabindex="-1" role="dialog">
+    <div id="dialogContent-addbalance" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
 
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>@Localizer["AddBalance"]</h5>
+                <button type="button" class="close" data-dismiss="modal" data-target="modDialog-addbalance" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="add-balance-amount"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                            <input id="add-balance-amount"
+                                   type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   placeholder="@Localizer["Amount"]" Amount" style="height: 34px">
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="add-balance-comment"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                            <input id="add-balance-comment"
+                                   type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   placeholder="@Localizer["Comment"]" style="height: 34px">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                <div class="row p-0 flex-lg-row flex-md-row flex-column">
+
+                    <div class="col-6 my-2 text-center">
+                        <button id="add-balance-confirm" type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                style="background: #36C233; border: 1px solid #36C233; height: 48px" data-dismiss="modal" data-target="modDialog-addbalance">
+                            @Localizer["Add"]
+                        </button>
+                    </div>
+                    <div class="col-6 my-2 text-center">
+                        <button id="add-balance-reject" type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                style="background: #36C233; border: 1px solid #36C233; height: 48px" data-dismiss="modal" data-target="modDialog-addbalance">
+                            @Localizer["Reject"] 
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
 
 @section Scripts
 {
@@ -225,8 +237,54 @@ else
                 onloadedcb: onload
             });
 
+            var dialog_addbalance = $('#modDialog-addbalance');
+            dialog_addbalance.find('#add-balance-confirm').click(function (e) {
+                addBalance(dialog_addbalance);
+            })
+            function addBalance(dlg) {
+                    const formData = new FormData();
+                    formData.append('Amount', dlg.find('#add-balance-amount').val());
+                    formData.append('Comments', dlg.find('#add-balance-comment').val());
+                    formData.append('__RequestVerificationToken', $('[name="__RequestVerificationToken"]').val());
+
+                    formData.append('Id', $('#user-fin-id').val());
+                    formData.append('CompanyId', $('#user-fin-companyid').val());
+                    formData.append('IncomeType', '2');
+                    //formData.append('TransactionDate', (new Date).toJSON().slice(0, 10).split("-").reverse().join("."));
 
 
+                fetch('@Url.Content("~/Account/AddBalanceTo")', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+
+
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        console.log(response);
+                        loadfin();
+                    })
+                    .catch(error => dialog_error(error));
+
+                }
+            function loadfin() {
+                var userId = $('.modal-body').attr('data-id');
+                 var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
+                $.get(urlfin, function (data) {
+                    $("#nav-content-fin-of-user").html(data);
+                    setupfinhandlers($("#nav-content-fin-of-user"));
+                });
+
+            }
+            function setupfinhandlers(cont) {
+                cont.find('#addbalance').click(function (e) {
+                    e.preventDefault();
+                    dialog_addbalance.modal('show');
+
+                });
+            }
 
             function onload() {
                 var userId = $('.modal-body').attr('data-id');
@@ -240,14 +298,9 @@ else
                     $("#user-companies-content").html(data);
                     setupcompanyhandler($("#user-companies-content"))
                 });
-                var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
-                $.get(urlfin, function (data) {
-                    $("#nav-content-fin-of-user").html(data);
-                });
-                var urlmoney = '@Url.Content("~/Account/AddMoney?userId=")' + userId;
-                $.get(urlmoney, function (data) {
-                    $("#nav-content-fin-money").html(data);
-                });
+                loadfin();
+
+
                 function setuproleshandler(cont) {
                     cont.find(".role-item").click(function (e) {
                         e.preventDefault();

@@ -855,4 +855,13 @@
   <data name="MenuChangeCompany" xml:space="preserve">
     <value>Вибрати компанію</value>
   </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Сума</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Коментар</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
 </root>

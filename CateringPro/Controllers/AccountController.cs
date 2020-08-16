@@ -396,7 +396,7 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies, [FromForm] UserFinIncome UserFin)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
         {
             
             //string id = User.GetUserId();
@@ -498,8 +498,8 @@ namespace CateringPro.Controllers
                     }
                     usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
-                    UserFin.Id = user.Id;
-                    AddMoneyTo(UserFin);
+                   
+                    
 
                     //if (user != null)
                     //{
@@ -867,28 +867,25 @@ namespace CateringPro.Controllers
             return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
         }
 
-        [Authorize]
-        public async Task<IActionResult> AddMoney(string userId)
-        {
-            return PartialView("AddMoney",new UserFinIncome() { Id = userId });
-        }
 
-        public void AddMoneyTo(UserFinIncome finIncome)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async  Task<IActionResult> AddBalanceTo([FromForm]UserFinIncome finIncome)
         {
-            
-            var user = _userManager.FindByIdAsync(finIncome.Id).Result;
-            if (user != null)
-            {
-                if (finIncome.Amount != null)
-                {
-                    finIncome.Id = user.Id;
-                    finIncome.TransactionDate = DateTime.Now;
-                    finIncome.IncomeType = 1;
-                    finIncome.TransactionData = null;
-                    finIncome.CompanyId = user.CompanyId;
-                    _context.UserFinIncomes.Add(finIncome);
-                }
+
+            _logger.LogWarning("Adding {0} to balance to user {1} , by {2}", finIncome.Amount,finIncome.Id,User.GetUserId());
+            finIncome.TransactionData = $"add by ({User.GetUserId()}) at {DateTime.Now.ToString("g")} from {HttpContext.Connection.RemoteIpAddress}";
+            if (finIncome.TransactionDate.Year < DateTime.Now.Year)
+                finIncome.TransactionDate=DateTime.Now;
+            if (await _fin.AddBalanceToAsync(finIncome)) {
+                return Ok();
             }
+            else
+            {
+                return BadRequest();
+            }
+;
         }
         
 
@@ -898,7 +895,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            return PartialView(await _fin.GetUserFinModelAsync(userId, user.CompanyId));
+            return PartialView(await _fin.GetUserFinModelAsync(userId, User.GetCompanyID()));
         }
         [Authorize]
         public async Task<IActionResult> UserFinance()
