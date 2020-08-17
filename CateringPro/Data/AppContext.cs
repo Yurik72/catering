@@ -89,6 +89,9 @@ namespace CateringPro.Data
         public DbSet<UserFinIncome> UserFinIncomes{ get; set; }
 
         public DbSet<UserFinOutCome> UserFinOutComes { get; set; }
+
+        public DbSet<UserSubGroup> UserSubGroups { get; set; }
+
         public int CompanyId
         {
             get {
@@ -258,6 +261,18 @@ namespace CateringPro.Data
 
             modelBuilder.Entity<CompanyUser>()
                  .HasIndex(p => new { p.CardTag }).IsUnique(true);
+
+            modelBuilder.Entity<CompanyUser>()
+                 .HasOne(u => u.UserSubGroup)
+                 .WithMany(a => a.CompanyUsers)
+                  .HasForeignKey(u => u.UserSubGroupId).IsRequired(false)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserSubGroup>()
+                 .HasOne(u => u.Parent)
+                   .WithMany(u => u.UserSubGroups)
+                   .HasForeignKey(u => u.ParentId).IsRequired(false)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             /* fin section */
             modelBuilder.Entity<CompanyUser>()
