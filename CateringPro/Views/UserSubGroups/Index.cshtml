@@ -1,0 +1,33 @@
+﻿@model UserSubGroupViewModel
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1>Index</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div id="grouptree">
+                @foreach (var it in Model.Root)
+                {
+                    
+                    @await Html.PartialAsync("Node",it)
+                }
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts
+{
+<script src="~/js/jstree.min.js"></script>
+<script>
+
+</script>
+}

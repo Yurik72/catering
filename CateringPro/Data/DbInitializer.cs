@@ -25,6 +25,7 @@ namespace CateringPro.Data
             CreateRole(UserExtension.UserRole_KitchenAdmin, context, roleManager);
             SQLScriptExecutor executor = new SQLScriptExecutor(context, service);
             executor.ExecuteStartScripts();
+            CreateSubGroups(context);
             if (context.Dishes.IgnoreQueryFilters().Any())
             {
                 return;
@@ -38,6 +39,26 @@ namespace CateringPro.Data
             CreateRole("UserAdmin", context, roleManager);
 
             SeedDatabase(context, roleManager, userManager);
+        }
+        private static void CreateSubGroups(AppDbContext context)
+        {
+            try
+            {
+                foreach (var company in context.Companies)
+                {
+                    var subgroup = context.UserSubGroups.IgnoreQueryFilters().FirstOrDefault(u => u.CompanyId == company.Id && !u.ParentId.HasValue);
+                    if (subgroup == null)
+                    {
+                        subgroup = new UserSubGroup() { CompanyId = company.Id, Name = "Main" };
+                        context.Add(subgroup);
+                    }
+                }
+                context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
         private static void CreateRole(string name,AppDbContext context, RoleManager<CompanyRole> _roleManager)
         {

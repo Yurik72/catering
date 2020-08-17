@@ -1,0 +1,17 @@
+﻿@model UserSubGroupNode
+@{
+    Layout = null;
+}
+
+        <li> @Model.Name
+@if(Model.Childs.Count() > 0) 
+{ 
+            <ul>
+                @foreach (var child in Model.Childs)
+                {
+                    @await Html.PartialAsync("Node", child)
+                }
+            </ul>
+}
+        </li>
+    
