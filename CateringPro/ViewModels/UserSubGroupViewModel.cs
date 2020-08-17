@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-namespace CateringPro.Models
+using CateringPro.Models;
+namespace CateringPro.ViewModels
 {
     public class Nodes: Dictionary<int, UserSubGroupNode>
     {
@@ -31,13 +31,17 @@ namespace CateringPro.Models
         }
     }
 
-    public class UserSubGroupNode:UserSubGroup
+    public class UserSubGroupNode
     {
         private Nodes childs =new Nodes();
 
         private UserSubGroupNode parent=null;
+        public int Id { get; set; }
+        public int? ParentId { get; set; }
+        public string Name { get; set; }
         public UserSubGroupNode(UserSubGroup subgroup)
         {
+            Id = subgroup.Id;
             Name = subgroup.Name;
             ParentId = subgroup.ParentId;
 
