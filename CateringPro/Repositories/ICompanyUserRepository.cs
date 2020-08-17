@@ -33,5 +33,6 @@ namespace CateringPro.Repositories
         Task<bool> SaveUserCardTokenAsync(string userId, string token);
         Task<UserSubGroupViewModel> GetSubGroupTree(int companyId);
         Task<List<AssignedCompanyEditViewModel>> GetAssignedEditCompanies(string userId);
+        Task<int> GetUserCompanyCount(string userId);
     }
 }
