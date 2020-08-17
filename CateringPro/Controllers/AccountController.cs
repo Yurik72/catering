@@ -372,7 +372,7 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         public async Task<IActionResult> EditUserModal(string userId)
         {
-            
+
             //string id = User.GetUserId();
             CompanyUser user = await _userManager.FindByIdAsync(userId);
             if (User.IsInRole("GroupAdmin"))
@@ -398,7 +398,7 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
         {
-            
+
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
                 return PartialView(usermodel);
@@ -457,7 +457,6 @@ namespace CateringPro.Controllers
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
 
                     usr.ChildrenCount = 1;
-
                     if (usr.ConfirmedByAdmin)
                     {
                         var code = await _userManager.GeneratePasswordResetTokenAsync(usr);
@@ -498,8 +497,6 @@ namespace CateringPro.Controllers
                     }
                     usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
-                   
-                    
 
                     //if (user != null)
                     //{
@@ -577,8 +574,8 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         public async Task<IActionResult> UsersList()
         {
-            
-                var query = _userManager.Users; ;
+
+            var query = _userManager.Users; ;
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
                 query = query.Where(u => u.CompanyId == User.GetCompanyID());
             query = query.Include(u => u.UserGroup);
@@ -617,14 +614,14 @@ namespace CateringPro.Controllers
                         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
                     }
                 }
-                
+
                 if (ModelState.IsValid)
                 {
                     var i = 0;
                     foreach (var reb in it)
                     {
-                       // IFormFile filePict = null;
-                        var filePict= Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
+                        // IFormFile filePict = null;
+                        var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
 
                         for (var idx = 0; idx < Request.Form.Files.Count; idx++)
                         {
@@ -650,7 +647,7 @@ namespace CateringPro.Controllers
                         }
                         else
                         {
-                            user_to_update= await _userManager.FindByIdAsync(reb.Id);
+                            user_to_update = await _userManager.FindByIdAsync(reb.Id);
                             if (user_to_update != null)
                             {
                                 user_to_update.ChildNameSurname = reb.ChildNameSurname;
@@ -683,64 +680,7 @@ namespace CateringPro.Controllers
                             user_to_update.PictureId = pict.Id;
 
                         }
-                        /*
-                        if (i < Request.Form.Files.Count)
-                        {
-                            if (Request.Form.Files.Count > 0)
-                            {
-                                Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == um.PictureId);
-                                if (pict == null || true) //to do always new
-                                {
-                                    pict = new Pictures();
-                                }
-                                //var fileName = Request.Form.Files[i].FileName;
-                                var file = Request.Form.Files[i];
-                                //Image image = Image.FromStream(file.OpenReadStream());
-                                var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream());
-                                if (Request.Form.Files[i].Length > 5242880)
-                                {
-                                    var resizedFile = PicturesController.MutateImageToStream(image, 450, 300);
-                                    byte[] imgdata = resizedFile;
-                                    pict.PictureData = imgdata;
-                                    
-                                }
-                                if (Request.Form.Files[i].Length <= 5242880) {
-                                    using (var stream = file.OpenReadStream())
-                                    {
-                                        byte[] imgdata = new byte[stream.Length];
-                                        stream.Read(imgdata, 0, (int)stream.Length);
-                                        pict.PictureData = imgdata;
-                                    }
-                                }
-                                _context.Add(pict);
-                                await _context.SaveChangesAsync();
-                                reb.PictureId = pict.Id;
-                            }
-                        }
                         
-                        if (reb.Id == um.Id)
-                        {
-                            um.ChildNameSurname = it.LastOrDefault().ChildNameSurname;
-                            um.ChildBirthdayDate = it.LastOrDefault().ChildBirthdayDate;
-                            um.ChildrenCount = user.ChildrenCount;
-                            um.UserName = user.UserName;
-                            if(um.PictureId == null)
-                            {
-                                um.PictureId = reb.PictureId;
-                            }
-                            um.ConfirmedByAdmin = user.ConfirmedByAdmin;
-                            um.EmailConfirmed = user.EmailConfirmed;
-                            um.CopyTo(user);
-                            continue;
-                        }
-                        CompanyUser user1 = await _userManager.FindByIdAsync(reb.Id);
-                        user1.ChildNameSurname = reb.ChildNameSurname;
-                        user1.ChildBirthdayDate = reb.ChildBirthdayDate;
-                        if(user1.PictureId == null)
-                        {
-                            user1.PictureId = reb.PictureId;
-                        }
-                        */
                         IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
                         if (!rebResult.Succeeded)
                         {
@@ -835,7 +775,7 @@ namespace CateringPro.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
         {
-            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID(),false);
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID(), false);
             if (childs.Count == 1)
             {
                 onlyChild = true;
@@ -877,18 +817,15 @@ namespace CateringPro.Controllers
             return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
-        public async  Task<IActionResult> AddBalanceTo([FromForm]UserFinIncome finIncome)
+        public async Task<IActionResult> AddBalanceTo([FromForm] UserFinIncome finIncome)
         {
-
-            _logger.LogWarning("Adding {0} to balance to user {1} , by {2}", finIncome.Amount,finIncome.Id,User.GetUserId());
+            _logger.LogWarning("Adding {0} to balance to user {1} , by {2}", finIncome.Amount, finIncome.Id, User.GetUserId());
             finIncome.TransactionData = $"add by ({User.GetUserId()}) at {DateTime.Now.ToString("g")} from {HttpContext.Connection.RemoteIpAddress}";
             if (finIncome.TransactionDate.Year < DateTime.Now.Year)
-                finIncome.TransactionDate=DateTime.Now;
-            if (await _fin.AddBalanceToAsync(finIncome)) {
+                finIncome.TransactionDate = DateTime.Now;
+            if (await _fin.AddBalanceToAsync(finIncome))
+            {
                 return Ok();
             }
             else
@@ -897,15 +834,15 @@ namespace CateringPro.Controllers
             }
 ;
         }
-        
 
-[Authorize]
+
+        [Authorize]
         public async Task<IActionResult> UserFinanceOfUser(string userId)
         {
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            return PartialView(await _fin.GetUserFinModelAsync(userId, User.GetCompanyID()));
+            return PartialView(await _fin.GetUserFinModelAsync(userId, user.CompanyId));
         }
         [Authorize]
         public async Task<IActionResult> UserFinance()
