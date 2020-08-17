@@ -310,6 +310,11 @@ namespace CateringPro.Controllers
             return View();
         }
         [AllowAnonymous]
+        public IActionResult ConfMailTextLetter()
+        {
+            return View();
+        }
+        [AllowAnonymous]
         public async Task<IActionResult> SetNewPassword(string userId, string code)
         {
             if (userId == null || code == null)
@@ -349,11 +354,24 @@ namespace CateringPro.Controllers
                 {
                     return RedirectToAction("NewPasswordApplied");
                 }
+                foreach (var res in result.Errors)
+                {
+                    if (res.Code.Equals("InvalidToken"))
+                    {
+                        return RedirectToAction("TokenExpired");
+                    }
+                }
+
             }
             return View("Error");
         }
         [AllowAnonymous]
         public IActionResult NewPasswordApplied()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        public IActionResult TokenExpired()
         {
             return View();
         }
