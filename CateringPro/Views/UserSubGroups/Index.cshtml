@@ -1,21 +1,32 @@
 ﻿@model UserSubGroupViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Index";
+
+    var ModelName = Localizer["UserSubGroups"];
+    ViewData["Title"] = ModelName;
 
 }
 
-<h1>Index</h1>
 
-<div class="container">
+<div class="container-xl container container-md container-sm container-lg">
+    <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+        <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+            <p class="h2" style="font-weight: 600">
+                @ModelName
+            </p>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div id="grouptree">
-                @foreach (var it in Model.Root)
+                <ul>
+                @foreach (var it in Model.Root.AsList())
                 {
-                    
-                    @await Html.PartialAsync("Node",it)
+
+                    @await Html.PartialAsync("Node", it)
                 }
+               </ul>
             </div>
 
         </div>
@@ -23,11 +34,62 @@
     </div>
 </div>
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/stylejstree.css" />
+}
 
 @section scripts
 {
-<script src="~/js/jstree.min.js"></script>
-<script>
-
-</script>
+    <script src="~/js/jstree.min.js"></script>
+    <script>
+        $(function () {
+            // 6 create an instance when the DOM is ready
+          
+            $('#grouptree').jstree({
+                "core": {
+                    "animation": 0,
+                    "check_callback": true,
+                    "themes": { "stripes": true }
+                    
+                },
+                "types": {
+                    "#": {
+                        "max_children": 1,
+                        "max_depth": 4,
+                        "valid_children": ["root"]
+                    },
+                    "root": {
+                        "icon": "/static/3.3.10/assets/images/tree_icon.png",
+                        "valid_children": ["default"]
+                    },
+                    "default": {
+                        "valid_children": ["default", "file"]
+                    },
+                    "file": {
+                        "icon": "glyphicon glyphicon-file",
+                        "valid_children": []
+                    }
+                },
+                "plugins": [
+                    "contextmenu", "dnd", "search",
+                    "state", "types", "wholerow"
+                ]
+            });
+            $('#grouptree').on("changed.jstree", function (e, data) {
+                console.log(data.selected);
+            });
+            return;
+            // 7 bind to events triggered on the tree
+            $('#jstree').on("changed.jstree", function (e, data) {
+                console.log(data.selected);
+            });
+            // 8 interact with the tree - either way is OK
+            $('button').on('click', function () {
+                $('#jstree').jstree(true).select_node('child_node_1');
+                $('#jstree').jstree('select_node', 'child_node_1');
+                $.jstree.reference('#jstree').select_node('child_node_1');
+            });
+        });
+    </script>
 }

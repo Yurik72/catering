@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Runtime.CompilerServices;
 using CateringPro.ViewModels;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CateringPro.Repositories
 {
@@ -288,11 +289,14 @@ namespace CateringPro.Repositories
         }
         public async Task<AddBalanceViewModel> AddBalanceViewAsync(string userId)
         {
-            var user = await _context.Users.Include(u => u.UserFinance).FirstOrDefaultAsync(u => u.Id == userId);
+            //var user = await _context.Users.Include(u => u.UserFinance).FirstOrDefaultAsync(u => u.Id == userId);
+            var userfin = await _context.UserFinances.FirstOrDefaultAsync(u => u.Id == userId);
+            if (userfin == null)
+                return null;
             AddBalanceViewModel model = new AddBalanceViewModel()
             {
                 UserId = userId,
-                CurrentBalance = user.UserFinance.Balance,
+                CurrentBalance = userfin.Balance,
                 AmountToAdd = 0
             };
             return model;

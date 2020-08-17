@@ -7,7 +7,7 @@
 @if(Model.Childs.Count() > 0) 
 { 
             <ul>
-                @foreach (var child in Model.Childs)
+                @foreach (var child in Model.Childs.AsList())
                 {
                     @await Html.PartialAsync("Node", child)
                 }

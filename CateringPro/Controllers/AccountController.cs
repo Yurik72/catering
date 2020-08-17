@@ -813,8 +813,11 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> AddBalance()
         {
-            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
-            return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
+            //List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            var res = await _companyuser_repo.AddBalanceViewAsync(User.GetUserId());
+            if (res == null)
+                return NotFound();
+            return View(res);
         }
 
         [Authorize]
