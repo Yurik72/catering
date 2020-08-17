@@ -105,15 +105,23 @@
                             </dd>
 
                             <dt>
-                                <label asp-for="UserGrpoupId" class="control-label col-md-2"></label>
+                                <label asp-for="UserGroupId" class="control-label col-md-2"></label>
                             </dt>
                             <dd>
 
-                                <select asp-for="UserGrpoupId" class="form-control" asp-items="ViewBag.UserGroupId"></select>
-                                <span asp-validation-for="UserGrpoupId" class="text-danger"></span>
+                                <select asp-for="UserGroupId" class="form-control" asp-items="ViewBag.UserGroupId"></select>
+                                <span asp-validation-for="UserGroupId" class="text-danger"></span>
 
                             </dd>
+                            <dt>
+                                <label asp-for="UserSubGroupId" class="control-label col-md-2"></label>
+                            </dt>
+                            <dd>
 
+                                <select asp-for="UserSubGroupId" class="form-control" asp-items="ViewBag.UserSubGroupId"></select>
+                                <span asp-validation-for="UserSubGroupId" class="text-danger"></span>
+
+                            </dd>
                         </dl>
                     </div>
                     <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">

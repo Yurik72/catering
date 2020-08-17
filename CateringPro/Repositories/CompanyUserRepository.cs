@@ -158,7 +158,10 @@ namespace CateringPro.Repositories
         {
             return await _context.UserGroups.ToListAsync();
         }
-
+        public async Task<List<UserSubGroup>> GetUserSubGroups(int companyId)
+        {
+            return await _context.UserSubGroups.ToListAsync();
+        }
         public async Task<List<UserRoleViewModel>> GetRolesForUserAsync(CompanyUser user)
         {
             var userroles = new List<string>();
@@ -387,6 +390,42 @@ namespace CateringPro.Repositories
             var tree = new UserSubGroupViewModel();
             tree.BuildFrom(query);
             return tree;
+        }
+
+        public async Task<List<int>> UserPermittedSubGroups(string userId, int companyid)
+        {
+            var res = new List<int>();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                return res;
+            string sb = "WITH RecursiveQuery (ID, ParentID, Name,CompanyId) \r\n" + 
+                            "AS \r\n" +
+                            "( \r\n" +
+                            " SELECT ID, ParentID, Name,CompanyId \r\n" +
+                            " FROM UserSubGroups usb where   usb.parentid is not null \r\n" +  //! check here if we need parent
+                            " UNION ALL \r\n" +
+                            " SELECT usb.ID, usb.ParentID, usb.Name,usb.CompanyId \r\n" +
+                            " FROM UserSubGroups usb \r\n" +
+                            " JOIN RecursiveQuery rec ON usb.ParentID = rec.ID and usb.CompanyId=rec.CompanyId \r\n" +
+                            ") \r\n" +
+                            "SELECT DISTINCT ID, ParentID, Name,CompanyId \r\n " +
+                            "FROM RecursiveQuery  ";
+            sb += $"where CompanyId={companyid} ";
+            if (user.UserGroupId.HasValue)
+            {
+                sb += $" AND ( ParentId= {user.UserGroupId.Value}  OR  Id={user.UserGroupId.Value})";
+            }
+
+            try
+            {
+                var query = await _context.UserSubGroups.FromSqlRaw(sb).IgnoreQueryFilters().ToListAsync();
+                res= query.Select(it => it.Id).ToList();
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return res;
         }
     }
 }

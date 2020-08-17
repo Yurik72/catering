@@ -17,22 +17,25 @@
             </p>
         </div>
     </div>
+
     <div class="row">
         <div class="col-12">
             <div id="grouptree">
                 <ul>
-                @foreach (var it in Model.Root.AsList())
-                {
+                    @foreach (var it in Model.Root.AsList())
+                    {
 
-                    @await Html.PartialAsync("Node", it)
-                }
-               </ul>
+                        @await Html.PartialAsync("Node", it)
+                    }
+                </ul>
             </div>
 
         </div>
 
     </div>
 </div>
+
+
 
 @section Styles
 {
@@ -45,13 +48,14 @@
     <script>
         $(function () {
             // 6 create an instance when the DOM is ready
-          
+
+            var dlg_addgroup = $('#modDialog-addgroup');
             $('#grouptree').jstree({
                 "core": {
                     "animation": 0,
                     "check_callback": true,
                     "themes": { "stripes": true }
-                    
+
                 },
                 "types": {
                     "#": {
@@ -71,25 +75,75 @@
                         "valid_children": []
                     }
                 },
+
                 "plugins": [
                     "contextmenu", "dnd", "search",
                     "state", "types", "wholerow"
                 ]
-            });
-            $('#grouptree').on("changed.jstree", function (e, data) {
-                console.log(data.selected);
-            });
-            return;
-            // 7 bind to events triggered on the tree
-            $('#jstree').on("changed.jstree", function (e, data) {
-                console.log(data.selected);
-            });
-            // 8 interact with the tree - either way is OK
-            $('button').on('click', function () {
-                $('#jstree').jstree(true).select_node('child_node_1');
-                $('#jstree').jstree('select_node', 'child_node_1');
-                $.jstree.reference('#jstree').select_node('child_node_1');
-            });
+            })
+                .bind("move_node.jstree", function (e, data) {
+                    changegroup('move', data);
+                })
+                .bind("rename_node.jstree", function (e, data) {
+                    changegroup('rename', data);
+                })
+                .bind("create_node.jstree", function (e, data) {
+                    changegroup('create', data);
+                })
+                .bind("delete_node.jstree", function (e, data) {
+                    changegroup('delete', data);
+                });
+            function changegroup(mode, data) {
+                const formData = new FormData();
+                formData.append('name', data.node.text);
+                formData.append('parentid', data.node.parent);
+                formData.append('id', data.node.id);
+                var action = "Change";
+                switch (mode) {
+                    case 'create':
+                        action = 'Create';
+                       
+                        break;
+                    case 'delete':
+                        action = 'Delete';
+                        break;
+                    default:
+                        break;
+
+                }
+                //formData.append('TransactionDate', (new Date).toJSON().slice(0, 10).split("-").reverse().join("."));
+                const url = `/UserSubGroups/${action}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.ok != true) {
+                            throw response.statusText;
+                        }
+                        return response.json();
+                        //loadfin();
+                    })
+                    .then(json => {
+                        if (mode == 'create') {
+                            $('#grouptree').jstree(true).set_id(data.node, json.id);
+                        }
+                     }
+                     )
+                        .catch(error =>
+                            dialog_error(error)
+                        );
+
+                
+
+
+            }
+
         });
     </script>
 }

@@ -1,9 +1,18 @@
 ﻿@model UserSubGroupNode
 @{
     Layout = null;
+    string node_attr = "";
+    if (@Model.ParentNode == null)
+    {
+        node_attr = "data-jstree='{\"opened\":true,\"selected\":true,\"type\":\"group\"}'";
+    }
+    else
+    {
+        node_attr = "data-jstree='{\"type\":\"group\"}'";
+    }
 }
 
-        <li> @Model.Name
+        <li id="@Model.Id" @Html.Raw(node_attr)    > @Model.Name
 @if(Model.Childs.Count() > 0) 
 { 
             <ul>

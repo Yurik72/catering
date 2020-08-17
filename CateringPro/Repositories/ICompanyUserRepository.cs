@@ -34,5 +34,7 @@ namespace CateringPro.Repositories
         Task<UserSubGroupViewModel> GetSubGroupTree(int companyId);
         Task<List<AssignedCompanyEditViewModel>> GetAssignedEditCompanies(string userId);
         Task<int> GetUserCompanyCount(string userId);
+        Task<List<int>> UserPermittedSubGroups(string userId, int companyid);
+        Task<List<UserSubGroup>> GetUserSubGroups(int companyId);
     }
 }

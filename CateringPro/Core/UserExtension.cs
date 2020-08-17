@@ -22,6 +22,7 @@ namespace CateringPro.Core
         public const string UserRole_GroupAdmin = "GroupAdmin";
         public const string UserRole_UserAdmin = "UserAdmin";
         public const string UserRole_KitchenAdmin = "KitchenAdmin";
+        public const string UserRole_SubGroupAdmin = "SubGroupAdmin";
         public static string GetUserId(this IPrincipal principal)
         {
             var claimsIdentity = (ClaimsIdentity)principal.Identity;
