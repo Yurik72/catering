@@ -334,7 +334,7 @@ function setup_listitems(options) {
                     $('#modDialog').attr("_changed", false);
                     $('#modDialog').modal('hide');
                     $('#dialogContent').empty();
-                    reload();
+                    reload($(".selection").val());
                 }
                 else {
                     var newBody = $('.modal-body', data);
