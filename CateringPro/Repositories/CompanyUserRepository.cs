@@ -102,7 +102,7 @@ namespace CateringPro.Repositories
                 IsAssigned = false
             }).ToList(); ;
 
-           // model.ForEach(m => { m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID); m.IsCurrent = cur.Any(c => c.CompanyId == m.CompanyID); }); 
+            model.ForEach(m => { m.IsAssigned = assigned.Any(c => c.CompanyId == m.CompanyID); m.IsCurrent = cur.Any(c => c.CompanyId == m.CompanyID); }); 
             return model;
         }
         public async Task<List<AssignedCompanyEditViewModel>> GetAssignedEditCompanies(string userId)
