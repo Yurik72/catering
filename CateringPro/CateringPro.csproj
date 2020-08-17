@@ -77,6 +77,8 @@
     <Compile Remove="Migrations\20200723153906_Complex_Category.Designer.cs" />
     <Compile Remove="Migrations\20200728134315_Finance.cs" />
     <Compile Remove="Migrations\20200728134315_Finance.Designer.cs" />
+    <Compile Remove="Migrations\20200817045806_UserSubGroups.cs" />
+    <Compile Remove="Migrations\20200817045806_UserSubGroups.Designer.cs" />
     <Compile Remove="Models\ComplexCategory.cs" />
     <Compile Remove="Models\Order.cs" />
     <Compile Remove="Models\OrderDetail.cs" />

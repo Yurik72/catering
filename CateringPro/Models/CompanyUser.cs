@@ -64,6 +64,12 @@ namespace CateringPro.Models
 
         public int? PictureId { get; set; }
 
+        [DisplayName("User SubGroup")]
+        public int? UserSubGroupId { get; set; }
+
+        [DisplayName("User SubGroup")]
+        public virtual UserSubGroup UserSubGroup { get; set; }
+
         [StringLength(64)]
         public string CardTag { get; set; }
         public string GetChildUserName()

@@ -181,13 +181,16 @@ function setup_listitems(options) {
             if (!href)
                 href = self.options.href + `/${self.options.method}?`;
             else {
-                href += "&";
+               // href += "&";
                 href = href.replace("ListItems", self.options.method);
                 
             }
-            $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+            var getstr = `&searchcriteria=${$("#table-content").attr("data-filter")}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
+            href += getstr;
+            $('#table-content').load(href);
+           // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
-    }
+     }
        self.reload = reload;
         $.ajaxSetup({ cache: false });
        
@@ -200,6 +203,19 @@ function setup_listitems(options) {
                 event.preventDefault();
                 reload();
             }
+        });
+         //sort
+        $(".custom-option").on("click", function () {
+           // reload($(this).data('value'));
+            // console.log($('#table-content').data('sortfield'));
+            var url = $(this).data('value').split('?').pop();
+            const urlParams = new URLSearchParams(url);
+            const field = urlParams.get('sortfield');
+            const order = urlParams.get('sortorder');
+
+            $('#table-content').attr('data-sortfield', field);
+            $('#table-content').attr('data-sortorder', order);
+            reload();
         });
         $('#create-btn').click(function (e) {
             e.preventDefault();
@@ -219,12 +235,24 @@ function setup_listitems(options) {
             e.preventDefault();
             reload(this.href);
         });
+        $('#search-val').keydown((event) => {
+        if (event.which == 13) {
+            event.preventDefault();
+            $("#table-content").attr("data-filter", $('#search-val').val());
+            // console.log($("span.selection").attr("data-value"));
+            reload();
+        }
+        });
+    $("#search-form").submit(function (e) {
+        return false;
+    });
     function setupChangesChecker(dlg) {
         $(dlg).attr("_changed", false);
         $(dlg).find("input,textarea").change(function () {
             $(dlg).attr("_changed", true);
         });
         function hidehandler(e) {
+            $(dlg).off('hide.bs.modal', hidehandler);
             if ($(dlg).attr("_changed") == "true") {
                 //if (!confirm("There are unsaved changes, please confirm. your input will be lost"))
                 e.preventDefault();
@@ -233,9 +261,10 @@ function setup_listitems(options) {
                         $(dlg).attr("_changed", false);
                         $('#modDialog').modal('hide');
                         $('#modDialog').find('#dialogContent').empty();
-                        $(dlg).off('hide.bs.modal', hidehandler);
+                        
                     },
                     function () { //no
+                        $(dlg).on('hide.bs.modal', hidehandler);
                     });
                 return;
                 if (!confirm(get_text_res().confirm_close))
@@ -287,6 +316,8 @@ function setup_listitems(options) {
             event.preventDefault();
            // console.log("Data Save");
             var form = $(this).parents('.modal-body').find('form');
+            if (form.length==0)
+                form= $('#modDialog').find('.modal-body').find('form');
             var actionUrl = form.attr('action');
             var dataToSend = form.serialize();
 

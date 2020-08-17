@@ -284,22 +284,6 @@ else
                     });
                 };
             }
-
-            function setuproleshandler(cont) {
-                cont.find(".role-item").click(function (e) {
-                    e.preventDefault();
-                    if ($(this).hasClass('active'))
-                        $(this).removeClass('active');
-                    else
-                        $(this).addClass('active');
-                    var roles = cont.find(".role-item.active").map(function () {
-                        return $(this).text();
-                    })
-                        .get()
-                        .join(", ");
-                    cont.find("#roles").val(roles);
-                });
-            }
         })
 </script>
 }
