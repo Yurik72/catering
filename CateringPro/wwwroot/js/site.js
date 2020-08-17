@@ -185,7 +185,10 @@ function setup_listitems(options) {
                 href = href.replace("ListItems", self.options.method);
                 
             }
-            var getstr = `&searchcriteria=${$("#table-content").attr("data-filter")}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
+            var searchcriteria = $("#table-content").attr("data-filter")
+            if (typeof searchcriteria === 'undefined')
+                searchcriteria = "";
+            var getstr = `&searchcriteria=${searchcriteria}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
             href += getstr;
             $('#table-content').load(href);
            // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
@@ -194,7 +197,7 @@ function setup_listitems(options) {
        self.reload = reload;
         $.ajaxSetup({ cache: false });
        
-        reload();
+    reload($(".selection").val());
         $('#search-btn').click(function (e) {
             reload();
         });
@@ -331,7 +334,7 @@ function setup_listitems(options) {
                     $('#modDialog').attr("_changed", false);
                     $('#modDialog').modal('hide');
                     $('#dialogContent').empty();
-                    reload();
+                    reload($(".selection").val());
                 }
                 else {
                     var newBody = $('.modal-body', data);

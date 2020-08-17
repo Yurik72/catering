@@ -864,6 +864,15 @@
   <data name="Reject" xml:space="preserve">
     <value>Скасувати</value>
   </data>
+  <data name="User SubGroup" xml:space="preserve">
+    <value>Підгрупа користувача</value>
+  </data>
+  <data name="UserSubGroups" xml:space="preserve">
+    <value>Підгрупи користувачів</value>
+  </data>
+  <data name="UserSubGroupsMenu" xml:space="preserve">
+    <value>Підгрупи користувачів</value>
+  </data>
   <!--<data name="FinishRegisterTopicMail" xml:space="preserve">
     <value>Завершення реєстрації</value>
   </data>

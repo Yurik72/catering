@@ -40,6 +40,7 @@ namespace CateringPro.Controllers
         public IActionResult Index()
         {
             return View(new List<IngredientCategories>());
+
         }
 
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)

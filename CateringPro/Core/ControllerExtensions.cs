@@ -16,7 +16,7 @@ namespace CateringPro.Core
         {
             cont.ViewData["QueryModel"] = querymodel;
             var query = dbSet;//.WhereCompany(cont.User.GetCompanyID());
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
+            if (!string.IsNullOrEmpty(querymodel.SearchCriteria) /*&& querymodel.SearchCriteria != "undefined"*/)
             {
                 query = query.Where(predicate);
 

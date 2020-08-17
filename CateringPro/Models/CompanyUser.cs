@@ -60,7 +60,7 @@ namespace CateringPro.Models
         [DefaultValue(1)]
         public int ChildrenCount { get; set; }
 
-        public UserFinance UserFinance { get; set; }
+      //  public UserFinance UserFinance { get; set; }
 
         public int? PictureId { get; set; }
 

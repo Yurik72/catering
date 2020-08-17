@@ -4,14 +4,16 @@ using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CateringPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200817084708_primaryKeyUserFin")]
+    partial class primaryKeyUserFin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -948,9 +950,6 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValueSql("(0.0)");
 
-                    b.Property<string>("CompanyUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -988,7 +987,8 @@ namespace CateringPro.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("CompanyUserId");
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("UserFinances");
                 });
@@ -1510,8 +1510,10 @@ namespace CateringPro.Migrations
                         .IsRequired();
 
                     b.HasOne("CateringPro.Models.CompanyUser", "CompanyUser")
-                        .WithMany()
-                        .HasForeignKey("CompanyUserId");
+                        .WithOne("UserFinance")
+                        .HasForeignKey("CateringPro.Models.UserFinance", "Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CateringPro.Models.UserGroups", b =>
