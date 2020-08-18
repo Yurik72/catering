@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Image = System.Drawing.Image;
 using Org.BouncyCastle.Crypto.Tls;
+using System.Data;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CateringPro.Controllers
 {
@@ -122,6 +124,7 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)  //TO DO
         {
+            var model = new RegisterViewModel() { };
             if (userId == null || code == null)
             {
                 return View("Error");
@@ -133,9 +136,14 @@ namespace CateringPro.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
+            {
                 return RedirectToAction("EmailConfirmed");
+            }
             else
-                return View("Error");
+            {
+                ModelState.AddModelError("", _localizer.GetLocalizedString("InvalidToken"));
+                return View("EmailSent", model);
+            }
         }
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
@@ -196,6 +204,7 @@ namespace CateringPro.Controllers
             }
             if (user != null && !user.EmailConfirmed)
             {
+                _logger.LogWarning("User: {0} hasn't confirmed Email: {1}", model.UserName, user.Email);
                 ModelState.AddModelError("", "You have to confirm your Email before");
             }
             if (user == null)
@@ -231,30 +240,41 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ResendEmail(string inputEmail)
         {
-            CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
-            if (user != null)
+            var model = new RegisterViewModel() { Email = inputEmail };
+            if (inputEmail == null)
             {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = Url.Action(
-                    "ConfirmEmail",
-                    "Account",
-                    new { userId = user.Id, code = code },
-                    protocol: HttpContext.Request.Scheme);
-
-                await _companyuser_repo.PostUpdateUserAsync(user, true);
-                EmailService emailService = new EmailService();
-                await _email.SendEmailAsync(user.Email, "Завершення реєстрації",
-                    $"Вітаю, {user.NameSurname}<br>" +
-                    $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
-                    $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
-                    $"" +
-                    $"" +
-                    $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                    $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                ModelState.AddModelError("", _localizer.GetLocalizedString("CanNotBeEmpty"));
+                return View("EmailSent", model);
             }
             else
-                ModelState.AddModelError("", _localizer.GetLocalizedString("UserNotFound"));
+            {
+                CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
+                if (user != null)
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        "ConfirmEmail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
 
+                    await _companyuser_repo.PostUpdateUserAsync(user, true);
+                    EmailService emailService = new EmailService();
+                    await _email.SendEmailAsync(user.Email, "Завершення реєстрації",
+                        $"Вітаю, {user.NameSurname}<br>" +
+                        $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
+                        $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
+                        $"" +
+                        $"" +
+                        $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                }
+                else
+                {
+                    ModelState.AddModelError("", _localizer.GetLocalizedString("UserEmailNotFound"));
+                    return View("EmailSent", model);
+                }
+            }
             return RedirectToAction("EmailSent", "Account");
         }
         [AllowAnonymous]
@@ -270,39 +290,49 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RestoreInputPassword(string inputEmail)
         {
-            var model = new RegisterViewModel() { };
-            if (inputEmail != null)
+            try
             {
-                CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
-                if (user != null)
+                var model = new RegisterViewModel() { };
+                if (inputEmail != null)
                 {
-                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var callbackUrl = Url.Action(
-                        "SetNewPassword",
-                        "Account",
-                        new { userId = user.Id, code = code },
-                        protocol: HttpContext.Request.Scheme);
+                    CompanyUser user = await _userManager.FindByEmailAsync(inputEmail);
+                    if (user != null)
+                    {
 
-                    await _companyuser_repo.PostUpdateUserAsync(user, true);
-                    EmailService emailService = new EmailService();
-                    await _email.SendEmailAsync(user.Email, "Зміна паролю",
-                        $"Вітаю, {user.NameSurname}<br>" +
-                        $"Ви хочете змінити пароль від вашого облікового запису!<br>" +
-                        $"Підтвердіть зміну паролю, перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
-                        $"" +
-                        $"" +
-                        $"<br><br><br>Якщо це були не Ви - ні в якому разі не переходіть за посиланням.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
-                    return RedirectToAction("InstructionPasswordEmailSent", "Account");
+                        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var callbackUrl = Url.Action(
+                            "SetNewPassword",
+                            "Account",
+                            new { userId = user.Id, code = code },
+                            protocol: HttpContext.Request.Scheme);
+
+                        await _companyuser_repo.PostUpdateUserAsync(user, true);
+                        EmailService emailService = new EmailService();
+                        await _email.SendEmailAsync(user.Email, "Зміна паролю",
+                            $"Вітаю, {user.NameSurname}<br>" +
+                            $"Ви хочете змінити пароль від вашого облікового запису!<br>" +
+                            $"Підтвердіть зміну паролю, перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
+                            $"" +
+                            $"" +
+                            $"<br><br><br>Якщо це були не Ви - ні в якому разі не переходіть за посиланням.<br>" +
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                        return RedirectToAction("InstructionPasswordEmailSent", "Account");
+                    }
+                    if (user == null)
+                    {
+                        ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("UserEmailNotFound"));
+                        return View("RestorePassword", model);
+                    }
                 }
-                if (user == null)
-                {
-                    ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("UserEmailNotFound"));
-                    return View("RestorePassword", model);
-                }
+                ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("CanNotBeEmpty"));
+                return View("RestorePassword", model);
             }
-            ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("CanNotBeEmpty"));
-            return View("RestorePassword", model);
+            catch(Exception ex)
+            {
+                _logger.LogError("UnexpectedError", ex);
+                return View("Error");
+            }
+            
         }
         [AllowAnonymous]
         public IActionResult RestorePassword()
@@ -310,65 +340,70 @@ namespace CateringPro.Controllers
             return View();
         }
         [AllowAnonymous]
-        public IActionResult ConfMailTextLetter()
-        {
-            return View();
-        }
-        [AllowAnonymous]
         public async Task<IActionResult> SetNewPassword(string userId, string code)
         {
-            if (userId == null || code == null)
+            try{
+                if (userId == null || code == null)
+                {
+                    return View("Error");
+                }
+                CompanyUser user = await _userManager.FindByIdAsync(userId);
+                var model = new RegisterViewModel() { UserId = userId, TokenCode = code, Email = user.Email };
+                if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", code))
+                {
+                    return View(model);
+                }
+                else
+                {
+                    return View("TokenExpired", model);
+                }
+            }
+            catch(Exception ex)
             {
+                _logger.LogError("UnexpectedError", ex);
                 return View("Error");
             }
-            CompanyUser user = await _userManager.FindByIdAsync(userId);
-            var model = new RegisterViewModel() { UserId = userId, TokenCode = code, Email = user.Email};
-            if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", code))
-            {
-                return View(model);
-            }
-            else
-            {
-                return View("TokenExpired", model);
-                //var result = await _userManager.ResetPasswordAsync(user, code, "Password123");
-                //model.Errors = result.Errors.Select(x => x.Description).ToList();
-                //return View("ErrorModal",model);
-            }
-
         }
         [AllowAnonymous]
         public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword, string inputPasswordConfirm)
         {
-            var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
-            if (userId == null || code == null)
+            try
             {
-                return View("Error");
-            }
-            CompanyUser user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return View("Error");
-            }
-            if (inputPassword == null || inputPasswordConfirm == null)
-            {
-                ModelState.AddModelError("inputPassword", _localizer.GetLocalizedString("CanNotBeEmpty"));
-                return View("SetNewPassword", model);
-            }
-            if ((inputPassword != null && inputPasswordConfirm != null) && !inputPassword.Equals(inputPasswordConfirm))
-            {
-                ModelState.AddModelError("inputPasswordConfirm", _localizer.GetLocalizedString("PasswordMismatch"));
-                return View("SetNewPassword", model);
-            }
-            if (inputPassword.Equals(inputPasswordConfirm))
-            {
-                var result = await _userManager.ResetPasswordAsync(user, code, inputPassword);
-                if (result.Succeeded)
+                var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
+                if (userId == null || code == null)
                 {
-                    return RedirectToAction("NewPasswordApplied");
+                    return View("Error");
                 }
-                
+                CompanyUser user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return View("Error");
+                }
+                if (inputPassword == null || inputPasswordConfirm == null)
+                {
+                    ModelState.AddModelError("inputPassword", _localizer.GetLocalizedString("CanNotBeEmpty"));
+                    return View("SetNewPassword", model);
+                }
+                if ((inputPassword != null && inputPasswordConfirm != null) && !inputPassword.Equals(inputPasswordConfirm))
+                {
+                    ModelState.AddModelError("inputPasswordConfirm", _localizer.GetLocalizedString("PasswordMismatch"));
+                    return View("SetNewPassword", model);
+                }
+                if (inputPassword.Equals(inputPasswordConfirm))
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, code, inputPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("NewPasswordApplied");
+                    }
+                }
+                return View("Error");
             }
-            return View("Error");
+            catch (Exception ex)
+            {
+                _logger.LogError("UnexpectedError", ex);
+                return View("Error");
+            }
         }
         [AllowAnonymous]
         public IActionResult NewPasswordApplied()
@@ -380,24 +415,25 @@ namespace CateringPro.Controllers
         {
             return View();
         }
-        [AllowAnonymous]
-        public IActionResult ErrorModal(string returnUrl)
-        {
-            return PartialView("ErrorModal", new ErrorViewModel
-            {
-                ReturnUrl = returnUrl
-            });
-        }
         [Authorize]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Update()
         {
-            string id = User.GetUserId();
-            CompanyUser user = await _userManager.FindByIdAsync(id);
-            if (user != null)
-                return View(new UpdateUserModel(user));
-            else
-                return RedirectToAction("Index", "Home");
+            try
+            {
+                string id = User.GetUserId();
+                CompanyUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                    return View(new UpdateUserModel(user));
+                else
+                    return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("UnexpectedError", ex);
+                return View("Error");
+            }
+            
         }
         [Authorize]
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
@@ -505,14 +541,8 @@ namespace CateringPro.Controllers
                         usr.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(usr, true);
                         EmailService emailService = new EmailService();
-                        await _email.SendEmailAsync(usermodel.Email, "Створення облікового запису",
-                            $"Вітаю, {usr.NameSurname}<br>" +
-                            $"Ваш обліковий запис було створено адміністратором<br>" +
-                            $"Наразі вам доступний весь функціонал.<br>" +
-                            $"Login: {usr.UserName} <br>" +
-                            $"Необхідно перейти за посиланням для встановлення паролю: <a href='{callbackUrl}'> посилання</a><br>" +
-                            $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                        
+                        await _email.SendEmailAsync(usermodel.Email, "Створення облікового запису", _localizer.GetLocalizedString(SafeFormat("SendEmailCreatedByAdmText", usr.NameSurname,usr.UserName)));
                     }
 
                     if (!userResult.Succeeded)
@@ -732,11 +762,20 @@ namespace CateringPro.Controllers
                             user_to_update.PictureId = pict.Id;
 
                         }
-                        
-                        IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
-                        if (!rebResult.Succeeded)
+
+                        try
+                        { 
+                            IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
+                            if (!rebResult.Succeeded)
+                            {
+                                return View();
+                            }
+                        }
+                        catch(Exception ex)
                         {
-                            return View();
+                            _logger.LogError(ex, "Error Update Child");
+                            ModelState.AddModelError("", ex.Message);
+                            return PartialView(um);
                         }
                         i++;
                     }
@@ -916,5 +955,17 @@ namespace CateringPro.Controllers
             return PartialView("UserChildsData", childs);
         }
 
+
+        private string SafeFormat(string reskey, object arg0, object arg1 = default)
+        {
+            try
+            {
+                return string.Format(_localizer[reskey], arg0, arg1);
+            }
+            catch
+            {
+                return reskey;
+            }
+        }
     }
 }
