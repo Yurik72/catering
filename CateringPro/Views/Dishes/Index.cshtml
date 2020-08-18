@@ -363,7 +363,8 @@ else
                             }
                             else {
                                 $.get(url_newline, function (data) {
-                                    $('#dialogContent').find(".ingredients-content-proportion").after(data);
+                                    //$('#dialogContent').find(".ingredients-content-proportion-footer").before(data);
+                                    $('#dialogContent').find(".ingredients-content-proportion").append(data);
                                 });
                                 $('#modDialog').attr("_changed", true);
                             }
@@ -437,7 +438,7 @@ else
                                       $('#modDialog').attr("_changed", false);
                                       $('#modDialog').modal('hide');
                                       $('#dialogContent').empty();
-                                      reload();
+                                reload($(".selection").val());
                                   }
                                   else {
                                       var newBody = $('.modal-body', data);

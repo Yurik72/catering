@@ -17,7 +17,7 @@ namespace CateringPro.Models
 
 
         [StringLength(10)]
-        [Required]
+        //[Required]
 
         [DisplayName("Category Code")]
         public string Code { get; set; }
