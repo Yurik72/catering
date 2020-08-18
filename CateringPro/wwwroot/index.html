@@ -14,7 +14,7 @@
     <div class="container-xl container-md container-sm container">
         <nav class="navbar navbar-light navbar-expand-lg flex-grow-0 px-0">
             <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="Catering logo"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarburger1"
+            <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbarburger1"
                     aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation"
                     style="border: none; outline: none">
                 <img src="./img/hamburger-icon.svg" alt="">
@@ -41,21 +41,21 @@
                                 alt="" class="px-2">Адміністрування
                         </div>
                         <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
-                             style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+                             style="box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
                             <button class="dropdown-item" type="button">Список страв</button>
                             <button class="dropdown-item" type="button">Лист категорій</button>
                             <button class="dropdown-item" type="button">Інгредієнти</button>
                             <button class="dropdown-item" type="button">Комплекс</button>
-                            <button class="dropdown-item" type="button">Меню на день / тиждень</button>
+                            <a class="dropdown-item" href="./admin/day-week-menu.html">Меню на день / тиждень</a>
                             <button class="dropdown-item" type="button">Замовлення</button>
                             <button class="dropdown-item" type="button">Склад</button>
                             <button class="dropdown-item" type="button">Склад/Залишки</button>
-                            <button class="dropdown-item" type="button">Документи</button>
-                            <button class="dropdown-item" type="button">Налаштування</button>
-                            <button class="dropdown-item" type="button">Звiти</button>
-                            <button class="dropdown-item" type="button">Користувачi</button>
-                            <button class="dropdown-item" type="button">Групи Користувачiв</button>
-                            <button class="dropdown-item" type="button">Розсилки email</button>
+                            <a class="dropdown-item" href="./admin/documents.html">Документи</a>
+                            <a class="dropdown-item" href="./admin/settings.html">Налаштування</a>
+                            <a class="dropdown-item " href="./admin/report.html" >Звiти</a>
+                            <a class="dropdown-item" type="button" href="./admin/users.html">Користувачi</a>
+                            <a class="dropdown-item" href="./admin/users-group.html">Групи Користувачiв</a>
+                            <a class="dropdown-item" href="./admin/mailing.html">Розсилки email</a>
                         </div>
                     </li>
                     <li class="nav-item ml-3">
@@ -86,7 +86,7 @@
 <main class="row mr-0 ml-0">
     <div class="container-xl container container-md container-sm container-lg">
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
-            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2"
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2 h2-mob"
                                                                                                   style="font-weight: 600">
                 Страви</p></div>
         </div>
@@ -110,7 +110,7 @@
                 <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
                     <form class="form-inline col-12 p-0" style=" display: flex;">
                         <input class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
-                               style="font-size: 16px; color:#797979; height: 48px; background: url('./img/search-icon.svg') no-repeat; background-position: 95%">
+                               style="font-size: 16px; color:#797979; height: 48px; background: url('./img/search-icon.svg') no-repeat 95%;">
                     </form>
                 </div>
             </div>
@@ -171,7 +171,7 @@
                             <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
                                  style="height: 30px">
                                 <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
-                                      style="font-family: Open-Sans">25,00 ₴</span>
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
                             </div>
                             <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
                                 <div class="btn" data-toggle="modal" data-target="#change-item-modal">
@@ -267,7 +267,7 @@
                             <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
                                  style="height: 30px">
                                 <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
-                                      style="font-family: Open-Sans">25,00 ₴</span>
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
                             </div>
                             <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
                                 <div class="btn" data-toggle="modal" data-target="#change-item-modal">

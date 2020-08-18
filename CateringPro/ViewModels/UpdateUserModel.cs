@@ -74,10 +74,13 @@ namespace CateringPro.ViewModels
         public string NameSurname { get; set; }
 
         [DisplayName("UserGroupId")]
-        public int? UserGrpoupId { get; set; }
+        public int? UserGroupId { get; set; }
 
-        [DisplayName("User Group")]
-        public virtual UserGroups UserGroup { get; set; }
+        [DisplayName("UserSubGroupId")]
+        public int? UserSubGroupId { get; set; }
+
+        //[DisplayName("User Group")]
+       // public virtual UserGroups UserGroup { get; set; }
 
         [DefaultValue(false)]
         public bool ConfirmedByAdmin { get; set; }
@@ -104,7 +107,8 @@ namespace CateringPro.ViewModels
                 this.PhoneNumber = usr.PhoneNumber;
                 this.NameSurname = usr.NameSurname;
                 this.UserName=usr.UserName;
-                this.UserGrpoupId = usr.UserGroupId;
+                this.UserGroupId = usr.UserGroupId;
+                this.UserSubGroupId = usr.UserSubGroupId;
                 this.ConfirmedByAdmin = usr.ConfirmedByAdmin;
                 this.ChildrenCount = usr.ChildrenCount;
                 this.ChildNameSurname = usr.ChildNameSurname;
@@ -127,7 +131,8 @@ namespace CateringPro.ViewModels
                 usr.NameSurname = this.NameSurname;
                 if (!string.IsNullOrEmpty(this.UserName))
                     usr.UserName = this.UserName;
-                usr.UserGroupId = this.UserGrpoupId;
+                usr.UserGroupId = this.UserGroupId;
+                usr.UserSubGroupId = this.UserSubGroupId;
                 usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
                 if (isNew)
                     usr.Email = this.Email;
@@ -151,7 +156,8 @@ namespace CateringPro.ViewModels
                 usr.NameSurname = this.NameSurname;
                 if (!string.IsNullOrEmpty(this.UserName))
                     usr.UserName = this.UserName;
-                usr.UserGroupId = this.UserGrpoupId;
+                usr.UserGroupId = this.UserGroupId;
+                usr.UserSubGroupId = this.UserSubGroupId;
                 usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
                 usr.ChildrenCount = this.ChildrenCount;
                 usr.ChildNameSurname = this.ChildNameSurname;

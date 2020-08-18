@@ -275,11 +275,13 @@ namespace CateringPro.Data
                    .OnDelete(DeleteBehavior.Restrict);
 
             /* fin section */
-            modelBuilder.Entity<CompanyUser>()
-                 .HasOne(c => c.UserFinance)
-                 .WithOne(b => b.CompanyUser)
-                 .HasForeignKey<UserFinance>(b => b.Id)
-                  .OnDelete(DeleteBehavior.NoAction);
+          //  modelBuilder.Entity<CompanyUser>()
+          //      .HasIndex(c => new { c.Id, c.CompanyId }).IsUnique(false);
+         //   modelBuilder.Entity<CompanyUser>()
+          //       .HasOne(c => c.UserFinance)
+         //        .WithOne(b => b.CompanyUser)
+          //       .HasForeignKey<UserFinance>(b => b.Id)
+          //      .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<UserFinIncome>()
                .HasKey(i => new { i.Id,i.TransactionDate });
             modelBuilder.Entity<UserFinOutCome>()
@@ -287,13 +289,13 @@ namespace CateringPro.Data
             modelBuilder.Entity<UserFinIncome>()
                   .HasOne(c => c.UserFinance)
                   .WithMany(a => a.UserFinIncomes)
-                  .HasForeignKey(f => f.Id)
+                  .HasForeignKey(f => new { f.Id, f.CompanyId })
                   .IsRequired(true)
                   .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<UserFinOutCome>()
                   .HasOne(c => c.UserFinance)
                   .WithMany(a => a.UserFinOutComes)
-                  .HasForeignKey(f => f.Id)
+                  .HasForeignKey(f => new { f.Id, f.CompanyId })
                   .IsRequired(true)
                   .OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<UserFinOutCome>()
@@ -306,6 +308,9 @@ namespace CateringPro.Data
                .Property(d => d.TransactionDate)
                .HasColumnType("datetime")
                .HasDefaultValueSql("(getdate())");
+
+            modelBuilder.Entity<UserFinance>()
+                .HasKey(u => new { u.Id, u.CompanyId });
             modelBuilder.Entity<UserFinance>()
                 .Property(d => d.LastUpdated)
                 .HasColumnType("datetime")

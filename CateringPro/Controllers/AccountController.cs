@@ -310,6 +310,11 @@ namespace CateringPro.Controllers
             return View();
         }
         [AllowAnonymous]
+        public IActionResult ConfMailTextLetter()
+        {
+            return View();
+        }
+        [AllowAnonymous]
         public async Task<IActionResult> SetNewPassword(string userId, string code)
         {
             if (userId == null || code == null)
@@ -349,11 +354,24 @@ namespace CateringPro.Controllers
                 {
                     return RedirectToAction("NewPasswordApplied");
                 }
+                foreach (var res in result.Errors)
+                {
+                    if (res.Code.Equals("InvalidToken"))
+                    {
+                        return RedirectToAction("TokenExpired");
+                    }
+                }
+
             }
             return View("Error");
         }
         [AllowAnonymous]
         public IActionResult NewPasswordApplied()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        public IActionResult TokenExpired()
         {
             return View();
         }
@@ -386,6 +404,7 @@ namespace CateringPro.Controllers
             if (user != null)
             {
                 ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
+                ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
 
                 return PartialView(new UpdateUserModel(user));
             }
@@ -422,6 +441,7 @@ namespace CateringPro.Controllers
                 }
                 if (usermodel.IsNew)
                 {
+                    var creator = await _userManager.FindByIdAsync(User.GetUserId());
                     if (string.IsNullOrEmpty(usermodel.NewPassword))
                     {
                         ModelState.AddModelError("NewPassword", "You must specify a value");
@@ -442,6 +462,10 @@ namespace CateringPro.Controllers
                     CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
                     usermodel.CopyTo(usr, true);
                     usr.Id = Guid.NewGuid().ToString();
+                    if(!usr.UserGroupId.HasValue)
+                         usr.UserGroupId = creator.UserGroupId;
+                    if (!usr.UserSubGroupId.HasValue)
+                        usr.UserSubGroupId = creator.UserSubGroupId;
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
                     //current  roles
                     var userRoles = await _userManager.GetRolesAsync(usr);
@@ -561,6 +585,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", -1);
+            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", -1);
 
             return PartialView("EditUserModal", user);
         }
@@ -571,18 +596,32 @@ namespace CateringPro.Controllers
             return View(new List<CompanyUser>());
         }
         [Authorize]
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]
         public async Task<IActionResult> UsersList()
         {
 
-            var query = _userManager.Users; ;
+            var query = _userManager.Users;
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
-                query = query.Where(u => u.CompanyId == User.GetCompanyID());
-            query = query.Include(u => u.UserGroup);
-            if (User.IsInRole("GroupAdmin"))
             {
-                var admin = await _userManager.FindByIdAsync(User.GetUserId());
-                query = query.Where(u => u.UserGroupId == admin.UserGroupId);
+                if (User.IsInRole(Core.UserExtension.UserRole_CompanyAdmin) || User.IsInRole(Core.UserExtension.UserRole_UserAdmin))
+                {
+                    query = query.Where(u => u.CompanyId == User.GetCompanyID());
+                }
+                else if (User.IsInRole(Core.UserExtension.UserRole_GroupAdmin))
+                {
+                    var admin = await _userManager.FindByIdAsync(User.GetUserId());
+                    query = query.Where(u => u.UserGroupId == admin.UserGroupId);
+                }
+                else if (User.IsInRole(Core.UserExtension.UserRole_SubGroupAdmin))
+                {
+                    var admin = await _userManager.FindByIdAsync(User.GetUserId());
+                    if (admin.UserSubGroupId.HasValue)
+                    {
+                        var allowedsubgroup = await _companyuser_repo.UserPermittedSubGroups(admin.Id, admin.CompanyId);
+
+                        query = query.Where(u => allowedsubgroup.Contains(u.UserSubGroupId.Value));
+                    }
+                }
             }
             //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
             return PartialView(await query.ToListAsync());
@@ -622,7 +661,7 @@ namespace CateringPro.Controllers
                     {
                         // IFormFile filePict = null;
                         var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
-
+                        /*
                         for (var idx = 0; idx < Request.Form.Files.Count; idx++)
                         {
                             var fileindex = -1;
@@ -636,7 +675,7 @@ namespace CateringPro.Controllers
                             filePict = Request.Form.Files[idx];
                             break;
                         }
-
+                        */
                         CompanyUser user_to_update;
                         if (reb.Id == um.Id)
                         {
@@ -813,8 +852,11 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> AddBalance()
         {
-            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
-            return View(await _companyuser_repo.AddBalanceViewAsync(User.GetUserId()));
+            //List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
+            var res = await _companyuser_repo.AddBalanceViewAsync(User.GetUserId());
+            if (res == null)
+                return NotFound();
+            return View(res);
         }
 
         [Authorize]

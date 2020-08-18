@@ -67,6 +67,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="card-user-info" class="container">
+
+                </div>
+            </div>
+        </div>
         <div class="row user-card-search justify-content-end my-2">
             <div class="col-6">
                 <div id="custom-search-input">
@@ -208,7 +215,7 @@
                 }
             }
             function fillCardScan(carddata) {
-                $('#card-info').empty();
+                //$('#card-info').empty();
                     var token = carddata.Cardtag;
                     var addclass = '';
                 var askdetails = true;
@@ -236,7 +243,11 @@
                                                  </div>
                                             </div>`);
 
-                    $('#card-info').append(divcard);
+                $('#card-info').prepend(divcard);
+                $(divcard).delay(7000).animate({
+                    height: '-=100px'
+                }, 300, function () { $(divcard).remove() });
+
                     if (!askdetails) {
                         return;
                     }
@@ -248,7 +259,11 @@
                         .then(data => {
                             console.log(data);
                             $("#user-card-details-temp").remove();
-                            $('#card-info').append($(data));
+                            var userdata = $(data);
+                            $('#card-user-info').prepend(userdata);
+                            $(userdata).delay(7000).animate({
+                                height: '-=100px'
+                            }, 300, function () { $(userdata).remove() });
                         })
                         .catch(error => console.error('error:', error))
                 }

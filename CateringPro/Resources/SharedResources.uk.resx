@@ -873,4 +873,10 @@
   <data name="UserSubGroupsMenu" xml:space="preserve">
     <value>Підгрупи користувачів</value>
   </data>
+  <data name="DeleteEditUsingError" xml:space="preserve">
+    <value>Об'єкт не може бути видалений або змінений, тому що використовується в системі</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
 </root>

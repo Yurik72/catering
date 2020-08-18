@@ -1,21 +1,33 @@
 ﻿@model UserSubGroupViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Index";
+
+    var ModelName = Localizer["UserSubGroups"];
+    ViewData["Title"] = ModelName;
 
 }
 
-<h1>Index</h1>
 
-<div class="container">
+<div class="container-xl container container-md container-sm container-lg">
+    <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+        <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+            <p class="h2" style="font-weight: 600">
+                @ModelName
+            </p>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <div id="grouptree">
-                @foreach (var it in Model.Root)
-                {
-                    
-                    @await Html.PartialAsync("Node",it)
-                }
+                <ul>
+                    @foreach (var it in Model.Root.AsList())
+                    {
+
+                        @await Html.PartialAsync("Node", it)
+                    }
+                </ul>
             </div>
 
         </div>
@@ -24,10 +36,168 @@
 </div>
 
 
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/stylejstree.css" />
+}
+
 @section scripts
 {
-<script src="~/js/jstree.min.js"></script>
-<script>
+    <script src="~/js/jstree.min.js"></script>
+    <script>
+        $(function () {
+            // 6 create an instance when the DOM is ready
+            var snapshot = {};
+            var $tree = $("#grouptree");
+            $tree.bind('ready.jstree', function (event, data) {
+              
+                var js = $tree.jstree().get_json(undefined, {flat: true});
 
-</script>
+            });
+            function clonesnapshot() {
+                data = $tree.jstree().get_json(undefined, { flat: true });
+                snapshot = { ...data };
+            }
+            function restoresnapshot() {
+                $tree.jstree(true)._model.data = snapshot;
+               // $tree.jstree(true).redraw(true);
+                $tree.jstree(true).refresh();
+            }
+            $tree.jstree({
+                "core": {
+                    "animation": 0,
+                    "check_callback": true,
+                    "themes": { "stripes": true }
+
+                },
+                "types": {
+                    "#": {
+                        "max_children": 1,
+                        "max_depth": 8,
+                        "valid_children": ["root"]
+                    },
+                    "root": {
+                        //"icon": "/static/3.3.10/assets/images/tree_icon.png",
+                        "valid_children": ["default","group"]
+                    },
+                    "default": {
+                        "valid_children": ["default",  "group"]
+                    }
+                },
+                "contextmenu": {
+                    "items": function ($node) {
+                        var tree = $tree.jstree(true);
+                        return {
+                            "Create": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "@Html.Raw(Localizer["Add"])",
+                                "action": function (obj) {
+                                    $node = tree.create_node($node);
+                                    tree.edit($node);
+                                }
+                            },
+                            "Rename": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "@Html.Raw(Localizer["Rename"])",
+                                "action": function (obj) {
+                                    tree.edit($node);
+                                }
+                            },
+                            "Remove": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "@Html.Raw(Localizer["Delete"])",
+                                "action": function (obj) {
+                                    clonesnapshot();
+                                    tree.delete_node($node);
+                                }
+                            }
+                        };
+                    }
+                },
+                "plugins": [
+                    "contextmenu", "dnd", "search",
+                    "state", "types", "wholerow"
+                ]
+            })
+                .bind("move_node.jstree", function (e, data) {
+                    changegroup('move', data);
+                })
+                .bind("rename_node.jstree", function (e, data) {
+                    changegroup('rename', data);
+                })
+                .bind("create_node.jstree", function (e, data) {
+                    changegroup('create', data);
+                })
+                .bind("delete_node.jstree", function (e, data) {
+                    changegroup('delete', data);
+                });
+            function changegroup(mode, data) {
+                const formData = new FormData();
+                formData.append('name', data.node.text);
+                formData.append('parentid', data.node.parent);
+                formData.append('id', data.node.id);
+                var action = "Change";
+                var isRestoreafter = false;
+                switch (mode) {
+                    case 'create':
+                        action = 'Create';
+
+                        break;
+                    case 'delete':
+                        action = 'Delete';
+                        isRestoreafter = true;
+                        break;
+                    default:
+                        break;
+
+                }
+                //formData.append('TransactionDate', (new Date).toJSON().slice(0, 10).split("-").reverse().join("."));
+                const url = `/UserSubGroups/${action}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.ok != true) {
+                            if (response.status == 424) {
+                                throw "@Html.Raw(Localizer["DeleteEditUsingError"])";
+                            }
+                            else {
+                                throw response.statusText;
+                            }
+
+                        }
+                        return response.json();
+                        //loadfin();
+                    })
+                    .then(json => {
+                        if (mode == 'create') {
+                            $('#grouptree').jstree(true).set_id(data.node, json.id);
+                        }
+                    }
+                    )
+                    .catch(error => {
+                        dialog_error(error);
+                        if (isRestoreafter)
+                            restoresnapshot();
+                         }
+                       
+                        );
+
+
+
+
+            }
+
+        });
+    </script>
 }

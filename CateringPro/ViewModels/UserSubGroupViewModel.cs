@@ -7,7 +7,10 @@ namespace CateringPro.ViewModels
 {
     public class Nodes: Dictionary<int, UserSubGroupNode>
     {
-
+        public List<UserSubGroupNode> AsList()
+        {
+            return this.Values.ToList();
+        }
     }
     public class UserSubGroupViewModel
     {
@@ -26,7 +29,7 @@ namespace CateringPro.ViewModels
                     AllNodes.Add(sequenceEnum.Current.Id,new UserSubGroupNode( sequenceEnum.Current));
                 }
             }
-
+            AllNodes.Values.ToList().ForEach(n => n.BuildNode(this));
 
         }
     }

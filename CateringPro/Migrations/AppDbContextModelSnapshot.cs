@@ -890,6 +890,8 @@ namespace CateringPro.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("Id", "CompanyId");
+
                     b.ToTable("UserFinIncomes");
                 });
 
@@ -927,6 +929,8 @@ namespace CateringPro.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("Id", "CompanyId");
+
                     b.ToTable("UserFinOutComes");
                 });
 
@@ -936,13 +940,16 @@ namespace CateringPro.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValueSql("(0.0)");
 
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                    b.Property<string>("CompanyUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
@@ -977,9 +984,11 @@ namespace CateringPro.Migrations
                         .HasColumnType("int")
                         .HasDefaultValueSql("(0)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "CompanyId");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("CompanyUserId");
 
                     b.ToTable("UserFinances");
                 });
@@ -1472,7 +1481,7 @@ namespace CateringPro.Migrations
 
                     b.HasOne("CateringPro.Models.UserFinance", "UserFinance")
                         .WithMany("UserFinIncomes")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Id", "CompanyId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
@@ -1487,7 +1496,7 @@ namespace CateringPro.Migrations
 
                     b.HasOne("CateringPro.Models.UserFinance", "UserFinance")
                         .WithMany("UserFinOutComes")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Id", "CompanyId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
@@ -1501,10 +1510,8 @@ namespace CateringPro.Migrations
                         .IsRequired();
 
                     b.HasOne("CateringPro.Models.CompanyUser", "CompanyUser")
-                        .WithOne("UserFinance")
-                        .HasForeignKey("CateringPro.Models.UserFinance", "Id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("CompanyUserId");
                 });
 
             modelBuilder.Entity("CateringPro.Models.UserGroups", b =>

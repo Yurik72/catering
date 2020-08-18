@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/custom-select.css">
+    <title>Кабачок - Звіти</title>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100%">
+<header>
+    <div class="container-xl container-md container-sm container">
+        <nav class="navbar navbar-light navbar-expand-lg flex-grow-0 px-0">
+            <a class="navbar-brand" href="../index.html"><img src="../img/logo.png" alt="Catering logo"></a>
+            <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbarburger1"
+                    aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation"
+                    style="border: none; outline: none">
+                <img src="../img/hamburger-icon.svg" alt="">
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarburger1">
+                <ul class="navbar-nav nav justify-content-end float-right mr-0" id="nav-bar-burger"
+                    style="background: #ffffff">
+                    <li class="nav-item ml-3">
+                        <a class="nav-link px-0 navbar-size-14" href="#" style="color: #232323"><img
+                                src="../img/login-icon.svg"
+                                alt=""
+                                class="px-2">Увійти</a>
+                    </li>
+                    <li class="nav-item ml-3 float-right">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img src="../img/reg-icon.svg"
+                                                       alt="" class="px-2">Реєстрація</a>
+                    </li>
+                    <li class="nav-item ml-3 dropdown">
+                        <div class="nav-link text-main-color-dark px-0 navbar-size-14 dropdown-toggle"
+                             id="dropdown-admin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                             style="color: #232323; cursor: pointer"><img
+                                src="../img/admin-icon.svg"
+                                alt="" class="px-2">Адміністрування
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
+                             style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+                            <button class="dropdown-item" type="button">Список страв</button>
+                            <button class="dropdown-item" type="button">Лист категорій</button>
+                            <button class="dropdown-item" type="button">Інгредієнти</button>
+                            <button class="dropdown-item" type="button">Комплекс</button>
+                            <a class="dropdown-item " type="button" href="./day-week-menu.html">Меню на день /
+                                тиждень</a>
+                            <button class="dropdown-item" type="button">Замовлення</button>
+                            <button class="dropdown-item" type="button">Склад</button>
+                            <button class="dropdown-item" type="button">Склад/Залишки</button>
+                            <a class="dropdown-item" href="./documents.html">Документи</a>
+                            <a class="dropdown-item" href="./settings.html">Налаштування</a>
+                            <a class="dropdown-item change-btn-eff" href="./report.html">Звiти</a>
+                            <a class="dropdown-item" href="./users.html">Групи Користувачiв</a>
+                            <a class="dropdown-item" href="./users-group.html">Групи Користувачiв</a>
+                            <a class="dropdown-item" href="./mailing.html">Розсилки email</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark  pl-0 navbar-size-14"
+                           href="profile.html"
+                           style="color: #232323"><img
+                                src="../img/profile-icon.svg"
+                                alt="" class="px-2">Мій
+                            профіль</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/basket-icon.svg"
+                                alt="" class="px-2">Мої
+                            замовлення</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/logout-icon.svg"
+                                alt="" class="px-2">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<main class="row mr-0 ml-0 flex-grow-1">
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
+            <div class="col-12 col-xl-9 col-md-9 col-sm-12 align-content-center mr-md-auto pl-0"><a
+                    class="h2 h2-mob d-flex align-items-center link-back" href="../index.html"
+                    style="font-weight: 600; color: #232323; text-decoration: none; width: 110px; ">
+                <img src="../img/back-report.svg" class="mr-3" alt="">Звіти
+            </a></div>
+        </div>
+        <div class="col-12 p-0 d-flex justify-content-center">
+            <div class="col-lg-9 col-md-8 col-12 d-flex flex-column p-0">
+                <div class="col-12 p-0 d-flex flex-wrap justify-content-around">
+                    <div class="col-lg-5 col-md-9 col-sm-8  col-6 d-flex justify-content-lg-between justify-content-md-between  justify-content-center flex-md-row flex-lg-row flex-column p-0"
+                         style="box-sizing: border-box">
+                        <div class="col-9  col-lg-6 col-md-6 col-sm-6 p-0 d-flex justify-content-between align-items-center "
+                             style="height: 34px"><label for="from-date"
+                                                         class="mb-0"
+                                                         style="font-size: 16px; color: #232323">Від:</label>
+                            <input id="from-date" class="inputs-report ml-3 mr-lg-3 mr-md-3 mr-0" type="date"
+                                   name="date" value="2020-08-08">
+                        </div>
+                        <div class="col-9 col-lg-6 col-md-6 col-sm-6 p-0 d-flex justify-content-between align-items-center mt-3 mt-lg-0 mt-md-0"
+                             style="height: 34px"><label for="to-date"
+                                                         class="mb-0 ml-lg-3 ml-md-3 ml-0"
+                                                         style="font-size: 16px; color: #232323">До:</label>
+                            <input id="to-date" class="inputs-report ml-3" type="date" name="date" value="2020-08-15">
+                        </div>
+                    </div>
+                    <div class="col-5" style="box-sizing: border-box"></div>
+                </div>
+                <div class="col-12 p-0 d-flex flex-wrap justify-content-around mt-4">
+                    <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4" href="./need-products.html"
+                         style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                        <div class="d-flex justify-content-center align-items-center"
+                             style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px"><img
+                                src="../img/forecast-img.svg"
+                                alt=""></div>
+                        <div class="col-9 d-flex justify-content-center mb-4"><span
+                                style="text-align: center; font-weight: 500; font-size: 18px;">Потреби и прогноз у продуктах</span>
+                        </div>
+                    </a>
+                    <div class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4"
+                         style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                        <div class="d-flex justify-content-center align-items-center"
+                             style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px"><img
+                                src="../img/production-img.svg"
+                                alt=""></div>
+                        <div class="col-7 d-flex justify-content-center mb-4"><span
+                                style="text-align: center; font-weight: 500; font-size: 18px;">Потреби у виробництвi</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4"
+                         style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                        <div class="d-flex justify-content-center align-items-center"
+                             style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px"><img
+                                src="../img/day-menu-img.svg"
+                                alt=""></div>
+                        <div class="col-5 d-flex justify-content-center mb-4"><span
+                                style="text-align: center; font-weight: 500; font-size: 18px;">Меню по днях</span>
+                        </div>
+                    </div>
+                    <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4" href="./calculating.html"
+                         style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                        <div class="d-flex justify-content-center align-items-center"
+                             style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px"><img
+                                src="../img/calculating-img.svg"
+                                alt=""></div>
+                        <div class="col-7 d-flex justify-content-center mb-4"><span
+                                style="text-align: center; font-weight: 500; font-size: 18px;">Калькуляційна карта</span>
+                        </div>
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer row ml-0 mr-0"
+        style="min-height: 91px; background: #222222; display:flex; align-items: center; margin-top: 56px">
+    <div class="container container-sm container-md container-lg" style="height: 100%">
+        <div class="row justify-content-between mr-2 ml-2 flex-column-reverse align-items-center flex-xl-row flex-lg-row flex-md-column-reverse">
+            <div class="col-10 justify-content-center justify-content-lg-start mt-3 mt-lg-0 col-md-5">
+                <div class="h5 justify-content-center justify-content-lg-start"
+                     style="color: #ffffff; font-size: 14px; line-height: 16px; display: flex; justify-content: center">
+                    <span>© 2017-2018 Company, Inc.</span></div>
+            </div>
+            <div class="col-12 col-lg-5  col-sm-5 col-md-5 justify-content-center">
+                <nav class="nav justify-content-center justify-content-lg-end">
+                    <a class="nav-link p-0 pl-4 pr-4  pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
+                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Privacy</a>
+                    <div class="align-self-center" style="color: #f15e25">|</div>
+                    <a class="nav-link p-0 pl-4 pr-4 pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
+                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Terms</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="../js/index.js"></script>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="../js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script>
+    $('.carousel').carousel({
+        interval: 0
+    });
+
+
+</script>
+</body>
+</html>
