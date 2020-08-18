@@ -160,9 +160,13 @@ namespace CateringPro
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));
 
-          //  services.AddSingleton<HtmlEncoder>(
-          //         HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
-          //          UnicodeRanges.CyrillicSupplement }));
+
+            //services.Configure<DataProtectionTokenProviderOptions>(options =>
+            //options.TokenLifespan = TimeSpan.FromSeconds(30));
+
+            //  services.AddSingleton<HtmlEncoder>(
+            //         HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+            //          UnicodeRanges.CyrillicSupplement }));
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

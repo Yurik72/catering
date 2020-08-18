@@ -10,11 +10,13 @@
 
         <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700" rel="stylesheet">
     </head>
-    <body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
+    <form asp-action="RestoreInputPassword" asp-controller="Account">
+        <body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
             <section class="site-section" id="section-portfolio">
                 <div class="container">
                     <div class="row">
                         <div class="section-heading text-center col-md-12">
+                            <input type="hidden" name="inputEmail" value="@Model.Email" />
                             <br />
                             <h2>Здається термін дії посилання вичерпано</h2>
 
@@ -22,6 +24,9 @@
                             <br />
                             <h2>Спробуйте надіслати лист для встановленням паролю ще раз</h2>
                             (Увійти -> "Забули пароль?")
+                            <br />
+                            <button type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["Send"]</button>
+                            @*<button asp-controller="Account" asp-action="ErrorModal" type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["Test for Modal errors"]</button>*@
                         </div>
                     </div>
 
@@ -29,7 +34,9 @@
             </section>
             <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
             <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-    </body>
+        </body>
+    </form>
+   
 </html>
 
 @section Scripts {

@@ -321,8 +321,20 @@ namespace CateringPro.Controllers
             {
                 return View("Error");
             }
-            var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
-            return View(model);
+            CompanyUser user = await _userManager.FindByIdAsync(userId);
+            var model = new RegisterViewModel() { UserId = userId, TokenCode = code, Email = user.Email};
+            if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", code))
+            {
+                return View(model);
+            }
+            else
+            {
+                return View("TokenExpired", model);
+                //var result = await _userManager.ResetPasswordAsync(user, code, "Password123");
+                //model.Errors = result.Errors.Select(x => x.Description).ToList();
+                //return View("ErrorModal",model);
+            }
+
         }
         [AllowAnonymous]
         public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword, string inputPasswordConfirm)
@@ -354,14 +366,7 @@ namespace CateringPro.Controllers
                 {
                     return RedirectToAction("NewPasswordApplied");
                 }
-                foreach (var res in result.Errors)
-                {
-                    if (res.Code.Equals("InvalidToken"))
-                    {
-                        return RedirectToAction("TokenExpired");
-                    }
-                }
-
+                
             }
             return View("Error");
         }
@@ -374,6 +379,14 @@ namespace CateringPro.Controllers
         public IActionResult TokenExpired()
         {
             return View();
+        }
+        [AllowAnonymous]
+        public IActionResult ErrorModal(string returnUrl)
+        {
+            return PartialView("ErrorModal", new ErrorViewModel
+            {
+                ReturnUrl = returnUrl
+            });
         }
         [Authorize]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
