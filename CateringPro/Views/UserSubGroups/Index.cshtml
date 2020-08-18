@@ -55,6 +55,11 @@
                 var js = $tree.jstree().get_json(undefined, {flat: true});
 
             });
+            var initialset = {};
+            $tree.find('li').each(function (idx, el) {
+                var x = 0;
+                initialset[el.id] = $(el).attr('data-jstree');
+            });
             function clonesnapshot() {
                 data = $tree.jstree().get_json(undefined, { flat: true });
                 snapshot = { ...data };
@@ -82,6 +87,7 @@
                         "valid_children": ["default","group"]
                     },
                     "default": {
+                        "icon": "/images/group.png",
                         "valid_children": ["default",  "group"]
                     }
                 },

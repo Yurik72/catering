@@ -24,6 +24,8 @@ namespace CateringPro.Data
             CreateRole(UserExtension.UserRole_UserAdmin, context, roleManager);
             CreateRole(UserExtension.UserRole_KitchenAdmin, context, roleManager);
             CreateRole(UserExtension.UserRole_SubGroupAdmin, context, roleManager);
+            CreateRole(UserExtension.UserRole_ServiceAdmin, context, roleManager);
+            
             SQLScriptExecutor executor = new SQLScriptExecutor(context, service);
             executor.ExecuteStartScripts();
             CreateSubGroups(context);
