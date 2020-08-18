@@ -186,8 +186,9 @@ function setup_changecompany() {
 function setup_listitems(options) {
     let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems", editmethod: "EditModal", createmethod: "CreateModal" };
     if (typeof (options) == 'object') {
-        // this.options = { ...defaultoptions, ...options };
+         this.options = { ...defaultoptions, ...options };
         //edge troubles with es6
+        /*
         this.options = defaultoptions
         this.options.href = options.href;
         if (options.onloadedcb)
@@ -198,6 +199,7 @@ function setup_listitems(options) {
             this.options.editmethod = options.editmethod;
         if (options.createmethod)
             this.options.createmethod = options.createmethod;
+            */
     }
     else {
 
