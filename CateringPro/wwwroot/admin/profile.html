@@ -14,7 +14,7 @@
     <div class="container-xl container-md container-sm container">
         <nav class="navbar navbar-light navbar-expand-lg flex-grow-0 px-0">
             <a class="navbar-brand" href="../index.html"><img src="../img/logo.png" alt="Catering logo"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarburger1"
+            <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbarburger1"
                     aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation"
                     style="border: none; outline: none">
                 <img src="../img/hamburger-icon.svg" alt="">
@@ -46,16 +46,16 @@
                             <button class="dropdown-item" type="button">Лист категорій</button>
                             <button class="dropdown-item" type="button">Інгредієнти</button>
                             <button class="dropdown-item" type="button">Комплекс</button>
-                            <button class="dropdown-item" type="button">Меню на день / тиждень</button>
+                            <a class="dropdown-item" type="button" href="./day-week-menu.html">Меню на день / тиждень</a>
                             <button class="dropdown-item" type="button">Замовлення</button>
                             <button class="dropdown-item" type="button">Склад</button>
                             <button class="dropdown-item" type="button">Склад/Залишки</button>
-                            <button class="dropdown-item" type="button">Документи</button>
-                            <button class="dropdown-item" type="button">Налаштування</button>
-                            <button class="dropdown-item" type="button">Звiти</button>
-                            <button class="dropdown-item" type="button">Користувачi</button>
-                            <button class="dropdown-item" type="button">Групи Користувачiв</button>
-                            <button class="dropdown-item" type="button">Розсилки email</button>
+                            <a class="dropdown-item" href="./documents.html">Документи</a>
+                            <a class="dropdown-item" href="./settings.html">Налаштування</a>
+                            <a class="dropdown-item " href="./report.html" >Звiти</a>
+                            <a class="dropdown-item" type="button"  href="./users.html">Користувачi</a>
+                            <a class="dropdown-item" href="./users-group.html">Групи Користувачiв</a>
+                            <a class="dropdown-item" href="./mailing.html">Розсилки email</a>
                         </div>
                     </li>
                     <li class="nav-item ml-3">
@@ -87,13 +87,13 @@
 <main class="row mr-0 ml-0 flex-grow-1">
     <div class="container-xl container container-md container-sm container-lg">
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
-            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2"
-                                                                                                  style="font-weight: 600; font-size: 34px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2 h2-mob"
+                                                                                                  style="font-weight: 600;">
                 Мої дані</p></div>
         </div>
         <ul class="nav nav-tabs justify-content-lg-center justify-content-md-center justify-content-between " id="tab-profile" role="tablist">
             <li class="nav-item">
-                <a class="nav-link " style="width: 100%;" id="home-tab" data-toggle="tab" href="#profile-home"
+                <a class="nav-link active" style="width: 100%;" id="home-tab" data-toggle="tab" href="#profile-home"
                    role="tab"
                    aria-controls="home"
                    aria-selected="true">Головна</a>
@@ -105,14 +105,14 @@
                    aria-selected="false">Діти</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" style="width: 100%;" id="finance-tab" data-toggle="tab" href="#profile-finance"
+                <a class="nav-link " style="width: 100%;" id="finance-tab" data-toggle="tab" href="#profile-finance"
                    role="tab"
                    aria-controls="finance"
                    aria-selected="false">Фінанси</a>
             </li>
         </ul>
         <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="profile-tab">
-            <div class="tab-pane fade " id="profile-home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="profile-home" role="tabpanel" aria-labelledby="home-tab">
                 <form>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
@@ -203,11 +203,11 @@
                 <div class="d-flex justify-content-center flex-column align-items-center">
                     <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-center">
                         <div class="col-6 col-md-6 col-lg-6 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
-                            <label for="input-name"
+                            <label for="amount-child"
                                    class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">Кількість
                                 дітей</label>
                             <span id="child-amount">
-                        <input type="number" min="0" value="0">
+                        <input type="number" min="0" value="0" id="amount-child">
                                             <div class="child-amount-control"
                                                  onclick="this.previousElementSibling.stepUp()">+</div>
                                             <div class="child-amount-control"
@@ -244,7 +244,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade show active" id="profile-finance" role="tabpanel" aria-labelledby="finance-tab">
+            <div class="tab-pane fade " id="profile-finance" role="tabpanel" aria-labelledby="finance-tab">
                 <div class="d-flex justify-content-center flex-column align-items-center">
                     <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-start  flex-column">
                         <span class="h2 mb-3" style="font-weight: 500; font-size: 18px; line-height: 21px; color: #232323;">Фінанси</span>
