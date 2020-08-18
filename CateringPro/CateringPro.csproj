@@ -105,6 +105,9 @@
     <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
     <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
     <Content Remove="Views\Shared\PizzaSummary.cshtml" />
+    <Content Remove="wwwroot\usefull\ACS-Unified-Driver-Win-4280.rar" />
+    <Content Remove="wwwroot\usefull\ACS-Unified-MSI-4280.rar" />
+    <Content Remove="wwwroot\usefull\NFCServerInstaller.msi" />
   </ItemGroup>
 
   <ItemGroup>
@@ -179,6 +182,15 @@
   <None Include="wwwroot\img\profile-icon.svg" />
   <None Include="wwwroot\img\reg-icon.svg" />
   <None Include="wwwroot\img\Union.svg" />
+  <None Include="wwwroot\usefull\ACS-Unified-Driver-Win-4280.rar">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Include="wwwroot\usefull\ACS-Unified-MSI-4280.rar">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Include="wwwroot\usefull\NFCServerInstaller.msi">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 <ItemGroup>
   <Content Update="SQL\cateringpro.bak">

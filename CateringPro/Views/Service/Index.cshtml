@@ -143,10 +143,11 @@
             el_offline.hide();
             elnfc_online.hide();
             elnfc_offline.show();
+            var timer_checknfcstate;
             $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:44360/ws');
             var curr_date = new Date();
             var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
-            //$('#currentdate').text(curr_date.getDate() + "." + (curr_date.getMonth() + 1) + "." + curr_date.getFullYear());
+            
             $('#currentdate').text(readable_date);
             localStorage[key_url] = $('#nfcurl').val();
             var nfcsock = new nfc_socket($('#nfcurl').val(),
@@ -161,7 +162,7 @@
                     }
                 }
             );
-            //todo
+          
             $('#connectnfc').click(function (e) {
                 e.preventDefault();
                 $('#connectnfc').prop('disabled', true);
@@ -188,19 +189,32 @@
               //  }
 
             });
+            nfcsock.on('state', function (msg) {
 
+                check_statenfc(msg);
+                showNfcInfo(msg);
+
+            });
+            function check_statenfc(msg) {
+                if (msg && msg.Isreaderconnected) {
+                    if (timer_checknfcstate)
+                        clearTimeout(timer_checknfcstate);
+                }
+                else {
+                    if (!timer_checknfcstate)
+                        check_nfc();
+                }
+            }
+            function check_nfc() {
+                console.log('checknfc');
+                if (nfcsock.issocketconnected()) {
+                    nfcsock.getstatus();
+                }
+                timer_checknfcstate = setTimeout(check_nfc, 10000);
+            }
 
            
-        /*  TO DOfor service worker
-            $.post(actionUrl, ServiceRequest).done(function (data, statusText, xhr) {
-                el_offline.hide();
-                el_online.show();
-            })
-                .fail(function (xhr, code, error) {
-                    el_offline.show();
-                    el_online.hide();
-                });
-            */
+
             function IsWelcomeMode() {
                 return $(".order-dish-select.welcome").hasClass('active');
             }
