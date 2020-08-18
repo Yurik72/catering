@@ -48,9 +48,23 @@
     <script>
         $(function () {
             // 6 create an instance when the DOM is ready
+            var snapshot = {};
+            var $tree = $("#grouptree");
+            $tree.bind('ready.jstree', function (event, data) {
+              
+                var js = $tree.jstree().get_json(undefined, {flat: true});
 
-            var dlg_addgroup = $('#modDialog-addgroup');
-            $('#grouptree').jstree({
+            });
+            function clonesnapshot() {
+                data = $tree.jstree().get_json(undefined, { flat: true });
+                snapshot = { ...data };
+            }
+            function restoresnapshot() {
+                $tree.jstree(true)._model.data = snapshot;
+               // $tree.jstree(true).redraw(true);
+                $tree.jstree(true).refresh();
+            }
+            $tree.jstree({
                 "core": {
                     "animation": 0,
                     "check_callback": true,
@@ -60,22 +74,50 @@
                 "types": {
                     "#": {
                         "max_children": 1,
-                        "max_depth": 4,
+                        "max_depth": 8,
                         "valid_children": ["root"]
                     },
                     "root": {
-                        "icon": "/static/3.3.10/assets/images/tree_icon.png",
-                        "valid_children": ["default"]
+                        //"icon": "/static/3.3.10/assets/images/tree_icon.png",
+                        "valid_children": ["default","group"]
                     },
                     "default": {
-                        "valid_children": ["default", "file"]
-                    },
-                    "file": {
-                        "icon": "glyphicon glyphicon-file",
-                        "valid_children": []
+                        "valid_children": ["default",  "group"]
                     }
                 },
-
+                "contextmenu": {
+                    "items": function ($node) {
+                        var tree = $tree.jstree(true);
+                        return {
+                            "Create": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "@Html.Raw(Localizer["Add"])",
+                                "action": function (obj) {
+                                    $node = tree.create_node($node);
+                                    tree.edit($node);
+                                }
+                            },
+                            "Rename": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "@Html.Raw(Localizer["Rename"])",
+                                "action": function (obj) {
+                                    tree.edit($node);
+                                }
+                            },
+                            "Remove": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "@Html.Raw(Localizer["Delete"])",
+                                "action": function (obj) {
+                                    clonesnapshot();
+                                    tree.delete_node($node);
+                                }
+                            }
+                        };
+                    }
+                },
                 "plugins": [
                     "contextmenu", "dnd", "search",
                     "state", "types", "wholerow"
@@ -99,13 +141,15 @@
                 formData.append('parentid', data.node.parent);
                 formData.append('id', data.node.id);
                 var action = "Change";
+                var isRestoreafter = false;
                 switch (mode) {
                     case 'create':
                         action = 'Create';
-                       
+
                         break;
                     case 'delete':
                         action = 'Delete';
+                        isRestoreafter = true;
                         break;
                     default:
                         break;
@@ -124,7 +168,13 @@
                 })
                     .then(response => {
                         if (response.ok != true) {
-                            throw response.statusText;
+                            if (response.status == 424) {
+                                throw "@Html.Raw(Localizer["DeleteEditUsingError"])";
+                            }
+                            else {
+                                throw response.statusText;
+                            }
+
                         }
                         return response.json();
                         //loadfin();
@@ -133,13 +183,17 @@
                         if (mode == 'create') {
                             $('#grouptree').jstree(true).set_id(data.node, json.id);
                         }
-                     }
-                     )
-                        .catch(error =>
-                            dialog_error(error)
+                    }
+                    )
+                    .catch(error => {
+                        dialog_error(error);
+                        if (isRestoreafter)
+                            restoresnapshot();
+                         }
+                       
                         );
 
-                
+
 
 
             }

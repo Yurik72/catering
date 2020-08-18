@@ -11,6 +11,7 @@ using CateringPro.Repositories;
 using CateringPro.Core;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
+using System.Data.Common;
 
 namespace CateringPro.Controllers
 {
@@ -50,8 +51,19 @@ namespace CateringPro.Controllers
             var subgr = _context.UserSubGroups.FirstOrDefault(u => u.Id == id);
             if (subgr == null)
                 return new JsonHttpStatusResult(new { }, HttpStatusCode.InternalServerError);
-            _context.Remove(subgr);
-            _context.SaveChanges();
+            try
+            {
+                _context.Remove(subgr);
+                _context.SaveChanges();
+            }
+            catch(DbUpdateException dbex)
+            {
+                return new JsonHttpStatusResult(new { }, HttpStatusCode.FailedDependency);
+            }
+            catch(Exception ex)
+            {
+                return new JsonHttpStatusResult(new { }, HttpStatusCode.InternalServerError);
+            }
             //return RedirectToAction("Index");
             return Json(subgr);
         }

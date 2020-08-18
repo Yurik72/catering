@@ -69,12 +69,16 @@ namespace CateringPro.Controllers
            
             if (doc.Number == null) doc.Number = "";
             
-            return await this.UpdateCompanyDataAsync(
-                doc.ExcludeTrack(typeof(Ingredients))
-                .IncludeCompany(typeof(DocLines))
-                .TrackCollection(_context.DocLines.WhereCompany(User.GetCompanyID()).Where(l => l.DocsId == doc.Id),doc.DocLines), 
-                _context, _logger);
+            //var res = .UpdateDBCompanyDataAsync(_context, _logger, User.GetCompanyID());
+            var res = await this.UpdateDBCompanyDataAsyncEx(doc, _logger,
+                e => { return _docrepo.UpdateDocEntity(e, User.GetCompanyID()); });
 
+            //return await this.UpdateCompanyDataAsync(
+            //    doc.ExcludeTrack(typeof(Ingredients))
+            //    .IncludeCompany(typeof(DocLines))
+            //    .TrackCollection(_context.DocLines.WhereCompany(User.GetCompanyID()).Where(l => l.DocsId == doc.Id), doc.DocLines),
+            //    _context, _logger);
+            return res;
         }
 
 
@@ -85,13 +89,45 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
+            //var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
+            var doc = await _context.Docs.SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
+            var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
+            doc.DocLines = docLines;
             if (doc == null)
             {
                 return NotFound();
             }
 
             return PartialView(doc);
+        }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
+            var doc = await _context.Docs.SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
+            var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
+            doc.DocLines = docLines;
+            if (doc == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(doc);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var doc = await _context.Docs.FindAsync(id);
+            var docLine =  _context.DocLines.Where(d => d.DocsId == id);
+            _context.Docs.Remove(doc);
+            _context.DocLines.RemoveRange(docLine);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
         public IActionResult CreateModal()
         {
@@ -108,6 +144,7 @@ namespace CateringPro.Controllers
            
             var docline = new DocLines();
             docline.DocsId = docId;
+            docline.CompanyId = User.GetCompanyID();
             docline.Number = linenum+1;
             ViewData["lineindex"] = linenum;
 

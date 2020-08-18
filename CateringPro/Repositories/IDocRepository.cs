@@ -7,5 +7,6 @@ namespace CateringPro.Repositories
 {
     public interface IDocRepository
     {
+        Task<bool> UpdateDocEntity(Docs doc, int companyid);
     }
 }

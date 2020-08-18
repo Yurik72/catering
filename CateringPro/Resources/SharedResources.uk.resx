@@ -873,19 +873,10 @@
   <data name="UserSubGroupsMenu" xml:space="preserve">
     <value>Підгрупи користувачів</value>
   </data>
-  <!--<data name="FinishRegisterTopicMail" xml:space="preserve">
-    <value>Завершення реєстрації</value>
+  <data name="DeleteEditUsingError" xml:space="preserve">
+    <value>Об'єкт не може бути видалений або змінений, тому що використовується в системі</value>
   </data>
-  <data name="ConfirmEmailTextLet" xml:space="preserve">
-    <value>Вітаю, {0} 
-    Дякуюємо за реєстрацію на нашому сервісі!</value>
-  </data>-->
-  
-  <!--$"Вітаю, {user.NameSurname}<br>" +
-                        $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
-                        $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
-                        $"" +
-                        $"" +
-                        $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>"-->
+  <data name="Rename" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
 </root>

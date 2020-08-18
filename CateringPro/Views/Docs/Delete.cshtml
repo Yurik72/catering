@@ -1,0 +1,50 @@
+﻿@model CateringPro.Models.Docs
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{ ViewData["Title"] = "Delete"; }
+
+
+<div class="modal-content delete-content">
+    <div class="modal-header">
+        <h5 class="modal-title">@Localizer["ConfirmDelete"]</h5>
+        <button class="close" data-dismiss="modal" area-hidden="true">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div>
+        <h4>@Localizer["Doc"]</h4>
+        <hr />
+
+        <dl class="dl-horizontal">
+            <input type="hidden" asp-for="Id" />
+            <dt>
+                @Html.DisplayNameFor(model => model.Number)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Number)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+            @foreach (var line in Model.DocLines)
+            {
+                <dt>
+                    @Localizer["Ingredients"]
+                </dt>
+                <dd>
+                    @line.Ingredients.Name)
+                </dd>
+            }
+        </dl>
+
+        <form asp-action="Delete">
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
+            </div>
+        </form>
+    </div>
+</div>

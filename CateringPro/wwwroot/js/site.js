@@ -2,13 +2,42 @@
 var html_loading_element = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
 
 $(function () {
-    
+
     //setup_change_company();
     setup_changechield();
     setup_changecompany();
+    var cook = cookiesEnabled();
+    if (!cook) {
+        showAvaibleCookies();
+    }
 });
 function gethtmlloading() {
     return html_loading_element;
+}
+//check for cookies
+function cookiesEnabled() {
+    var cookiesEnabled = (navigator.cookieEnabled) ? true : false;
+
+    if (typeof navigator.cookieEnabled == "undefined" && !cookiesEnabled) {
+        document.cookie = "mytestcookie";
+        cookiesEnabled = (document.cookie.indexOf("mytestcookie") != -1) ? true : false;
+    }
+
+    return cookiesEnabled;
+}
+function showAvaibleCookies() {
+    var alert = "#cookies";
+    //class: 'alert-danger', text: "@Localizer["DbError"]"
+    $(alert).animate({
+        height: '+=72px'
+    }, 300);
+
+    $(`<div class="alert alert-danger">` +
+        '<button type="button" class="close" data-dismiss="alert">' +
+        `x</button>Please enable cookies</div>`)
+        .hide().appendTo(alert).fadeIn(1000);
+
+    document.getElementById("msg").innerHTML = "Cookies disabled";
 }
 function setup_changechield() {
     $("#changechield").click(function (e) {
@@ -35,7 +64,7 @@ function setup_changechield() {
                 var userid = dialog.find(".role-item.active").attr("data-id");
                 var token = dialog.find("[name='__RequestVerificationToken'").val();
 
-                var currentUser = dialog.find(".role-item.active").attr("data-cur") ;
+                var currentUser = dialog.find(".role-item.active").attr("data-cur");
                 if (currentUser == 'true')
                     return;
                 $.ajax({
@@ -50,12 +79,12 @@ function setup_changechield() {
                         window.location.href = baseUrl;
                     }
                 })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    dialog_error(errorThrown);
-                });
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        dialog_error(errorThrown);
+                    });
 
             });
-           
+
         })
             .fail(function (xhr, status, error) {
 
@@ -103,7 +132,7 @@ function setup_changechield() {
 function setup_changecompany() {
     $("#selectcompany").click(function (e) {
         var id = $(this).attr("data-userid");
-        var url = '/Account/CompaniesForUser?userId='+id;
+        var url = '/Account/CompaniesForUser?userId=' + id;
         var self = this;
         $.get(url, function (data) {
             var dialog = $(data);
@@ -155,9 +184,9 @@ function setup_changecompany() {
 }
 
 function setup_listitems(options) {
-    let defaultoptions = { href: '#', onloadedcb: undefined, method:"ListItems",editmethod:"EditModal",createmethod:"CreateModal"};
+    let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems", editmethod: "EditModal", createmethod: "CreateModal" };
     if (typeof (options) == 'object') {
-       // this.options = { ...defaultoptions, ...options };
+        // this.options = { ...defaultoptions, ...options };
         //edge troubles with es6
         this.options = defaultoptions
         this.options.href = options.href;
@@ -175,77 +204,77 @@ function setup_listitems(options) {
         this.options = defaultoptions;
         this.options.href = options;
     }
-   
-    var self = this; 
-        var reload = function (href) {
-            if (!href)
-                href = self.options.href + `/${self.options.method}?`;
-            else {
-               // href += "&";
-                href = href.replace("ListItems", self.options.method);
-                
-            }
-            var searchcriteria = $("#table-content").attr("data-filter")
-            if (typeof searchcriteria === 'undefined')
-                searchcriteria = "";
-            var getstr = `&searchcriteria=${searchcriteria}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
-            href += getstr;
-            $('#table-content').load(href);
-           // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
-     }
-       self.reload = reload;
-        $.ajaxSetup({ cache: false });
-       
+    var self = this;
+    var reload = function (href) {
+        if (!href)
+            href = self.options.href + `/${self.options.method}?`;
+        else {
+            // href += "&";
+            href = href.replace("ListItems", self.options.method);
+
+        }
+        var searchcriteria = $("#table-content").attr("data-filter")
+        if (typeof searchcriteria === 'undefined')
+            searchcriteria = "";
+        var getstr = `&searchcriteria=${searchcriteria}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
+        href += getstr;
+        $('#table-content').load(href);
+        // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
+
+    }
+    self.reload = reload;
+    $.ajaxSetup({ cache: false });
+
     reload($(".selection").val());
-        $('#search-btn').click(function (e) {
+    $('#search-btn').click(function (e) {
+        reload();
+    });
+    $('#custom-search-input').keydown((event) => {
+        if (event.which == 13) {
+            event.preventDefault();
             reload();
-        });
-        $('#custom-search-input').keydown((event) => {
-            if (event.which == 13) {
-                event.preventDefault();
-                reload();
-            }
-        });
-         //sort
-        $(".custom-option").on("click", function () {
-           // reload($(this).data('value'));
-            // console.log($('#table-content').data('sortfield'));
-            var url = $(this).data('value').split('?').pop();
-            const urlParams = new URLSearchParams(url);
-            const field = urlParams.get('sortfield');
-            const order = urlParams.get('sortorder');
+        }
+    });
+    //sort
+    $(".custom-option").on("click", function () {
+        // reload($(this).data('value'));
+        // console.log($('#table-content').data('sortfield'));
+        var url = $(this).data('value').split('?').pop();
+        const urlParams = new URLSearchParams(url);
+        const field = urlParams.get('sortfield');
+        const order = urlParams.get('sortorder');
 
-            $('#table-content').attr('data-sortfield', field);
-            $('#table-content').attr('data-sortorder', order);
-            reload();
+        $('#table-content').attr('data-sortfield', field);
+        $('#table-content').attr('data-sortorder', order);
+        reload();
+    });
+    $('#create-btn').click(function (e) {
+        e.preventDefault();
+        var url = self.options.href + '/' + self.options.createmethod;
+        $.get(url, function (data) {
+            $('#dialogContent').html(data);
+            $('#modDialog').modal('show');
+            if (self.options.onloadedcb)
+                self.options.onloadedcb();
         });
-        $('#create-btn').click(function (e) {
-            e.preventDefault();
-            var url = self.options.href + '/' + self.options.createmethod;
-            $.get(url, function (data) {
-                $('#dialogContent').html(data);
-                $('#modDialog').modal('show');
-                if (self.options.onloadedcb)
-                    self.options.onloadedcb();
-            });
-        });
-        $(document).on("click", "a.ahead", function (e) {
-            e.preventDefault();
-            reload(this.href);
-        });
-        $(document).on("click", "a.apagebottom", function (e) {
-            e.preventDefault();
-            reload(this.href);
-        });
-        $('#search-val').keydown((event) => {
+    });
+    $(document).on("click", "a.ahead", function (e) {
+        e.preventDefault();
+        reload(this.href);
+    });
+    $(document).on("click", "a.apagebottom", function (e) {
+        e.preventDefault();
+        reload(this.href);
+    });
+    $('#search-val').keydown((event) => {
         if (event.which == 13) {
             event.preventDefault();
             $("#table-content").attr("data-filter", $('#search-val').val());
             // console.log($("span.selection").attr("data-value"));
             reload();
         }
-        });
+    });
     $("#search-form").submit(function (e) {
         return false;
     });
@@ -264,7 +293,7 @@ function setup_listitems(options) {
                         $(dlg).attr("_changed", false);
                         $('#modDialog').modal('hide');
                         $('#modDialog').find('#dialogContent').empty();
-                        
+
                     },
                     function () { //no
                         $(dlg).on('hide.bs.modal', hidehandler);
@@ -279,19 +308,19 @@ function setup_listitems(options) {
         $(dlg).on('hide.bs.modal', hidehandler);
 
     }
-     $(document).on("click", "a.cmd-edit", function (e) {
-            e.preventDefault();
-            $.get(this.href, function (data) {
+    $(document).on("click", "a.cmd-edit", function (e) {
+        e.preventDefault();
+        $.get(this.href, function (data) {
 
-                $('#dialogContent').html(data);
-                $('#modDialog').attr("data-backdrop", false);
-                $('#modDialog').css("background-color", "rgba(117, 117, 117, 0.5)");
-                $('#modDialog').modal('show');
-                if (self.options.onloadedcb)
-                    self.options.onloadedcb();
-                setupChangesChecker($('#modDialog'));
-            });
+            $('#dialogContent').html(data);
+            $('#modDialog').attr("data-backdrop", false);
+            $('#modDialog').css("background-color", "rgba(117, 117, 117, 0.5)");
+            $('#modDialog').modal('show');
+            if (self.options.onloadedcb)
+                self.options.onloadedcb();
+            setupChangesChecker($('#modDialog'));
         });
+    });
     $(document).on("click", "a.cmd-delete", function (e) {
         e.preventDefault();
         $.get(this.href, function (data) {
@@ -299,59 +328,59 @@ function setup_listitems(options) {
             $('#dialogContent').html(data);
             $('#modDialog').modal('show');
             //if (self.options.onloadedcb)
-           //     self.options.onloadedcb();
+            //     self.options.onloadedcb();
         }).fail(function (xhr, status, error) {
             alert("ERROR !" + error);
         });
     });
     $(document).on('click', '[data-action="modal"]', function (event) {
-            event.preventDefault();
+        event.preventDefault();
 
-            var form = $(this).parents('.modal-body').find('form');
-            var actionUrl = $(event.target).attr('action');
-            var dataToSend = form.serialize();
+        var form = $(this).parents('.modal-body').find('form');
+        var actionUrl = $(event.target).attr('action');
+        var dataToSend = form.serialize();
 
-            $.post(actionUrl, dataToSend).done(function (data) {
-                var isValid = false;
-            });
+        $.post(actionUrl, dataToSend).done(function (data) {
+            var isValid = false;
         });
-        $(document).on('click', '[data-save="modal"]', function (event) {
-            event.preventDefault();
-           // console.log("Data Save");
-            var form = $(this).parents('.modal-body').find('form');
-            if (form.length==0)
-                form= $('#modDialog').find('.modal-body').find('form');
-            var actionUrl = form.attr('action');
-            var dataToSend = form.serialize();
+    });
+    $(document).on('click', '[data-save="modal"]', function (event) {
+        event.preventDefault();
+        // console.log("Data Save");
+        var form = $(this).parents('.modal-body').find('form');
+        if (form.length == 0)
+            form = $('#modDialog').find('.modal-body').find('form');
+        var actionUrl = form.attr('action');
+        var dataToSend = form.serialize();
 
-            $.post(actionUrl, dataToSend).done(function (data) {
-                var isValid = false;
+        $.post(actionUrl, dataToSend).done(function (data) {
+            var isValid = false;
 
-                if (data && data.res && data.res == "OK")
-                    isValid = true;
+            if (data && data.res && data.res == "OK")
+                isValid = true;
 
-                if (isValid) {
-                    $('#modDialog').attr("_changed", false);
-                    $('#modDialog').modal('hide');
-                    $('#dialogContent').empty();
-                    reload($(".selection").val());
-                }
-                else {
-                    var newBody = $('.modal-body', data);
-                    $(document).find('.modal-body').replaceWith(newBody);
-                    setupChangesChecker($('#modDialog'));
-                }
-            })
+            if (isValid) {
+                $('#modDialog').attr("_changed", false);
+                $('#modDialog').modal('hide');
+                $('#dialogContent').empty();
+                reload($(".selection").val());
+            }
+            else {
+                var newBody = $('.modal-body', data);
+                $(document).find('.modal-body').replaceWith(newBody);
+                setupChangesChecker($('#modDialog'));
+            }
+        })
             .fail(function (xhr, status, error) {
                 alert("ERROR !" + error);
-             });
-        });
+            });
+    });
     return self;
 }
 
 
 function setup_search(_options) {
-    let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems",itemselector:"a" ,classname:"",multiselect:false,onitemselectedcb:undefined};
+    let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems", itemselector: "a", classname: "", multiselect: false, onitemselectedcb: undefined };
     this.options = {};
     if (typeof (_options) == 'object') {
         // this.options = { ...defaultoptions, ...options };
@@ -388,7 +417,7 @@ function setup_search(_options) {
     };
     $(document).on('click', this.options.itemselector, function (event) {
         event.preventDefault();
-        var source_item=this;
+        var source_item = this;
         var dlg = $(self.options.dialog_id);
         var url = self.options.href;
         dlg.find(".modal-body").html(html_loading_element);
@@ -398,7 +427,7 @@ function setup_search(_options) {
             dlg.find(".modal-body").html(data);
 
             dlg.modal('handleUpdate');
-            setupSearchHandlers(dlg, source_item , function () {
+            setupSearchHandlers(dlg, source_item, function () {
                 //  $('#modDialog').modal('show');
 
             });
@@ -419,7 +448,7 @@ function setup_search(_options) {
         // $(dlg).find('.add-item').click(function (e) {
         $(dlg).find('.table.search-items tr').click(function (e) {
             if (self.options.onitemselectedcb)
-                self.options.onitemselectedcb(src,this, { id: $(this).attr("data-id"), name: $(this).attr("data-name")});
+                self.options.onitemselectedcb(src, this, { id: $(this).attr("data-id"), name: $(this).attr("data-name") });
             if (!self.options.multiselect) {
                 $(dlg).modal('hide');
                 dlg.find(".modal-body").empty();
@@ -438,7 +467,7 @@ function promise_dialog_yes_no(message) {
     });
 
 
- 
+
     return promisedlg;
 }
 function dialog_yes_no(message, yesCallback, noCallback) {
@@ -447,34 +476,34 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '       <div class="modal-dialog modal-sm modal-alert" role="document">  ' +
         '           <div class="modal-content">  ' +
         '               <div class="modal-header">  ' +
-        '                   <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>  ' + $.text_resource.confirm_title+'</h5>  ' +
+        '                   <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>  ' + $.text_resource.confirm_title + '</h5>  ' +
         '                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">  ' +
         '                       <span aria-hidden="true">X</span>  ' +
         '                   </button>  ' +
         '               </div>  ' +
         '               <div class="modal-body">  ' +
-        '               <p>' + message+'</p>'+
+        '               <p>' + message + '</p>' +
         '               </div>  ' +
         '               <div class="modal-footer">  ' +
         '     ' +
-        '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes+'</button>  ' +
-        '                   <button id="btnno" type="button" class="btn btn-secondary" data-dismiss="modal">' + $.text_resource.no +'</button>  ' +
+        '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes + '</button>  ' +
+        '                   <button id="btnno" type="button" class="btn btn-secondary" data-dismiss="modal">' + $.text_resource.no + '</button>  ' +
         '               </div>  ' +
         '           </div>  ' +
         '       </div>  ' +
         '  </div>  ';
-   // $("body").append(dlg_html);
+    // $("body").append(dlg_html);
     console.log("dialog_yes_no");
     var dialog = $(dlg_html);
     $("body").append(dialog);// $('#moddialogyesno');
-   // var dialog = $('#moddialogyesno').dialog();
+    // var dialog = $('#moddialogyesno').dialog();
     dialog.modal('show');
     dialog.find('#btnyes').click(function () {
         dialog.modal('hide');
         dialog.remove();
         //dialog.empty();
         if (yesCallback)
-             yesCallback();
+            yesCallback();
     });
 
     dialog.find('#btnno').click(function () {
@@ -486,7 +515,7 @@ function dialog_yes_no(message, yesCallback, noCallback) {
     });
     dialog.on('hide.bs.modal', function (e) {
         dialog.remove();
-       
+
     });
 
 }
@@ -527,4 +556,8 @@ function dialog_error(message) {
         dialog.empty();
 
     });
+   
+    
+
+   
 }

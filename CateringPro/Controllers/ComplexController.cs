@@ -167,6 +167,8 @@ namespace CateringPro.Controllers
         {
             var complex = await _complexRepo.GetByIdAsync(id);
             _complexRepo.Remove(complex);
+            var dishComplex = _context.DishComplex.Where(d => d.ComplexId == id);
+            _context.DishComplex.RemoveRange(dishComplex);
             await _complexRepo.SaveChangesAsync();
 
             return RedirectToAction("Index");

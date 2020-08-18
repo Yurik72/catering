@@ -8,6 +8,7 @@
 }
     <div class="row doc-line" data-lineid="0">
         <div class="col col-lg-1 col-md-1">
+            <input type="hidden" name="DocLines[@i].CompanyId" asp-for="@Model.CompanyId" class="form-control doc-line-ingid" />
             <input type="hidden" name="DocLines[@i].DocsId" asp-for="@Model.DocsId" class="form-control" />
             <input type="hidden" name="DocLines[@i].Id" asp-for="@Model.Id" class="form-control" />
             <input type="number" name="DocLines[@i].Number" asp-for="@Model.Number" class="form-control doc-line-number" />
