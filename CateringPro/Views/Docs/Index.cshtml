@@ -33,18 +33,42 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-            <div id="create-btn" class="col create">
-                <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
-                <span>@Localizer["Add"]</span>
-            </div>
+            <button type="button" id="create-btn"
+                    class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                    onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                    onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                    style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                &#65291; @*—“¬Œ–»“»*@ @Localizer["Create"]
+            </button>
         </div>
     </div>
 </div>
 <div id="modDialog" class="modal document-modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
+<div id="modDialogingredientline" class="modal modal-search fade ingredient-line">
+    <div id="dialogContentingredientline" class="modal-dialog modal-search-dialog">
+        <div class="modal-content modal-content-search">
+            <div class="modal-header">
+
+                <div class="container">
+                    <div class="row">
+                        <h3>ƒÓ‰‡ÚË ≤Ì„≥‰≥∫ÌÚ</h3>
+                        <button type="button" class="close" data-toggle="modal" data-target="#modDialogingredientline">X</button>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="search-ingredient" class="form-control input-lg" placeholder="...." />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body modal-search-body">
+            </div>
+
+        </div>
+    </div>
+</div>
 @{ 
-    await Html.RenderPartialAsync("ModalSearch", "Ingredient");
+//await Html.RenderPartialAsync("ModalSearch", "Ingredient");
 }
 @section Scripts
 {
@@ -61,7 +85,7 @@
                       var id = dlg.attr("data-id");
                       var linecount = dlg.find("#doc-lines").find(".doc-line").length;
                       var url = '@Url.Content("~/Docs/CreateNewLine")'+`?docId=${id}&linenum=${linecount}`;
-
+                      //setup_search_ingredients();
                   console.log(url);
                       $.get(url, function (data) {
                           dlg.find("#doc-lines").find("#doc-footer").before(data);
@@ -127,7 +151,7 @@
 
                     });
               }
-              setup_search({
+              @*setup_search({
                   href: '@Url.Content("~/Ingredients/SearchView")',
                   itemselector:'a.select-ingredient',
                   classname: 'ingredient',
@@ -136,7 +160,35 @@
                       docline.find("#line_IngredientsId").val(item.id);
                       docline.find("#line_Ingredients_Name").val(item.name);
                   }
-              })
+              })*@
+               @*function setup_search_ingredients() {
+               // console.log("add ingredient");
+                setup_search({
+                    href: '@Url.Content("~/Ingredients/SearchView")',
+                    itemselector: 'a.select-ingredient',
+                    classname: 'ingredient',
+                    onitemselectedcb: function (src, html_item, item) {
+                        var index = $('#dialogContent').find(".ingredients-content-proportion").find(".ingredient-dishes-line").length;
+                        var url_newline = `@Url.Content("~/Dishes/NewIngredientDishesLine")?Index=${index}&IngredientId=${item.id}&IngredientName=${item.name}`;
+                        if (item.id != undefined) {
+
+                            var ids = $('#dialogContent').find(".ingredients-content-proportion").find(".ingredient-dishes-line").map(function () { return $(this).attr("data-id"); }).get();
+                            if (ids.includes(item.id)) {
+                                showeditdayalert({ class: 'alert-danger', text: "@Localizer["SameIngredient"]" });
+                            }
+                            else {
+                                $.get(url_newline, function (data) {
+                                    $('#dialogContent').find(".ingredients-content-proportion").after(data);
+                                });
+                                $('#modDialog').attr("_changed", true);
+                            }
+                        }
+                    }
+                });
+            }*@
+            $(document).on('hidden.bs.modal', '.modal', function () {
+                $('.modal:visible').length && $(document.body).addClass('modal-open');
+            });
         })
     </script>
 }
