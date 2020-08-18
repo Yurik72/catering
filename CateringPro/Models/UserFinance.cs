@@ -45,7 +45,7 @@ namespace CateringPro.Models
         public decimal TotalPreOrderBalance { get; set; }
         public DateTime LastUpdated { get; set; }
 
-        public CompanyUser CompanyUser { get; set; }
+       // public CompanyUser CompanyUser { get; set; }
         public virtual ICollection<UserFinIncome> UserFinIncomes { get; set; }
 
         public virtual ICollection<UserFinOutCome> UserFinOutComes { get; set; }

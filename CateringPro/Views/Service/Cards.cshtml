@@ -113,6 +113,7 @@
             elnfc_offline.show();
             var baseUrl = '/Service';
             const key_url = 'nfcurl';
+            var timer_checknfcstate;
             $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:44360/ws');
 
             var nfcsock;
@@ -141,7 +142,31 @@
                     $('#connectnfc').prop('disabled', false);
                     dialog_error(msg);
                 });
+                nfcsock.on('state', function (msg) {
+
+                    check_statenfc(msg);
+                    showNfcInfo(msg);
+
+                });
+
             });
+            function check_statenfc(msg) {
+                if (msg && msg.Isreaderconnected) {
+                    if (timer_checknfcstate)
+                        clearTimeout(timer_checknfcstate);
+                }
+                else {
+                    if (!timer_checknfcstate)
+                        check_nfc();
+                }
+            }
+            function check_nfc() {
+                console.log('checknfc');
+                if (nfcsock.issocketconnected()) {
+                    nfcsock.getstatus();
+                }
+                timer_checknfcstate = setTimeout(check_nfc, 10000);
+            }
             function LoadCards() {
 
                 var url = `/Service/CardsList/?searchcriteria=${$('#search-val').val()}`;
@@ -198,9 +223,12 @@
                     })
                     .then(data => {
                         console.log(data);
-                        alert("success");
+                        dialog_info("Success");
                     })
-                    .catch(error => console.error('error:', error));
+                    .catch(error => {
+                        dialog_error(error);
+                        console.error('error:', error)
+                    });
             }
             function showNfcInfo(msg) {
                 $('#connectnfc').prop('disabled', false);
