@@ -21,7 +21,7 @@
         <input type="hidden" name="it[@i].PictureId" id="it[@i].PictureId" asp-for="@it.PictureId" />
 
         <img class="col-12" id="imgfilepicture@(it.Id)" 
-             src="@Url.Action("GetPicture", "Pictures", new { id = @it.PictureId, width = 400, height = 250 })" 
+             src="@Url.Action("GetPicture", "Pictures", new { id = @it.PictureId, width = 250, height = 250 })" 
              alt="" style="padding: 0;width:400px;height:250px">
         <div class="custom-file mt-3">
             <input type="file" class="custom-file-input" id="filepicture@(it.Id)" name="it[@i].Picture" data-target="#imgfilepicture@(it.Id)"

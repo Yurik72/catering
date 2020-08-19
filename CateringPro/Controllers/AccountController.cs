@@ -80,6 +80,7 @@ namespace CateringPro.Controllers
                     Address1 = model.Address1,
                     Address2 = model.Address2,
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
+                    ChildrenCount = 1,
                     Id = Guid.NewGuid().ToString()
 
                 };
@@ -260,7 +261,7 @@ namespace CateringPro.Controllers
 
                     await _companyuser_repo.PostUpdateUserAsync(user, true);
                     EmailService emailService = new EmailService();
-                    await _email.SendEmailAsync(user.Email, "Завершення реєстрації",
+                    bool emailsent = await _email.SendEmailNoExceptionAsync(user.Email, "Завершення реєстрації",
                         $"Вітаю, {user.NameSurname}<br>" +
                         $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
                         $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
@@ -268,6 +269,11 @@ namespace CateringPro.Controllers
                         $"" +
                         $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
                         $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                    if (!emailsent)
+                    {
+                        ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("Помилка. Лист не відправлено."));
+                        return View("EmailSent", model);
+                    }
                 }
                 else
                 {
@@ -315,6 +321,11 @@ namespace CateringPro.Controllers
                             $"" +
                             $"<br><br><br>Якщо це були не Ви - ні в якому разі не переходіть за посиланням.<br>" +
                             $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                        if (!emailsent)
+                        {
+                            ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("Помилка. Лист не відправлено."));
+                            return View("RestorePassword", model);
+                        }
                         return RedirectToAction("InstructionPasswordEmailSent", "Account");
                     }
                     if (user == null)
@@ -390,6 +401,8 @@ namespace CateringPro.Controllers
                     {
                         return RedirectToAction("NewPasswordApplied");
                     }
+                    model.Errors = result.Errors.Select(x => x.Description).ToList();
+                    return View("SetNewPassword", model);
                 }
                 return View("Error");
 
@@ -688,7 +701,7 @@ namespace CateringPro.Controllers
                     {
                         // IFormFile filePict = null;
                         var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
-                        /*
+
                         for (var idx = 0; idx < Request.Form.Files.Count; idx++)
                         {
                             var fileindex = -1;
@@ -702,7 +715,7 @@ namespace CateringPro.Controllers
                             filePict = Request.Form.Files[idx];
                             break;
                         }
-                        */
+
                         CompanyUser user_to_update;
                         if (reb.Id == um.Id)
                         {
@@ -731,7 +744,17 @@ namespace CateringPro.Controllers
                             if (pict == null)
                             {
                                 pict = new Pictures();
-                                _context.Add(pict);
+
+                                try
+                                {
+                                    _context.Add(pict);
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError(ex, "Error adding Picture to database");
+                                    ModelState.AddModelError("", "Error adding Picture to database");
+                                    return View(um);
+                                }
                             }
                             using (var stream = filePict.OpenReadStream())
                             {
@@ -748,7 +771,7 @@ namespace CateringPro.Controllers
                         }
 
                         try
-                        { 
+                        {
                             IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
                             if (!rebResult.Succeeded)
                             {
@@ -759,7 +782,7 @@ namespace CateringPro.Controllers
                         {
                             _logger.LogError(ex, "Error Update Child");
                             ModelState.AddModelError("", ex.Message);
-                            return PartialView(um);
+                            return View(um);
                         }
                         i++;
                     }
@@ -846,7 +869,7 @@ namespace CateringPro.Controllers
             await _signInManager.RefreshSignInAsync(user);
             return new EmptyResult();//RedirectToAction("Index", "Home");
         }
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> UserChilds(string view, bool onlyChild = false)
         {
@@ -859,7 +882,6 @@ namespace CateringPro.Controllers
                 return PartialView(childs);
             return PartialView(view, childs);
         }
-        [Authorize]
 
         [Authorize]
         [HttpPost]
