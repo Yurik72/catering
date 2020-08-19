@@ -168,11 +168,20 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
+            {
                 if (model.IsModal)
-                    return PartialView("LoginModal", model);
+                {
+                    return View("LoginModal", model);
+                }
+
                 else
+                {
                     return View(model);
+                }
+                    
+            }
             _logger.LogInformation("User {0} is going to login ", model.UserName);
+
             var user = await _userManager.FindByNameAsync(model.UserName.ToLower());
             if(user == null)
             {
