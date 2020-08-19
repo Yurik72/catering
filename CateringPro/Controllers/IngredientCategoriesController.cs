@@ -15,6 +15,7 @@ using CateringPro.Data;
 using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
@@ -224,9 +225,21 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var categories = await _context.IngredientCategories.FindAsync(id);
-            _context.Remove(categories);
-            await _context.SaveChangesAsync();
-
+            if (categories == null)
+                return NotFound();
+            try
+            {
+                _context.Remove(categories);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
             return RedirectToAction("Index");
         }
 
