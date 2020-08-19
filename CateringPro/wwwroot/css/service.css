@@ -13,7 +13,6 @@ body {
     text-align: center;
     background: black;
     color: white;
-    padding: 3rem 5rem 3rem;
 
     h1 {
         margin: 0 0 0.5rem 0;
@@ -22,6 +21,20 @@ body {
     a {
         color: white;
     }
+}
+.service-header {
+    padding: 0rem 5rem 0rem;
+    display: block;
+    overflow: hidden;
+}
+.toogles{
+    position:absolute;
+    top:0;
+    left:0;
+    display:block;
+    background-color:grey;
+    height:30px;
+    width:100px;
 }
 /*
 h1 {
@@ -67,22 +80,25 @@ main.tabs {
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.wrongdelivery, .errordelivery, .deliverydish, .queue-dish {
+.wrongdelivery, .errordelivery {
     display: block;
     width: 100%;
     background-color: gray;
     font-size: xx-large;
     font-weight: bold;
 }
-.deliverydish, .queue-dish {
-    background-color: aquamarine;
-}
-/*
 .queue-first {
     box-shadow: 10px 10px 5px green;
     border: solid 2px #E4E4E4;
     border-radius: 6px;
+    background-color:darkorange;
 }
+/*
+.deliverydish, .queue-dish {
+    background-color: aquamarine;
+}
+
+
 */
 .wrongdelivery{
     background-color: coral;
@@ -114,7 +130,11 @@ main.tabs {
     height: 150px;
 }
 
-.queue-first  img.queue-img {
+.user-queue.queue-first  img.queue-img {
     width: 150px;
     height: 150px;
+}
+.user-queue img.queue-img {
+    width: 100px;
+    height: 100px;
 }

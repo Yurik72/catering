@@ -334,17 +334,71 @@ function setup_listitems(options) {
     });
     $(document).on("click", "a.cmd-delete", function (e) {
         e.preventDefault();
+        fetch(this.href, { method: 'GET' })
+            .then(response => response.text())
+            .then(data => {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+                const form = $('#modDialog').find('form');
+                form.submit(function (e) { e.preventDefault(); });
+
+                var promise = new Promise((resolve, reject) => {
+                    $('#modDialog').find('input[type="submit"]').click(function (e) {
+                        e.preventDefault();
+                        resolve(form);
+                        //to do handle reject
+                    });
+                });
+                return promise;
+            })
+            .then((form) => {
+                return fetch(form.attr('action'), {
+                    method: 'POST',
+                    headers: {
+
+                        'RequestVerificationToken': form.find("[name='__RequestVerificationToken'").val()
+                    },
+                    body: form.serialize()
+                })
+            })
+            .then(response => {
+                if (response.ok != true) {
+                    if (response.status == 424) {
+                        throw $.text_resource.deleteeditusingerror
+                    }
+                    else {
+                        throw response.statusText;
+                    }
+
+                }
+
+            })
+            .catch(error => {
+                dialog_error(error);
+
+            })
+            .finally(function () {
+                $('#modDialog').modal('hide');
+                $('#dialogContent').empty();
+                reload();
+            });
+
+        /*
         $.get(this.href, function (data) {
 
             $('#dialogContent').html(data);
             $('#modDialog').modal('show');
-            //if (self.options.onloadedcb)
-            //     self.options.onloadedcb();
+            realdelete($('#modDialog'));
+            const form = dlg.find('form');
+
+
         }).fail(function (xhr, status, error) {
             dialog_error("ERROR !" + error);
             //alert("ERROR !" + error);
         });
+        */
     });
+
     $(document).on('click', '[data-action="modal"]', function (event) {
         event.preventDefault();
 

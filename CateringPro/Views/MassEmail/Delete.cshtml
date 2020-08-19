@@ -1,4 +1,4 @@
-@model CateringPro.Models.IngredientCategories
+@model CateringPro.Models.MassEmail
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{ ViewData["Title"] = "Delete"; }
 
@@ -12,11 +12,11 @@
 
     </div>
     <div>
-        <h4>@Localizer["IngredientCategories"]</h4>
+        <h4>@Localizer["MassEmail"]</h4>
         <hr />
 
         <dl class="dl-horizontal">
-            
+            <input type="hidden" asp-for="Id" />
             <dt>
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
@@ -28,9 +28,7 @@
 
         <form asp-action="Delete">
             <div class="form-actions no-color">
-                <input type="hidden" asp-for="Id" />
-                @Html.AntiForgeryToken()
-                <input type="submit" value="Delete" class="btn btn-danger" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
                 <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
             </div>
         </form>

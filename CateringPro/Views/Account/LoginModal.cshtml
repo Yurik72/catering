@@ -1,7 +1,7 @@
 @model LoginViewModel
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
-<div class="modal-content">
+
     <div class="modal-header">
         <h5 class="modal-title">@Localizer["Please login"]</h5>
         <button class="close" data-dismiss="modal" area-hidden="true">
@@ -39,7 +39,7 @@
         @*<button asp-controller="Account" asp-action="RestorePassword" type="button" class="btn btn-primary mr-auto">@Localizer["RestorePassword"]</button>*@
         <input asp-controller="Account" asp-action="Login" type="submit" class="btn btn-primary" data-save="modal" value="@Localizer["UserButtonLogin"]" />
     </div>
-</div>
+
 
 
 @section Scripts {

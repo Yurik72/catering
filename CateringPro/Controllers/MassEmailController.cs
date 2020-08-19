@@ -15,6 +15,7 @@ using CateringPro.Data;
 using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
@@ -134,14 +135,14 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var ingredients = await _context.Ingredients
+            var masEmail = await _context.MassEmail
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (ingredients == null)
+            if (masEmail == null)
             {
                 return NotFound();
             }
 
-            return View(ingredients);
+            return View(masEmail);
         }
 
         // POST: Ingredients/Delete/5
@@ -149,15 +150,29 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ingredients = await _context.Ingredients.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Ingredients.Remove(ingredients);
-            await _context.SaveChangesAsync();
+
+            var masEmail = await _context.MassEmail
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (masEmail == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                _context.Remove(masEmail);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
             return RedirectToAction("Index");
         }
 
-        private bool IngredientsExists(int id)
-        {
-            return _context.Ingredients.Any(e => e.Id == id);
-        }
+       
     }
 }
