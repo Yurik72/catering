@@ -65,6 +65,10 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+            foreach(var docLine in doc.DocLines)
+            {
+                doc.Amount += docLine.Amount;
+            }
             if (doc.Description == null) doc.Description = "";
            
             if (doc.Number == null) doc.Number = "";
@@ -72,13 +76,19 @@ namespace CateringPro.Controllers
             //var res = .UpdateDBCompanyDataAsync(_context, _logger, User.GetCompanyID());
             var res = await this.UpdateDBCompanyDataAsyncEx(doc, _logger,
                 e => { return _docrepo.UpdateDocEntity(e, User.GetCompanyID()); });
-
-            //return await this.UpdateCompanyDataAsync(
-            //    doc.ExcludeTrack(typeof(Ingredients))
-            //    .IncludeCompany(typeof(DocLines))
-            //    .TrackCollection(_context.DocLines.WhereCompany(User.GetCompanyID()).Where(l => l.DocsId == doc.Id), doc.DocLines),
-            //    _context, _logger);
-            return res;
+            if (!ModelState.IsValid)
+            {
+               
+                var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
+                doc.DocLines = docLines;
+                return PartialView(doc);
+            }
+                //return await this.UpdateCompanyDataAsync(
+                //    doc.ExcludeTrack(typeof(Ingredients))
+                //    .IncludeCompany(typeof(DocLines))
+                //    .TrackCollection(_context.DocLines.WhereCompany(User.GetCompanyID()).Where(l => l.DocsId == doc.Id), doc.DocLines),
+                //    _context, _logger);
+                return res;
         }
 
 
@@ -122,11 +132,18 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var doc = await _context.Docs.FindAsync(id);
-            var docLine =  _context.DocLines.Where(d => d.DocsId == id);
-            _context.Docs.Remove(doc);
-            _context.DocLines.RemoveRange(docLine);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var doc = await _context.Docs.FindAsync(id);
+                var docLine = _context.DocLines.Where(d => d.DocsId == id);
+                _context.Docs.Remove(doc);
+                _context.DocLines.RemoveRange(docLine);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
             return RedirectToAction(nameof(Index));
         }
         public IActionResult CreateModal()

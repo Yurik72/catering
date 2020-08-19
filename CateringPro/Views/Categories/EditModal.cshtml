@@ -38,29 +38,32 @@
                                                    style="max-width: 245px; height: 34px" />
 
                                         </div>
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                     style="margin-bottom: 6px">
+                                    <label class="col-4" asp-for="Code"
+                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                            <input asp-for="Code" class="form-control"
+                                                   placeholder="Страва"
+                                                   style="max-width: 245px; height: 34px" />
+
+                                        </div>
+                                        <span asp-validation-for="Code" class="text-danger"></span>
                                     </div>
                                     <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
                                          style="margin-bottom: 6px">
-                                        <label class="col-4" asp-for="Code"
+                                        <label class="col-4" asp-for="Description"
                                                style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
                                             <div class="col-8 flex-grow-1 justify-content-end p-0">
-                                                <input asp-for="Code" class="form-control"
+                                                <input asp-for="Description" class="form-control"
                                                        placeholder="Страва"
                                                        style="max-width: 245px; height: 34px" />
 
                                             </div>
+                                            <span asp-validation-for="Description" class="text-danger"></span>
                                         </div>
-                                        <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
-                                             style="margin-bottom: 6px">
-                                            <label class="col-4" asp-for="Description"
-                                                   style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
-                                                <div class="col-8 flex-grow-1 justify-content-end p-0">
-                                                    <input asp-for="Description" class="form-control"
-                                                           placeholder="Страва"
-                                                           style="max-width: 245px; height: 34px" />
-
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
 

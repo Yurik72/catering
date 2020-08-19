@@ -219,7 +219,16 @@ function setup_listitems(options) {
         var searchcriteria = $("#table-content").attr("data-filter")
         if (typeof searchcriteria === 'undefined')
             searchcriteria = "";
-        var getstr = `&searchcriteria=${searchcriteria}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
+        var sortfield = $("#table-content").attr("data-sortfield")
+        if (typeof sortfield === 'undefined')
+            sortfield = "";
+        var sortorder = $("#table-content").attr("data-sortorder")
+        if (typeof sortorder === 'undefined')
+            sortorder = "";
+        //var getstr = `&searchcriteria=${searchcriteria}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${$("#table-content").attr("data-sortorder")}`;
+
+        var getstr = `&searchcriteria=${searchcriteria}&sortfield=${sortfield}&sortorder=${sortorder}`;
+
         href += getstr;
         $('#table-content').load(href);
         // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
@@ -332,7 +341,8 @@ function setup_listitems(options) {
             //if (self.options.onloadedcb)
             //     self.options.onloadedcb();
         }).fail(function (xhr, status, error) {
-            alert("ERROR !" + error);
+            dialog_error("ERROR !" + error);
+            //alert("ERROR !" + error);
         });
     });
     $(document).on('click', '[data-action="modal"]', function (event) {
@@ -365,7 +375,7 @@ function setup_listitems(options) {
                 $('#modDialog').attr("_changed", false);
                 $('#modDialog').modal('hide');
                 $('#dialogContent').empty();
-                reload($(".selection").val());
+                reload(/*$(".selection").val()*/);
             }
             else {
                 var newBody = $('.modal-body', data);
@@ -374,7 +384,8 @@ function setup_listitems(options) {
             }
         })
             .fail(function (xhr, status, error) {
-                alert("ERROR !" + error);
+                dialog_error("ERROR !" + error);
+                //alert("ERROR !" + error);
             });
     });
     return self;
