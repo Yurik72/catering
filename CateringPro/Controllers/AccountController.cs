@@ -205,16 +205,19 @@ namespace CateringPro.Controllers
                 //await _companyuser_repo.PostUpdateUserAsync(user, true);
                 ModelState.AddModelError("", _localizer.GetLocalizedString("IncorrectPassword"));
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
+                return View("LoginModal", model);
             }
             if (user != null && !user.EmailConfirmed)
             {
                 _logger.LogWarning("User: {0} hasn't confirmed Email: {1}", model.UserName, user.Email);
                 ModelState.AddModelError("", "You have to confirm your Email before");
+                return View("LoginModal", model);
             }
             if (user == null)
             {
                 _logger.LogWarning("Can't find registered user {0}", model.UserName);
                 ModelState.AddModelError("", _localizer.GetLocalizedString("UserNotFound"));
+                return View("LoginModal", model);
             }
 
             if (model.IsModal)

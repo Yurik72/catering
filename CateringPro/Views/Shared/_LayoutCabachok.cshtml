@@ -5,7 +5,7 @@
 @inject CateringPro.Repositories.ICompanyUserRepository cu_repo
 @{ 
 
-    string[] newDesignPathes = { "Dishes","UserGroups", "IngredientCategories", "Categories", "Docs" };
+    string[] newDesignPathes = { "Dishes","UserGroups", "IngredientCategories", "Categories", "Docs"};
     bool isNewDesign = Context.Request.Path.ToString().Split("/").Any(s => newDesignPathes.Contains(s)) || Context.Request.Path=="/";
     string test = "";
 }

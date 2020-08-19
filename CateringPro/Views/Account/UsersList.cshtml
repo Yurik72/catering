@@ -37,8 +37,9 @@
                     </div>
 
                     <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                        <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                            <img src="../img/pen-icon.svg" alt="Change item">
+                        <div class="btn" >
+                            <a href="@Url.Action("EditUserModal","Account",
+                                  new { userId = item.Id })" class = "cmd-edit dialog-edit-icon"><img src="../img/pen-icon.svg" alt="Change item" /></a>
                         </div>
                         <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
                     </div>
@@ -46,7 +47,7 @@
             </div>
         </div>
     }
-    @Html.DisplayFor(model => querymodel, "PageNavigation", null)
+    @*@Html.DisplayFor(model => querymodel, "PageNavigation", null)*@
 }
 
 else

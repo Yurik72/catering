@@ -18,21 +18,7 @@
 
 @if (false)
 {
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="../css/bootstrap.min.css"
-              integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/custom-select.css">
-        <title>Кабачок - @Localizer["MenuUsers"]</title>
-    </head>
-    <body style="display: flex; flex-direction: column; min-height: 100%">
-        <main class="row mr-0 ml-0 flex-grow-1">
-            <div class="container-xl container container-md container-sm container-lg">
+        <div class="container-xl container container-md container-sm container-lg">
                 <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
                     <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
                         <p class="h2 h2-mob"
@@ -43,6 +29,7 @@
                 </div>
 
                 <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
+                    @*@Html.DisplaySortField(model => model.ChildNameSurname).AddSortField(model => model.Email).AddSortField(model => model.UserGroup).Display(querymodel)*@
                     <div class="col-lg-4 col-12 p-0 ">
                         <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
                             <form class="form-inline col-12 p-0" style=" display: flex;">
@@ -71,14 +58,14 @@
                     @Html.DisplayListHeaderForEx(model => model.UserGroup.Name, new { colnumbers = 3 })
 
                     @*<div class="col-3" style="cursor: pointer"><span class="sort-span">Користувач</span></div>
-                    <div class="col-4" style="cursor: pointer"><span class="sort-span">Email</span></div>
-                    <div class="col-3" style="cursor: pointer"><span class="sort-span">Назва групи</span></div>*@
+                        <div class="col-4" style="cursor: pointer"><span class="sort-span">Email</span></div>
+                        <div class="col-3" style="cursor: pointer"><span class="sort-span">Назва групи</span></div>*@
                     <div class="col-2"></div>
 
 
                 </div>
-                <div id="table-content" class="row mx-0 justify-content-start w-100 align-content-center">
-                  
+                <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="row mx-0 justify-content-start w-100 align-content-center">
+
                 </div>
             </div>
             <div class="col-lg-4 col-12 p-0 d-lg-none d-md-none d-block position-sticky sticky-class align-content-center "
@@ -134,77 +121,189 @@
                         </nav>
                     </div>
                 </div>
-
             </div>
+            <div class="modal fade" id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
 
-            <div class="modal fade" id="change-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" style="max-width: 966px">
-                   
                 </div>
             </div>
 
 
-        </main>
+@*@section Scripts
+{
 
-        
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-                crossorigin="anonymous"></script>
-        <script src="../js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-                crossorigin="anonymous"></script>
-        <script>
-            $('#sources').each(function () {
-                let classes = $(this).attr("class"),
-                    id = $(this).attr("id"),
-                    name = $(this).attr("name");
-                let template = '<div class="' + classes + '">';
-                template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
-                template += '<div class="custom-options">';
-                $(this).find("option").each(function () {
-                    template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+    <script type="text/javascript">
+
+        $(function () {
+            setup_listitems({
+                href: '@Url.Content("~/Account")',
+                method: "UsersList",
+                createmethod: "CreateUserModal",
+                onloadedcb: onload
+            });
+
+            var dialog_addbalance = $('#modDialog-addbalance');
+            dialog_addbalance.find('#add-balance-confirm').click(function (e) {
+                addBalance(dialog_addbalance);
+            })
+            function addBalance(dlg) {
+                    const formData = new FormData();
+                    formData.append('Amount', dlg.find('#add-balance-amount').val());
+                    formData.append('Comments', dlg.find('#add-balance-comment').val());
+                    formData.append('__RequestVerificationToken', $('[name="__RequestVerificationToken"]').val());
+
+                    formData.append('Id', $('#user-fin-id').val());
+                    formData.append('CompanyId', $('#user-fin-companyid').val());
+                    formData.append('IncomeType', '2');
+                    //formData.append('TransactionDate', (new Date).toJSON().slice(0, 10).split("-").reverse().join("."));
+
+
+                fetch('@Url.Content("~/Account/AddBalanceTo")', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+
+
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        console.log(response);
+                        loadfin();
+                    })
+                    .catch(error => dialog_error(error));
+
+                }
+            function loadfin() {
+                var userId = $('.modal-body').attr('data-id');
+                 var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
+                $.get(urlfin, function (data) {
+                    $("#nav-content-fin-of-user").html(data);
+                    setupfinhandlers($("#nav-content-fin-of-user"));
                 });
-                template += '</div></div>';
 
-                $(this).wrap('<div class="custom-select-wrapper"></div>');
-                $(this).hide();
-                $(this).after(template);
-            });
-            $(".custom-option:first-of-type").hover(function () {
-                $(this).parents(".custom-options").addClass("option-hover");
-            }, function () {
-                $(this).parents(".custom-options").removeClass("option-hover");
-            });
-            $(".custom-select-trigger").on("click", function () {
-                $('html').one('click', function () {
-                    $(".custom-select").removeClass("opened");
+            }
+            function setupfinhandlers(cont) {
+                cont.find('#addbalance').click(function (e) {
+                    e.preventDefault();
+                    dialog_addbalance.modal('show');
+                    $(document).on('hidden.bs.modal', '.modal', function () {
+                        $('.modal:visible').length && $(document.body).addClass('modal-open');
+                    });
                 });
-                $(this).parents(".custom-select").toggleClass("opened");
-                event.stopPropagation();
-            });
-            $(".custom-option").on("click", function () {
-                $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
-                $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
-                $(this).addClass("selection");
-                $(this).parents(".custom-select").removeClass("opened");
-                $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
-            });
+            }
 
-            $('.delete-parent').click(function () {
-                $(this).closest('.parent-delete').remove();
+            function onload() {
+                var userId = $('.modal-body').attr('data-id');
+                var url = '@Url.Content("~/Account/RolesForUser?userId=")' + userId;
+                $.get(url, function (data) {
+                    $("#user-roles-content").html(data);
+                    setuproleshandler($("#user-roles-content"));
+                });
+                var urlcomp = '@Url.Content("~/Account/EditCompaniesForUser?userId=")' + userId;
+                $.get(urlcomp, function (data) {
+                    $("#user-companies-content").html(data);
+                    setupcompanyhandler($("#user-companies-content"))
+                });
+                loadfin();
+
+
+                function setuproleshandler(cont) {
+                    cont.find(".role-item").click(function (e) {
+                        e.preventDefault();
+                        if ($(this).hasClass('active'))
+                            $(this).removeClass('active').removeClass("fa-check-square-o").addClass("fa-square-o");
+                        else
+                            $(this).addClass('active').removeClass("fa-square-o").addClass("fa-check-square-o");
+
+                        var roles = cont.find(".role-item.active").map(function () {
+                            return $(this).text();
+                        })
+                            .get()
+                            .join(", ");
+                        cont.find("#roles").val(roles);
+                    });
+                };
+
+                function setupcompanyhandler(cont) {
+                    cont.find(".company-item").click(function (e) {
+                        e.preventDefault();
+                        if ($(this).hasClass('active'))
+                            $(this).removeClass('active').removeClass("fa-check-square-o").addClass("fa-square-o");
+                        else
+                            $(this).addClass('active').removeClass("fa-square-o").addClass("fa-check-square-o");
+
+                        var roles = cont.find(".company-item.active").map(function () {
+                            return $(this).attr("data-id");
+                        })
+                            .get()
+                            .join(", ");
+                        cont.find("#companies").val(roles);
+                    });
+                };
+            }
+        })
+    </script>
+    <script>
+        $('#sources').each(function () {
+            let classes = $(this).attr("class"),
+                id = $(this).attr("id"),
+                name = $(this).attr("name");
+            let template = '<div class="' + classes + '">';
+            template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+            template += '<div class="custom-options">';
+            $(this).find("option").each(function () {
+                template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
             });
+            template += '</div></div>';
+
+            $(this).wrap('<div class="custom-select-wrapper"></div>');
+            $(this).hide();
+            $(this).after(template);
+        });
+        $(".custom-option:first-of-type").hover(function () {
+            $(this).parents(".custom-options").addClass("option-hover");
+        }, function () {
+            $(this).parents(".custom-options").removeClass("option-hover");
+        });
+        $(".custom-select-trigger").on("click", function () {
+            $('html').one('click', function () {
+                $(".custom-select").removeClass("opened");
+            });
+            $(this).parents(".custom-select").toggleClass("opened");
+            event.stopPropagation();
+        });
+        $(".custom-option").on("click", function () {
+            $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+            $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+            $(this).addClass("selection");
+            $(this).parents(".custom-select").removeClass("opened");
+            $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+        });
+
+        $('.delete-parent').click(function () {
+            $(this).closest('.parent-delete').remove();
+        });
 
 
-        </script>
-    </body>
-</html>
+    </script>
+
+     Optional JavaScript 
+     jQuery first, then Popper.js, then Bootstrap JS 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="../js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+}*@
+
+
 
 
 }
