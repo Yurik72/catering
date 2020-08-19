@@ -16,7 +16,8 @@ text_resource["ua"] = {
     no: "Нi",
     error: "Помилка",
     select: "Вибрати",
-    remove_forbidden: "Не можна видалити замовлений комплекс!"
+    remove_forbidden: "Не можна видалити замовлений комплекс!",
+    deleteeditusingerror: "Об'єкт не може бути видалений або змінений, тому що використовується в системі"
 }
 
 glob_text_resources = text_resource["ua"];

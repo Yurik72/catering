@@ -33,6 +33,8 @@
 
         <form asp-action="Delete">
             <div class="form-actions no-color">
+                <input type="hidden" asp-for="Id" />
+                @Html.AntiForgeryToken()
                 <input type="submit" value="Delete" class="btn btn-danger" /> |
                 <button type="button" button class="btn btn-primary" data-dismiss="modal">@Localizer["Cancel"]</button>
             </div>
