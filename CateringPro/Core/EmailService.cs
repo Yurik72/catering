@@ -20,6 +20,7 @@ namespace CateringPro.Core
         Task SendInvoice(string userid, DateTime daydate, int comapnyid);
         Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid);
         Task SendEmailAsync(string email, string subject, string message);
+        Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message);
     }
     public class EmailService: IEmailService
     {
@@ -133,6 +134,19 @@ namespace CateringPro.Core
                 _logger.LogError(ex, "SendInvoice ");
             }
 
+        }
+        public async Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message)
+        {
+            try
+            {
+                await SendEmailAsync(email, subject, message);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "SendEmailNoExceptionAsync ");
+                return false;
+            }
         }
         public async Task SendEmailAsync(string email, string subject, string message)
         {

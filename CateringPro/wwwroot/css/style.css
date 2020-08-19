@@ -1,3 +1,9 @@
+.modal-backdrop:nth-last-of-type(2n) {
+    z-index: 2000;
+}
+
+
+
 html {
     --main-font-color: #232323;
     font-family: Raleway, sans-serif;
@@ -61,6 +67,14 @@ body {
         width: 85px !important;
     }
 
+    #tab-user .nav-item {
+        width: 75px !important;
+    }
+
+    #tab-user .nav-link {
+        width: 75px !important;
+    }
+
     .profile-form-title {
         font-weight: bold !important;
         font-size: 14px !important;
@@ -70,7 +84,93 @@ body {
         max-width: none !important;
     }
 
+    .day-of-week .day-of {
+        font-weight: 600;
+        font-size: 20px;
+        color: #232323;
+    }
 
+    .weeks-tab {
+        min-height: 79px;
+        flex-wrap: nowrap;
+        background: linear-gradient(270deg, #FFFFFF 15.1%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .nav-tabs {
+        border-bottom: none;
+    }
+
+    .date-container {
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+    }
+
+    .weeks-tab .nav-item .active {
+        border-bottom: none !important;
+    }
+
+    .h2-mob {
+        font-size: 28px;
+    }
+
+    .brd-bot-line {
+        border-bottom: none;
+    }
+
+    .brd-bot-line-reverse {
+        border-bottom: 1px solid #EAEAEA !important;
+    }
+
+    .bolder-change {
+        font-weight: bold;
+    }
+
+    .lighter-change {
+        font-size: 14px;
+        color: #797979;
+    }
+
+    .box-shadow-container {
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        border-radius: 4px
+    }
+
+    .pos-for-btn {
+        position: relative !important;
+    }
+
+    .carousel-control-prev {
+        visibility: hidden;
+    }
+
+    .change-color-grey {
+        color: #232323 !important;
+    }
+
+    .change-bg-grey {
+        background: #E8E8E8;
+    }
+
+    .input-docs .child-amount-control {
+        background: #EBEBEB;
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 0 !important;
+    }
+
+    .input-docs .child-amount-control:nth-of-type(2) {
+        bottom: 2px !important;
+        right: 2px !important;
+    }
+
+    .input-docs .child-amount-control:nth-of-type(1) {
+        bottom: 2px !important;
+        right: 34px;
+    }
+
+    .remove-date-section {
+        right: 2px !important;
+    }
 }
 
 @media (max-width: 413px) {
@@ -95,6 +195,15 @@ body {
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
     }
+
+    #tab-user {
+        border-bottom: none;
+    }
+
+    #tab-user .nav-link {
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+    }
 }
 
 .modal-backdrop {
@@ -115,18 +224,18 @@ body {
     cursor: pointer;
 }
 
-#self-button {
+#self-button, #self-button-logo, #self-button-seal {
     font-weight: normal;
     font-size: 16px;
 }
 
-#self-button::before {
+#self-button::before, #self-button-logo::before, #self-button-seal::before {
     content: url("../img/before-dwn.svg");
     width: 16px;
     margin-right: 10px;
 }
 
-#self-button::after {
+#self-button::after, #self-button-logo::after, #self-button-seal::after {
     content: "Обзор";
     position: absolute;
     top: 4px;
@@ -147,8 +256,22 @@ body {
     color: #797979;
 }
 
+.change-color-grey {
+    color: #797979;
+}
+
 #dropdown-admin::after {
     content: none;
+}
+
+.page-link {
+    border: 2px solid transparent !important;
+}
+
+.page-link:hover {
+    border: 2px solid #F1F2F4 !important;
+    background: #ffffff !important;
+    color: #232323 !important;
 }
 
 #dropdown-buttons-hover .dropdown-item {
@@ -236,6 +359,17 @@ body {
     max-width: 135px;
 }
 
+#tab-user .nav-link {
+    text-align: center;
+    color: #232323;
+    font-family: Open-Sans;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    border-bottom: 2px solid transparent;
+    max-width: 135px;
+}
+
 .nav-tabs .nav-link {
     border: 0;
 }
@@ -249,6 +383,18 @@ body {
 }
 
 #tab-profile .nav-item {
+    width: 135px;
+}
+
+#tab-user .active {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #F05E25;
+    color: #F05E25;
+}
+
+#tab-user .nav-item {
     width: 135px;
 }
 
@@ -295,6 +441,16 @@ body {
     display: none;
 }
 
+
+.brd-bot-line-reverse input::-webkit-inner-spin-button {
+    display: none;
+}
+
+.remove-date-section {
+    background: #EBEBEB url("../img/close-date.svg") no-repeat center !important;
+    right: 8px !important;
+}
+
 #child-amount .child-amount-control {
     cursor: pointer;
     position: absolute;
@@ -321,7 +477,120 @@ body {
 
 }
 
+.input-docs .child-amount-control {
+    background: #EBEBEB;
+    width: 18px;
+    height: 18px;
+}
+
+.input-docs {
+    position: relative;
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.input-docs input {
+    font-size: 1em;
+    -moz-appearance: textfield;
+    height: 34px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+.input-docs input::-webkit-inner-spin-button {
+    display: none;
+}
+
+.input-docs .child-amount-control {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-size: 20px;
+    color: #232323;
+    border-radius: 50%;
+}
+
+.input-docs .child-amount-control:hover {
+    background: #FDF5F1;
+}
+
+.input-docs .child-amount-control:nth-of-type(1) {
+    bottom: 8px;
+    right: 26px;
+}
+
+.input-docs .child-amount-control:nth-of-type(2) {
+    bottom: 8px;
+    right: 5px;
+
+}
+
+#input-day-from .child-amount-control,
+#input-day-to .child-amount-control {
+    background: #EBEBEB;
+    width: 30px;
+    height: 30px;
+}
+
+#input-day-from, #input-day-to {
+    position: relative;
+    display: inline-block;
+    flex-grow: 1;
+}
+
+#input-day-from input, #input-day-to input {
+    font-size: 1em;
+    -moz-appearance: textfield;
+    height: 34px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 10px;
+    width: 100%;
+}
+
+#input-day-from input::-webkit-inner-spin-button,
+#input-day-to input::-webkit-inner-spin-button {
+    display: none;
+}
+
+#input-day-from .child-amount-control,
+#input-day-to .child-amount-control {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-size: 20px;
+    color: #232323;
+}
+
+#input-day-from .child-amount-control:hover,
+#input-day-to .child-amount-control:hover {
+    background: #FDF5F1;
+}
+
+#input-day-from .child-amount-control:nth-of-type(1),
+#input-day-to .child-amount-control:nth-of-type(1) {
+    bottom: 2px;
+    right: 34px;
+}
+
+#input-day-from .child-amount-control:nth-of-type(2),
+#input-day-to .child-amount-control:nth-of-type(2) {
+    bottom: 2px;
+    right: 2px;
+
+}
+
 .child-inputs {
+    font-family: Open-Sans, sans-serif;
     -moz-appearance: textfield;
     height: 34px;
     border: 1px solid #B1B1B1;
@@ -335,15 +604,192 @@ body {
     flex-grow: 1;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+.hover-el-report {
+    border-top: 2px solid transparent;
+    transition: 0.2s ease-in-out;
+
+}
+
+.hover-el-report:hover {
+    border-top: 2px solid #36C233;
+    transition: 0.2s ease-in-out;
+}
+
+.inputs-report {
+    font-family: Open-Sans, sans-serif;
+    -moz-appearance: textfield;
+    height: 34px;
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 10px;
+    width: 100%;
+    display: inline-block;
+    max-width: 120px;
+    flex-grow: 1;
+}
+
+.weeks-tab .nav-link {
+    border-bottom: 2px solid transparent;
+    max-width: 135px;
+}
+
+
+#tab-profile .active {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #F05E25;
+    color: #F05E25;
+}
+
+#tab-user .active {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #F05E25;
+    color: #F05E25;
+}
+
+.day-of-week {
+    font-size: 16px;
+}
+
+
+.weeks-tab .nav-item .nav-link {
+    color: #232323;
+    border-bottom: 2px solid transparent;
+    padding: 0 5px;
+}
+
+
+.weeks-tab .nav-item .day-of-week__past {
+    color: #797979;
+}
+
+.weeks-tab .nav-item .active {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #F05E25;
+    color: #F05E25;
+}
+
+.month-rus {
+    color: #797979;
+    background: #E8E8E8;
+    border-radius: 4px 4px 0 0;
+}
+
+.weeks-tab .nav-item .active .month-rus {
+    color: #FFFFFF;
+    background: #F05E25;
+}
+
+.date-container div {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.arrow-down-mob img {
+    display: none;
+}
+
+.weeks-tab .nav-item .active .arrow-down-mob img {
+    display: flex;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.brd-bot-line-reverse {
+    border-bottom: none;
+}
+
+.custom-control-indicator::after {
+    content: url("../img/checked-checkbox.svg");
+    position: absolute;
+    border: 1px solid #36C233;
+}
+
+.custom-control .custom-control-input:checked ~ .custom-control-indicator:after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #36C233;
+}
+
+.custom-control .custom-control-indicator:before {
+    border: 1px solid #36C233;
+}
+
+.custom-control .custom-control-indicator:after {
+    margin-top: 7px;
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+}
+
+.pos-for-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.change-btn-eff {
+    background: #FDF5F1;
+    border-left: 2px solid #F15E25;
+    color: #f4875b;
+}
+
+.link-back {
+    border-bottom: 2px solid transparent;
+    transition: 0.2s ease-in-out;
+}
+
+.link-back:hover {
+    border-bottom: 2px solid #F05E25;
+    transition: 0.2s ease-in-out;
+}
+
+.child-inputs::-webkit-calendar-picker-indicator {
     color: rgba(0, 0, 0, 0);
     opacity: 1;
     display: block;
-    background: url('../img/calendar-icon.svg') no-repeat;
-    width: 20px;
-    height: 20px;
+    background: url('../img/calendar-icon.svg') no-repeat center;
+    width: 22px;
+    height: 22px;
     border-width: thin;
 }
+
+.inputs-report::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    display: none;
+}
+
+.checkmark-user {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #36C233;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+
+.checkbox-user:checked ~ .checkmark-user {
+    background: #36C233 url("../img/checked-checkbox.svg") no-repeat center;
+}
+
+.checkbox-user {
+    display: none;
+}
+
+.input-row-black input::placeholder {
+    color: #797979;
+}
+
 
 @font-face {
     font-family: 'Open-Sans';
