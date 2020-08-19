@@ -31,6 +31,7 @@ namespace CateringPro.ViewModels
         [NotMapped] // Does not effect with your database
         [Compare("NewPassword")]
         [DataType(DataType.Password)]
+        [DisplayName("ConfirmPassword")]
         public string ConfirmPassword { get; set; }
 
 
@@ -90,9 +91,10 @@ namespace CateringPro.ViewModels
         public string ChildNameSurname { get; set; }
         [DisplayName("ChildBirthdayDate")]
         public DateTime? ChildBirthdayDate { get; set; }
-        public int? PictureId { get; set; }
         [DisplayName("PictureId")]
+        public int? PictureId { get; set; }
         public bool IsNew { get; set; }
+        [DisplayName("CompanyName")]
         public string CompanyName { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {

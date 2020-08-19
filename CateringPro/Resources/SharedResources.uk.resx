@@ -600,6 +600,9 @@
   <data name="ComplexCategory" xml:space="preserve">
     <value>Категорія комплекса</value>
   </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Назва компанії</value>
+  </data>
   <data name="Course1" xml:space="preserve">
     <value>Перше</value>
   </data>
