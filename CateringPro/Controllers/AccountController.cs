@@ -424,7 +424,7 @@ namespace CateringPro.Controllers
                 string id = User.GetUserId();
                 CompanyUser user = await _userManager.FindByIdAsync(id);
                 if (user != null)
-                    return View(new UpdateUserModel(user));
+                    return View(_companyuser_repo.GetUpdateUserModel(user));
                 else
                     return RedirectToAction("Index", "Home");
             }
@@ -455,7 +455,7 @@ namespace CateringPro.Controllers
                 ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
                 ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
 
-                return PartialView(new UpdateUserModel(user));
+                return PartialView(_companyuser_repo.GetUpdateUserModel(user));
             }
             else
                 return NotFound();

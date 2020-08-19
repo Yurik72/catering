@@ -427,5 +427,14 @@ namespace CateringPro.Repositories
             }
             return res;
         }
+
+        public UpdateUserModel GetUpdateUserModel(CompanyUser user)
+        {
+            var res = new UpdateUserModel(user);
+            var company = _cache.GetCachedCompanyAsync(_context, user.CompanyId).Result;
+            if (company != null)
+                res.CompanyName = company.Name;
+            return res;
+        }
     }
 }
