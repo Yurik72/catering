@@ -14,9 +14,13 @@
 </head>
 <body>
     <header class="main-header">
+        <div class="toogles">
 
-        <h1>Окно выдачи заказов</h1>
-        <h1 id="currentdate"></h1>
+        </div>
+        <div id="service-header"  class="service-header">
+            <h1>Окно выдачи заказов</h1>
+            <h1 id="currentdate"></h1>
+        </div>
     </header>
 
     <div class="container order-service">
@@ -138,6 +142,8 @@
             var elnfc_online = $("#nfc_isonline");
             var elnfc_offline = $("#nfc_isoffline");
             var el_error = $("#error");
+            const el_header = $('#service-header');
+           
             el_online.hide();
             const key_url = 'nfcurl';
             el_offline.hide();
@@ -149,6 +155,7 @@
             var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
             
             $('#currentdate').text(readable_date);
+            const height_header = el_header.first().outerHeight(true);
             localStorage[key_url] = $('#nfcurl').val();
             var nfcsock = new nfc_socket($('#nfcurl').val(),
                 function (data) {
@@ -306,6 +313,10 @@
             $('#btnstart').click(function (e) {
                 e.preventDefault();
                 isStarted = true;
+                el_header.animate({
+                    height: '0px'
+                }, 300);
+                $('.delivery-command').toggle(500);
                 refreshState();
                 refreshDeliveryContentState();
                 if (isQueueMode && !IsWelcomeMode()) {
@@ -316,6 +327,9 @@
             $('#btnstop').click(function (e) {
                 e.preventDefault();
                 isStarted = false;
+                el_header.animate({
+                    height: `${height_header}px`
+                }, 300)
                 refreshState();
             });
             $('#btnsend').click(function (e) {
@@ -323,6 +337,10 @@
                 requestfordelivery(filldeliverydishes);
 
             });
+            $('.toogles').click(function (e) {
+                e.preventDefault();
+                $('.delivery-command').toggle(500);
+            })
             function getQueueCount() {
                 return $('#delivery-queue-content').find(".user-queue").length;
             }
@@ -385,7 +403,7 @@
                     var inner_div = '';
                     var queue_list = [];
                     el.dishes.map(function (element, index) {
-                        inner_div += `<div class="row queue-dish " class="queue-dish" data-queueid="${element.queueId}" data-id=${element.id}>
+                        inner_div += `<div class="row queue-dish border rounded my-1 " class="queue-dish" data-queueid="${element.queueId}" data-id=${element.id}>
                                         <div class="col-12 h2">
                                            ${element.name}
                                         </div>           
@@ -397,11 +415,11 @@
 
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
                     var timestam = Date.now();
-                    var div = $(`<div class="row user-queue shadow p-1 mb-5" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
+                    var div = $(`<div class="row user-queue shadow p-1 mb-2 mt-2" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
                                         <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
                                         <div class="col-4 queue-user">
                                             <div class="row">
-                                                <div class="col-12 h2">${el.userName}</div>
+                                                <div class="col-12 h5">${el.userName}</div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 ">
@@ -412,7 +430,7 @@
                                         <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
                                             ${inner_div}
                                          </div>
-                                         <div class="col-3  align-self-end ">
+                                         <div class="col-3  align-self-center ">
                                              <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
                                          </div>
                                     </div>`);
