@@ -10,6 +10,7 @@
     <hr />
     <html lang="en">
     <head>
+        
         <title>Rezume Free Template by Colorlib</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -49,8 +50,10 @@
                             </div>
                             <p>У разі якщо ви не отримали лист - перевірте папку "спам".</p>
                             <p>Для повторного надсилання введіть поштовий адрес ще раз і натисніть кнопку "надіслати".</p>
+
                             <input asp-controller="Account" asp-action="ResendEmail" class="center-block" name="inputEmail" placeholder="Email">
                             <br />
+                            <h1 class="text-danger">@Html.ValidationSummary()</h1>
                             <br />
                             <p>
                                 <button asp-controller="Account" asp-action="ResendEmail" type="submit" class="btn btn-primary" px-4 py-2 btn-sm smoothscroll">@Localizer["Send"]</button>

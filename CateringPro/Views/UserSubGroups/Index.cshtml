@@ -55,6 +55,11 @@
                 var js = $tree.jstree().get_json(undefined, {flat: true});
 
             });
+            var initialset = {};
+            $tree.find('li').each(function (idx, el) {
+                var x = 0;
+                initialset[el.id] = $(el).attr('data-jstree');
+            });
             function clonesnapshot() {
                 data = $tree.jstree().get_json(undefined, { flat: true });
                 snapshot = { ...data };
@@ -75,13 +80,14 @@
                     "#": {
                         "max_children": 1,
                         "max_depth": 8,
-                        "valid_children": ["root"]
+                        "valid_children": ["root", "default"]
                     },
                     "root": {
                         //"icon": "/static/3.3.10/assets/images/tree_icon.png",
                         "valid_children": ["default","group"]
                     },
                     "default": {
+                        "icon": "/images/group.png",
                         "valid_children": ["default",  "group"]
                     }
                 },

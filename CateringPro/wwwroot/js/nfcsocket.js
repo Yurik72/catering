@@ -97,6 +97,9 @@ nfc_socket.prototype.getstatus = function (cb) {
     this.socket.send(JSON.stringify(request));
 
 };
+nfc_socket.prototype.issocketconnected = function () {
+    return this.socket && this.socket.readyState == WebSocket.OPEN;
+}
 nfc_socket.prototype.writecard = function (tag,callbackresponse) {
 
     if (!this.socket || this.socket.readyState != WebSocket.OPEN) {

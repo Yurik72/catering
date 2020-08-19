@@ -186,8 +186,9 @@ function setup_changecompany() {
 function setup_listitems(options) {
     let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems", editmethod: "EditModal", createmethod: "CreateModal" };
     if (typeof (options) == 'object') {
-        // this.options = { ...defaultoptions, ...options };
+         this.options = { ...defaultoptions, ...options };
         //edge troubles with es6
+        /*
         this.options = defaultoptions
         this.options.href = options.href;
         if (options.onloadedcb)
@@ -198,6 +199,7 @@ function setup_listitems(options) {
             this.options.editmethod = options.editmethod;
         if (options.createmethod)
             this.options.createmethod = options.createmethod;
+            */
     }
     else {
 
@@ -503,8 +505,8 @@ function dialog_yes_no(message, yesCallback, noCallback) {
         '           </div>  ' +
         '       </div>  ' +
         '  </div>  ';
-    // $("body").append(dlg_html);
-    console.log("dialog_yes_no");
+   // $("body").append(dlg_html);
+    //console.log("dialog_yes_no");
     var dialog = $(dlg_html);
     $("body").append(dialog);// $('#moddialogyesno');
     // var dialog = $('#moddialogyesno').dialog();
@@ -559,7 +561,45 @@ function dialog_error(message) {
     dialog.modal('show');
     dialog.find('#btnyes').click(function () {
         //dialog.modal('hide');
-        $('.modal').modal('hide');
+        dialog.modal('hide');
+    });
+
+
+    dialog.on('hide.bs.modal', function (e) {
+        dialog.empty();
+
+    });
+}
+
+function dialog_info(message) {
+
+    var dlg_html = '   <div id="moddialoginfo" class="modal" tabindex="-1" role="dialog">  ' +
+        '       <div class="modal-dialog modal-lg modal-alert" role="document">  ' +
+        '           <div class="modal-content">  ' +
+        '               <div class="modal-header">  ' +
+        '                   <h5 class="modal-title"><i class="fa fa-info-circle fa-3" style="color:green" aria-hidden="true"></i>  ' + $.text_resource.error + '</h5>  ' +
+        '                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">  ' +
+        '                       <span aria-hidden="true">X</span>  ' +
+        '                   </button>  ' +
+        '               </div>  ' +
+        '               <div class="modal-body">  ' +
+        '               <p>' + message + '</p>' +
+        '               </div>  ' +
+        '               <div class="modal-footer">  ' +
+        '     ' +
+        '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes + '</button>  ' +
+        '               </div>  ' +
+        '           </div>  ' +
+        '       </div>  ' +
+        '  </div>  ';
+    
+    var dialog = $(dlg_html);
+    $("body").append(dialog);
+   
+    dialog.modal('show');
+    dialog.find('#btnyes').click(function () {
+        
+        dialog.modal('hide');
     });
 
 

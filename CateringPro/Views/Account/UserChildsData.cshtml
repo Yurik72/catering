@@ -14,82 +14,95 @@
 {
     foreach (var it in Model)
     {
-        <div class="row">
-            <div class="col-12  bg-info text-white">
-                @(i+1)  @Localizer["Child"]
-            </div>
+<div class="child-data row justify-content-around flex-column flex-lg-row flex-md-row flex-sm-column align-content-sm-center align-content-center align-items-sm-center align-items-center"
+     style="border: 1px solid #B1B1B1; border-radius: 4px; max-height: 450px; min-height: 350px">
+    <div class="col-12 col-xl-6 col-sm-12 col-md-12 p-0 "
+         style="max-width: 400px;  ">
+        <input type="hidden" name="it[@i].PictureId" id="it[@i].PictureId" asp-for="@it.PictureId" />
+
+        <img class="col-12" id="imgfilepicture@(it.Id)" 
+             src="@Url.Action("GetPicture", "Pictures", new { id = @it.PictureId, width = 400, height = 250 })" 
+             alt="" style="padding: 0;width:400px;height:250px">
+        <div class="custom-file mt-3">
+            <input type="file" class="custom-file-input" id="filepicture@(it.Id)" name="it[@i].Picture" data-target="#imgfilepicture@(it.Id)"
+                   placeholder="Файл не обрано..."
+                   style="height: 48px; display: flex; align-items: center" multiple accept="image/jpeg,image/png">
+            <label class="custom-file-label" id="self-button" for="load-image"
+                   style="height: 48px; display: flex; align-items: center">Файл не обрано</label>
         </div>
-        <input type="hidden" asp-for="@it.Id" name="it[@i].Id" />
-        <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-start mt-3 mt-lg-4 mt-md-4 flex-column justify-content-around"
-             style="border: 1px solid #B1B1B1; border-radius: 4px; max-height: 154px; min-height: 110px">
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0 pl-3 pr-3 pr-md-0 pr-lg-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
-                <label for="child-name"
+
+    </div>
+    <div class="col-12 col-xl-5 col-sm-6 col-md-5 justify-content-md-center justify-content-center mt-3 mt-md-0 mt-lg-0">
+        <div class="row">
+            <div class="col-12 p-0 ">
+                <input type="hidden" asp-for="@it.Id" name="it[@i].Id" id="it[@i].Id" />
+                <label for="child-name@(it.Id)"
                        class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">@Localizer["ChildNameSurname"]</label>
                     <input asp-for="@it.ChildNameSurname" name="it[@i].ChildNameSurname"
-                           id="child-name" class="child-inputs" type="text" min="0" value="0"
+                           id="child-name@(it.Id)" class="child-inputs" type="text" 
                            placeholder="Ім'я">
                 </div>
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0 pl-3 pr-3 pr-md-0 pr-lg-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
-                <label for="child-date"
-                       class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
-                    @Localizer["ChildBirthdayDate"]
-                </label>
-                <input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate"
-                       id="child-date" class="child-inputs" type="date" required>
-            </div>
-            @*<div class="col-12 col-md-7 my-2 col-lg-6 p-0 pl-3 pr-3 pr-md-0 pr-lg-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
-                <input type="hidden" name="it[@i].PictureId" asp-for="@it.PictureId" />
-                <input type="file" class="form-control" id="filepicture" name="it[@i].Picture" />
-                <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:100px;height:100px;" src="@Url.Action("GetPicture","Pictures",new { id=@it.PictureId,width=450,height=300})" />
-            </div>*@
-        </div>
+                <div class="col-12 col-md-7 my-2 col-lg-6 p-0 pl-3 pr-3 pr-md-0 pr-lg-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                    <label for="child-date@(it.Id)"
+                           class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
+                        @Localizer["ChildBirthdayDate"]
+                    </label>
+                    <input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate"
+                           id="child-date@(it.Id)" class="child-inputs" type="date" >
+                </div>
+</div>
+</div>
+</div>
+{
+    i++;
+}
     }
 
 }
 
 else
 {
-    @foreach (var it in Model)
-    {
-        //if (it.ChildrenCount == 1)
-        //{
-        //    continue;
-        //}
-        <div class="container border rounded">
-            <div class="row">
-                <div class="col-12  bg-info text-white">
-                    @(i+1)  @Localizer["Child"]
+            @foreach (var it in Model)
+            {
+                //if (it.ChildrenCount == 1)
+                //{
+                //    continue;
+                //}
+                <div class="container border rounded">
+                    <div class="row">
+                        <div class="col-12  bg-info text-white">
+                            @(i+1)  @Localizer["Child"]
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <dl>
+                                <dd><input type="hidden" asp-for="@it.Id" name="it[@i].Id" /></dd>
+                                <dt>  <label class="control-label">@Localizer["ChildNameSurname"]</label></dt>
+                                <dd>
+                                    <input asp-for="@it.ChildNameSurname" name="it[@i].ChildNameSurname" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="@it.ChildNameSurname" class="text-danger"></span>
+                                </dd>
+                                <dt>  <label class="control-label">@Localizer["ChildBirthdayDate"]</label></dt>
+                                <dd>
+                                    <input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="@it.ChildBirthdayDate" class="text-danger"></span>
+                                </dd>
+                                <dd>
+                                    <input type="hidden" name="it[@i].PictureId" asp-for="@it.PictureId" />
+                                    <input type="file" class="form-control" id="filepicture" name="it[@i].Picture" />
+                                    <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture","Pictures",new { id=@it.PictureId,width=450,height=300})" />
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <dl>
-                        <dd><input type="hidden" asp-for="@it.Id" name="it[@i].Id" /></dd>
-                        <dt>  <label class="control-label">@Localizer["ChildNameSurname"]</label></dt>
-                        <dd>
-                            <input asp-for="@it.ChildNameSurname" name="it[@i].ChildNameSurname" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="@it.ChildNameSurname" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label class="control-label">@Localizer["ChildBirthdayDate"]</label></dt>
-                        <dd>
-                            <input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="@it.ChildBirthdayDate" class="text-danger"></span>
-                        </dd>
-                        <dd>
-                            <input type="hidden" name="it[@i].PictureId" asp-for="@it.PictureId" />
-                            <input type="file" class="form-control" id="filepicture" name="it[@i].Picture" />
-                            <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture","Pictures",new { id=@it.PictureId,width=450,height=300})" />
-                        </dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-        {
-            i++;
-        }
-        //if(it.ChildrenCount == 1)
-        //{
-        //    break;
-        //}
-    }
-}
+                {
+                    i++;
+                }
+                //if(it.ChildrenCount == 1)
+                //{
+                //    break;
+                //}
+            }
+            }

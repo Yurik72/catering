@@ -828,6 +828,9 @@
   <data name="UserEmailNotFound" xml:space="preserve">
     <value>Користувача з такою поштою не знайдено</value>
   </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Токен не валідний. Можливо термін дії посилання закінчився. Надішліть лист ще раз.</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>Закрити</value>
   </data>
@@ -878,5 +881,9 @@
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Перейменувати</value>
+  </data>
+  <data name="SendEmailCreatedByAdmText" xml:space="preserve">
+    <value>
+      Вітаю, {0} Ваш обліковий запис було створено адміністратором Наразі вам доступний весь функціонал Login: {1} Необхідно перейти за посиланням для встановлення паролю:</value>
   </data>
 </root>
