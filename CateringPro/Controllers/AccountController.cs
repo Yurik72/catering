@@ -173,8 +173,11 @@ namespace CateringPro.Controllers
                 else
                     return View(model);
             _logger.LogInformation("User {0} is going to login ", model.UserName);
-            var user = await _userManager.FindByNameAsync(model.UserName);
-
+            var user = await _userManager.FindByNameAsync(model.UserName.ToLower());
+            if(user == null)
+            {
+                user = await _userManager.FindByEmailAsync(model.UserName.ToLower());
+            }
             if (user != null && user.EmailConfirmed)
             {
                 var claims = await _userManager.GetClaimsAsync(user);
