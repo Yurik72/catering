@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System;
 
 namespace CateringPro.Controllers
 {
@@ -27,9 +27,9 @@ namespace CateringPro.Controllers
         private readonly SharedViewLocalizer _localizer;
         private int pageRecords = 20;
 
-        public DishesController(AppDbContext context, 
-            IDishesRepository dishesRepo, 
-            ILogger<CompanyUser> logger, 
+        public DishesController(AppDbContext context,
+            IDishesRepository dishesRepo,
+            ILogger<CompanyUser> logger,
             IConfiguration Configuration,
             SharedViewLocalizer localizer)
         {
@@ -44,7 +44,7 @@ namespace CateringPro.Controllers
         // GET: Dishes
         public IActionResult Index()
         {
-            ViewData["QueryModel"] = new QueryModel() { SortField="Name"};
+            ViewData["QueryModel"] = new QueryModel() { SortField = "Name" };
             return View(new List<Dish>());// await _context.Dishes.WhereCompany(User.GetCompanyID()).Include(d=>d.DishIngredients).Include(d=>d.DishIngredients).ThenInclude(di=>di.Ingredient).ToListAsync());
         }
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
@@ -175,7 +175,7 @@ namespace CateringPro.Controllers
             if (dish.Code == null) dish.Code = "";
             if (dish.Description == null) dish.Description = "";
             if (dish.CookingTechnologie == null) dish.CookingTechnologie = "";
-            var dish_orig = await _context.Dishes.Include(d => d.DishIngredients).ThenInclude(d => d.Ingredient).AsNoTracking().Where(d=>d.Id==id).FirstOrDefaultAsync();
+            var dish_orig = await _context.Dishes.Include(d => d.DishIngredients).ThenInclude(d => d.Ingredient).AsNoTracking().Where(d => d.Id == id).FirstOrDefaultAsync();
             //_context.Entry(dish_orig).Collection(d => d.DishIngredients).Query().Include(d => d.Ingredient).Load();
             if (Request.Form.Files.Count > 0)
             {
@@ -196,7 +196,7 @@ namespace CateringPro.Controllers
                 dish.PictureId = pict.Id;
             }
 
-       
+
             ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", dish.CategoriesId);
             var res = await this.UpdateDBCompanyDataAsyncEx(dish, _logger,
                 e => { return _dishesRepo.UpdateDishEntity(e, proportion, User.GetCompanyID()); });
@@ -235,7 +235,7 @@ namespace CateringPro.Controllers
 
             return res;
         }
-        
+
 
         public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName)
         {
@@ -345,9 +345,16 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var dish = await _context.Dishes.FindAsync(id);
-            _context.Dishes.Remove(dish);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var dish = await _context.Dishes.FindAsync(id);
+                _context.Dishes.Remove(dish);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
             return RedirectToAction(nameof(Index));
         }
 

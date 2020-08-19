@@ -43,36 +43,36 @@ namespace CateringPro.Controllers
             return View(await _context.Complex.WhereCompany(User.GetCompanyID()).ToListAsync());
         }
 
-        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")] QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel=new QueryModel() { }
 
             var query = this.GetQueryList(_context.Complex.Include(d => d.Category),
                 querymodel,
-                d => d.Name.Contains(querymodel.SearchCriteria) ,
+                d => d.Name.Contains(querymodel.SearchCriteria),
                 pageRecords);
 
-          
+
             return PartialView(await query.ToListAsync());
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity,CategoriesId")] Complex cmp,  List<DishComplex> DishComplexes)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity,CategoriesId")] Complex cmp, List<DishComplex> DishComplexes)
         {
             if (id != cmp.Id)
             {
-               
+
                 return NotFound();
             }
 
-           
+
             var complex_orig = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
-            DishComplexes.ForEach( dc => dc.Dish = _context.Dishes.SingleOrDefaultAsync(c => c.Id == dc.DishId).Result);
+            DishComplexes.ForEach(dc => dc.Dish = _context.Dishes.SingleOrDefaultAsync(c => c.Id == dc.DishId).Result);
             ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", cmp.CategoriesId);
 
             if (!ModelState.IsValid)
             {
- 
+
                 cmp.DishComplex = complex_orig.DishComplex;
                 return PartialView(cmp);
             }
@@ -86,19 +86,20 @@ namespace CateringPro.Controllers
                     return PartialView(cmp);
                 }
             }
-         
+
             var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
                  e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
 
             //var res = await this.UpdateDBCompanyDataAsyncEx(cmp, _logger);
-            if (!ModelState.IsValid){
-               
-                  cmp.DishComplex = complex_orig.DishComplex;
+            if (!ModelState.IsValid)
+            {
+
+                cmp.DishComplex = complex_orig.DishComplex;
                 return PartialView(cmp);
             }
-           
-           
-            
+
+
+
             return res;
 
         }
@@ -111,7 +112,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var complex =  await _context.Complex.Include(c=>c.DishComplex).ThenInclude(d=>d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c=>c.Id==id);
+            var complex = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).WhereCompany(User.GetCompanyID()).SingleOrDefaultAsync(c => c.Id == id);
             if (complex == null)
             {
                 return NotFound();
@@ -141,7 +142,7 @@ namespace CateringPro.Controllers
 
 
 
-     
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,12 +150,12 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-           var complex = await _complexRepo.GetByIdAsync(id);
+            var complex = await _complexRepo.GetByIdAsync(id);
 
-         //   if (categories == null)
-           // {
-          //      return NotFound();
-          //  }
+            //   if (categories == null)
+            // {
+            //      return NotFound();
+            //  }
 
             return PartialView(complex);
         }
@@ -165,12 +166,18 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var complex = await _complexRepo.GetByIdAsync(id);
-            _complexRepo.Remove(complex);
-            var dishComplex = _context.DishComplex.Where(d => d.ComplexId == id);
-            _context.DishComplex.RemoveRange(dishComplex);
-            await _complexRepo.SaveChangesAsync();
-
+            try
+            {
+                var complex = await _complexRepo.GetByIdAsync(id);
+                _complexRepo.Remove(complex);
+                var dishComplex = _context.DishComplex.Where(d => d.ComplexId == id);
+                _context.DishComplex.RemoveRange(dishComplex);
+                await _complexRepo.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> EditDishes(int? id)
@@ -203,7 +210,7 @@ namespace CateringPro.Controllers
             //DishComplex> itemline = new IEnumerable<DishComplex>;
 
 
-            return PartialView("ComplexLineDishes", new List<DishComplex> ());
+            return PartialView("ComplexLineDishes", new List<DishComplex>());
         }
 
 

@@ -27,67 +27,133 @@
 
     };
 }
+@if (true)
+{
+    <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
+         style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
 
-<table class="table">
-    <thead>
-        <tr class="bg-white text-success">
-            <th>
-
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Date, querymodel)
-            </th>
-            <th>
-
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Number, querymodel)
-            </th>
-            <th>
-
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Type, querymodel)
-            </th>
-            <th>
-
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Amount, querymodel)
-            </th>
-            <th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
-
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="bg-white text-secondary">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Number)
-                </td>
-                <td>
-                    @get_doctype_text(item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
+        <div class="col-2" style="cursor: pointer"><span>@Html.DisplayListHeaderForEx(model => model.Date)</span></div>
+        <div class="col-2" style="cursor: pointer"><span>@Html.DisplayListHeaderForEx(model => model.Number)</span></div>
+        <div class="col-2" style="cursor: pointer"><span>@Html.DisplayListHeaderForEx(model => model.Type)</span></div>
+        <div class="col-2" style="cursor: pointer"><span>@Html.DisplayListHeaderForEx(model => model.Amount)</span></div>
+        <div class="col-2" style="cursor: pointer"><span>@Html.DisplayListHeaderForEx(model => model.Description)</span></div>
+        <div class="col-2"></div>
 
 
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    @Html.ActionLink("", "EditModal",
-                                 new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+    </div>
+    <div class="row mx-0 justify-content-start w-100 align-content-center">
+        <div class="col-12 p-0  mt-2">
+            @foreach (var item in Model)
+            {
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
+                     style="min-height: 52px; color: #232323">
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-6 col-8 d-flex flex-row flex-lg-column flex-md-column mt-1  align-self-start "
+                             style="font-size: 16px;">
+                            <span class="col-lg-12 col-md-12 col-6 p-0 change-bg-grey" style="font-family: Open-Sans, sans-serif">@item.Date.ToString("dd.MM.yyyy")</span>
+                            <span class="p-0 d-flex col-1 d-md-none d-lg-none change-bg-grey" style="font-family: Open-Sans, sans-serif"> | </span>
+                            <span class="col-lg-12 col-md-12 col-5 p-0 change-color-grey change-bg-grey" style="font-family: Open-Sans, sans-serif; ">@item.Date.ToString("HH:mm:ss")</span>
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-start mt-1"
+                             style="font-size: 16px">
+                            <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                                  style="font-size: 14px; font-weight: bold">@Html.DisplayListHeaderForEx(model => model.Number)</span><span class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif;">@item.Number</span>
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-start mt-1"
+                                 style="font-size: 16px">
+                                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                                      style="font-size: 14px; font-weight: bold">@Html.DisplayListHeaderForEx(model => model.Type)</span><span class="col-lg-12 col-md-12 col-6 p-0">  @get_doctype_text(item.Type) </span>
+                                </div>
+                                <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-start mt-1"
+                                     style="font-size: 16px">
+                                    <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                                          style="font-size: 14px; font-weight: bold">@Html.DisplayListHeaderForEx(model => model.Amount) (₴)</span><span class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif;">@item.Amount</span>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-start mt-1"
+                                         style="font-size: 16px">
+                                        <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                                              style="font-size: 14px; font-weight: bold">@Html.DisplayListHeaderForEx(model => model.Description)</span><span class="col-lg-12 col-md-12 col-6 p-0">@item.Description</span>
+                                        </div>
+
+                                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  justify-content-end">
+                                            <div class="btn">
+                                                <a class="cmd-edit dialog-edit-icon" href="@Url.Action("EditModal","Docs",
+                                  new { id = item.Id }, null)"><img src="../img/pen-icon.svg" alt="Change item"></a>
+                                            </div>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon btn ml-3"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+        </div>
+    </div>
+    @Html.DisplayFor(model => querymodel, "PageNavigation", null)
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr class="bg-white text-success">
+                <th>
+
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Date, querymodel)
+                </th>
+                <th>
+
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Number, querymodel)
+                </th>
+                <th>
+
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Type, querymodel)
+                </th>
+                <th>
+
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Amount, querymodel)
+                </th>
+                <th>
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="bg-white text-secondary">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                        @get_doctype_text(item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+
+
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                        @Html.ActionLink("", "EditModal",
+                              new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="bg-white text-success rounded border">
+                <td colspan="3">
+                    @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
                 </td>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr class="bg-white text-success rounded border">
-            <td colspan="3">
-                @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        </tfoot>
+    </table>
+}

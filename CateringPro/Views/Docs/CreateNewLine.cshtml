@@ -6,6 +6,79 @@
     Layout = null;
     int i = (int)(ViewData["lineindex"]);
 }
+@if(true){
+    <div class="col-12 p-0 parent-delete doc-line d-flex brd-bot-line-reverse mb-3 mb-lg-0 mb-md-0"
+         style="min-height: 52px; color: #232323" data-lineid="0">
+        <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
+
+            <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
+                 style="font-size: 16px">
+                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Number"]</span>
+                <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                    <input type="hidden" name="DocLines[@i].CompanyId" asp-for="@Model.CompanyId" class="form-control doc-line-ingid" />
+                    <input type="hidden" name="DocLines[@i].DocsId" asp-for="@Model.DocsId" class="form-control" />
+                    <input type="hidden" name="DocLines[@i].Id" asp-for="@Model.Id" class="form-control" />
+                    <span class="input-docs">
+                        <input asp-for="Number"  type="number" name="DocLines[@i].Number" class="form-control w-100" min="0" style="font-family: Open-Sans, sans-serif">
+                        <div class="child-amount-control"
+                             onclick="this.previousElementSibling.stepUp()">+</div>
+                        <div class="child-amount-control"
+                             onclick="this.previousElementSibling.previousElementSibling.stepDown()">-</div>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 pl-md-0 pl-lg-0 col-lg-3 col-12 d-flex justify-content-start flex-column mt-1"
+                 style="font-size: 16px">
+                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Ingredient"]</span>
+                    <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@Model.IngredientsId" class="form-control doc-line-ingid" />
+                    <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@Model.IngredientsId" class="form-control doc-line-ingid" />
+                    @*<div class="input-search" style="width:100%">*@
+                    <input type="text" name="none[@i].Ingredients.Name" asp-for="@Model.Ingredients.Name" class="form-control doc-line-ingname" style="font-size: 16px; color:#797979; height: 34px; background: url('../img/search-icon.svg') no-repeat 95%; font-family: Open-Sans, sans-serif" />
+                    @*</div>*@
+                </div>
+            <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
+                 style="font-size: 16px">
+                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Quantity"]</span>
+                <input type="text" name="DocLines[@i].Quantity" asp-for="@Model.Quantity" class="form-control doc-line-quantity w-100"  style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+            </div>
+            <div class="col-md-1 pl-md-0 pl-lg-0 col-lg-1 col-12 d-flex justify-content-start flex-column mt-1"
+                 style="font-size: 16px">
+                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Price"]</span>
+                <input  type="text" name="DocLines[@i].Price" asp-for="@Model.Price"  class="form-control doc-line-price w-100" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+            </div>
+            <div class="col-md-1 pl-md-0 pl-lg-0 col-lg-1 col-12 d-flex justify-content-start flex-column mt-1"
+                 style="font-size: 16px">
+                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
+                <input class="form-control  w-100" asp-for="@Model.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+            </div>
+            <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
+                 style="font-size: 16px">
+                <span class="col-4 p-0 d-md-none d-lg-none d-inline"
+                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
+                <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                    <input asp-for="@Model.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control w-100 doc-line-validto" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif " />
+                    @*<span class="input-docs">
+
+                        <input class="form-control  w-100" type="text" min="0" value="13.11.2020" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                        <div class="child-amount-control remove-date-section"></div>
+                    </span>*@
+                </div>
+            </div>
+
+
+            <div class="col-12 col-lg-1 col-md-1 d-flex mb-1  justify-content-end">
+                <a href="#" class="btn ml-3  delete-line delete-parent"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+            </div>
+        </div>
+    </div>
+
+}
+else{
     <div class="row doc-line" data-lineid="0">
         <div class="col col-lg-1 col-md-1">
             <input type="hidden" name="DocLines[@i].CompanyId" asp-for="@Model.CompanyId" class="form-control doc-line-ingid" />
@@ -42,3 +115,4 @@
 
         </div>
     </div>
+    }
