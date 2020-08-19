@@ -290,8 +290,7 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RestoreInputPassword(string inputEmail)
         {
-            try
-            {
+
                 var model = new RegisterViewModel() { };
                 if (inputEmail != null)
                 {
@@ -308,7 +307,7 @@ namespace CateringPro.Controllers
 
                         await _companyuser_repo.PostUpdateUserAsync(user, true);
                         EmailService emailService = new EmailService();
-                        await _email.SendEmailAsync(user.Email, "Зміна паролю",
+                        bool emailsent=await _email.SendEmailNoExceptionAsync(user.Email, "Зміна паролю",
                             $"Вітаю, {user.NameSurname}<br>" +
                             $"Ви хочете змінити пароль від вашого облікового запису!<br>" +
                             $"Підтвердіть зміну паролю, перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
@@ -326,13 +325,9 @@ namespace CateringPro.Controllers
                 }
                 ModelState.AddModelError("inputEmail", _localizer.GetLocalizedString("CanNotBeEmpty"));
                 return View("RestorePassword", model);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError("UnexpectedError", ex);
-                return View("Error");
-            }
             
+
+
         }
         [AllowAnonymous]
         public IActionResult RestorePassword()
@@ -342,12 +337,16 @@ namespace CateringPro.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SetNewPassword(string userId, string code)
         {
-            try{
+
                 if (userId == null || code == null)
                 {
                     return View("Error");
                 }
                 CompanyUser user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return View("Error");
+                }
                 var model = new RegisterViewModel() { UserId = userId, TokenCode = code, Email = user.Email };
                 if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", code))
                 {
@@ -357,18 +356,13 @@ namespace CateringPro.Controllers
                 {
                     return View("TokenExpired", model);
                 }
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError("UnexpectedError", ex);
-                return View("Error");
-            }
+            
+
         }
         [AllowAnonymous]
         public async Task<IActionResult> SetNewPasswordInput(string userId, string code, string inputPassword, string inputPasswordConfirm)
         {
-            try
-            {
+
                 var model = new RegisterViewModel() { UserId = userId, TokenCode = code };
                 if (userId == null || code == null)
                 {
@@ -398,12 +392,7 @@ namespace CateringPro.Controllers
                     }
                 }
                 return View("Error");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("UnexpectedError", ex);
-                return View("Error");
-            }
+
         }
         [AllowAnonymous]
         public IActionResult NewPasswordApplied()
@@ -419,20 +408,14 @@ namespace CateringPro.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Update()
         {
-            try
-            {
+
                 string id = User.GetUserId();
                 CompanyUser user = await _userManager.FindByIdAsync(id);
                 if (user != null)
                     return View(_companyuser_repo.GetUpdateUserModel(user));
                 else
                     return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("UnexpectedError", ex);
-                return View("Error");
-            }
+
             
         }
         [Authorize]
@@ -442,6 +425,10 @@ namespace CateringPro.Controllers
 
             //string id = User.GetUserId();
             CompanyUser user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
             if (User.IsInRole("GroupAdmin"))
             {
                 var admin = await _userManager.FindByIdAsync(User.GetUserId());
@@ -450,15 +437,12 @@ namespace CateringPro.Controllers
                     return Forbid();
                 }
             }
-            if (user != null)
-            {
+
                 ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
                 ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
 
                 return PartialView(_companyuser_repo.GetUpdateUserModel(user));
-            }
-            else
-                return NotFound();
+
         }
 
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
