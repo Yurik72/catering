@@ -232,7 +232,7 @@
             }
             function showNfcInfo(msg) {
                 $('#connectnfc').prop('disabled', false);
-                if (msg && msg.Isreaderconnected) {
+                if (msg && msg.Isreaderconnected==true) {
                     elnfc_online.show();
                     elnfc_offline.hide();
                     $('#nfc_readername').text(msg.Readername);

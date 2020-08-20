@@ -346,7 +346,12 @@ function setup_listitems(options) {
                     $('#modDialog').find('input[type="submit"]').click(function (e) {
                         e.preventDefault();
                         resolve(form);
-                        //to do handle reject
+                       
+                    });
+                    $('#modDialog').find('button[type="button"]').click(function (e) {
+                        
+                        reject();
+                        
                     });
                 });
                 return promise;
@@ -374,7 +379,8 @@ function setup_listitems(options) {
 
             })
             .catch(error => {
-                dialog_error(error);
+                if(error)
+                    dialog_error(error);
 
             })
             .finally(function () {
