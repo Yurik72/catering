@@ -54,12 +54,12 @@
                  style="font-size: 16px">
                 <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                       style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
-                <input class="form-control  w-100" asp-for="@Model.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                <input class="form-control  w-100 doc-line-amount" asp-for="@Model.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
             </div>
             <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
                  style="font-size: 16px">
                 <span class="col-4 p-0 d-md-none d-lg-none d-inline"
-                      style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
+                      style="font-size: 14px; font-weight: bold"> @Localizer["DocLine ValidTo"]</span>
                 <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
                     <input asp-for="@Model.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control w-100 doc-line-validto" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif " />
                     @*<span class="input-docs">
