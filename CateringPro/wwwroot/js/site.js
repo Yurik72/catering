@@ -410,6 +410,8 @@ function setup_listitems(options) {
         event.preventDefault();
 
         var form = $(this).parents('.modal-body').find('form');
+        if (form.length == 0)
+            form = $('#modDialog').find('.modal-body').find('form');
         var actionUrl = $(event.target).attr('action');
         var dataToSend = form.serialize();
 
