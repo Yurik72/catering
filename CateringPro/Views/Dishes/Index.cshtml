@@ -346,8 +346,13 @@ else
                 });
                 $('#modDialog').attr("_changed", true);
             });
+            //$(document).on("click", "#add-ingredients-dishes-line", function (e) {
+            //    console.log("Click");
+            //    //setup_search_ingredients();
+            //});
             function setup_search_ingredients() {
-               // console.log("add ingredient");
+                try {
+                //console.log("add ingredient");
                 setup_search({
                     href: '@Url.Content("~/Ingredients/SearchView")',
                     itemselector: 'a.add-ingredients-dishes-line',
@@ -371,6 +376,11 @@ else
                         }
                     }
                 });
+            } catch (error) {
+                alert(error);
+                // expected output: ReferenceError: nonExistentFunction is not defined
+                // Note - error messages will vary depending on browser
+            }
             }
             $(document).on('hidden.bs.modal', '.modal', function () {
                 $('.modal:visible').length && $(document.body).addClass('modal-open');

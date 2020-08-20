@@ -208,10 +208,10 @@
     <value>Мої замовлення</value>
   </data>
   <data name="DateFrom" xml:space="preserve">
-    <value>Вiд</value>
+    <value>Вiд:</value>
   </data>
   <data name="DateTo" xml:space="preserve">
-    <value>До</value>
+    <value>До:</value>
   </data>
   <data name="Day Ingredients" xml:space="preserve">
     <value>Розрахунок продуктiв</value>
