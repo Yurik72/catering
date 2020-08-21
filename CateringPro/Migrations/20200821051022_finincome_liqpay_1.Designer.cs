@@ -4,14 +4,16 @@ using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CateringPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200821051022_finincome_liqpay_1")]
+    partial class finincome_liqpay_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -871,8 +873,8 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(3000)")
+                        .HasMaxLength(3000);
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
@@ -891,10 +893,8 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ReturnCallBackData")
-                        .HasColumnType("nvarchar(MAX)");
-
-                    b.Property<string>("ReturnData")
-                        .HasColumnType("nvarchar(MAX)");
+                        .HasColumnType("nvarchar(3000)")
+                        .HasMaxLength(3000);
 
                     b.Property<string>("TransactionData")
                         .HasColumnType("nvarchar(2000)")

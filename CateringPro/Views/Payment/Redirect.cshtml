@@ -1,0 +1,33 @@
+﻿@model PaymentRedirectViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>
+                Шановний @Model.UserName
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5>
+
+                Дякуюємо за поповнення балансу Вашої дитини @Model.ChildName, ваш платіж ще обробляється. Як тільки ми отримаємо підтвердження  ви побачите їх в особистому кабінеті. Або дочекайтеся результатів на цій сторінці
+            </h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5>
+                Сумма поповненя @Model.Amount
+            </h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5>
+                Статус @(Model.IsConfrimed?"Акцептовано": "В обробці")
+            </h5>
+        </div>
+    </div>
+</div>

@@ -249,6 +249,7 @@ namespace CateringPro.Controllers
                 model.Items = items;
                 for (int i = 0; i < 6; i++)
                 {
+                    _logger.LogWarning("for i={0}", i);
                     daydate = daydate.AddDays(1);
                     avaible = _userdaydishesrepo.AvaibleComplexDay(daydate, userid, comapnyid);
                     var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);

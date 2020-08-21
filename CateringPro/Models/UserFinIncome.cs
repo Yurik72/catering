@@ -17,15 +17,29 @@ namespace CateringPro.Models
         [Column(TypeName = "decimal(18,2)")]
         [DefaultValue(0.0)]
         public decimal Amount { get; set; }
-        [StringLength(200)]
+        [StringLength(2000)]
         [DefaultValue("")]
         public string TransactionData { get; set; }
 
+        [Column(TypeName = "nvarchar(MAX)")]
+        [DefaultValue("")]
+        public string ReturnCallBackData { get; set; }
+        [Column(TypeName = "nvarchar(MAX)")]
+        [DefaultValue("")]
+        public string ReturnData { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        [DefaultValue(0.0)]
+        public decimal ProjectionAmount { get; set; }
+
+        
         public DateTime TransactionDate { get; set; }
-        [StringLength(200)]
+        [StringLength(100)]
         [DefaultValue("")]
         public string Comments { get; set; }
-
+        [StringLength(200)]
+        public string OrderId { get; set; }
         public UserFinance UserFinance { get; set; }
+
+        public bool IsProjection { get; set; }
     }
 }
