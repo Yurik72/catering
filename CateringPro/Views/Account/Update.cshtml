@@ -40,11 +40,11 @@
             </ul>
             <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="profile-tab">
                 @*
-            <form asp-controller="Account" asp-action="Update" method="post" role="form" enctype="multipart/form-data">
+                    <form asp-controller="Account" asp-action="Update" method="post" role="form" enctype="multipart/form-data">
 
-                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 *@
-                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Id" id="id-value-id-user"/>
                 <div class="tab-pane fade show active " id="profile-home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
@@ -81,13 +81,13 @@
                                    type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-city"
                                    placeholder="" autocomplete="off">
                         </div>
-                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
-                            <label asp-for="OldPassword"
-                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
-                            </label>
-                            <input asp-for="OldPassword"
-                                   type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-old-password" placeholder="" style="height: 34px" autocomplete="off">
-                        </div>
+                        @*<div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                                <label asp-for="OldPassword"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
+                                </label>
+                                <input asp-for="OldPassword"
+                                       type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-old-password" placeholder="" style="height: 34px" autocomplete="off">
+                            </div>*@
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
@@ -98,14 +98,14 @@
                                    type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
                                    id="input-country" placeholder="Країна">
                         </div>
-                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
-                            <label asp-for="NewPassword"
-                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
-                            </label>
-                            <input asp-for="NewPassword"
-                                   type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
-                                   id="input-new-password" placeholder="" style="height: 34px" autocomplete="off">
-                        </div>
+                        @*<div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                                <label asp-for="NewPassword"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
+                                </label>
+                                <input asp-for="NewPassword"
+                                       type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-new-password" placeholder="" style="height: 34px" autocomplete="off">
+                            </div>*@
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
@@ -116,14 +116,14 @@
                                    type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
                                    id="input-first-address" placeholder="">
                         </div>
-                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
-                            <label asp-for="ConfirmPassword"
-                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
-                            </label>
-                            <input asp-for="ConfirmPassword"
-                                   type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
-                                   id="input-confirm-new-password" placeholder="" style="height: 34px" autocomplete="off">
-                        </div>
+                        @*<div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
+                                <label asp-for="ConfirmPassword"
+                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
+                                </label>
+                                <input asp-for="ConfirmPassword"
+                                       type="password" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                       id="input-confirm-new-password" placeholder="" style="height: 34px" autocomplete="off">
+                            </div>*@
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
@@ -139,7 +139,7 @@
                                    class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center font-weight-bold pl-lg-3 pl-md-3 pl-0 mr-4 mb-1 mb-lg-0 mb-md-0">
                             </label>
                             <input asp-for="CompanyName"
-                                    type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
                                    id="input-companyname" placeholder="" style="height: 34px" autocomplete="off" disabled>
                         </div>
                     </div>
@@ -165,13 +165,13 @@
                                         class=" btn  btn-xl btn-outline-danger justify-content-center float-md-none font-weight-bold btn-block col-lg-5 col-md-5 col-7 m-0 p-0"
                                         onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
                                         onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                                        style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">&#65291; @Localizer["Add"]</button>
+                                        style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                                    &#65291; @Localizer["Add"]
+                                </button>
                             </div>
                         </div>
-
-
                     </div>
-                   
+
 
                 </div>
                 <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
@@ -182,17 +182,32 @@
                         <div class="col-12 my-2 text-center">
                             <button asp-action="Update" asp-controller="Account" type="submit" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
                                     style="background: #36C233; border: 1px solid #36C233; height: 48px">
-                                @Localizer["Company Setting Save"]"
+                                @Localizer["Company Setting Save"]
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-12 my-2 text-center">
+                            <button type="button" name="btnLink" id="btnLink" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                    style="background: #36C233; border: 1px solid #36C233; height: 48px">
+                                @Localizer["Change Password"]
                             </button>
                         </div>
                     </div>
                 </div>
                 @*</form>*@
             </div>
-
         </form>
     </div>
 
+
+    <div class="modal fade" id="ModalPopUp" role="dialog">
+        <div class="modal-dialog err-pop" style="">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
 
 
     @section Scripts {
@@ -200,6 +215,46 @@
 
 <script>
             $(function () {
+                var userId = document.getElementById("id-value-id-user").value;
+                $(document).on("click", "#btnLink", function () {
+                    $('#ModalPopUp').modal('show');
+                    $(".modal-content").html(gethtmlloading());
+                    var urlfin = '@Url.Content("~/Account/ChangePasswordModal?userId=")' + userId;
+                    $.get(urlfin, function (data) {
+                        $(".modal-content").html(data);
+                    });
+                });
+                $(document).on('click', '[data-save="modal"]', function (event) {
+                    event.preventDefault();
+
+                    var form = $(this).parent().parents().find('.modal-body').find('form');
+                    var actionUrl = form.attr('action');
+                    var dataToSend = form.serialize();
+
+                    $.post(actionUrl, dataToSend).done(function (data, statusText, xhr) {
+                        var isValid = false;
+
+                        if (data && data.res && data.res == "OK")
+                            isValid = true;
+
+                        if (isValid) {
+                            $('#modDialog').modal('hide');
+                            $('#dialogContent').empty();
+
+                            window.location.href = data.returnUrl;
+                        }
+                        else {
+                            var newBody = $('.modal-body', data);
+                            $(document).find('.modal-body').replaceWith(newBody);
+                        }
+                    }).fail(function (xhr, status, error) {
+                        var message = error + '\r\n';
+                        if (xhr)
+                            message += xhr.responseText;
+                        dialog_error(message);
+                        // $('html').html(xhr.responseText); 
+                    });
+                });
 
                 $("#nav-content-fin").html(gethtmlloading());
 
@@ -237,10 +292,10 @@
 
                 });
                 $.get('/Account/UserChilds?view=UserChildsData', function (data) {
-                    var childcontainer=$('#child-container')
+                    var childcontainer = $('#child-container')
                     childcontainer.find('.child-data').remove();
                     childcontainer.append(data);
-                   // $("#nextchilds").html(data);
+                    // $("#nextchilds").html(data);
 
                 });
                 $("#addchild").click(function (e) {
@@ -283,7 +338,7 @@
     }
 
 }
-            
+
 else
 {
 
@@ -412,7 +467,7 @@ else
         </div>
     </form>
 
-   
+
 
 
 }

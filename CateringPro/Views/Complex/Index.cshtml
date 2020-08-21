@@ -1,81 +1,178 @@
-@model IEnumerable<Complex>
+﻿@model IEnumerable<Complex>
+@using  CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
     var ModelName = "Complex";
     ViewData["Title"] = ModelName;
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
 }
-
-
-<div class="container">
-    <div class="row justify-content-end">
-        <div class="col-md-6 right">
-            <h2>@Localizer["Complex"]</h2>
+@if (Layout == "_LayoutCabachok")
+{
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+                <p class="h2 h2-mob"
+                   style="font-weight: 600">
+                    @Localizer["Complex"]
+                </p>
+            </div>
         </div>
-        <div class="col-md-6 right">
-            <div id="custom-search-input">
-                <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Complex"]" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" id="search-btn" type="button">
-                            <span class="fa fa-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
+            @Html.DisplaySortField(model => model.Name).AddSortField(model => model.Category.Name).AddSortField(model => model.Price).AddSortField(model => model.DishesQuantity).Display(querymodel)
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    <div class="form-inline col-12 p-0" style=" display: flex;">
+                        <input id="search-val" class="form-control  w-100" type="search" placeholder=" @Localizer["Complex"]..." aria-label="Search"
+                               style="font-size: 16px; color:#797979; height: 48px; background: url('../img/search-icon.svg') no-repeat 95%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button" id="create-btn"
+                            class="create btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @Localizer["Add"]
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
+             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+
+            @Html.DisplayListHeaderForEx(model => model.Name, new { colnumbers = 3 })
+            @Html.DisplayListHeaderForEx(model => model.Price, new { colnumbers = 3 })
+            @Html.DisplayListHeaderForEx(model => model.Category.Name, new { colnumbers = 2 })
+            @Html.DisplayListHeaderForEx(model => model.DishesQuantity, new { colnumbers = 2 })
+            @*<div class="col-3" style="cursor: pointer"><span class="sort-span">Назва</span></div>
+            <div class="col-3" style="cursor: pointer"><span class="sort-span">Вартість</span></div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Категорія</span></div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Кількість страв</span></div>*@
+            <div class="col-2"></div>
+
+
+        </div>
+        <div id="table-content"  data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="table-content row mx-0 justify-content-start w-100 align-content-center">
+
+        </div>
+
+        <div class="col-lg-4 p-0 col-12 d-lg-none d-md-none d-block position-sticky sticky-class align-content-center "
+             style="display: flex; bottom: -2px; height: 70px; background: #ffffff; box-shadow: 0 -11px 22px -15px rgba(0, 0, 0, 0.25);">
+            <div class="container p-0 h-100">
+                <div class="col-12 p-0 justify-content-center h-100 align-items-center d-flex">
+                    <button type="button" id="create-btn"
+                            class="create btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                        &#65291; @Localizer["Add"]
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 d-lg-none d-md-none d-block" style="z-index: 10; background: #ffffff">
+            <div class="col-12 p-0 justify-content-center h-100 align-items-end d-flex mt-4">
+                @*<button type="button"
+                        class="btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none  btn-block col-5"
+                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                        style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 16px; font-weight: 500">
+                    Показать ще
+                </button>*@
+            </div>
+        </div>
+
+
+    </div>
+    <div id="modDialog" class="modal fade complex-form">
+        <div id="dialogContent" class="modal-dialog">
+
+        </div>
+
+    </div>
+    <div id="modDialogcomplexline" class="modal modal-search fade complex-line">
+        <div id="dialogContentcomplexline" class="modal-dialog modal-search-dialog">
+            <div class="modal-content modal-content-search">
+                <div id="responseS" class="row"></div>
+                <div class="modal-header">
+                    <input type="text" id="search-dishes" class="form-control input-lg" placeholder="...." />
+                    <button type="button" class="close" data-toggle="modal" data-target="#modDialogcomplexline">X</button>
+                </div>
+                <div class="modal-body modal-search-body">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-6 right">
+                <h2>@Localizer["Complex"]</h2>
+            </div>
+            <div class="col-md-6 right">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Complex"]" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" id="search-btn" type="button">
+                                <span class="fa fa-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div id="table-content" class="table-content">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
+                <div id="create-btn" class="col-lg-3 col-md-3 create">
+
+                    <span class="fa fa-cart-plus fa-2x" aria-hidden="true"></span>
+                    <span aria-hidden="true">@Localizer["Add"]</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12">
-            <div id="table-content" class="table-content">
+    <div id="modDialog" class="modal fade complex-form">
+        <div id="dialogContent" class="modal-dialog">
 
-            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-            <div id="create-btn" class="col-lg-3 col-md-3 create">
 
-                <span class="fa fa-cart-plus fa-2x" aria-hidden="true"></span>
-                <span aria-hidden="true">@Localizer["Add"]</span>
-            </div>
-        </div>
     </div>
-</div>
-<div id="modDialog" class="modal fade complex-form" >
-    <div id="dialogContent" class="modal-dialog">
-       
-    </div>
-    
-</div>
-<div id="modDialogcomplexline" class="modal modal-search fade complex-line">
-    <div id="dialogContentcomplexline" class="modal-dialog modal-search-dialog">
-        <div class="modal-content modal-content-search">
-            <div id="responseS" class="row"></div>
-            <div class="modal-header">
+    <div id="modDialogcomplexline" class="modal modal-search fade complex-line">
+        <div id="dialogContentcomplexline" class="modal-dialog modal-search-dialog">
+            <div class="modal-content modal-content-search">
+                <div id="responseS" class="row"></div>
+                <div class="modal-header">
                     <input type="text" id="search-dishes" class="form-control input-lg" placeholder="...." />
                     <button type="button" class="close" data-toggle="modal" data-target="#modDialogcomplexline">X</button>
-            </div>
-            <div class="modal-body modal-search-body">
-            </div>
+                </div>
+                <div class="modal-body modal-search-body">
+                </div>
 
+            </div>
         </div>
+
     </div>
-    @*<div id="IncorrectModal" class="modal" >
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Localizer["Complex"]</h5>
-                <button class="close" data-dismiss="modal" area-hidden="true">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-            </div>
-            <div class="modal-body">
-                <p>You can't add the same dish</p>
-            </div>
-        </div>
-    </div>*@
-</div>
-
+}
 @section Scripts
 {
     <script type="text/javascript">
@@ -269,7 +366,7 @@
                                     pagehandler.reload();
                                     return;
                                 }
-                            
+
                         }
 
                     })

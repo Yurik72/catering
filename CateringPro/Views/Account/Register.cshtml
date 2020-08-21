@@ -5,7 +5,7 @@
 }
 
 <h2>@Localizer["Register Title"]</h2>
-<form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal" role="form">
+<form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal col-12" role="form">
 
     <hr />
     <ul>
@@ -19,40 +19,45 @@
         }
     </ul>
     <div class="form-group">
-        <label asp-for="UserName" class="col-md-2 control-label float-left"></label>
+        <label asp-for="UserName" class="col-md-2 control-label float-left">@Localizer["UserName"]*</label>
         <div class="col-md-10 float-left">
             <input asp-for="UserName" class="form-control float-left" autocomplete="off" />
             <span asp-validation-for="UserName" class="text-danger"></span>
+            <label>@Localizer["LoginRules"]</label>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label float-left"></label>
+        <label asp-for="Email" class="col-md-2 control-label float-left">@Localizer["Email"]*</label>
         <div class="col-md-10 float-left">
             <input asp-for="Email" class="form-control float-left" autocomplete="off" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
+    <br />
     <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label float-left">@Localizer["Password"]</label>
+        <label asp-for="Password" class="col-md-2 control-label float-left">@Localizer["Password"]*</label>
         <div class="col-md-10 float-left">
             <input asp-for="Password" class="form-control float-left" autocomplete="off" />
             <span asp-validation-for="Password" class="text-danger"></span>
+            <label>@Localizer["PasswordRequirements"]</label>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="PhoneNumber" class="col-md-2 control-label float-left"></label>
+        <label asp-for="PhoneNumber" class="col-md-2 control-label float-left">@Localizer["PhoneNumber"]*</label>
         <div class="col-md-10 float-left">
             <input asp-for="PhoneNumber" class="form-control" />
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label asp-for="NameSurname" class="col-md-2 control-label float-left"></label>
+        <label asp-for="NameSurname" class="col-md-2 control-label float-left">@Localizer["NameSurname"]*</label>
         <div class="col-md-10 float-left">
             <input asp-for="NameSurname" class="form-control" />
             <span asp-validation-for="NameSurname" class="text-danger"></span>
+            <label>@Localizer["NameSurnameRules"]</label>
         </div>
     </div>
+    <br />
     <div class="form-group">
         <label asp-for="City" class="col-md-2 control-label float-left"></label>
         <div class="col-md-10 float-left">
@@ -88,9 +93,10 @@
             <span asp-validation-for="Country" class="text-danger"></span>
         </div>
     </div>
+    <label>@Localizer["RequiredFields"]</label>
     <div class="form-group">
         <div class="col-md-2 control-label float-left">
-            <input type="submit" value = @Localizer["Register"] class="btn btn-primary" />
+            <input type="submit" value=@Localizer["Register"] class="btn btn-primary" />
         </div>
     </div>
 </form>

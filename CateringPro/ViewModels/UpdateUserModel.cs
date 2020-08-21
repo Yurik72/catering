@@ -96,6 +96,10 @@ namespace CateringPro.ViewModels
         public bool IsNew { get; set; }
         [DisplayName("CompanyName")]
         public string CompanyName { get; set; }
+        public bool IsModal { get; set; }
+        [ScaffoldColumn(false)]
+        public string ReturnUrl { get; set; }
+        public List<string> Errors { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
             if (usr != null)

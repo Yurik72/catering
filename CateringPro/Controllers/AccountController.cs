@@ -146,14 +146,14 @@ namespace CateringPro.Controllers
                 return View("EmailSent", model);
             }
         }
-        [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
-        {
-            return View(new LoginViewModel
-            {
-                ReturnUrl = returnUrl
-            });
-        }
+        //[AllowAnonymous]
+        //public IActionResult Login(string returnUrl)
+        //{
+        //    return View(new LoginViewModel
+        //    {
+        //        ReturnUrl = returnUrl
+        //    });
+        //}
         [AllowAnonymous]
         public IActionResult LoginModal(string returnUrl)
         {
@@ -219,7 +219,7 @@ namespace CateringPro.Controllers
             if (user != null && !user.EmailConfirmed)
             {
                 _logger.LogWarning("User: {0} hasn't confirmed Email: {1}", model.UserName, user.Email);
-                ModelState.AddModelError("", "You have to confirm your Email before");
+                ModelState.AddModelError("", _localizer.GetLocalizedString("You have to confirm your Email before"));
                 return View("LoginModal", model);
             }
             if (user == null)
@@ -681,6 +681,94 @@ namespace CateringPro.Controllers
             //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
             return PartialView(await query.ToListAsync());
         }
+
+
+        public IActionResult ChangePasswordModal(string userId)
+        {
+            return PartialView("ChangePasswordModal", new UpdateUserModel
+            {
+                Id = userId
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangeOldPassword([Bind("Id,NewPassword,OldPassword,ConfirmPassword")] UpdateUserModel um)
+        {
+
+            //if (!ModelState.IsValid)
+            //{
+            //    if (um.IsModal)
+            //    {
+            //        return View("Update", um);
+            //    }
+
+            //    else
+            //    {
+            //        return View("ChangePasswordModal", um);
+            //    }
+
+            //}
+            string logged_id = User.GetUserId();
+            if (logged_id != um.Id)
+            {
+                ModelState.AddModelError("", "User Not Found");
+                return View(null);
+            }
+            CompanyUser user = await _userManager.FindByIdAsync(logged_id);
+            if (user != null)
+            {
+                if(string.IsNullOrEmpty(um.OldPassword) || string.IsNullOrEmpty(um.NewPassword) || string.IsNullOrEmpty(um.ConfirmPassword))
+                {
+                    ModelState.AddModelError("", _localizer.GetLocalizedString("CanNotBeEmpty"));
+                    _logger.LogWarning("Update user,  password for user {0} is invalid", user.UserName);
+                    return View("ChangePasswordModal", um);
+                }
+                if (um.IsPasswordChanged)
+                {
+                    var validate = await _signInManager.CheckPasswordSignInAsync(user, um.OldPassword, false);
+                    if (!validate.Succeeded)
+                    {
+                        ModelState.AddModelError("", "Previous password is not correct");
+                        _logger.LogWarning("Update user,  password for user {0} is invalid", user.UserName);
+                        return View("ChangePasswordModal", um);
+                    }
+                    else
+                    {
+                        if (um.NewPassword.Equals(um.ConfirmPassword)) 
+                        {
+                            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                            var result = await _userManager.ResetPasswordAsync(user, token, um.NewPassword);
+                            if (result.Succeeded)
+                            {
+                                ModelState.AddModelError("", "New password applied succesfully");
+                                _logger.LogWarning("Update user password,  new password for user {0} was applied", user.UserName);
+                                return View("ChangePasswordModal", um);
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("", "pass should contain 8 values, one capital and numbers");
+                                um.Errors = result.Errors.Select(x => x.Description).ToList();
+                                _logger.LogWarning("Error updating password for user: {0} ", user.UserName);
+                                return View("ChangePasswordModal", um);
+                            }
+                            //user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, um.NewPassword);
+                            //ModelState.AddModelError("", "New password applied succesfully");
+                            //_logger.LogWarning("Update user password,  new password for user {0} was applied", user.UserName);
+                            //return View("ChangePasswordModal", um);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", _localizer.GetLocalizedString("PasswordMismatch"));
+                            _logger.LogWarning("Change password,  passwords mismatch");
+                            return View("ChangePasswordModal", um);
+                        }
+                    }
+                }
+            }
+            return View("ChangePasswordModal",um);
+        }
+
 
         [Authorize]
         [HttpPost]
