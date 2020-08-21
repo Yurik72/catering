@@ -140,7 +140,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error adding fin income", ex);
+                _logger.LogError("Error adding fin income {0}", ex);
                 return null;
             }
           
@@ -220,6 +220,7 @@ namespace CateringPro.Repositories
         {
             try
             {
+                _logger.LogWarning("Save response start");
                 string orderid = dataresult["order_id"];
                 _logger.LogWarning("Processing orderid {0}", orderid);
                 string orderuserid = GetUserIDfromOrderID(orderid);
@@ -267,7 +268,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("SaveResponse", ex);
+                _logger.LogError( ex, "SaveResponse ");
                 return false;
             }
         }
@@ -309,7 +310,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("RegisterWidgetCallback", ex);
+                _logger.LogError( ex , "RegisterWidgetCallbackAsync");
                 return false;
             }
         }
