@@ -173,6 +173,7 @@
             }
             @foreach (var item in Model.Items)
             {
+           
                 @if (date != item.DayComplex.Date)
                 {
                     date = item.DayComplex.Date;
@@ -222,7 +223,7 @@
                             
                         </tr>
                     }
-                    else if (item.DayComplex.ComplexDishes.Count() > 0)
+                    else if (item.DayComplex != null && item.DayComplex.ComplexDishes != null && item.DayComplex.ComplexDishes.Count() > 0)
                     {
 
 

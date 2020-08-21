@@ -84,7 +84,7 @@
                             <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
                                 <label asp-for="Amount"
                                        class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Сума</label>
-                                <input class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                <input class="form-control col-12 col-lg-8 col-md-8 pl-9 "
                                        asp-for="Amount" disabled="disabled"
                                        placeholder="Сума" style="height: 34px; font-family: Open-Sans, sans-serif">
                                 <span asp-validation-for="Amount" class="text-danger"></span>
@@ -167,12 +167,12 @@
                                                          style="font-size: 16px">
                                                         <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                                                               style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
-                                                            <input class="form-control  w-100" type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                                                            <input class="form-control  w-100 doc-line-amount" type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
                                                         </div>
                                                         <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
                                                              style="font-size: 16px">
                                                             <span class="col-4 p-0 d-md-none d-lg-none d-inline"
-                                                                  style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
+                                                                  style="font-size: 14px; font-weight: bold"> @Localizer["DocLine ValidTo"]</span>
                                                                 <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
                                                                     <input asp-for="@line.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control w-100 doc-line-validto" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif " />
                                                                     @*<span class="input-docs">
@@ -217,7 +217,7 @@
             $(".doc-type").each(function (opt) {
                 //console.log($(this).attr("data-sel"));
                 if ($(this).attr("data-sel") == "true") {
-                    console.log($(this).val());
+                   // console.log($(this).val());
                     $(".sel-type").val($(this).val());
                 }
             });

@@ -249,22 +249,40 @@ namespace CateringPro.Controllers
                 model.Items = items;
                 for (int i = 0; i < 6; i++)
                 {
-                    _logger.LogWarning("for i={0}", i);
+                   
                     daydate = daydate.AddDays(1);
+                    
                     avaible = _userdaydishesrepo.AvaibleComplexDay(daydate, userid, comapnyid);
+                
                     var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+                    var nextItems = nextModel.Items.ToList();
+                    var onlyComplex = new List<InvoiceItemModel>();
+                    foreach(var it in nextItems)
+                    {
+                        if (it.DayComplex != null)
+                        {
+                            onlyComplex.Add(it);
+                        }
+                    }
+                    nextItems = onlyComplex;
                     items = model.Items.ToList();
+                    
                     if (avaible.Count() > 0 && nextModel.Items.ToList().Count() == 0)
                     {
                         var inItem = new InvoiceItemModel();
                         inItem.DayComplex = new UserDayComplexViewModel();
                         inItem.DayComplex.Date = daydate;
+                        
                         inItem.DayComplex.Enabled = false;
+                     
                         items.Add(inItem);
 
+                       //items.AddRange(nextModel.Items.ToList());
                     }
-                    items.AddRange(nextModel.Items.ToList());
+                    items.AddRange(nextItems);
+                
                     model.Items = items;
+                    
 
 
                 }

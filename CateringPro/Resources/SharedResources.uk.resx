@@ -208,10 +208,10 @@
     <value>Мої замовлення</value>
   </data>
   <data name="DateFrom" xml:space="preserve">
-    <value>Вiд</value>
+    <value>Вiд:</value>
   </data>
   <data name="DateTo" xml:space="preserve">
-    <value>До</value>
+    <value>До:</value>
   </data>
   <data name="Day Ingredients" xml:space="preserve">
     <value>Розрахунок продуктiв</value>
@@ -888,5 +888,8 @@
   <data name="SendEmailCreatedByAdmText" xml:space="preserve">
     <value>
       Вітаю, {0} Ваш обліковий запис було створено адміністратором Наразі вам доступний весь функціонал Login: {1} Необхідно перейти за посиланням для встановлення паролю:</value>
+  </data>
+  <data name="AddToMenu" xml:space="preserve">
+    <value>Додати в меню</value>
   </data>
 </root>

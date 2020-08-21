@@ -129,6 +129,10 @@ function setup_changechield() {
 
 //    }
 //}
+var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+function getWeekDay(i) {
+    return days[i];
+}
 function setup_changecompany() {
     $("#selectcompany").click(function (e) {
         var id = $(this).attr("data-userid");
@@ -186,9 +190,10 @@ function setup_changecompany() {
 function setup_listitems(options) {
     let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems", editmethod: "EditModal", createmethod: "CreateModal" };
     if (typeof (options) == 'object') {
-         this.options = { ...defaultoptions, ...options };
+        //new versoins
+         //this.options = { ...defaultoptions, ...options };
         //edge troubles with es6
-        /*
+        
         this.options = defaultoptions
         this.options.href = options.href;
         if (options.onloadedcb)
@@ -199,7 +204,7 @@ function setup_listitems(options) {
             this.options.editmethod = options.editmethod;
         if (options.createmethod)
             this.options.createmethod = options.createmethod;
-            */
+            
     }
     else {
 
@@ -409,6 +414,8 @@ function setup_listitems(options) {
         event.preventDefault();
 
         var form = $(this).parents('.modal-body').find('form');
+        if (form.length == 0)
+            form = $('#modDialog').find('.modal-body').find('form');
         var actionUrl = $(event.target).attr('action');
         var dataToSend = form.serialize();
 

@@ -3,70 +3,231 @@
 @{
 
 }
-
-
-<h2 class="text-center">@Localizer["Reports"]</h2>
-@* @await Component.InvokeAsync("ReportParamDateRange") *@
-
-<div class="container">
-    <div class="row">
-        <div class="col-4">
-            <div class="ui-widget report-param-box">
-                <label for="datep">@Localizer["DateFrom"] </label><input id="datefrom" />
+@if (Layout == "_LayoutCabachok")
+{
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
+            <div class="col-12 col-xl-9 col-md-9 col-sm-12 align-content-center mr-md-auto pl-0">
+                <a class="h2 h2-mob d-flex align-items-center link-back" href="../index.html"
+                   style="font-weight: 600; color: #232323; text-decoration: none; width: 110px; ">
+                    <img src="../img/back-report.svg" class="mr-3" alt="">Звіти
+                </a>
             </div>
         </div>
-        <div class="col-4">
-            <div class="ui-widget report-param-box">
-                <label for="datep">@Localizer["DateTo"]</label><input id="dateto" />
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="ui-widget report-param-box">
-                <label for="format">@Localizer["Format"]</label>
-                <select class="form-control" id="format">
-                    <option value="pdf">Pdf</option>
-                    <option value="xlsx">Exel</option>
-                    <option value="html">Html</option>
-                </select>
-            </div>
-        </div>
-    </div>
+        <div class="col-12 p-0 d-flex justify-content-center">
+            <div class="col-lg-9 col-md-8 col-12 d-flex flex-column p-0">
+                <div class="col-12 p-0 d-flex flex-wrap justify-content-around">
+                    <div class="col-lg-5 col-md-9 col-sm-8  col-6 d-flex justify-content-lg-between justify-content-md-between  justify-content-center flex-md-row flex-lg-row flex-column p-0"
+                         style="box-sizing: border-box">
+                        <div class="col-9  col-lg-6 col-md-6 col-sm-6 p-0 d-flex justify-content-between align-items-center "
+                             style="height: 34px">
+                            <label for="datefrom"
+                                   class="mb-0"
+                                   style="font-size: 16px; color: #232323">@Localizer["DateFrom"]</label>
+                                <input id="datefrom" class="inputs-report ml-3 mr-lg-3 mr-md-3 mr-0">
+                               
+                            </div>
+                        <div class="col-9 col-lg-6 col-md-6 col-sm-6 p-0 d-flex justify-content-between align-items-center mt-3 mt-lg-0 mt-md-0"
+                             style="height: 34px">
+                            <label for="dateto"
+                                   class="mb-0 ml-lg-3 ml-md-3 ml-0"
+                                   style="font-size: 16px; color: #232323">@Localizer["DateTo"]</label>
+                                
+                                <input id="dateto" class="inputs-report ml-3" >
+                            </div>
+                                
+                            </div>
+                    <div class="col-9 col-lg-6 col-md-6 col-sm-6 p-0 d-flex justify-content-between align-items-center mt-3 mt-lg-0 mt-md-0" style="box-sizing: border-box">
+         
+    <label for="format">@Localizer["Format"]</label>
+    <select class="form-control" id="format">
+        <option value="pdf">Pdf</option>
+        <option value="xlsx">Exel</option>
+        <option value="html">Html</option>
+    </select>
 </div>
-<div class="container">
-    @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("KitchenAdmin"))
-    {
-    <div class="row report-name">
-        <div class="col">
-            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyProductionForecast" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["ForecastProductionStock"]</a>
+                </div>
+                <div class="col-12 p-0 d-flex flex-wrap justify-content-around mt-4">
+                    @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("KitchenAdmin"))
+                    {
+                        <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4 set-datefrom set-dateto set-format"
+                           asp-controller="Report" asp-action="CompanyProductionForecast"
+                           asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                           asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()"
+                           asp-route-format="html" target="_blank"
+                           style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px">
+                                <img src="../img/forecast-img.svg"
+                                     alt="">
+                            </div>
+                            <div class="col-9 d-flex justify-content-center mb-4">
+                                <span style="text-align: center; font-weight: 500; font-size: 18px;">@Localizer["ForecastProductionStock"]</span>
+                            </div>
+                        </a>
+                        <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4 set-datefrom set-dateto set-format"
+                           asp-controller="Report"
+                           asp-action="CompanyDayProduction"
+                           asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                           asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()"
+                           asp-route-format="html" target="_blank"
+                           style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px">
+                                <img src="../img/production-img.svg"
+                                     alt="">
+                            </div>
+                            <div class="col-7 d-flex justify-content-center mb-4">
+                                <span style="text-align: center; font-weight: 500; font-size: 18px;">@Localizer["CompanyDayProduction"]</span>
+                            </div>
+                        </a>
+                        <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4 set-datefrom set-dateto set-format"
+                           asp-controller="Report"
+                           asp-action="CompanyMenu"
+                           asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                           asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()"
+                           asp-route-format="html" target="_blank"
+                           style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px">
+                                <img src="../img/day-menu-img.svg"
+                                     alt="">
+                            </div>
+                            <div class="col-5 d-flex justify-content-center mb-4">
+                                <span style="text-align: center; font-weight: 500; font-size: 18px;">@Localizer["CompanyMenu"]</span>
+                            </div>
+                        </a>
+                        <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4 set-datefrom set-dateto set-format"
+                           asp-controller="Report"
+                           asp-action="DishSpecification"
+                           asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                           asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()"
+                           asp-route-format="html" target="_blank"
+                           style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px">
+                                <img src="../img/calculating-img.svg"
+                                     alt="">
+                            </div>
+                            <div class="col-7 d-flex justify-content-center mb-4">
+                                <span style="text-align: center; font-weight: 500; font-size: 18px;">@Localizer["DishSpecification"]</span>
+                            </div>
+                        </a>
+                        <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4 set-datefrom set-dateto set-format" 
+                       asp-controller="Report" asp-action="ConsigmentStock" 
+                       asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                       asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" 
+                       asp-route-format="html" target="_blank"
+                           style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px">
+                                <img src="../img/calculating-img.svg"
+                                     alt="">
+                            </div>
+                            <div class="col-7 d-flex justify-content-center mb-4">
+                                <span style="text-align: center; font-weight: 500; font-size: 18px;">@Localizer["ConsignmentStock"]</span>
+                            </div>
+                        </a>
+                    }
+
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row report-name">
-        <div class="col">
-            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyDayProduction" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["CompanyDayProduction"]</a>
+}
+else
+{
+
+    <h2 class="text-center">@Localizer["Reports"]</h2>
+    @* @await Component.InvokeAsync("ReportParamDateRange") *@
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div class="ui-widget report-param-box">
+                    <label for="datep">@Localizer["DateFrom"] </label><input id="datefrom" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="ui-widget report-param-box">
+                    <label for="datep">@Localizer["DateTo"]</label><input id="dateto" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="ui-widget report-param-box">
+                    <label for="format">@Localizer["Format"]</label>
+                    <select class="form-control" id="format">
+                        <option value="pdf">Pdf</option>
+                        <option value="xlsx">Exel</option>
+                        <option value="html">Html</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row report-name">
-        <div class="col">
-            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="CompanyMenu" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["CompanyMenu"]</a>
-        </div>
+    <div class="container">
+        @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("KitchenAdmin"))
+        {
+            <div class="row report-name">
+                <div class="col">
+                    <a class="set-datefrom set-dateto set-format" 
+                       asp-controller="Report" asp-action="CompanyProductionForecast" 
+                       asp-route-datefrom="@DateTime.Today.ShortJSDate()" 
+                       asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" 
+                       asp-route-format="html" target="_blank">@Localizer["ForecastProductionStock"]</a>
+                </div>
+            </div>
+            <div class="row report-name">
+                <div class="col">
+                    <a class="set-datefrom set-dateto set-format" 
+                       asp-controller="Report" 
+                       asp-action="CompanyDayProduction" 
+                       asp-route-datefrom="@DateTime.Today.ShortJSDate()" 
+                       asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" 
+                       asp-route-format="html" target="_blank">@Localizer["CompanyDayProduction"]</a>
+                </div>
+            </div>
+            <div class="row report-name">
+                <div class="col">
+                    <a class="set-datefrom set-dateto set-format" 
+                       asp-controller="Report" 
+                       asp-action="CompanyMenu" 
+                       asp-route-datefrom="@DateTime.Today.ShortJSDate()" 
+                       asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" 
+                       asp-route-format="html" target="_blank">@Localizer["CompanyMenu"]</a>
+                </div>
+            </div>
+            <div class="row report-name">
+                <div class="col">
+                    <a class="set-datefrom set-dateto set-format" 
+                       asp-controller="Report" 
+                       asp-action="DishSpecification" 
+                       asp-route-datefrom="@DateTime.Today.ShortJSDate()" 
+                       asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" 
+                       asp-route-format="html" target="_blank">@Localizer["DishSpecification"]</a>
+                </div>
+            </div>
+            <div class="row report-name">
+                <div class="col">
+                    <a class="set-datefrom set-dateto set-format" 
+                       asp-controller="Report" asp-action="ConsigmentStock" 
+                       asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                       asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" 
+                       asp-route-format="html" target="_blank">@Localizer["ConsignmentStock"]</a>
+                </div>
+            </div>
+        }
     </div>
-    <div class="row report-name">
-        <div class="col">
-            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="DishSpecification" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["DishSpecification"]</a>
-        </div>
-    </div>
-    <div class="row report-name">
-        <div class="col">
-            <a class="set-datefrom set-dateto set-format" asp-controller="Report" asp-action="ConsigmentStock" asp-route-datefrom="@DateTime.Today.ShortJSDate()" asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()" asp-route-format="html" target="_blank">@Localizer["ConsignmentStock"]</a>
-        </div>
-    </div>
-    }
-</div>
-<script type="text/javascript">
+}
+@section scripts
+{
+    <script type="text/javascript">
 $(function() {
 
     var dtfrom=$('#datefrom').datepicker();
     var dtto = $('#dateto').datepicker();
+    //var dtfrom = $('#datefrom');
+    //var dtto = $('#dateto');
     var format = $("#format").val("html");
     dtfrom.datepicker('setDate', new Date(@DateTime.Today.MSDateSince1970()));
     dtto.datepicker('setDate', new Date(@DateTime.Today.AddDays(3).MSDateSince1970()));
@@ -80,8 +241,8 @@ $(function() {
     dtto.change(function (el) {
          $(".set-dateto").each(function (idx,elem) {
             var href = $(elem).attr('href');
-            href =buildUrl(href,"dateto", dtfrom.datepicker('getDate'));
-            $(elem).attr('href', href); 
+             href = buildUrl(href, "dateto", dtto.datepicker('getDate'));
+            $(elem).attr('href', href);
          });
 
     });
@@ -105,4 +266,5 @@ $(function() {
     }
 
 });
-</script>
+    </script>
+    }

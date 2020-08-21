@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/custom-select.css">
+    <title>Кабачок</title>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100%">
+<header>
+    <div class="container-xl container-md container-sm container">
+        <nav class="navbar navbar-light navbar-expand-lg flex-grow-0 px-0">
+            <a class="navbar-brand" href="#"><img src="../img/logo.png" alt="Catering logo"></a>
+            <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbarburger1"
+                    aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation"
+                    style="border: none; outline: none">
+                <img src="../img/hamburger-icon.svg" alt="">
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarburger1">
+                <ul class="navbar-nav nav justify-content-end float-right mr-0" id="nav-bar-burger"
+                    style="background: #ffffff">
+                    <li class="nav-item ml-3">
+                        <a class="nav-link px-0 navbar-size-14" href="#" style="color: #232323"><img
+                                src="../img/login-icon.svg"
+                                alt=""
+                                class="px-2">Увійти</a>
+                    </li>
+                    <li class="nav-item ml-3 float-right">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img src="../img/reg-icon.svg"
+                                                       alt="" class="px-2">Реєстрація</a>
+                    </li>
+                    <li class="nav-item ml-3 dropdown">
+                        <div class="nav-link text-main-color-dark px-0 navbar-size-14 dropdown-toggle"
+                             id="dropdown-admin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                             style="color: #232323; cursor: pointer"><img
+                                src="../img/admin-icon.svg"
+                                alt="" class="px-2">Адміністрування
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
+                             style="box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+                            <a class="dropdown-item change-btn-ef" href="./dishes.html">Список страв</a>
+                            <button class="dropdown-item" type="button">Лист категорій</button>
+                            <button class="dropdown-item" type="button">Інгредієнти</button>
+                            <a class="dropdown-item" href="./complex.html">Комплекс</a>
+                            <a class="dropdown-item" href="./admin/day-week-menu.html">Меню на день / тиждень</a>
+                            <button class="dropdown-item" type="button">Замовлення</button>
+                            <button class="dropdown-item" type="button">Склад</button>
+                            <button class="dropdown-item" type="button">Склад/Залишки</button>
+                            <a class="dropdown-item" href="./documents.html">Документи</a>
+                            <a class="dropdown-item" href="./settings.html">Налаштування</a>
+                            <a class="dropdown-item " href="./report.html">Звiти</a>
+                            <a class="dropdown-item" type="button" href="./users.html">Користувачi</a>
+                            <a class="dropdown-item" href="./users-group.html">Групи Користувачiв</a>
+                            <a class="dropdown-item" href="./mailing.html">Розсилки email</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="./profile.html"
+                           style="color: #232323"><img
+                                src="../img/profile-icon.svg"
+                                alt="" class="px-2">Мій
+                            профіль</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/basket-icon.svg"
+                                alt="" class="px-2">Мої
+                            замовлення</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/logout-icon.svg"
+                                alt="" class="px-2">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<main class="row mr-0 ml-0">
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2 h2-mob"
+                                                                                                  style="font-weight: 600">
+                Страви</p></div>
+        </div>
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-lg-start justify-content-center"
+                     style="display: flex; flex-wrap: nowrap">
+                    <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
+
+                    <select name="sources" id="sources" class="custom-select sources" placeholder="по ціні"
+                            style="border: none">
+                        <option class="drpdwn-btn selection" value="price"
+                                style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">по ціні
+                        </option>
+                        <option class="drpdwn-btn" value="popular">по популярності</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    <form class="form-inline col-12 p-0" style=" display: flex;">
+                        <input class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
+                               style="font-size: 16px; color:#797979; height: 48px; background: url('./img/search-icon.svg') no-repeat 95%;">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; СТВОРИТИ
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
+             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+            <div class="col-1">
+            </div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
+            <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
+            <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>
+            <div class="col-2"></div>
+
+        </div>
+        <div class="row ml-0 mr-0 mt-0 justify-content-center w-100">
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans,sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
+
+                <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
+                     style=" border: none">
+                    <div class="col-lg-5 p-lg-0 p-md-0 d-flex flex-row col-12 col-md-5 mt-3 mt-lg-0 mt-md-0">
+                        <div class="col-md-2 col-lg-2 col-sm-5 col-5 p-0 d-flex align-content-center"><img
+                                src="../img/dish-image.png"
+                                class="col-12 p-0 align-self-center"
+                                style="" alt="...">
+                        </div>
+                        <div class="col-md-10 col-lg-10 col-sm-7 col-7 p-0 flex-md-row flex-lg-row flex-column d-flex align-items-center">
+                            <div class="col-md-6 col-lg-6  align-items-center d-flex" style="height: 22px">
+                                <span class="col-sm-4 col-6 col-md-12 col-lg-12 span-gray-bg p-sm-0 pl-sm-1 pr-sm-1 pl-0 pr-0 pr-lg-3 pl-lg-3 pr-md-3 pl-md-3  text-center text-md-left text-lg-left"
+                                      style="font-size: 16px; height: 22px; ">Обід</span>
+
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-12   pl-sm-0 pl-0 pl-md-2 pl-lg-2 align-items-lg-center align-items-md-center align-items-sm-start d-flex pr-0"
+                                 style="height: 38px">
+                                <span class="col-12 align-content-center d-flex bold-w mt-2 mt-md-0 mt-lg-0 pr-0"
+                                      style=" height: 38px">Котлета по-київськи</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-7 p-0 align-items-center d-flex flex-lg-row flex-md-row flex-column mb-3 mb-lg-0 mb-md-0">
+                        <div class="col-md-7 col-lg-7 col-12 p-0 mt-2 mt-lg-0 mt-md-0">
+                            <span class="col-12 align-content-center d-flex change-w">Еко-котлета по Київськи з індички <br>
+                                Цибуля, філе індички</span>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-12 p-0 align-items-center d-flex">
+                            <div class="col-md-6 col-lg-6 col-8  pl-md-2 pl-lg-2 position-relative"
+                                 style="height: 30px">
+                                <span class="col-4 col-md-12 col-lg-12 p-0 align-content-center d-flex money-w"
+                                      style="font-family: Open-Sans, sans-serif">25,00 ₴</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-4 p-0 justify-content-between d-flex">
+                                <div class="btn" data-toggle="modal" data-target="#change-item-modal">
+                                    <img
+                                            src="../img/pen-icon.svg" alt="Change item">
+                                </div>
+                                <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="row" style="margin-top: 92px">
+            <div class="col-sm">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Previous"
+                               style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
+                                <span aria-hidden="true"><</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
+                                                 style="border: none; color: #232323; font-family: Open-Sans, sans-serif; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">1</a>
+                        </li>
+                        <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
+                                                 style="border: none; color: #232323; font-family: Open-Sans, sans-serif; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">2</a>
+                        </li>
+                        <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0 active-custom"
+                                                 href="#"
+                                                 style="border: none; color: #232323; font-family: Open-Sans, sans-serif; font-size: 16px; line-height: 22px; width: 40px; height: 40px;  text-align: center">3<span
+                                class="sr-only">(current)</span></a></li>
+                        <li class="page-item">
+                            <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Next"
+                               style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
+                                <span aria-hidden="true">></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="change-item-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 850px">
+            <div class="modal-content col-lg-12 col-12">
+                <div class="modal-header align-items-center pl-lg-4 pl-2" style="padding-top:20px">
+                    <h5 class="modal-title p-0" id="exampleModalLabel"
+                        style="font-size: 34px; line-height: 40px; font-weight: bold">Страва</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="../img/close-modal.svg" aria-hidden="true" alt="">
+                    </button>
+                </div>
+                <div class="modal-body col-auto">
+                    <div class="row justify-content-around flex-column flex-lg-row flex-md-row flex-sm-column align-content-sm-center align-content-center align-items-sm-center align-items-center"
+                         style=" min-height: 350px">
+                        <div class="col-12 col-xl-6 col-sm-12 col-md-12 p-0 "
+                             style="max-width: 350px;  ">
+                            <img class="col-12" src="../img/dish-image2.png" alt="" style="padding: 0">
+                            <div class="custom-file mt-3">
+                                <input type="file" class="custom-file-input" id="load-image"
+                                       placeholder="Файл не выбран..."
+                                       style="height: 48px; display: flex; align-items: center">
+                                <label class="custom-file-label" id="self-button" for="load-image"
+                                       style="height: 48px; display: flex; align-items: center">Файл не выбран</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-5 col-sm-6 col-md-5 justify-content-md-center justify-content-center mt-3 mt-md-0 mt-lg-0">
+                            <div class="row col-12 p-0 mt-2 mt-lg-0">
+                                <span class="h4 col-12 p-0"
+                                      style="font-weight: 500; font-size: 18px; line-height: 21px; color: #232323; margin-bottom: 16px;">Основні дані</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 p-0 ">
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px"><label class="col-4" for="Code"
+                                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Код</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0"><input id="Code"
+                                                                                                      class="form-control"
+                                                                                                      type="text"
+                                                                                                      placeholder="Код"
+                                                                                                      style="max-width: 245px; height: 34px">
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px"><label class="col-4" for="dish"
+                                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Страва</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0"><input id="dish"
+                                                                                                      class="form-control"
+                                                                                                      type="text"
+                                                                                                      placeholder="Страва"
+                                                                                                      style="max-width: 245px; height: 34px">
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px"><label class="col-4"
+                                                                           for="category-choose"
+                                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Категорія</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                            <div class="form-group mb-0">
+                                                <h4 data-toggle="dropdown" class="form-control dropdown-toggle m-0"
+                                                    style="max-width: 245px; height: 34px">
+                                                    Вартість <i class="fa fa-chevron-down"></i>
+                                                </h4>
+                                                <ul class="dropdown-menu w-100 mt-0" id="category-choose"
+                                                    style="border-radius: 0 4px 4px;">
+                                                    <a class="dropdown-item px-2 category-drp" href="#" value="price">
+                                                        Вартість
+                                                    </a>
+                                                    <a class="dropdown-item px-2 category-drp" href="#" value="weight">
+                                                        Вихід (гр.)
+                                                    </a>
+                                                    <a class="dropdown-item px-2 category-drp" href="#" value="ccal">
+                                                        Ккал
+                                                    </a>
+                                                    <a class="dropdown-item px-2 category-drp" href="#" value="about">
+                                                        Опис
+                                                    </a>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px"><label class="col-4" for="Price"
+                                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Вартість</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0"><input id="Price"
+                                                                                                      class="form-control"
+                                                                                                      type="text"
+                                                                                                      placeholder="Вартість"
+                                                                                                      style="max-width: 245px; height: 34px">
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px"><label class="col-4" for="weight"
+                                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Вихід
+                                        (гр.)</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0"><input id="weight"
+                                                                                                      class="form-control"
+                                                                                                      type="text"
+                                                                                                      placeholder="Вихід (гр.)"
+                                                                                                      style="max-width: 245px; height: 34px">
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px"><label class="col-4" for="ccal"
+                                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Ккал</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0"><input id="ccal"
+                                                                                                      class="form-control"
+                                                                                                      type="text"
+                                                                                                      placeholder="Ккал"
+                                                                                                      style="max-width: 245px; height: 34px">
+                                        </div>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px;"><label class="col-4" for="about"
+                                                                            style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">Опис</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                            <textarea class="form-control" id="about" rows="3" style="max-width: 245px">Еко-котлета по-Київські з індички</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row justify-content-center justify-content-xl-end justify-content-lg-end justify-content-md-end mb-4 mt-2">
+                        <div class="col-12 col-xl-6 col-sm-7 col-md-6 p-0 justify-content-xl-center"
+                             style="display: flex; margin-left: 2px">
+                            <div class="row col-12 justify-content-around align-items-center m-0 pl-xl-3 pr-xl-3 p-0 pl-lg-4 pr-lg-4 pl-md-4 pr-md-4">
+                                <div class="col-xl-8 col-sm-9 pl-xl-1 pl-sm-1 pl-0 col-10"
+                                     style="font-size: 18px; line-height: 21px; color: #232323; font-weight: 500;">
+                                    Інгредієнти-Пропорцiї
+                                </div>
+                                <div class="col-2 pr-0 mr-0 mr-lg-1">
+                                    <button type="button" class="btn btn-outline-danger float-right font-weight-bold"
+                                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                            style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
+                                        &#65291;<span class="d-none d-md-block">СТВОРИТИ</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-lg-end justify-content-xl-end justify-content-center">
+                        <div class="col-12 col-sm-12 col-xl-5 col-md-12 mr-xl-4 mr-0 justify-content-center p-0 "
+                             style="display: flex; justify-content: center;">
+                            <div class="col-12 col-sm-12 col-xl-12 col-md-12  mr-xl-3 mr-0"
+                                 style="border: 1px solid #B1B1B1; border-radius: 4px; height: 235px; overflow-y: scroll; box-sizing: border-box; width:340px">
+
+                                <div class="row mt-3" style="max-width: 350px;">
+                                    <div class="col">
+                                        <div class="row" style="margin-bottom: 9px">
+                                            <div class="col-4">Назва</div>
+                                            <div class="col-4">Частка</div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code1"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code1" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif"
+                                                                      value="Text">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code2"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code2" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif"
+                                                                      value="Text">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code3"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code3" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif;"
+                                                                      value="Text">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code4"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code4" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif"
+                                                                      value="Text">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code5"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code5" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif"
+                                                                      value="0.500">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code6"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code6" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif"
+                                                                      value="0.700">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center parent-delete" style="margin-bottom: 9px">
+                                            <label
+                                                    class="col-4" for="Code7"
+                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">Філе</label>
+                                            <div class="col-5"><input id="Code7" class="form-control" type="text"
+                                                                      placeholder="Код"
+                                                                      style="max-width: 153px; height: 34px; font-family: Open-Sans, sans-serif"
+                                                                      value="Text">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn delete-parent"
+                                                        style="background: none; border: none">
+                                                    <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center"
+                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                    <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                            style="background: #36C233; border: 1px solid #36C233; height: 48px">ЗБЕРЕГТИ
+                    </button>
+                    <button type="button" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
+                            style="background: #ffffff; border: 1px solid #F15E25; height: 48px; color: #f15e25"
+                            data-dismiss="modal">ВІДМІНИТИ
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-12 d-lg-none d-md-none d-block position-sticky sticky-class align-content-center "
+         style="display: flex; bottom: -2px; height: 70px; background: #ffffff; box-shadow: 0 -11px 22px -15px rgba(0, 0, 0, 0.25);">
+        <div class="container h-100">
+            <div class="col-12 p-0 justify-content-center h-100 align-items-center d-flex">
+                <button type="button"
+                        class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                        style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                    &#65291; СТВОРИТИ
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 d-lg-none d-md-none d-block" style="z-index: 10; background: #ffffff">
+        <div class="col-12 p-0 justify-content-center h-100 align-items-end d-flex mt-4">
+            <button type="button"
+                    class="btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none  btn-block col-5"
+                    onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                    onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                    style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 16px; font-weight: 500">
+                Показать ще
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<footer class="footer row ml-0 mr-0"
+        style="min-height: 91px; background: #222222; display:flex; align-items: center; margin-top: 56px">
+    <div class="container container-sm container-md container-lg" style="height: 100%">
+        <div class="row justify-content-between mr-2 ml-2 flex-column-reverse align-items-center flex-xl-row flex-lg-row flex-md-column-reverse">
+            <div class="col-10 justify-content-center justify-content-lg-start mt-3 mt-lg-0 col-md-5">
+                <div class="h5 justify-content-center justify-content-lg-start"
+                     style="color: #ffffff; font-size: 14px; line-height: 16px; display: flex; justify-content: center">
+                    <span>© 2017-2018 Company, Inc.</span></div>
+            </div>
+            <div class="col-12 col-lg-5  col-sm-5 col-md-5 justify-content-center">
+                <nav class="nav justify-content-center justify-content-lg-end">
+                    <a class="nav-link p-0 pl-4 pr-4  pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
+                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Privacy</a>
+                    <div class="align-self-center" style="color: #f15e25">|</div>
+                    <a class="nav-link p-0 pl-4 pr-4 pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
+                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Terms</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="../js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script>
+    $('#sources').each(function () {
+        let classes = $(this).attr("class"),
+            id = $(this).attr("id"),
+            name = $(this).attr("name");
+        let template = '<div class="' + classes + '">';
+        template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+        template += '<div class="custom-options">';
+        $(this).find("option").each(function () {
+            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+        });
+        template += '</div></div>';
+
+        $(this).wrap('<div class="custom-select-wrapper"></div>');
+        $(this).hide();
+        $(this).after(template);
+    });
+    $(".custom-option:first-of-type").hover(function () {
+        $(this).parents(".custom-options").addClass("option-hover");
+    }, function () {
+        $(this).parents(".custom-options").removeClass("option-hover");
+    });
+    $(".custom-select-trigger").on("click", function () {
+        $('html').one('click', function () {
+            $(".custom-select").removeClass("opened");
+        });
+        $(this).parents(".custom-select").toggleClass("opened");
+        event.stopPropagation();
+    });
+    $(".custom-option").on("click", function () {
+        $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+        $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+        $(this).addClass("selection");
+        $(this).parents(".custom-select").removeClass("opened");
+        $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+    });
+
+    $('.delete-parent').click(function () {
+        $(this).closest('.parent-delete').remove();
+    });
+
+
+</script>
+</body>
+</html>
