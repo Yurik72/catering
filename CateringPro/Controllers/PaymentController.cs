@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using CateringPro.Core;
@@ -45,6 +46,18 @@ namespace CateringPro.Controllers
             var model = await _fin.GenerateLiqPayCheckOut(User.GetUserId(), orderamount, User.GetCompanyID(), GetUrl("/Payment/Redirect"), GetUrl("/Payment/Callback"));
              if(model==null)
                  return View("Error");
+
+             /*  FOR TESTING REAL answer from liqpay
+            var data="eyJwYXltZW50X2lkIjoxNDAxNzgxNzgyLCJhY3Rpb24iOiJwYXkiLCJzdGF0dXMiOiJzYW5kYm94IiwidmVyc2lvbiI6MywidHlwZSI6ImJ1eSIsInBheXR5cGUiOiJwcml2YXQyNCIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k0MjYyMDg5MjI2NCIsImFjcV9pZCI6NDE0OTYzLCJvcmRlcl9pZCI6IjI3ZmI0NTdmLThiNGYtNGE2Ni05NmNlLTVlOThhZTJmMWQ5MSNmMzlkMmJiZi1kYzQ1LTRiYjktYjk3Yi1hYTExZTA0NjhkMmQjMSIsImxpcXBheV9vcmRlcl9pZCI6IkZKTFVSNjlKMTU5ODAwNjUxMjIwODI2MCIsImRlc2NyaXB0aW9uIjoiQWRkIGJhbGFuY2Uga2FiYWNob2suZ3JvdXAgSlVyaXlfS292YWxlbmtvIiwic2VuZGVyX3Bob25lIjoiMzgwNTAzMTIxMDc1Iiwic2VuZGVyX2ZpcnN0X25hbWUiOiJJdXJpaSIsInNlbmRlcl9sYXN0X25hbWUiOiJLb3ZhbGVua28iLCJzZW5kZXJfY2FyZF9tYXNrMiI6IjUzNjM1NCo3NSIsInNlbmRlcl9jYXJkX2JhbmsiOiJwYiIsInNlbmRlcl9jYXJkX3R5cGUiOiJtYyIsInNlbmRlcl9jYXJkX2NvdW50cnkiOjgwNCwiYW1vdW50IjoxLjAsImN1cnJlbmN5IjoiVUFIIiwic2VuZGVyX2NvbW1pc3Npb24iOjAuMCwicmVjZWl2ZXJfY29tbWlzc2lvbiI6MC4wMywiYWdlbnRfY29tbWlzc2lvbiI6MC4wLCJhbW91bnRfZGViaXQiOjEuMCwiYW1vdW50X2NyZWRpdCI6MS4wLCJjb21taXNzaW9uX2RlYml0IjowLjAsImNvbW1pc3Npb25fY3JlZGl0IjowLjAzLCJjdXJyZW5jeV9kZWJpdCI6IlVBSCIsImN1cnJlbmN5X2NyZWRpdCI6IlVBSCIsInNlbmRlcl9ib251cyI6MC4wLCJhbW91bnRfYm9udXMiOjAuMCwibXBpX2VjaSI6IjciLCJpc18zZHMiOmZhbHNlLCJsYW5ndWFnZSI6InJ1IiwicHJvZHVjdF9jYXRlZ29yeSI6IktIYXJjaHV2YW5uamEiLCJwcm9kdWN0X25hbWUiOiJLSGFyY2h1dmFubmphIiwicHJvZHVjdF9kZXNjcmlwdGlvbiI6IlBvcG92bmVubmphX2JhbGFuc3VfemFfa2hhcmNodXZhbm5qYV9KVXJpeV9Lb3ZhbGVua28iLCJjcmVhdGVfZGF0ZSI6MTU5ODAwNjUxMjIxMCwiZW5kX2RhdGUiOjE1OTgwMDY1MTIyMjYsInRyYW5zYWN0aW9uX2lkIjoxNDAxNzgxNzgyfQ==";
+            var sign = "vI2qaLu9uipOUALnAqsmIkjndac=";
+            Dictionary<string, string> request_data_dictionary = null;
+            string decoded = "";
+            bool valid = _fin.RegisterLiqPayResponse("", data, sign, out request_data_dictionary, out decoded);
+            if (!valid)
+                return View("Error");
+            if (_fin.SaveResponse(User.GetUserId(), true, request_data_dictionary, decoded))
+                return View("Error");
+             */
             return View(model);
         }
         private string GetUrl(string action)
@@ -118,7 +131,7 @@ namespace CateringPro.Controllers
                 bool valid = _fin.RegisterLiqPayResponse("", req_data, req_signature, out request_data_dictionary, out decoded);
                 if (!valid)
                     return View("Error");
-                if (_fin.SaveResponse(User.GetUserId(), false, request_data_dictionary, decoded))
+                if (_fin.SaveResponse(User.GetUserId(), true, request_data_dictionary, decoded))
                     return View("Error");
 
             }
