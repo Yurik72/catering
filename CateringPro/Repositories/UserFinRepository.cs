@@ -272,8 +272,18 @@ namespace CateringPro.Repositories
                 return false;
             }
         }
-        private async Task<bool> SendPaymentConfirmationEmailAsync(UserFinIncome finincome) 
+
+        public async Task<bool> SendPaymentConfirmationEmailAsync(UserFinIncome finincome) 
         {
+            var user = await _userManager.FindByIdAsync(finincome.Id);
+            if (user == null)
+            {
+                return false;
+            }
+            return await _email.SendEmailFromTemplate(finincome.CompanyId, "Підтвердження зарахування грошей",
+                user.Email, "AddBalanceConfirm",
+                await GetAddBalanceConfirmModelAsync(finincome));
+            /*
             var user = await _userManager.FindByIdAsync(finincome.Id);
             if (user == null)
             {
@@ -286,7 +296,8 @@ namespace CateringPro.Repositories
             }
             var msg = $" Спасибо !\r\n Мы получили вашу оплату <b>{finincome.Amount} UAH</b> </br>\r\n Ваш текущий баланс <b>{fin.Balance} UAH </b> </br>\r\n Kabachok group";
             return await _email.SendEmailNoExceptionAsync(user.Email, "Оплата получена", msg);
-                
+              */
+
         }
         static public string GetLiqPaySignature(string data)
         {
@@ -313,6 +324,27 @@ namespace CateringPro.Repositories
                 _logger.LogError( ex , "RegisterWidgetCallbackAsync");
                 return false;
             }
+        }
+
+        public async Task<UserAddBalanceConfirmModel> GetAddBalanceConfirmModelAsync(UserFinIncome finincome)
+        {
+            _context.SetCompanyID(finincome.CompanyId);
+            var user = await _userManager.FindByIdAsync(finincome.Id);
+            if (user == null)
+            {
+                return null;
+            }
+            var userfin= await _context.UserFinances.FirstOrDefaultAsync(f => f.Id == user.Id);
+            if (userfin == null)
+            {
+                return null;
+            }
+            var fin = await _context.UserFinances.FirstOrDefaultAsync(f => f.Id == user.Id);
+            if (fin == null)
+            {
+                return null;
+            }
+            return new UserAddBalanceConfirmModel(user, userfin, finincome);
         }
     }
 }

@@ -5,5 +5,6 @@ set userid=''
 
 
 begin tran
+delete 
 
 rollback tran

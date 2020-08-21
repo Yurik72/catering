@@ -10,6 +10,7 @@ using CateringPro.Models;
 using Microsoft.Extensions.Logging;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using CateringPro.Data;
 
 namespace CateringPro.Core
 {
@@ -19,8 +20,9 @@ namespace CateringPro.Core
         List<EmailMessage> ReceiveEmail(int maxCount = 10);
         Task SendInvoice(string userid, DateTime daydate, int comapnyid);
         Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid);
-        Task SendEmailAsync(string email, string subject, string message);
-        Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message);
+        Task SendEmailAsync(string email, string subject, string message, int? companyId = default);
+        Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message, int? companyId = default);
+        Task<bool> SendEmailFromTemplate<TModel>(int comapnyid, string subject, string email, string templateName, TModel model);
     }
     public class EmailService: IEmailService
     {
@@ -31,13 +33,15 @@ namespace CateringPro.Core
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly IConfiguration _config;
-        public EmailService(IEmailConfiguration emailConfiguration, 
+        private readonly AppDbContext _context;
+        public EmailService(AppDbContext context,IEmailConfiguration emailConfiguration, 
             IRazorViewToStringRenderer razorRenderer, 
             IInvoiceRepository invoicerepo, 
             UserManager<CompanyUser> userManager, 
             ILogger<CompanyUser> logger, 
             IUserDayDishesRepository ud, IConfiguration iConfig)
         {
+            _context = context;
             _emailConfiguration = emailConfiguration;
             _razorViewToStringRenderer = razorRenderer;
             _invoicerepo = invoicerepo;
@@ -63,7 +67,21 @@ namespace CateringPro.Core
         //{
         //    return _emailConfiguration.SmtpServer;
         //}
-
+        public async Task<bool> SendEmailFromTemplate<TModel>(int comapnyid, string subject, string email, string templateName, TModel model)
+        {
+            try
+            {
+                string viewname = $"/Views/MassEmail/{templateName}_Template.cshtml";
+                string body = await _razorViewToStringRenderer.RenderViewToStringAsync(viewname, model);
+                await SendEmailAsync(email, subject, body, comapnyid);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SendEmailFromTemplate");
+                return false;
+            }
+        }
         public async Task SendInvoice(string userid, DateTime daydate,int comapnyid)
         {
             try
@@ -74,7 +92,7 @@ namespace CateringPro.Core
                 if (user != null)
                 {
                     string email = user.Email;
-                    await SendEmailAsync(email, string.Format("Замовлення {0}", daydate.ToShortDateString()), body);
+                    await SendEmailAsync(email, string.Format("Замовлення {0}", daydate.ToShortDateString()), body, comapnyid);
                 }
             }
             catch(Exception ex)
@@ -126,7 +144,7 @@ namespace CateringPro.Core
                 if (user != null)
                 {
                     string email = user.Email;
-                    await SendEmailAsync(email, string.Format("Харчування на тиждень "+first.ToShortDateString()+" - {0}", daydate.ToShortDateString()), body);
+                    await SendEmailAsync(email, string.Format("Харчування на тиждень "+first.ToShortDateString()+" - {0}", daydate.ToShortDateString()), body, comapnyid);
                 }
             }
             catch (Exception ex)
@@ -135,11 +153,11 @@ namespace CateringPro.Core
             }
 
         }
-        public async Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message)
+        public async Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message,int? companyId= default)
         {
             try
             {
-                await SendEmailAsync(email, subject, message);
+                await SendEmailAsync(email, subject, message, companyId);
                 return true;
             }
             catch(Exception ex)
@@ -148,11 +166,12 @@ namespace CateringPro.Core
                 return false;
             }
         }
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message, int? companyId=default)
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Catering service", _config.GetSection("EmailConfiguration").GetSection("SmtpUsername").Value));
+            emailMessage.From.Add(new MailboxAddress(_config.GetSection("EmailConfiguration").GetSection("SenderName").Value,
+                _config.GetSection("EmailConfiguration").GetSection("SmtpUsername").Value));
             //emailMessage.From.Add(new MailboxAddress("Catering service", "admin@catering.in.ua"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
@@ -163,18 +182,49 @@ namespace CateringPro.Core
 
             using (var client = new SmtpClient())
             {
+                try
+                {
+                    client.Capabilities &= ~SmtpCapabilities.Pipelining;
+                    await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, MailKit.Security.SecureSocketOptions.None);
 
-                client.Capabilities &= ~SmtpCapabilities.Pipelining;
-                await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, MailKit.Security.SecureSocketOptions.None);
+                    //Remove any OAuth functionality as we won't be using it. 
+                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                //Remove any OAuth functionality as we won't be using it. 
-                //client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    await client.AuthenticateAsync(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
 
-                await client.AuthenticateAsync(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
+                    await client.SendAsync(emailMessage);
 
-                await client.SendAsync(emailMessage);
+                    await client.DisconnectAsync(true);
+                }
+                catch(Exception ex)
+                {
+                    await SaveFailedEmailToQueue(email, subject, message, companyId);
+                    _logger.LogError(ex, "SendEmailAsync");
+                    throw ex;
+                }
+            }
+        }
 
-                await client.DisconnectAsync(true);
+
+        private async Task SaveFailedEmailToQueue(string email, string subject, string message, int? companyId = default)
+        {
+            try
+            {
+                var item = new EmailQueue()
+                {
+                    EmailAddress = email,
+                    Subject = subject,
+                    Body = message
+
+                };
+                if (companyId.HasValue)
+                    item.CompanyId = companyId.Value;
+                _context.Add(item);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SaveFailedEmailToQueue");
             }
         }
     }

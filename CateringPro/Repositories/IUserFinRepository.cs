@@ -19,5 +19,7 @@ namespace CateringPro.Repositories
         bool SaveResponse(string userId, bool iscallback, Dictionary<string, string> dataresult, string jsonstr);
         Task<PaymentRedirectViewModel> GetRedirectModelAsync(string userId, int companyId);
         Task<bool> RegisterWidgetCallbackAsync(string userId, string orderdid, string data);
+        Task<UserAddBalanceConfirmModel> GetAddBalanceConfirmModelAsync(UserFinIncome finincome);
+        Task<bool> SendPaymentConfirmationEmailAsync(UserFinIncome finincome);
     }
 }
