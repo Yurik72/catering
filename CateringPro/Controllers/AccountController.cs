@@ -85,6 +85,11 @@ namespace CateringPro.Controllers
 
                 };
 
+                if (!model.Password.Equals(model.ConfirmPassword))
+                {
+                    ModelState.AddModelError("", _localizer.GetLocalizedString("PasswordMismatch"));
+                    return View("Register", model);
+                }
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -695,7 +700,7 @@ namespace CateringPro.Controllers
         [Authorize]
         public async Task<IActionResult> ChangeOldPassword([Bind("Id,NewPassword,OldPassword,ConfirmPassword")] UpdateUserModel um)
         {
-
+            ModelState.Clear();
             //if (!ModelState.IsValid)
             //{
             //    if (um.IsModal)
@@ -747,7 +752,7 @@ namespace CateringPro.Controllers
                             }
                             else
                             {
-                                ModelState.AddModelError("", "pass should contain 8 values, one capital and numbers");
+                                //ModelState.AddModelError("", "pass should contain 8 values, one capital and numbers");
                                 um.Errors = result.Errors.Select(x => x.Description).ToList();
                                 _logger.LogWarning("Error updating password for user: {0} ", user.UserName);
                                 return View("ChangePasswordModal", um);
