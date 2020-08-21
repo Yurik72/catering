@@ -46,8 +46,19 @@ namespace CateringPro.Controllers
             var model = await _fin.GenerateLiqPayCheckOut(User.GetUserId(), orderamount, User.GetCompanyID(), GetUrl("/Payment/Redirect"), GetUrl("/Payment/Callback"));
              if(model==null)
                  return View("Error");
-
-             /*  FOR TESTING REAL answer from liqpay
+             //from site
+             /*
+            var sign = "D+5NcfCR1+QiljL2RQ6SqYR6SsA=";
+            var data ="eyJwYXltZW50X2lkIjoxNDAxODM3MDg1LCJhY3Rpb24iOiJwYXkiLCJzdGF0dXMiOiJzYW5kYm94IiwidmVyc2lvbiI6MywidHlwZSI6ImJ1eSIsInBheXR5cGUiOiJwcml2YXQyNCIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k0MjYyMDg5MjI2NCIsImFjcV9pZCI6NDE0OTYzLCJvcmRlcl9pZCI6IjI3ZmI0NTdmLThiNGYtNGE2Ni05NmNlLTVlOThhZTJmMWQ5MSNmMTkyZTMxNC00ZjQ4LTRkOTQtOTBjNS1lNGYzNTRiNzA3YjUjOCIsImxpcXBheV9vcmRlcl9pZCI6IkVSV1UyUkpMMTU5ODAxMDAwNjQ1OTQyMyIsImRlc2NyaXB0aW9uIjoiQWRkIGJhbGFuY2Uga2FiYWNob2suZ3JvdXAgYWRtaW4iLCJzZW5kZXJfcGhvbmUiOiIzODA1MDMxMjEwNzUiLCJzZW5kZXJfZmlyc3RfbmFtZSI6Ikl1cmlpIiwic2VuZGVyX2xhc3RfbmFtZSI6IktvdmFsZW5rbyIsInNlbmRlcl9jYXJkX21hc2syIjoiNTM2MzU0Kjc1Iiwic2VuZGVyX2NhcmRfYmFuayI6InBiIiwic2VuZGVyX2NhcmRfdHlwZSI6Im1jIiwic2VuZGVyX2NhcmRfY291bnRyeSI6ODA0LCJhbW91bnQiOjEuMCwiY3VycmVuY3kiOiJVQUgiLCJzZW5kZXJfY29tbWlzc2lvbiI6MC4wLCJyZWNlaXZlcl9jb21taXNzaW9uIjowLjAzLCJhZ2VudF9jb21taXNzaW9uIjowLjAsImFtb3VudF9kZWJpdCI6MS4wLCJhbW91bnRfY3JlZGl0IjoxLjAsImNvbW1pc3Npb25fZGViaXQiOjAuMCwiY29tbWlzc2lvbl9jcmVkaXQiOjAuMDMsImN1cnJlbmN5X2RlYml0IjoiVUFIIiwiY3VycmVuY3lfY3JlZGl0IjoiVUFIIiwic2VuZGVyX2JvbnVzIjowLjAsImFtb3VudF9ib251cyI6MC4wLCJtcGlfZWNpIjoiNyIsImlzXzNkcyI6ZmFsc2UsImxhbmd1YWdlIjoicnUiLCJwcm9kdWN0X2NhdGVnb3J5IjoiS0hhcmNodXZhbm5qYSIsInByb2R1Y3RfbmFtZSI6IktIYXJjaHV2YW5uamEiLCJwcm9kdWN0X2Rlc2NyaXB0aW9uIjoiUG9wb3ZuZW5uamFfYmFsYW5zdV96YV9raGFyY2h1dmFubmphX2FkbWluIiwiY3JlYXRlX2RhdGUiOjE1OTgwMTAwMDY0NjEsImVuZF9kYXRlIjoxNTk4MDEwMDA2NDc4LCJ0cmFuc2FjdGlvbl9pZCI6MTQwMTgzNzA4NX0=";
+            Dictionary<string, string> request_data_dictionary = null;
+            string decoded = "";
+            bool valid = _fin.RegisterLiqPayResponse("", data, sign, out request_data_dictionary, out decoded);
+            if (!valid)
+                return View("Error");
+            if (_fin.SaveResponse(User.GetUserId(), true, request_data_dictionary, decoded))
+                return View("Error");
+             */
+            /*  FOR TESTING REAL answer from liqpay
             var data="eyJwYXltZW50X2lkIjoxNDAxNzgxNzgyLCJhY3Rpb24iOiJwYXkiLCJzdGF0dXMiOiJzYW5kYm94IiwidmVyc2lvbiI6MywidHlwZSI6ImJ1eSIsInBheXR5cGUiOiJwcml2YXQyNCIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k0MjYyMDg5MjI2NCIsImFjcV9pZCI6NDE0OTYzLCJvcmRlcl9pZCI6IjI3ZmI0NTdmLThiNGYtNGE2Ni05NmNlLTVlOThhZTJmMWQ5MSNmMzlkMmJiZi1kYzQ1LTRiYjktYjk3Yi1hYTExZTA0NjhkMmQjMSIsImxpcXBheV9vcmRlcl9pZCI6IkZKTFVSNjlKMTU5ODAwNjUxMjIwODI2MCIsImRlc2NyaXB0aW9uIjoiQWRkIGJhbGFuY2Uga2FiYWNob2suZ3JvdXAgSlVyaXlfS292YWxlbmtvIiwic2VuZGVyX3Bob25lIjoiMzgwNTAzMTIxMDc1Iiwic2VuZGVyX2ZpcnN0X25hbWUiOiJJdXJpaSIsInNlbmRlcl9sYXN0X25hbWUiOiJLb3ZhbGVua28iLCJzZW5kZXJfY2FyZF9tYXNrMiI6IjUzNjM1NCo3NSIsInNlbmRlcl9jYXJkX2JhbmsiOiJwYiIsInNlbmRlcl9jYXJkX3R5cGUiOiJtYyIsInNlbmRlcl9jYXJkX2NvdW50cnkiOjgwNCwiYW1vdW50IjoxLjAsImN1cnJlbmN5IjoiVUFIIiwic2VuZGVyX2NvbW1pc3Npb24iOjAuMCwicmVjZWl2ZXJfY29tbWlzc2lvbiI6MC4wMywiYWdlbnRfY29tbWlzc2lvbiI6MC4wLCJhbW91bnRfZGViaXQiOjEuMCwiYW1vdW50X2NyZWRpdCI6MS4wLCJjb21taXNzaW9uX2RlYml0IjowLjAsImNvbW1pc3Npb25fY3JlZGl0IjowLjAzLCJjdXJyZW5jeV9kZWJpdCI6IlVBSCIsImN1cnJlbmN5X2NyZWRpdCI6IlVBSCIsInNlbmRlcl9ib251cyI6MC4wLCJhbW91bnRfYm9udXMiOjAuMCwibXBpX2VjaSI6IjciLCJpc18zZHMiOmZhbHNlLCJsYW5ndWFnZSI6InJ1IiwicHJvZHVjdF9jYXRlZ29yeSI6IktIYXJjaHV2YW5uamEiLCJwcm9kdWN0X25hbWUiOiJLSGFyY2h1dmFubmphIiwicHJvZHVjdF9kZXNjcmlwdGlvbiI6IlBvcG92bmVubmphX2JhbGFuc3VfemFfa2hhcmNodXZhbm5qYV9KVXJpeV9Lb3ZhbGVua28iLCJjcmVhdGVfZGF0ZSI6MTU5ODAwNjUxMjIxMCwiZW5kX2RhdGUiOjE1OTgwMDY1MTIyMjYsInRyYW5zYWN0aW9uX2lkIjoxNDAxNzgxNzgyfQ==";
             var sign = "vI2qaLu9uipOUALnAqsmIkjndac=";
             Dictionary<string, string> request_data_dictionary = null;
@@ -130,14 +141,17 @@ namespace CateringPro.Controllers
                 string decoded = "";
                 bool valid = _fin.RegisterLiqPayResponse("", req_data, req_signature, out request_data_dictionary, out decoded);
                 if (!valid)
+                {
+                    _logger.LogWarning("RegisterLiqPayResponse returns false");
                     return View("Error");
-                if (_fin.SaveResponse(User.GetUserId(), true, request_data_dictionary, decoded))
+                }
+                if (_fin.SaveResponse("", true, request_data_dictionary, decoded))
                     return View("Error");
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Payment callback error", ex);
+                _logger.LogError(ex, "Payment callback error ");
             }
             return Ok();
         }
