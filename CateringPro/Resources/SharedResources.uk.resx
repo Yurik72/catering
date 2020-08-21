@@ -910,5 +910,7 @@
   <data name="PreviousPasswordIsNotCorrect" xml:space="preserve">
     <value>Старий пароль не правильний</value>
   </data>
-
+  <data name="LastPurchasePrice" xml:space="preserve">
+    <value>Ост.закуп. ціна</value>
+  </data>
 </root>
