@@ -46,8 +46,8 @@ namespace CateringPro.Controllers
             var model = await _fin.GenerateLiqPayCheckOut(User.GetUserId(), orderamount, User.GetCompanyID(), GetUrl("/Payment/Redirect"), GetUrl("/Payment/Callback"));
              if(model==null)
                  return View("Error");
-            var inc = _context.UserFinIncomes.FirstOrDefault(u => u.Id == User.GetUserId());
-            await _fin.SendPaymentConfirmationEmailAsync(inc);
+           // var inc = _context.UserFinIncomes.FirstOrDefault(u => u.Id == User.GetUserId());
+           // await _fin.SendPaymentConfirmationEmailAsync(inc);
              //from site
             /*
             var sign = "D+5NcfCR1+QiljL2RQ6SqYR6SsA=";
