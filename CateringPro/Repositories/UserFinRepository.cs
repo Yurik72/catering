@@ -30,12 +30,15 @@ namespace CateringPro.Repositories
         private readonly ILogger<CompanyUser> _logger;
         SharedViewLocalizer _localizer;
         private readonly UserManager<CompanyUser> _userManager;
-        public UserFinRepository(AppDbContext context, ILogger<CompanyUser> logger, SharedViewLocalizer localizer, UserManager<CompanyUser> userManager)
+        private readonly IEmailService _email;
+        public UserFinRepository(AppDbContext context, ILogger<CompanyUser> logger, 
+            SharedViewLocalizer localizer, UserManager<CompanyUser> userManager, IEmailService email)
         {
             _context = context;
             _logger = logger;
             _localizer = localizer;
             _userManager = userManager;
+            _email = email;
         }
 
         public bool MakeOrderPayment(DateTime daydate, int companyId)
@@ -140,6 +143,7 @@ namespace CateringPro.Repositories
                 _logger.LogError("Error adding fin income", ex);
                 return null;
             }
+          
             var signature_source = new LiqPayCheckout()
             {
                 public_key = _public_key,
@@ -188,7 +192,7 @@ namespace CateringPro.Repositories
         private string GetUserIDfromOrderID(string orderid)
         {
             var arr = orderid.Split("#");
-            return arr[1];
+            return arr[0];
         }
         private int GetCompanyIdfromOrderID(string orderid)
         {
@@ -239,8 +243,26 @@ namespace CateringPro.Repositories
                 {
                     fin_income.ReturnData = jsonstr;
                 }
-                _context.Update(fin_income);
+                if (dataresult["status"] == "sandbox" || dataresult["status"] == "success")
+                {
+                    fin_income.IsProjection = false;
+                    decimal amount;
+                    int intamount;
+                    if(decimal.TryParse(dataresult["amount"],out amount)){
+                        fin_income.Amount = amount;
+                    }else if(int.TryParse(dataresult["amount"],out intamount)){
+                        fin_income.Amount = (decimal)intamount;
+                    }
+                    else
+                    {
+                        fin_income.Amount = fin_income.ProjectionAmount;
+                    }
+                   
+                    fin_income.Comments = dataresult["description"];
+                }
+                    _context.Update(fin_income);
                 _context.SaveChanges();
+                var b= SendPaymentConfirmationEmailAsync(fin_income).Result;
                 return true;
             }
             catch (Exception ex)
@@ -248,6 +270,22 @@ namespace CateringPro.Repositories
                 _logger.LogError("SaveResponse", ex);
                 return false;
             }
+        }
+        private async Task<bool> SendPaymentConfirmationEmailAsync(UserFinIncome finincome) 
+        {
+            var user = await _userManager.FindByIdAsync(finincome.Id);
+            if (user == null)
+            {
+                return false;
+            }
+            var fin = await _context.UserFinances.FirstOrDefaultAsync(f => f.Id == user.Id);
+            if (fin == null)
+            {
+                return false;
+            }
+            var msg = $" Спасибо !\r\n Мы получили вашу оплату <b>{finincome.Amount} UAH</b> </br>\r\n Ваш текущий баланс <b>{fin.Balance} UAH </b> </br>\r\n Kabachok group";
+            return await _email.SendEmailNoExceptionAsync(user.Email, "Оплата получена", msg);
+                
         }
         static public string GetLiqPaySignature(string data)
         {
