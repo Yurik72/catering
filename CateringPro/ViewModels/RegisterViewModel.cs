@@ -30,6 +30,10 @@ namespace CateringPro.ViewModels
         public string Password { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
         [DataType(DataType.PhoneNumber)]
         [DisplayName("PhoneNumber")]
         public string PhoneNumber { get; set; }

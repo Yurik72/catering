@@ -766,7 +766,7 @@
     <value>Пароль повинен містити хоча б одну велику літеру</value>
   </data>
   <data name="PasswordTooShort" xml:space="preserve">
-    <value>Пароль занадто короткий</value>
+    <value>Пароль занадто короткий (мінімум 8 символів)</value>
   </data>
   <data name="UserAlreadyHasPassword" xml:space="preserve">
     <value>У користувача вже встановлено пароль</value>
@@ -907,6 +907,8 @@
   <data name="PasswordRequirements" xml:space="preserve">
     <value>Мінімум 8 значень</value>
   </data>
-  
+  <data name="PreviousPasswordIsNotCorrect" xml:space="preserve">
+    <value>Старий пароль не правильний</value>
+  </data>
 
 </root>
