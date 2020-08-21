@@ -765,7 +765,7 @@ namespace CateringPro.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,Zipcode,Country,Address1,Address2,NameSurname")] UpdateUserModel um, IEnumerable<CompanyUser> it)
+        public async Task<IActionResult> Update([Bind("Id,Email,NewPassword,OldPassword,ConfirmPassword,PhoneNumber,City,ZipCode,Country,Address1,Address2,NameSurname")] UpdateUserModel um, IEnumerable<CompanyUser> it)
         {
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)
