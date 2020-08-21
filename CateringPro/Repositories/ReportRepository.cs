@@ -260,6 +260,16 @@ namespace CateringPro.Repositories
                     daydate = daydate.AddDays(1);
                     avaible = _udaydishrepo.AvaibleComplexDay(daydate, userid, companyid);
                     var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, companyid);
+                    var nextItems = nextModel.Items.ToList();
+                    var onlyComplex = new List<InvoiceItemModel>();
+                    foreach (var it in nextItems)
+                    {
+                        if (it.DayComplex != null)
+                        {
+                            onlyComplex.Add(it);
+                        }
+                    }
+                    nextItems = onlyComplex;
                     items = model.Items.ToList();
                     if (avaible.Count() > 0 && nextModel.Items.ToList().Count() == 0)
                     {
@@ -270,7 +280,7 @@ namespace CateringPro.Repositories
                         items.Add(inItem);
 
                     }
-                    items.AddRange(nextModel.Items.ToList());
+                    items.AddRange(nextItems);
                     model.Items = items;
 
 

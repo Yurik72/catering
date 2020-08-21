@@ -172,7 +172,7 @@ else
                             <label class="custom-file-label" id="self-button" for="load-image"
                                    style="height: 48px; display: flex; align-items: center">Файл не обрано</label>
                         </div>
-                       
+
                     </div>
                     <div class="col-12 col-xl-5 col-sm-6 col-md-5 justify-content-md-center justify-content-center mt-3 mt-md-0 mt-lg-0">
                         <div class="row col-12 p-0 mt-2 mt-lg-0">
@@ -192,10 +192,10 @@ else
                                                    style="max-width: 245px; height: 34px" />
                                             <span asp-validation-for="Code" class="text-danger"></span>
                                             @*<input id="Code"
-                                                class="form-control"
-                                                type="text"
-                                                placeholder="Код"
-                                                style="max-width: 245px; height: 34px">*@
+                                    class="form-control"
+                                    type="text"
+                                    placeholder="Код"
+                                    style="max-width: 245px; height: 34px">*@
                                         </div>
                                     </div>
                                     <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
@@ -208,10 +208,10 @@ else
                                                        style="max-width: 245px; height: 34px" />
                                                 <span asp-validation-for="Name" class="text-danger"></span>
                                                 @*<input id="dish"
-                                                    class="form-control"
-                                                    type="text"
-                                                    placeholder="Страва"
-                                                    style="max-width: 245px; height: 34px">*@
+                                        class="form-control"
+                                        type="text"
+                                        placeholder="Страва"
+                                        style="max-width: 245px; height: 34px">*@
                                             </div>
                                         </div>
                                         <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
@@ -225,27 +225,27 @@ else
                                                 <select asp-for="CategoriesId" class="form-control" asp-items="ViewBag.CategoriesId"></select>
                                                 <span asp-validation-for="CategoriesId" class="text-danger"></span>
                                                 @*<div class="form-group mb-0">
-                                                        <h4 data-toggle="dropdown" class="form-control dropdown-toggle m-0"
-                                                            style="max-width: 245px; height: 34px">
-                                                            Вартість <i class="fa fa-chevron-down"></i>
-                                                        </h4>
-                                                        <ul class="dropdown-menu w-100 mt-0" id="category-choose"
-                                                            style="border-radius: 0 4px 4px;">
-                                                            <a class="dropdown-item px-2 category-drp" href="#" value="price">
-                                                                Вартість
-                                                            </a>
-                                                            <a class="dropdown-item px-2 category-drp" href="#" value="weight">
-                                                                Вихід (гр.)
-                                                            </a>
-                                                            <a class="dropdown-item px-2 category-drp" href="#" value="ccal">
-                                                                Ккал
-                                                            </a>
-                                                            <a class="dropdown-item px-2 category-drp" href="#" value="about">
-                                                                Опис
-                                                            </a>
-                                                        </ul>
+                                            <h4 data-toggle="dropdown" class="form-control dropdown-toggle m-0"
+                                                style="max-width: 245px; height: 34px">
+                                                Вартість <i class="fa fa-chevron-down"></i>
+                                            </h4>
+                                            <ul class="dropdown-menu w-100 mt-0" id="category-choose"
+                                                style="border-radius: 0 4px 4px;">
+                                                <a class="dropdown-item px-2 category-drp" href="#" value="price">
+                                                    Вартість
+                                                </a>
+                                                <a class="dropdown-item px-2 category-drp" href="#" value="weight">
+                                                    Вихід (гр.)
+                                                </a>
+                                                <a class="dropdown-item px-2 category-drp" href="#" value="ccal">
+                                                    Ккал
+                                                </a>
+                                                <a class="dropdown-item px-2 category-drp" href="#" value="about">
+                                                    Опис
+                                                </a>
+                                            </ul>
 
-                                                    </div>*@
+                                        </div>*@
                                             </div>
                                         </div>
                                         <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
@@ -254,10 +254,10 @@ else
                                                    style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Вартість*@</label>
                                                 <div class="col-8 flex-grow-1 justify-content-end p-0">
                                                     @*<input id="Price"
-                                                        class="form-control"
-                                                        type="text"
-                                                        placeholder="Вартість"
-                                                        style="max-width: 245px; height: 34px">*@
+                                            class="form-control"
+                                            type="text"
+                                            placeholder="Вартість"
+                                            style="max-width: 245px; height: 34px">*@
                                                     <input asp-for="Price" class="form-control"
                                                            type="text"
                                                            placeholder="Вартість"
@@ -270,14 +270,14 @@ else
                                                 <label class="col-4" asp-for="ReadyWeight"
                                                        style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">
                                                     @*Вихід
-                                                        (гр.)*@
+                                            (гр.)*@
                                                 </label>
                                                 <div class="col-8 flex-grow-1 justify-content-end p-0">
                                                     @*<input id="weight"
-                                                        class="form-control"
-                                                        type="text"
-                                                        placeholder="Вихід (гр.)"
-                                                        style="max-width: 245px; height: 34px">*@
+                                            class="form-control"
+                                            type="text"
+                                            placeholder="Вихід (гр.)"
+                                            style="max-width: 245px; height: 34px">*@
                                                     <input asp-for="ReadyWeight" class="form-control"
                                                            placeholder="Вихід (гр.)"
                                                            style="max-width: 245px; height: 34px" />
@@ -290,10 +290,10 @@ else
                                                        style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Ккал*@</label>
                                                     <div class="col-8 flex-grow-1 justify-content-end p-0">
                                                         @*<input id="ccal"
-                                                            class="form-control"
-                                                            type="text"
-                                                            placeholder="Ккал"
-                                                            style="max-width: 245px; height: 34px">*@
+                                                class="form-control"
+                                                type="text"
+                                                placeholder="Ккал"
+                                                style="max-width: 245px; height: 34px">*@
                                                         <input asp-for="KKal" class="form-control"
                                                                placeholder="Ккал"
                                                                style="max-width: 245px; height: 34px" />
@@ -326,17 +326,30 @@ else
                                                  style="font-size: 18px; line-height: 21px; color: #232323; font-weight: 500;">
                                                 Інгредієнти-Пропорцiї
                                             </div>
+
                                             <div class="col-2 pr-0 mr-0 mr-lg-1">
-                                                <button type="button" class="btn btn-outline-danger float-right font-weight-bold "
-                                                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                                @*<a class="add-ingredients-dishes-line" style="cursor:pointer;">@Localizer["Add"]</a>*@
+                                                <a  class="btn btn-outline-danger float-right font-weight-bold add-ingredients-dishes-line"
+                                                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'" @*id="add-ingredients-dishes-line"*@
                                                         onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
                                                         style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
-                                                    &#65291;<a class="add-ingredients-dishes-line"><span class="d-none d-md-block">@Localizer["Create"]</span></a>
-                                                </button>
+                                                    &#65291;<span class="d-none d-md-block">@Localizer["Create"]</span>
+
+                                                </a>
+                                                @*<button type="button" class="btn btn-outline-danger float-right font-weight-bold "
+                                                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'" 
+                                                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                                        style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
+                                                    &#65291;<span class="d-none d-md-block">@Localizer["Create"]</span>
+
+                                                </button>*@
+
                                             </div>
+                                            <div id="responseS"></div>
                                         </div>
                                     </div>
                                 </div>
+                               
                                 <div class="row justify-content-lg-end justify-content-xl-end justify-content-center">
                                     <div class="col-12 col-sm-12 col-xl-5 col-md-12 mr-xl-4 mr-0 justify-content-center p-0 "
                                          style="display: flex; justify-content: center;">
@@ -345,7 +358,7 @@ else
 
                                             <div class="row mt-3" style="max-width: 350px;">
                                                 <div class="col">
-                                                    <div id="responseS" class="row"></div>
+                                                    @*<div id="responseS" class="row"></div>*@
                                                     <div class="row" style="margin-bottom: 9px">
                                                         <div class="col-4">Назва</div>
                                                         <div class="col-4">Частка</div>

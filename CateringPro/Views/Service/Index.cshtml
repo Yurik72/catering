@@ -162,11 +162,11 @@
                     console.log(data);
                 },
                 function (cmd, event) {
-                    console.log(cmd);
-                    console.log(event);
-                    if (cmd === 'open') {
-                        nfcsock.getstatus(function () { });
-                    }
+                   // console.log(cmd);
+                   // console.log(event);
+                   // if (cmd === 'open') {
+                  //      nfcsock.getstatus(function () { });
+                  //  }
                 }
             );
           
@@ -285,7 +285,7 @@
                     elnfc_online.hide();
                     elnfc_offline.hide();
                 }
-                else if (isNfcConnected) {
+                else if (isNfcConnected==true) {
                     elnfc_online.show();
                     elnfc_offline.hide();
                 }
@@ -560,7 +560,7 @@
             }
             function showNfcInfo(msg) {
                 $('#connectnfc').prop('disabled', false);
-                if (msg && msg.Isreaderconnected && msg.Ismonitoring) {
+                if (msg && msg.Isreaderconnected==true && msg.Ismonitoring==true) {
                     elnfc_online.show();
                     elnfc_offline.hide();
 
@@ -570,7 +570,7 @@
                 else {
                     elnfc_online.hide();
                     elnfc_offline.show();
-                    isNfcConnected = true;
+                    isNfcConnected = false;
                 }
                 refreshState();
             }

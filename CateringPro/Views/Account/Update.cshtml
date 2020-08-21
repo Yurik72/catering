@@ -261,6 +261,34 @@
                 $.get('/Account/UserFinance', function (data) {
 
                     $("#nav-content-fin").html(data);
+                    $("#nav-content-fin").find('#addliqpay-btn').click(function (e) {
+                        e.preventDefault();
+                        window.location.replace(`@Url.Action("Index","Payment")?amount=${$("#nav-content-fin").find('#liqpay-amount').val()}`);
+                       // const formData = new FormData();
+                       // formData.append('amount', $("#nav-content-fin").find('#liqpay-amount').val());
+
+                       // fetch(`@Url.Action("Index","Payment")?amount=${$("#nav-content-fin").find('#liqpay-amount').val()}`, {
+                       //     method: 'GET',
+                       //     headers: {
+                       //         'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+
+                        //    }//,
+                           // body: formData
+                      //  })
+                      //      .then(response => {
+                      //          if (response.ok != true) {
+
+                      //          }
+
+                       //     })
+                       //     .catch (error => {
+                       //          dialog_error(error);
+
+                       // }
+
+                       // );
+
+                    })
 
                 });
                 $.get('/Account/UserChilds?view=UserChildsData', function (data) {

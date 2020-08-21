@@ -1,0 +1,79 @@
+﻿@model CateringPro.ViewModels.LiqPay.LiqPayCheckoutFormModel
+@{ ViewBag.Title = "Liqpay"; }
+
+<h2>Поповнення балансу </h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            За допомогою Widget
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="liqpay_checkout"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            Перейти за посиланням
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="POST" accept-charset="utf-8" action="https://www.liqpay.ua/api/3/checkout">
+                <input type="hidden" name="data" value="@Model.Data" />
+                <input type="hidden" name="signature" value="@Model.Signature" />
+                <button style="border: none !important; display:inline-block !important;text-align: center !important;padding: 7px 20px !important;
+                                        color: #fff !important; font-size:16px !important; font-weight: 600 !important; font-family:OpenSans, sans-serif; cursor: pointer !important; border-radius: 2px !important;
+                                        background: rgb(122,183,43) !important;" onmouseover="this.style.opacity='0.5';" onmouseout="this.style.opacity='1';">
+                    <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text"
+                         style="margin-right: 7px !important; vertical-align: middle !important;" />
+                    <span style="vertical-align:middle !important">Pay</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="liqpay_checkout"></div>
+<script>
+    window.LiqPayCheckoutCallback = function () {
+        LiqPayCheckout.init({
+            data:"@Model.Data",
+            signature: "@Model.Signature",
+            embedTo: "#liqpay_checkout",
+            mode: "embed" // embed || popup,
+        }).on("liqpay.callback", function (data) {
+            console.log(data.status);
+            console.log(data);
+            send_status(data);
+        }).on("liqpay.ready", function (data) {
+            // ready
+        }).on("liqpay.close", function (data) {
+            // close
+        });
+    };
+    function send_status(data) {
+        var postdata = { orderid: data.order_id, data: JSON.stringify(data) };
+        $.post('@Url.Content("~/Payment/RegisterWidgetCallback")', postdata).done(function (data, statusText, xhr) {
+           
+        })
+            .fail(function (xhr, code, error) {
+                console.log(error);
+            });
+    }
+</script>
+<script src="//static.liqpay.ua/libjs/checkout.js" async></script>
+
+@*
+    <form method="POST" accept-charset="utf-8" action="https://www.liqpay.ua/api/3/checkout">
+        <input type="hidden" name="data" value="@Model.Data" />
+        <input type="hidden" name="signature" value="@Model.Signature" />
+        <button style="border: none !important; display:inline-block !important;text-align: center !important;padding: 7px 20px !important;
+                                        color: #fff !important; font-size:16px !important; font-weight: 600 !important; font-family:OpenSans, sans-serif; cursor: pointer !important; border-radius: 2px !important;
+                                        background: rgb(122,183,43) !important;" onmouseover="this.style.opacity='0.5';" onmouseout="this.style.opacity='1';">
+            <img src="https://static.liqpay.ua/buttons/logo-small.png" name="btn_text"
+                 style="margin-right: 7px !important; vertical-align: middle !important;" />
+            <span style="vertical-align:middle !important">Pay</span>
+        </button>
+    </form>
+*@

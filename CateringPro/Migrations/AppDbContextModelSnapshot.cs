@@ -27,7 +27,6 @@ namespace CateringPro.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
@@ -625,7 +624,6 @@ namespace CateringPro.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
@@ -873,8 +871,8 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
@@ -882,9 +880,25 @@ namespace CateringPro.Migrations
                     b.Property<int>("IncomeType")
                         .HasColumnType("int");
 
-                    b.Property<string>("TransactionData")
+                    b.Property<bool>("IsProjection")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
+
+                    b.Property<decimal>("ProjectionAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ReturnCallBackData")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<string>("ReturnData")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<string>("TransactionData")
+                        .HasColumnType("nvarchar(2000)")
+                        .HasMaxLength(2000);
 
                     b.HasKey("Id", "TransactionDate");
 
@@ -948,9 +962,6 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValueSql("(0.0)");
 
-                    b.Property<string>("CompanyUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("LastUpdated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -987,8 +998,6 @@ namespace CateringPro.Migrations
                     b.HasKey("Id", "CompanyId");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("CompanyUserId");
 
                     b.ToTable("UserFinances");
                 });
@@ -1508,10 +1517,6 @@ namespace CateringPro.Migrations
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CateringPro.Models.CompanyUser", "CompanyUser")
-                        .WithMany()
-                        .HasForeignKey("CompanyUserId");
                 });
 
             modelBuilder.Entity("CateringPro.Models.UserGroups", b =>
