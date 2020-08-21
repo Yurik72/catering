@@ -907,6 +907,8 @@
   <data name="PasswordRequirements" xml:space="preserve">
     <value>Мінімум 8 значень</value>
   </data>
-  
+  <data name="PreviousPasswordIsNotCorrect" xml:space="preserve">
+    <value>Старий пароль не правильний</value>
+  </data>
 
 </root>

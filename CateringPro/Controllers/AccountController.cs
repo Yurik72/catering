@@ -66,6 +66,7 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 var user = new CompanyUser
@@ -701,19 +702,6 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ChangeOldPassword([Bind("Id,NewPassword,OldPassword,ConfirmPassword")] UpdateUserModel um)
         {
             ModelState.Clear();
-            //if (!ModelState.IsValid)
-            //{
-            //    if (um.IsModal)
-            //    {
-            //        return View("Update", um);
-            //    }
-
-            //    else
-            //    {
-            //        return View("ChangePasswordModal", um);
-            //    }
-
-            //}
             string logged_id = User.GetUserId();
             if (logged_id != um.Id)
             {
@@ -734,7 +722,7 @@ namespace CateringPro.Controllers
                     var validate = await _signInManager.CheckPasswordSignInAsync(user, um.OldPassword, false);
                     if (!validate.Succeeded)
                     {
-                        ModelState.AddModelError("", "Previous password is not correct");
+                        ModelState.AddModelError("", _localizer.GetLocalizedString("PreviousPasswordIsNotCorrect"));
                         _logger.LogWarning("Update user,  password for user {0} is invalid", user.UserName);
                         return View("ChangePasswordModal", um);
                     }
@@ -746,7 +734,7 @@ namespace CateringPro.Controllers
                             var result = await _userManager.ResetPasswordAsync(user, token, um.NewPassword);
                             if (result.Succeeded)
                             {
-                                ModelState.AddModelError("", "New password applied succesfully");
+                                ModelState.AddModelError("", _localizer.GetLocalizedString("NewPasswordApplied"));
                                 _logger.LogWarning("Update user password,  new password for user {0} was applied", user.UserName);
                                 return View("ChangePasswordModal", um);
                             }
