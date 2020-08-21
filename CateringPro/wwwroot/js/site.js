@@ -129,6 +129,10 @@ function setup_changechield() {
 
 //    }
 //}
+var days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+function getWeekDay(i) {
+    return days[i];
+}
 function setup_changecompany() {
     $("#selectcompany").click(function (e) {
         var id = $(this).attr("data-userid");
