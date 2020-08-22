@@ -35,6 +35,9 @@ namespace CateringPro.Models
         [DisplayName("AvgPrice")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal AvgPrice { get; set; }
+        [DisplayName("LastPurchasePrice")]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal LastPurchasePrice { get; set; }
         public virtual ICollection<Consignment> Consignments { get; set; }
         [DisplayName("Ingredient Category")]
         public int IngredientCategoriesId { get; set; }

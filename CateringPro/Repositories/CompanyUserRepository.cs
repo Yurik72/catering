@@ -304,7 +304,9 @@ namespace CateringPro.Repositories
             {
                 UserId = userId,
                 CurrentBalance = userfin.Balance,
-                AmountToAdd = 0
+                AmountToAdd = 0,
+                TotalPreOrderedAmount= userfin.TotalPreOrderedAmount,
+                TotalPreOrderBalance =userfin.TotalPreOrderBalance
             };
             return model;
         }

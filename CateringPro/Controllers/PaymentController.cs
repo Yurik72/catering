@@ -82,10 +82,16 @@ namespace CateringPro.Controllers
         /// </summary>
         /// <returns></returns>
         
-        public async Task<ActionResult> Redirect()
+        public async Task<ActionResult> Redirect(string orderid)
         {
-
-            return View(await _fin.GetRedirectModelAsync(User.GetUserId(), User.GetCompanyID()));
+            var userid = User.GetUserId();
+            var companyId = User.GetCompanyID();
+            if (!string.IsNullOrEmpty(orderid))
+            {
+                userid = _fin.GetUserIDfromOrderID(orderid);
+                companyId = _fin.GetCompanyIdfromOrderID(orderid);
+            }
+            return View(await _fin.GetRedirectModelAsync(userid, companyId, orderid));
             // --- Перетворюю відповідь LiqPay в Dictionary<string, string> для зручності:
             // var request_dictionary = Request.Form.ToDictionary(key => key, key => Request.Form[key]);
             /*

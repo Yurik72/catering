@@ -1,5 +1,9 @@
 ﻿@model PaymentRedirectViewModel
 
+@section Styles
+{
+    <meta http-equiv="Refresh" content="5" />
+}
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -12,8 +16,32 @@
         <div class="col-12">
             <h5>
 
-                Дякуюємо за поповнення балансу Вашої дитини @Model.ChildName, ваш платіж ще обробляється. Як тільки ми отримаємо підтвердження  ви побачите їх в особистому кабінеті. Або дочекайтеся результатів на цій сторінці
+                Дякуюємо за поповнення балансу Вашої дитини @Model.ChildName,
+                ваш платіж ще обробляється.
+
+
             </h5>
+            @if (!Model.IsConfrimed && !Model.IsRejected)
+            {
+                <h5 class="text-danger">
+                    Як тільки ми отримаємо підтвердження  ви побачите їх в особистому кабінеті.
+                    Або дочекайтеся результатів на цій сторінці
+                </h5>
+            }
+            @if (Model.IsConfrimed)
+            {
+                <h5 class="text-success">
+
+                    Ваша оплата підтверджена. Спасибі і приємного апетиту
+                </h5>
+            }
+            @if (Model.IsRejected)
+            {
+                <h5 class="text-danger">
+
+                    На жаль платіж був відхилений.
+                </h5>
+            }
         </div>
     </div>
     <div class="row">

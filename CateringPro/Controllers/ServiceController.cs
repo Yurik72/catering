@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using CateringPro.Data;
 using CateringPro.ViewModels;
 using CateringPro.Repositories;
+using System;
+using CateringPro.Core;
 
 namespace CateringPro.Controllers
 {
@@ -69,6 +71,18 @@ namespace CateringPro.Controllers
         public async Task<JsonResult> RequestForDelivery(ServiceRequest request)
         {
             var response = await _servicerepo.ProcessRequestAsync(request);
+            return Json(response);
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetAvailableCategories(DateTime daydate)
+        {
+           
+            daydate = DateTime.Now;
+            if (daydate.Ticks == 0)
+            {
+                daydate = DateTime.Now;
+            }
+            var response = await _servicerepo.GetAvailableCategories(daydate);
             return Json(response);
         }
     }

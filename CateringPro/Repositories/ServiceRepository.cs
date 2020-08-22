@@ -3,6 +3,7 @@ using CateringPro.Models;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,12 +28,18 @@ namespace CateringPro.Repositories
             _cache = cache;
         }
 
-        public Task<List<DeliveryDishViewModel>> GetDishesToDeliveryAsync(string userId, DateTime dayDate, bool includeDelievered = false)
+        public Task<List<DeliveryDishViewModel>> GetDishesToDeliveryAsync(string userId, DateTime dayDate, bool includeDelievered = false,int[] сategoriesIds=default)
         {
+            if (сategoriesIds == null)
+                сategoriesIds = new int[0];
             return (from ud in _context.UserDayDish.Where(ud => ud.UserId == userId && ud.Date == dayDate && (!ud.IsDelivered || includeDelievered))
                           join  d in _context.Dishes on ud.DishId equals d.Id
-                         
-                          select new DeliveryDishViewModel() { ID = d.Id, Name = d.Name, IsComplex = ud.IsComplex, ComplexId = (ud.ComplexId.HasValue ? ud.ComplexId.Value : -1) })
+                            join c in _context.Complex on ud.ComplexId equals c.Id
+                            where (сategoriesIds.Length == 0 || сategoriesIds.Contains(c.CategoriesId))
+
+
+
+                    select new DeliveryDishViewModel() { ID = d.Id, Name = d.Name, IsComplex = ud.IsComplex, ComplexId = (ud.ComplexId.HasValue ? ud.ComplexId.Value : -1) })
                        .ToListAsync();
         }
         public async Task<List<DeliveryQueue>> GetQueueToDeliveryAsync(string userId, DateTime dayDate)
@@ -138,8 +145,9 @@ namespace CateringPro.Repositories
                              join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate) on q.DishId equals ud.DishId
                              join d in _context.Dishes on q.DishId equals d.Id
                              join u in _context.CompanyUser on q.UserId equals u.Id
+                             join c in _context.Complex on ud.ComplexId equals c.Id
                              where request.DishesNum.Contains(q.DishCourse)
-
+                                   && ( request.ComplexCategoriesIds.Length==0 || request.ComplexCategoriesIds.Contains(c.CategoriesId))
                                    // select new { userid = u.Id, dishid = d.Id, dishname = d.Name }
                                    select new DeliveryQueueForGroup()
                                    {
@@ -297,6 +305,13 @@ namespace CateringPro.Repositories
 
         }
 
-
+        public async Task<IEnumerable<Categories>> GetAvailableCategories(DateTime daydate)
+        {
+            var query = await (from ud in _context.UserDayDish.Where(ud => ud.Date == daydate)
+                         join c in _context.Complex on ud.ComplexId equals c.Id
+                         join cat in _context.Categories on c.CategoriesId equals cat.Id
+                         select cat).Distinct().ToListAsync();
+            return query;
+        }
     }
 }

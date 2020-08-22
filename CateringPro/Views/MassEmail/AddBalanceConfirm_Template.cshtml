@@ -3,6 +3,9 @@
 @inject Microsoft.Extensions.Options.IOptions<UIOption> pageOptions
 @{
     Layout = null;
+    string user_name = @Model.User.NameSurname;
+    if (Model.ParentUser != null)
+        user_name = Model.ParentUser.NameSurname;
 }
 
 <html>

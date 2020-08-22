@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Окно выдачи заказов";
     Layout = null;
-    int numDishes = 5;
+    int numDishes = 4;
 }
 
 
@@ -64,6 +64,11 @@
             </div>
         </div>
         <div class="row dishes-num">
+            <div data-num="-1" class="col-2 order-complexcategories-select  border rounded bg-secondary text-white btn">
+                <select class="form-control" id="complexcategories" name="complexcategories">
+
+                </select>
+            </div>
             <div data-num="-1" class="col-2 order-dish-select welcome border rounded bg-secondary text-white btn">
                 @* <span data-num="-1" class="order-dish-select welcome w-100">Welcome</span>*@
                 Welcome
@@ -135,8 +140,8 @@
             var isNfcConnected = false;
             var lastQueueid = -1;
 
-
-            var serviceurl = "/Service/RequestForDelivery";
+            var baseurl = "/Service";
+            var serviceurl = baseurl+"/RequestForDelivery";
             var el_online = $("#isonline");
             var el_offline = $("#isoffline");
             var elnfc_online = $("#nfc_isonline");
@@ -150,58 +155,62 @@
             elnfc_online.hide();
             elnfc_offline.show();
             var timer_checknfcstate;
-            $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:44360/ws');
+            $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:5001/ws');
             var curr_date = new Date();
             var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
             
             $('#currentdate').text(readable_date);
             const height_header = el_header.first().outerHeight(true);
             localStorage[key_url] = $('#nfcurl').val();
-            var nfcsock = new nfc_socket($('#nfcurl').val(),
-                function (data) {
-                    console.log(data);
-                },
-                function (cmd, event) {
-                   // console.log(cmd);
-                   // console.log(event);
-                   // if (cmd === 'open') {
-                  //      nfcsock.getstatus(function () { });
-                  //  }
-                }
-            );
-          
+
+           
+            var nfcsock = newnfcsocket($('#nfcurl').val())
+            function newnfcsocket(url) {
+                const newnfc= new nfc_socket(url,
+                    function (data) {
+                        //console.log(data);
+                    },
+                    function (cmd, event) {
+                        // console.log(cmd);
+                        // console.log(event);
+                        // if (cmd === 'open') {
+                        //      nfcsock.getstatus(function () { });
+                        //  }
+                    });
+                newnfc.on('status', function (msg) {
+                    showNfcInfo(msg);
+                });
+                newnfc.on('error', function (msg) {
+                    $('#connectnfc').prop('disabled', false);
+                    dialog_error(msg);
+                });
+                newnfc.on('cardreaded', function (msg) {
+                    $('#userid').val(msg.Cardtag);
+                    if (IsWelcomeMode() && isQueueMode && isStarted) {
+                        requestfordelivery(filldeliverydishes);
+                    }
+                });
+                newnfc.on('state', function (msg) {
+
+                    check_statenfc(msg);
+                    showNfcInfo(msg);
+
+                });
+                return newnfc;
+            }
+            $('#nfcurl').change(function (e) {
+                localStorage[key_url] = e.target.value;
+                nfcsock = newnfcsocket($('#nfcurl').val())
+            });
+            refreshState();
+            fillComplexCategories();
             $('#connectnfc').click(function (e) {
                 e.preventDefault();
                 $('#connectnfc').prop('disabled', true);
                 nfcsock.connect();
 
             });
-            nfcsock.on('status', function (msg) {
-                showNfcInfo(msg);
-            });
-            nfcsock.on('error', function (msg) {
-                $('#connectnfc').prop('disabled', false);
-                dialog_error(msg);
-            });
-            nfcsock.on('cardreaded', function (msg) {
-                $('#userid').val(msg.Cardtag);
-                if (IsWelcomeMode() && isQueueMode && isStarted) {
-                    requestfordelivery(filldeliverydishes);
-                }
-               // else if (isQueueMode) {
-               //     requestfordeliveryQueue(fillQueue);
-              //  }
-              //  else {
-              //      requestfordelivery(filldeliverydishes);
-              //  }
 
-            });
-            nfcsock.on('state', function (msg) {
-
-                check_statenfc(msg);
-                showNfcInfo(msg);
-
-            });
             function check_statenfc(msg) {
                 if (msg && msg.Isreaderconnected) {
                     if (timer_checknfcstate)
@@ -220,7 +229,28 @@
                 timer_checknfcstate = setTimeout(check_nfc, 10000);
             }
 
-           
+            function fillComplexCategories() {
+                
+                $.post(baseurl + '/GetAvailableCategories', readable_date).done(function (data, statusText, xhr) {
+                    $('#complexcategories').empty();
+                    try {
+                        if (data && Array.isArray(data) && data.length != 0) {
+                            var options = "";
+                            data.forEach(function (elem,idx) {
+                                var sel = idx == 0 ? 'selected' : ''
+                                options += `<option ${sel} value='${elem.id}'>${elem.name}</option>`;
+                            });
+                            $('#complexcategories').append(options);
+                        }
+                    }
+                    catch{
+                    }
+                })
+                    .fail(function (xhr, code, error) {
+                        el_error.val(error);
+                        el_error.show();
+                    });
+            }
 
             function IsWelcomeMode() {
                 return $(".order-dish-select.welcome").hasClass('active');
@@ -247,7 +277,7 @@
                 refreshNfcState();
                 
             });
-            refreshState();
+
             function getdishesnum() {
                 return $('.dishes-num').find('.order-dish-select.active').map(function (index, element) {
                     return parseInt($(element).attr('data-num'));
@@ -533,8 +563,9 @@
                 
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
-
-                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue:max_queue, LastQueueId:lastQueueid };
+                var categories = [];
+                categories.push(parseInt( $('#complexcategories').children("option:selected").val()));
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue, LastQueueId: lastQueueid, ComplexCategoriesIds: categories};
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
@@ -549,7 +580,10 @@
                 var requesttype = 'askfordelivery';
                 if (IsWelcomeMode())
                     requesttype = 'askforregister';
-                var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum };
+                var categories = [];
+                categories.push(parseInt($('#complexcategories').children("option:selected").val()));
+
+                var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum, ComplexCategoriesIds: categories };
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
