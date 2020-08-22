@@ -7,6 +7,7 @@
     ViewData["Title"] = "EditDay";
     bool allowEdit = (bool)ViewData["AllowEdit"];
     bool allowAdmin = (bool)ViewData["AllowAdmin"];
+    bool posBalance = (bool)ViewData["PositiveBalance"];
 }
 @{
     DateTime daydate = DateTime.Now;
@@ -21,6 +22,11 @@
         {
             <br />
             <h2 class="text-center">@Localizer["AskAdmin"]</h2>
+        }
+        @if (!posBalance)
+        {
+            <br />
+            <h2 class="text-center">@Localizer["LowBalance"]</h2>
         }
         @if (Model.Count() > 0)
         {

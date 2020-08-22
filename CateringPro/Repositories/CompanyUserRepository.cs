@@ -266,9 +266,13 @@ namespace CateringPro.Repositories
         }
         public async Task<List<CompanyUser>> GetUserChilds(string userId, int companyId, bool onlyChild = false)
         {
-          //  var user = await _userManager.FindByIdAsync(userId);
+            //  var user = await _userManager.FindByIdAsync(userId);
             //return await _userManager.Users.Where(u => u.CompanyId == companyId && u.ParentUserId == userId || (u.Id == userId && onlyChild) || u.Id == user.ParentUserId).ToListAsync();
-
+            var child = _userManager.Users.Where(u => u.Id == userId).FirstOrDefault();
+            if (child.IsChild())
+            {
+                userId = child.ParentUserId;
+            }
             var childs = await _userManager.Users.Where(u => u.CompanyId == companyId && u.ParentUserId == userId 
                                 || (u.Id == userId && !onlyChild) )
                                 .OrderByDescending(u=> (u.Id== userId?1:0))  //parent always first

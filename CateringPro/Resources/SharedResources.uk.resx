@@ -910,5 +910,7 @@
   <data name="PreviousPasswordIsNotCorrect" xml:space="preserve">
     <value>Старий пароль не правильний</value>
   </data>
-
+  <data name="LowBalance" xml:space="preserve">
+    <value>На вашому балансі недостатньо коштів для здійснення замовлення</value>
+  </data>
 </root>

@@ -4,63 +4,65 @@
 @{
     ViewData["Title"] = "Edit";
 }
-@if (false)
+@if (true)
 {
-    <div class="modal-content overflow-hidden position-relative col-lg-12 col-12 p-0">
+    <div class="modal-content overflow-hidden position-relative col-lg-12 col-12 p-0" id="complex" data-id="@Model.Id">
         <div class="modal-header align-items-center col-12" style="padding-top:20px">
             <h5 class="modal-title px-lg-3 px-md-3 px-0" id="exampleModalLabel1"
                 style="font-size: 34px; line-height: 40px; font-weight: bold">
-                Комплекс
+                @Localizer["Complex"]
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <img src="../img/close-modal.svg" aria-hidden="true" alt="">
             </button>
         </div>
         <div class="modal-body col-auto mt-2 px-0 brd-bot-line-reverse">
-            <form class="col-12 px-3 mt-1 d-flex flex-md-row flex-lg-row flex-column brd-bot-line-reverse pb-3">
+            @if (@Html.ValidationSummary() != null)
+            {
+                <div id="error" class="col alert-danger">@Html.ValidationSummary()</div>
+
+            }
+            <div class="col-12 px-3 mt-1 d-flex flex-md-row flex-lg-row flex-column brd-bot-line-reverse pb-3">
                 <div class="col-lg-9 col-md-9 col-12 px-lg-3 px-md-3 px-0">
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
-                            <label for="input-complex-name"
-                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Назва</label>
-                            <input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                   id="input-complex-name"
-                                   placeholder="Назва" style="height: 34px">
+                            <input type="hidden" asp-for="Id" />
+                            <label asp-for="Name"
+                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                            <input class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                   asp-for="Name"
+                                   placeholder="@Localizer["Complex Name"]" style="height: 34px">
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
-                            <label for="input-doc-number"
-                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Вартість</label>
-                            <input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                   id="input-doc-number"
-                                   placeholder="" value="0.00"
+                            <label asp-for="Price"
+                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                            <input class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                   asp-for="Price"
+                                  
                                    style="height: 34px; font-family: Open-Sans, sans-serif">
+                            <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
-                            <label for="input-complex-category"
-                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">
-                                Категорія
-                                комплекса
-                            </label>
+                            <label asp-for="CategoriesId"
+                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
                             <div class="col-12 col-lg-8 col-md-8 d-flex justify-content-between px-0">
-
-                                <select class="form-control col-10 col-lg-8 col-md-8 "
-                                        id="input-complex-category"
+                                <input asp-for="DishesQuantity" type="hidden" id="quantity" name="DishesQuantity" min="1" max="10" class="form-control" onchange="changeQuantity()" />
+                                <select class="form-control col-10 col-lg-8 col-md-8 complex-category"
+                                        asp-for="CategoriesId" asp-items="ViewBag.CategoriesId"
                                         style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
-                                    <option selected="">Вечеря</option>
-                                    <option>Обід</option>
-                                    <option>Сніданок</option>
                                 </select>
                                 <div class="col-lg-4 col-md-4 col-2  pr-0">
-                                    <button type="button" data-toggle="modal" data-target="#change-article"
-                                            class="col-12 btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold btn-block d-lg-block d-md-block d-none"
+                                    <button type="button" data-toggle="modal" data-target="#change-article" id="create-dishline" 
+                                            class="col-12 btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold btn-block d-lg-block d-md-block d-none create"
                                             onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
                                             onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
                                             style="background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 34px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
-                                        ＋ ДОДАТИ
+                                        @Localizer["Add"]
                                     </button>
                                     <button class="btn col-12 button-add-complex d-block d-md-none d-lg-none"
                                             data-toggle="modal" data-target="#change-article" type="button"
@@ -72,137 +74,34 @@
 
                     </div>
                 </div>
-            </form>
+            </div>
             <div class=" col-12 pt-3">
+                @*<div class="complex-content container">
+                    @for (int i = 0; i < Model.DishesQuantity; i++)
+                    {
+                        await Html.RenderPartialAsync("ComplexLineDishes", Model.DishComplex.Where(d => d.DishCourse == i));
+                    }
+                    <div class="row" id="dish-footer">
+                        <div id="create-dishline" class="col create">
+                            <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
+                            <span>@Localizer["Add"]</span>
+                        </div>
+                        <div id="response" class="col"></div>
+                    </div>
+                </div>*@
                 <div class="col-lg-9 col-md-9 col-12 d-flex justify-content-end px-0 px-lg-3 px-md-3">
-                    <div class="col-lg-8 col-md-8 col-12 border-reverse p-0 p-lg-3 p-md-3" style="overflow-y: scroll;">
-                        <div class="col-12 complex d-flex flex-column px-0 mb-3"
-                             style="border: 1px solid #B1B1B1; border-radius: 4px;">
-                            <div class="d-flex justify-content-between align-items-center col-12 py-0"
-                                 style="padding-top:20px; border-bottom: 1px solid #B1B1B1;">
-                                <button type="button" class="modal-title  px-0 d-flex align-items-center"
-                                        style="font-size: 18px; line-height: 40px; font-weight: 500; color: #232323; text-decoration: none; width: 110px; outline: none; border: none; background: #ffffff">
-                                    <img src="../img/roll-up.svg" class="mr-1 d-block d-md-none d-lg-none"
-                                         alt="">Перше
-                                </button>
-                                <button type="button" class="close" onclick="this.closest('.complex').remove()">
-                                    <img src="../img/close-modal.svg" aria-hidden="true" alt="">
-                                </button>
-                            </div>
-                            <div class="col-12  my-2 d-flex align-items-center justify-content-between parent-delete">
-                                <div class="">
-                                    <img src="../img/dish-image2.png" alt="Complex image"
-                                         style="width: 40px; height: 40px">
-                                </div>
-                                <div class="col-8" style="font-size: 16px; color: #232323">
-                                    Борщ з пампушками
-                                </div>
-                                <div class="col-2 pr-0 d-flex justify-content-end">
-                                    <button class="btn delete-parent pr-0"
-                                            style="background: none; border: none">
-                                        <img src="../img/delete-icon.svg" alt="Delete item">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-12  my-2 d-flex align-items-center justify-content-between parent-delete">
-                                <div class="">
-                                    <img src="../img/dish-image2.png" alt="Complex image"
-                                         style="width: 40px; height: 40px">
-                                </div>
-                                <div class="col-8 " style="font-size: 16px; color: #232323">
-                                    Запечені яблука з
-                                    сиром
-                                </div>
-                                <div class="col-2 pr-0 d-flex justify-content-end">
-                                    <button class="btn delete-parent pr-0"
-                                            style="background: none; border: none">
-                                        <img src="../img/delete-icon.svg" alt="Delete item">
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="button" class="col-12 my-2 d-flex align-items-center"
-                                    style="outline: none; border: none; background: none; color: #36c233">
-                                <div class="add-new-complex"
-                                     style="border: 1px dashed #36C233; width: 40px; height: 40px;">
+                    <div class="col-lg-8 col-md-8 col-12 border-reverse p-0 p-lg-3 p-md-3 complex-content" style="overflow-y: scroll;">
+                        @for (int i = 0; i < Model.DishesQuantity; i++)
+                        {
+                            await Html.RenderPartialAsync("ComplexLineDishes", Model.DishComplex.Where(d => d.DishCourse == i));
+                        }
 
-                                </div>
-                                <div class="col-10 d-flex justify-content-start"
-                                     style="font-size: 16px; color: #36C233">
-                                    Створити нову страву
-                                </div>
-                            </button>
+                        
+                        <div class="row" id="dish-footer">
 
-
+                            <div id="response" class="col"></div>
                         </div>
-                        <div class="col-12 complex d-flex flex-column px-0 mb-3"
-                             style="border: 1px solid #B1B1B1; border-radius: 4px;">
-                            <div class="d-flex justify-content-between align-items-center col-12 py-0"
-                                 style="padding-top:20px; border-bottom: 1px solid #B1B1B1;">
-                                <button type="button" class="modal-title  px-0 d-flex align-items-center"
-                                        style="font-size: 18px; line-height: 40px; font-weight: 500; color: #232323; text-decoration: none; width: 110px; outline: none; border: none; background: #ffffff">
-                                    <img src="../img/roll-up.svg" class="mr-1 d-block d-md-none d-lg-none"
-                                         alt="">Друге
-                                </button>
-                                <button type="button" class="close" onclick="this.closest('.complex').remove()">
-                                    <img src="../img/close-modal.svg" aria-hidden="true" alt="">
-                                </button>
-                            </div>
-                            <div class="col-12  my-2 d-flex align-items-center justify-content-between parent-delete">
-                                <div class="">
-                                    <img src="../img/dish-image2.png" alt="Complex image"
-                                         style="width: 40px; height: 40px">
-                                </div>
-                                <div class="col-8" style="font-size: 16px; color: #232323">
-                                    Борщ з пампушками
-                                </div>
-                                <div class="col-2 pr-0 d-flex justify-content-end">
-                                    <button class="btn delete-parent pr-0"
-                                            style="background: none; border: none">
-                                        <img src="../img/delete-icon.svg" alt="Delete item">
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="button" class="col-12 my-2 d-flex align-items-center"
-                                    style="outline: none; border: none; background: none; color: #36c233">
-                                <div class="add-new-complex"
-                                     style="border: 1px dashed #36C233; width: 40px; height: 40px;">
 
-                                </div>
-                                <div class="col-10 d-flex justify-content-start"
-                                     style="font-size: 16px; color: #36C233">
-                                    Створити нову страву
-                                </div>
-                            </button>
-
-
-                        </div>
-                        <div class="col-12 complex d-flex flex-column px-0"
-                             style="border: 1px solid #B1B1B1; border-radius: 4px;">
-                            <div class="d-flex justify-content-between align-items-center col-12 py-0"
-                                 style="padding-top:20px; border-bottom: 1px solid #B1B1B1;">
-                                <button type="button" class="modal-title  px-0 d-flex align-items-center"
-                                        style="font-size: 18px; line-height: 40px; font-weight: 500; color: #232323; text-decoration: none; width: 110px; outline: none; border: none; background: #ffffff">
-                                    <img src="../img/roll-up.svg" class="mr-1 d-block d-md-none d-lg-none"
-                                         alt="">Третє
-                                </button>
-                                <button type="button" class="close" onclick="this.closest('.complex').remove()">
-                                    <img src="../img/close-modal.svg" aria-hidden="true" alt="">
-                                </button>
-                            </div>
-                            <button type="button" class="col-12 my-2 d-flex align-items-center"
-                                    style="outline: none; border: none; background: none; color: #36c233">
-                                <div class="add-new-complex"
-                                     style="border: 1px dashed #36C233; width: 40px; height: 40px;">
-
-                                </div>
-                                <div class="col-10 d-flex justify-content-start"
-                                     style="font-size: 16px; color: #36C233">
-                                    Створити нову страву
-                                </div>
-                            </button>
-
-
-                        </div>
 
                     </div>
                 </div>
@@ -212,14 +111,14 @@
         </div>
         <div class="modal-footer justify-content-center border-0 px-3"
              style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
-            <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+            <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12" id="sendBut"
                     style="background: #36C233; border: 1px solid #36C233; height: 48px">
-                ЗБЕРЕГТИ
+                @Localizer["Save"]
             </button>
             <button type="button" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
                     style="background: #ffffff; border: 1px solid #F15E25; height: 48px; color: #f15e25"
                     data-dismiss="modal">
-                ВІДМІНИТИ
+                @Localizer["Cancel"]
             </button>
         </div>
 

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Кабачок</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/custom-select.css"/>
+    <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"/>
+    <link rel="stylesheet" href="../css/jquery-ui.css"/>
+    <link rel="stylesheet" href="../css/site.css"/>
+    <link rel="stylesheet" href="../css/custom-select.css"/>
+
+
+</head>
+
+<body class="d-flex flex-column" style="min-height: 100%">
+<header>
+    <div class="container">
+        <div id="cookies"></div>
+        <nav class="navbar navbar-light flex-grow-0 px-0 ">
+            <a class="navbar-brand" href="#"><img src="../img/logo.png" alt="Catering logo"></a>
+
+
+            <ul class="nav justify-content-lg-end justify-content-md-end justify-content-center col-12 col-lg-6 col-md-6 p-0 mt-3 mt-lg-0 mt-md-0">
+                <li class="nav-item mr-2">
+                    <a id="loginLink"
+                       class="nav-link text-main-color-dark px-0 navbar-size-14 d-flex justify-content-center align-items-center"
+                       href="/Account/Login"
+                       style="width: 130px; background: #36C233; border-color:  #F05E25; border-radius: 4px; text-decoration: none; height: 34px; color:  #FFFFFF; padding: 0 30px; font-size: 14px; text-transform: uppercase">
+                        &#x423;&#x432;&#x456;&#x439;&#x442;&#x438;
+                    </a>
+                </li>
+                <li class="nav-item ml-2">
+                    <a id="registerLink"
+                       class="nav-link text-main-color-dark px-0 navbar-size-14 d-flex justify-content-center align-items-center"
+                       href="/Account/Register"
+                       style="width: 130px; background: #F05E25; border-color:  #F05E25; border-radius: 4px; text-decoration: none; height: 34px; color:  #FFFFFF; padding: 0 30px; font-size: 14px; text-transform: uppercase">
+                        &#x420;&#x435;&#x454;&#x441;&#x442;&#x440;&#x430;&#x446;&#x456;&#x44F;
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+    </div>
+</header>
+<main class="d-flex flex-grow-1">
+    <div class="container-xl container-md container-sm container">
+        <div class="col-12 p-0 d-flex flex-column">
+
+            <h2 class="mt-3" style="font-weight: 600; font-size: 32px; color: #232323;">&#x417;&#x430;&#x440;&#x435;&#x454;&#x441;&#x442;&#x440;&#x443;&#x439;&#x442;&#x435;&#x441;&#x44C;
+                &#x431;&#x435;&#x437;&#x43A;&#x43E;&#x448;&#x442;&#x43E;&#x432;&#x43D;&#x43E;!</h2>
+            <form method="post" class="form-horizontal" role="form" id="register-form-styles"
+                  action="/Account/Register">
+                <ul>
+                </ul>
+                <div class="col-12 d-flex flex-wrap p-0">
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 font-weight-bold" for="UserName"
+                               style="font-size: 18px">&#x41A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x443;&#x432;&#x430;&#x447;<span
+                                style="color: red;">&nbsp;*</span></label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" autocomplete="off" type="text"
+                                   data-val="true"
+                                   data-val-required="The &#x41A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x443;&#x432;&#x430;&#x447; field is required."
+                                   id="UserName" name="UserName" value="" minlength="1" required/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="UserName"
+                                  data-valmsg-replace="true"></span>
+                            <span class="invisible-validation">Латинські символи, без пробілів</span>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 font-weight-bold" for="Email">Email<span
+                                style="color: red;">&nbsp;*</span></label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" autocomplete="off" type="email"
+                                   data-val="true"
+                                   data-val-required="The Email field is required." id="Email" name="Email" value=""
+                                   required/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Email"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 font-weight-bold" for="Password">&#x41F;&#x430;&#x440;&#x43E;&#x43B;&#x44C;<span
+                                style="color: red;">&nbsp;*</span></label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" autocomplete="off"
+                                   type="password" data-val="true"
+                                   data-val-required="The Password field is required." id="Password" name="Password"
+                                   minlength="8" maxlength="30" required/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Password"
+                                  data-valmsg-replace="true"></span>
+                            <span class="invisible-validation">Мінімум 8 символів</span>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 font-weight-bold" for="PhoneNumber">&#x422;&#x435;&#x43B;&#x435;&#x444;&#x43E;&#x43D;<span
+                                style="color: red;">&nbsp;*</span></label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="tel" data-val="true"
+                                   data-val-required="The &#x422;&#x435;&#x43B;&#x435;&#x444;&#x43E;&#x43D; field is required."
+                                   id="PhoneNumber" name="PhoneNumber" value="" pattern="^[ 0-9]+$" required/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="PhoneNumber"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 font-weight-bold" for="NameSurname">&#x406;&#x43C;&#x27;&#x44F;,&#x41F;&#x440;&#x456;&#x437;&#x432;&#x438;&#x449;&#x435;<span
+                                style="color: red;">&nbsp;*</span></label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" data-val="true"
+                                   data-val-required="The &#x406;&#x43C;&#x27;&#x44F;,&#x41F;&#x440;&#x456;&#x437;&#x432;&#x438;&#x449;&#x435; field is required."
+                                   id="NameSurname" name="NameSurname" value="" required/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="NameSurname"
+                                  data-valmsg-replace="true"></span>
+                            <span class="invisible-validation" style="z-index: 100">Приклад: Василь Стус</span>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 change-weight"
+                               for="City">&#x41C;&#x456;&#x441;&#x442;&#x43E;</label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" id="City"
+                                   name="City" value=""/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="City"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 change-weight" for="ZipCode">&#x41F;&#x43E;&#x448;&#x442;.
+                            &#x406;&#x43D;&#x434;&#x435;&#x43A;&#x441;</label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" id="ZipCode"
+                                   name="ZipCode" value=""/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="ZipCode"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 change-weight" for="Address1">&#x410;&#x434;&#x440;&#x435;&#x441;&#x430;
+                            1</label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" id="Address1"
+                                   name="Address1" value=""/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Address1"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 change-weight" for="Address2">&#x410;&#x434;&#x440;&#x435;&#x441;&#x430;
+                            2</label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" id="Address2"
+                                   name="Address2" value=""/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Address2"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
+                        <label class="col-md-4 control-label float-left p-0 change-weight" for="Country">&#x41A;&#x440;&#x430;&#x457;&#x43D;&#x430;</label>
+                        <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
+                            <input class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" id="Country"
+                                   name="Country" value=""/>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Country"
+                                  data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 col-lg-6 col-md-6 p-0 ">
+                        <div class="col-md-4 col-lg-4 col-sm-8 col-12 p-0 control-label d-flex justify-content-md-start justify-content-lg-start justify-content-center">
+                            <input type="submit"
+                                   value=&#x440;&#x435;&#x454;&#x441;&#x442;&#x440;&#x430;&#x446;&#x456;&#x44F;
+                                   class="btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-flex "
+                                   style="width: 228px; background: #F05E25; border-color:  #F05E25; outline: none; height: 48px; color:  #FFFFFF; padding: 0 30px; font-size: 14px; text-transform: uppercase">
+
+
+                        </div>
+                    </div>
+                </div>
+                <input name="__RequestVerificationToken" type="hidden"
+                       value="CfDJ8MAG9YGL5lFMkoJRb8KUvCBJ2yq_-IKqJ5wd53SI0NQNIlTdTjDf67mPZBQG7ypVEDstN6mJUP4Jf_h0lxOdyra-hjZWFWirCNJYek5l28b3dMRye72hCD9rmTieduED9e7spAsSlZFQFSipeRG6pRI"/>
+            </form>
+        </div>
+    </div>
+</main>
+
+
+<footer class="footer row ml-0 mr-0" style="background: #222222">
+    <div class="w-100 p-0 first-footer d-flex align-items-center">
+        <div class="container">
+            <div class="col-12 p-0 d-flex justify-content-between align-items-center">
+                <div class="col-lg-9 col-md-9 col-6 p-0 justify-content-center align-items-center">
+                    <nav class="nav col-12 p-0 d-flex justify-content-between">
+                        <div class=" p-0 justify-content-between d-none d-lg-flex d-md-flex non-visible-mob"
+                             style="width: 120px; ">
+                            <a style="height: 50px; width: 50px; border: 1px solid #B1B1B1; border-radius: 50%; text-decoration: none;"
+                               href="#"></a>
+                            <a style="height: 50px; width: 50px; border: 1px solid #B1B1B1; border-radius: 50%; text-decoration: none;"
+                               href="#"></a>
+                        </div>
+                        <div class=" justify-content-between d-flex d-lg-none d-md-none visible-mob"
+                             style="width: 70px; ">
+                            <a style="height: 20px; width: 20px;  text-decoration: none;" href="#"></a>
+                            <a style="height: 20px; width: 20px;  text-decoration: none;" href="#"></a>
+                        </div>
+                        <div class="col-9 p-0 justify-content-between align-items-center d-none d-lg-flex d-md-flex flex-grow-1 mail-non-visible">
+                            <div class="col-5 p-0" style="font-size: 16px; color: #ffffff">
+                                <img src="../img/phone-footer-pc.svg" alt="" style="margin-right: 6px">(XXX) XXX-XXXX
+                            </div>
+                            <div class="col-7 p-0" style="font-size: 16px; color: #ffffff">
+                                <img src="../img/mail-footer-pc.svg" alt="" style="margin-right: 6px">admin@kabachok.group
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-6 p-0 justify-content-center" style="height: 24px">
+                    <nav class="nav justify-content-end">
+                        <a class="nav-link p-0  align-self-center" href="#"
+                           style="color: #36C233; font-size: 14px; line-height: 16px;">Privacy</a>
+                        <div class="align-self-center px-3" style="color: #36C233">|</div>
+                        <a class="nav-link p-0 align-self-center" href="#"
+                           style="color: #36C233; font-size: 14px; line-height: 16px;">Terms</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-0 w-100 d-flex align-items-center second-footer" style="height: 38px;">
+        <div class="container container-sm container-md container-lg">
+            <div class="col-12 p-0 d-flex justify-content-center"
+                 style="color: #ffffff; font-size: 14px; line-height: 16px;">
+                <span>© 2017-2018 Company, Inc.</span>
+
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script>
+
+    [...document.querySelectorAll('#PhoneNumber')][0].addEventListener('keydown', function () {
+        this.value = this.value.replace(/[^\d]/g, '')
+    });
+    [...document.querySelectorAll('#UserName')][0].addEventListener('keydown', function () {
+        this.value = this.value.replace(/[А-Яа-яЁё]/g, '')
+    });
+</script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="/js/resources.js"></script>
+<script src="/js/site.js?v=IHjSLOrELEsLCUko7GCk78q6NSis1aeabC7RwspoF44"></script>
+<script>
+    $('#sources').each(function () {
+        let classes = $(this).attr("class"),
+            id = $(this).attr("id"),
+            name = $(this).attr("name");
+        let template = '<div class="' + classes + '">';
+        template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+        template += '<div class="custom-options">';
+        $(this).find("option").each(function () {
+            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+        });
+        template += '</div></div>';
+
+        $(this).wrap('<div class="custom-select-wrapper"></div>');
+        $(this).hide();
+        $(this).after(template);
+    });
+    $(".custom-option:first-of-type").hover(function () {
+        $(this).parents(".custom-options").addClass("option-hover");
+    }, function () {
+        $(this).parents(".custom-options").removeClass("option-hover");
+    });
+    $(".custom-select-trigger").on("click", function () {
+        $('html').one('click', function () {
+            $(".custom-select").removeClass("opened");
+        });
+        $(this).parents(".custom-select").toggleClass("opened");
+        event.stopPropagation();
+    });
+    $(".custom-option").on("click", function () {
+        $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+        $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+        $(this).addClass("selection");
+        $(this).parents(".custom-select").removeClass("opened");
+        $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+    });
+
+    $('.delete-parent').click(function () {
+        $(this).closest('.parent-delete').remove();
+    });
+
+
+</script>
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js" crossorigin="anonymous"
+        integrity="sha384-Fnqn3nxp3506LP/7Y3j/25BlWeA3PXTyT1l78LjECcPaKCV12TsZP7yyMxOe/G/k">
+</script>
+<script>(window.jQuery && window.jQuery.validator || document.write("\u003Cscript src=\u0022/lib/jquery-validation/dist/jquery.validate.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-Fnqn3nxp3506LP/7Y3j/25BlWeA3PXTyT1l78LjECcPaKCV12TsZP7yyMxOe/G/k\u0022\u003E\u003C/script\u003E"));</script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+        crossorigin="anonymous" integrity="sha384-JrXK+k53HACyavUKOsL+NkmSesD2P+73eDMrbTtTk0h4RmOF8hF8apPlkp26JlyH">
+</script>
+<script>(window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive || document.write("\u003Cscript src=\u0022/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-JrXK\u002Bk53HACyavUKOsL\u002BNkmSesD2P\u002B73eDMrbTtTk0h4RmOF8hF8apPlkp26JlyH\u0022\u003E\u003C/script\u003E"));</script>
+
+
+<div id="modDialogLogin" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div id="dialogContentLogin" class="modal-content">
+
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+
+
+        $('#loginLink').click(function (e) {
+            e.preventDefault();
+            var url = '/Account/LoginModal';
+
+            $.get(url, function (data) {
+                $('#dialogContentLogin').html(data);
+                $('#modDialogLogin').modal('show');
+            });
+        });
+
+
+        $(document).on('click', '[data-save="modal"]', function (event) {
+            event.preventDefault();
+
+            var form = $(this).parent().parents().find('.modal-body').find('form');
+            var actionUrl = form.attr('action');
+            var dataToSend = form.serialize();
+
+            $.post(actionUrl, dataToSend).done(function (data, statusText, xhr) {
+                var isValid = false;
+
+                if (data && data.res && data.res == "OK")
+                    isValid = true;
+
+                if (isValid) {
+                    $('#modDialog').modal('hide');
+                    $('#dialogContent').empty();
+
+                    window.location.href = data.returnUrl;
+                } else {
+                    var newBody = $('.modal-body', data);
+                    $(document).find('.modal-body').replaceWith(newBody);
+                }
+            }).fail(function (xhr, status, error) {
+                var message = error + '\r\n';
+                if (xhr)
+                    message += xhr.responseText;
+                dialog_error(message);
+                // $('html').html(xhr.responseText);
+            });
+        });
+    })
+</script>
+
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js" crossorigin="anonymous"
+        integrity="sha384-Fnqn3nxp3506LP/7Y3j/25BlWeA3PXTyT1l78LjECcPaKCV12TsZP7yyMxOe/G/k">
+</script>
+<script>(window.jQuery && window.jQuery.validator || document.write("\u003Cscript src=\u0022/lib/jquery-validation/dist/jquery.validate.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-Fnqn3nxp3506LP/7Y3j/25BlWeA3PXTyT1l78LjECcPaKCV12TsZP7yyMxOe/G/k\u0022\u003E\u003C/script\u003E"));</script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+        crossorigin="anonymous" integrity="sha384-JrXK+k53HACyavUKOsL+NkmSesD2P+73eDMrbTtTk0h4RmOF8hF8apPlkp26JlyH">
+</script>
+<script>(window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive || document.write("\u003Cscript src=\u0022/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js\u0022 crossorigin=\u0022anonymous\u0022 integrity=\u0022sha384-JrXK\u002Bk53HACyavUKOsL\u002BNkmSesD2P\u002B73eDMrbTtTk0h4RmOF8hF8apPlkp26JlyH\u0022\u003E\u003C/script\u003E"));</script>
+
+
+</body>
+</html>
+
