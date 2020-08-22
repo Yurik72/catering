@@ -14,7 +14,22 @@
             @Model.CurrentBalance
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-4 bold-w">
+            @Localizer["TotalPreOrderedAmount"]
+        </div>
+        <div class="col-4">
+            @Model.TotalPreOrderedAmount
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 bold-w">
+            @Localizer["TotalPreOrderBalance"]
+        </div>
+        <div class="col-4">
+            @Model.TotalPreOrderBalance
+        </div>
+    </div>
 </div>
 <div class="container border rounded my-2">
     <div class="row justify-content-center ">

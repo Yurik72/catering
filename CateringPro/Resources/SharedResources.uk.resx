@@ -913,4 +913,10 @@
   <data name="LastPurchasePrice" xml:space="preserve">
     <value>Ост.закуп. ціна</value>
   </data>
+  <data name="TotalPreOrderBalance" xml:space="preserve">
+    <value>Баланс з урах. замовлень</value>
+  </data>
+  <data name="TotalPreOrderedAmount" xml:space="preserve">
+    <value>Поточних замовлень</value>
+  </data>
 </root>

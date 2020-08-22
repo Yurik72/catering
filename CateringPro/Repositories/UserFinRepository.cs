@@ -155,7 +155,7 @@ namespace CateringPro.Repositories
                 order_id = db_income.OrderId,
                 sandbox = 1,
 
-                result_url = result_url,
+                result_url = $"{result_url}?orderid={db_income.OrderId}&",
                 server_url = callback_url,
                 product_category = Translit.cyr2lat("Харчування"),//  "T",  //"Харчування",
                 product_description = Translit.cyr2lat("Поповнення балансу за харчування " +user.GetChildUserName()),//"T", //"Поповнення балансу за харчування " +user.GetChildUserName(),
@@ -189,17 +189,17 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        private string GetUserIDfromOrderID(string orderid)
+        public string GetUserIDfromOrderID(string orderid)
         {
             var arr = orderid.Split("#");
             return arr[0];
         }
-        private int GetCompanyIdfromOrderID(string orderid)
+        public int GetCompanyIdfromOrderID(string orderid)
         {
             var arr = orderid.Split("#");
             return int.Parse(arr[2]);
         }
-        public async Task<PaymentRedirectViewModel> GetRedirectModelAsync(string userId, int companyId)
+        public async Task<PaymentRedirectViewModel> GetRedirectModelAsync(string userId, int companyId, string orderid)
         {
             var res = new PaymentRedirectViewModel();
             var user = await _userManager.FindByIdAsync(userId);
@@ -207,13 +207,22 @@ namespace CateringPro.Repositories
                 return res;
             res.UserName = user.NameSurname;
             res.ChildName = user.GetChildUserName();
-            var finincome = await _context.UserFinIncomes.LastOrDefaultAsync(ui => ui.Id == userId);
+            UserFinIncome finincome = null;
+            if (string.IsNullOrEmpty(orderid))
+            {
+                finincome = await _context.UserFinIncomes.LastOrDefaultAsync(ui => ui.Id == userId);
+            }
+            else
+            {
+                finincome = await _context.UserFinIncomes.FirstOrDefaultAsync(ui => ui.Id == userId && ui.OrderId== orderid);
+            }
             if (finincome == null)
             {
                 return res;
             }
             res.Amount = finincome.ProjectionAmount;
             res.IsConfrimed = !finincome.IsProjection;
+            res.IsRejected = finincome.IsRejected;
             return res;
         }
         public bool SaveResponse(string userId, bool iscallback, Dictionary<string, string> dataresult, string jsonstr)
@@ -261,7 +270,21 @@ namespace CateringPro.Repositories
                    
                     fin_income.Comments = dataresult["description"];
                 }
-                    _context.Update(fin_income);
+                else if(dataresult["status"] == "failure")
+                {
+                   
+                    _logger.LogWarning("Payment is rejected by bank  with status failure");
+                    if (dataresult.ContainsKey("err_description"))
+                         fin_income.Comments = dataresult["err_description"];
+                }
+                else
+                {
+                    _logger.LogWarning("Payment is not accepted by bank, reason is unknown");
+                    fin_income.IsRejected = true;
+                    fin_income.Comments = "Payment is not accepted by bank";
+                }
+
+                 _context.Update(fin_income);
                 _context.SaveChanges();
                 var b= SendPaymentConfirmationEmailAsync(fin_income).Result;
                 return true;
@@ -280,9 +303,15 @@ namespace CateringPro.Repositories
             {
                 return false;
             }
+            if (finincome.IsRejected)
+                return true;
+            var emailmodel = await GetAddBalanceConfirmModelAsync(finincome);
+            string email = user.Email;
+            if (emailmodel.ParentUser != null)
+                email = emailmodel.ParentUser.Email;
             return await _email.SendEmailFromTemplate(finincome.CompanyId, "Підтвердження зарахування грошей",
-                user.Email, "AddBalanceConfirm",
-                await GetAddBalanceConfirmModelAsync(finincome));
+                email, "AddBalanceConfirm",
+                emailmodel);
             /*
             var user = await _userManager.FindByIdAsync(finincome.Id);
             if (user == null)
@@ -334,6 +363,11 @@ namespace CateringPro.Repositories
             {
                 return null;
             }
+            CompanyUser parent=null;
+            if (user.IsChild())
+            {
+                parent=await _userManager.FindByIdAsync(user.ParentUserId);
+            }
             var userfin= await _context.UserFinances.FirstOrDefaultAsync(f => f.Id == user.Id);
             if (userfin == null)
             {
@@ -344,7 +378,7 @@ namespace CateringPro.Repositories
             {
                 return null;
             }
-            return new UserAddBalanceConfirmModel(user, userfin, finincome);
+            return new UserAddBalanceConfirmModel(user, userfin, finincome, parent);
         }
     }
 }
