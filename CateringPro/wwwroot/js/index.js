@@ -169,16 +169,27 @@ weekDayLink.forEach((day, index) => {
 
     if (currentMonth > weeks[index].month) {
         day.classList.add('day-of-week__past');
-        day.classList.add('disabled');
+        if (String(weeks[index].month).length === 1) {
+            monthLabel += weeks[index].month;
+        } else {
+            monthLabel = weeks[index].month;
+        }
+    } else if (weeks[index].month > currentMonth) {
         if (String(weeks[index].month).length === 1) {
             monthLabel += weeks[index].month;
         } else {
             monthLabel = weeks[index].month;
         }
     } else {
-        if (currentDay > weeks[index].day) {
+        if (currentDay > weeks[index].day && currentMonth > weeks[index].month) {
             day.classList.add('day-of-week__past');
-            day.classList.add('disabled');
+            if (String(weeks[index].month).length === 1) {
+                monthLabel += weeks[index].month;
+            } else {
+                monthLabel = weeks[index].month;
+            }
+        } else if (currentDay > weeks[index].day) {
+            day.classList.add('day-of-week__past');
             if (String(weeks[index].month).length === 1) {
                 monthLabel += weeks[index].month;
             } else {
@@ -200,6 +211,7 @@ weekDayLink.forEach((day, index) => {
         }
 
     }
+
     dayOfWeek[0].innerHTML = weeks[index].dayWeek;
     let dateForDiv = weeks[index].day + '.' + monthLabel + '.' + weeks[index].year;
     numberOfDay[0].innerHTML = dateForDiv;

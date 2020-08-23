@@ -39,11 +39,6 @@
                 </li>
             </ul>
             <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="profile-tab">
-                @*
-                    <form asp-controller="Account" asp-action="Update" method="post" role="form" enctype="multipart/form-data">
-
-                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                *@
                 <input type="hidden" asp-for="Id" id="id-value-id-user"/>
                 <div class="tab-pane fade show active " id="profile-home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
@@ -127,9 +122,6 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="row p-0 flex-lg-row flex-md-row flex-column">
-                        
-                    </div>*@
                 </div>
                 <div class="tab-pane fade"
                      id="profile-child" role="tabpanel"
@@ -158,8 +150,6 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
 
@@ -174,7 +164,6 @@
                         </div>
                     </div>
                 </div>
-                @*</form>*@
             </div>
         </form>
     </div>
@@ -281,7 +270,7 @@
                     e.preventDefault();
                     var token = $("[name='__RequestVerificationToken'").val();
                     $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
-                        window.location.href = '/Account/Update';
+                        alert(data);
                     })
                         .fail(function (xhr, code, error) {
                             dialog_error(error);

@@ -57,7 +57,7 @@ namespace CateringPro.Controllers
         {
             return View(new RegisterViewModel
             {
-                Errors = new List<string>()
+
             });
         }
 
@@ -67,6 +67,10 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             ModelState.Clear();
+            if(model.Errors != null)
+            {
+                model.Errors.Clear();
+            }
             if (ModelState.IsValid)
             {
                 var user = new CompanyUser
@@ -85,7 +89,6 @@ namespace CateringPro.Controllers
                     Id = Guid.NewGuid().ToString()
 
                 };
-
                 if (!model.Password.Equals(model.ConfirmPassword))
                 {
                     ModelState.AddModelError("", _localizer.GetLocalizedString("PasswordMismatch"));
@@ -123,6 +126,7 @@ namespace CateringPro.Controllers
                 else
                 {
                     model.Errors = result.Errors.Select(x => x.Description).ToList();
+                    return View("Register", model);
                 }
             }
             return View(model);
@@ -559,8 +563,18 @@ namespace CateringPro.Controllers
                         usr.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(usr, true);
                         EmailService emailService = new EmailService();
-                        
-                        await _email.SendEmailAsync(usermodel.Email, "Створення облікового запису", _localizer.GetLocalizedString(SafeFormat("SendEmailCreatedByAdmText", usr.NameSurname,usr.UserName)));
+                        await _email.SendEmailNoExceptionAsync(usr.Email, "Створення облікового запису",
+                        $"Вітаю, {usr.NameSurname}<br>" +
+                        $"Ваш обліковий запис було створено адміністратором.<br>" +
+                        $"Наразі вам доступний весь функціонал. <br>" +
+                        $"Login: {usr.UserName} <br>" +
+                        $"Необхідно перейти за посиланням для встановлення паролю:<a href='{callbackUrl}'> посилання</a><br>" +
+                        $"" +
+                        $"" +
+                        $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                        //await _email.SendEmailAsync(usermodel.Email, "Створення облікового запису", _localizer.GetLocalizedString(SafeFormat("SendEmailCreatedByAdmText", usr.NameSurname,usr.UserName)));
+
                     }
 
                     if (!userResult.Succeeded)
@@ -817,6 +831,7 @@ namespace CateringPro.Controllers
                         {
                             um.ChildNameSurname = reb.ChildNameSurname;
                             um.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            um.Country = user.Country;
                             um.CopyEditedParamsTo(user);
                             user_to_update = user;
                         }
@@ -825,8 +840,15 @@ namespace CateringPro.Controllers
                             user_to_update = await _userManager.FindByIdAsync(reb.Id);
                             if (user_to_update != null)
                             {
+                                
                                 user_to_update.ChildNameSurname = reb.ChildNameSurname;
                                 user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                                if (user_to_update.ChildNameSurname != null)
+                                {
+                                    CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
+                                    string translit_text = Translit.cyr2lat(user_to_update.ChildNameSurname);
+                                    user_to_update.UserName = parent.UserName + "_" + translit_text;
+                                }                                
                             }
                         }
                         if (user_to_update == null)
@@ -900,7 +922,147 @@ namespace CateringPro.Controllers
                 ModelState.AddModelError("", "User Not Found");
             return View(um);
         }
-        private void Errors(IdentityResult result)
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UpdateChildrenForUser(UpdateUserModel um, IEnumerable<CompanyUser> it)
+        {
+            CompanyUser user = await _userManager.FindByIdAsync(um.Id);
+            if (user != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    var i = 0;
+                    foreach (var reb in it)
+                    {
+                        // IFormFile filePict = null;
+                        var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
+
+                        for (var idx = 0; idx < Request.Form.Files.Count; idx++)
+                        {
+                            var fileindex = -1;
+                            Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
+                            Match match = regex.Match(Request.Form.Files[idx].Name);
+
+                            if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
+                            {
+                                continue;
+                            }
+                            filePict = Request.Form.Files[idx];
+                            break;
+                        }
+
+                        CompanyUser user_to_update;
+                        if (reb.Id == um.Id)
+                        {
+                            um.ChildNameSurname = reb.ChildNameSurname;
+                            um.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            um.CopyEditedParamsTo(user);
+                            user_to_update = user;
+                        }
+                        else
+                        {
+                            user_to_update = await _userManager.FindByIdAsync(reb.Id);
+                            if (user_to_update != null)
+                            {
+                                user_to_update.ChildNameSurname = reb.ChildNameSurname;
+                                user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                                if (user_to_update.ChildNameSurname != null)
+                                {
+                                    CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
+                                    string translit_text = Translit.cyr2lat(user_to_update.ChildNameSurname);
+                                    user_to_update.UserName = parent.UserName + "_" + translit_text;
+                                }
+                            }
+                        }
+                        if (user_to_update == null)
+                        {
+                            ModelState.AddModelError("", "User Not Found");
+                            break;
+                        }
+                        if (filePict != null)
+                        {
+                            Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict == null)
+                            {
+                                pict = new Pictures();
+
+                                try
+                                {
+                                    _context.Add(pict);
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError(ex, "Error adding Picture to database");
+                                    ModelState.AddModelError("", "Error adding Picture to database");
+                                    return RedirectToAction("Users");
+                                }
+                            }
+                            using (var stream = filePict.OpenReadStream())
+                            {
+                                byte[] imgdata = new byte[stream.Length];
+                                stream.Read(imgdata, 0, (int)stream.Length);
+                                pict.PictureData = imgdata;
+                            }
+                            PicturesController.CompressPicture(pict, 300, 300);
+                            if (_context.Entry(pict).State != EntityState.Added)
+                                _context.Update(pict);
+                            await _context.SaveChangesAsync();
+                            user_to_update.PictureId = pict.Id;
+
+                        }
+                        try
+                        {
+                            IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
+                            if (!rebResult.Succeeded)
+                            {
+                                return RedirectToAction("Users");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error Update Child");
+                            ModelState.AddModelError("", ex.Message);
+                            return RedirectToAction("Users");
+                        }
+                        i++;
+                    }
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                        return RedirectToAction("Users");
+                    else
+                    {
+                        Errors(result);
+                        _logger.LogError("Update user fail,  {0} ", string.Join(";", result.Errors));
+                    }
+                }
+            }
+            else
+                ModelState.AddModelError("", "User Not Found");
+            return RedirectToAction("Users");
+        }
+
+        public async Task<IActionResult> DetachChildFromParent(string userId)
+        {
+            if(userId != null)
+            {
+                CompanyUser child = await _userManager.FindByIdAsync(userId);
+                CompanyUser parent = await _userManager.FindByIdAsync(child.ParentUserId);
+                if(parent != null)
+                {
+                    child.ParentUserId = null;
+                    if (parent.ChildrenCount > 1)
+                    {
+                        parent.ChildrenCount -= 1;
+                    }
+                    var parentResult = await _userManager.UpdateAsync(parent);
+                    var childResult = await _userManager.UpdateAsync(child);
+                }
+            }
+            return RedirectToAction("Users");
+        }
+
+            private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
                 ModelState.AddModelError("", error.Description);
@@ -980,6 +1142,18 @@ namespace CateringPro.Controllers
         }
 
         [Authorize]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public async Task<IActionResult> UserChildrenOfUser(string userId)
+        {
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null && !string.IsNullOrEmpty(userId))
+                return NotFound();
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
+
+            return PartialView("ChildrenDataOfUser", childs);
+        }
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeUserChild(string UserId)
@@ -1038,7 +1212,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            return PartialView(await _fin.GetUserFinModelAsync(userId, user.CompanyId));
+            return PartialView(await _fin.GetUserFinModelAsync(userId, User.GetCompanyID()));
         }
         [Authorize]
         public async Task<IActionResult> UserFinance()
@@ -1055,6 +1229,18 @@ namespace CateringPro.Controllers
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
 
             return PartialView("UserChildsData", childs);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddNewChildToUser([Bind("Id,Email")] UpdateUserModel um)
+        {
+            var user = _userManager.FindByIdAsync(um.Id).Result;
+            if (!await _companyuser_repo.AddNewUserChild(user.Id, user.CompanyId))
+                return BadRequest();
+            List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId);
+
+            return RedirectToAction("Users");
         }
 
 

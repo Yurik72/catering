@@ -185,11 +185,8 @@ namespace CateringPro.ViewModels
             {
                 if (!string.IsNullOrEmpty(this.Id))
                     usr.Id = this.Id;
-                usr.ZipCode = this.ZipCode;
                 if(!string.IsNullOrEmpty(this.Email))
                     usr.Email=this.Email;
-                usr.Address1 = this.Address1;
-                usr.Address2 = this.Address2;
                 usr.City = this.City;
                 usr.PhoneNumber = this.PhoneNumber;
                 usr.NameSurname = this.NameSurname;

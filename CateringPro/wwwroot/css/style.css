@@ -1,5 +1,4 @@
 
-
 html {
     --main-font-color: #232323;
     font-family: Raleway, sans-serif;
@@ -8,6 +7,74 @@ html {
 
 body {
     font-family: Raleway, sans-serif;
+}
+
+footer {
+    margin: 0 !important;
+}
+
+#register-form-styles .form-group label, #register-form-styles .form-group div {
+    margin: 7px 0;
+}
+
+#register-form-styles .form-group label {
+    font-size: 18px;
+    color: #232323;
+
+}
+
+#register-form-styles .form-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+#register-form-styles .form-group div input {
+    padding-left: 15px;
+}
+
+.invisible-validation {
+    display: none;
+    position: absolute;
+    bottom: -26px;
+
+}
+
+#register-form-styles .form-group div input:focus ~ .invisible-validation {
+    display: inline;
+}
+
+.disabled-hovered {
+    display: none;
+    position: absolute;
+    background: #464646;
+    bottom: -140px;
+    z-index: 100000;
+    line-height: 16px;
+    height: 133px;
+    width: 12%;
+    transition: 0.2s ease-in-out;
+    color: #ffffff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.weeks-tab li .day-of-week__past:hover + .disabled-hovered {
+    display: flex;
+}
+
+.order-carousel .carousel-inner {
+    overflow: hidden;
+    height: 200px;
+}
+
+#register-form-styles .form-group div input:focus:invalid {
+    border-color: red;
+    box-shadow: 0 0 6px 0 red;
+}
+
+#register-form-styles .form-group div input:required:valid {
+    border-color: #36C233;
+    box-shadow: 0 0 6px 0 #36C233;
 }
 
 .span-gray-bg {
@@ -26,8 +93,200 @@ body {
     border-bottom: 1px solid #EAEAEA;;
 }
 
+.change-weight {
+    font-weight: normal;
+}
+
+.modal-burger {
+    position: fixed;
+    top: 0;
+    left: 100%;
+    right: -100%;
+    bottom: 0;
+    background: #ffffff;
+    z-index: 3000;
+    display: none;
+    flex-direction: column;
+    transition: 0.4s ease-in-out;
+}
+
+.modal-burger-toggle {
+    left: 0;
+    right: 0;
+    display: none;
+    visibility: hidden;
+    flex-direction: column;
+}
+
+
+.button-burger-for-click {
+    background-color: #ffffff;
+    background: url("../img/close-main-modal.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 25px;
+    width: 25px;
+}
+
+
+.button-burger {
+    background-color: #ffffff;
+    background: url("../img/hamburger-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 25px;
+    width: 25px;
+}
+
+.background-foliage {
+    background-image: url("../img/bg-foliage.png");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 42%;
+}
+
+.background-blob {
+    background-image: url("../img/main-page-bg-second.svg");
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 13%;
+}
+
+.bg-foliage {
+    top: 0;
+    right: 0;
+}
+
+.bg-blob {
+    left: 0;
+    bottom: 0;
+}
+
+
+.button-add-complex {
+    outline: none;
+    border: 1px solid #36C233;
+    border-radius: 4px;
+    color: #36C233;
+    width: 30px;
+    height: 30px;
+    background: #ffffff url("../img/green-plus.svg") no-repeat center;
+}
+
+.button-add-complex--checked {
+    background: #36c233 url("../img/white-plus.svg") no-repeat center;
+}
+
+.border-reverse {
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.add-new-complex {
+    background: url("../img/green-plus.svg") no-repeat center;
+}
+
+#carousel-main-page .carousel-item-next {
+    visibility: visible !important;
+    display: flex;
+}
+
+#carousel-main-page .active.carousel-item {
+    display: block;
+}
+
+#carousel-main-page .carousel-item {
+    /*display: block;*/
+}
+
+.first-footer {
+    background: #222222;
+    height: 91px;
+}
+
+.second-footer {
+    background: #000000
+}
+
+.non-visible-mob a:nth-of-type(1) {
+    background: url("../img/fb-footer-pc.svg") no-repeat center;
+}
+
+.non-visible-mob a:nth-of-type(2) {
+    background: url("../img/insta-footer-pc.svg") no-repeat center;
+}
+
+.visible-mob a:nth-of-type(1) {
+    background: url("../img/fb-footer-mob.svg") no-repeat center;
+}
+
+.visible-mob a:nth-of-type(2) {
+    background: url("../img/insta-footer-mob.svg") no-repeat center;
+}
+
+.order-active {
+    background: #F1FFF1;
+    border-left: 4px solid #36C233;
+    font-weight: bold;
+}
+
+.order-active__no-order {
+    background: #FFF2F2;
+    border-left: 4px solid #FF6666;;
+    font-weight: normal;
+}
 
 @media (max-width: 767px) {
+
+
+    .weeks-tab li .day-of-week__past:hover + .disabled-hovered {
+        display: none;
+    }
+
+    #days-of-week-carousel .carousel-inner {
+        overflow: hidden;
+    }
+
+    .modal-burger-toggle {
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        transition: 0.4s ease-in-out;
+        visibility: visible;
+    }
+
+    .background-foliage {
+        background-position: right 105%;
+        background-size: 90%;
+    }
+
+    .background-blob {
+        background: none;
+    }
+
+    .first-footer {
+        background: #222222;
+        height: 63px;
+    }
+
+    .second-footer {
+        background: #222222;
+    }
+
+    .border-reverse {
+        border: none;
+    }
+
+    .flex-zero {
+        flex: 0 !important;
+    }
+
+    .change-weight {
+        font-weight: 600;
+    }
+
     .span-gray-bg {
         background: #E8E8E8;
     }
@@ -97,7 +356,7 @@ body {
     }
 
     .date-container {
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
     }
 
@@ -127,7 +386,7 @@ body {
     }
 
     .box-shadow-container {
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
         border-radius: 4px
     }
 
@@ -136,7 +395,7 @@ body {
     }
 
     .carousel-control-prev {
-        visibility: hidden;
+
     }
 
     .change-color-grey {
@@ -145,6 +404,7 @@ body {
 
     .change-bg-grey {
         background: #E8E8E8;
+        font-size: 14px;
     }
 
     .input-docs .child-amount-control {
@@ -167,6 +427,38 @@ body {
     .remove-date-section {
         right: 2px !important;
     }
+
+
+    #change-article {
+        padding-right: 0 !important;
+    }
+
+    .font-for-carousel {
+        font-size: 28px !important;
+        align-items: center !important;
+        line-height: 35px !important;
+    }
+
+    .control-indicators {
+        justify-content: center !important;
+    }
+}
+
+.brd-bot-line {
+    border-bottom: 1px solid #EAEAEA !important;
+}
+
+.control-indicators li {
+    background: #F0F2F0;
+    box-sizing: border-box;
+    height: 2px;
+    width: 45px;
+    padding: 0;
+    border: 2px solid transparent;
+}
+
+.control-indicators li.active {
+    background: #36C233;
 }
 
 @media (max-width: 413px) {
@@ -260,6 +552,10 @@ body {
     content: none;
 }
 
+#dropdown-admin-full::after {
+    content: none;
+}
+
 .page-link {
     border: 2px solid transparent !important;
 }
@@ -268,6 +564,16 @@ body {
     border: 2px solid #F1F2F4 !important;
     background: #ffffff !important;
     color: #232323 !important;
+}
+
+.font-for-carousel {
+    font-size: 60px;
+    line-height: 70px;
+    align-items: start;
+}
+
+.control-indicators {
+    justify-content: start;
 }
 
 #dropdown-buttons-hover .dropdown-item {
@@ -347,7 +653,7 @@ body {
 #tab-profile .nav-link {
     text-align: center;
     color: #232323;
-    font-family: Open-Sans;
+    font-family: Open-Sans, sans-serif;
     font-weight: normal;
     font-size: 14px;
     line-height: 19px;
@@ -358,7 +664,7 @@ body {
 #tab-user .nav-link {
     text-align: center;
     color: #232323;
-    font-family: Open-Sans;
+    font-family: Open-Sans, sans-serif;
     font-weight: normal;
     font-size: 14px;
     line-height: 19px;
@@ -784,6 +1090,14 @@ body {
 
 .input-row-black input::placeholder {
     color: #797979;
+}
+
+#change-user-modal {
+    padding-right: 0 !important;
+}
+
+#change-article {
+    padding-right: 17px;
 }
 
 
