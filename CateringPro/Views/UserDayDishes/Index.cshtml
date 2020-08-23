@@ -576,6 +576,9 @@
                     });
 
             });
+            $('#OrderWeekDetails').on('hide.bs.modal', function (e) {
+                $(".week-details").remove();
+            })
             $(document).on('click', '.sendWeek', function (event) {
                
                 var ms = parseInt($('#currentdate').val());
