@@ -12,5 +12,7 @@ namespace CateringPro.ViewModels
         public string ChildName { get; set; }
         public decimal Amount { get; set; }
         public bool IsConfrimed { get; set; }
+
+        public bool IsRejected { get; set; }
     }
 }

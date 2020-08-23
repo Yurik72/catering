@@ -910,4 +910,31 @@
   <data name="PreviousPasswordIsNotCorrect" xml:space="preserve">
     <value>Старий пароль не правильний</value>
   </data>
+  <data name="LastPurchasePrice" xml:space="preserve">
+    <value>Ост.закуп. ціна</value>
+  </data>
+  <data name="TotalPreOrderBalance" xml:space="preserve">
+    <value>Баланс з урах. замовлень</value>
+  </data>
+  <data name="TotalPreOrderedAmount" xml:space="preserve">
+    <value>Поточних замовлень</value>
+  </data>
+  <data name="LowBalance" xml:space="preserve">
+    <value>На вашому балансі недостатньо коштів для здійснення замовлення</value>
+  </data>
+  <data name="DishKind" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="ComplexKind" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Descrpiption" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Не обрано</value>
+  </data>
+  <data name="FileNotChosen" xml:space="preserve">
+    <value>Файл не обрано</value>
+  </data>
 </root>

@@ -41,5 +41,7 @@ namespace CateringPro.Models
         public UserFinance UserFinance { get; set; }
 
         public bool IsProjection { get; set; }
+
+        public bool IsRejected { get; set; }
     }
 }

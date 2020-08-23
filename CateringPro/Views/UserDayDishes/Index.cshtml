@@ -9,6 +9,10 @@
 }
 @{
     DateTime daydate = Model.DayDate;
+    if (daydate.DayOfWeek == DayOfWeek.Sunday)
+    {
+        daydate = daydate.AddDays(-2);
+    }
     long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
     CultureInfo ci = new CultureInfo("en-US");
     // Get the DateTimeFormatInfo for the en-US culture.
@@ -170,24 +174,33 @@
     </div>
 </div>
 <div id="OrderWeekDetails" class="modal" role="dialog">
-    <div id="dialogOrderWeek" class="modal-dialog modal-lg">
+    <div id="dialogOrderWeek" class="modal-dialog modal-lg" style="max-width: 966px">
 
        
-        <div class="modal-content ">
-            <div class="modal-header">
-                <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
-                <button class="close" data-dismiss="modal" area-hidden="true">
-                    <span aria-hidden="true">&times;</span>
+        <div class="modal-content col-lg-12 col-12 px-0">
+            <div class="modal-header align-items-center col-12 pl-0 pl-lg-3 pl-md-3 pr-0" style="padding-top:20px">
+                <h5 class="modal-title px-3 px-lg-3 px-md-3 " id="exampleModalLabel"
+                    style="font-size: 34px; line-height: 40px; font-weight: bold">
+                    @Localizer["GetWeekInfo"]
+                </h5>
+                <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+                    <img src="../img/close-modal.svg" aria-hidden="true" alt="">
                 </button>
-
             </div>
-            <div class=" modal-body details-content">
+            @*<div class="modal-header">
+            <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
+            <button class="close" data-dismiss="modal" area-hidden="true">
+                <span aria-hidden="true">&times;</span>
+            </button>
 
-            </div>
-            @*<div class="modal-footer">
+        </div>*@
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+            @*<div class=" modal-body details-content  col-auto p-0 mt-2 ">
+
             </div>*@
+            <div class="modal-footer details-content justify-content-center border-0"
+                 style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+            </div>
         </div>
     </div>
     </div>
@@ -536,7 +549,8 @@
 
             $(document).on('click', '.getDetails', function (event) {
                 $("#OrderWeekDetails").modal('show');
-                $(".details-content").html(html_loading);
+                //$(".details-content").html(html_loading);
+                $(".details-content").before(html_loading);
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
                 dt.setDate(dt.getDate() - dt.getDay()+1);
@@ -548,17 +562,23 @@
                     success: function (data) {
                         //console.log(data);
                         //$("#OrderWeekDetails").modal('show');
-                        $(".details-content").html(data);
+                        //$(".details-content").html(data);
+                        $(".spinner-container").remove();
+                        $(".details-content").before(data);
                         //showOrderResult(data);
 
                     }
                     
                 })
                     .fail(function (xhr, code, error) {
-                        console.log(error);
+                        dialog_error(error);
+                       // console.log(error);
                     });
 
             });
+            $('#OrderWeekDetails').on('hide.bs.modal', function (e) {
+                $(".week-details").remove();
+            })
             $(document).on('click', '.sendWeek', function (event) {
                
                 var ms = parseInt($('#currentdate').val());
@@ -702,6 +722,9 @@
                             }
                             incrementday(0);
                         }
+                    }).fail(function (xhr, code, error) {
+                        dialog_error(error);
+                        // console.log(error);
                     });
                 }
 
@@ -721,7 +744,10 @@
                         showOrderResult(data);
                         incrementday(0);
                     }
-                });
+                }).fail(function (xhr, code, error) {
+                    dialog_error(error);
+                    // console.log(error);
+                });;
 
             });
 

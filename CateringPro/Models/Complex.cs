@@ -35,6 +35,11 @@ namespace CateringPro.Models
 
         [DisplayName("Complex Category")]
         public virtual Categories Category { get; set; }
+        [DisplayName("ComplexKind")]
+        public int? DishKindId { get; set; }
+
+        [DisplayName("ComplexKind")]
+        public virtual DishKind DishKind { get; set; }
 
         [DisplayName("Complex Dishes")]
         public virtual ICollection<DishComplex> DishComplex { get; set; }

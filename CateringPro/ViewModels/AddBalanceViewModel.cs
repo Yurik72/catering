@@ -12,5 +12,8 @@ namespace CateringPro.ViewModels
         public decimal CurrentBalance  { get; set; }
 
         public decimal AmountToAdd { get; set; }
+
+        public decimal TotalPreOrderBalance { get; set; }
+        public decimal TotalPreOrderedAmount { get; set; }
     }
 }

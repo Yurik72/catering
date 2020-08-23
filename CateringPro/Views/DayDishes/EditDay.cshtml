@@ -24,7 +24,12 @@
                    style="font-weight: 600;">
                     @Localizer["DishesWeekMenu"]
                 </p>
+                <select class="form-control col-10 col-lg-8 col-md-8 complex-dishkind"
+                        asp-items="ViewBag.DishKindId" id="dishKind"
+                        style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
+                </select>
             </div>
+            
         </div>
         <div id="days-of-week-carousel" class="carousel slide container px-0" data-ride="carousel">
             <div class="carousel-inner" style="position: relative">
@@ -108,7 +113,7 @@
             {
                 <div class="tab-pane fade@(i == 0 ? "  show active" : "")" id="nav-content-@i" role="tabpanel" aria-labelledby="nav-tab-@i">
                     <div class="row">
-                        @await Component.InvokeAsync("DayComplexComponent", current_content)
+                        @await Component.InvokeAsync("DayComplexComponent", new DayMenu() { Date = current_content, DishKind = 0 });
                     </div>
                     @*<div class="row">
                         @await Component.InvokeAsync("DayDishComponent", current_content)
@@ -247,10 +252,11 @@ else
                 dt.setDate(dt.getDate() - dt.getDay() + dayindex + 1);
 
                 $('#nav-content-' + dayindex).html(html_loading);
-                // $('#nav-content-' + dayindex).load('/DayDishes/EditDayComponent?daydate=' + encodeURI(dt.toDateString()));
-                $('#nav-content-' + dayindex).load('/DayDishes/EditDayContent?daydate=' + encodeURI(dt.toDateString()));
-                // $('#collapse' + dayindex).html(html_loading);
-                // $('#collapse' + dayindex).load('/DayDishes/EditDayComponent?daydate=' + encodeURI(dt.toDateString()));
+                var dishKind = $("#dishKind").val();
+
+                $('#nav-content-' + dayindex).load('/DayDishes/EditDayContent?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKind.toString()));
+               // $('#nav-content-' + dayindex).load('/DayDishes/EditDayContent?daydate=' + encodeURI(dt.toDateString()));
+                
                 var daytabtext = dateToshortString(dt);
                 //old design 
                 //daytabtext = "" + dt.getDate(); 
@@ -292,6 +298,9 @@ else
             $('.dayselectforward').click((e) => {
                 e.preventDefault();
                 incrementday(7);
+            });
+            $(document).on("change", "#dishKind", function (e) {
+                incrementday(0);
             });
             function setDays() {
               

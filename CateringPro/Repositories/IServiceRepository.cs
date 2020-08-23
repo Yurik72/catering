@@ -1,4 +1,5 @@
-﻿using CateringPro.ViewModels;
+﻿using CateringPro.Models;
+using CateringPro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace CateringPro.Repositories
 {
     public interface IServiceRepository
     {
+        Task<IEnumerable<Categories>> GetAvailableCategories(DateTime daydate);
         Task<UserCardViewModel> GetUserCardAsync(string cardToken);
         Task<IEnumerable<UserCardViewModel>> GetUserCardsAsync(QueryModel queryModel);
         Task<ServiceResponse> ProcessRequestAsync(ServiceRequest request);

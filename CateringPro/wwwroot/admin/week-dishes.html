@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          <!--integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"-->>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/custom-select.css">
     <title>Кабачок - </title>
@@ -570,8 +571,386 @@
                     </button>
                 </div>
                 <div class="modal-body col-auto p-0 mt-2 ">
+                    <style>
+                        #modal-body {
+                            max-width: 966px;
+                        }
+                        #modal-body * {
+                            box-sizing: border-box;
+                        }
+                        #modal-body .btn {
+                            display: inline-block;
+                            font-weight: 400;
+                            color: #212529;
+                            text-align: center;
+                            vertical-align: middle;
+                            -webkit-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+                            background-color: transparent;
+                            border: 1px solid transparent;
+                            padding: .375rem .75rem;
+                            font-size: 1rem;
+                            line-height: 1.5;
+                            border-radius: .25rem;
+                            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                        }
+                        #modal-body .btn-outline-danger {
+                            color: #dc3545;
+                            border-color: #dc3545;
+                        }
+                        #modal-body .btn:not(:disabled):not(.disabled) {
+                            cursor: pointer;
+                        }
 
-                    <div class="col-12 d-flex flex-column px-0">
+                        #modal-body .row {
+                            display: -ms-flexbox;
+                            display: flex;
+                            -ms-flex-wrap: wrap;
+                            flex-wrap: wrap;
+                            margin-right: -15px;
+                            margin-left: -15px;
+                        }
+                        #modal-body .col, #modal-body .col-1, #modal-body .col-10, #modal-body .col-11, #modal-body .col-12, #modal-body .col-2, #modal-body .col-3, #modal-body .col-4, #modal-body .col-5, #modal-body .col-6, #modal-body .col-7, #modal-body .col-8, #modal-body .col-9, #modal-body .col-auto, #modal-body .col-lg, #modal-body .col-lg-1, #modal-body .col-lg-10, #modal-body .col-lg-11, #modal-body .col-lg-12, #modal-body .col-lg-2, #modal-body .col-lg-3, #modal-body .col-lg-4, #modal-body .col-lg-5, #modal-body .col-lg-6, #modal-body .col-lg-7, #modal-body .col-lg-8, #modal-body .col-lg-9, #modal-body .col-lg-auto, #modal-body .col-md, #modal-body .col-md-1, #modal-body .col-md-10, #modal-body .col-md-11, #modal-body .col-md-12, #modal-body .col-md-2, #modal-body .col-md-3, #modal-body .col-md-4, #modal-body .col-md-5, #modal-body .col-md-6, #modal-body .col-md-7, #modal-body .col-md-8, #modal-body .col-md-9, #modal-body .col-md-auto, #modal-body .col-sm, #modal-body .col-sm-1, #modal-body .col-sm-10, #modal-body .col-sm-11, #modal-body .col-sm-12, #modal-body .col-sm-2, #modal-body .col-sm-3, #modal-body .col-sm-4, #modal-body .col-sm-5, .col-sm-6, #modal-body .col-sm-7, #modal-body .col-sm-8, #modal-body .col-sm-9, #modal-body .col-sm-auto, #modal-body .col-xl, #modal-body .col-xl-1, #modal-body .col-xl-10, #modal-body .col-xl-11, #modal-body .col-xl-12, #modal-body .col-xl-2, #modal-body .col-xl-3, #modal-body .col-xl-4, #modal-body .col-xl-5, #modal-body .col-xl-6, #modal-body .col-xl-7, #modal-body .col-xl-8, #modal-body .col-xl-9, #modal-body .col-xl-auto {
+                            position: relative;
+                            width: 100%;
+                            padding-right: 15px;
+                            padding-left: 15px;
+                        }
+                        #modal-body .col-2 {
+                            -ms-flex: 0 0 16.666667%;
+                            flex: 0 0 16.666667%;
+                            max-width: 16.666667%;
+                        }
+                        #modal-body .col-4 {
+                            -ms-flex: 0 0 33.333333%;
+                            flex: 0 0 33.333333%;
+                            max-width: 33.333333%;
+                        }
+                        #modal-body .col-6 {
+                            -ms-flex: 0 0 50%;
+                            flex: 0 0 50%;
+                            max-width: 50%;
+                        }
+                        #modal-body .col-7 {
+                            -ms-flex: 0 0 58.333333%;
+                            flex: 0 0 58.333333%;
+                            max-width: 58.333333%;
+                        }
+                        #modal-body .col-12 {
+                            -ms-flex: 0 0 100%;
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                        }
+                        #modal-body .d-flex {
+                            display: -ms-flexbox!important;
+                            display: flex!important;
+                        }
+                        #modal-body .flex-column {
+                            -ms-flex-direction: column!important;
+                            flex-direction: column!important;
+                        }
+                        #modal-body .flex-row {
+                            -ms-flex-direction: row!important;
+                            flex-direction: row!important;
+                        }
+                        #modal-body .align-content-center {
+                            -ms-flex-line-pack: center!important;
+                            align-content: center!important;
+                        }
+                        #modal-body .align-self-center {
+                            -ms-flex-item-align: center!important;
+                            align-self: center!important;
+                        }
+                        #modal-body .align-items-center {
+                            -ms-flex-align: center!important;
+                            align-items: center!important;
+                        }
+                        #modal-body .justify-content-start {
+                            -ms-flex-pack: start!important;
+                            justify-content: flex-start!important;
+                        }
+                        #modal-body .justify-content-between {
+                            -ms-flex-pack: justify!important;
+                            justify-content: space-between!important;
+                        }
+                        #modal-body .justify-content-around {
+                            -ms-flex-pack: distribute!important;
+                            justify-content: space-around!important;
+                        }
+                        #modal-body .justify-content-end {
+                            -ms-flex-pack: end!important;
+                            justify-content: flex-end!important;
+                        }
+                        #modal-body .order-active {
+                            background: #F1FFF1;
+                            border-left: 4px solid #36C233;
+                            font-weight: bold;
+                        }
+                        #modal-body .order-active__no-order {
+                            background: #FFF2F2;
+                            border-left: 4px solid #FF6666;
+                            font-weight: normal;
+                        }
+                        #modal-body .brd-bot-line-reverse {
+                            border-bottom: none;
+                        }
+                        #modal-body .change-color-grey {
+                            color: #797979;
+                        }
+                        #modal-body .change-weight {
+                            font-weight: normal;
+                        }
+                        #modal-body .p-0 {
+                            padding: 0!important;
+                        }
+                        #modal-body .pl-0, #modal-body .px-0 {
+                            padding-left: 0!important;
+                        }
+                        #modal-body .pr-0, #modal-body .px-0 {
+                            padding-right: 0!important;
+                        }
+                        #modal-body .pb-2, #modal-body .py-2 {
+                            padding-bottom: .5rem!important;
+                        }
+                        #modal-body .pl-3, #modal-body .px-3 {
+                            padding-left: 1rem!important;
+                        }
+                        #modal-body .pr-3, #modal-body .px-3 {
+                            padding-right: 1rem!important;
+                        }
+                        #modal-body .ml-0, #modal-body .mx-0 {
+                            margin-left: 0!important;
+                        }
+                        #modal-body .ml-4, #modal-body .mx-4 {
+                            margin-left: 1.5rem!important;
+                        }
+                        #modal-body .mr-0, #modal-body .mx-0 {
+                            margin-right: 0!important;
+                        }
+                        #modal-body .mb-1, #modal-body .my-1 {
+                            margin-bottom: .25rem!important;
+                        }
+                        #modal-body .mt-1, #modal-body .my-1 {
+                            margin-top: .25rem!important;
+                        }
+                        #modal-body .mb-2, #modal-body .my-2 {
+                            margin-bottom: .5rem!important;
+                        }
+                        #modal-body .mb-3, #modal-body .my-3 {
+                            margin-bottom: 1rem!important;
+                        }
+                        #modal-body .mt-2, #modal-body .my-2 {
+                            margin-top: .5rem!important;
+                        }
+                        #modal-body .mt-3, #modal-body .my-3 {
+                            margin-top: 1rem!important;
+                        }
+                        #modal-body .mt-5, #modal-body .my-5 {
+                            margin-top: 3rem!important;
+                        }
+                        #modal-body .font-weight-bold {
+                            font-weight: 700!important;
+                        }
+                        #modal-body .w-100 {
+                            width: 100%!important;
+                        }
+                        #modal-body .d-none {
+                            display: none!important;
+                        }
+                        #modal-body .d-inline {
+                            display: inline!important;
+                        }
+                        #modal-body .brd-bot-line-reverse {
+                            border-bottom: none;
+                        }
+
+
+                        @media (min-width: 576px) {
+                            #modal-body .d-sm-none {
+                                display: none !important;
+                            }
+                            #modal-body .col-sm-6 {
+                                -ms-flex: 0 0 50%;
+                                flex: 0 0 50%;
+                                max-width: 50%;
+                            }
+                        }
+                        @media (min-width: 768px) {
+
+                            #modal-body  .flex-md-row {
+                                -ms-flex-direction: row!important;
+                                flex-direction: row!important;
+                            }
+
+                            #modal-body  .justify-content-md-start {
+                                -ms-flex-pack: start!important;
+                                justify-content: flex-start!important;
+                            }
+                            #modal-body  .justify-content-md-between {
+                                -ms-flex-pack: justify!important;
+                                justify-content: space-between!important;
+                            }
+                            #modal-body  .justify-content-md-end {
+                                -ms-flex-pack: end!important;
+                                justify-content: flex-end!important;
+                            }
+                            #modal-body  .col-md-2 {
+                                -ms-flex: 0 0 16.666667%;
+                                flex: 0 0 16.666667%;
+                                max-width: 16.666667%;
+                            }
+                            #modal-body  .col-md-4 {
+                                -ms-flex: 0 0 33.333333%;
+                                flex: 0 0 33.333333%;
+                                max-width: 33.333333%;
+                            }
+                            #modal-body .col-md-5 {
+                                -ms-flex: 0 0 41.666667%;
+                                flex: 0 0 41.666667%;
+                                max-width: 41.666667%;
+                            }
+                            #modal-body .col-md-6 {
+                                -ms-flex: 0 0 50%;
+                                flex: 0 0 50%;
+                                max-width: 50%;
+                            }
+                            #modal-body .col-md-10 {
+                                -ms-flex: 0 0 83.333333%;
+                                flex: 0 0 83.333333%;
+                                max-width: 83.333333%;
+                            }
+                            #modal-body .pl-md-3, #modal-body .px-md-3 {
+                                padding-left: 1rem!important;
+                            }
+                            #modal-body .pr-md-3, #modal-body .px-md-3 {
+                                padding-right: 1rem!important;
+                            }
+                            #modal-body .mb-md-0, #modal-body .my-md-0 {
+                                margin-bottom: 0!important;
+                            }
+                            #modal-body .mt-md-0, #modal-body .my-md-0 {
+                                margin-top: 0!important;
+                            }
+                            #modal-body .ml-md-5, #modal-body .mx-md-5 {
+                                margin-left: 3rem!important;
+                            }
+                            #modal-body .d-md-none {
+                                display: none!important;
+                            }
+                            #modal-body .d-md-flex {
+                                display: -ms-flexbox!important;
+                                display: flex!important;
+                            }
+                            #modal-body .d-md-inline {
+                                display: inline!important;
+                            }
+                            #modal-body .brd-bot-line-reverse {
+                                border-bottom: 1px solid #EAEAEA !important;
+                            }
+                            #modal-body .brd-bot-line {
+                                border-bottom: none;
+                            }
+                            #modal-body .change-color-grey {
+                                color: #232323 !important;
+                            }
+                            #modal-body .change-weight {
+                                font-weight: 600;
+                            }
+                        }
+                        @media (min-width: 992px) {
+                            #modal-body .flex-lg-row {
+                                -ms-flex-direction: row !important;
+                                flex-direction: row !important;
+                            }
+
+                            #modal-body .justify-content-lg-start {
+                                -ms-flex-pack: start!important;
+                                justify-content: flex-start!important;
+                            }
+                            #modal-body .justify-content-lg-between {
+                                -ms-flex-pack: justify!important;
+                                justify-content: space-between!important;
+                            }
+                            #modal-body .justify-content-lg-end {
+                                -ms-flex-pack: end!important;
+                                justify-content: flex-end!important;
+                            }
+                            #modal-body .col-lg-2 {
+                                -ms-flex: 0 0 16.666667%;
+                                flex: 0 0 16.666667%;
+                                max-width: 16.666667%;
+                            }
+                            #modal-body .col-lg-4 {
+                                -ms-flex: 0 0 33.333333%;
+                                flex: 0 0 33.333333%;
+                                max-width: 33.333333%;
+                            }
+                            #modal-body .col-lg-5 {
+                                -ms-flex: 0 0 41.666667%;
+                                flex: 0 0 41.666667%;
+                                max-width: 41.666667%;
+                            }
+                            #modal-body .col-lg-6 {
+                                -ms-flex: 0 0 50%;
+                                flex: 0 0 50%;
+                                max-width: 50%;
+                            }
+                            #modal-body .col-lg-10 {
+                                -ms-flex: 0 0 83.333333%;
+                                flex: 0 0 83.333333%;
+                                max-width: 83.333333%;
+                            }
+                            #modal-body .pl-lg-3, #modal-body .px-lg-3 {
+                                padding-left: 1rem!important;
+                            }
+
+                            #modal-body .pr-lg-3, #modal-body .px-lg-3 {
+                                padding-right: 1rem!important;
+                            }
+                            #modal-body .mb-lg-0, #modal-body .my-lg-0 {
+                                margin-bottom: 0!important;
+                            }
+                            #modal-body .mt-lg-0, #modal-body .my-lg-0 {
+                                margin-top: 0!important;
+                            }
+                            #modal-body .ml-lg-5, #modal-body .mx-lg-5 {
+                                margin-left: 3rem!important;
+                            }
+                            #modal-body .d-lg-none {
+                                display: none!important;
+                            }
+                            #modal-body .d-lg-flex {
+                                display: -ms-flexbox!important;
+                                display: flex!important;
+                            }
+                            #modal-body .d-lg-inline {
+                                display: inline!important;
+                            }
+                        }
+                        #modal-body .order-active {
+                            background: #F1FFF1;
+                            border-left: 4px solid #36C233;
+                            font-weight: bold;
+                        }
+                        #modal-body .order-active__no-order {
+                            background: #FFF2F2;
+                            border-left: 4px solid #FF6666;
+                            font-weight: normal;
+                        }
+
+                        #modal-body .change-color-grey {
+                            color: #797979;
+                        }
+                        #modal-body .change-weight {
+                            font-weight: normal;
+                        }
+                        #modal-body .brd-bot-line {
+                            border-bottom: 1px solid #EAEAEA !important;
+                        }
+                    </style>
+                    <div class="col-12 d-flex flex-column px-0" id="modal-body">
                         <div class="col-12 d-flex flex-lg-row flex-md-row flex-column">
                             <div class="col-lg-2 col-md-2 col-12 px-0 px-lg-3 px-md-3 d-flex">
                                 <img src="../img/dish-image2.png" alt=""
@@ -609,14 +988,14 @@
                                         </div>
                                     </div>
                                     <button type="button"
-                                            class=" btn btn-xl btn-outline-danger  font-weight-bold  col-lg-4 col-md-4 col-sm-6 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-around align-self-center mb-3 mb-lg-0 mb-md-0"
+                                            class=" btn btn-xl btn-outline-danger  font-weight-bold  col-12 col-sm-6 col-md-4 col-lg-4  d-flex justify-content-lg-start justify-content-md-start justify-content-around align-self-center mb-3 mb-lg-0 mb-md-0"
                                             style=" color: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; background: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
                                         <img src="../img/mail-icon-report.svg" alt=""><span
                                             class="d-flex justify-content-center ml-4"
                                             style="">надіслати на пошту</span>
                                     </button>
                                 </div>
-                                <div class="col-12 p-0 d-flex flex-column flex-md-row flex-lg-row brd-bot-line-reverse">
+                                <div class="brd-bot-line-reverse col-12 p-0 d-flex flex-column flex-md-row flex-lg-row ">
                                     <div class="col-12 col-md-5 col-lg-5 d-flex flex-column pb-2 px-0 px-lg-3 px-md-3 "
                                          style="color: #232323">
                                         <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
@@ -692,26 +1071,26 @@
 
                                         <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column"
                                              style="font-size: 18px">
-                                            <div class="col-12 col-lg-2 col-md-2 flex-row d-flex my-1"
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1"
                                                  style=" font-family: Open-Sans, sans-serif">
                                                 <span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                       style="font-size: 14px; font-weight: bold">Код</span>
                                                 <span>48526</span></div>
-                                            <div class="col-12 col-lg-4 col-md-4 flex-row d-flex my-1">
+                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
                                                 <span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                       style="font-size: 14px; font-weight: bold">Назва</span>
                                                 <span>Сніданок для садочків</span></div>
-                                            <div class="col-12 col-lg-2 col-md-2 flex-row d-flex my-1">
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
                                                 <span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                       style="font-size: 14px; font-weight: bold">Кількість</span>
                                                 <span style=" font-family: Open-Sans, sans-serif"
                                                       id="order-amount"></span></div>
-                                            <div class="col-12 col-lg-2 col-md-2 flex-row d-flex my-1">
+                                            <div class="col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
                                                 <span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                       style="font-size: 14px; font-weight: bold">Вартiсть (₴)</span>
                                                 <span style=" font-family: Open-Sans, sans-serif"
                                                       id="order-price"></span></div>
-                                            <div class="col-12 col-lg-2 col-md-2 flex-row d-flex my-1 d-flex justify-content-lg-end justify-content-md-end">
+                                            <div class="col-md-2 col-lg-2 col-12 flex-row d-flex my-1 d-flex justify-content-lg-end justify-content-md-end">
                                                 <span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                       style="font-size: 14px; font-weight: bold">Сума (₴)</span>
                                                 <span style=" font-family: Open-Sans, sans-serif" class=""
@@ -725,9 +1104,9 @@
                                         <div class="col-12 d-flex px-0" style="font-size: 18px">
                                             <div class="col-2 d-none d-lg-inline d-md-inline"></div>
                                             <div class="col-4  d-none d-lg-inline d-md-inline"></div>
-                                            <div class="col-6 col-md-4 col-lg-4 px-0 px-lg-3 px-md-3"
+                                            <div class=" col-md-4 col-lg-4 col-6 px-0 px-lg-3 px-md-3"
                                                  style="cursor: pointer"><span>Загальна сума:</span></div>
-                                            <div class="col-6 col-md-2 col-lg-2 px-0 px-lg-3 px-md-3"
+                                            <div class=" col-md-2 col-lg-2 col-6 px-0 px-lg-3 px-md-3"
                                                  style="cursor: pointer; font-family: Open-Sans, sans-serif"><span
                                                     class="d-flex justify-content-lg-end justify-content-md-end">00,00 (₴)</span>
                                             </div>
@@ -739,11 +1118,6 @@
                         </div>
 
                     </div>
-
-
-                </div>
-                <div class="modal-footer justify-content-center border-0"
-                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
                     <div class="col-12 d-flex justify-content-lg-end justify-content-md-end">
                         <div class="col-12 col-md-6 col-lg-6 d-flex px-0 flex-lg-row flex-md-row flex-column">
                             <div class="col-6 px-0 px-lg-3 px-md-3 mb-3" style="font-weight: 500; font-size: 18px;">
@@ -754,6 +1128,11 @@
                             </div>
                         </div>
                     </div>
+
+
+                </div>
+                <div class="modal-footer justify-content-center border-0"
+                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
                 </div>
             </div>
 
@@ -788,13 +1167,12 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="../js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+        <!--integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></-->script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        <!--integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"-->></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        <!--integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"-->></script>
+
 <script>
     $('.carousel').carousel({
         interval: 0

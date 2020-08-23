@@ -26,13 +26,14 @@ namespace CateringPro.Controllers
         private readonly IComplexRepository _complexRepo;
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
+        private readonly SharedViewLocalizer _localizer;
         private int pageRecords = 20;
-        public ComplexController(AppDbContext context, IComplexRepository complexRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
-        {
+        public ComplexController(AppDbContext context, IComplexRepository complexRepo, ILogger<CompanyUser> logger, IConfiguration Configuration, SharedViewLocalizer localizer)        {
             _context = context;
             _complexRepo = complexRepo;
             _logger = logger;
             _configuration = Configuration;
+            _localizer = localizer;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
 
         }
@@ -57,7 +58,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity,CategoriesId")] Complex cmp, List<DishComplex> DishComplexes)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity,CategoriesId,DishKindId")] Complex cmp, List<DishComplex> DishComplexes)
         {
             if (id != cmp.Id)
             {
@@ -69,6 +70,7 @@ namespace CateringPro.Controllers
             var complex_orig = await _context.Complex.Include(c => c.DishComplex).ThenInclude(d => d.Dish).AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
             DishComplexes.ForEach(dc => dc.Dish = _context.Dishes.SingleOrDefaultAsync(c => c.Id == dc.DishId).Result);
             ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", cmp.CategoriesId);
+            ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text", cmp.DishKindId); ;
 
             if (!ModelState.IsValid)
             {
@@ -117,8 +119,26 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", complex.CategoriesId);
+            ViewData["CategoriesId"] = new SelectList(_context.Categories.ToList(), "Id", "Name", complex.CategoriesId);
+
+            ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text", complex.DishKindId); ;
+
+
+
             return PartialView(complex);
+        }
+        private List<SelectListItem> GetDishesKindWithEmptyList()
+        {
+            List<SelectListItem> disheskind = _context.DishesKind.AsNoTracking()
+                  .OrderBy(n => n.Name).Select(n =>
+                      new SelectListItem
+                      {
+                          Value = n.Id.ToString(),
+                          Text = n.Name
+                      }).ToList();
+            var empty = new SelectListItem() { Value = "", Text = _localizer["NotSpecified"] };
+            disheskind.Insert(0, empty);
+            return disheskind;
         }
         public IActionResult CreateModal()
         {
@@ -129,6 +149,9 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             ViewData["CategoriesId"] = new SelectList(_context.Categories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", cat.CategoriesId);
+            ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text", cat.DishKindId); ;
+
+
             return PartialView("EditModal", cat);
         }
 

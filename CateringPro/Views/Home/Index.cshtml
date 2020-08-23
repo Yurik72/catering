@@ -7,71 +7,145 @@
     var pageName = "Home Page";
     ViewData["Title"] = pageName;
 }
-<div class="container">
-    <div class="col-12 p-0 d-flex flex-column justify-content-around align-self-end"
-         style="height: 74px; border-top: 1px solid #b1b1b1">
-        <span style="font-weight: 500; font-size: 18px;">(XXX) XXX-XXXX</span>
-        <span style="font-weight: 500; font-size: 18px;">admin@kabachok.group</span>
-    </div>
-</div>
-<div class="container-xl container container-md container-sm container-lg d-flex flex-lg-row flex-md-row flex-column align-items-center my-lg-5 my-md-5 my-0">
-    <div class="col-12 p-0 d-flex flex-lg-row flex-md-row flex-column align-items-center my-lg-5 my-md-5 my-0">
-        <div class="col-lg-6 col-md-7 col-12 p-0 d-flex flex-column justify-content-start mb-4 mb-md-0 mb-lg-0"
-             style="max-height: 300px">
-            <div id="carousel-main-page" class="carousel slide " data-ride="carousel">
-                <div class="carousel-inner" style="max-height: 220px; min-height: 120px">
-                    <div class="carousel-item active" style="max-height: 210px">
-                        <div class="d-flex flex-column font-for-carousel"
-                             style="font-weight: bold;  text-transform: uppercase;">
-                            <span style="color: #F05E25;">Безпечно,</span>
-                            <span style="color: #36C233;">корисно</span>
-                            <span style="color: #232323;">та смачно</span>
+@if (true)
+{
+    <div class="container-xl container container-md container-sm container-lg d-flex flex-lg-row flex-md-row flex-column align-items-center my-lg-5 my-md-5 my-0">
+        <div class="col-12 p-0 d-flex flex-lg-row flex-md-row flex-column align-items-center my-lg-5 my-md-5 my-0">
+            <div class="col-lg-6 col-md-7 col-12 p-0 d-flex flex-column justify-content-start mb-4 mb-md-0 mb-lg-0"
+                 style="max-height: 300px">
+                <div id="carousel-main-page" class="carousel slide " data-ride="carousel">
+                    <div class="carousel-inner" style="max-height: 220px; min-height: 120px">
+                        <div class="carousel-item active" style="max-height: 210px">
+                            <div class="d-flex flex-column font-for-carousel"
+                                 style="font-weight: bold;  text-transform: uppercase;">
+                                <span style="color: #F05E25;">Безпечно,</span>
+                                <span style="color: #36C233;">корисно</span>
+                                <span style="color: #232323;">та смачно</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="carousel-item" style="max-height: 210px">
-                        <div class="d-flex flex-column font-for-carousel"
-                             style="font-weight: bold; text-transform: uppercase;">
-                            <span style="color: #F05E25;">Здоров’я, радість</span>
-                            <span style="color: #36C233;">і щастя клієнта -</span>
-                            <span style="color: #232323;">наша ціль</span>
+                        <div class="carousel-item" style="max-height: 210px">
+                            <div class="d-flex flex-column font-for-carousel"
+                                 style="font-weight: bold; text-transform: uppercase;">
+                                <span style="color: #F05E25;">Здоров’я, радість</span>
+                                <span style="color: #36C233;">і щастя клієнта -</span>
+                                <span style="color: #232323;">наша ціль</span>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
+                    <ol class="carousel-indicators position-relative control-indicators m-0 mt-lg-4 mt-md-4 mt-2">
+                        <li data-target="#carousel-main-page" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-main-page" data-slide-to="1"></li>
+                    </ol>
                 </div>
-                <ol class="carousel-indicators position-relative control-indicators m-0 mt-lg-4 mt-md-4 mt-2">
-                    <li data-target="#carousel-main-page" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel-main-page" data-slide-to="1"></li>
-                </ol>
+                <div class="col-12 p-0 d-flex flex-column align-items-center align-items-lg-start align-items-md-start mt-3">
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                        <a asp-controller="Account" asp-action="Login"
+                           class="loginLink btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-lg-none d-md-none d-flex justify-content-between"
+                           style="width: 228px; background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 61px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                            <img src="./img/login.svg" alt=""><span style="margin-right: 60px">@Localizer["MenuLogIn"]</span>
+                        </a>
+                        @*</a>*@
+                        @*<a >*@
+
+                        <a id="registerLink" asp-controller="Account" asp-action="Register"
+                           class="btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-flex justify-content-between mt-3"
+                           style="width: 228px; background: #F05E25; border-color:  #F05E25; outline: none; height: 61px; color:  #FFFFFF; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                            <img src="./img/register-btn.svg" alt=""><span style="margin-right: 42px">@Localizer["MenuRegister"]</span>
+                        </a>
+                        @*</a>*@
+                    }
+                    @*<button type="button" data-toggle="modal"
+                class="btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-lg-none d-md-none d-flex justify-content-between"
+                style="width: 228px; background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 61px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+            <img src="./img/login.svg" alt=""><span style="margin-right: 60px">УВІЙТИ</span>
+        </button>
+        <button type="button" data-toggle="modal"
+                class="btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-flex justify-content-between mt-3"
+                style="width: 228px; background: #F05E25; border-color:  #F05E25; outline: none; height: 61px; color:  #FFFFFF; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+            <img src="./img/register-btn.svg" alt=""><span style="margin-right: 42px">РЕЄСТРАЦІЯ</span>
+        </button>*@
+                </div>
             </div>
-            <div class="col-12 p-0 d-flex flex-column align-items-center align-items-lg-start align-items-md-start mt-3">
-                @*<a id="loginLink"
-        asp-controller="Account" asp-action="Login">*@
-                @if (!SignInManager.IsSignedIn(User))
-                {
-                    <a asp-controller="Account" asp-action="Login"
-                       class="loginLink btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-lg-none d-md-none d-flex justify-content-between"
-                       style="width: 228px; background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 61px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
-                        <img src="./img/login.svg" alt=""><span style="margin-right: 60px">@Localizer["MenuLogIn"]</span>
-                    </a>
-                    @*</a>*@
-                    @*<a >*@
-
-                    <a id="registerLink" asp-controller="Account" asp-action="Register"
-                       class="btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-flex justify-content-between mt-3"
-                       style="width: 228px; background: #F05E25; border-color:  #F05E25; outline: none; height: 61px; color:  #FFFFFF; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
-                        <img src="./img/register-btn.svg" alt=""><span style="margin-right: 42px">@Localizer["MenuRegister"]</span>
-                    </a>
-                    @*</a>*@
-                }
-                </div>
-        </div>
-        <div class="col-12 col-lg-6 col-md-5 col-sm-8">
-            <img src="./img/catering-love.png" alt="Catering person" style="width: inherit;">
-            <img class="d-none d-lg-block d-md-block w-75" src="./img/good-eating.svg" alt="Good eating"
-                 style="margin-left: 25px">
+            <div class="col-12 col-lg-6 col-md-5 col-sm-8">
+                <img src="./img/catering-love.png" alt="Catering person" style="width: inherit;">
+                <img class="d-none d-lg-block d-md-block w-75" src="./img/good-eating.svg" alt="Good eating"
+                     style="margin-left: 25px">
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="container">
+        <div class="col-12 p-0 d-flex flex-column justify-content-around align-self-end"
+             style="height: 74px; border-top: 1px solid #b1b1b1">
+            <span style="font-weight: 500; font-size: 18px;">(XXX) XXX-XXXX</span>
+            <span style="font-weight: 500; font-size: 18px;">admin@kabachok.group</span>
+        </div>
+    </div>
+    <div class="container-xl container container-md container-sm container-lg d-flex flex-lg-row flex-md-row flex-column align-items-center my-lg-5 my-md-5 my-0">
+        <div class="col-12 p-0 d-flex flex-lg-row flex-md-row flex-column align-items-center my-lg-5 my-md-5 my-0">
+            <div class="col-lg-6 col-md-7 col-12 p-0 d-flex flex-column justify-content-start mb-4 mb-md-0 mb-lg-0"
+                 style="max-height: 300px">
+                <div id="carousel-main-page" class="carousel slide " data-ride="carousel">
+                    <div class="carousel-inner" style="max-height: 220px; min-height: 120px">
+                        <div class="carousel-item active" style="max-height: 210px">
+                            <div class="d-flex flex-column font-for-carousel"
+                                 style="font-weight: bold;  text-transform: uppercase;">
+                                <span style="color: #F05E25;">Безпечно,</span>
+                                <span style="color: #36C233;">корисно</span>
+                                <span style="color: #232323;">та смачно</span>
+                            </div>
+                        </div>
+                        <div class="carousel-item" style="max-height: 210px">
+                            <div class="d-flex flex-column font-for-carousel"
+                                 style="font-weight: bold; text-transform: uppercase;">
+                                <span style="color: #F05E25;">Здоров’я, радість</span>
+                                <span style="color: #36C233;">і щастя клієнта -</span>
+                                <span style="color: #232323;">наша ціль</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <ol class="carousel-indicators position-relative control-indicators m-0 mt-lg-4 mt-md-4 mt-2">
+                        <li data-target="#carousel-main-page" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-main-page" data-slide-to="1"></li>
+                    </ol>
+                </div>
+                <div class="col-12 p-0 d-flex flex-column align-items-center align-items-lg-start align-items-md-start mt-3">
+                    @*<a id="loginLink"
+                        asp-controller="Account" asp-action="Login">*@
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                        <a asp-controller="Account" asp-action="Login"
+                           class="loginLink btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-lg-none d-md-none d-flex justify-content-between"
+                           style="width: 228px; background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 61px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                            <img src="./img/login.svg" alt=""><span style="margin-right: 60px">@Localizer["MenuLogIn"]</span>
+                        </a>
+                        @*</a>*@
+                        @*<a >*@
+
+                        <a id="registerLink" asp-controller="Account" asp-action="Register"
+                           class="btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold d-flex justify-content-between mt-3"
+                           style="width: 228px; background: #F05E25; border-color:  #F05E25; outline: none; height: 61px; color:  #FFFFFF; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                            <img src="./img/register-btn.svg" alt=""><span style="margin-right: 42px">@Localizer["MenuRegister"]</span>
+                        </a>
+                        @*</a>*@
+                    }
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-5 col-sm-8">
+                <img src="./img/catering-love.png" alt="Catering person" style="width: inherit;">
+                <img class="d-none d-lg-block d-md-block w-75" src="./img/good-eating.svg" alt="Good eating"
+                     style="margin-left: 25px">
+            </div>
+        </div>
+    </div>
+}
+
+
 <div id="modDialogLogin" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div id="dialogContentLogin" class="modal-content">

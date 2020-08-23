@@ -73,6 +73,8 @@ namespace CateringPro.Data
 
         public DbSet<DishComplex> DishComplex { get; set; }
 
+
+        public DbSet<DishKind> DishesKind { get; set; }
         public DbSet<Docs> Docs { get; set; }
 
         public DbSet<DocLines> DocLines { get; set; }

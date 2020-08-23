@@ -36,7 +36,7 @@
                     <div class="nav-link text-main-color-dark px-0 navbar-size-14 dropdown-toggle"
                          id="dropdown-admin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                          style="color: #232323; cursor: pointer">
-                        <img src="./img/admin-icon.svg"
+                        <img src="~/img/admin-icon.svg"
                              alt="" class="px-2">@Localizer["MenuAdmin"]
                         </div>
 
@@ -51,6 +51,7 @@
                             <a class="dropdown-item" asp-controller="Ingredients" asp-action="Index">@Localizer["MenuIngredients"]</a>
                             <a class="dropdown-item" asp-controller="IngredientCategories" asp-action="Index">@Localizer["IngredientCategories"]</a>
                             <a class="dropdown-item" asp-controller="Complex" asp-action="Index">@Localizer["MenuComplex"]</a>
+                            <a class="dropdown-item" asp-controller="DishKind" asp-action="Index">@Localizer["DishKind"]</a>
                             <a class="dropdown-item" asp-controller="DayDishes" asp-action="EditDay">@Localizer["MenuDayDishes"]</a>
                             <a class="dropdown-item" asp-controller="Stock" asp-action="Index">@Localizer["MenuStock"]</a>
                             <a class="dropdown-item" asp-controller="Stock" asp-action="ConsignmentStock">@Localizer["MenuStockConsignment"]</a>
