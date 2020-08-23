@@ -95,7 +95,7 @@
                         </div>
                         <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
                             <input type="hidden" asp-for="PictureId" />
-                            <input type="file" class="form-control" id="filepicture" name="filepicture" />
+                            <input type="file" class="form-control" placeholder=" @Localizer["FileNotChosen"]..." id="filepicture" name="filepicture" />
                             <img width="450" id="imgfilepicture" height="300" class="form-control" style="width:450px;height:300px;" src="@Url.Action("GetPicture", "Pictures", new { id = Model.PictureId, width = 450, height = 300 })" />
                         </div>
 

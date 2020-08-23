@@ -56,6 +56,12 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
             model.OrderType = (int)types;
+            var origCom = _context.Companies.Where(com => com.Id == model.Id).AsNoTracking().FirstOrDefault();
+            model.Code = origCom.Code;
+            model.Name = origCom.Name;
+            model.Phone = origCom.Phone;
+            model.Email = origCom.Email;
+            model.IsDefault = origCom.IsDefault;
             if (model.Code == null) model.Code = "";
             if (model.Name == null) model.Name = "";
             if (model.City == null) model.City = "";
