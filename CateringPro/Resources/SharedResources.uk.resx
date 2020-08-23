@@ -922,4 +922,16 @@
   <data name="LowBalance" xml:space="preserve">
     <value>На вашому балансі недостатньо коштів для здійснення замовлення</value>
   </data>
+  <data name="DishKind" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="ComplexKind" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Descrpiption" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Не обрано</value>
+  </data>
 </root>

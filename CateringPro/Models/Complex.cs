@@ -35,10 +35,10 @@ namespace CateringPro.Models
 
         [DisplayName("Complex Category")]
         public virtual Categories Category { get; set; }
-
+        [DisplayName("ComplexKind")]
         public int? DishKindId { get; set; }
 
-        [DisplayName("Complex Kind")]
+        [DisplayName("ComplexKind")]
         public virtual DishKind DishKind { get; set; }
 
         [DisplayName("Complex Dishes")]

@@ -41,9 +41,19 @@
                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
                             <input class="form-control col-12 col-lg-8 col-md-8 pl-9"
                                    asp-for="Price"
-                                  
                                    style="height: 34px; font-family: Open-Sans, sans-serif">
                             <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
+                            <label asp-for="DishKindId"
+                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                            <select class="form-control col-10 col-lg-8 col-md-8 complex-dishkind"
+                                    asp-for="DishKindId" asp-items="ViewBag.DishKindId"
+                                    style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
+                            </select>
+                            <span asp-validation-for="DishKindId" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
@@ -57,7 +67,7 @@
                                         style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
                                 </select>
                                 <div class="col-lg-4 col-md-4 col-2  pr-0">
-                                    <button type="button" data-toggle="modal" data-target="#change-article" id="create-dishline" 
+                                    <button type="button" data-toggle="modal" data-target="#change-article" id="create-dishline"
                                             class="col-12 btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold btn-block d-lg-block d-md-block d-none create"
                                             onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
                                             onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"

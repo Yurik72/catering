@@ -25,12 +25,12 @@ namespace CateringPro.Models
         [StringLength(100, MinimumLength = 2)]
         [DataType(DataType.Text)]
         [Required]
-        [DisplayName("Category Name")]
+        [DisplayName("Name")]
         public string Name { get; set; }
 
         [StringLength(255, MinimumLength = 2)]
         [DataType(DataType.MultilineText)]
-        [DisplayName("DishKind Decsciption")]
+        [DisplayName("Decsciption")]
         public string Description { get; set; }
 
 

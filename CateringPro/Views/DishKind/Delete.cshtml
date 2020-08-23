@@ -1,8 +1,8 @@
-@model CateringPro.Models.Categories
+@model CateringPro.Models.DishKind
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{ ViewData["Title"] = "Delete"; }
 
-@{ await Html.RenderPartialAsync("DeleteDialog", new DeleteDialogViewModel() { Id = Model.Id, Name = Model.Name ,ModelName= Localizer["Category"] });}
+@{ await Html.RenderPartialAsync("DeleteDialog", new DeleteDialogViewModel() { Id = Model.Id, Name = Model.Name ,ModelName= Localizer["DishKind"] });}
 @*
 <div class="modal-content delete-content">
     <div class="modal-header">
