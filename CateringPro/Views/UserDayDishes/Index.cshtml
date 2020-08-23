@@ -9,6 +9,10 @@
 }
 @{
     DateTime daydate = Model.DayDate;
+    if (daydate.DayOfWeek == DayOfWeek.Sunday)
+    {
+        daydate = daydate.AddDays(-1);
+    }
     long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
     CultureInfo ci = new CultureInfo("en-US");
     // Get the DateTimeFormatInfo for the en-US culture.

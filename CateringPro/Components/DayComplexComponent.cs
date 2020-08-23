@@ -9,22 +9,26 @@ using CateringPro.Repositories;
 using CateringPro.Core;
 
 namespace CateringPro.ViewComponents
-{using System.Threading.Tasks;
-    public class DayComplexComponent: ViewComponent
+{
+    using System.Threading.Tasks;
+    public class DayComplexComponent : ViewComponent
     {
         private readonly IDayDishesRepository _daydishrepo;
-        public DayComplexComponent( IDayDishesRepository daydishrepo)
+        public DayComplexComponent(IDayDishesRepository daydishrepo)
         {
             _daydishrepo = daydishrepo;
         }
-        
-        public async Task<IViewComponentResult> InvokeAsync(DateTime daydate)
+
+        public async Task<IViewComponentResult> InvokeAsync(DayMenu day)
         {
 
-          //  daydate = DateTime.Now;
-
+            var complexes = _daydishrepo.ComplexDay(day.Date, this.User.GetCompanyID());
+            if (day.DishKind != 0)
+            {
+                complexes= complexes.Where(com => com.DishKindId == day.DishKind);
+            }
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.ComplexDay(daydate,this.User.GetCompanyID())));
+            return await Task.FromResult((IViewComponentResult)View("Default", complexes));
         }
     }
 }
