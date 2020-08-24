@@ -97,6 +97,29 @@ footer {
     font-weight: normal;
 }
 
+.custom-options {
+    z-index: 10 !important;
+}
+
+.btn-for-type-menu {
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    border-radius: 22px;
+    min-width: 122px;
+    height: 34px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #797979;
+    text-align: center;
+}
+
+
+.btn-for-type-menu--active {
+    background: #36C233;;
+    border: 1px solid #36C233;;
+    color: #ffffff;
+}
+
 .modal-burger {
     position: fixed;
     top: 0;
@@ -598,16 +621,63 @@ footer {
 
 #dropdown-type .drpdwn-btn:hover {
     color: white !important;
-    background: #F05E25 !important;
+    background: #36c233 !important;
 }
 
 .drpdwn-btn {
     border: none;
 }
 
+.drpdown-btn-type {
+    border: none;
+    height: 38px !important;
+    padding-left: 15px;
+}
+
+.drpdown-btn-type:hover {
+    color: white !important;
+    background: #36c233 !important;
+}
+
+.drpdown-btn-type.selection {
+    background: #36c233 !important;
+    color: #fff;
+}
+
+.drpdown-btn-type.selection::after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 10px;
+    height: 10px;
+    top: 70%;
+    right: 25px;
+    margin-top: -3px;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    transform: rotate(225deg) translateY(-50%);
+    transition: all .4s ease-in-out;
+    transform-origin: 50% 0;
+}
+
+
 .drpdwn-btn:hover {
     color: white !important;
     background: #F05E25 !important;
+}
+
+.type-of-food {
+    background: #36c233 !important;
+    color: #fff;
+}
+
+.type-of-food .custom-select-trigger {
+    width: 100% !important;
+    padding-left: 5px !important;
+}
+
+.type-of-food .custom-options {
+    top: -16px !important;
 }
 
 .text-main-color-dark {
@@ -1001,6 +1071,7 @@ footer {
     display: flex;
     padding-top: 4px;
     padding-bottom: 4px;
+    height: 15px;
 }
 
 .brd-bot-line-reverse {
@@ -1092,9 +1163,9 @@ footer {
     color: #797979;
 }
 
-/*.modal-backdrop:nth-last-of-type(2n) {*/
-/*    z-index: 2000;*/
-/*}*/
+.modal-backdrop:nth-last-of-type(2n) {
+    z-index: 2000;
+}
 
 #change-user-modal {
     padding-right: 0 !important;
