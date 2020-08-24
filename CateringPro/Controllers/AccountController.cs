@@ -831,8 +831,7 @@ namespace CateringPro.Controllers
                         {
                             um.ChildNameSurname = reb.ChildNameSurname;
                             um.ChildBirthdayDate = reb.ChildBirthdayDate;
-                            um.Country = user.Country;
-                            um.CopyEditedParamsTo(user);
+                            um.CopyUpdateParamsTo(user);
                             user_to_update = user;
                         }
                         else

@@ -270,7 +270,10 @@
                     e.preventDefault();
                     var token = $("[name='__RequestVerificationToken'").val();
                     $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
-                        alert(data);
+                        //alert(data);
+                        var childcontainer = $('#child-container');
+                        childcontainer.find('.child-data').remove();
+                        childcontainer.append(data);
                     })
                         .fail(function (xhr, code, error) {
                             dialog_error(error);
