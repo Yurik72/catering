@@ -330,7 +330,7 @@ namespace CateringPro.Repositories
             var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;
             if (resultUser != null)
             {
-                usr.UserName = user.UserName + "_" + translit_text + "_" + ticks;
+                usr.UserName = user.UserName + "_" + "child" + "_" + ticks;
             }
             // usr.Email = ticks+"_"+user.Email;
             usr.Email = add_name + "_" + user.Email;

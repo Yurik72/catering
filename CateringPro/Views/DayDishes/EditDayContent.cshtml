@@ -1,4 +1,4 @@
-﻿@model DateTime
+﻿@model DayMenu
 @using System.Globalization
 @using CateringPro.Core
 
@@ -7,7 +7,7 @@
     Layout = null;
 }
 @{
-    DateTime daydate = Model;
+    DateTime daydate = Model.Date;
     long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
     CultureInfo ci = new CultureInfo("en-US");
     // Get the DateTimeFormatInfo for the en-US culture.

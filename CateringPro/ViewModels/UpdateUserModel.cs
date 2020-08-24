@@ -185,11 +185,8 @@ namespace CateringPro.ViewModels
             {
                 if (!string.IsNullOrEmpty(this.Id))
                     usr.Id = this.Id;
-                usr.ZipCode = this.ZipCode;
                 if(!string.IsNullOrEmpty(this.Email))
                     usr.Email=this.Email;
-                usr.Address1 = this.Address1;
-                usr.Address2 = this.Address2;
                 usr.City = this.City;
                 usr.PhoneNumber = this.PhoneNumber;
                 usr.NameSurname = this.NameSurname;
@@ -204,6 +201,36 @@ namespace CateringPro.ViewModels
 
             return usr;
         }
+
+
+        public CompanyUser CopyUpdateParamsTo(CompanyUser usr, bool isNew = false)
+        {
+            if (usr != null)
+            {
+                if (!string.IsNullOrEmpty(this.Id))
+                    usr.Id = this.Id;
+                if (!string.IsNullOrEmpty(this.Email))
+                    usr.Email = this.Email;
+                usr.City = this.City;
+                usr.Country = this.Country;
+                usr.PhoneNumber = this.PhoneNumber;
+                usr.NameSurname = this.NameSurname;
+                usr.Address1 = this.Address1;
+                usr.Address2 = this.Address2;
+                usr.ZipCode = this.ZipCode;
+                if (!string.IsNullOrEmpty(this.UserName))
+                    usr.UserName = this.UserName;
+                usr.ChildNameSurname = this.ChildNameSurname;
+                usr.ChildBirthdayDate = this.ChildBirthdayDate;
+                usr.PictureId = this.PictureId;
+                if (isNew)
+                    usr.Email = this.Email;
+            }
+
+            return usr;
+        }
+
+
         public bool IsPasswordChanged {
             get => !string.IsNullOrEmpty(this.NewPassword) && !string.IsNullOrEmpty(this.ConfirmPassword); }
 

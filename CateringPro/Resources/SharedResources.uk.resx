@@ -934,4 +934,7 @@
   <data name="NotSpecified" xml:space="preserve">
     <value>Не обрано</value>
   </data>
+  <data name="FileNotChosen" xml:space="preserve">
+    <value>Файл не обрано</value>
+  </data>
 </root>

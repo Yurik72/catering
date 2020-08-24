@@ -23,7 +23,7 @@
 @await Component.InvokeAsync("UserDayOrderedComponent", daydate)
 @if (Model.ShowComplex)
 {
-    @await Component.InvokeAsync("UserDayComplexComponent", daydate)
+    @await Component.InvokeAsync("UserDayComplexComponent", Model.DayMenu)
 }
 @if (Model.ShowDishes)
 {
