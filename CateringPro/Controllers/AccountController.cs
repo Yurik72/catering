@@ -879,7 +879,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 300, 300);
+                            PicturesController.CompressPicture(pict, 250, 250);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
@@ -1003,7 +1003,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 300, 300);
+                            PicturesController.CompressPicture(pict, 250, 250);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
