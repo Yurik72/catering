@@ -673,6 +673,7 @@
                 var UserDayDish = [];
                 var UserDayComplex = [];
                 var flag = true;
+                var categories = [];
                 //console.log(complexes);
                 $(complexes).each(function (ind) {
                     //console.log($(this).is(":checked"));
@@ -686,6 +687,12 @@
                         complex.Price = $(this).attr("price");
                         complex.Date = fullDate;
                         complex.Quantity = 1;
+                        if (categories.indexOf($(this).attr("category")) > -1) {
+                            dialog_error("Не можна замовити 2 комплекси з однаковою категорією");
+                            flag = false;
+                            return;
+                        }
+                        categories.push($(this).attr("category"))
                         UserDayComplex.push(complex);
                         var dishes = $("[complexdish='" + com + "'][day='" + date + "']");
                         $(dishes).each(function (i) {
@@ -708,6 +715,7 @@
                             }
                             // console.log(comp+"   "+dish + "   " + check);
                         });
+                     
                         if (dishOrdered != dishCourses) {
                             //console.log(dishOrdered + "   " + dishCourses);
                             alert("Please choose all dishes in complex");

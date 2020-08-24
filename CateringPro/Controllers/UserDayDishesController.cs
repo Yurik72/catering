@@ -396,7 +396,7 @@ namespace CateringPro.Controllers
             DateTime daydate = DateTime.Now;
             //          bool res = _userdaydishesrepo.SaveDayDishInComplex(UserDayDish, this.HttpContext);
             
-            if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+            if (!_userdaydishesrepo.IsAllowDayEdit(UserDayComplex.Date, User.GetCompanyID()))
             {
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
             }
