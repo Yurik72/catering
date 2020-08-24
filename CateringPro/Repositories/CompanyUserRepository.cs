@@ -322,12 +322,13 @@ namespace CateringPro.Repositories
             CompanyUser usr = new CompanyUser() { CompanyId = companyId };
             usr.Id = Guid.NewGuid().ToString();
             string ticks= DateTime.Now.Ticks.ToString();
-            string translit_text = Translit.cyr2lat(user.ChildNameSurname);
-            usr.UserName = user.UserName + "_" + translit_text;
+            //string translit_text = Translit.cyr2lat(user.ChildNameSurname);
+            //usr.UserName = user.UserName + "_" + translit_text;
+            usr.UserName = user.UserName + "_" + "child" + "_" + ticks;
             var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;
             if (resultUser != null)
             {
-                usr.UserName = user.UserName + "_" + translit_text + "_" + ticks;
+                usr.UserName = user.UserName + "_" + "child" + "_" + ticks;
             }
             usr.Email = ticks+"_"+user.Email;
             usr.ParentUserId = userId;

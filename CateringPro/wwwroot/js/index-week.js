@@ -1,25 +1,4 @@
-let weeks = [{dayWeek: 'Пн', day: 10, month: 8, year: 2020, id: '100820', link: 'day'}, {
-    dayWeek: 'Вт',
-    day: 11,
-    month: 8,
-    year: 2020,
-    id: '110820',
-    link: 'day'
-}, {dayWeek: 'Ср', day: 12, month: 8, year: 2020, id: '120820', link: 'day'}, {
-    dayWeek: 'Чт',
-    day: 13,
-    month: 8,
-    year: 2020,
-    id: '130820',
-    link: 'day'
-}, {dayWeek: 'Пт', day: 14, month: 8, year: 2020, id: '140820', link: 'day'}, {
-    dayWeek: 'Сб',
-    day: 15,
-    month: 8,
-    year: 2020,
-    id: '150820',
-    link: 'day'
-}, {dayWeek: 'Вс', day: 16, month: 8, year: 2020, id: '160820', link: 'day'},
+let weeks = [
     {dayWeek: 'Пн', day: 17, month: 8, year: 2020, id: '170820', link: 'day'}, {
         dayWeek: 'Вт',
         day: 18,
@@ -58,12 +37,34 @@ let weeks = [{dayWeek: 'Пн', day: 10, month: 8, year: 2020, id: '100820', link
         link: 'day'
     }, {dayWeek: 'Пт', day: 28, month: 8, year: 2020, id: '280820', link: 'day'}, {
         dayWeek: 'Сб',
-        day: 229,
+        day: 29,
         month: 8,
         year: 2020,
         id: '290820',
         link: 'day'
-    }, {dayWeek: 'Вс', day: 30, month: 8, year: 2020, id: '300820', link: 'day'}];
+    }, {dayWeek: 'Вс', day: 30, month: 8, year: 2020, id: '300820', link: 'day'},
+    {dayWeek: 'Пн', day: 31, month: 8, year: 2020, id: '310820', link: 'day'}, {
+        dayWeek: 'Вт',
+        day: 1,
+        month: 9,
+        year: 2020,
+        id: '010920',
+        link: 'day'
+    }, {dayWeek: 'Ср', day: 2, month: 9, year: 2020, id: '020920', link: 'day'}, {
+        dayWeek: 'Чт',
+        day: 3,
+        month: 9,
+        year: 2020,
+        id: '030920',
+        link: 'day'
+    }, {dayWeek: 'Пт', day: 4, month: 9, year: 2020, id: '040920', link: 'day'}, {
+        dayWeek: 'Сб',
+        day: 5,
+        month: 9,
+        year: 2020,
+        id: '050920',
+        link: 'day'
+    }, {dayWeek: 'Вс', day: 6, month: 9, year: 2020, id: '060920', link: 'day'}];
 
 let elForTabs = '\n' +
     '                <div class="col-12 box-shadow-container position-relative brd-bot-line mb-3">\n' +
@@ -257,16 +258,27 @@ weekDayLink.forEach((day, index) => {
 
     if (currentMonth > weeks[index].month) {
         day.classList.add('day-of-week__past');
-        day.classList.add('disabled');
+        if (String(weeks[index].month).length === 1) {
+            monthLabel += weeks[index].month;
+        } else {
+            monthLabel = weeks[index].month;
+        }
+    } else if (weeks[index].month > currentMonth) {
         if (String(weeks[index].month).length === 1) {
             monthLabel += weeks[index].month;
         } else {
             monthLabel = weeks[index].month;
         }
     } else {
-        if (currentDay > weeks[index].day) {
+        if (currentDay > weeks[index].day && currentMonth > weeks[index].month) {
             day.classList.add('day-of-week__past');
-            day.classList.add('disabled');
+            if (String(weeks[index].month).length === 1) {
+                monthLabel += weeks[index].month;
+            } else {
+                monthLabel = weeks[index].month;
+            }
+        } else if (currentDay > weeks[index].day) {
+            day.classList.add('day-of-week__past');
             if (String(weeks[index].month).length === 1) {
                 monthLabel += weeks[index].month;
             } else {

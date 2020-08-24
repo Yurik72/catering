@@ -411,7 +411,7 @@ else
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
         $(function () {
             setup_listitems({
@@ -462,6 +462,15 @@ else
                 });
 
             }
+            function loadchildren() {
+                var userId = $('.modal-body').attr('data-id');
+                 var urlchildren = '@Url.Content("~/Account/UserChildrenOfUser?userId=")' + userId;
+                $.get(urlchildren, function (data) {
+                    $("#children-content").html(data);
+                    setupchildrenhandlers($("#children-content"));
+                });
+
+            }
             function setupfinhandlers(cont) {
                 cont.find('#addbalance').click(function (e) {
                     e.preventDefault();
@@ -485,6 +494,7 @@ else
                     setupcompanyhandler($("#user-companies-content"))
                 });
                 loadfin();
+                loadchildren();
 
 
                 function setuproleshandler(cont) {
@@ -522,6 +532,6 @@ else
                 };
             }
         })
-    </script>
+</script>
 }
 
