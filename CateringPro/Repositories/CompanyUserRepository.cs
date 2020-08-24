@@ -319,18 +319,21 @@ namespace CateringPro.Repositories
                 _logger.LogError("AddNewUserChild Error user {0} not exists", userId);
                 return false;
             }
+            int childCount = user.ChildrenCount;
+            string add_name = "child" + (childCount + 1).ToString();
             CompanyUser usr = new CompanyUser() { CompanyId = companyId };
             usr.Id = Guid.NewGuid().ToString();
             string ticks= DateTime.Now.Ticks.ToString();
-            //string translit_text = Translit.cyr2lat(user.ChildNameSurname);
-            //usr.UserName = user.UserName + "_" + translit_text;
-            usr.UserName = user.UserName + "_" + "child" + "_" + ticks;
+            string translit_text = Translit.cyr2lat(user.ChildNameSurname);
+            // usr.UserName = user.UserName + "_" + translit_text;
+            usr.UserName = add_name +"_"+user.UserName ;
             var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;
             if (resultUser != null)
             {
                 usr.UserName = user.UserName + "_" + "child" + "_" + ticks;
             }
-            usr.Email = ticks+"_"+user.Email;
+            // usr.Email = ticks+"_"+user.Email;
+            usr.Email = add_name + "_" + user.Email;
             usr.ParentUserId = userId;
             var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD" + userId);
 
