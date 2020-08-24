@@ -26,9 +26,13 @@ namespace CateringPro.Controllers
         private readonly ILogger<CompanyUser> _logger;
         private readonly IEmailService _email;
         private readonly IInvoiceRepository _invoicerepo;
+        private readonly SharedViewLocalizer _localizer;
         //private readonly IUserDayDishesRepository _udaydishrepo;
 
-        public UserDayDishesController(AppDbContext context, IUserDayDishesRepository ud, UserManager<CompanyUser> um, ILogger<CompanyUser> logger, IEmailService email, IInvoiceRepository invoicerepo)
+        public UserDayDishesController(AppDbContext context, 
+            IUserDayDishesRepository ud, UserManager<CompanyUser> um, 
+            ILogger<CompanyUser> logger, IEmailService email, IInvoiceRepository invoicerepo,
+            SharedViewLocalizer localizer)
         {
             _context = context;
             _userManager = um;
@@ -36,6 +40,7 @@ namespace CateringPro.Controllers
             _logger = logger;
             _email = email;
             _invoicerepo = invoicerepo;
+            _localizer = localizer;
             // _udaydishrepo = udaydishrepo;
         }
 
@@ -57,9 +62,23 @@ namespace CateringPro.Controllers
                 ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes) > 0
 
             };
+            ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text"); ;
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
         }
-        public async Task<IActionResult>  EditUserDay(DateTime daydate)
+        private List<SelectListItem> GetDishesKindWithEmptyList()
+        {
+            List<SelectListItem> disheskind = _context.DishesKind.AsNoTracking()
+                  .OrderBy(n => n.Name).Select(n =>
+                      new SelectListItem
+                      {
+                          Value = n.Id.ToString(),
+                          Text = n.Name
+                      }).ToList();
+            var empty = new SelectListItem() { Value = "", Text = _localizer["NotSpecified"] };
+            disheskind.Insert(0, empty);
+            return disheskind;
+        }
+        public async Task<IActionResult>  EditUserDay(DateTime daydate, int dishKind)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -67,6 +86,7 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = daydate,
+                DayMenu =new DayMenu() { Date = daydate, DishKind = dishKind },
                 ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
                 //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
                 ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0

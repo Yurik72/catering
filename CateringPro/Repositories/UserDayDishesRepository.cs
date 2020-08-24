@@ -47,8 +47,12 @@ namespace CateringPro.Repositories
             var company = _cache.GetCachedCompanyAsync(_context, companyid).Result; //_context.Companies.Find(companyid);
             if (company == null)
                 return false;
+            var dateNow = DateTime.Now;
+            DateTime min = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day+2, 0, 0, 0);
+            dt = new DateTime(dt.Year, dt.Month, dt.Day, dateNow.Hour, dateNow.Minute, dateNow.Second);
             DateTime max = DateTime.Now.AddHours(company.OrderThresholdTimeH.HasValue ? company.OrderThresholdTimeH.Value : 24);
-            DateTime min = DateTime.Now.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
+            min = min.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
+            //DateTime min = DateTime.Now.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
             if ((dt - min).TotalDays < 7)
                 for (DateTime t = dt; t > min; t = t.AddDays(-1))
                 {
@@ -57,6 +61,10 @@ namespace CateringPro.Repositories
                         min = min.AddDays(-1);
                     }
                 }
+            if (dt.Day == min.Day)
+            {
+                return dt.TimeOfDay < min.TimeOfDay && dt < max;
+            }
             return dt > min && dt < max;
         }
         public CompanyModel GetOwnCompany(int companyid)
@@ -774,12 +782,15 @@ namespace CateringPro.Repositories
             var query = from comp in _context.Complex
                         join dc in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dc.ComplexId
                         join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
+                        join dk in _context.DishesKind on comp.DishKindId equals dk.Id into leftdk
+                        from subdk in leftdk.DefaultIfEmpty()
                         select new UserDayComplexViewModel()
                         {
                             ComplexId = comp.Id,
                             ComplexName = comp.Name,
                             ComplexCategoryId = cat.Id,
                             ComplexCategoryName = cat.Name,
+                            DishKindId = comp.DishKindId,
                             Quantity = 0,
                             Price = comp.Price,
                             Date = daydate,
