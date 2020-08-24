@@ -630,7 +630,7 @@ namespace CateringPro.Controllers
                             $"" +
                             $"" +
                             $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     }
 
                     if (!userResult.Succeeded)
@@ -812,19 +812,19 @@ namespace CateringPro.Controllers
                         // IFormFile filePict = null;
                         var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
 
-                        for (var idx = 0; idx < Request.Form.Files.Count; idx++)
-                        {
-                            var fileindex = -1;
-                            Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
-                            Match match = regex.Match(Request.Form.Files[idx].Name);
+                        //for (var idx = 0; idx < Request.Form.Files.Count; idx++)
+                        //{
+                        //    var fileindex = -1;
+                        //    Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
+                        //    Match match = regex.Match(Request.Form.Files[idx].Name);
 
-                            if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
-                            {
-                                continue;
-                            }
-                            filePict = Request.Form.Files[idx];
-                            break;
-                        }
+                        //    if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
+                        //    {
+                        //        continue;
+                        //    }
+                        //    filePict = Request.Form.Files[idx];
+                        //    break;
+                        //}
 
                         CompanyUser user_to_update;
                         if (reb.Id == um.Id)
@@ -909,7 +909,7 @@ namespace CateringPro.Controllers
                     }
                     IdentityResult result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Update", "Account");
                     else
                     {
                         Errors(result);
