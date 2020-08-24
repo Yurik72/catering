@@ -29,8 +29,8 @@ namespace CateringPro.Models
 
         public bool Enabled { get; set; }
 
+        public int? DishKindId { get; set; }
 
-    
         public IEnumerable<UserDayComplexDishViewModel> ComplexDishes { get; set; }
 
     }
