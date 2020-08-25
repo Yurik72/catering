@@ -132,7 +132,7 @@ namespace CateringPro.ViewModels
             {
                 if (!string.IsNullOrEmpty(this.Id))
                     usr.Id = this.Id;
-                //usr.Email = this.Email;
+                usr.Email = this.Email;
                 usr.City = this.City;
                 usr.PhoneNumber = this.PhoneNumber;
                 usr.NameSurname = this.NameSurname;
@@ -194,7 +194,10 @@ namespace CateringPro.ViewModels
                     usr.UserName = this.UserName;
                 usr.ChildNameSurname = this.ChildNameSurname;
                 usr.ChildBirthdayDate = this.ChildBirthdayDate;
-                usr.PictureId = this.PictureId;
+                if (this.PictureId != null && usr.PictureId == null)
+                {
+                    usr.PictureId = this.PictureId;
+                }
                 if (isNew)
                     usr.Email = this.Email;
             }
@@ -222,7 +225,10 @@ namespace CateringPro.ViewModels
                     usr.UserName = this.UserName;
                 usr.ChildNameSurname = this.ChildNameSurname;
                 usr.ChildBirthdayDate = this.ChildBirthdayDate;
-                usr.PictureId = this.PictureId;
+                if(this.PictureId != null && usr.PictureId == null)
+                {
+                    usr.PictureId = this.PictureId;
+                }
                 if (isNew)
                     usr.Email = this.Email;
             }

@@ -120,6 +120,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="Dotmim.Sync.Core" Version="0.5.6" />
+    <PackageReference Include="Dotmim.Sync.Sqlite" Version="0.5.6" />
+    <PackageReference Include="Dotmim.Sync.SqlServer" Version="0.5.6" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="jsreport.AspNetCore" Version="2.1.0" />
     <PackageReference Include="jsreport.Binary" Version="2.9.0" />

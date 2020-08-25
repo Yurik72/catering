@@ -29,19 +29,33 @@ namespace CateringPro
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            if (Environment.EnvironmentName == "LocalProduction")
+            {
+                var filename = Configuration.GetSection("ConnectionStrings").GetSection("LocalFileName").Value;
+                services.AddDbContext<AppDbContext>(options =>
+                          options.UseSqlite(filename, options =>
+                          {
+                              // options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+                          })
+                          );
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
             services.AddLogging();
             services.AddIdentity<CompanyUser, CompanyRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
@@ -156,7 +170,8 @@ namespace CateringPro
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IMassEmailService, MassEmailService>();
-            
+            services.AddTransient<IDbSyncer, DbSyncer>();
+
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));
 

@@ -547,6 +547,9 @@ namespace CateringPro.Controllers
 
                     userResult = await _userManager.AddToRolesAsync(usr, addedRoles);
 
+                    newCompanies.Add(User.GetCompanyID());
+                    await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
+
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
@@ -630,7 +633,7 @@ namespace CateringPro.Controllers
                             $"" +
                             $"" +
                             $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@catering.in.ua</h2>");
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     }
 
                     if (!userResult.Succeeded)
@@ -812,19 +815,19 @@ namespace CateringPro.Controllers
                         // IFormFile filePict = null;
                         var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
 
-                        for (var idx = 0; idx < Request.Form.Files.Count; idx++)
-                        {
-                            var fileindex = -1;
-                            Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
-                            Match match = regex.Match(Request.Form.Files[idx].Name);
+                        //for (var idx = 0; idx < Request.Form.Files.Count; idx++)
+                        //{
+                        //    var fileindex = -1;
+                        //    Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
+                        //    Match match = regex.Match(Request.Form.Files[idx].Name);
 
-                            if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
-                            {
-                                continue;
-                            }
-                            filePict = Request.Form.Files[idx];
-                            break;
-                        }
+                        //    if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
+                        //    {
+                        //        continue;
+                        //    }
+                        //    filePict = Request.Form.Files[idx];
+                        //    break;
+                        //}
 
                         CompanyUser user_to_update;
                         if (reb.Id == um.Id)
@@ -879,7 +882,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 300, 300);
+                            PicturesController.CompressPicture(pict, 250, 250);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
@@ -909,7 +912,7 @@ namespace CateringPro.Controllers
                     }
                     IdentityResult result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Update", "Account");
                     else
                     {
                         Errors(result);
@@ -1003,7 +1006,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 300, 300);
+                            PicturesController.CompressPicture(pict, 250, 250);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
@@ -1211,7 +1214,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            return PartialView(await _fin.GetUserFinModelAsync(userId, User.GetCompanyID()));
+            return PartialView(await _fin.GetUserFinModelAsync(user.Id, User.GetCompanyID()));
         }
         [Authorize]
         public async Task<IActionResult> UserFinance()

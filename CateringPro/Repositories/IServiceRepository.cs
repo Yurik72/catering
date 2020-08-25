@@ -10,6 +10,7 @@ namespace CateringPro.Repositories
     public interface IServiceRepository
     {
         Task<IEnumerable<Categories>> GetAvailableCategories(DateTime daydate);
+        Task<OrdersSnapshotViewModel> GetOrdersSnapshot(int? companyid, DateTime? daydate);
         Task<UserCardViewModel> GetUserCardAsync(string cardToken);
         Task<IEnumerable<UserCardViewModel>> GetUserCardsAsync(QueryModel queryModel);
         Task<ServiceResponse> ProcessRequestAsync(ServiceRequest request);
