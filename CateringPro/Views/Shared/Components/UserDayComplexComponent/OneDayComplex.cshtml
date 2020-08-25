@@ -72,7 +72,7 @@
                                         }*@
                                         @if (allowEdit)
                                         {
-                                            <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" />
+                                            <input class="form-check-input complex-check" type="checkbox" name="Complex[@com].Id" day="@Model.First().Date.Day" price="@item.Price" complex="@item.ComplexId" id="complex$@com" value="@item.ComplexId" category="@item.ComplexCategoryId" />
                                         }
                                     </div>
                                 </div>

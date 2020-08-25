@@ -92,15 +92,37 @@
             <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column">
                 <p class="h2 h2-mob pr-3" style="font-weight: 600;">
                     Страви що будуть готоватись цього тижня</p>
+
+            </div>
+            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column-reverse mt-3">
+                <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
+                    <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
+                    <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2">
+                        <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">Стандартне
+                        </button>
+                        <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
+                        <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
+                        <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>
+                    </div>
+                    <select name="sources" id="sources" class="custom-select sources type-of-food" placeholder="Стандартне"
+                            style="border: none; z-index: 2000">
+                        <option class="drpdown-btn-type selection" value="standart"
+                                style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">Стандартне
+                        </option>
+                        <option class="drpdown-btn-type" value="no-lactose">Безлактозне</option>
+                        <option class="drpdown-btn-type" value="no-gluten">Безглютенове</option>
+                        <option class="drpdown-btn-type" value="fish-and-vegetables">Овочево-рибне</option>
+                    </select>
+                </div>
                 <button type="button" data-toggle="modal" data-target="#change-user-modal"
-                        class="col-lg-3 col-md-3 pr-3 col-12 btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold  d-flex justify-content-between"
+                        class="col-lg-3 col-md-3 pr-3 col-12 btn btn-xl btn-outline-danger   align-self-end  font-weight-bold  d-flex justify-content-between"
                         style=" background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
                     <img src="../img/week-report.svg" alt=""><span class="d-flex align-content-center"
                                                                    style="margin-right: 23%">Тижневий звіт</span>
                 </button>
             </div>
         </div>
-        <div id="days-of-week-carousel" class="carousel slide container px-0 order-carousel" data-ride="carousel">
+        <div id="days-of-week-carousel" class="carousel slide container px-0 order-carousel mt-3" data-ride="carousel" >
             <div class="carousel-inner" style="position: relative;">
                 <div style="position: absolute; z-index: 5; right: -5px; width: 60px; height: 70px;background: linear-gradient(270deg, #FFFFFF 15.1%, rgba(255, 255, 255, 0) 100%);"></div>
                 <div class="carousel-item active">
@@ -113,7 +135,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px;">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -135,7 +157,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px;">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -157,7 +179,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -179,7 +201,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -201,7 +223,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -223,7 +245,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -245,7 +267,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -272,7 +294,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -289,7 +311,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -306,7 +328,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -323,7 +345,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -340,7 +362,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -357,7 +379,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -374,7 +396,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -396,7 +418,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -413,7 +435,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -430,7 +452,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -447,7 +469,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -464,7 +486,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px;">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -481,7 +503,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px; ">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -498,7 +520,7 @@
                                aria-selected="true">
                                 <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
                                     <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
-                                         style=" min-width: 55px; height: 15px">
+                                         style=" min-width: 55px;">
                                         <img src="../img/mob-arrow-active.svg" alt=""></div>
                                     <div class="col-12 d-flex justify-content-center day-of"></div>
                                     <div class="col-12 number-of d-md-block d-lg-block d-none"
@@ -531,7 +553,7 @@
             </a>
 
         </div>
-        <div class="col-12 p-0" style="margin-top: -120px">
+        <div class="col-12 p-0" style="margin-top: -105px">
             <div class="row ml-0 mr-0 justify-content-start align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
                  style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
 
@@ -575,9 +597,11 @@
                         #modal-body {
                             max-width: 966px;
                         }
+
                         #modal-body * {
                             box-sizing: border-box;
                         }
+
                         #modal-body .btn {
                             display: inline-block;
                             font-weight: 400;
@@ -594,12 +618,14 @@
                             font-size: 1rem;
                             line-height: 1.5;
                             border-radius: .25rem;
-                            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
                         }
+
                         #modal-body .btn-outline-danger {
                             color: #dc3545;
                             border-color: #dc3545;
                         }
+
                         #modal-body .btn:not(:disabled):not(.disabled) {
                             cursor: pointer;
                         }
@@ -612,156 +638,198 @@
                             margin-right: -15px;
                             margin-left: -15px;
                         }
+
                         #modal-body .col, #modal-body .col-1, #modal-body .col-10, #modal-body .col-11, #modal-body .col-12, #modal-body .col-2, #modal-body .col-3, #modal-body .col-4, #modal-body .col-5, #modal-body .col-6, #modal-body .col-7, #modal-body .col-8, #modal-body .col-9, #modal-body .col-auto, #modal-body .col-lg, #modal-body .col-lg-1, #modal-body .col-lg-10, #modal-body .col-lg-11, #modal-body .col-lg-12, #modal-body .col-lg-2, #modal-body .col-lg-3, #modal-body .col-lg-4, #modal-body .col-lg-5, #modal-body .col-lg-6, #modal-body .col-lg-7, #modal-body .col-lg-8, #modal-body .col-lg-9, #modal-body .col-lg-auto, #modal-body .col-md, #modal-body .col-md-1, #modal-body .col-md-10, #modal-body .col-md-11, #modal-body .col-md-12, #modal-body .col-md-2, #modal-body .col-md-3, #modal-body .col-md-4, #modal-body .col-md-5, #modal-body .col-md-6, #modal-body .col-md-7, #modal-body .col-md-8, #modal-body .col-md-9, #modal-body .col-md-auto, #modal-body .col-sm, #modal-body .col-sm-1, #modal-body .col-sm-10, #modal-body .col-sm-11, #modal-body .col-sm-12, #modal-body .col-sm-2, #modal-body .col-sm-3, #modal-body .col-sm-4, #modal-body .col-sm-5, .col-sm-6, #modal-body .col-sm-7, #modal-body .col-sm-8, #modal-body .col-sm-9, #modal-body .col-sm-auto, #modal-body .col-xl, #modal-body .col-xl-1, #modal-body .col-xl-10, #modal-body .col-xl-11, #modal-body .col-xl-12, #modal-body .col-xl-2, #modal-body .col-xl-3, #modal-body .col-xl-4, #modal-body .col-xl-5, #modal-body .col-xl-6, #modal-body .col-xl-7, #modal-body .col-xl-8, #modal-body .col-xl-9, #modal-body .col-xl-auto {
                             position: relative;
                             width: 100%;
                             padding-right: 15px;
                             padding-left: 15px;
                         }
+
                         #modal-body .col-2 {
                             -ms-flex: 0 0 16.666667%;
                             flex: 0 0 16.666667%;
                             max-width: 16.666667%;
                         }
+
                         #modal-body .col-4 {
                             -ms-flex: 0 0 33.333333%;
                             flex: 0 0 33.333333%;
                             max-width: 33.333333%;
                         }
+
                         #modal-body .col-6 {
                             -ms-flex: 0 0 50%;
                             flex: 0 0 50%;
                             max-width: 50%;
                         }
+
                         #modal-body .col-7 {
                             -ms-flex: 0 0 58.333333%;
                             flex: 0 0 58.333333%;
                             max-width: 58.333333%;
                         }
+
                         #modal-body .col-12 {
                             -ms-flex: 0 0 100%;
                             flex: 0 0 100%;
                             max-width: 100%;
                         }
+
                         #modal-body .d-flex {
-                            display: -ms-flexbox!important;
-                            display: flex!important;
+                            display: -ms-flexbox !important;
+                            display: flex !important;
                         }
+
                         #modal-body .flex-column {
-                            -ms-flex-direction: column!important;
-                            flex-direction: column!important;
+                            -ms-flex-direction: column !important;
+                            flex-direction: column !important;
                         }
+
                         #modal-body .flex-row {
-                            -ms-flex-direction: row!important;
-                            flex-direction: row!important;
+                            -ms-flex-direction: row !important;
+                            flex-direction: row !important;
                         }
+
                         #modal-body .align-content-center {
-                            -ms-flex-line-pack: center!important;
-                            align-content: center!important;
+                            -ms-flex-line-pack: center !important;
+                            align-content: center !important;
                         }
+
                         #modal-body .align-self-center {
-                            -ms-flex-item-align: center!important;
-                            align-self: center!important;
+                            -ms-flex-item-align: center !important;
+                            align-self: center !important;
                         }
+
                         #modal-body .align-items-center {
-                            -ms-flex-align: center!important;
-                            align-items: center!important;
+                            -ms-flex-align: center !important;
+                            align-items: center !important;
                         }
+
                         #modal-body .justify-content-start {
-                            -ms-flex-pack: start!important;
-                            justify-content: flex-start!important;
+                            -ms-flex-pack: start !important;
+                            justify-content: flex-start !important;
                         }
+
                         #modal-body .justify-content-between {
-                            -ms-flex-pack: justify!important;
-                            justify-content: space-between!important;
+                            -ms-flex-pack: justify !important;
+                            justify-content: space-between !important;
                         }
+
                         #modal-body .justify-content-around {
-                            -ms-flex-pack: distribute!important;
-                            justify-content: space-around!important;
+                            -ms-flex-pack: distribute !important;
+                            justify-content: space-around !important;
                         }
+
                         #modal-body .justify-content-end {
-                            -ms-flex-pack: end!important;
-                            justify-content: flex-end!important;
+                            -ms-flex-pack: end !important;
+                            justify-content: flex-end !important;
                         }
+
                         #modal-body .order-active {
                             background: #F1FFF1;
                             border-left: 4px solid #36C233;
                             font-weight: bold;
                         }
+
                         #modal-body .order-active__no-order {
                             background: #FFF2F2;
                             border-left: 4px solid #FF6666;
                             font-weight: normal;
                         }
+
                         #modal-body .brd-bot-line-reverse {
                             border-bottom: none;
                         }
+
                         #modal-body .change-color-grey {
                             color: #797979;
                         }
+
                         #modal-body .change-weight {
                             font-weight: normal;
                         }
+
                         #modal-body .p-0 {
-                            padding: 0!important;
+                            padding: 0 !important;
                         }
+
                         #modal-body .pl-0, #modal-body .px-0 {
-                            padding-left: 0!important;
+                            padding-left: 0 !important;
                         }
+
                         #modal-body .pr-0, #modal-body .px-0 {
-                            padding-right: 0!important;
+                            padding-right: 0 !important;
                         }
+
                         #modal-body .pb-2, #modal-body .py-2 {
-                            padding-bottom: .5rem!important;
+                            padding-bottom: .5rem !important;
                         }
+
                         #modal-body .pl-3, #modal-body .px-3 {
-                            padding-left: 1rem!important;
+                            padding-left: 1rem !important;
                         }
+
                         #modal-body .pr-3, #modal-body .px-3 {
-                            padding-right: 1rem!important;
+                            padding-right: 1rem !important;
                         }
+
                         #modal-body .ml-0, #modal-body .mx-0 {
-                            margin-left: 0!important;
+                            margin-left: 0 !important;
                         }
+
                         #modal-body .ml-4, #modal-body .mx-4 {
-                            margin-left: 1.5rem!important;
+                            margin-left: 1.5rem !important;
                         }
+
                         #modal-body .mr-0, #modal-body .mx-0 {
-                            margin-right: 0!important;
+                            margin-right: 0 !important;
                         }
+
                         #modal-body .mb-1, #modal-body .my-1 {
-                            margin-bottom: .25rem!important;
+                            margin-bottom: .25rem !important;
                         }
+
                         #modal-body .mt-1, #modal-body .my-1 {
-                            margin-top: .25rem!important;
+                            margin-top: .25rem !important;
                         }
+
                         #modal-body .mb-2, #modal-body .my-2 {
-                            margin-bottom: .5rem!important;
+                            margin-bottom: .5rem !important;
                         }
+
                         #modal-body .mb-3, #modal-body .my-3 {
-                            margin-bottom: 1rem!important;
+                            margin-bottom: 1rem !important;
                         }
+
                         #modal-body .mt-2, #modal-body .my-2 {
-                            margin-top: .5rem!important;
+                            margin-top: .5rem !important;
                         }
+
                         #modal-body .mt-3, #modal-body .my-3 {
-                            margin-top: 1rem!important;
+                            margin-top: 1rem !important;
                         }
+
                         #modal-body .mt-5, #modal-body .my-5 {
-                            margin-top: 3rem!important;
+                            margin-top: 3rem !important;
                         }
+
                         #modal-body .font-weight-bold {
-                            font-weight: 700!important;
+                            font-weight: 700 !important;
                         }
+
                         #modal-body .w-100 {
-                            width: 100%!important;
+                            width: 100% !important;
                         }
+
                         #modal-body .d-none {
-                            display: none!important;
+                            display: none !important;
                         }
+
                         #modal-body .d-inline {
-                            display: inline!important;
+                            display: inline !important;
                         }
+
                         #modal-body .brd-bot-line-reverse {
                             border-bottom: none;
                         }
@@ -771,94 +839,116 @@
                             #modal-body .d-sm-none {
                                 display: none !important;
                             }
+
                             #modal-body .col-sm-6 {
                                 -ms-flex: 0 0 50%;
                                 flex: 0 0 50%;
                                 max-width: 50%;
                             }
                         }
+
                         @media (min-width: 768px) {
 
-                            #modal-body  .flex-md-row {
-                                -ms-flex-direction: row!important;
-                                flex-direction: row!important;
+                            #modal-body .flex-md-row {
+                                -ms-flex-direction: row !important;
+                                flex-direction: row !important;
                             }
 
-                            #modal-body  .justify-content-md-start {
-                                -ms-flex-pack: start!important;
-                                justify-content: flex-start!important;
+                            #modal-body .justify-content-md-start {
+                                -ms-flex-pack: start !important;
+                                justify-content: flex-start !important;
                             }
-                            #modal-body  .justify-content-md-between {
-                                -ms-flex-pack: justify!important;
-                                justify-content: space-between!important;
+
+                            #modal-body .justify-content-md-between {
+                                -ms-flex-pack: justify !important;
+                                justify-content: space-between !important;
                             }
-                            #modal-body  .justify-content-md-end {
-                                -ms-flex-pack: end!important;
-                                justify-content: flex-end!important;
+
+                            #modal-body .justify-content-md-end {
+                                -ms-flex-pack: end !important;
+                                justify-content: flex-end !important;
                             }
-                            #modal-body  .col-md-2 {
+
+                            #modal-body .col-md-2 {
                                 -ms-flex: 0 0 16.666667%;
                                 flex: 0 0 16.666667%;
                                 max-width: 16.666667%;
                             }
-                            #modal-body  .col-md-4 {
+
+                            #modal-body .col-md-4 {
                                 -ms-flex: 0 0 33.333333%;
                                 flex: 0 0 33.333333%;
                                 max-width: 33.333333%;
                             }
+
                             #modal-body .col-md-5 {
                                 -ms-flex: 0 0 41.666667%;
                                 flex: 0 0 41.666667%;
                                 max-width: 41.666667%;
                             }
+
                             #modal-body .col-md-6 {
                                 -ms-flex: 0 0 50%;
                                 flex: 0 0 50%;
                                 max-width: 50%;
                             }
+
                             #modal-body .col-md-10 {
                                 -ms-flex: 0 0 83.333333%;
                                 flex: 0 0 83.333333%;
                                 max-width: 83.333333%;
                             }
+
                             #modal-body .pl-md-3, #modal-body .px-md-3 {
-                                padding-left: 1rem!important;
+                                padding-left: 1rem !important;
                             }
+
                             #modal-body .pr-md-3, #modal-body .px-md-3 {
-                                padding-right: 1rem!important;
+                                padding-right: 1rem !important;
                             }
+
                             #modal-body .mb-md-0, #modal-body .my-md-0 {
-                                margin-bottom: 0!important;
+                                margin-bottom: 0 !important;
                             }
+
                             #modal-body .mt-md-0, #modal-body .my-md-0 {
-                                margin-top: 0!important;
+                                margin-top: 0 !important;
                             }
+
                             #modal-body .ml-md-5, #modal-body .mx-md-5 {
-                                margin-left: 3rem!important;
+                                margin-left: 3rem !important;
                             }
+
                             #modal-body .d-md-none {
-                                display: none!important;
+                                display: none !important;
                             }
+
                             #modal-body .d-md-flex {
-                                display: -ms-flexbox!important;
-                                display: flex!important;
+                                display: -ms-flexbox !important;
+                                display: flex !important;
                             }
+
                             #modal-body .d-md-inline {
-                                display: inline!important;
+                                display: inline !important;
                             }
+
                             #modal-body .brd-bot-line-reverse {
                                 border-bottom: 1px solid #EAEAEA !important;
                             }
+
                             #modal-body .brd-bot-line {
                                 border-bottom: none;
                             }
+
                             #modal-body .change-color-grey {
                                 color: #232323 !important;
                             }
+
                             #modal-body .change-weight {
                                 font-weight: 600;
                             }
                         }
+
                         @media (min-width: 992px) {
                             #modal-body .flex-lg-row {
                                 -ms-flex-direction: row !important;
@@ -866,74 +956,90 @@
                             }
 
                             #modal-body .justify-content-lg-start {
-                                -ms-flex-pack: start!important;
-                                justify-content: flex-start!important;
+                                -ms-flex-pack: start !important;
+                                justify-content: flex-start !important;
                             }
+
                             #modal-body .justify-content-lg-between {
-                                -ms-flex-pack: justify!important;
-                                justify-content: space-between!important;
+                                -ms-flex-pack: justify !important;
+                                justify-content: space-between !important;
                             }
+
                             #modal-body .justify-content-lg-end {
-                                -ms-flex-pack: end!important;
-                                justify-content: flex-end!important;
+                                -ms-flex-pack: end !important;
+                                justify-content: flex-end !important;
                             }
+
                             #modal-body .col-lg-2 {
                                 -ms-flex: 0 0 16.666667%;
                                 flex: 0 0 16.666667%;
                                 max-width: 16.666667%;
                             }
+
                             #modal-body .col-lg-4 {
                                 -ms-flex: 0 0 33.333333%;
                                 flex: 0 0 33.333333%;
                                 max-width: 33.333333%;
                             }
+
                             #modal-body .col-lg-5 {
                                 -ms-flex: 0 0 41.666667%;
                                 flex: 0 0 41.666667%;
                                 max-width: 41.666667%;
                             }
+
                             #modal-body .col-lg-6 {
                                 -ms-flex: 0 0 50%;
                                 flex: 0 0 50%;
                                 max-width: 50%;
                             }
+
                             #modal-body .col-lg-10 {
                                 -ms-flex: 0 0 83.333333%;
                                 flex: 0 0 83.333333%;
                                 max-width: 83.333333%;
                             }
+
                             #modal-body .pl-lg-3, #modal-body .px-lg-3 {
-                                padding-left: 1rem!important;
+                                padding-left: 1rem !important;
                             }
 
                             #modal-body .pr-lg-3, #modal-body .px-lg-3 {
-                                padding-right: 1rem!important;
+                                padding-right: 1rem !important;
                             }
+
                             #modal-body .mb-lg-0, #modal-body .my-lg-0 {
-                                margin-bottom: 0!important;
+                                margin-bottom: 0 !important;
                             }
+
                             #modal-body .mt-lg-0, #modal-body .my-lg-0 {
-                                margin-top: 0!important;
+                                margin-top: 0 !important;
                             }
+
                             #modal-body .ml-lg-5, #modal-body .mx-lg-5 {
-                                margin-left: 3rem!important;
+                                margin-left: 3rem !important;
                             }
+
                             #modal-body .d-lg-none {
-                                display: none!important;
+                                display: none !important;
                             }
+
                             #modal-body .d-lg-flex {
-                                display: -ms-flexbox!important;
-                                display: flex!important;
+                                display: -ms-flexbox !important;
+                                display: flex !important;
                             }
+
                             #modal-body .d-lg-inline {
-                                display: inline!important;
+                                display: inline !important;
                             }
                         }
+
                         #modal-body .order-active {
                             background: #F1FFF1;
                             border-left: 4px solid #36C233;
                             font-weight: bold;
                         }
+
                         #modal-body .order-active__no-order {
                             background: #FFF2F2;
                             border-left: 4px solid #FF6666;
@@ -943,9 +1049,11 @@
                         #modal-body .change-color-grey {
                             color: #797979;
                         }
+
                         #modal-body .change-weight {
                             font-weight: normal;
                         }
+
                         #modal-body .brd-bot-line {
                             border-bottom: 1px solid #EAEAEA !important;
                         }
@@ -1140,23 +1248,51 @@
     </div>
 </main>
 
-<footer class="footer row ml-0 mr-0"
-        style="min-height: 91px; background: #222222; display:flex; align-items: center; margin-top: 56px">
-    <div class="container container-sm container-md container-lg" style="height: 100%">
-        <div class="row justify-content-between mr-2 ml-2 flex-column-reverse align-items-center flex-xl-row flex-lg-row flex-md-column-reverse">
-            <div class="col-10 justify-content-center justify-content-lg-start mt-3 mt-lg-0 col-md-5">
-                <div class="h5 justify-content-center justify-content-lg-start"
-                     style="color: #ffffff; font-size: 14px; line-height: 16px; display: flex; justify-content: center">
-                    <span>© 2017-2018 Company, Inc.</span></div>
+<footer class="footer row m-0" style="background: #222222">
+    <div class="w-100 p-0 first-footer d-flex align-items-center">
+        <div class="container">
+            <div class="col-12 p-0 d-flex justify-content-between align-items-center">
+                <div class="col-lg-9 col-md-9 col-6 p-0 justify-content-center align-items-center">
+                    <nav class="nav col-12 p-0 d-flex justify-content-between">
+                        <div class=" p-0 justify-content-between d-none d-lg-flex d-md-flex non-visible-mob"
+                             style="width: 120px; ">
+                            <a style="height: 50px; width: 50px; border: 1px solid #B1B1B1; border-radius: 50%; text-decoration: none;"
+                               href="#"></a>
+                            <a style="height: 50px; width: 50px; border: 1px solid #B1B1B1; border-radius: 50%; text-decoration: none;"></a>
+                        </div>
+                        <div class=" justify-content-between d-flex d-lg-none d-md-none visible-mob"
+                             style="width: 70px; ">
+                            <a style="height: 20px; width: 20px;  text-decoration: none;" href="#"></a>
+                            <a style="height: 20px; width: 20px;  text-decoration: none;" href="#"></a>
+                        </div>
+                        <div class="col-9 justify-content-between align-items-center d-none d-lg-flex d-md-flex flex-grow-1 mail-non-visible">
+                            <div class="col-5 p-0" style="font-size: 16px; color: #ffffff"><img
+                                    src="../img/phone-footer-pc.svg" alt="" style="margin-right: 6px">(XXX) XXX-XXXX
+                            </div>
+                            <div class="col-7 p-0" style="font-size: 16px; color: #ffffff"><img
+                                    src="../img/mail-footer-pc.svg" alt="" style="margin-right: 6px">mail@example.com
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-6 p-0 justify-content-center" style="height: 24px">
+                    <nav class="nav justify-content-end">
+                        <a class="nav-link p-0  align-self-center" href="#"
+                           style="color: #36C233; font-size: 14px; line-height: 16px;">Privacy</a>
+                        <div class="align-self-center px-3" style="color: #36C233">|</div>
+                        <a class="nav-link p-0 align-self-center" href="#"
+                           style="color: #36C233; font-size: 14px; line-height: 16px;">Terms</a>
+                    </nav>
+                </div>
             </div>
-            <div class="col-12 col-lg-5  col-sm-5 col-md-5 justify-content-center">
-                <nav class="nav justify-content-center justify-content-lg-end">
-                    <a class="nav-link p-0 pl-4 pr-4  pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
-                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Privacy</a>
-                    <div class="align-self-center" style="color: #f15e25">|</div>
-                    <a class="nav-link p-0 pl-4 pr-4 pl-lg-3 pr-lg-3 pl-sm-3 pr-sm-3 align-self-center" href="#"
-                       style="color: #F15E25; font-size: 14px; line-height: 16px;">Terms</a>
-                </nav>
+        </div>
+    </div>
+    <div class="p-0 w-100 d-flex align-items-center second-footer" style="height: 38px;">
+        <div class="container container-sm container-md container-lg">
+            <div class="col-12 p-0 d-flex justify-content-center"
+                 style="color: #ffffff; font-size: 14px; line-height: 16px;">
+                <span>© 2017-2018 Company, Inc.</span>
             </div>
         </div>
     </div>
@@ -1167,12 +1303,57 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        <!--integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></-->script>
+        <!--integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"-->></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        <!--integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"-->></script>
+        <!--integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"-->></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        <!--integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"-->></script>
+        <!--integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"-->></script>
+<script>
+    $('#sources').each(function () {
+        let classes = $(this).attr("class"),
+            id = $(this).attr("id"),
+            name = $(this).attr("name");
+        let template = '<div class="' + classes + '">';
+        template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+        template += '<div class="custom-options">';
+        $(this).find("option").each(function () {
+            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+        });
+        template += '</div></div>';
 
+        $(this).wrap('<div class="custom-select-wrapper d-block d-lg-none d-md-none" ></div>');
+        $(this).hide();
+        $(this).after(template);
+    });
+    $(".custom-option:first-of-type").hover(function () {
+        $(this).parents(".custom-options").addClass("option-hover");
+    }, function () {
+        $(this).parents(".custom-options").removeClass("option-hover");
+    });
+    $(".custom-select-trigger").on("click", function () {
+        $('html').one('click', function () {
+            $(".custom-select").removeClass("opened");
+        });
+        $(this).parents(".custom-select").toggleClass("opened");
+        event.stopPropagation();
+    });
+    $(".custom-option").on("click", function () {
+        $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+        $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+        $(this).addClass("selection");
+        $(this).parents(".custom-select").removeClass("opened");
+        $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+    });
+
+    $('.delete-parent').click(function () {
+        $(this).closest('.parent-delete').remove();
+    });
+
+
+</script>
 <script>
     $('.carousel').carousel({
         interval: 0
