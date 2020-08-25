@@ -1,7 +1,10 @@
 ﻿@model UpdateUserModel
+@using CateringPro.Core
+@using Microsoft.Extensions.Configuration
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@inject IConfiguration Configuration
 @{
-
+    SiteSetting setting = Configuration.GetSection("SiteSetting").Get<SiteSetting>();
 }
 
 @if (true)
@@ -39,7 +42,7 @@
                 </li>
             </ul>
             <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="profile-tab">
-                <input type="hidden" asp-for="Id" id="id-value-id-user"/>
+                <input type="hidden" asp-for="Id" id="id-value-id-user" />
                 <div class="tab-pane fade show active " id="profile-home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
@@ -81,7 +84,7 @@
                                    placeholder="" autocomplete="off">
                         </div>
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-start align-content-center">
-                            <label asp-for="ZipCode" 
+                            <label asp-for="ZipCode"
                                    class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
                             <input asp-for="ZipCode" type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3" id="input-post-index" placeholder="" style="height: 34px">
                         </div>
@@ -163,6 +166,7 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
             </div>
         </form>
@@ -181,7 +185,7 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script>
+        <script>
             $(function () {
                 var userId = document.getElementById("id-value-id-user").value;
                 $(document).on("click", "#btnLink", function () {
@@ -220,7 +224,7 @@
                         if (xhr)
                             message += xhr.responseText;
                         dialog_error(message);
-                        // $('html').html(xhr.responseText); 
+                        // $('html').html(xhr.responseText);
                     });
                 });
 
@@ -229,36 +233,19 @@
                 $.get('/Account/UserFinance', function (data) {
 
                     $("#nav-content-fin").html(data);
-                    $("#nav-content-fin").find('#addliqpay-btn').click(function (e) {
-                        e.preventDefault();
-                        window.location.replace(`@Url.Action("Index","Payment")?amount=${$("#nav-content-fin").find('#liqpay-amount').val()}`);
-                       // const formData = new FormData();
-                       // formData.append('amount', $("#nav-content-fin").find('#liqpay-amount').val());
-
-                       // fetch(`@Url.Action("Index","Payment")?amount=${$("#nav-content-fin").find('#liqpay-amount').val()}`, {
-                       //     method: 'GET',
-                       //     headers: {
-                       //         'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-
-                        //    }//,
-                           // body: formData
-                      //  })
-                      //      .then(response => {
-                      //          if (response.ok != true) {
-
-                      //          }
-
-                       //     })
-                       //     .catch (error => {
-                       //          dialog_error(error);
-
-                       // }
-
-                       // );
-
-                    })
-
+                    var enable_liqpay = false;
+@if (setting.EnableLiqPay)
+{
+                @Html.Raw("enable_liqpay = true;")
+}
+                $("#nav-content-fin").find('#addliqpay-btn').click(function(e) {
+                    e.preventDefault();
+                    if (enable_liqpay == true)
+                         window.location.replace(`@Url.Action("Index", "Payment") ? amount =${$("#nav-content-fin").find('#liqpay-amount').val()}`);
                 });
+
+            });
+ 
                 $.get('/Account/UserChilds?view=UserChildsData', function (data) {
                     var childcontainer = $('#child-container')
                     childcontainer.find('.child-data').remove();
@@ -305,7 +292,7 @@
                     readURL(this);
                 });
             });
-</script>
+        </script>
     }
 
 }
