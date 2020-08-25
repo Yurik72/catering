@@ -255,7 +255,18 @@ namespace CateringPro.Controllers
             int comapnyid = User.GetCompanyID();
             try
             {
+                //var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
+                //test = test.OrderBy(a => a.Date);
                 var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
+
+                //var testList = test.ToList();
+                //var inList = new List<InvoiceItemModel>();
+                //testList.ForEach(a =>
+                //{
+                //    inList.Add(new InvoiceItemModel() { DayComplex = a });
+                //});
+                // model.Items = inList;
+                
                 var avaible = _userdaydishesrepo.AvaibleComplexDay(daydate, userid, comapnyid);
                 var items = model.Items.ToList();
                 if (avaible.Count() > 0 && items.Count() == 0)
@@ -269,15 +280,15 @@ namespace CateringPro.Controllers
                 model.Items = items;
                 for (int i = 0; i < 6; i++)
                 {
-                   
+
                     daydate = daydate.AddDays(1);
-                    
+
                     avaible = _userdaydishesrepo.AvaibleComplexDay(daydate, userid, comapnyid);
-                
+
                     var nextModel = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
                     var nextItems = nextModel.Items.ToList();
                     var onlyComplex = new List<InvoiceItemModel>();
-                    foreach(var it in nextItems)
+                    foreach (var it in nextItems)
                     {
                         if (it.DayComplex != null)
                         {
@@ -286,23 +297,23 @@ namespace CateringPro.Controllers
                     }
                     nextItems = onlyComplex;
                     items = model.Items.ToList();
-                    
+
                     if (avaible.Count() > 0 && nextModel.Items.ToList().Count() == 0)
                     {
                         var inItem = new InvoiceItemModel();
                         inItem.DayComplex = new UserDayComplexViewModel();
                         inItem.DayComplex.Date = daydate;
-                        
+
                         inItem.DayComplex.Enabled = false;
-                     
+
                         items.Add(inItem);
 
-                       //items.AddRange(nextModel.Items.ToList());
+                        //items.AddRange(nextModel.Items.ToList());
                     }
                     items.AddRange(nextItems);
-                
+
                     model.Items = items;
-                    
+
 
 
                 }

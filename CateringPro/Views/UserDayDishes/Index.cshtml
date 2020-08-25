@@ -19,263 +19,621 @@
     DateTimeFormatInfo dtfi = ci.DateTimeFormat;
     CultureInfo cultureCurrent = CultureInfo.CurrentUICulture;
 }
-
-
-<h2 class="text-center">@Localizer["OrderTitle"]</h2>
-<select class="form-control col-10 col-lg-8 col-md-8 complex-dishkind"
-        asp-items="ViewBag.DishKindId" id="dishKind"
-        style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
-</select>
-<div class="container">
-
-    <div class="row  justify-content-center">
-        <div class="col input-group justify-content-centers">
-            <div class="input-group-prepend dayselector dayselectback">
-                <span><i class="fa fa-angle-double-left input-group-text"></i></span>
+@if (Layout == "_LayoutCabachok")
+{
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="col-12 align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
+            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column">
+                <p class="h2 h2-mob pr-3" style="font-weight: 600;">
+                    @Localizer["OrderTitle"]
+                </p>
 
             </div>
-
-            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
-            <div id="weekselector" class="weekselector">
-
-            </div>
-
-
-            <div class="input-group-append dayselector  dayselectforward">
-                <span><i class="fa fa-angle-double-right input-group-text"></i></span>
-
-            </div>
+            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column-reverse mt-3">
+                <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
+                    <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
+                    <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2"
+                         id="type-menu-food">
+                        @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
+                            Стандартне
+                        </button>
+                        <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
+                        <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
+                        <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>*@
+                        @foreach (var it in ViewBag.DishKindId)
+                        {
+                            if (it.Value == "")
+                            {
+                    <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button" value="@it.Value">
+                        @it.Text
+                    </button>
+                                continue;
+                            }
+                            <button class="btn btn-for-type-menu" type="button" value="@it.Value">@it.Text</button>
+                        }
+                    </div>
+                    @*<select name="sources" id="sources" class="custom-select sources type-of-food"
+                placeholder="Стандартне"
+                style="border: none; z-index: 2000">
+            <option class="drpdown-btn-type selection" value="standart"
+                    style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                Стандартне
+            </option>
+            <option class="drpdown-btn-type" value="no-lactose">Безлактозне</option>
+            <option class="drpdown-btn-type" value="no-gluten">Безглютенове</option>
+            <option class="drpdown-btn-type" value="fish-and-vegetables">Овочево-рибне</option>
+        </select>*@
+                   
+                <select class="custom-select sources type-of-food"
+                        placeholder="Не обрано"
+                        style="border: none;"
+                        id="dishKind">
+                    @foreach (var it in ViewBag.DishKindId)
+                    {
+                        if (it.Value == "")
+                        {
+                            <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
+                            continue;
+                        }
+                <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
+                    }
+                </select>
+                </div>
+                <button type="button"
+                        class="getDetails col-lg-3 col-md-3 pr-3 col-12 btn btn-xl btn-outline-danger   align-self-end  font-weight-bold  d-flex justify-content-between"
+                        style=" background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
+                    <img src="../img/week-report.svg" alt=""><span class="d-flex align-content-center"
+                                                                   style="margin-right: 23%">@Localizer["GetWeekInfo"]</span>
+                                                            </button>
+                                                        </div>
         </div>
-        <div class="col ">
-            <button class="getDetails btn btn-primary"> @Localizer["GetWeekInfo"]</button>
+        <div id="days-of-week-carousel" class="carousel slide container px-0 order-carousel mt-3" data-ride="carousel">
+            <div class="carousel-inner" style="position: relative;">
+                <div style="position: absolute; z-index: 5; right: -5px; width: 60px; height: 70px;background: linear-gradient(270deg, #FFFFFF 15.1%, rgba(255, 255, 255, 0) 100%);"></div>
+                <div class="carousel-item active">
+                    <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+                    <ul class="nav nav-tabs justify-content-lg-around justify-content-md-around justify-content-between weeks-tab "
+                        id="weeks-tab" role="tablist">
+
+                        @{
+                            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
+
+                        }
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link day-of-week p-lg-0 p-md-0 nav-item nav-day @(i == (int)daydate.DayOfWeek ? " active" : "")"
+                                   style="width: 100%;"
+                                   id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i"
+                                   aria-selected="false"
+                                   @*aria-selected="true"*@>
+                                    <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                        <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                             style=" min-width: 55px;">
+                                            <img src="../img/mob-arrow-active.svg" alt="">
+                                        </div>
+                                        <div class="col-12 d-flex justify-content-center day-of" data-i="@i"></div>
+                                        <div class="col-12 number-of d-md-block d-lg-block d-none shorttabdate"
+                                             style="font-size: 14px; font-family: Open-Sans, sans-serif;">@current_head.ToShortDateString()</div>
+                                        <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center date-day"
+                                             style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;">@current_head.Day</div>
+                                        </div>
+                                    </a>
+                                    @if (udrepo.IsAllowDayEdit(current_head, User.GetCompanyID()))
+                                    {
+                                        <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                             style="left: calc(14px); ">
+                                            На цей день замовлення закритi.
+                                            @*<br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                                для замовлення*@
+                                        </div>
+                                    }
+                                </li>
+                                current_head = current_head.AddDays(1);
+                            }
+
+                    </ul>
+                </div>
+
+            </div>
+            <a class="carousel-control-prev  d-lg-flex d-md-flex align-items-start mt-3 dayselectback"
+               style="width: auto; z-index: 6" href="#days-of-week-carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon d-flex justify-content-start align-items-center"
+                      aria-hidden="true"
+                      style="width: 20px; height: 20px; border: 2px solid #F05E25; border-radius: 50%">
+                    <div style="border: 4px solid transparent;border-right: 5px solid #F05E25;display: block;width: 0;height: 0;"></div>
+                </span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next d-flex align-items-start mt-3 dayselectforward" style="width: auto; z-index: 6"
+               href="#days-of-week-carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon d-flex justify-content-end align-items-center"
+                      aria-hidden="true"
+                      style="width: 20px; height: 20px; border: 2px solid #F05E25; border-radius: 50%">
+                    <div style="border: 4px solid transparent;border-left: 5px solid #F05E25;display: block;width: 0;height: 0;"></div>
+                </span>
+                <span class="sr-only">Next</span>
+            </a>
 
         </div>
-    </div>
-    <div class="row" style="height:10px">
+        <div class="col-12 p-0" style="margin-top: -105px;z-index: 10">
+            @*<div class="row ml-0 mr-0 justify-content-start align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
+                     style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
 
-    </div>
+                    <div class="col-1 col-lg-1 col-md-2">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 d-flex flex-lg-row flex-md-row">
+                        <div class="col-lg-2 col-md-2 pl-0" style="cursor: pointer">
+                            <span class="sort-span">Назва</span>
+                        </div>
+                        <div class="col-5 pl-5" style="cursor: pointer"><span class="sort-span">Категорія</span></div>
+                        <div class="col-lg-2 col-md-2" style="cursor: pointer">
+                            <span class="sort-span">Title</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 justify-content-end" style="cursor: pointer">
+                            <span class="sort-span justify-content-center">Вартість</span>
+                        </div>
+                        <div class="col-lg-1 col-md-1">
+                        </div>
+                    </div>
 
-</div>
-<nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                </div>*@
 
+            @*<div class="col-12 p-0 justify-content-center mt-4 d-flex">
+                    <span style="font-weight: 600; font-size: 28px; color: #232323">Комплексні страви</span>
+                </div>*@
+        </div>
         @{
-            DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
+            DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
+        }
+        <div class="tab-content mt-lg-2 pt-lg-3 mt-md-2 pt-md-3 mt-1 pt-0" id="week-day-content">
+            @for (int i = 0; i < 7; i++)
+            {
+                <div class="tab-pane fade@(i == (int)daydate.DayOfWeek ? "  show active" : "")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+                    @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
+                    {
+                        <div class="container day-closed-msg">
+                            <h3> @Localizer["DayClosedForOrder"] </h3>
+                        </div>
+                    }
+                    @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
+                    @if (Model.ShowComplex)
+                    {
+                        @await Component.InvokeAsync("UserDayComplexComponent", new DayMenu() { Date = current_content, DishKind = 0 })
+                    }
+                </div>
+                current_content = current_content.AddDays(1);
+            }
+        </div>
 
+
+    </div>
+    <div id="modOrderSuccess" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*<p>@Localizer["OrderAccepted"]</p>*@
+                    <p>@Localizer["OrdeAcceptedDetail"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modOrderFailOutDate" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["OrderNotAccepted"]</p>
+                    <p>@Localizer["OrderNotAcceptedOutDate"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modOrderEmpty" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["OrderNotAccepted"]</p>
+                    <p>@Localizer["OrderEmpty"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteOrder" class="modal">
+        <div id="dialogContent" class="modal-dialog">
+        </div>
+    </div>
+    <div id="OrderWeekDetails" class="modal" role="dialog">
+        <div id="dialogOrderWeek" class="modal-dialog modal-lg" style="max-width: 966px">
+
+
+            <div class="modal-content col-lg-12 col-12 px-0">
+                <div class="modal-header align-items-center col-12 pl-0 pl-lg-3 pl-md-3 pr-0" style="padding-top:20px">
+                    <h5 class="modal-title px-3 px-lg-3 px-md-3 " id="exampleModalLabel"
+                        style="font-size: 34px; line-height: 40px; font-weight: bold">
+                        @Localizer["GetWeekInfo"]
+                    </h5>
+                    <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+                        <img src="../img/close-modal.svg" aria-hidden="true" alt="">
+                    </button>
+                </div>
+                @*<div class="modal-header">
+                        <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
+                        <button class="close" data-dismiss="modal" area-hidden="true">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>*@
+
+                @*<div class=" modal-body details-content  col-auto p-0 mt-2 ">
+
+                    </div>*@
+                <div class="modal-footer details-content justify-content-center border-0"
+                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["OrderNotAccepted"]</p>
+                    <p>@Localizer["InternalError"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modOrderDbError" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["DbError"]</p>
+                    <p>@Localizer["InternalError"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modPayment" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Сплата LiqPay</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" class="payment-form" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
+                    <input type="hidden" name="data" value="eyJwdWJsaWNfa2V5IjoiaTAwMDAwMDAwIiwidmVyc2lvbiI6IjMiLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIzIiwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6InRlc3QiLCJvcmRlcl9pZCI6IjAwMDAwMSJ9" />
+                    <input type="hidden" name="signature" value="wR+UZDC4jjeL/qUOvIsofIWpZh8=" />
+                    <label for="numorder" class="control-label">Code</label>
+                    <input type="text" name="amount" id="numorder" class="form-control" />
+                    <p />
+                    <label for="amount" class="control-label">Сума ₴</label>
+                    <input type="number" name="amount" id="amount" class="form-control" />
+                    <p />
+                    <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" />
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+
+
+
+    <h2 class="text-center">@Localizer["OrderTitle"]</h2>
+    <select class="form-control col-10 col-lg-8 col-md-8 complex-dishkind"
+            asp-items="ViewBag.DishKindId" id="dishKind"
+            style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
+    </select>
+    <div class="container">
+
+        <div class="row  justify-content-center">
+            <div class="col input-group justify-content-centers">
+                <div class="input-group-prepend dayselector dayselectback">
+                    <span><i class="fa fa-angle-double-left input-group-text"></i></span>
+
+                </div>
+
+                <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+                <div id="weekselector" class="weekselector">
+
+                </div>
+
+
+                <div class="input-group-append dayselector  dayselectforward">
+                    <span><i class="fa fa-angle-double-right input-group-text"></i></span>
+
+                </div>
+            </div>
+            <div class="col ">
+                <button class="getDetails btn btn-primary"> @Localizer["GetWeekInfo"]</button>
+
+            </div>
+        </div>
+        <div class="row" style="height:10px">
+
+        </div>
+
+    </div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+            @{
+                DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
+
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+
+                <a class="nav-item nav-link nav-day @(i == (int)daydate.DayOfWeek ? " active" : "") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID()) ? "" : "day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
+                    @if (i == 6)
+                    {
+                        @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)0)<br />
+                    }
+                    else
+                    {
+                        @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i + 1)<br />
+                    }
+                    <span class="shorttabdate">@current_head.Day</span>
+                </a>
+
+                current_head = current_head.AddDays(1);
+            }
+        </div>
+    </nav>
+    <div class="tab-content day-content" id="nav-tabContent">
+        @{
+            DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
         }
         @for (int i = 0; i < 7; i++)
         {
-
-            <a class="nav-item nav-link nav-day @(i==(int)daydate.DayOfWeek?" active":"") @(udrepo.IsAllowDayEdit(current_head, User.GetCompanyID())?"":"day-closed")" id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" aria-selected="false">
-                @if (i == 6)
+            <div class="tab-pane fade@(i == (int)daydate.DayOfWeek ? "  show active" : "")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+                @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
                 {
-                    @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)0)<br />
+                    <div class="container day-closed-msg">
+                        <h3> @Localizer["DayClosedForOrder"] </h3>
+                    </div>
                 }
-                else
+                @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
+                @if (Model.ShowComplex)
                 {
-                    @System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName((DayOfWeek)i + 1)<br />
+                    @await Component.InvokeAsync("UserDayComplexComponent", new DayMenu() { Date = current_content, DishKind = 0 })
                 }
-                <span class="shorttabdate">@current_head.Day</span>
-            </a>
+                @if (Model.ShowDishes)
+                {
+                    @await Component.InvokeAsync("UserDayDishComponent", current_content)
+                }
 
-            current_head = current_head.AddDays(1);
+            </div>
+
+            current_content = current_content.AddDays(1);
         }
     </div>
-</nav>
-<div class="tab-content day-content" id="nav-tabContent">
-    @{
-        DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
-    }
-    @for (int i = 0; i < 7; i++)
-    {
-        <div class="tab-pane fade@(i==(int)daydate.DayOfWeek?"  show active":"")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-            @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
-            {
-                <div class="container day-closed-msg">
-                    <h3> @Localizer["DayClosedForOrder"] </h3>
-                </div>
-            }
-            @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
-            @if (Model.ShowComplex)
-            {
-                @await Component.InvokeAsync("UserDayComplexComponent", new DayMenu() { Date = current_content, DishKind = 0 })
-            }
-            @if (Model.ShowDishes)
-            {
-                @await Component.InvokeAsync("UserDayDishComponent", current_content)
-            }
-
-        </div>
-
-        current_content = current_content.AddDays(1);
-    }
-</div>
-<div id="modOrderSuccess" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Localizer["Message"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                @*<p>@Localizer["OrderAccepted"]</p>*@
-                <p>@Localizer["OrdeAcceptedDetail"]</p>
-
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modOrderFailOutDate" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Localizer["Message"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Localizer["OrderNotAccepted"]</p>
-                <p>@Localizer["OrderNotAcceptedOutDate"]</p>
-
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modOrderEmpty" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Localizer["Message"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Localizer["OrderNotAccepted"]</p>
-                <p>@Localizer["OrderEmpty"]</p>
-
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="deleteOrder" class="modal">
-    <div id="dialogContent" class="modal-dialog">
-    </div>
-</div>
-<div id="OrderWeekDetails" class="modal" role="dialog">
-    <div id="dialogOrderWeek" class="modal-dialog modal-lg" style="max-width: 966px">
-
-
-        <div class="modal-content col-lg-12 col-12 px-0">
-            <div class="modal-header align-items-center col-12 pl-0 pl-lg-3 pl-md-3 pr-0" style="padding-top:20px">
-                <h5 class="modal-title px-3 px-lg-3 px-md-3 " id="exampleModalLabel"
-                    style="font-size: 34px; line-height: 40px; font-weight: bold">
-                    @Localizer["GetWeekInfo"]
-                </h5>
-                <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
-                    <img src="../img/close-modal.svg" aria-hidden="true" alt="">
-                </button>
-            </div>
-            @*<div class="modal-header">
-                    <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
-                    <button class="close" data-dismiss="modal" area-hidden="true">
+    <div id="modOrderSuccess" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                </div>
+                <div class="modal-body">
+                    @*<p>@Localizer["OrderAccepted"]</p>*@
+                    <p>@Localizer["OrdeAcceptedDetail"]</p>
 
-                </div>*@
+                </div>
+                <div class="modal-footer">
 
-            @*<div class=" modal-body details-content  col-auto p-0 mt-2 ">
-
-                </div>*@
-            <div class="modal-footer details-content justify-content-center border-0"
-                 style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Localizer["Message"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Localizer["OrderNotAccepted"]</p>
-                <p>@Localizer["InternalError"]</p>
+    <div id="modOrderFailOutDate" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["OrderNotAccepted"]</p>
+                    <p>@Localizer["OrderNotAcceptedOutDate"]</p>
 
-            </div>
-            <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modOrderDbError" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@Localizer["Message"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Localizer["DbError"]</p>
-                <p>@Localizer["InternalError"]</p>
-
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div id="modOrderEmpty" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["OrderNotAccepted"]</p>
+                    <p>@Localizer["OrderEmpty"]</p>
 
-<div id="modPayment" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Сплата LiqPay</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
             </div>
-            <form method="POST" class="payment-form" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
-                <input type="hidden" name="data" value="eyJwdWJsaWNfa2V5IjoiaTAwMDAwMDAwIiwidmVyc2lvbiI6IjMiLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIzIiwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6InRlc3QiLCJvcmRlcl9pZCI6IjAwMDAwMSJ9" />
-                <input type="hidden" name="signature" value="wR+UZDC4jjeL/qUOvIsofIWpZh8=" />
-                <label for="numorder" class="control-label">Code</label>
-                <input type="text" name="amount" id="numorder" class="form-control" />
-                <p />
-                <label for="amount" class="control-label">Сума ₴</label>
-                <input type="number" name="amount" id="amount" class="form-control" />
-                <p />
-                <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" />
-            </form>
         </div>
     </div>
-</div>
+    <div id="deleteOrder" class="modal">
+        <div id="dialogContent" class="modal-dialog">
+        </div>
+    </div>
+    <div id="OrderWeekDetails" class="modal" role="dialog">
+        <div id="dialogOrderWeek" class="modal-dialog modal-lg" style="max-width: 966px">
 
+
+            <div class="modal-content col-lg-12 col-12 px-0">
+                <div class="modal-header align-items-center col-12 pl-0 pl-lg-3 pl-md-3 pr-0" style="padding-top:20px">
+                    <h5 class="modal-title px-3 px-lg-3 px-md-3 " id="exampleModalLabel"
+                        style="font-size: 34px; line-height: 40px; font-weight: bold">
+                        @Localizer["GetWeekInfo"]
+                    </h5>
+                    <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+                        <img src="../img/close-modal.svg" aria-hidden="true" alt="">
+                    </button>
+                </div>
+                @*<div class="modal-header">
+                        <button class="btn btn-primary sendWeek">@Localizer["SendEmail"]</button>
+                        <button class="close" data-dismiss="modal" area-hidden="true">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>*@
+
+                @*<div class=" modal-body details-content  col-auto p-0 mt-2 ">
+
+                    </div>*@
+                <div class="modal-footer details-content justify-content-center border-0"
+                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modOrderFail" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["OrderNotAccepted"]</p>
+                    <p>@Localizer["InternalError"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modOrderDbError" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Message"]</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Localizer["DbError"]</p>
+                    <p>@Localizer["InternalError"]</p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modPayment" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Сплата LiqPay</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" class="payment-form" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
+                    <input type="hidden" name="data" value="eyJwdWJsaWNfa2V5IjoiaTAwMDAwMDAwIiwidmVyc2lvbiI6IjMiLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIzIiwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6InRlc3QiLCJvcmRlcl9pZCI6IjAwMDAwMSJ9" />
+                    <input type="hidden" name="signature" value="wR+UZDC4jjeL/qUOvIsofIWpZh8=" />
+                    <label for="numorder" class="control-label">Code</label>
+                    <input type="text" name="amount" id="numorder" class="form-control" />
+                    <p />
+                    <label for="amount" class="control-label">Сума ₴</label>
+                    <input type="number" name="amount" id="amount" class="form-control" />
+                    <p />
+                    <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" />
+                </form>
+            </div>
+        </div>
+    </div>
+}
 @section Scripts {
 
     <script type="text/javascript" src="~/js/bootstrap-input-spinner.js" defer></script>
@@ -303,9 +661,11 @@
                     }
                     );
                 var daytabtext = dateToshortString(dt);
-                daytabtext = ""+dt.getDate();
+               // daytabtext = ""+dt.getDate();
                 $('#nav-tab-' + dayindex).find('.shorttabdate').text(daytabtext);
-
+                daytabtext = "" + dt.getDate();
+                $('#nav-tab-' + dayindex).find('.date-day').text(daytabtext);
+                
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
             }
@@ -412,9 +772,7 @@
                 e.preventDefault();
                 incrementday(7);
             });
-            $(document).on("change", "#dishKind", function (e) {
-                incrementday(0);
-            });
+           
             var showOrderResult = function (data) {
                 if (!data || !data.res) {
                     $('#modOrderFail').modal('show');
@@ -715,7 +1073,7 @@
                             }
                             // console.log(comp+"   "+dish + "   " + check);
                         });
-                     
+
                         if (dishOrdered != dishCourses) {
                             //console.log(dishOrdered + "   " + dishCourses);
                             alert("Please choose all dishes in complex");
@@ -747,6 +1105,81 @@
                 }
 
             });
+            $(document).on("change", "#dishKind", function (e) {
+                incrementday(0);
+            });
+            //Design Fithches
+            $(document).on('click', '.hide-cart', function (event) {
+                var date = $(this).attr("data-date");
+                $('.cart-for-hide-' + date).toggleClass('d-flex');
+                $('.image-hide-cart-'+date).toggleClass('rotate-image-cart')
+            });
+            $(document).on("click", ".btn-for-type-menu", function () {
+                var dishKind = $(this).attr("value");
+                $(".btn-for-type-menu").each(function (e) {
+                    $(this).removeClass("btn-for-type-menu--active");
+                });
+                $(this).toggleClass("btn-for-type-menu--active");
+              
+                var select = $(".custom-select-wrapper").find("select");
+                $(select).val(dishKind);
+                $(select).trigger("change");
+
+            });
+            $('#dishKind').each(function () {
+                let classes = $(this).attr("class"),
+                    id = $(this).attr("id"),
+                    name = $(this).attr("name");
+                let template = '<div class="' + classes + '">';
+                template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+                template += '<div class="custom-options">';
+                $(this).find("option").each(function () {
+                    template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+                });
+                template += '</div></div>';
+
+                $(this).wrap('<div class="custom-select-wrapper d-block d-lg-none d-md-none" ></div>');
+                $(this).hide();
+                $(this).after(template);
+            });
+            $(".custom-option:first-of-type").hover(function () {
+                $(this).parents(".custom-options").addClass("option-hover");
+            }, function () {
+                $(this).parents(".custom-options").removeClass("option-hover");
+            });
+            $(".custom-select-trigger").on("click", function () {
+                $('html').one('click', function () {
+                    $(".custom-select").removeClass("opened");
+                });
+                $(this).parents(".custom-select").toggleClass("opened");
+                event.stopPropagation();
+            });
+            $(".custom-option").on("click", function () {
+                var cus = $(this).attr("data-value");
+                var select = $(this).parents(".custom-select-wrapper").find("select");
+                $(select).val(cus);
+                $(select).trigger("change");
+               // incrementday(0);
+                //var opt = $(select).val();
+                //$(".drpdown-btn-type").each(function () {
+                //    if ($(this).val() == cus) {
+                //        $(this).prop("selected",true);
+                //    }
+                //});
+                $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+                $(this).addClass("selection");
+                $(this).parents(".custom-select").removeClass("opened");
+                $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+            });
+            //end
+            function setDays() {
+
+                $(".day-of").each(function () {
+                    var day = getWeekDay(parseInt($(this).attr("data-i")));
+                    $(this).html(day);
+                });
+            }
+            setDays();
 
             $(document).on('click', '.sendMany', function (event) {
                 //console.log("Post");
