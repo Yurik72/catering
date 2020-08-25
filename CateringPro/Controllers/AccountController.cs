@@ -547,6 +547,9 @@ namespace CateringPro.Controllers
 
                     userResult = await _userManager.AddToRolesAsync(usr, addedRoles);
 
+                    newCompanies.Add(User.GetCompanyID());
+                    await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
+
                     if (!userResult.Succeeded)
                         return PartialView(usermodel);
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
@@ -1211,7 +1214,7 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
-            return PartialView(await _fin.GetUserFinModelAsync(userId, User.GetCompanyID()));
+            return PartialView(await _fin.GetUserFinModelAsync(user.Id, User.GetCompanyID()));
         }
         [Authorize]
         public async Task<IActionResult> UserFinance()

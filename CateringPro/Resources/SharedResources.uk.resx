@@ -937,4 +937,7 @@
   <data name="FileNotChosen" xml:space="preserve">
     <value>Файл не обрано</value>
   </data>
+  <data name="EditChildren" xml:space="preserve">
+    <value>Редагування дітей</value>
+  </data>
 </root>
