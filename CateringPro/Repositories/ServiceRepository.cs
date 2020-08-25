@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+//using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -312,6 +313,22 @@ namespace CateringPro.Repositories
                          join cat in _context.Categories on c.CategoriesId equals cat.Id
                          select cat).Distinct().ToListAsync();
             return query;
+        }
+
+        public async Task<OrdersSnapshotViewModel> GetOrdersSnapshot(int? companyid,DateTime? daydate)
+        {
+            DateTime day = daydate.HasValue ? daydate.Value : DateTime.Now;
+            int cid = companyid.HasValue ? companyid.Value : 1;
+            var res = new OrdersSnapshotViewModel();
+            res.UserDays = await _context.UserDay.IgnoreQueryFilters().Where(ud => ud.Date == day && ud.CompanyId == cid).ToListAsync();
+             res.UserDayComplexes = await _context.UserDayComplex.IgnoreQueryFilters().Where(ud => ud.CompanyId == cid && ud.Date == day).ToListAsync();
+            var complexlistIds = res.UserDayComplexes.Select(uc => uc.ComplexId).ToList();
+            res.Complexes = await _context.Complex.IgnoreQueryFilters().Where(c => complexlistIds.Contains(c.Id))
+                .Include(c => c.DishComplex)
+               .ToListAsync();
+            res.UserDayDishes = await _context.UserDayDish.IgnoreQueryFilters().Where(ud => ud.Date == day && ud.CompanyId == cid).ToListAsync();
+
+            return res;
         }
     }
 }

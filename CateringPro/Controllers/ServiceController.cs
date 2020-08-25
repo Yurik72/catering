@@ -5,6 +5,8 @@ using CateringPro.ViewModels;
 using CateringPro.Repositories;
 using System;
 using CateringPro.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CateringPro.Controllers
 {
@@ -13,11 +15,15 @@ namespace CateringPro.Controllers
         private readonly AppDbContext _context;
         private readonly IServiceRepository _servicerepo;
         private readonly ICompanyUserRepository _companyuserreporepo;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo)
+        private readonly IDbSyncer _syncer;
+        private readonly IHostingEnvironment _hostingEnv;
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IDbSyncer syncer, IHostingEnvironment hostingEnv)
         {
             _context = context;
             _servicerepo = servicerepo;
             _companyuserreporepo = companyuserreporepo;
+            _syncer = syncer;
+            _hostingEnv = hostingEnv;
         }
 
         // GET: Service
@@ -84,6 +90,22 @@ namespace CateringPro.Controllers
             }
             var response = await _servicerepo.GetAvailableCategories(daydate);
             return Json(response);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<JsonResult> GetOrdersSnapshot(int? companyid ,DateTime? daydate)
+        {
+            return Json(await _servicerepo.GetOrdersSnapshot(companyid, daydate));
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<JsonResult> SyncDB()
+        {
+            if(_hostingEnv.EnvironmentName!="LocalProduction")
+                return Json(new { State = "Not Allowed" });
+            await _syncer.SyncDb();
+            return Json(new { State="OK"});
         }
     }
 }

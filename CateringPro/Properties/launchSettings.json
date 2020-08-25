@@ -15,6 +15,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "LocalMode": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "LocalProduction"
+      }
+    },
     "CateringPro": {
       "commandName": "Project",
       "launchBrowser": true,

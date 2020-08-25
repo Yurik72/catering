@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -258,7 +259,8 @@ namespace CateringPro.Repositories
                     fin_income.IsProjection = false;
                     decimal amount;
                     int intamount;
-                    if(decimal.TryParse(dataresult["amount"],out amount)){
+                    if(Decimal.TryParse(dataresult["amount"], NumberStyles.Any, new CultureInfo("en-US"), out amount)) { 
+                    //if (decimal.TryParse(dataresult["amount"],out amount)){
                         fin_income.Amount = amount;
                     }else if(int.TryParse(dataresult["amount"],out intamount)){
                         fin_income.Amount = (decimal)intamount;
