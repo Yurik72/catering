@@ -940,4 +940,13 @@
   <data name="EditChildren" xml:space="preserve">
     <value>Редагування дітей</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Course5" xml:space="preserve">
+    <value>П'яте</value>
+  </data>
+  <data name="Course6" xml:space="preserve">
+    <value>Шосте</value>
+  </data>
 </root>

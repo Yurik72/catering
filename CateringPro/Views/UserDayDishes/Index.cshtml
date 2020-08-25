@@ -1159,13 +1159,8 @@ else
                 var select = $(this).parents(".custom-select-wrapper").find("select");
                 $(select).val(cus);
                 $(select).trigger("change");
-               // incrementday(0);
-                //var opt = $(select).val();
-                //$(".drpdown-btn-type").each(function () {
-                //    if ($(this).val() == cus) {
-                //        $(this).prop("selected",true);
-                //    }
-                //});
+               
+              
                 $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
                 $(this).addClass("selection");
                 $(this).parents(".custom-select").removeClass("opened");

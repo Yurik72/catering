@@ -74,7 +74,7 @@ namespace CateringPro.Controllers
                           Value = n.Id.ToString(),
                           Text = n.Name
                       }).ToList();
-            var empty = new SelectListItem() { Value = "", Text = _localizer["NotSpecified"] };
+            var empty = new SelectListItem() { Value = "", Text = _localizer["All"] };
             disheskind.Insert(0, empty);
             return disheskind;
         }
