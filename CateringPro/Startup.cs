@@ -44,11 +44,19 @@ namespace CateringPro
             if (Environment.EnvironmentName == "LocalProduction")
             {
                 var filename = Configuration.GetSection("ConnectionStrings").GetSection("LocalFileName").Value;
+                var clientConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("LocalConnection").Value;
+                var serverConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("RemoteConnection").Value;
                 services.AddDbContext<AppDbContext>(options =>
-                          options.UseSqlite(filename, options =>
+                          options.UseSqlite(clientConnectionString, options =>
                           {
                               // options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
                           })
+                          );
+                services.AddDbContext<RemoteDbContext>(options =>
+                          options.UseSqlServer(serverConnectionString, options =>
+                          {
+                                              // options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+                                          })
                           );
             }
             else
@@ -170,7 +178,11 @@ namespace CateringPro
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IMassEmailService, MassEmailService>();
-            services.AddTransient<IDbSyncer, DbSyncer>();
+            if (Environment.EnvironmentName == "LocalProduction")
+            {
+                services.AddTransient<IDbSyncer, DbSyncer>();
+            }
+
 
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
             services.Configure<UIOption>(Configuration.GetSection("UIOption"));

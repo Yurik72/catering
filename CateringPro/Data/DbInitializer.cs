@@ -6,32 +6,67 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using CateringPro.Core;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Data.Entity;
+
 namespace CateringPro.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(AppDbContext context, IServiceProvider service)
+        public static void Initialize(AppDbContext context, IServiceProvider service, IHostEnvironment env)
         {
             context.Database.EnsureCreated();
 
             var roleManager = service.GetRequiredService<RoleManager<CompanyRole>>();
             var userManager = service.GetRequiredService<UserManager<CompanyUser>>();
 
-
-            CreateAdminRole(context, roleManager, userManager);
-            CreateRole(UserExtension.UserRole_CompanyAdmin, context, roleManager);
-            CreateRole(UserExtension.UserRole_GroupAdmin, context, roleManager);
-            CreateRole(UserExtension.UserRole_UserAdmin, context, roleManager);
-            CreateRole(UserExtension.UserRole_KitchenAdmin, context, roleManager);
-            CreateRole(UserExtension.UserRole_SubGroupAdmin, context, roleManager);
-            CreateRole(UserExtension.UserRole_ServiceAdmin, context, roleManager);
             
-            SQLScriptExecutor executor = new SQLScriptExecutor(context, service);
-            executor.ExecuteStartScripts();
-            CreateSubGroups(context);
-            if (context.Dishes.IgnoreQueryFilters().Any())
+            if (env.EnvironmentName != "LocalProduction")
             {
-                return;
+                CreateAdminRole(context, roleManager, userManager);
+                CreateRole(UserExtension.UserRole_CompanyAdmin, context, roleManager);
+                CreateRole(UserExtension.UserRole_GroupAdmin, context, roleManager);
+                CreateRole(UserExtension.UserRole_UserAdmin, context, roleManager);
+                CreateRole(UserExtension.UserRole_KitchenAdmin, context, roleManager);
+                CreateRole(UserExtension.UserRole_SubGroupAdmin, context, roleManager);
+                CreateRole(UserExtension.UserRole_ServiceAdmin, context, roleManager);
+
+                SQLScriptExecutor executor = new SQLScriptExecutor(context, service);
+                executor.ExecuteStartScripts();
+                CreateSubGroups(context);
+                if (context.Dishes.IgnoreQueryFilters().Any())
+                {
+                    return;
+                }
+            }
+            else
+            {
+                try
+                {
+                    context.Database.ExecuteSqlRaw("CREATE TABLE [AspNetUserRoles]("
+                                   + " [UserId][nvarchar](100) NOT NULL,"
+                                   + "  [RoleId][nvarchar](450) NOT NULL"
+                                   + " )");
+
+                }
+                catch (Exception ex)
+                { 
+                };
+                try
+                {
+                    context.Database.ExecuteSqlRaw("CREATE TABLE [Pictures]("
+                                            + "[Id][int] IDENTITY(1, 1) NOT NULL,"
+                                            + "[PictureData] [image] NULL,"
+                                             + "PRIMARY KEY([ID]))");
+                }
+                catch(Exception ex)
+                {
+
+                }
+               // RelationalDatabaseCreator databaseCreator =
+               //                       (RelationalDatabaseCreator)context.Database.GetService<IDatabaseCreator>();
+               //databaseCreator.CreateTables();
             }
             return; //danger
             ClearDatabase(context);

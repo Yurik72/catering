@@ -1163,9 +1163,6 @@ footer {
     color: #797979;
 }
 
-.modal-backdrop:nth-last-of-type(2n) {
-    z-index: 2000;
-}
 
 #change-user-modal {
     padding-right: 0 !important;

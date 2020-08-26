@@ -21,10 +21,10 @@ namespace CateringPro.Models
         [DefaultValue("")]
         public string TransactionData { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        //[Column(TypeName = "nvarchar(MAX)")]
         [DefaultValue("")]
         public string ReturnCallBackData { get; set; }
-        [Column(TypeName = "nvarchar(MAX)")]
+        //[Column(TypeName = "nvarchar(MAX)")]
         [DefaultValue("")]
         public string ReturnData { get; set; }
         [Column(TypeName = "decimal(18,2)")]
