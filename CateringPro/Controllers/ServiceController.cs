@@ -17,7 +17,7 @@ namespace CateringPro.Controllers
         private readonly ICompanyUserRepository _companyuserreporepo;
         private readonly IDbSyncer _syncer;
         private readonly IWebHostEnvironment  _hostingEnv;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IDbSyncer syncer, IWebHostEnvironment hostingEnv)
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IWebHostEnvironment hostingEnv, IDbSyncer syncer=default )
         {
             _context = context;
             _servicerepo = servicerepo;

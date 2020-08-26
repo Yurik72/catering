@@ -50,6 +50,8 @@ namespace CateringPro.Core
         }
         public async Task SyncDb(int? companyId=default,DateTime? daydate=default)
         {
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return;
 
             var serverConnectionString = _config.GetSection("ConnectionStrings").GetSection("RemoteConnection").Value;
             var clientConnectionString = _config.GetSection("ConnectionStrings").GetSection("LocalConnection").Value;
@@ -64,6 +66,8 @@ namespace CateringPro.Core
         }
         private async Task SyncOrders(int companyId, DateTime daydate)
         {
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return;
             CopyDataTable(_remotecontext.DayDish, companyId,(d)=>d.Date== daydate);
             CopyDataTable(_remotecontext.DayComplex, companyId, (d) => d.Date == daydate);
             CopyDataTable(_remotecontext.UserDay, companyId, (d) => d.Date == daydate);
@@ -72,6 +76,8 @@ namespace CateringPro.Core
         }
         private async Task InitialSyncByDBContext(int companyId , DateTime daydate )
         {
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return;
             var tables = new string[] {  "AspNetRoleClaims", "AspNetRoles", "AspNetUserClaims", "AspNetUserLogins", "AspNetUserRoles", "AspNetUsers", "AspNetUserTokens", 
                 "Categories", "Companies", "CompanyUserCompanies", "Complex",  "DishCategory", "DishComplex", "DeliveryQueues",
                 "Dishes",  "DishesKind", "DishIngredients",  "IngredientCategories", "Ingredients",/*"Pictures",*/ 

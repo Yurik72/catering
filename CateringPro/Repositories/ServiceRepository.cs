@@ -36,11 +36,12 @@ namespace CateringPro.Repositories
             return (from ud in _context.UserDayDish.Where(ud => ud.UserId == userId && ud.Date == dayDate && (!ud.IsDelivered || includeDelievered))
                           join  d in _context.Dishes on ud.DishId equals d.Id
                             join c in _context.Complex on ud.ComplexId equals c.Id
-                            where (сategoriesIds.Length == 0 || сategoriesIds.Contains(c.CategoriesId))
+                            join dc in _context.DishComplex on new { DishId=d.Id, ComplexId=c.Id } equals new { DishId = dc.DishId, ComplexId=dc.ComplexId }
+                    where (сategoriesIds.Length == 0 || сategoriesIds.Contains(c.CategoriesId))
 
 
 
-                    select new DeliveryDishViewModel() { ID = d.Id, Name = d.Name, IsComplex = ud.IsComplex, ComplexId = (ud.ComplexId.HasValue ? ud.ComplexId.Value : -1) })
+                    select new DeliveryDishViewModel() { ID = d.Id, Name = d.Name, IsComplex = ud.IsComplex, DishNumber=dc.DishCourse, ComplexId = (ud.ComplexId.HasValue ? ud.ComplexId.Value : -1) })
                        .ToListAsync();
         }
         public async Task<List<DeliveryQueue>> GetQueueToDeliveryAsync(string userId, DateTime dayDate)
@@ -140,8 +141,8 @@ namespace CateringPro.Repositories
             try
             {
                 var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate 
-                                   && q.Id>0
-                                  
+                                   && q.Id> request.LastQueueId
+
                                    /*to do*/)
                              join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate) on q.DishId equals ud.DishId
                              join d in _context.Dishes on q.DishId equals d.Id
