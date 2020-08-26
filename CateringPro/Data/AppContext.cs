@@ -13,6 +13,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CateringPro.Data
 {
@@ -21,9 +22,15 @@ namespace CateringPro.Data
         private readonly IHttpContextAccessor _httpContextAccessor;
         private int companyId=-1;
         private bool isCompanyIdSet=false;
-        public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+        private readonly IWebHostEnvironment _hostingEnv;
+        protected AppDbContext()
+        {
+
+        }
+        public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor,IWebHostEnvironment hostingEnv) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
+            _hostingEnv = hostingEnv;
         }
 
         public void SetCompanyID(int val)
@@ -346,7 +353,25 @@ namespace CateringPro.Data
                .Property(d => d.TotalPreOrders)
                .HasDefaultValueSql("(0)");
             //Expression<Func<CompanyData,bool>> test = u => u.CompanyId == this.CompanyId;
+            if (_hostingEnv == null)//remote
+            {
+                modelBuilder.Entity<EmailQueue>().Property(e => e.Subject).HasColumnType("nvarchar(MAX)");
+                modelBuilder.Entity<UserFinIncome>().Property(e => e.ReturnCallBackData).HasColumnType("nvarchar(MAX)");
+                modelBuilder.Entity<UserFinIncome>().Property(e => e.TransactionData).HasColumnType("nvarchar(MAX)");
+            }
+           else  if ( _hostingEnv.EnvironmentName == "LocalProduction")
+            {
+                modelBuilder.Entity<EmailQueue>().Property(e => e.Subject).HasColumnType("nvarchar(400)");
+                modelBuilder.Entity<UserFinIncome>().Property(e => e.ReturnCallBackData).HasColumnType("nvarchar(400)");
+                modelBuilder.Entity<UserFinIncome>().Property(e => e.TransactionData).HasColumnType("nvarchar(400)");
+            }
+            else
+            {
+                modelBuilder.Entity<EmailQueue>().Property(e => e.Subject).HasColumnType("nvarchar(MAX)");
+                modelBuilder.Entity<UserFinIncome>().Property(e => e.ReturnCallBackData).HasColumnType("nvarchar(MAX)");
+                modelBuilder.Entity<UserFinIncome>().Property(e => e.TransactionData).HasColumnType("nvarchar(MAX)");
 
+            }
             //modelBuilder.Entity<Categories>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
             //modelBuilder.Entity<Dish>().HasQueryFilter(u =>u.CompanyId== this.CompanyId);
             // to do dynamically
