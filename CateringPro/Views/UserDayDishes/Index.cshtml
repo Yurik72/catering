@@ -948,7 +948,7 @@ else
                 $(".week-details").remove();
             })
             $(document).on('click', '.sendWeek', function (event) {
-
+                $(".details-content").before(html_loading);
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
                 dt.setDate(dt.getDate() - dt.getDay()+1);
