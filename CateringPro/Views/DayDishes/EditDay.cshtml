@@ -72,8 +72,8 @@
                                         </div>
                                         <div class="col-12 number-of d-md-block d-lg-block d-none shorttabdate"
                                              style="font-size: 14px; font-family: Open-Sans, sans-serif;">@current_head.ToShortDateString()</div>
-                                            <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
-                                                 style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                        <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center date-day"
+                                             style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;">@current_head.Day</div>
                                         </div>
                                     </a>
                                 </li>
@@ -262,6 +262,8 @@ else
                 //daytabtext = "" + dt.getDate(); 
 
                 $('#nav-tab-' + dayindex).find('.shorttabdate').text(daytabtext);
+                daytabtext = "" + dt.getDate();
+                $('#nav-tab-' + dayindex).find('.date-day').text(daytabtext);
             }
             var dateToshortString = (dt) => {
                 var dd = dt.getDate();
