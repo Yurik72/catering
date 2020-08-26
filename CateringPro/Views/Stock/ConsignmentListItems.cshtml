@@ -24,35 +24,41 @@
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">
                             <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                  style="font-size: 14px; font-weight: bold">Категорія</span><span class="col-lg-12 col-md-12 col-6 p-0"> @Html.DisplayFor(modelItem => item.IngredientCategoryName)</span>
+                                  style="font-size: 14px; font-weight: bold">@Localizer["Consignment Ingredient Category Name"]</span><span class="col-lg-12 col-md-12 col-6 p-0"> @Html.DisplayFor(modelItem => item.IngredientCategoryName)</span>
                         </div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1 align-items-center"
                              style="font-size: 16px">
                             <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                  style="font-size: 14px; font-weight: bold">Продукт/Партія</span>
+                                  style="font-size: 14px; font-weight: bold">@Localizer["Consignment Ingredient Name"]</span>
                             <span class="col-lg-12 col-md-12 col-6 p-0" style=""> @Html.DisplayFor(modelItem => item.IngredientName)</span>
                         </div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">
                             <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                  style="font-size: 14px; font-weight: bold">Залишок</span><span class="col-lg-12 col-md-12 col-6 p-0"
+                                  style="font-size: 14px; font-weight: bold">@Localizer["Consignment StockValue"]</span><span class="col-lg-12 col-md-12 col-6 p-0"
       style="font-family: Open-Sans, sans-serif">  @Html.DisplayFor(modelItem => item.StockValue)</span>
                         </div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">
                             <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                  style="font-size: 14px; font-weight: bold">Од.Вимір</span><span class="col-lg-12 col-md-12 col-6 p-0" style="">@Html.DisplayFor(modelItem => item.MeasureUnit)</span>
+                                  style="font-size: 14px; font-weight: bold">@Localizer["Consignment MeasureUnit"]</span><span class="col-lg-12 col-md-12 col-6 p-0" style="">@Html.DisplayFor(modelItem => item.MeasureUnit)</span>
                         </div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">
                             <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                  style="font-size: 14px; font-weight: bold">Вартість</span><span class="col-lg-12 col-md-12 col-6 p-0"
+                                  style="font-size: 14px; font-weight: bold">@Localizer["Consignment Price"]</span><span class="col-lg-12 col-md-12 col-6 p-0"
       style="font-family: Open-Sans, sans-serif"> @Html.DisplayFor(modelItem => item.Price)</span>
                         </div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">
                             <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                  style="font-size: 14px; font-weight: bold">Вжити до</span><span class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                                  style="font-size: 14px; font-weight: bold">@Localizer["Consignment ValidTo"]</span>
+                            <span class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">
+                                @if (item.Consignments != null)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Consignments.LastOrDefault().ValidUntil)
+                                  }
+                            </span>
                         </div>
 
                     </div>

@@ -18,6 +18,7 @@ namespace CateringPro.Models
         public string ComplexDescription { get; set; }
 
         public int ComplexCategoryId { get; set; }
+        public string ComplexCategoryCode { get; set; }
 
         public string ComplexCategoryName { get; set; }
 

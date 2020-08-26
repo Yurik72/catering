@@ -62,20 +62,22 @@ namespace CateringPro.Controllers
                 ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes) > 0
 
             };
-            ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text"); ;
+            var list = GetDishesKindWithEmptyList();
+            ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
         }
         private List<SelectListItem> GetDishesKindWithEmptyList()
         {
             List<SelectListItem> disheskind = _context.DishesKind.AsNoTracking()
-                  .OrderBy(n => n.Name).Select(n =>
+                  .OrderBy(n => n.Code).Select(n =>
                       new SelectListItem
                       {
                           Value = n.Id.ToString(),
                           Text = n.Name
                       }).ToList();
-            var empty = new SelectListItem() { Value = "", Text = _localizer["All"] };
-            disheskind.Insert(0, empty);
+            //disheskind.FirstOrDefault().Selected = true;
+            //var empty = new SelectListItem() { Value = "", Text = _localizer["All"] };
+           // disheskind.Insert(0, empty);
             return disheskind;
         }
         public async Task<IActionResult>  EditUserDay(DateTime daydate, int dishKind)

@@ -791,6 +791,7 @@ namespace CateringPro.Repositories
                             ComplexName = comp.Name,
                             ComplexCategoryId = cat.Id,
                             ComplexCategoryName = cat.Name,
+                            ComplexCategoryCode = cat.Code,
                             DishKindId = comp.DishKindId,
                             Quantity = 0,
                             Price = comp.Price,
