@@ -24,7 +24,7 @@ namespace CateringPro.ViewModels
         public string UserName { get; set; }
         
 
-        [DisplayName("UpdateUserNewPassword")]
+        [DisplayName("NewPassword")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
 

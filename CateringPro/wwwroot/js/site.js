@@ -423,6 +423,10 @@ function setup_listitems(options) {
             var isValid = false;
         });
     });
+    //for appropriate scrolling
+    $(document).on('hidden.bs.modal', '.modal', function () {
+        $('.modal:visible').length && $(document.body).addClass('modal-open');
+    });
     $(document).on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
         // console.log("Data Save");
@@ -678,4 +682,48 @@ function dialog_info(message) {
     
 
    
+}
+
+
+
+function dialog_announcement(message) {
+
+    var dlg_html = '   <div id="moddialoginfo" class="modal" tabindex="-1" role="dialog">  ' +
+        '       <div class="modal-dialog modal-lg modal-alert" role="document">  ' +
+        '           <div class="modal-content">  ' +
+        '               <div class="modal-header">  ' +
+        '                   <h5 class="modal-title"><i class="fa fa-info-circle fa-3" style="color:green" aria-hidden="true"></i>  ' + 'Повідомлення' + '</h5>  ' +
+        '                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">  ' +
+        '                       <span aria-hidden="true">X</span>  ' +
+        '                   </button>  ' +
+        '               </div>  ' +
+        '               <div class="modal-body">  ' +
+        '               <p>' + message + '</p>' +
+        '               </div>  ' +
+        '               <div class="modal-footer">  ' +
+        '     ' +
+        '                   <button id="btnyes" type="button" class="btn btn-primary" >' + $.text_resource.yes + '</button>  ' +
+        '               </div>  ' +
+        '           </div>  ' +
+        '       </div>  ' +
+        '  </div>  ';
+
+    var dialog = $(dlg_html);
+    $("body").append(dialog);
+
+    dialog.modal('show');
+    dialog.find('#btnyes').click(function () {
+
+        dialog.modal('hide');
+    });
+
+
+    dialog.on('hide.bs.modal', function (e) {
+        dialog.empty();
+
+    });
+
+
+
+
 }
