@@ -66,14 +66,9 @@
                                 </div>
                                 <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
                                     <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
-                                         style="font-size: 16px;">
-                                        @Html.DisplayFor(modelItem => dish.DishName)
-                                    </div>
+                                         style="font-size: 16px;">@Html.DisplayFor(modelItem => dish.DishName)</div>
                                     <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
-                                        <div class="pl-4">
-                                            @Html.DisplayFor(modelItem => dish.DishDescription)
-                                            <p />
-                                            @Html.DisplayFor(modelItem => dish.DishIngredients)
+                                        <div class="pl-4">@Html.DisplayFor(modelItem => dish.DishDescription) <p /> @*@Html.DisplayFor(modelItem => dish.DishIngredients)*@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"

@@ -243,13 +243,16 @@ function setup_listitems(options) {
     self.reload = reload;
     $.ajaxSetup({ cache: false });
     function setFirstSort() {
-        var url = $(".selection").val().split('?').pop();
-        const urlParams = new URLSearchParams(url);
-        const field = urlParams.get('sortfield');
-        const order = urlParams.get('sortorder');
+        const selval = $(".selection").val();
+        if (selval) {
+            var url = $(".selection").val().split('?').pop();
+            const urlParams = new URLSearchParams(url);
+            const field = urlParams.get('sortfield');
+            const order = urlParams.get('sortorder');
 
-        $('#table-content').attr('data-sortfield', field);
-        $('#table-content').attr('data-sortorder', order);
+            $('#table-content').attr('data-sortfield', field);
+            $('#table-content').attr('data-sortorder', order);
+        }
     }
     setFirstSort();
     reload(/*$(".selection").val()*/);

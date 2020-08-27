@@ -813,9 +813,9 @@ namespace CateringPro.Repositories
                                                 //  DishQuantity = udd.Quantity,
 
                                                 DishDescription = d.Description,
-                                                DishIngredients = string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
+                                                DishIngredients =""/* string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
                                                                                    join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
-                                                                                   select ingr.Name),
+                                                                                   select ingr.Name)*/
                                             }
                         };
             query = query.Where(x => !ordered.Any(o => o.ComplexCategoryId == x.ComplexCategoryId));
@@ -921,9 +921,9 @@ namespace CateringPro.Repositories
                                                 DishQuantity = udd.Quantity,
 
                                                 DishDescription = d.Description,
-                                                DishIngredients = string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
+                                                DishIngredients =""/* string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
                                                                                    join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
-                                                                                   select ingr.Name),
+                                                                                   select ingr.Name)*/
                                             }
                         };
             var query1 = query.ToList();

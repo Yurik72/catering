@@ -329,7 +329,7 @@
                     requestfordeliveryQueue(function (data) {
                         fillQueue(data);
                         if (isStarted) {
-                            setTimeout(getnewQueue, 1000);  //start only when last finished completelly
+                            setTimeout(getnewQueue, 100000);  //start only when last finished completelly
                         }
                     });
                 }
@@ -474,23 +474,20 @@
                 $(div).find('.btn-confirm-queue').click(function (e) {
                     e.preventDefault();
                     var timestamp = $(this).attr('data-timestamp');
-                    var request = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) }
-                    fetch(serviceurl, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(request)
-                    })
-                    .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
+                    var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) };
+
+                        
+                      $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+                        if (data && data.overalResult == 'success') {
                             removeQueue(timestamp);
-                        })
-                    .catch(error => {
-                        console.error('error:', error)
+                        }
+                    })
+                    .fail(function (xhr, code, error) {
+                        el_error.val(error);
+                        el_error.show();
                     });
+
+                    
                 });
             }
             function removeQueue(timestamp) {

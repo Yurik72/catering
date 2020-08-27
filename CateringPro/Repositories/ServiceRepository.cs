@@ -1,4 +1,5 @@
-﻿using CateringPro.Data;
+﻿using CateringPro.Core;
+using CateringPro.Data;
 using CateringPro.Models;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -75,8 +76,15 @@ namespace CateringPro.Repositories
         {
             var fail = ServiceResponse.GetFailResult();
             //var user = await _userManager.FindByIdAsync(request.UserId);  //now by tag
-            var user = await _userManager.FindByCardTokenAsync(request.UserToken);  //now by tag
-
+            CompanyUser user = null;
+            if (!string.IsNullOrEmpty(request.UserToken))
+            {
+                user=await _userManager.FindByCardTokenAsync(request.UserToken);  //now by tag
+            }
+            if (!string.IsNullOrEmpty(request.UserId))
+            {
+                user = await _userManager.FindByIdAsync(request.UserId);  //now by tag
+            }
             if (user == null && request.IsRequiredUser())
             {
                 fail.ErrorMessage = "User Not Found";
@@ -140,11 +148,11 @@ namespace CateringPro.Repositories
             */
             try
             {
-                var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate 
+                var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate.ResetHMS()
                                    && q.Id> request.LastQueueId
 
                                    /*to do*/)
-                             join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate) on q.DishId equals ud.DishId
+                             join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate.ResetHMS()) on q.DishId equals ud.DishId
                              join d in _context.Dishes on q.DishId equals d.Id
                              join u in _context.CompanyUser on q.UserId equals u.Id
                              join c in _context.Complex on ud.ComplexId equals c.Id
@@ -193,8 +201,27 @@ namespace CateringPro.Repositories
         }
         public async Task<ServiceResponse> ProcessQueueConfirmRequestAsync(ServiceRequest request)
         {
-            var res=ServiceResponse.GetSuccessResult(request);
-            return res;
+            // var res=ServiceResponse.GetSuccessResult(request);
+            var queue = await _context.DeliveryQueues.Where(q => request.QueueIds.Contains(q.Id)).ToListAsync();
+            var confirmed_dishesid = queue.Select(q => q.DishId);
+            //var confirmed_dishes = queue.Where(d => request.DishesIds.Contains(d.DishId)).ToList();
+            var user_daydishes = await _context.UserDayDish.Where(ud => ud.UserId == request.UserId && ud.Date == request.DayDate.ResetHMS() && ud.IsDelivered==false).ToListAsync();
+            var user_daydishes_confirmed = user_daydishes.Where(q => confirmed_dishesid.Contains(q.DishId)).ToList();
+            try
+            {
+                user_daydishes_confirmed.ForEach(d => d.IsDelivered = true);
+                _context.UpdateRange(user_daydishes_confirmed);
+                _context.RemoveRange(queue);
+                await _context.SaveChangesAsync();
+                return ServiceResponse.GetSuccessResult(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error save confirmation", ex);
+                return ServiceResponse.GetFailResult(request);
+            }
+           
+            //return res;
         }
         public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
         {
@@ -210,7 +237,7 @@ namespace CateringPro.Repositories
             }
             var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate).ToListAsync();
             var queue_to_add = dishes.Where(d => !queue.Any(q => q.DishId == d.ID)).
-                Select((q,idx)=>new DeliveryQueue() { UserId= request.UserId,DishId=q.ID,DayDate=request.DayDate, CompanyId=request.CompanyId, DishCourse=q.DishNumber,TerminalId=request.TerminalId});
+                Select((q,idx)=>new DeliveryQueue() { UserId= request.UserId,DishId=q.ID,DayDate=request.DayDate.ResetHMS(), CompanyId=request.CompanyId, DishCourse=q.DishNumber,TerminalId=request.TerminalId});
             //var queue= await _context.DeliveryQueues.FirstOrDefaultAsync(ud => ud.UserId == request.UserId && ud.DayDate == request.DayDate);
             try
             {
@@ -243,7 +270,7 @@ namespace CateringPro.Repositories
             var dishes =await  GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
             if (dishes.Any(d => d.IsComplex))
             {
-                var udaycomplex = await (from uc in _context.UserDayComplex.Where(ud => ud.UserId == request.UserId && ud.Date == request.DayDate)
+                var udaycomplex = await (from uc in _context.UserDayComplex.Where(ud => ud.UserId == request.UserId && ud.Date == request.DayDate.ResetHMS())
                                          join  c in _context.Complex on uc.ComplexId equals c.Id
                                          join dc in _context.DishComplex on uc.ComplexId equals dc.ComplexId
                                         
@@ -309,7 +336,7 @@ namespace CateringPro.Repositories
 
         public async Task<IEnumerable<Categories>> GetAvailableCategories(DateTime daydate)
         {
-            var query = await (from ud in _context.UserDayDish.Where(ud => ud.Date == daydate)
+            var query = await (from ud in _context.UserDayDish.Where(ud => ud.Date == daydate.ResetHMS())
                          join c in _context.Complex on ud.ComplexId equals c.Id
                          join cat in _context.Categories on c.CategoriesId equals cat.Id
                          select cat).Distinct().ToListAsync();
@@ -318,7 +345,7 @@ namespace CateringPro.Repositories
 
         public async Task<OrdersSnapshotViewModel> GetOrdersSnapshot(int? companyid,DateTime? daydate)
         {
-            DateTime day = daydate.HasValue ? daydate.Value : DateTime.Now;
+            DateTime day = daydate.HasValue ? daydate.Value.ResetHMS() : DateTime.Now.ResetHMS();
             int cid = companyid.HasValue ? companyid.Value : 1;
             var res = new OrdersSnapshotViewModel();
             res.UserDays = await _context.UserDay.IgnoreQueryFilters().Where(ud => ud.Date == day && ud.CompanyId == cid).ToListAsync();
