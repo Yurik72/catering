@@ -20,6 +20,10 @@ footer {
     margin: 0 !important;
 }
 
+.rotate-image-cart {
+    transform: rotate(180deg);
+}
+
 #register-form-styles .form-group label, #register-form-styles .form-group div {
     margin: 7px 0;
 }

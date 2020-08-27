@@ -7,7 +7,7 @@
           <!--integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"-->>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/custom-select.css">
-    <title>Кабачок - Інгредієнти</title>
+    <title>Кабачок - Склад</title>
 </head>
 <body style="display: flex; flex-direction: column; min-height: 100%">
 <header>
@@ -44,11 +44,11 @@
                              style="box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
                             <a class="dropdown-item" href="./dishes.html">Список страв</a>
                             <button class="dropdown-item" type="button">Лист категорій</button>
-                            <a class="dropdown-item change-btn-eff" href="./ingredients.html">Інгредієнти</a>
+                            <a class="dropdown-item" href="./ingredients.html">Інгредієнти</a>
                             <a class="dropdown-item" href="./complex.html">Комплекс</a>
                             <a class="dropdown-item" href="./day-week-menu.html">Меню на день / тиждень</a>
                             <button class="dropdown-item" type="button">Замовлення</button>
-                            <button class="dropdown-item" type="button">Склад</button>
+                            <a class="dropdown-item change-btn-eff" href="./stock.html">Склад</a>
                             <button class="dropdown-item" type="button">Склад/Залишки</button>
                             <a class="dropdown-item" href="./documents.html">Документи</a>
                             <a class="dropdown-item" href="./settings.html">Налаштування</a>
@@ -88,7 +88,7 @@
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
             <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0"><p class="h2 h2-mob"
                                                                                                   style="font-weight: 600">
-                Інгредієнти</p></div>
+                Склад</p></div>
         </div>
 
         <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
@@ -115,256 +115,297 @@
         <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
              style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
 
-            <div class="col-3" style="cursor: pointer"><span class="sort-span">Категорія</span></div>
             <div class="col-3" style="cursor: pointer"><span class="sort-span">Назва</span></div>
+            <div class="col-3" style="cursor: pointer"><span class="sort-span">Залишок</span></div>
             <div class="col-2" style="cursor: pointer"><span class="sort-span">Од.вим.</span></div>
-            <div class="col-2" style="cursor: pointer"><span class="sort-span">Ост.закуп.Ціна</span></div>
-            <div class="col-2"></div>
+            <div class="col-3" style="cursor: pointer"><span class="sort-span">Дата зал.</span></div>
+            <div class="col-1"></div>
 
 
         </div>
         <div class="row mx-0 justify-content-start w-100 align-content-center">
             <div class="col-12 p-0  mt-2">
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
-                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0 parent-delete"
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                      style="min-height: 52px; color: #232323">
-                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
-                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
-                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Категорія</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Консервація</span></div>
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Назва</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0">Ананас шматочками</span></div>
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
                                                            style="font-size: 14px; font-weight: bold">Од.вим.</span><span
                                 class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                           style="font-size: 14px; font-weight: bold">Ост.закуп.Ціна</span><span
-                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">0.00</span></div>
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
 
-                        <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                            <div class="btn" data-toggle="modal" data-target="#change-user-modal">
-                                <img
-                                        src="../img/pen-icon.svg" alt="Change item">
-                            </div>
-                            <button class="btn delete-parent" style="background: none; border: none">
-                                <img src="../img/delete-icon.svg" alt="Delete item"></button>
+                        <div class="col-2">
+
                         </div>
                     </div>
                 </div>
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
+                     style="min-height: 52px; color: #232323">
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Назва</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
+                        <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Од.вим.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
+                        <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
+
+                        <div class="col-2">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
+                     style="min-height: 52px; color: #232323">
+                    <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Назва</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0">Капуста квашена</span></div>
+                        <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1 align-items-center"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Залишок</span>
+                            <input type="text" class="form-control col-lg-12 col-md-12 col-6"
+                                   value="0.00"
+                                   style="height: 34px; font-family: Open-Sans, sans-serif"></div>
+                        <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Од.вим.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0">кг</span></div>
+                        <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px"><span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                           style="font-size: 14px; font-weight: bold">Дата зал.</span><span
+                                class="col-lg-12 col-md-12 col-6 p-0" style="font-family: Open-Sans, sans-serif">15.08.2020 21:09:25</span>
+                        </div>
+
+                        <div class="col-2">
+
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>
@@ -418,87 +459,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="modal fade" id="change-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 966px">
-            <div class="modal-content col-lg-12 col-12">
-                <div class="modal-header align-items-center col-12 px-0 px-md-3 px-lg-3" style="padding-top:20px">
-                    <h5 class="modal-title p-0" id="exampleModalLabel"
-                        style="font-size: 34px; line-height: 40px; font-weight: bold">Редагування інгредієнта</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <img src="../img/close-modal.svg" aria-hidden="true" alt="">
-                    </button>
-                </div>
-                <div class="modal-body col-auto p-0 mt-2 ">
-                    <form class="col-12 px-0 px-lg-3 px-md-3">
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                <label for="input-login"
-                                       class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Назва</label>
-                                <input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                       id="input-login" value="Ананас"
-                                        style="height: 34px">
-                            </div>
-                        </div>
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                <label for="input-ingredient-type"
-                                       class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Од.вим.</label>
-                                <input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                       id="input-ingredient-type" value="кг"
-                                       style="height: 34px">
-                            </div>
-                        </div>
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                <label for="input-ingredient-middle-price"
-                                       class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Середня ціна</label>
-                                <input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                       id="input-ingredient-middle-price"
-                                       value="0.00" style="height: 34px; font-family: Open-Sans, sans-serif">
-                            </div>
-                        </div>
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                <label for="input-ingredient-last-price"
-                                       class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Ост.закуп. Ціна</label>
-                                <input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                       id="input-ingredient-last-price"
-                                       value="0.00" style="height: 34px; font-family: Open-Sans, sans-serif">
-                            </div>
-                        </div>
-                        <div class="row p-0 flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                <label for="input-ingredient-category"
-                                       class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">Категорія</label>
-                                <select class="form-control col-12 col-lg-8 col-md-8 pl-3 "
-                                        id="input-ingredient-category"
-                                        style="height: 34px; border: 1px solid #ced4da; border-radius: 4px">
-                                    <option selected>Перша категорія</option>
-                                    <option>Група</option>
-                                    <option>Група</option>
-                                    <option>Група</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-                <div class="modal-footer justify-content-center border-0"
-                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
-                    <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
-                            style="background: #36C233; border: 1px solid #36C233; height: 48px">ЗБЕРЕГТИ
-                    </button>
-                    <button type="button" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
-                            style="background: #ffffff; border: 1px solid #F15E25; height: 48px; color: #f15e25"
-                            data-dismiss="modal">ВІДМІНИТИ
-                    </button>
-                </div>
-            </div>
-
-        </div>
     </div>
 
 

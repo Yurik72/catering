@@ -18,7 +18,7 @@ namespace CateringPro.Models
         [DefaultValue("")]
         public string Subject { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+       // [Column(TypeName = "nvarchar(MAX)")]
         [DefaultValue("")]
         public string Body { get; set; }
 

@@ -34,9 +34,11 @@ namespace CateringPro.ViewComponents
             //var cid = this.User.GetCompanyID();
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
             DateTime daydate = day.Date;
-            ViewData["AllowEdit"] = _udaydishrepo.IsAllowDayEdit(daydate, this.User.GetCompanyID()) && _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId()) && _udaydishrepo.IsBalancePositive(this.User.GetUserId());
+            ViewData["AllowEdit"] = _udaydishrepo.IsAllowDayEdit(daydate, this.User.GetCompanyID()) && _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId()) 
+                /*&& _udaydishrepo.IsBalancePositive(this.User.GetUserId())*/;
             ViewData["AllowAdmin"] = _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId());
-            ViewData["PositiveBalance"] = _udaydishrepo.IsBalancePositive(this.User.GetUserId());
+            //to do check balance
+            //ViewData["PositiveBalance"] = _udaydishrepo.IsBalancePositive(this.User.GetUserId());
             if ((_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.OneComplexType) >0)
             {
                 var complexes =  _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID());
@@ -44,6 +46,7 @@ namespace CateringPro.ViewComponents
                 {
                     complexes = complexes.Where(com => com.DishKindId == day.DishKind);
                 }
+                complexes = complexes.OrderBy(com => com.ComplexCategoryCode);
                 return await Task.FromResult((IViewComponentResult)View("OneDayComplex", complexes));
            }
             else

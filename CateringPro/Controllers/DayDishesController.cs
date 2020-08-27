@@ -35,7 +35,9 @@ namespace CateringPro.Controllers
         }
         public  ViewResult EditDay(DateTime daydate)
         {
-            ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text"); ;
+            var list = GetDishesKindWithEmptyList();
+            ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
+            //ViewData["DishKindId"] = new SelectList(GetDishesKindWithEmptyList(), "Value", "Text"); ;
             daydate = DateTime.Now;
 
             return View(daydate);
@@ -44,14 +46,14 @@ namespace CateringPro.Controllers
         private List<SelectListItem> GetDishesKindWithEmptyList()
         {
             List<SelectListItem> disheskind = _context.DishesKind.AsNoTracking()
-                  .OrderBy(n => n.Name).Select(n =>
+                  .OrderBy(n => n.Code).Select(n =>
                       new SelectListItem
                       {
                           Value = n.Id.ToString(),
                           Text = n.Name
                       }).ToList();
-            var empty = new SelectListItem() { Value = "", Text = _localizer["NotSpecified"] };
-            disheskind.Insert(0, empty);
+            //var empty = new SelectListItem() { Value = "", Text = _localizer["NotSpecified"] };
+            //disheskind.Insert(0, empty);
             return disheskind;
         }
         public async Task<IActionResult> EditDayPartial(DateTime daydate)

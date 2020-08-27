@@ -97,21 +97,10 @@
                                             <input data-val="true" name="UserDayDish[@com].DishId" type="hidden" value="@dish.DishId">
                                             <input data-val="true" name="UserDayDish[@com].ComplexId" type="hidden" value="@item.ComplexId">
                                             <input data-val="true" name="UserDayDish[@com].Date" type="hidden" value="@item.Date">
-                                            <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">
-                                            @*@Html.HiddenFor(modelItem => dish.DishId, new { datafield = "DishID" })*@
+                                            <input data-val="true" name="UserDayDish[@com].IsComplex" type="hidden" value="True">@Html.DisplayFor(modelItem => dish.DishName)</div>
 
-                                            @Html.DisplayFor(modelItem => dish.DishName)
-
-                                        </div>
-
-                                        <div class="col col-lg-2 col-md-2 col-2 small">
-                                            @String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
-
-                                        </div>
-                                        <div class="col col-lg-4 col-md-4 col-4 small">
-                                            @Html.DisplayFor(modelItem => dish.DishDescription)
-                                            <p />
-                                            @Html.DisplayFor(modelItem => dish.DishIngredients)
+                                        <div class="col col-lg-2 col-md-2 col-2 small">@String.Format("{0:f0}", dish.DishReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]</div>
+                                        <div class="col col-lg-4 col-md-4 col-4 small">@Html.DisplayFor(modelItem => dish.DishDescription)<p />@* @Html.DisplayFor(modelItem => dish.DishIngredients)*@
                                         </div>
                                         @*<div class="col col-lg-4 col-md-4 col-4 small">
 

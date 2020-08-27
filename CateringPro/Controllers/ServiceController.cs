@@ -16,8 +16,8 @@ namespace CateringPro.Controllers
         private readonly IServiceRepository _servicerepo;
         private readonly ICompanyUserRepository _companyuserreporepo;
         private readonly IDbSyncer _syncer;
-        private readonly IHostingEnvironment _hostingEnv;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IDbSyncer syncer, IHostingEnvironment hostingEnv)
+        private readonly IWebHostEnvironment  _hostingEnv;
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IWebHostEnvironment hostingEnv, IDbSyncer syncer=default )
         {
             _context = context;
             _servicerepo = servicerepo;
@@ -105,7 +105,7 @@ namespace CateringPro.Controllers
             if(_hostingEnv.EnvironmentName!="LocalProduction")
                 return Json(new { State = "Not Allowed" });
             await _syncer.SyncDb();
-            return Json(new { State="OK"});
+            return Json(new { State = "OK",Output= _syncer.GetOutput() }); ;
         }
     }
 }

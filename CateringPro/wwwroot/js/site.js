@@ -225,6 +225,7 @@ function setup_listitems(options) {
         if (typeof searchcriteria === 'undefined')
             searchcriteria = "";
         var sortfield = $("#table-content").attr("data-sortfield")
+       
         if (typeof sortfield === 'undefined')
             sortfield = "";
         var sortorder = $("#table-content").attr("data-sortorder")
@@ -241,8 +242,20 @@ function setup_listitems(options) {
     }
     self.reload = reload;
     $.ajaxSetup({ cache: false });
+    function setFirstSort() {
+        const selval = $(".selection").val();
+        if (selval) {
+            var url = $(".selection").val().split('?').pop();
+            const urlParams = new URLSearchParams(url);
+            const field = urlParams.get('sortfield');
+            const order = urlParams.get('sortorder');
 
-    reload($(".selection").val());
+            $('#table-content').attr('data-sortfield', field);
+            $('#table-content').attr('data-sortorder', order);
+        }
+    }
+    setFirstSort();
+    reload(/*$(".selection").val()*/);
     $('#search-btn').click(function (e) {
         reload();
     });

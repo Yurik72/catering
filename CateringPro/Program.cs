@@ -15,12 +15,12 @@ namespace CateringPro
     {
         public static void Main(string[] args)
         {
-
+            IHostEnvironment env = null;
 
             var host = CreateHostBuilder(args)
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
-                var env = hostingContext.HostingEnvironment;
+                 env = hostingContext.HostingEnvironment;
                 config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                       .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                       optional: true, reloadOnChange: true);
@@ -43,7 +43,7 @@ namespace CateringPro
                 try
                 {
                     var context = services.GetRequiredService<AppDbContext>();
-                    DbInitializer.Initialize(context, services);
+                    DbInitializer.Initialize(context, services, env);
                 }
                 catch (Exception ex)
                 {
