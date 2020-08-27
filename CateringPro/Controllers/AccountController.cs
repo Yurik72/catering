@@ -1179,7 +1179,7 @@ namespace CateringPro.Controllers
                 return BadRequest();
             }
         }
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize]
         public async Task<IActionResult> AddBalance()
         {
             //List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());

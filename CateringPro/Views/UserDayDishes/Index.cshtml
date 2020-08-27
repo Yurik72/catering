@@ -104,7 +104,7 @@
                             <li class="nav-item">
                                 <a class="nav-link day-of-week p-lg-0 p-md-0 nav-item nav-day @(i == (int)daydate.DayOfWeek ? " active" : "")"
                                    style="width: 100%;"
-                                   id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i"
+                                   id="nav-tab-@i" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-content-@i" data-i="@i"
                                    aria-selected="false"
                                    @*aria-selected="true"*@>
                                     <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
@@ -190,17 +190,17 @@
             @for (int i = 0; i < 7; i++)
             {
                 <div class="tab-pane fade@(i == (int)daydate.DayOfWeek ? "  show active" : "")" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-                    @if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
+                    @*@if (!udrepo.IsAllowDayEdit(current_content, User.GetCompanyID()))
                     {
                         <div class="container day-closed-msg">
                             <h3> @Localizer["DayClosedForOrder"] </h3>
                         </div>
-                    }
-                    @await Component.InvokeAsync("UserDayOrderedComponent", current_content)
+                    }*@
+                    @*@await Component.InvokeAsync("UserDayOrderedComponent", current_content)
                     @if (Model.ShowComplex)
                     {
                         @await Component.InvokeAsync("UserDayComplexComponent", new DayMenu() { Date = current_content, DishKind = 0 })
-                    }
+                    }*@
                 </div>
                 current_content = current_content.AddDays(1);
             }
@@ -764,14 +764,24 @@ else
                 $('#weekselected').text(weektext());
                 //for (var i = 0; i < 7; i++)
                //    reloadDay(i);
+                var index = parseInt($(".nav-day.active").attr("data-i"));
                 var start = 0
                 var cb = function() {
                     if (start < 7) {
-                        start++;
+                        //start++;
+                        //reloadDay(start, cb);
+                        if (index == start) {
+                            if (start == 6) {
+                                return;
+                            }
+                            start++;
+                        }
                         reloadDay(start, cb);
+                        start++;
                     }
                 }
-                reloadDay(0, cb);
+                
+                reloadDay(index, cb);
                 
                 setClosedDaystyle();
             }
