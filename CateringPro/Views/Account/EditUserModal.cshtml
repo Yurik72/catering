@@ -7,7 +7,7 @@
 
 
 
-@if (false)
+@if (true)
 {
     <div class="modal-content col-lg-12 col-12">
         <div class="modal-header align-items-center col-12 px-0 px-md-3 px-lg-3" style="padding-top:20px">
@@ -19,8 +19,9 @@
                 <img src="../img/close-modal.svg" aria-hidden="true" alt="">
             </button>
         </div>
+        
         <div class="modal-body col-auto p-0 mt-2" data-id="@Model.Id">
-            
+            <form asp-action="EditUserModal">
                 <ul class="nav nav-tabs justify-content-lg-center justify-content-md-center justify-content-center "
                     id="tab-user" role="tablist">
                     <li class="nav-item">
@@ -56,18 +57,28 @@
                            href="#nav-content-children"
                            role="tab"
                            aria-controls="nav-content-children"
-                           aria-selected="false">@Localizer["UserChildren"]</a>
+                           aria-selected="false">@Localizer["EditChildren"]</a>
                     </li>
                 </ul>
                 <div class="tab-content mt-lg-5 pt-lg-3 mt-md-5 pt-md-3 mt-3 pt-0" id="user-tab">
                     <div class="tab-pane fade show active" id="user-home" role="tabpanel"
                          aria-labelledby="home-user-tab">
-                        <form class="col-12 p-0">
+                        <div class="col-12 p-0">
                             <div class="row p-0 flex-lg-row flex-md-row flex-column">
                                 <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black  align-content-center">
                                     <span style="font-size: 18px; font-weight: 500; color: #000000">Головна</span>
                                 </div>
                             </div>
+                            @*<ul>
+                                @if (Model.Errors != null && Model.Errors.Count() > 0)
+                                {
+                                    @foreach (var error in Model.Errors)
+                                    {
+                                        <li><div asp-validation-summary="All" class="text-danger"> @error</div> </li>
+                                    }
+                                }
+                            </ul>
+                            <div asp-validation-summary="All" id="errr" class="text-danger"></div>*@
                             <input type="hidden" asp-for="Id" />
                             <input type="hidden" asp-for="IsNew" />
                             <div class="row p-0 flex-lg-row flex-md-row flex-column">
@@ -86,14 +97,14 @@
                                         <input asp-for="Email" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
                                                id="input-email"
                                                placeholder="E-mail" style="height: 34px">
-                                        @if (Model.EmailConfirmed)
-                                        {
-                                            <span class="confirmed fa fa-check fa-2x text-success"></span>
-                                        }
-                                        else
-                                        {
-                                            <span class="danger fa fa-times fa-2x text-danger"></span>
-                                        }
+                                        @*@if (Model.EmailConfirmed)
+                    {
+                        <span class="confirmed fa fa-check fa-2x text-success"></span>
+                    }
+                    else
+                    {
+                        <span class="danger fa fa-times fa-2x text-danger"></span>
+                    }*@
                                     </div>
                                 </div>
                                 <div class="row p-0 flex-lg-row flex-md-row flex-column">
@@ -103,6 +114,15 @@
                                         <input asp-for="PhoneNumber" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
                                                id="input-telephone"
                                                placeholder="Телефон" style="height: 34px">
+                                    </div>
+                                </div>
+                                <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                        <label asp-for="NameSurname" for="input-namesurname"
+                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                                        <input asp-for="NameSurname" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                               id="input-namesurname"
+                                               placeholder="Ім'я" style="height: 34px">
                                     </div>
                                 </div>
                                 <div class="row p-0 flex-lg-row flex-md-row flex-column">
@@ -154,93 +174,39 @@
                                         </select>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="tab-pane fade"
                              id="user-role" role="tabpanel"
                              aria-labelledby="role-tab">
-                            <form class="col-12 p-0">
+                            <div class="col-12 p-0">
                                 <div class="row p-0 flex-lg-row flex-md-row flex-column">
                                     <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black  align-content-center">
                                         <span style="font-size: 18px; font-weight: 500; color: #000000">@Localizer["UserRoles"]</span>
                                     </div>
                                 </div>
                                 <div id="user-roles-content" class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column container">
-                                    @*<div class="col-12 col-md-6 col-lg-6 p-0">
-                            <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                <label for="role1"
-                                       class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                    Company
-                                    admin
-                                </label>
-                                <label for="role1" class="col-1 pl-3">
-                                    <input type="checkbox" id="role1" class="checkbox-user">
-                                    <span class="checkmark-user"></span>
-                                </label>
-                            </div>
-                            <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                <label for="role2"
-                                       class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                    Company
-                                    admin
-                                </label>
-                                <label for="role2" class="col-1 pl-3">
-                                    <input type="checkbox" id="role2" class="checkbox-user">
-                                    <span class="checkmark-user"></span>
-                                </label>
-                            </div>
-                            <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                <label for="role3"
-                                       class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                    Company
-                                    admin
-                                </label>
-                                <label for="role3" class="col-1 pl-3">
-                                    <input type="checkbox" id="role3" class="checkbox-user">
-                                    <span class="checkmark-user" s></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6 p-0">
-                            <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                <label for="role4"
-                                       class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                    Company
-                                    admin
-                                </label>
-                                <label for="role4" class="col-1 pl-3">
-                                    <input type="checkbox" id="role4" class="checkbox-user">
-                                    <span class="checkmark-user"></span>
-                                </label>
-                            </div>
-                            <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                <label for="role5"
-                                       class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                    Company
-                                    admin
-                                </label>
-                                <label for="role5" class="col-1 pl-3">
-                                    <input type="checkbox" id="role5" class="checkbox-user">
-                                    <span class="checkmark-user"></span>
-                                </label>
-                            </div>
-                            <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                <label for="role6"
-                                       class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                    Company
-                                    admin
-                                </label>
-                                <label for="role6" class="col-1 pl-3">
-                                    <input type="checkbox" id="role6" class="checkbox-user">
-                                    <span class="checkmark-user" s></span>
-                                </label>
-                            </div>
-                        </div>*@
+
                                 </div>
-                            </form>
+                                @*<div class="col-12 col-md-6 col-lg-6 p-0">
+
+
+                                <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
+                                    <label for="role3"
+                                           class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
+                                        Company
+                                        admin
+                                    </label>
+                                    <label for="role3" class="col-1 pl-3">
+                                        <input type="checkbox" id="role3" class="checkbox-user">
+                                        <span class="checkmark-user" s></span>
+                                    </label>
+                                </div>
+                            </div>*@
+                            </div>
                         </div>
                         <div class="tab-pane fade " id="user-company" role="tabpanel" aria-labelledby="company-tab">
-                            <form class="col-12 p-0">
+                            <div class="col-12 p-0">
                                 <div class="row p-0 flex-lg-row flex-md-row flex-column">
                                     <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black  align-content-center">
                                         <span style="font-size: 18px; font-weight: 500; color: #000000">Компанії</span>
@@ -249,76 +215,46 @@
                                 <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column">
                                     <div class="col-12 col-md-6 col-lg-6 p-0">
                                         <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start" id="user-companies-content">
-                                            <label for="company1"
-                                                   class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                                Company
-                                                admin
-                                            </label>
-                                            <label for="company1" class="col-1 pl-3">
-                                                <input type="checkbox" id="company1" class="checkbox-user">
-                                                <span class="checkmark-user"></span>
-                                            </label>
-                                        </div>
-                                        <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                            <label for="company2"
-                                                   class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                                Company
-                                                admin
-                                            </label>
-                                            <label for="company2" class="col-1 pl-3">
-                                                <input type="checkbox" id="company2" class="checkbox-user">
-                                                <span class="checkmark-user"></span>
-                                            </label>
-                                        </div>
-                                        <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                            <label for="company3"
-                                                   class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                                Company
-                                                admin
-                                            </label>
-                                            <label for="company3" class="col-1 pl-3">
-                                                <input type="checkbox" id="company3" class="checkbox-user">
-                                                <span class="checkmark-user"></span>
-                                            </label>
+
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-6 col-lg-6 p-0">
-                                        <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                            <label for="company4"
-                                                   class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                                Company
-                                                admin
-                                            </label>
-                                            <label for="company4" class="col-1 pl-3">
-                                                <input type="checkbox" id="company4" class="checkbox-user">
-                                                <span class="checkmark-user"></span>
-                                            </label>
-                                        </div>
-                                        <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                            <label for="company5"
-                                                   class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                                Company
-                                                admin
-                                            </label>
-                                            <label for="company5" class="col-1 pl-3">
-                                                <input type="checkbox" id="company5" class="checkbox-user">
-                                                <span class="checkmark-user"></span>
-                                            </label>
-                                        </div>
-                                        <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
-                                            <label for="company6"
-                                                   class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
-                                                Company
-                                                admin
-                                            </label>
-                                            <label for="company6" class="col-1 pl-3">
-                                                <input type="checkbox" id="company6" class="checkbox-user">
-                                                <span class="checkmark-user"></span>
-                                            </label>
-                                        </div>
+                                    @*<div class="col-12 col-md-6 col-lg-6 p-0">
+                                    <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
+                                        <label for="company4"
+                                               class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
+                                            Company
+                                            admin
+                                        </label>
+                                        <label for="company4" class="col-1 pl-3">
+                                            <input type="checkbox" id="company4" class="checkbox-user">
+                                            <span class="checkmark-user"></span>
+                                        </label>
                                     </div>
+                                    <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
+                                        <label for="company5"
+                                               class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
+                                            Company
+                                            admin
+                                        </label>
+                                        <label for="company5" class="col-1 pl-3">
+                                            <input type="checkbox" id="company5" class="checkbox-user">
+                                            <span class="checkmark-user"></span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group d-flex  col-12  p-0 input-row-black  align-content-center justify-content-start">
+                                        <label for="company6"
+                                               class="profile-form-title col-sm-8 col-11 col-lg-5 col-md-5 p-0 d-flex align-items-center mb-0 ">
+                                            Company
+                                            admin
+                                        </label>
+                                        <label for="company6" class="col-1 pl-3">
+                                            <input type="checkbox" id="company6" class="checkbox-user">
+                                            <span class="checkmark-user"></span>
+                                        </label>
+                                    </div>
+                                </div>*@
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="tab-pane fade " id="nav-content-fin-of-user" role="tabpanel" aria-labelledby="finance-tab">
 
@@ -327,34 +263,36 @@
                             <div id="children-content" class="container">
                             </div>
                             <div>
-                                <input asp-controller="Account" asp-action="UpdateChildrenForUser" type="submit" class="btn btn-primary" value="@Localizer["Save"]" />
+                                @*<input asp-controller="Account" asp-action="UpdateChildrenForUser" type="submit" class="btn btn-primary" value="@Localizer["Save"]" />*@
                                 <div class="col-6 p-0 d-flex justify-content-end align-self-end align-self-sm-end align-self-md-center"
                                      style="height: 34px">
-                                    <button asp-controller="Account" asp-action="AddNewChildToUser" type="submit" id="addchild"
-                                            class=" btn  btn-xl btn-outline-danger justify-content-center float-md-none font-weight-bold btn-block col-lg-5 col-md-5 col-7 m-0 p-0"
-                                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                                            style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                                        &#65291; @Localizer["Add"]
-                                    </button>
+                                    @*<input asp-controller="Account" asp-action="AddNewChildToUser" type="submit" id="addchild"
+                                class=" btn  btn-xl btn-outline-danger justify-content-center float-md-none font-weight-bold btn-block col-lg-5 col-md-5 col-7 m-0 p-0"
+                                onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;" value="@Localizer["Add"]" />*@
                                 </div>
                             </div>
                         </div>
                     </div>
-                
 
+                </form>
             </div>
-        <div class="modal-footer justify-content-center border-0"
-             style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
-            <button type="button" data-save="modal" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
-                    style="background: #36C233; border: 1px solid #36C233; height: 48px">
+       
+        <div class="container">
+            <div class="modal-footer justify-content-center border-0"
+                 style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                <button type="button" data-save-user="modal" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                        style="background: #36C233; border: 1px solid #36C233; height: 48px">
                     @Localizer["Save"]
-            </button>
-            <button type="button" data-dismiss="modal" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
-                    style="background: #ffffff; border: 1px solid #F15E25; height: 48px; color: #f15e25">
+                </button>
+                <button type="button" data-dismiss="modal" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
+                        style="background: #ffffff; border: 1px solid #F15E25; height: 48px; color: #f15e25">
                     @Localizer["Cancel"]
-            </button>
+                </button>
+            </div>
         </div>
+            
     </div>
 }
 else
@@ -557,13 +495,4 @@ else
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @*<script>
-                $(function () {
-                var userId = $('.modal-body').attr('data-id');
-                var urlfin = '@Url.Content("~/Account/UserFinanceOfUser?userId=")' + userId;
-                $.get(urlfin, function (data) {
-                    $("#nav-content-fin-of-user").html(data);
-                });
-            });
-        </script>*@
 }

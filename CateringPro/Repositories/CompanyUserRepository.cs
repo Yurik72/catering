@@ -334,6 +334,11 @@ namespace CateringPro.Repositories
             }
             // usr.Email = ticks+"_"+user.Email;
             usr.Email = add_name + "_" + user.Email;
+            var resultUserMail = _userManager.FindByEmailAsync(usr.Email).Result;
+            if (resultUserMail != null)
+            {
+                usr.Email = user.Email + "_" + "child" + "_" + ticks;
+            }
             usr.ParentUserId = userId;
             var userResult = await _userManager.CreateAsync(usr, /*this is password for child*/"PWD" + userId);
 

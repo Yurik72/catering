@@ -491,7 +491,7 @@ namespace CateringPro.Controllers
 
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
-                return PartialView(usermodel);
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
             _logger.LogInformation("EditUserModal");
             try
             {
@@ -513,20 +513,27 @@ namespace CateringPro.Controllers
                 if (usermodel.IsNew)
                 {
                     var creator = await _userManager.FindByIdAsync(User.GetUserId());
+                    CompanyUser checkmailuser = await _userManager.FindByEmailAsync(usermodel.Email);
+                    if (checkmailuser != null)
+                    {
+                        _logger.LogWarning("Error creating user email already taken: {0} ", checkmailuser.Email);
+                        //string text = _localizer.GetLocalizedString("DuplicateEmail");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "email already taken" }));
+                    }
                     if (string.IsNullOrEmpty(usermodel.NewPassword))
                     {
                         ModelState.AddModelError("NewPassword", "You must specify a value");
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Password's fields can not be empty" }));
                     }
                     if (string.IsNullOrEmpty(usermodel.ConfirmPassword))
                     {
                         ModelState.AddModelError("ConfirmPassword", "You must specify a value");
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Password's fields can not be empty" }));
                     }
                     if (usermodel.ConfirmPassword != usermodel.NewPassword)
                     {
                         ModelState.AddModelError("ConfirmPassword", "Incorrect value");
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Passwords mismatching" }));
                     }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
                     //CompanyUser usr = new CompanyUser() { CompanyId = User.GetCompanyID() };
@@ -547,11 +554,11 @@ namespace CateringPro.Controllers
 
                     userResult = await _userManager.AddToRolesAsync(usr, addedRoles);
 
-                    newCompanies.Add(User.GetCompanyID());
+                    //newCompanies.Add(User.GetCompanyID());
                     await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
 
                     if (!userResult.Succeeded)
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured" }));
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
 
                     usr.ChildrenCount = 1;
@@ -586,7 +593,7 @@ namespace CateringPro.Controllers
 
                         foreach (var err in userResult.Errors)
                             ModelState.AddModelError(err.Code, err.Description);
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
                     }
                     await _companyuser_repo.PostUpdateUserAsync(usr, true);
                 }
@@ -597,6 +604,7 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
+                    
                     usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
 
@@ -604,9 +612,33 @@ namespace CateringPro.Controllers
                     //{
                     //   await UserFinance();
                     //}
+                    if (usermodel.IsPasswordChanged)
+                    {
 
+                        if (!usermodel.NewPassword.Equals(usermodel.ConfirmPassword))
+                        {
+                                _logger.LogWarning("Change password,  passwords mismatch");
+                                return await Task.FromResult(Json(new { res = "FAIL", reason = "password mismatch" }));   
+                        }
+                        if (usermodel.NewPassword.Equals(usermodel.ConfirmPassword))
+                        {
+                            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                            var result = await _userManager.ResetPasswordAsync(user, token, usermodel.NewPassword);
+                            if (result.Succeeded)
+                            {
+                                _logger.LogWarning("Update user password,  new password for user {0} was applied", user.UserName);
+                                //return await Task.FromResult(Json(new { res = "INFO", reason = "Password applied, now click green save button" }));
+                            }
+                            else
+                            {
+                                usermodel.Errors = result.Errors.Select(x => x.Description).ToList();
+                                _logger.LogWarning("Error updating password for user: {0} ", user.UserName);
+                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Password should contain at least 8 values and one capital letter" }));
+                            }
+                        }
+                    }
                     if (!userResult.Succeeded)
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
                     //current  roles
                     var userRoles = await _userManager.GetRolesAsync(user);
                     //added roles 
@@ -618,7 +650,7 @@ namespace CateringPro.Controllers
 
                     await _companyuser_repo.AddCompaniesToUserAsync(user.Id, newCompanies);
                     if (!userResult.Succeeded)
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
                     if (user.ConfirmedByAdmin)
@@ -635,10 +667,10 @@ namespace CateringPro.Controllers
                             $"<br><br><br>якщо ви отримали цей лист випадково - про≥гноруйте його.<br>" +
                             $"<h2>” раз≥ виникненн€ питань звертайтесь на пошту: admin@kabachok.group</h2>");
                     }
-
+                    
                     if (!userResult.Succeeded)
                     {
-                        return PartialView(usermodel);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Refresh the page and try again" }));
                     }
                     await _companyuser_repo.PostUpdateUserAsync(user);
                 }
@@ -667,18 +699,31 @@ namespace CateringPro.Controllers
 
             return PartialView("EditUserModal", user);
         }
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
-        public IActionResult Users()//async Task<IActionResult> Users()
-        {
-            // return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
-            return View(new List<CompanyUser>());
-        }
+
+
+
         [Authorize]
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]
-        public async Task<IActionResult> UsersList()
+        [Route("Account/Users/UsersList")]
+        [Route("Account/UsersList")]
+        public async Task<IActionResult> UsersList([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
 
-            var query = _userManager.Users;
+           // var query = _userManager.Users;
+
+            ViewData["QueryModel"] = querymodel;
+            //ViewData["GroupId"] = new SelectList(_context.UserGroups/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
+            ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
+            //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
+            var query = this.GetQueryListUsers(_userManager.Users,querymodel,
+                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || d.ChildNameSurname.Contains(querymodel.SearchCriteria) || d.Email.Contains(querymodel.SearchCriteria),
+                     20);
+            //if (querymodel.RelationFilter > 0)
+            //{
+            //    query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);
+            //}
+
+
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
             {
                 if (User.IsInRole(Core.UserExtension.UserRole_CompanyAdmin) || User.IsInRole(Core.UserExtension.UserRole_UserAdmin))
@@ -704,6 +749,16 @@ namespace CateringPro.Controllers
             //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
             return PartialView(await query.ToListAsync());
         }
+
+
+
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        public IActionResult Users()//async Task<IActionResult> Users()
+        {
+            // return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            return View(new List<CompanyUser>());
+        }
+        
 
 
         public IActionResult ChangePasswordModal(string userId)
@@ -1088,6 +1143,11 @@ namespace CateringPro.Controllers
             return Json(_userManager.GetRolesAsync(user).Result);
         }
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        public JsonResult ErrorPasswChange()
+        {
+            return new JsonResult(null) { StatusCode = 424 };
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public async Task<IActionResult> RolesForUser(string userId)
         {
 
@@ -1179,7 +1239,7 @@ namespace CateringPro.Controllers
                 return BadRequest();
             }
         }
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize]
         public async Task<IActionResult> AddBalance()
         {
             //List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(User.GetUserId(), User.GetCompanyID());
@@ -1235,7 +1295,7 @@ namespace CateringPro.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddNewChildToUser([Bind("Id,Email")] UpdateUserModel um)
+        public async Task<IActionResult> AddNewChildToUser([Bind("Id")] UpdateUserModel um)
         {
             var user = _userManager.FindByIdAsync(um.Id).Result;
             if (!await _companyuser_repo.AddNewUserChild(user.Id, user.CompanyId))
