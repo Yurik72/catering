@@ -26,7 +26,8 @@ namespace CateringPro.Controllers
             try
             {
                 // string text = System.IO.File.ReadAllText(@"..\wwwroot\Logs\logs-"+date+".txt");
-               // string path = Path.Combine(AppContext.BaseDirectory, "Logs");
+                // string path = Path.Combine(AppContext.BaseDirectory, "Logs");
+                long maxreturnsize = 500 * 1000 * 1024;
                 LogsViewModel log = new LogsViewModel();
                 var file = new DirectoryInfo("Logs")
                             .GetFiles("*")
@@ -39,8 +40,11 @@ namespace CateringPro.Controllers
                 using (var fs = new FileStream(file.FullName, FileMode.Open,
                               FileAccess.Read, FileShare.ReadWrite))
                 {
+                    if (fs.Length > maxreturnsize)
+                        fs.Position = fs.Length - maxreturnsize;
                     using (StreamReader sr = new StreamReader(fs))
                     {
+                        
                         log.Logs = sr.ReadToEnd();
                     }
                 }
