@@ -35,6 +35,8 @@ namespace CateringPro.Controllers
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
         private readonly SharedViewLocalizer _localizer;
+        private const int pictWidth = 200;
+        private const int pictHeight = 300;
         public AccountController(AppDbContext context, UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
@@ -486,7 +488,7 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies, IEnumerable<CompanyUser> it)
         {
 
             //string id = User.GetUserId();
@@ -497,6 +499,8 @@ namespace CateringPro.Controllers
             _logger.LogInformation("EditUserModal");
             try
             {
+                
+                
                 List<string> newRoles = new List<string>();
                 List<int> newCompanies = new List<int>();
                 if (!string.IsNullOrEmpty(roles))
@@ -636,9 +640,107 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
+                    
+                    //update user child
+                    var i = 0;
+                    foreach (var reb in it)
+                    {
+                        // IFormFile filePict = null;
+                        var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
 
-                    //usermodel.CopyEditedModalDataTo(user);
-                    //var userResult = await _userManager.UpdateAsync(user);
+                        for (var idx = 0; idx < Request.Form.Files.Count; idx++)
+                        {
+                            var fileindex = -1;
+                            Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
+                            Match match = regex.Match(Request.Form.Files[idx].Name);
+
+                            if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
+                            {
+                                continue;
+                            }
+                            filePict = Request.Form.Files[idx];
+                            break;
+                        }
+
+                        CompanyUser user_to_update;
+                        if (reb.Id == usermodel.Id)
+                        {
+                            usermodel.ChildNameSurname = reb.ChildNameSurname;
+                            usermodel.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            usermodel.CopyEditedParamsTo(user);
+                            user_to_update = user;
+                        }
+                        else
+                        {
+                            user_to_update = await _userManager.FindByIdAsync(reb.Id);
+                            if (user_to_update != null)
+                            {
+                                user_to_update.ChildNameSurname = reb.ChildNameSurname;
+                                user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                                if (user_to_update.ChildNameSurname != null)
+                                {
+                                    CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
+                                    string translit_text = Translit.cyr2lat(user_to_update.ChildNameSurname);
+                                    user_to_update.UserName = parent.UserName + "_" + translit_text;
+                                }
+                            }
+                        }
+                        if (user_to_update == null)
+                        {
+                            ModelState.AddModelError("", "User Not Found");
+                            break;
+                        }
+                        if (filePict != null)
+                        {
+                            Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict == null)
+                            {
+                                pict = new Pictures();
+
+                                try
+                                {
+                                    _context.Add(pict);
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError(ex, "Error adding Picture to database");
+                                    ModelState.AddModelError("", "Error adding Picture to database");
+                                    return RedirectToAction("Users");
+                                }
+                            }
+                            using (var stream = filePict.OpenReadStream())
+                            {
+                                byte[] imgdata = new byte[stream.Length];
+                                stream.Read(imgdata, 0, (int)stream.Length);
+                                pict.PictureData = imgdata;
+                            }
+                            PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+                            if (_context.Entry(pict).State != EntityState.Added)
+                                _context.Update(pict);
+                            await _context.SaveChangesAsync();
+                            user_to_update.PictureId = pict.Id;
+
+                        }
+                        try
+                        {
+                            IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
+                            if (!rebResult.Succeeded)
+                            {
+                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error Update Child");
+                            ModelState.AddModelError("", ex.Message);
+                            return RedirectToAction("Users");
+                        }
+                        i++;
+                    }
+                    //end of update
+
+                    usermodel.CopyEditedModalDataTo(user);
+                    var userResult = await _userManager.UpdateAsync(user);
 
                     //if (user != null)
                     //{
@@ -995,7 +1097,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 250, 250);
+                            PicturesController.CompressPicture(pict, pictWidth, pictHeight);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
@@ -1119,7 +1221,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 250, 250);
+                            PicturesController.CompressPicture(pict, pictWidth, pictHeight);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
@@ -1268,6 +1370,8 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
+            if (user == null && string.IsNullOrEmpty(userId))
+                return PartialView("ChildrenDataOfUser", null);
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
 
             return PartialView("ChildrenDataOfUser", childs);
@@ -1332,6 +1436,8 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
+            if (user == null && string.IsNullOrEmpty(userId))
+                return PartialView();
             return PartialView(await _fin.GetUserFinModelAsync(user.Id, User.GetCompanyID()));
         }
         [Authorize]
