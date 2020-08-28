@@ -115,13 +115,13 @@ namespace CateringPro.Controllers
                     await _companyuser_repo.PostUpdateUserAsync(user, true);
                     EmailService emailService = new EmailService();
                     await _email.SendEmailAsync(model.Email, "Завершення реєстрації",
-                        $"Вітаю, {user.NameSurname}<br>" +
-                        $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
-                        $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
+                        $"Вітаємо, {user.NameSurname}!<br>" +
+                        $"Дякуємо за реєстрацію на сайті нашого сервісу!!<br>" +
+                        $"Для того, щоб скористатися своїм обліковим записом, будь ласка, перейдіть за цим посиланням. <a href='{callbackUrl}'> посилання</a><br>" +
                         $"" +
                         $"" +
-                        $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                        $"<br><br><br>Якщо ви отримали цей лист помилково, то проігноруйте його.<br>" +
+                        $"<h2>У разі виникнення питань, будь ласка, звертайтесь на пошту: admin@kabachok.group</h2>");
 
                     return RedirectToAction("EmailSent");
                 }

@@ -475,7 +475,7 @@
     <value>Назва</value>
   </data>
   <data name="NameSurname" xml:space="preserve">
-    <value>Ім'я,Прізвище</value>
+    <value>Ім’я та прізвище</value>
   </data>
   <data name="NoDishesAtThisDay" xml:space="preserve">
     <value>Вибачте, немає жодної доступної страви, для замовлення у цей день</value>
@@ -508,7 +508,7 @@
     <value>Будь ласка, зайдіть</value>
   </data>
   <data name="Register Title" xml:space="preserve">
-    <value>Зареєструйтесь безкоштовно!</value>
+    <value>Реєстрація нового користувача</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Звiти</value>
@@ -951,5 +951,8 @@
   </data>
   <data name="Course6" xml:space="preserve">
     <value>Шосте</value>
+  </data>
+  <data name="LoginOrEmail" xml:space="preserve">
+    <value>Логін або E-mail</value>
   </data>
 </root>
