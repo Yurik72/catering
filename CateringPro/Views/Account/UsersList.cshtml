@@ -5,6 +5,7 @@
 
 @{
     QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    var groups = ViewData["UserGroupId"];
     if (querymodel == null)
     {
         querymodel = new QueryModel();
@@ -12,7 +13,7 @@
 
 }
 
-@if (false)
+@if (true)
 {
     @foreach (var item in Model)
     {
@@ -33,7 +34,7 @@
                     <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                          style="font-size: 16px">
                         <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                              style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@*@item.UserGroup.Name*@</span>
+                              style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@*@groups*@</span>
                     </div>
 
                     <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">

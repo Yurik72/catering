@@ -44,18 +44,51 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="btn">
+                    @*<div class="btn">
                         <a href="@Url.Action("DetachChildFromParent","Account",
                                       new { userId = it.Id })" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
-            {
-                i++;
-            }
+        {
+            i++;
         }
     }
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            <script>
+                $(function () {
+                    function isFileImage(file) {
+                        const acceptedImageTypes = ['image/jpeg', 'image/png'];
+
+                        return file && acceptedImageTypes.includes(file['type'])
+                    }
+                    function readURL(input) {
+                        if (input.files && input.files[0]) {
+                            var target_img = $($(input).attr('data-target'));
+                            if (!isFileImage(input.files[0])) {
+                                $(input).val('');
+                                return;
+                            }
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                $(target_img).attr('src', e.target.result);
+                            }
+
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                    $(document).on("change", ".custom-file-input", function () {
+                        readURL(this);
+                    });
+                });
+            </script>
+    }
+}
 
 else
 {

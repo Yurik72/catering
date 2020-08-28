@@ -543,6 +543,9 @@
   <data name="UpdateUserNewPassword" xml:space="preserve">
     <value>Новий пароль</value>
   </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Новий пароль</value>
+  </data>
   <data name="UpdateUserOldPassword" xml:space="preserve">
     <value>Старий пароль</value>
   </data>
