@@ -7,6 +7,7 @@ using System;
 using CateringPro.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication;
 
 namespace CateringPro.Controllers
 {
@@ -106,6 +107,15 @@ namespace CateringPro.Controllers
                 return Json(new { State = "Not Allowed" });
             await _syncer.SyncDb();
             return Json(new { State = "OK",Output= _syncer.GetOutput() }); ;
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> LocalMode()
+        {
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return Forbid();
+            //await _syncer.SyncDb();
+            return View() ;
         }
     }
 }

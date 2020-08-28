@@ -35,8 +35,8 @@ namespace CateringPro.Controllers
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
         private readonly SharedViewLocalizer _localizer;
-        private const int pictWidth = 200;
-        private const int pictHeight = 300;
+        private const int pictWidth = 250;
+        private const int pictHeight = 250;
         public AccountController(AppDbContext context, UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
