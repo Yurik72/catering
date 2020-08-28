@@ -35,8 +35,8 @@ namespace CateringPro.Controllers
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
         private readonly SharedViewLocalizer _localizer;
-        private const int pictWidth = 250;
-        private const int pictHeight = 250;
+        private const int pictWidth = 200;
+        private const int pictHeight = 300;
         public AccountController(AppDbContext context, UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
@@ -693,6 +693,11 @@ namespace CateringPro.Controllers
                         if (filePict != null)
                         {
                             Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict != null)
+                            {
+                                _context.Remove(pict);
+                            }
+                            pict = null;
                             if (pict == null)
                             {
                                 pict = new Pictures();
@@ -708,15 +713,23 @@ namespace CateringPro.Controllers
                                     return RedirectToAction("Users");
                                 }
                             }
+                            byte[] data;
                             using (var stream = filePict.OpenReadStream())
                             {
                                 byte[] imgdata = new byte[stream.Length];
                                 stream.Read(imgdata, 0, (int)stream.Length);
-                                pict.PictureData = imgdata;
+                                //pict.PictureData = imgdata;
+                                data = imgdata;
                             }
+                            pict.PictureData = data;
                             PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+                            
                             if (_context.Entry(pict).State != EntityState.Added)
+                            {
+
+
                                 _context.Update(pict);
+                            }
                             await _context.SaveChangesAsync();
                             user_to_update.PictureId = pict.Id;
 
