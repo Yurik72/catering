@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Локальный режим";
+    Layout = null;
+    int numDishes = 5;
+}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="main-header">
+
+        <h1>Synchronise db</h1>
+        <h1 id="currentdate"></h1>
+    </header>
+
+    <div class="">
+        <button id="symcDb">Test</button>
+
+    </div>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/nfc.js"></script>
+    <script src="../js/nfcserial.js"></script>
+    <script src="../js/nfcutil.js"></script>
+    <script>
+        $(function () {
+            $(document).on("click", "syncDb", function () {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    if (data.State = "OK") {
+                        dialog_info("data");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
