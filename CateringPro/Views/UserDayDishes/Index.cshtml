@@ -643,7 +643,7 @@ else
            
             $("input.numberspinner[type='number']").inputSpinner();
            // $("#weekselected").inputSpinner();
-            var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
+            var html_loading = gethtmlloading();//'<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
 
             var reloadDay = function (dayindex,callback) {
                 var ms = parseInt($('#currentdate').val());
@@ -652,7 +652,7 @@ else
                 var navcontent = $('#nav-content-' + dayindex);
                 navcontent.html(html_loading);
                 var dishKind = $("#dishKind").val();
-
+             
                 //navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString());
                 navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString() + "&dishKind=" + encodeURI(dishKind.toString())),
                     function (response, status, xhr) {

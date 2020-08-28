@@ -66,6 +66,8 @@ namespace CateringPro.Repositories
                     return await ProcessQueueRequestAsync(request);
                 case "askforqueueconfirm":
                     return await ProcessQueueConfirmRequestAsync(request);
+                case "askforqueueremove":
+                    return await ProcessQueueRemoveRequestAsync(request);
                 default:
                     break;
             }
@@ -221,6 +223,26 @@ namespace CateringPro.Repositories
                 return ServiceResponse.GetFailResult(request);
             }
            
+            //return res;
+        }
+        public async Task<ServiceResponse> ProcessQueueRemoveRequestAsync(ServiceRequest request)
+        {
+            // var res=ServiceResponse.GetSuccessResult(request);
+            var queue = await _context.DeliveryQueues.Where(q => request.QueueIds.Contains(q.Id)).ToListAsync();
+           
+            try
+            {
+              
+                _context.RemoveRange(queue);
+                await _context.SaveChangesAsync();
+                return ServiceResponse.GetSuccessResult(request);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error remove queue", ex);
+                return ServiceResponse.GetFailResult(request);
+            }
+
             //return res;
         }
         public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
