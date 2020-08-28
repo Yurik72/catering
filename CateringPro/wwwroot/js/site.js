@@ -1,5 +1,5 @@
 ﻿
-var html_loading_element = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
+var html_loading_element = '<div class="row justify-content-center align-self-center""><div class="col-12 text-secondary h4 align-self-center text-center"><div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div></div></div>';
 
 $(function () {
 

@@ -460,8 +460,11 @@
                                         <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
                                             ${inner_div}
                                          </div>
-                                         <div class="col-3  align-self-center ">
+                                         <div class="col-2  align-self-center ">
                                              <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
+                                         </div>
+                                         <div class="col-2  align-self-top ">
+                                             <button class="btn btn-primary btn-remove-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
                                          </div>
                                     </div>`);
                     content.append(div);
@@ -488,6 +491,43 @@
                     });
 
                     
+                });
+                $(div).find('.btn-remove-queue').click(function (e) {
+                    e.preventDefault();
+                    var timestamp = $(this).attr('data-timestamp');
+                    var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueremove", QueueIds: JSON.parse($(this).attr('data-queue-list')) };
+
+                    promise_dialog_yes_no('Подтвердите дейтсвие. <p/> В результате этой операции, блюда клиента будет удалены из очереди выдачи<p/> Карточка NFC будет перезаписана.')
+                        .then(data => fetch(
+                            `${baseUrl}/GenUserCardToken?userId=${userid}`,
+                            { method: 'GET' }
+                        ))
+                        .then(response => {
+                            $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+                                if (data && data.overalResult == 'success') {
+                                    removeQueue(timestamp);
+                                }
+                            })
+                                .fail(function (xhr, code, error) {
+                                    throw(error)
+                                });
+
+                        })
+                        .catch(error => {
+                            dialog_error(error);
+                            console.error('error:', error)
+                        });
+                    $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+                        if (data && data.overalResult == 'success') {
+                            removeQueue(timestamp);
+                        }
+                    })
+                        .fail(function (xhr, code, error) {
+                            el_error.val(error);
+                            el_error.show();
+                        });
+
+
                 });
             }
             function removeQueue(timestamp) {
