@@ -677,7 +677,7 @@ namespace CateringPro.Controllers
                             {
                                 user_to_update.ChildNameSurname = reb.ChildNameSurname;
                                 user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
-                                if (user_to_update.ChildNameSurname != null)
+                                if (user_to_update.ChildNameSurname != null && user_to_update.ParentUserId != null)
                                 {
                                     CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
                                     string translit_text = Translit.cyr2lat(user_to_update.ChildNameSurname);
