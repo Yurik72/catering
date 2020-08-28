@@ -493,7 +493,9 @@ namespace CateringPro.Controllers
 
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
-                return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
+                return PartialView(usermodel);
+                //return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
+                
             _logger.LogInformation("EditUserModal");
             try
             {
@@ -526,17 +528,17 @@ namespace CateringPro.Controllers
                     }
                     if (string.IsNullOrEmpty(usermodel.NewPassword))
                     {
-                        ModelState.AddModelError("NewPassword", "You must specify a value");
+                        //ModelState.AddModelError("NewPassword", "You must specify a value");
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Password's fields can not be empty" }));
                     }
                     if (string.IsNullOrEmpty(usermodel.ConfirmPassword))
                     {
-                        ModelState.AddModelError("ConfirmPassword", "You must specify a value");
+                        //ModelState.AddModelError("ConfirmPassword", "You must specify a value");
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Password's fields can not be empty" }));
                     }
                     if (usermodel.ConfirmPassword != usermodel.NewPassword)
                     {
-                        ModelState.AddModelError("ConfirmPassword", "Incorrect value");
+                        //ModelState.AddModelError("ConfirmPassword", "Incorrect value");
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Passwords mismatching" }));
                     }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
@@ -549,6 +551,16 @@ namespace CateringPro.Controllers
                     if (!usr.UserSubGroupId.HasValue)
                         usr.UserSubGroupId = creator.UserSubGroupId;
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
+
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("Creating user is not succeeded for user {0}{1}", usermodel.UserName, userResult.ToString()) ;
+                        //return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured while creating user" }));
+                        usermodel.Errors = userResult.Errors.Select(x => x.Description).ToList();
+                        _logger.LogWarning("Error creating user async : {0} ", usr.UserName);
+                        return PartialView(usermodel);
+                    }
+
                     //current  roles
                     var userRoles = await _userManager.GetRolesAsync(usr);
                     //added roles 
@@ -557,13 +569,28 @@ namespace CateringPro.Controllers
                     var removedRoles = userRoles.Except(newRoles);
 
                     userResult = await _userManager.AddToRolesAsync(usr, addedRoles);
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("Creating user is not sucess beacause add role error {0}", userResult.ToString());
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured adding roles to user" }));
+                    }
 
                     //newCompanies.Add(User.GetCompanyID());
-                    await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
+                    var userResultCompanies = await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
 
-                    if (!userResult.Succeeded)
-                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured" }));
+                    if (!userResultCompanies)
+                    {
+                        _logger.LogError("error adding company to user");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured adding company to user" }));
+                    }
+                        
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("error removing role from user");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error removing role from user" }));
+                    }
+
 
                     usr.ChildrenCount = 1;
                     if (usr.ConfirmedByAdmin)
@@ -591,15 +618,20 @@ namespace CateringPro.Controllers
 
                     }
 
-                    if (!userResult.Succeeded)
-                    {
-                        _logger.LogError("Creating user is not sucess {0}", userResult.ToString());
+                    //if (!userResult.Succeeded)
+                    //{
+                    //    _logger.LogError("Creating user is not sucess {0}", userResult.ToString());
 
-                        foreach (var err in userResult.Errors)
-                            ModelState.AddModelError(err.Code, err.Description);
-                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
+                    //    foreach (var err in userResult.Errors)
+                    //    _logger.LogError(err.Description, err.Code);
+                    //    return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
+                    //}
+                    var resultUpdateUser = await _companyuser_repo.PostUpdateUserAsync(usr, true);
+                    if (!resultUpdateUser)
+                    {
+                        _logger.LogError("error updating user{0}",usr.UserName);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured updating user" }));
                     }
-                    await _companyuser_repo.PostUpdateUserAsync(usr, true);
                 }
                 else
                 {
@@ -707,13 +739,27 @@ namespace CateringPro.Controllers
                     }
                     //end of update
 
-                    usermodel.CopyEditedModalDataTo(user);
-                    var userResult = await _userManager.UpdateAsync(user);
+                    //usermodel.CopyEditedModalDataTo(user);
+                    //var userResult = await _userManager.UpdateAsync(user);
 
                     //if (user != null)
                     //{
                     //   await UserFinance();
                     //}
+                    CompanyUser checkuserIfexistAlreadyMail = await _userManager.FindByEmailAsync(usermodel.Email);
+                    CompanyUser checkuserIfexistAlreadyLogin = await _userManager.FindByNameAsync(usermodel.UserName);
+                    if (checkuserIfexistAlreadyMail != null && (usermodel.Email != user.Email))
+                    {
+                        _logger.LogWarning("Error editing user email already taken: {0} ", checkuserIfexistAlreadyMail.Email);
+                        //string text = _localizer.GetLocalizedString("DuplicateEmail");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "email already taken" }));
+                    }
+                    if (checkuserIfexistAlreadyLogin != null && (usermodel.UserName != user.UserName))
+                    {
+                        _logger.LogWarning("Error editing user email already taken: {0} ", checkuserIfexistAlreadyLogin.UserName);
+                        //string text = _localizer.GetLocalizedString("DuplicateEmail");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "login already taken" }));
+                    }
                     if (usermodel.IsPasswordChanged)
                     {
 
@@ -735,10 +781,12 @@ namespace CateringPro.Controllers
                             {
                                 usermodel.Errors = result.Errors.Select(x => x.Description).ToList();
                                 _logger.LogWarning("Error updating password for user: {0} ", user.UserName);
-                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Password should contain at least 8 values and one capital letter" }));
+                                return PartialView(usermodel);
                             }
                         }
                     }
+                    usermodel.CopyEditedModalDataTo(user);
+                    var userResult = await _userManager.UpdateAsync(user);
                     if (!userResult.Succeeded)
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
                     //current  roles
@@ -750,9 +798,19 @@ namespace CateringPro.Controllers
 
                     userResult = await _userManager.AddToRolesAsync(user, addedRoles);
 
-                    await _companyuser_repo.AddCompaniesToUserAsync(user.Id, newCompanies);
                     if (!userResult.Succeeded)
-                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
+                    {
+                        _logger.LogWarning("Add roles to user error: {0} ", user.UserName);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Add roles to user error occured" }));
+                    }
+
+                    var addCompaniesToUser = await _companyuser_repo.AddCompaniesToUserAsync(user.Id, newCompanies);
+                    if (!addCompaniesToUser) 
+                    {
+                        _logger.LogWarning("Add companies to user error: {0} ", user.UserName);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured adding roles to user" }));
+                    }
+                        
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
                     if (user.ConfirmedByAdmin)

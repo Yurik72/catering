@@ -229,7 +229,8 @@
                         else {
                             var newBody = $('.modal-body', data);
                             $(document).find('.modal-body').replaceWith(newBody);
-                            setupChangesChecker($('#modDialog'));
+                            //setupChangesChecker($('#modDialog'));
+                            onload();
                         }
                         },
                          fail: function (xhr, status, error) {
@@ -265,6 +266,28 @@
                         method: "UsersList",
                         createmethod: "CreateUserModal",
                         onloadedcb: onload
+                    });
+
+                    function isFileImage(file) {
+                        const acceptedImageTypes = ['image/jpeg', 'image/png'];
+                        return file && acceptedImageTypes.includes(file['type'])
+                    }
+                    function readURL(input) {
+                        if (input.files && input.files[0]) {
+                            var target_img = $($(input).attr('data-target'));
+                            if (!isFileImage(input.files[0])) {
+                                $(input).val('');
+                                return;
+                            }
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $(target_img).attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                    $(document).on("change", ".custom-file-input", function () {
+                        readURL(this);
                     });
 
                     var dialog_addbalance = $('#modDialog-addbalance');
