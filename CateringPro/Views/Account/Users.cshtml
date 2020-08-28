@@ -201,7 +201,8 @@
                         else {
                             var newBody = $('.modal-body', data);
                             $(document).find('.modal-body').replaceWith(newBody);
-                            setupChangesChecker($('#modDialog'));
+                            //setupChangesChecker($('#modDialog'));
+                            onload();
                         }
                     })
                         .fail(function (xhr, status, error) {
