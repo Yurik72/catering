@@ -739,8 +739,8 @@ namespace CateringPro.Controllers
                     }
                     //end of update
 
-                    usermodel.CopyEditedModalDataTo(user);
-                    var userResult = await _userManager.UpdateAsync(user);
+                    //usermodel.CopyEditedModalDataTo(user);
+                    //var userResult = await _userManager.UpdateAsync(user);
 
                     //if (user != null)
                     //{
