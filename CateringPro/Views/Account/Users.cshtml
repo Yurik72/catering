@@ -109,7 +109,27 @@
 
 <script type="text/javascript">
 
-            $(function () {
+    $(function () {
+        //$(document).on('submit', '[method="post"]', function (e) {
+        //    e.preventDefault();
+        //    var form = $(this).parents('.modal-body').find('form');
+        //    if (form.length == 0)
+        //        form = $('#modDialog').find('.modal-body').find('form');
+        //    var actionUrl = form.attr('action');
+        //    var formData = new FormData(this);
+
+        //    $.ajax({
+        //        url: actionUrl,
+        //        type: 'POST',
+        //        data: formData,
+        //        success: function (data) {
+        //            alert(data)
+        //        },
+        //        cache: false,
+        //        contentType: false,
+        //        processData: false
+        //    });
+        //});
                 $(document).on('click', '[data-save-user="modal"]', function (event) {
                     event.preventDefault();
                     // console.log("Data Save");
@@ -117,9 +137,17 @@
                     if (form.length == 0)
                         form = $('#modDialog').find('.modal-body').find('form');
                     var actionUrl = form.attr('action');
-                    var dataToSend = form.serialize();
+                   // var dataToSend = form.serialize();
+                    var dataToSend = new FormData(form[0]);
 
-                    $.post(actionUrl, dataToSend).done(function (data) {
+                    $.ajax({
+                        url: actionUrl,
+                        data: dataToSend ? dataToSend : form.serialize(),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+                        success: function (data) {
                         var isValid = false;
 
                         if (data && data.res && data.res == "OK")
@@ -147,11 +175,13 @@
                             $(document).find('.modal-body').replaceWith(newBody);
                             setupChangesChecker($('#modDialog'));
                         }
-                    })
-                        .fail(function (xhr, status, error) {
+                        },
+                         fail: function (xhr, status, error) {
                             dialog_error("ERROR !" + error);
                             //alert("ERROR !" + error);
-                        });
+                        }
+                    });
+                       
                 });
                     setup_listitems({
                         href: '@Url.Content("~/Account")',
