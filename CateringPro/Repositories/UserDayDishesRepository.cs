@@ -419,11 +419,13 @@ namespace CateringPro.Repositories
             userDayDishes.ForEach(d => { d.CompanyId = companyId; d.UserId = userId; }); 
             try
             {
+
                 userDayDishes.ForEach(d =>
                 {
                     //await saveday(d);
                     //httpcontext.User.AssignUserAttr(d);
                     var userDayDish = _context.UserDayDish.SingleOrDefault(c => c.CompanyId == d.CompanyId
+                                && c.DishId == d.DishId
                                 && c.Date == d.Date
                                 && c.ComplexId == d.ComplexId
                                 && c.UserId == d.UserId);

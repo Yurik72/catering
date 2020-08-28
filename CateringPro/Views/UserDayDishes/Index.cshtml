@@ -640,7 +640,7 @@ else
 
     <script>
         $(function () {
-           
+
             $("input.numberspinner[type='number']").inputSpinner();
            // $("#weekselected").inputSpinner();
             var html_loading = '<div class="spinner-container"> <div>Loading</div><div class="spinner-border" role="status"> <span class="sr-only">Loading...</span> </div></div>';
@@ -667,7 +667,7 @@ else
                 $('#nav-tab-' + dayindex).find('.shorttabdate').text(daytabtext);
                 daytabtext = "" + dt.getDate();
                 $('#nav-tab-' + dayindex).find('.date-day').text(daytabtext);
-                
+
                 // $('#collapse' + dayindex).html(html_loading);
                 // $('#collapse' + dayindex).load('/UserDayDishes/EditUserDayComponent?daydate=' + encodeURI(dt.toDateString()));
             }
@@ -780,9 +780,9 @@ else
                         start++;
                     }
                 }
-                
+
                 reloadDay(index, cb);
-                
+
                 setClosedDaystyle();
             }
             $('.dayselectback').click((e) => {
@@ -816,6 +816,7 @@ else
                     $('#modOrderSuccess').modal('show');
                     return;
                 }
+
                 $('#modOrderFail').modal('show');
             }
             $(document).on('click', '[data-action="saveuserday"]', function (event) {
@@ -893,7 +894,7 @@ else
             //delete ordered complex
 
             $(document).on('click', '.delete-complex', function (event) {
-                console.log("Delete");
+               // console.log("Delete");
                 var com = $(this).attr("complexId");
                 var date = $(this).attr("date");
                 var UserDayComplex = { ComplexId: com, Date: date };
@@ -903,7 +904,7 @@ else
 
                     url: "/UserDayDishes/DeleteCom",
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                         $("#dialogContent").html(data);
                         $("#deleteOrder").modal('show');
 
@@ -914,7 +915,7 @@ else
 
             });
             $(document).on('click', '.delete-Ordcomplex', function (event) {
-                console.log("Post");
+               // console.log("Post");
                 var form = $("#deleteOrd");
                 $.ajax({
                     url: '/UserDayDishes/DeleteDayComplex',
@@ -1006,9 +1007,9 @@ else
                     $(dishes).each(function () {
                         courses.push(parseInt($(this).attr("course")));
                     });
-                    console.log(courses);
+                   // console.log(courses);
                     var max = Math.max.apply(Math,courses);
-                    console.log(max);
+                   // console.log(max);
                     for (var i = 0; i <= max; i++) {
                        var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
                         $(dish).prop('checked', true);
@@ -1030,9 +1031,9 @@ else
                         $(dishes).each(function () {
                             courses.push(parseInt($(this).attr("course")));
                         });
-                        console.log(courses);
+                       // console.log(courses);
                         var max = Math.max.apply(Math, courses);
-                        console.log(max);
+                        //console.log(max);
                         for (var i = 0; i <= max; i++) {
                             if (i == chCourse)
                                 continue;
@@ -1045,6 +1046,14 @@ else
 
             //post one day complex
             $(document).on('click', '.send', function (event) {
+                if ($(this).css('cursor') == "wait") {
+                    return;
+                }
+                $(this).html("Обробка...").css({
+                    "cursor": "wait",
+                    "pointer-events": "none"
+                });
+
                 var fullDate = $(this).attr("date-fullDate");
                 var date = $(this).attr("data-date");
                 var form = $("#orderForm-" + date);
@@ -1106,8 +1115,9 @@ else
                     //console.log(com + "  " + val);
                 });
                 if (flag) {
-                    console.log(UserDayDish);
-                    console.log(UserDayComplex);
+                    //console.log(UserDayDish);
+                    //console.log(UserDayComplex);
+
                     $.ajax({
                         type: "POST",
                         data: res = { UserDayDish, UserDayComplex },
@@ -1120,10 +1130,15 @@ else
                             incrementday(0);
                         }
                     }).fail(function (xhr, code, error) {
+                        $(".send").html("@Localizer["MyOrdersSave"]").css({
+                    "cursor": "",
+                    "pointer-events": ""
+                });
                         dialog_error(error);
                         // console.log(error);
                     });
                 }
+
 
             });
             $(document).on("change", "#dishKind", function (e) {
@@ -1141,7 +1156,7 @@ else
                     $(this).removeClass("btn-for-type-menu--active");
                 });
                 $(this).toggleClass("btn-for-type-menu--active");
-              
+
                 var select = $(".custom-select-wrapper").find("select");
                 $(select).val(dishKind);
                 $(select).trigger("change");
@@ -1180,8 +1195,8 @@ else
                 var select = $(this).parents(".custom-select-wrapper").find("select");
                 $(select).val(cus);
                 $(select).trigger("change");
-               
-              
+
+
                 $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
                 $(this).addClass("selection");
                 $(this).parents(".custom-select").removeClass("opened");
