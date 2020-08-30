@@ -139,7 +139,7 @@ namespace CateringPro.Core
 
                 }
                 
-                string body = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Invoice/EmailWeekInvoice.cshtml", model);
+                string body = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Invoice/EmailInvoiceForSend.cshtml", model);
                 var user = _userManager.Users.SingleOrDefault(u => u.Id == userid);
                 if (user != null)
                 {
