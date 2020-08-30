@@ -661,7 +661,7 @@ function dialog_info(message) {
         '       <div class="modal-dialog modal-lg modal-alert" role="document">  ' +
         '           <div class="modal-content">  ' +
         '               <div class="modal-header">  ' +
-        '                   <h5 class="modal-title"><i class="fa fa-info-circle fa-3" style="color:green" aria-hidden="true"></i>  ' + $.text_resource.error + '</h5>  ' +
+        '                   <h5 class="modal-title"><i class="fa fa-info-circle fa-3" style="color:green" aria-hidden="true"></i>  ' + $.text_resource.info + '</h5>  ' +
         '                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">  ' +
         '                       <span aria-hidden="true">X</span>  ' +
         '                   </button>  ' +

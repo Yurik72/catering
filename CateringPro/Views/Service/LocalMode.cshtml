@@ -1,11 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Локальный режим";
-    Layout = null;
+    @*Layout = null;*@
     int numDishes = 5;
 }
 
 
-<!doctype html>
+@*<!doctype html>
 <html lang="en">
 
 <head>
@@ -17,27 +17,39 @@
 
         <h1>Synchronise db</h1>
         <h1 id="currentdate"></h1>
-    </header>
+    </header>*@
 
     <div class="">
-        <button id="symcDb">Test</button>
+        <h1>Synchronise db</h1>
+        <button href="/Service/SyncDB" id="syncDb">Synchronise</button>
 
     </div>
-    <script src="../js/jquery.min.js"></script>
+@section scripts{
+    @*<script src="../js/jquery.min.js"></script>
     <script src="../js/nfc.js"></script>
+    <script src="../js/site.js"></script>
     <script src="../js/nfcserial.js"></script>
-    <script src="../js/nfcutil.js"></script>
+    <script src="../js/nfcutil.js"></script>*@
     <script>
         $(function () {
-            $(document).on("click", "syncDb", function () {
+            $(document).on("click", "#syncDb", function (e) {
                 e.preventDefault();
-                $.get(this.href, function (data) {
-                    if (data.State = "OK") {
-                        dialog_info("data");
-                    }
-                });
+                $.get($(this).attr("href"),
+                    function (data) {
+                        if (data.state = "OK") {
+                            dialog_info(data.output);
+                        } else {
+                            var res = data.state+ ""+ data.output;
+                            dialog_info(res);
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        dialog_error(errorThrown);
+                    });
             });
         });
+
     </script>
-</body>
-</html>
+}
+@*</body>
+</html>*@
