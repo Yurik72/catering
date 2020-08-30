@@ -48,8 +48,11 @@ namespace CateringPro.Repositories
             if (company == null)
                 return false;
             var dateNow = DateTime.Now;
-            DateTime min = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day+2, 0, 0, 0);
-            DateTime max = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day + 1, 0, 0, 0);
+            dateNow = dateNow.AddDays(1);
+            DateTime max = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
+            dateNow = dateNow.AddDays(1);
+            DateTime min = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
+            
             dt = new DateTime(dt.Year, dt.Month, dt.Day, dateNow.Hour, dateNow.Minute, dateNow.Second);
            max = max.AddHours(company.OrderThresholdTimeH.HasValue ? company.OrderThresholdTimeH.Value : 24);
             min = min.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));

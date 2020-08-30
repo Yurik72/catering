@@ -475,7 +475,7 @@
     <value>Назва</value>
   </data>
   <data name="NameSurname" xml:space="preserve">
-    <value>Ім'я,Прізвище</value>
+    <value>Ім’я та прізвище</value>
   </data>
   <data name="NoDishesAtThisDay" xml:space="preserve">
     <value>Вибачте, немає жодної доступної страви, для замовлення у цей день</value>
@@ -508,7 +508,7 @@
     <value>Будь ласка, зайдіть</value>
   </data>
   <data name="Register Title" xml:space="preserve">
-    <value>Зареєструйтесь безкоштовно!</value>
+    <value>Реєстрація нового користувача</value>
   </data>
   <data name="Reports" xml:space="preserve">
     <value>Звiти</value>
@@ -952,4 +952,50 @@
   <data name="Course6" xml:space="preserve">
     <value>Шосте</value>
   </data>
+  <data name="LoginOrEmail" xml:space="preserve">
+    <value>Логін або E-mail</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Сервіси</value>
+  </data>
+  <data name="PlacingOrder" xml:space="preserve">
+    <value>Видача замовлень</value>
+  </data>
+  <data name="ManagingUserCards" xml:space="preserve">
+    <value>Керування картками користувачів</value>
+  </data>
+  <data name="NFC Reader Offline" xml:space="preserve">
+    <value>NFC зчитувач вимкнено</value>
+  </data>
+  <data name="Connect NFC" xml:space="preserve">
+    <value>Підключити NFC</value>
+  </data>
+  <data name="NFC Reader Online" xml:space="preserve">
+    <value>NFC зчитувач працює</value>
+  </data>
+  <data name="Scan card at any time to detect user" xml:space="preserve">
+    <value>Піднесіть картку для розпізнання користувача</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Фотографія</value>
+  </data>
+  <data name="Token" xml:space="preserve">
+    <value>Токен</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Дія</value>
+  </data>
+  <data name="NoRecords" xml:space="preserve">
+    <value>Записів нема</value>
+  </data>
+  <data name="Write" xml:space="preserve">
+    <value>Записати</value>
+  </data>
+  <data name="OrderWindow" xml:space="preserve">
+    <value>Вікно видачі замовлень</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Привіт!</value>
+  </data>
+
 </root>

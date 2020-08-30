@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<UserCardViewModel>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
 
     Layout = null;
@@ -7,23 +8,23 @@
 <div class="container users-cards-list-content">
     <div class="row user-card bg-info text-white my-2">
         <div class="col-2 user-card-picture">
-            <span>Фото</span>
+            <span>@Localizer["Photo"]</span>
         </div>
 
         <div class="col-2 user-card-name overflow-hidden">
-            <span>Имя</span>
+            <span>@Localizer["NameSurname"]</span>
         </div>
         <div class="col-2 user-card-email overflow-hidden">
-            <span>email</span>
+            <span>E-mail</span>
         </div>
         <div class="col-2 user-card-name overflow-hidden">
-            <span>Ребенок</span>
+            <span>@Localizer["Child"]</span>
         </div>
         <div class="col-2 user-card-name overflow-hidden">
-           <span>token</span>
+            <span>@Localizer["Token"]</span>
         </div>
         <div class="col-2 user-card-action overflow-hidden">
-            <span>Действия</span>
+            <span>@Localizer["Action"]</span>
         </div>
 
     </div>
@@ -31,8 +32,7 @@
     {
         <div class="row user-card border rounded">
             <div class="col-12 ">
-
-                NO RECORDS
+                @Localizer["NoRecords"]
             </div>
         </div>
     }
@@ -58,7 +58,7 @@
                 @it.CardToken
             </div>
             <div class="col-2 user-card-action  align-middle">
-                <button class="burn-card btn btn-danger" data-id="@it.UserId">Burn</button>
+                <button class="burn-card btn btn-danger" data-id="@it.UserId">@Localizer["Write"]</button>
             </div>
 
         </div>

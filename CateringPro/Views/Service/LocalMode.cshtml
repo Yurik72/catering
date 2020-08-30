@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Локальный режим";
+    @*Layout = null;*@
+    int numDishes = 5;
+}
+
+
+@*<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="main-header">
+
+        <h1>Synchronise db</h1>
+        <h1 id="currentdate"></h1>
+    </header>*@
+
+    <div class="">
+        <h1>Synchronise db</h1>
+        <button href="/Service/SyncDB" id="syncDb">Synchronise</button>
+
+    </div>
+@section scripts{
+    @*<script src="../js/jquery.min.js"></script>
+    <script src="../js/nfc.js"></script>
+    <script src="../js/site.js"></script>
+    <script src="../js/nfcserial.js"></script>
+    <script src="../js/nfcutil.js"></script>*@
+    <script>
+        $(function () {
+            $(document).on("click", "#syncDb", function (e) {
+                e.preventDefault();
+                $.get($(this).attr("href"),
+                    function (data) {
+                        if (data.state = "OK") {
+                            dialog_info(data.output);
+                        } else {
+                            var res = data.state+ ""+ data.output;
+                            dialog_info(res);
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        dialog_error(errorThrown);
+                    });
+            });
+        });
+
+    </script>
+}
+@*</body>
+</html>*@

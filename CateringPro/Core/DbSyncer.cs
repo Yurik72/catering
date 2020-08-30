@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
+using SQLitePCL;
 
 namespace CateringPro.Core
 {
@@ -59,8 +60,15 @@ namespace CateringPro.Core
             DateTime day = daydate.HasValue ? daydate.Value : DateTime.Now;
             int cid = companyId.HasValue ? companyId.Value : 1;
             _output.Clear();
-            await InitialSyncByDBContext(cid, day);
-            await SyncOrders(cid, day);
+            if (DbIsEmpty())
+            {
+                await InitialSyncByDBContext(cid, day);
+                await SyncOrders(cid, day);
+            }
+            else
+            {
+                await SyncOrders(cid, day);
+            }
             return;
  
         }
@@ -159,6 +167,19 @@ namespace CateringPro.Core
 
             }
             */
+        }
+        private bool DbIsEmpty()
+        {
+            try
+            {
+                return _context.UserDayDish.Count() == 0;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Check if db is empty");
+                return false;
+            }
+           
         }
         // private bool CleanTable<T>(DbSet<T> dbset) where T : class
         private bool CleanTable(string name)

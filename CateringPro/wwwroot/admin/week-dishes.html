@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+          <!--integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"-->>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/custom-select.css">
@@ -30,7 +30,7 @@
                                 class="px-2">Увійти</a>
                     </li>
                     <li class="nav-item ml-3 float-right">
-                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="./register.html"
                            style="color: #232323"><img src="../img/reg-icon.svg"
                                                        alt="" class="px-2">Реєстрація</a>
                     </li>
@@ -44,18 +44,16 @@
                         <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
                              style="box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
                             <a class="dropdown-item" href="./dishes.html">Список страв</a>
-                            <button class="dropdown-item" type="button">Лист категорій</button>
-                            <button class="dropdown-item" type="button">Інгредієнти</button>
+                            <a class="dropdown-item" href="./ingredients.html">Інгредієнти</a>
                             <a class="dropdown-item" href="./complex.html">Комплекс</a>
-                            <a class="dropdown-item change-btn-eff" type="button" href="./day-week-menu.html">Меню на
-                                день / тиждень</a>
-                            <button class="dropdown-item" type="button">Замовлення</button>
-                            <button class="dropdown-item" type="button">Склад</button>
-                            <button class="dropdown-item" type="button">Склад/Залишки</button>
+                            <a class="dropdown-item" href="./day-week-menu.html">Меню на день / тиждень</a>
+                            <a class="dropdown-item change-btn-eff" href="./week-dishes.html">Замовлення</a>
+                            <a class="dropdown-item" href="./stock.html">Склад</a>
+                            <a class="dropdown-item" href="./ConsignmentStock.html">Склад/Залишки</a>
                             <a class="dropdown-item" href="./documents.html">Документи</a>
-                            <a class="dropdown-item" href="./settings.html">Налаштування</a>
+                            <a class="dropdown-item " href="./settings.html">Налаштування</a>
                             <a class="dropdown-item " href="./report.html">Звiти</a>
-                            <a class="dropdown-item" type="button" href="./users.html">Користувачi</a>
+                            <a class="dropdown-item" href="./users.html">Користувачi</a>
                             <a class="dropdown-item" href="./users-group.html">Групи Користувачiв</a>
                             <a class="dropdown-item" href="./mailing.html">Розсилки email</a>
                         </div>
@@ -1654,7 +1652,7 @@
                                 <div class="col-4" style="cursor: pointer"><span>Назва</span></div>
                                 <div class="col-2" style="cursor: pointer"><span>Кількість</span></div>
                                 <div class="col-2" style="cursor: pointer"><span>Вартiсть (₴)</span></div>
-                                <div class="col-2" style="cursor: pointer"><span>Сума (₴)</span></div>
+                                <div class="col-2 d-flex justify-content-end" style="cursor: pointer"><span>Сума (₴)</span></div>
 
                             </div>
                         </div>
@@ -1680,9 +1678,9 @@
                                           style="font-weight: 600; font-size: 18px; line-height: 21px; color: #232323">Понеділок 4</span>
                                 </div>
                                 <div class="col-12 px-0 mb-2">
-                                    <div class="col-12 d-flex align-items-center px-0 px-lg-3 px-md-3">
+                                    <div class="col-12 d-flex align-items-center px-0 px-lg-3 px-md-3 flex-column">
 
-                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column"
+                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column brd-bot-line-reverse"
                                              style="font-size: 18px">
                                             <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1"
                                                  style=" font-family: Open-Sans, sans-serif">
@@ -1710,6 +1708,41 @@
                                                       id="total-order-price"></span></div>
 
                                         </div>
+                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column align-items-center"
+                                             style="font-size: 18px; border-top: 1px solid #eaeaea; border-bottom:1px solid #eaeaea; ">
+                                            <div class=" col-md-2 col-lg-2 col-4 flex-row d-flex my-1  align-self-start"
+                                                 style=" font-family: Open-Sans, sans-serif">
+                                                <img src="../img/dish-image2.png" alt="" style="width: 50%"></div>
+                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline align-items-center justify-content-center"
+                                                      style="font-size: 14px; font-weight: bold">Назва</span>
+                                                <span>Борщ</span></div>
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Кількість</span>
+                                                <span style=" font-family: Open-Sans, sans-serif"
+                                                      >1</span></div>
+                                            <div class="col-4"></div>
+
+                                        </div>
+                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column align-items-center"
+                                             style="font-size: 18px; border-top: 1px solid #eaeaea; border-bottom:1px solid #eaeaea; ">
+                                            <div class=" col-md-2 col-lg-2 col-4 flex-row d-flex my-1  align-self-start"
+                                                 style=" font-family: Open-Sans, sans-serif">
+                                                <img src="../img/dish-image2.png" alt="" style="width: 50%"></div>
+                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline align-items-center justify-content-center"
+                                                      style="font-size: 14px; font-weight: bold">Назва</span>
+                                                <span>Борщ</span></div>
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Кількість</span>
+                                                <span style=" font-family: Open-Sans, sans-serif"
+                                                >1</span></div>
+                                            <div class="col-4"></div>
+
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-12 px-0 order-active" style="max-height: 51px">
@@ -1823,14 +1856,14 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+        <!--integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"-->></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
+        <!--integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"-->></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
+        <!--integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"-->></script>
 <script>
     $('#hide-cart').click(() => {
         $('#cart-for-hide').toggleClass('d-flex');

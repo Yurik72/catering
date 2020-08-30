@@ -1,8 +1,8 @@
-﻿
+﻿@inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Управление картами пользователей";
+    ViewData["Title"] = @Localizer["ManagingUserCards"];
     Layout = null;
-   
+
 }
 
 
@@ -24,7 +24,7 @@
         <div id="nfc_isoffline" class="row container-state bg-danger text-white" style="display: none;">
             <div class="col-4 container-state">
                 <span id="nfc_isoffline">
-                    NFC Reader Offline
+                    @Localizer["NFC Reader Offline"]
                 </span>
                 <span id="error-offline" class="service-status error"></span>
             </div>
@@ -39,7 +39,7 @@
 
             </div>
             <div class="col-4 container-state">
-                <button id="connectnfc" class="btn btn-info">Connect NFC</button>
+                <button id="connectnfc" class="btn btn-info">@Localizer["Connect NFC"]</button>
             </div>
         </div>
         <div id="nfc_isonline" class="row bg-success text-white" style="display: none;">
@@ -50,13 +50,13 @@
             <div class="col-4 container-state">
                 <span class="service-status online">
                     <span id="nfc_readername"></span>
-                    NFC Reader Online
+                    @Localizer["NFC Reader Online"]
                 </span>
 
                 <span id="error-online" class="service-status error"></span>
             </div>
             <div class="col-4 container-state">
-                <span>Scan card at any time to detect user</span>
+                <span>@Localizer["Scan card at any time to detect user"]</span>
 
             </div>
         </div>
@@ -197,10 +197,10 @@
             function burnProcess(userid) {
 
                 if (!nfcsock || !nfcsock.NFCReady) {
-                    dialog_error('NFC is not connected yet');
+                    dialog_error('NFC ще не підключено.');
                     return;
                 }
-                promise_dialog_yes_no('Подтвердите дейтсвие. <p/> В результате этой операции, предыдущая карточка будет недействительна.  <p/> Карточка NFC будет перезаписана.')
+                promise_dialog_yes_no('Підтвердіть дію. <p/> В рузультаті цієї операції, попередня картка буде недійсна.  <p/> Картка NFC буде перезаписана.')
                     .then(data => fetch(
                         `${baseUrl}/GenUserCardToken?userId=${userid}`,
                         { method: 'GET' }
@@ -223,7 +223,7 @@
                     })
                     .then(data => {
                         console.log(data);
-                        dialog_info("Success");
+                        dialog_announcement("Успішно.");
                     })
                     .catch(error => {
                         dialog_error(error);
@@ -232,7 +232,7 @@
             }
             function showNfcInfo(msg) {
                 $('#connectnfc').prop('disabled', false);
-                if (msg && msg.Isreaderconnected==true) {
+                if (msg && msg.Isreaderconnected == true) {
                     elnfc_online.show();
                     elnfc_offline.hide();
                     $('#nfc_readername').text(msg.Readername);
@@ -244,58 +244,58 @@
             }
             function fillCardScan(carddata) {
                 //$('#card-info').empty();
-                    var token = carddata.Cardtag;
-                    var addclass = '';
+                var token = carddata.Cardtag;
+                var addclass = '';
                 var askdetails = true;
                 if (carddata.Cardtag === undefined) {
-                        token = "ERROR READING";
-                        addclass = 'bg-danger text-white';
-                        askdetails = false;
-                    }
-                    else if (carddata.Cardtag.length == 0) {
-                        token = "Card is empty";
-                        addclass = 'bg-warning text-dark';
-                        askdetails = false;
-                    };
-                    var divcard = $(`<div class="row user-welcome bg-info text-white" >
-                                                 <div class="col-4 card-info-scan">
-                                                    <span class="card-info-scan" >Card Details</span>
+                    token = "ERROR READING";
+                    addclass = 'bg-danger text-white';
+                    askdetails = false;
+                }
+                else if (carddata.Cardtag.length == 0) {
+                    token = "Card is empty";
+                    addclass = 'bg-warning text-dark';
+                    askdetails = false;
+                };
+                var divcard = $(`<div class="row user-welcome bg-info text-white" >
+                                                     <div class="col-4 card-info-scan">
+                                                        <span class="card-info-scan" >Card Details</span>
+                                                    </div>
+                                                    <div class="col-8 card-info-scan ${addclass}">
+                                                        <span class="card-info-scan" >${token}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="col-8 card-info-scan ${addclass}">
-                                                    <span class="card-info-scan" >${token}</span>
-                                                </div>
-                                            </div>
-                                            <div id="user-card-details-temp" class="row user-card-details" >
-                                                <div class="col-4 card-info-scan">
-                                                     <span class="card-info-scan" >..Fetchind user data</span>
-                                                 </div>
-                                            </div>`);
+                                                <div id="user-card-details-temp" class="row user-card-details" >
+                                                    <div class="col-4 card-info-scan">
+                                                         <span class="card-info-scan" >..Fetchind user data</span>
+                                                     </div>
+                                                </div>`);
 
                 $('#card-info').prepend(divcard);
                 $(divcard).delay(7000).animate({
                     height: '-=100px'
                 }, 300, function () { $(divcard).remove() });
 
-                    if (!askdetails) {
-                        return;
-                    }
-                    fetch(
-                        `${baseUrl}/UserCardDetails?token=${carddata.Cardtag}`,
-                        { method: 'GET' }
-                    )
-                        .then(response => response.text())
-                        .then(data => {
-                            console.log(data);
-                            $("#user-card-details-temp").remove();
-                            var userdata = $(data);
-                            $('#card-user-info').prepend(userdata);
-                            $(userdata).delay(7000).animate({
-                                height: '-=100px'
-                            }, 300, function () { $(userdata).remove() });
-                        })
-                        .catch(error => console.error('error:', error))
+                if (!askdetails) {
+                    return;
                 }
-            });
+                fetch(
+                    `${baseUrl}/UserCardDetails?token=${carddata.Cardtag}`,
+                    { method: 'GET' }
+                )
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                        $("#user-card-details-temp").remove();
+                        var userdata = $(data);
+                        $('#card-user-info').prepend(userdata);
+                        $(userdata).delay(7000).animate({
+                            height: '-=100px'
+                        }, 300, function () { $(userdata).remove() });
+                    })
+                    .catch(error => console.error('error:', error))
+            }
+        });
     </script>
 
 

@@ -11,10 +11,10 @@
         <div class="col-12 p-0 d-flex flex-column">
 
             <h2 class="mt-3" style="font-weight: 600; font-size: 32px; color: #232323;">
-                &#x417;&#x430;&#x440;&#x435;&#x454;&#x441;&#x442;&#x440;&#x443;&#x439;&#x442;&#x435;&#x441;&#x44C;
-                &#x431;&#x435;&#x437;&#x43A;&#x43E;&#x448;&#x442;&#x43E;&#x432;&#x43D;&#x43E;!
+                @Localizer["Register Title"]
             </h2>
             <form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal" role="form" id="register-form-styles">
+                @Html.ValidationSummary()
                 <ul>
                     @if (Model.Errors != null && Model.Errors.Count() > 0)
                     {
@@ -24,19 +24,19 @@
                         }
                     }
                 </ul>
-                <div asp-validation-summary="All" id="errr" class="text-danger"></div>
+                @*<div asp-validation-summary="All" id="errr" class="text-danger"></div>*@
                 <div class="col-12 d-flex flex-wrap p-0">
                     <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
                         <label class="col-md-4 control-label float-left p-0 font-weight-bold" asp-for="UserName"
                                style="font-size: 18px">
-                            &#x41A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x443;&#x432;&#x430;&#x447;<span style="color: red;">&nbsp;*</span>
+                            @Localizer["UserName"]<span style="color: red;"> *</span>
                         </label>
                         <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
                             <input asp-for="UserName" class="form-control col-12 col-md-10 col-lg-10 py-0" autocomplete="off" type="text"
                                    data-val="true"
                                    data-val-required="The &#x41A;&#x43E;&#x440;&#x438;&#x441;&#x442;&#x443;&#x432;&#x430;&#x447; field is required."
                                    value="" minlength="1" required />
-                            <span asp-validation-for="UserName" class="text-danger field-validation-valid"></span>
+                            @*<span asp-validation-for="UserName" class="text-danger field-validation-valid"></span>*@
                             <span class="invisible-validation">@Localizer["LoginRules"]</span>
 
                         </div>
@@ -50,8 +50,8 @@
                                    data-val="true"
                                    data-val-required="The Email field is required." id="Email" name="Email" value=""
                                    required />
-                            <span class="text-danger field-validation-valid" data-valmsg-for="Email"
-                                  data-valmsg-replace="true"></span>
+                            @*<span class="text-danger field-validation-valid" data-valmsg-for="Email"
+                                  data-valmsg-replace="true"></span>*@
                         </div>
                     </div>
                     <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
@@ -63,8 +63,8 @@
                                    type="password" data-val="true"
                                    data-val-required="The Password field is required." id="Password" name="Password"
                                    minlength="8" maxlength="30" required />
-                            <span class="text-danger field-validation-valid" data-valmsg-for="Password"
-                                  data-valmsg-replace="true"></span>
+                            @*<span class="text-danger field-validation-valid" data-valmsg-for="Password"
+                                  data-valmsg-replace="true"></span>*@
                             <span class="invisible-validation">@Localizer["PasswordRequirements"]</span>
 
                         </div>
@@ -78,8 +78,8 @@
                                    type="password" data-val="true"
                                    data-val-required="The Password field is required." id="ConfirmPassword" name="ConfirmPassword"
                                    minlength="8" maxlength="30" required />
-                            <span class="text-danger field-validation-valid" data-valmsg-for="ConfirmPassword"
-                                  data-valmsg-replace="true"></span>
+                            @*<span class="text-danger field-validation-valid" data-valmsg-for="ConfirmPassword"
+                                  data-valmsg-replace="true"></span>*@
                             <span class="invisible-validation"></span>
 
                         </div>
@@ -92,20 +92,20 @@
                             <input asp-for="PhoneNumber" class="form-control col-12 col-md-10 col-lg-10 py-0" type="tel" data-val="true"
                                    data-val-required="The &#x422;&#x435;&#x43B;&#x435;&#x444;&#x43E;&#x43D; field is required."
                                    id="PhoneNumber" name="PhoneNumber" value="" pattern="^[ 0-9]+$" required />
-                            <span class="text-danger field-validation-valid" data-valmsg-for="PhoneNumber"
-                                  data-valmsg-replace="true"></span>
+                            @*<span class="text-danger field-validation-valid" data-valmsg-for="PhoneNumber"
+                                  data-valmsg-replace="true"></span>*@
                         </div>
                     </div>
                     <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">
                         <label class="col-md-4 control-label float-left p-0 font-weight-bold" asp-for="NameSurname">
-                            &#x406;&#x43C;&#x27;&#x44F;,&#x41F;&#x440;&#x456;&#x437;&#x432;&#x438;&#x449;&#x435;<span style="color: red;">&nbsp;*</span>
+                            @Localizer["NameSurname"]<span style="color: red;">&nbsp;*</span>
                         </label>
                         <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
                             <input asp-for="NameSurname" class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" data-val="true"
                                    data-val-required="The &#x406;&#x43C;&#x27;&#x44F;,&#x41F;&#x440;&#x456;&#x437;&#x432;&#x438;&#x449;&#x435; field is required."
                                    id="NameSurname" name="NameSurname" value="" required />
-                            <span class="text-danger field-validation-valid" data-valmsg-for="NameSurname"
-                                  data-valmsg-replace="true"></span>
+                            @*<span class="text-danger field-validation-valid" data-valmsg-for="NameSurname"
+                                  data-valmsg-replace="true"></span>*@
                             <span class="invisible-validation" style="z-index: 100">@Localizer["NameSurnameRules"]</span>
 
                         </div>
@@ -116,8 +116,8 @@
                         <div class="col-md-8 col-12 col-lg-8 float-left d-flex justify-content-start p-0">
                             <input asp-for="City" class="form-control col-12 col-md-10 col-lg-10 py-0" type="text" id="City"
                                    name="City" value="" />
-                            <span class="text-danger field-validation-valid" data-valmsg-for="City"
-                                  data-valmsg-replace="true"></span>
+                            @*<span class="text-danger field-validation-valid" data-valmsg-for="City"
+                                  data-valmsg-replace="true"></span>*@
                         </div>
                     </div>
                     <div class="form-group col-12 col-lg-6 col-md-6 p-0 d-flex flex-lg-row flex-md-row flex-column">

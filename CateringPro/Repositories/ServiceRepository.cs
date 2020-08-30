@@ -83,7 +83,7 @@ namespace CateringPro.Repositories
             {
                 user=await _userManager.FindByCardTokenAsync(request.UserToken);  //now by tag
             }
-            if (!string.IsNullOrEmpty(request.UserId))
+            if (!string.IsNullOrEmpty(request.UserId) && user == null)
             {
                 user = await _userManager.FindByIdAsync(request.UserId);  //now by tag
             }
@@ -254,7 +254,7 @@ namespace CateringPro.Repositories
            
             if (dishes.Count() == 0)
             {
-                fail.ErrorMessage = "No dishes to delivery";
+                fail.ErrorMessage = " Нема страв до видачі";
                 return fail;
             }
             var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate).ToListAsync();

@@ -35,6 +35,8 @@ namespace CateringPro.Controllers
         private readonly IEmailService _email;
         private readonly IUserFinRepository _fin;
         private readonly SharedViewLocalizer _localizer;
+        private const int pictWidth = 200;
+        private const int pictHeight = 300;
         public AccountController(AppDbContext context, UserManager<CompanyUser> userManager,
                                  SignInManager<CompanyUser> signInManager,
                                  ILogger<CompanyUser> logger, ICompanyUserRepository companyuser_repo,
@@ -86,6 +88,7 @@ namespace CateringPro.Controllers
                     Address2 = model.Address2,
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
                     ChildrenCount = 1,
+                    //RegisterDate = DateTime.Now,
                     Id = Guid.NewGuid().ToString()
 
                 };
@@ -109,17 +112,17 @@ namespace CateringPro.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-
+                    
                     await _companyuser_repo.PostUpdateUserAsync(user, true);
                     EmailService emailService = new EmailService();
                     await _email.SendEmailAsync(model.Email, "Завершення реєстрації",
-                        $"Вітаю, {user.NameSurname}<br>" +
-                        $"Дякуюємо за реєстрацію на нашому сервісі!<br>" +
-                        $"Перед тим як ви зможете користуватися своїм обліковим записом, потрібно підтвердити його перейшовши за посиланням: <a href='{callbackUrl}'> посилання</a><br>" +
+                        $"Вітаємо, {user.NameSurname}!<br>" +
+                        $"Дякуємо за реєстрацію на сайті нашого сервісу!!<br>" +
+                        $"Для того, щоб скористатися своїм обліковим записом, будь ласка, перейдіть за цим посиланням. <a href='{callbackUrl}'> посилання</a><br>" +
                         $"" +
                         $"" +
-                        $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                        $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                        $"<br><br><br>Якщо ви отримали цей лист помилково, то проігноруйте його.<br>" +
+                        $"<h2>У разі виникнення питань, будь ласка, звертайтесь на пошту: admin@kabachok.group</h2>");
 
                     return RedirectToAction("EmailSent");
                 }
@@ -486,15 +489,19 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies)
+        public async Task<IActionResult> EditUserModal([FromForm] UpdateUserModel usermodel, [FromForm] string roles, [FromForm] string companies, IEnumerable<CompanyUser> it)
         {
 
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
-                return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
+                return PartialView(usermodel);
+                //return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
+                
             _logger.LogInformation("EditUserModal");
             try
             {
+                
+                
                 List<string> newRoles = new List<string>();
                 List<int> newCompanies = new List<int>();
                 if (!string.IsNullOrEmpty(roles))
@@ -522,17 +529,17 @@ namespace CateringPro.Controllers
                     }
                     if (string.IsNullOrEmpty(usermodel.NewPassword))
                     {
-                        ModelState.AddModelError("NewPassword", "You must specify a value");
+                        //ModelState.AddModelError("NewPassword", "You must specify a value");
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Password's fields can not be empty" }));
                     }
                     if (string.IsNullOrEmpty(usermodel.ConfirmPassword))
                     {
-                        ModelState.AddModelError("ConfirmPassword", "You must specify a value");
+                        //ModelState.AddModelError("ConfirmPassword", "You must specify a value");
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Password's fields can not be empty" }));
                     }
                     if (usermodel.ConfirmPassword != usermodel.NewPassword)
                     {
-                        ModelState.AddModelError("ConfirmPassword", "Incorrect value");
+                        //ModelState.AddModelError("ConfirmPassword", "Incorrect value");
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Passwords mismatching" }));
                     }
                     _logger.LogInformation("Creating new User Name={0}, email={1}", usermodel.UserName, usermodel.Email);
@@ -545,6 +552,16 @@ namespace CateringPro.Controllers
                     if (!usr.UserSubGroupId.HasValue)
                         usr.UserSubGroupId = creator.UserSubGroupId;
                     var userResult = await _userManager.CreateAsync(usr, usermodel.NewPassword);
+
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("Creating user is not succeeded for user {0}{1}", usermodel.UserName, userResult.ToString()) ;
+                        //return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured while creating user" }));
+                        usermodel.Errors = userResult.Errors.Select(x => x.Description).ToList();
+                        _logger.LogWarning("Error creating user async : {0} ", usr.UserName);
+                        return PartialView(usermodel);
+                    }
+
                     //current  roles
                     var userRoles = await _userManager.GetRolesAsync(usr);
                     //added roles 
@@ -553,13 +570,28 @@ namespace CateringPro.Controllers
                     var removedRoles = userRoles.Except(newRoles);
 
                     userResult = await _userManager.AddToRolesAsync(usr, addedRoles);
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("Creating user is not sucess beacause add role error {0}", userResult.ToString());
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured adding roles to user" }));
+                    }
 
                     //newCompanies.Add(User.GetCompanyID());
-                    await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
+                    var userResultCompanies = await _companyuser_repo.AddCompaniesToUserAsync(usr.Id, newCompanies);
 
-                    if (!userResult.Succeeded)
-                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured" }));
+                    if (!userResultCompanies)
+                    {
+                        _logger.LogError("error adding company to user");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured adding company to user" }));
+                    }
+                        
                     userResult = await _userManager.RemoveFromRolesAsync(usr, removedRoles);
+                    if (!userResult.Succeeded)
+                    {
+                        _logger.LogError("error removing role from user");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error removing role from user" }));
+                    }
+
 
                     usr.ChildrenCount = 1;
                     if (usr.ConfirmedByAdmin)
@@ -587,15 +619,20 @@ namespace CateringPro.Controllers
 
                     }
 
-                    if (!userResult.Succeeded)
-                    {
-                        _logger.LogError("Creating user is not sucess {0}", userResult.ToString());
+                    //if (!userResult.Succeeded)
+                    //{
+                    //    _logger.LogError("Creating user is not sucess {0}", userResult.ToString());
 
-                        foreach (var err in userResult.Errors)
-                            ModelState.AddModelError(err.Code, err.Description);
-                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
+                    //    foreach (var err in userResult.Errors)
+                    //    _logger.LogError(err.Description, err.Code);
+                    //    return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
+                    //}
+                    var resultUpdateUser = await _companyuser_repo.PostUpdateUserAsync(usr, true);
+                    if (!resultUpdateUser)
+                    {
+                        _logger.LogError("error updating user{0}",usr.UserName);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured updating user" }));
                     }
-                    await _companyuser_repo.PostUpdateUserAsync(usr, true);
                 }
                 else
                 {
@@ -604,14 +641,139 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
-                    
-                    usermodel.CopyEditedModalDataTo(user);
-                    var userResult = await _userManager.UpdateAsync(user);
+                    //var tmp = user.RegisterDate.ToString();
+                    //update user child
+                    var i = 0;
+                    foreach (var reb in it)
+                    {
+                        // IFormFile filePict = null;
+                        var filePict = Request.Form.Files.FirstOrDefault(f => f.Name.StartsWith($"it[{i}]"));
+
+                        for (var idx = 0; idx < Request.Form.Files.Count; idx++)
+                        {
+                            var fileindex = -1;
+                            Regex regex = new Regex(@"\w+\[(?<idx>\d+)\][.]\w+");
+                            Match match = regex.Match(Request.Form.Files[idx].Name);
+
+                            if (!match.Success || !int.TryParse(match.Groups["idx"].Value, out fileindex) || fileindex != i)
+                            {
+                                continue;
+                            }
+                            filePict = Request.Form.Files[idx];
+                            break;
+                        }
+
+                        CompanyUser user_to_update;
+                        if (reb.Id == usermodel.Id)
+                        {
+                            usermodel.ChildNameSurname = reb.ChildNameSurname;
+                            usermodel.ChildBirthdayDate = reb.ChildBirthdayDate;
+                            usermodel.CopyEditedParamsTo(user);
+                            user_to_update = user;
+                        }
+                        else
+                        {
+                            user_to_update = await _userManager.FindByIdAsync(reb.Id);
+                            if (user_to_update != null)
+                            {
+                                user_to_update.ChildNameSurname = reb.ChildNameSurname;
+                                user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                                if (user_to_update.ChildNameSurname != null && user_to_update.ParentUserId != null)
+                                {
+                                    CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
+                                    string translit_text = Translit.cyr2lat(user_to_update.ChildNameSurname);
+                                    user_to_update.UserName = parent.UserName + "_" + translit_text;
+                                }
+                            }
+                        }
+                        if (user_to_update == null)
+                        {
+                            ModelState.AddModelError("", "User Not Found");
+                            break;
+                        }
+                        if (filePict != null)
+                        {
+                            Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict != null)
+                            {
+                                _context.Remove(pict);
+                            }
+                            pict = null;
+                            if (pict == null)
+                            {
+                                pict = new Pictures();
+
+                                try
+                                {
+                                    _context.Add(pict);
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError(ex, "Error adding Picture to database");
+                                    ModelState.AddModelError("", "Error adding Picture to database");
+                                    return RedirectToAction("Users");
+                                }
+                            }
+                            byte[] data;
+                            using (var stream = filePict.OpenReadStream())
+                            {
+                                byte[] imgdata = new byte[stream.Length];
+                                stream.Read(imgdata, 0, (int)stream.Length);
+                                //pict.PictureData = imgdata;
+                                data = imgdata;
+                            }
+                            pict.PictureData = data;
+                            PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+                            
+                            if (_context.Entry(pict).State != EntityState.Added)
+                            {
+
+
+                                _context.Update(pict);
+                            }
+                            await _context.SaveChangesAsync();
+                            user_to_update.PictureId = pict.Id;
+
+                        }
+                        try
+                        {
+                            IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
+                            if (!rebResult.Succeeded)
+                            {
+                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error Update Child");
+                            ModelState.AddModelError("", ex.Message);
+                            return RedirectToAction("Users");
+                        }
+                        i++;
+                    }
+                    //end of update
+
+                    //usermodel.CopyEditedModalDataTo(user);
+                    //var userResult = await _userManager.UpdateAsync(user);
 
                     //if (user != null)
                     //{
                     //   await UserFinance();
                     //}
+                    CompanyUser checkuserIfexistAlreadyMail = await _userManager.FindByEmailAsync(usermodel.Email);
+                    CompanyUser checkuserIfexistAlreadyLogin = await _userManager.FindByNameAsync(usermodel.UserName);
+                    if (checkuserIfexistAlreadyMail != null && (usermodel.Email != user.Email))
+                    {
+                        _logger.LogWarning("Error editing user email already taken: {0} ", checkuserIfexistAlreadyMail.Email);
+                        //string text = _localizer.GetLocalizedString("DuplicateEmail");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "email already taken" }));
+                    }
+                    if (checkuserIfexistAlreadyLogin != null && (usermodel.UserName != user.UserName))
+                    {
+                        _logger.LogWarning("Error editing user email already taken: {0} ", checkuserIfexistAlreadyLogin.UserName);
+                        //string text = _localizer.GetLocalizedString("DuplicateEmail");
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "login already taken" }));
+                    }
                     if (usermodel.IsPasswordChanged)
                     {
 
@@ -633,10 +795,12 @@ namespace CateringPro.Controllers
                             {
                                 usermodel.Errors = result.Errors.Select(x => x.Description).ToList();
                                 _logger.LogWarning("Error updating password for user: {0} ", user.UserName);
-                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Password should contain at least 8 values and one capital letter" }));
+                                return PartialView(usermodel);
                             }
                         }
                     }
+                    usermodel.CopyEditedModalDataTo(user);
+                    var userResult = await _userManager.UpdateAsync(user);
                     if (!userResult.Succeeded)
                         return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
                     //current  roles
@@ -648,9 +812,19 @@ namespace CateringPro.Controllers
 
                     userResult = await _userManager.AddToRolesAsync(user, addedRoles);
 
-                    await _companyuser_repo.AddCompaniesToUserAsync(user.Id, newCompanies);
                     if (!userResult.Succeeded)
-                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured" }));
+                    {
+                        _logger.LogWarning("Add roles to user error: {0} ", user.UserName);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Add roles to user error occured" }));
+                    }
+
+                    var addCompaniesToUser = await _companyuser_repo.AddCompaniesToUserAsync(user.Id, newCompanies);
+                    if (!addCompaniesToUser) 
+                    {
+                        _logger.LogWarning("Add companies to user error: {0} ", user.UserName);
+                        return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured adding roles to user" }));
+                    }
+                        
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
                     if (user.ConfirmedByAdmin)
@@ -716,7 +890,11 @@ namespace CateringPro.Controllers
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
             //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
             var query = this.GetQueryListUsers(_userManager.Users,querymodel,
-                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || d.ChildNameSurname.Contains(querymodel.SearchCriteria) || d.Email.Contains(querymodel.SearchCriteria) || d.UserName.Contains(querymodel.SearchCriteria) || d.NameSurname.Contains(querymodel.SearchCriteria),
+                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || 
+                        d.ChildNameSurname.Contains(querymodel.SearchCriteria) || 
+                        d.Email.Contains(querymodel.SearchCriteria) || 
+                        d.UserName.Contains(querymodel.SearchCriteria) ||
+                        d.NameSurname.Contains(querymodel.SearchCriteria),
                      20);
             //if (querymodel.RelationFilter > 0)
             //{
@@ -900,6 +1078,7 @@ namespace CateringPro.Controllers
                                 
                                 user_to_update.ChildNameSurname = reb.ChildNameSurname;
                                 user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                                _logger.LogWarning("Update user,  userToUpdate {0} and childName {1}", user_to_update.UserName, reb.ChildNameSurname);
                                 if (user_to_update.ChildNameSurname != null)
                                 {
                                     CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
@@ -913,9 +1092,45 @@ namespace CateringPro.Controllers
                             ModelState.AddModelError("", "User Not Found");
                             break;
                         }
+                        //if (filePict != null)
+                        //{
+                        //    Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                        //    if (pict == null)
+                        //    {
+                        //        pict = new Pictures();
+
+                        //        try
+                        //        {
+                        //            _context.Add(pict);
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            _logger.LogError(ex, "Error adding Picture to database");
+                        //            ModelState.AddModelError("", "Error adding Picture to database");
+                        //            return View(um);
+                        //        }
+                        //    }
+                        //    using (var stream = filePict.OpenReadStream())
+                        //    {
+                        //        byte[] imgdata = new byte[stream.Length];
+                        //        stream.Read(imgdata, 0, (int)stream.Length);
+                        //        pict.PictureData = imgdata;
+                        //    }
+                        //    PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+                        //    if (_context.Entry(pict).State != EntityState.Added)
+                        //        _context.Update(pict);
+                        //    await _context.SaveChangesAsync();
+                        //    user_to_update.PictureId = pict.Id;
+
+                        //}
                         if (filePict != null)
                         {
                             Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict != null)
+                            {
+                                _context.Remove(pict);
+                            }
+                            pict = null;
                             if (pict == null)
                             {
                                 pict = new Pictures();
@@ -928,18 +1143,26 @@ namespace CateringPro.Controllers
                                 {
                                     _logger.LogError(ex, "Error adding Picture to database");
                                     ModelState.AddModelError("", "Error adding Picture to database");
-                                    return View(um);
+                                    return RedirectToAction("Users");
                                 }
                             }
+                            byte[] data;
                             using (var stream = filePict.OpenReadStream())
                             {
                                 byte[] imgdata = new byte[stream.Length];
                                 stream.Read(imgdata, 0, (int)stream.Length);
-                                pict.PictureData = imgdata;
+                                //pict.PictureData = imgdata;
+                                data = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 250, 250);
+                            pict.PictureData = data;
+                            PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+
                             if (_context.Entry(pict).State != EntityState.Added)
+                            {
+
+
                                 _context.Update(pict);
+                            }
                             await _context.SaveChangesAsync();
                             user_to_update.PictureId = pict.Id;
 
@@ -1061,7 +1284,7 @@ namespace CateringPro.Controllers
                                 stream.Read(imgdata, 0, (int)stream.Length);
                                 pict.PictureData = imgdata;
                             }
-                            PicturesController.CompressPicture(pict, 250, 250);
+                            PicturesController.CompressPicture(pict, pictWidth, pictHeight);
                             if (_context.Entry(pict).State != EntityState.Added)
                                 _context.Update(pict);
                             await _context.SaveChangesAsync();
@@ -1210,6 +1433,8 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
+            if (user == null && string.IsNullOrEmpty(userId))
+                return PartialView("ChildrenDataOfUser", null);
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
 
             return PartialView("ChildrenDataOfUser", childs);
@@ -1274,6 +1499,8 @@ namespace CateringPro.Controllers
             var user = _userManager.FindByIdAsync(userId).Result;
             if (user == null && !string.IsNullOrEmpty(userId))
                 return NotFound();
+            if (user == null && string.IsNullOrEmpty(userId))
+                return PartialView();
             return PartialView(await _fin.GetUserFinModelAsync(user.Id, User.GetCompanyID()));
         }
         [Authorize]

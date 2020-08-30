@@ -653,46 +653,29 @@ return;
 
                                                                                                                             @foreach (var dish in item.DayComplex.ComplexDishes)
                                                                                                                             {
-                                                                                                                                <div class="col-12 px-0 mb-2">
-                                                                                                                                    <div class="col-12 d-flex align-items-center px-0 px-lg-3 px-md-3">
+                                                                                                                                <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column align-items-center"
+                                                                                                                                     style="font-size: 18px; border-top: 1px solid #eaeaea; border-bottom:1px solid #eaeaea; ">
+                                                                                                                                    <div class=" col-md-2 col-lg-2 col-4 flex-row d-flex my-1  align-self-start"
+                                                                                                                                         style=" font-family: Open-Sans, sans-serif">
+                                                                                                                                        <img src="@Url.BuildPictureUrl(dish.PictureId)" alt="" style="width: 50%">
+                                                                                                                                    </div>
+                                                                                                                                    <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
+                                                                                                                                        <span class="col-6 p-0 d-md-none d-lg-none d-inline align-items-center justify-content-center"
+                                                                                                                                              style="font-size: 14px; font-weight: bold">Назва</span>
+                                                                                                                                        <span>@Html.DisplayFor(modelItem => dish.DishName)</span>
+                                                                                                                                    </div>
+                                                                                                                                    <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                                                                                                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                                                                                                              style="font-size: 14px; font-weight: bold">Кількість</span>
+                                                                                                                                        <span style=" font-family: Open-Sans, sans-serif">@Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })</span>
+                                                                                                                                    </div>
+                                                                                                                                    <div class="col-4"></div>
 
-                                                                                                                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column"
-                                                                                                                                             style="font-size: 18px">
-                                                                                                                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1"
-                                                                                                                                                 style=" font-family: Open-Sans, sans-serif">
-                                                                                                                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                                                                                                                      style="font-size: 14px; font-weight: bold">Код</span>
-                                                                                                                                                <span> <img src="@Url.BuildPictureUrl(dish.PictureId)" style="width:50px;height:50px;" /></span>
-                                                                                                                                            </div>
-                                                                                                                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
-                                                                                                                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                                                                                                                      style="font-size: 14px; font-weight: bold">Назва</span>
-                                                                                                                                                <span>@Html.DisplayFor(modelItem => dish.DishName)</span>
-                                                                                                                                            </div>
-                                                                                                                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
-                                                                                                                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                                                                                                                      style="font-size: 14px; font-weight: bold">Кількість</span>
-                                                                                                                                                <span style=" font-family: Open-Sans, sans-serif"
-                                                                                                                                                      id="order-amount"> @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })</span>
-                                                                                                                                                </div>
-                                                                                                                                                <div class="col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
-                                                                                                                                                    <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                                                                                                                          style="font-size: 14px; font-weight: bold">Вартiсть (@pageOptions.Value.CurrencySymbol)</span>
-                                                                                                                                                        <span style=" font-family: Open-Sans, sans-serif"
-                                                                                                                                                              id="order-price"> </span>
-                                                                                                                                                    </div>
-                                                                                                                                                    <div class="col-md-2 col-lg-2 col-12 flex-row d-flex my-1 d-flex justify-content-lg-end justify-content-md-end">
-                                                                                                                                                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                                                                                                                                                              style="font-size: 14px; font-weight: bold">Сума (@pageOptions.Value.CurrencySymbol)</span>
-                                                                                                                                                            <span style=" font-family: Open-Sans, sans-serif" class=""
-                                                                                                                                                                  id="total-order-price"></span>
-                                                                                                                                                        </div>
+                                                                                                                                </div>
+                                                                                                                             
+               
 
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                            </div>
-
-                                                                                                                                        }
+                                                                                                                            }
                                                                                                                         }
                                                                                                                         @if (item == Model.Items.LastOrDefault())
                                                                                                                         {
