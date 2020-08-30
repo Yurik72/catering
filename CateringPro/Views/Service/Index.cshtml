@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Окно выдачи заказов";
+﻿@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["OrderWindow"];
     Layout = null;
     int numDishes = 4;
 }
@@ -17,8 +18,8 @@
         <div class="toogles">
 
         </div>
-        <div id="service-header"  class="service-header">
-            <h1>Окно выдачи заказов</h1>
+        <div id="service-header" class="service-header">
+            <h1>@Localizer["OrderWindow"]</h1>
             <h1 id="currentdate"></h1>
         </div>
     </header>
@@ -27,7 +28,7 @@
         <div id="nfc_isoffline" class="row container-state bg-danger text-white" style="display: none;">
             <div class="col-4 container-state">
                 <span id="nfc_isoffline">
-                    NFC Reader Offline
+                    @Localizer["NFC Reader Offline"]
                 </span>
                 <span id="error-offline" class="service-status error"></span>
             </div>
@@ -42,7 +43,7 @@
 
             </div>
             <div class="col-4 container-state">
-                <button id="connectnfc" class="btn btn-info">Connect NFC</button>
+                <button id="connectnfc" class="btn btn-info">@Localizer["Connect NFC"]</button>
             </div>
         </div>
         <div id="nfc_isonline" class="row bg-success text-white" style="display: none;">
@@ -53,31 +54,30 @@
             <div class="col-4 container-state">
                 <span class="service-status online">
                     <span id="nfc_readername"></span>
-                    NFC Reader Online
+                    @Localizer["NFC Reader Online"]
                 </span>
 
                 <span id="error-online" class="service-status error"></span>
             </div>
             <div class="col-4 container-state">
-                <span>Scan card at any time to detect user</span>
+                <span>@Localizer["Scan card at any time to detect user"]</span>
 
             </div>
         </div>
         <div class="row dishes-num">
             <div data-num="-1" class="col-2 order-complexcategories-select  border rounded bg-secondary text-white btn">
                 <select class="form-control" id="complexcategories" name="complexcategories">
-
                 </select>
             </div>
             <div data-num="-1" class="col-2 order-dish-select welcome border rounded bg-secondary text-white btn">
                 @* <span data-num="-1" class="order-dish-select welcome w-100">Welcome</span>*@
-                Welcome
+                @Localizer["Welcome"]
 
             </div>
             @for (int i = 1; i <= numDishes; i++)
             {
                 <div data-num="@(i-1)" class="col-2 order-dish-select border rounded bg-secondary text-white btn">
-                    @i Блюдо
+                    @i @Localizer["Dish"]
                 </div>
             }
         </div>
@@ -131,24 +131,24 @@
     *@
     <script>
         $(function () {
-//setting
+            //setting
             var isQueueMode = true;
             const max_queue = 5;
 
-//session state
+            //session state
             var isStarted = false;
             var isNfcConnected = false;
             var lastQueueid = -1;
 
             var baseurl = "/Service";
-            var serviceurl = baseurl+"/RequestForDelivery";
+            var serviceurl = baseurl + "/RequestForDelivery";
             var el_online = $("#isonline");
             var el_offline = $("#isoffline");
             var elnfc_online = $("#nfc_isonline");
             var elnfc_offline = $("#nfc_isoffline");
             var el_error = $("#error");
             const el_header = $('#service-header');
-           
+
             el_online.hide();
             const key_url = 'nfcurl';
             el_offline.hide();
@@ -158,15 +158,15 @@
             $('#nfcurl').val(localStorage[key_url] || 'wss://localhost:5001/ws');
             var curr_date = new Date();
             var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
-            
+
             $('#currentdate').text(readable_date);
             const height_header = el_header.first().outerHeight(true);
             localStorage[key_url] = $('#nfcurl').val();
 
-           
+
             var nfcsock = newnfcsocket($('#nfcurl').val())
             function newnfcsocket(url) {
-                const newnfc= new nfc_socket(url,
+                const newnfc = new nfc_socket(url,
                     function (data) {
                         //console.log(data);
                     },
@@ -230,13 +230,13 @@
             }
 
             function fillComplexCategories() {
-                
+
                 $.post(baseurl + '/GetAvailableCategories', readable_date).done(function (data, statusText, xhr) {
                     $('#complexcategories').empty();
                     try {
                         if (data && Array.isArray(data) && data.length != 0) {
                             var options = "";
-                            data.forEach(function (elem,idx) {
+                            data.forEach(function (elem, idx) {
                                 var sel = idx == 0 ? 'selected' : ''
                                 options += `<option ${sel} value='${elem.id}'>${elem.name}</option>`;
                             });
@@ -267,7 +267,7 @@
                     $(this).removeClass('active');
                 }
                 else {
-                   
+
                     if (dishnum < 0)
                         $('.order-dish-select').removeClass('active');
                     $(this).addClass('active')
@@ -275,7 +275,7 @@
                 $('.order-dish-select').not('active').removeClass("bg-success").addClass('bg-secondary');
                 $('.order-dish-select.active').removeClass('bg-secondary').addClass("bg-success");
                 refreshNfcState();
-                
+
             });
 
             function getdishesnum() {
@@ -310,12 +310,12 @@
                 }
                 refreshNfcState();
             }
-            function refreshNfcState(){
+            function refreshNfcState() {
                 if (!IsWelcomeMode()) {
                     elnfc_online.hide();
                     elnfc_offline.hide();
                 }
-                else if (isNfcConnected==true) {
+                else if (isNfcConnected == true) {
                     elnfc_online.show();
                     elnfc_offline.hide();
                 }
@@ -377,7 +377,7 @@
             function getLastQueueid() {
                 var arofqueue = $('#delivery-queue-content').find(".user-queue");
                 var max_queue = arofqueue.reduce((max, p) => parseInt(p.attr('data-maxid')) > max ? parseInt(p.attr('data-maxid')) : max, parseInt(arofqueue[0].attr('data-maxid')));
-                    
+
             }
             function fillWelcome(data) {
                 $('#delivery-welcome-content').empty();
@@ -385,13 +385,13 @@
                     if (data && data.userFound) {
                         var pictURL = '/Pictures/GetPicture?id=' + data.userPictureId;
                         var divuser = `<div class="row user-welcome py-2 bg-danger text-white h1 justify-content-center align-self-center" >
-                                            <div class="col-6 welcome-user">
-                                                <img src="${pictURL}" class="w200x200"/>
-                                            </div>
-                                            <div class="col-6 welcome-user justify-content-center align-self-center ">
-                                                 ${data.userName}
-                                            </div>
-                                        </div>`
+                                                <div class="col-6 welcome-user">
+                                                    <img src="${pictURL}" class="w200x200"/>
+                                                </div>
+                                                <div class="col-6 welcome-user justify-content-center align-self-center ">
+                                                     ${data.userName}
+                                                </div>
+                                            </div>`
                         $('#delivery-welcome-content').append(divuser);
                     }
                     var div = `<div class="row bg-danger text-white h1"><div class="col-12 container-errordelivery">Помилка:${data.errorMessage}</div></div>`;
@@ -404,22 +404,22 @@
                     inner_div += `<div class="row"><div class="col-12 welcome-dish  h2" data-id="${element.id}" data-id=${element.id}>${element.name}</div></div>`;
                 });
 
-                var pictureURL =  '/Pictures/GetPicture?id=' + data.userPictureId;
+                var pictureURL = '/Pictures/GetPicture?id=' + data.userPictureId;
                 var div = $(`<div class="row user-welcome bg-success text-white py-2" >
-                                        <div class="col-6 welcome-user h1 ">
-                                            <div class="row">
-                                                <div class="col-12 justify-content-center align-self-center text-center">${data.userName}</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 justify-content-center align-self-center ">
-                                                    <img src="${pictureURL}" class="w200x200 rounded mx-auto d-block"/>
+                                            <div class="col-6 welcome-user h1 ">
+                                                <div class="row">
+                                                    <div class="col-12 justify-content-center align-self-center text-center">${data.userName}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 justify-content-center align-self-center ">
+                                                        <img src="${pictureURL}" class="w200x200 rounded mx-auto d-block"/>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-6 welcome-dishes h-100 justify-content-center align-self-center  ">
-                                            ${inner_div}
-                                         </div>
-                                    </div>`);
+                                            <div class="col-6 welcome-dishes h-100 justify-content-center align-self-center  ">
+                                                ${inner_div}
+                                             </div>
+                                        </div>`);
                 $('#delivery-welcome-content').append(div);
             }
             function fillQueue(data) {
@@ -434,10 +434,10 @@
                     var queue_list = [];
                     el.dishes.map(function (element, index) {
                         inner_div += `<div class="row queue-dish border rounded my-1 " class="queue-dish" data-queueid="${element.queueId}" data-id=${element.id}>
-                                        <div class="col-12 h2">
-                                           ${element.name}
-                                        </div>           
-                                      </div> `;
+                                            <div class="col-12 h2">
+                                               ${element.name}
+                                            </div>
+                                          </div> `;
                         queue_list.push(element.queueId);
                     });
                     var maxid = el.dishes.reduce((max, p) => p.queueId > max ? p.queueId : max, el.dishes[0].queueId);
@@ -446,27 +446,27 @@
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
                     var timestam = Date.now();
                     var div = $(`<div class="row user-queue shadow p-1 mb-2 mt-2" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
-                                        <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
-                                        <div class="col-4 queue-user">
-                                            <div class="row">
-                                                <div class="col-12 h5">${el.userName}</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 ">
-                                                    <img src="${pictureURL}" class="queue-img"/>
+                                            <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
+                                            <div class="col-4 queue-user">
+                                                <div class="row">
+                                                    <div class="col-12 h5">${el.userName}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 ">
+                                                        <img src="${pictureURL}" class="queue-img"/>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
-                                            ${inner_div}
-                                         </div>
-                                         <div class="col-2  align-self-center ">
-                                             <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
-                                         </div>
-                                         <div class="col-2  align-self-top ">
-                                             <button class="btn btn-primary btn-remove-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
-                                         </div>
-                                    </div>`);
+                                            <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
+                                                ${inner_div}
+                                             </div>
+                                             <div class="col-2  align-self-center ">
+                                                 <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
+                                             </div>
+                                             <div class="col-2  align-self-top ">
+                                                 <button class="btn btn-primary btn-remove-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
+                                             </div>
+                                        </div>`);
                     content.append(div);
                     content.find(".user-queue").removeClass("queue-first");
                     content.find(".user-queue").first().addClass("queue-first");
@@ -479,18 +479,18 @@
                     var timestamp = $(this).attr('data-timestamp');
                     var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) };
 
-                        
-                      $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+
+                    $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                         if (data && data.overalResult == 'success') {
                             removeQueue(timestamp);
                         }
                     })
-                    .fail(function (xhr, code, error) {
-                        el_error.val(error);
-                        el_error.show();
-                    });
+                        .fail(function (xhr, code, error) {
+                            el_error.val(error);
+                            el_error.show();
+                        });
 
-                    
+
                 });
                 $(div).find('.btn-remove-queue').click(function (e) {
                     e.preventDefault();
@@ -509,7 +509,7 @@
                                 }
                             })
                                 .fail(function (xhr, code, error) {
-                                    throw(error)
+                                    throw (error)
                                 });
 
                         })
@@ -543,7 +543,7 @@
                     if (index == 0)
                         $(element).addClass("queue-first");
                 });
-            } 
+            }
             function filldeliverydishes(data) {
                 if (IsWelcomeMode()) {
                     fillWelcome(data);
@@ -585,7 +585,7 @@
                 }
             }
             function requestforconfirmation(cb, dishesids) {
-               
+
                 var dishesnum = getdishesnum();
                 var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: "confirmdelivery", DishesIds: dishesids };
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
@@ -597,12 +597,12 @@
                     });
             }
             function requestfordeliveryQueue(cb) {
-                
+
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
                 var categories = [];
-                categories.push(parseInt( $('#complexcategories').children("option:selected").val()));
-                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue, LastQueueId: lastQueueid, ComplexCategoriesIds: categories};
+                categories.push(parseInt($('#complexcategories').children("option:selected").val()));
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue, LastQueueId: lastQueueid, ComplexCategoriesIds: categories };
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
@@ -612,7 +612,7 @@
                     });
             }
             function requestfordelivery(cb) {
-              
+
                 var dishesnum = getdishesnum();
                 var requesttype = 'askfordelivery';
                 if (IsWelcomeMode())
@@ -631,7 +631,7 @@
             }
             function showNfcInfo(msg) {
                 $('#connectnfc').prop('disabled', false);
-                if (msg && msg.Isreaderconnected==true && msg.Ismonitoring==true) {
+                if (msg && msg.Isreaderconnected == true && msg.Ismonitoring == true) {
                     elnfc_online.show();
                     elnfc_offline.hide();
 

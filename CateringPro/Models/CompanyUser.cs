@@ -57,6 +57,9 @@ namespace CateringPro.Models
 
         public DateTime? ChildBirthdayDate { get; set; }
 
+        //[DisplayName("RegisterDate")]
+        //public DateTime? RegisterDate { get; set; }
+
         [DefaultValue(1)]
         public int ChildrenCount { get; set; }
 
@@ -82,6 +85,8 @@ namespace CateringPro.Models
         {
             return !string.IsNullOrEmpty(this.ParentUserId);
         }
+
+        
     }
     public class CompanyRole : IdentityRole
     {

@@ -88,6 +88,7 @@ namespace CateringPro.Controllers
                     Address2 = model.Address2,
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
                     ChildrenCount = 1,
+                    //RegisterDate = DateTime.Now,
                     Id = Guid.NewGuid().ToString()
 
                 };
@@ -111,7 +112,7 @@ namespace CateringPro.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-
+                    
                     await _companyuser_repo.PostUpdateUserAsync(user, true);
                     EmailService emailService = new EmailService();
                     await _email.SendEmailAsync(model.Email, "Завершення реєстрації",
@@ -640,7 +641,7 @@ namespace CateringPro.Controllers
                     {
                         return BadRequest();
                     }
-                    
+                    //var tmp = user.RegisterDate.ToString();
                     //update user child
                     var i = 0;
                     foreach (var reb in it)
@@ -889,7 +890,11 @@ namespace CateringPro.Controllers
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
             //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
             var query = this.GetQueryListUsers(_userManager.Users,querymodel,
-                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || d.ChildNameSurname.Contains(querymodel.SearchCriteria) || d.Email.Contains(querymodel.SearchCriteria) || d.UserName.Contains(querymodel.SearchCriteria) || d.NameSurname.Contains(querymodel.SearchCriteria),
+                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || 
+                        d.ChildNameSurname.Contains(querymodel.SearchCriteria) || 
+                        d.Email.Contains(querymodel.SearchCriteria) || 
+                        d.UserName.Contains(querymodel.SearchCriteria) ||
+                        d.NameSurname.Contains(querymodel.SearchCriteria),
                      20);
             //if (querymodel.RelationFilter > 0)
             //{
@@ -1073,6 +1078,7 @@ namespace CateringPro.Controllers
                                 
                                 user_to_update.ChildNameSurname = reb.ChildNameSurname;
                                 user_to_update.ChildBirthdayDate = reb.ChildBirthdayDate;
+                                _logger.LogWarning("Update user,  userToUpdate {0} and childName {1}", user_to_update.UserName, reb.ChildNameSurname);
                                 if (user_to_update.ChildNameSurname != null)
                                 {
                                     CompanyUser parent = await _userManager.FindByIdAsync(user_to_update.ParentUserId);
@@ -1086,9 +1092,45 @@ namespace CateringPro.Controllers
                             ModelState.AddModelError("", "User Not Found");
                             break;
                         }
+                        //if (filePict != null)
+                        //{
+                        //    Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                        //    if (pict == null)
+                        //    {
+                        //        pict = new Pictures();
+
+                        //        try
+                        //        {
+                        //            _context.Add(pict);
+                        //        }
+                        //        catch (Exception ex)
+                        //        {
+                        //            _logger.LogError(ex, "Error adding Picture to database");
+                        //            ModelState.AddModelError("", "Error adding Picture to database");
+                        //            return View(um);
+                        //        }
+                        //    }
+                        //    using (var stream = filePict.OpenReadStream())
+                        //    {
+                        //        byte[] imgdata = new byte[stream.Length];
+                        //        stream.Read(imgdata, 0, (int)stream.Length);
+                        //        pict.PictureData = imgdata;
+                        //    }
+                        //    PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+                        //    if (_context.Entry(pict).State != EntityState.Added)
+                        //        _context.Update(pict);
+                        //    await _context.SaveChangesAsync();
+                        //    user_to_update.PictureId = pict.Id;
+
+                        //}
                         if (filePict != null)
                         {
                             Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == user_to_update.PictureId);
+                            if (pict != null)
+                            {
+                                _context.Remove(pict);
+                            }
+                            pict = null;
                             if (pict == null)
                             {
                                 pict = new Pictures();
@@ -1101,18 +1143,26 @@ namespace CateringPro.Controllers
                                 {
                                     _logger.LogError(ex, "Error adding Picture to database");
                                     ModelState.AddModelError("", "Error adding Picture to database");
-                                    return View(um);
+                                    return RedirectToAction("Users");
                                 }
                             }
+                            byte[] data;
                             using (var stream = filePict.OpenReadStream())
                             {
                                 byte[] imgdata = new byte[stream.Length];
                                 stream.Read(imgdata, 0, (int)stream.Length);
-                                pict.PictureData = imgdata;
+                                //pict.PictureData = imgdata;
+                                data = imgdata;
                             }
+                            pict.PictureData = data;
                             PicturesController.CompressPicture(pict, pictWidth, pictHeight);
+
                             if (_context.Entry(pict).State != EntityState.Added)
+                            {
+
+
                                 _context.Update(pict);
+                            }
                             await _context.SaveChangesAsync();
                             user_to_update.PictureId = pict.Id;
 
