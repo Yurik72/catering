@@ -104,7 +104,7 @@ namespace CateringPro.Controllers
         public async Task<JsonResult> SyncDB()
         {
             if(_hostingEnv.EnvironmentName!="LocalProduction")
-                return Json(new { State = "Not Allowed" });
+                return Json(new { State = "Not Allowed", Output="Not in Local Mode" });
             await _syncer.SyncDb();
             return Json(new { State = "OK",Output= _syncer.GetOutput() }); ;
         }
@@ -112,8 +112,8 @@ namespace CateringPro.Controllers
         [HttpGet]
         public async Task<IActionResult> LocalMode()
         {
-            if (_hostingEnv.EnvironmentName != "LocalProduction")
-                return Forbid();
+            //if (_hostingEnv.EnvironmentName != "LocalProduction")
+            //    return Forbid();
             //await _syncer.SyncDb();
             return View() ;
         }
