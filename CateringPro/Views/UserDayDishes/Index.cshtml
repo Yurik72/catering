@@ -980,6 +980,7 @@ else
                     type: 'get',
                     success: function (data) {
                         $("#OrderWeekDetails").modal('hide');
+                        $(".spinner-container").remove();
                         $(".details-content").empty();
 
                             showOrderResult(data);
