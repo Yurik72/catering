@@ -105,6 +105,8 @@ namespace CateringPro.Repositories
                 request.CompanyId = _context.CompanyId;
             if (_context.CompanyId <= 0)
                 _context.SetCompanyID(request.CompanyId);
+
+            request.DayDate = request.DayDate.ResetHMS();
             return ServiceResponse.GetSuccessResult();
         }
         public async Task<ServiceResponse> ProcessConfirmRequestAsync(ServiceRequest request)
@@ -257,14 +259,17 @@ namespace CateringPro.Repositories
                 fail.ErrorMessage = " Нема страв до видачі";
                 return fail;
             }
-            var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate).ToListAsync();
+            var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate.ResetHMS()).ToListAsync();
             var queue_to_add = dishes.Where(d => !queue.Any(q => q.DishId == d.ID)).
                 Select((q,idx)=>new DeliveryQueue() { UserId= request.UserId,DishId=q.ID,DayDate=request.DayDate.ResetHMS(), CompanyId=request.CompanyId, DishCourse=q.DishNumber,TerminalId=request.TerminalId});
             //var queue= await _context.DeliveryQueues.FirstOrDefaultAsync(ud => ud.UserId == request.UserId && ud.DayDate == request.DayDate);
             try
             {
-                await _context.AddRangeAsync(queue_to_add);
-                await _context.SaveChangesAsync();
+                if (queue_to_add.Count() > 0)
+                {
+                    await _context.AddRangeAsync(queue_to_add);
+                    await _context.SaveChangesAsync();
+                }
                 var resp = ServiceResponse.GetSuccessResult(request);
 
                 resp.Dishes = dishes;
