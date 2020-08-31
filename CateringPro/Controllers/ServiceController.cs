@@ -28,6 +28,7 @@ namespace CateringPro.Controllers
         }
 
         // GET: Service
+        [Authorize(Roles = "Admin, UserAdmin, ServiceAdmin")]
         public async Task<IActionResult> Index()
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
