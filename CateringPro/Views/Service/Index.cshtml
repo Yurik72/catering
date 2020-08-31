@@ -445,8 +445,19 @@
 
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
                     var timestam = Date.now();
-                    var div = $(`<div class="row user-queue shadow p-1 mb-2 mt-2" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
-                                            <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">${queunum}</div>
+                    var div = $(`<div class="row user-queue shadow p-1 mb-2 mt-2  justify-content-center" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
+                                            <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">
+                                                <div class="row">
+                                                    <div class="col-12  align-self-center text-center">
+                                                        ${queunum}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12  align-self-center text-center" >
+                                                       <button class="btn bg-danger text-white btn-remove-queue" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
+                                                    </div>
+                                                 </div>
+                                            </div>
                                             <div class="col-4 queue-user">
                                                 <div class="row">
                                                     <div class="col-12 h5">${el.userName}</div>
@@ -460,12 +471,10 @@
                                             <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
                                                 ${inner_div}
                                              </div>
-                                             <div class="col-2  align-self-center ">
-                                                 <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> @Localizer["Delivered"]</button >
+                                             <div class="col-3  align-self-center h-100 ">
+                                                 <button class="btn bg-success text-white btn-confirm-queue  w-100" style="height:100px"  data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> @Localizer["Delivered"]</button >
                                              </div>
-                                             <div class="col-2  align-self-top ">
-                                                 <button class="btn btn-primary btn-remove-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
-                                             </div>
+
                                         </div>`);
                     content.append(div);
                     content.find(".user-queue").removeClass("queue-first");
@@ -498,11 +507,7 @@
                     var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueremove", QueueIds: JSON.parse($(this).attr('data-queue-list')) };
 
                     promise_dialog_yes_no('Підтвердіть дію. <p/> В результаті цієї операції, страви клієнта будуть видалені із черги вікна видачі<p/>')
-                        .then(data => fetch(
-                            `${baseUrl}/GenUserCardToken?userId=${userid}`,
-                            { method: 'GET' }
-                        ))
-                        .then(response => {
+                        .then(() => {
                             $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                                 if (data && data.overalResult == 'success') {
                                     removeQueue(timestamp);
@@ -514,18 +519,11 @@
 
                         })
                         .catch(error => {
-                            dialog_error(error);
+                            if (error)
+                                dialog_error(error);
                             console.error('error:', error)
                         });
-                    $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
-                        if (data && data.overalResult == 'success') {
-                            removeQueue(timestamp);
-                        }
-                    })
-                        .fail(function (xhr, code, error) {
-                            el_error.val(error);
-                            el_error.show();
-                        });
+
 
 
                 });
