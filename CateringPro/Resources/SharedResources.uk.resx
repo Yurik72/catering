@@ -988,6 +988,12 @@
   <data name="NoRecords" xml:space="preserve">
     <value>Записів нема</value>
   </data>
+  <data name="Card Details" xml:space="preserve">
+    <value>Інформація по картці</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Видано</value>
+  </data>
   <data name="Write" xml:space="preserve">
     <value>Записати</value>
   </data>

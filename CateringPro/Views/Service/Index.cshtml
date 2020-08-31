@@ -461,7 +461,7 @@
                                                 ${inner_div}
                                              </div>
                                              <div class="col-2  align-self-center ">
-                                                 <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> Confirm</button >
+                                                 <button class="btn btn-primary btn-confirm-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> @Localizer["Delivered"]</button >
                                              </div>
                                              <div class="col-2  align-self-top ">
                                                  <button class="btn btn-primary btn-remove-queue   p-4" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
@@ -497,7 +497,7 @@
                     var timestamp = $(this).attr('data-timestamp');
                     var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueremove", QueueIds: JSON.parse($(this).attr('data-queue-list')) };
 
-                    promise_dialog_yes_no('Подтвердите дейтсвие. <p/> В результате этой операции, блюда клиента будет удалены из очереди выдачи<p/> Карточка NFC будет перезаписана.')
+                    promise_dialog_yes_no('Підтвердіть дію. <p/> В результаті цієї операції, страви клієнта будуть видалені із черги вікна видачі<p/>')
                         .then(data => fetch(
                             `${baseUrl}/GenUserCardToken?userId=${userid}`,
                             { method: 'GET' }
