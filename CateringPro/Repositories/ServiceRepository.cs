@@ -93,16 +93,18 @@ namespace CateringPro.Repositories
                 return fail;
             }
             //TODO
+            if (_context.CompanyId <= 0 && user!=null)
+                _context.SetCompanyID(user.CompanyId);
+            request.CompanyId = _context.CompanyId;
             if (user != null)
             {
-                request.CompanyId = user.CompanyId;
+                //request.CompanyId = user.CompanyId;
                 request.User = user;
                 request.UserId = user.Id;
 
 
             }
-            else
-                request.CompanyId = _context.CompanyId;
+           
             if (_context.CompanyId <= 0)
                 _context.SetCompanyID(request.CompanyId);
 
