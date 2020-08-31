@@ -329,7 +329,7 @@
                     requestfordeliveryQueue(function (data) {
                         fillQueue(data);
                         if (isStarted) {
-                            setTimeout(getnewQueue, 100000);  //start only when last finished completelly
+                            setTimeout(getnewQueue, 1000);  //start only when last finished completelly
                         }
                     });
                 }
