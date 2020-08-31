@@ -110,12 +110,28 @@ namespace CateringPro.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> LocalMode()
+        public async Task<IActionResult> LocalModeInit(int? companyId)
         {
-            //if (_hostingEnv.EnvironmentName != "LocalProduction")
-            //    return Forbid();
-            //await _syncer.SyncDb();
-            return View() ;
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return Json(new { State = "Not Allowed", Output = "Not in Local Mode" });
+            if (!companyId.HasValue)
+                companyId = _syncer.GetDefaultCompanyId();
+            await _syncer.InitialSyncByDBContext(companyId.Value, DateTime.Today.ResetHMS()); ;
+            return Json(new { State = "OK", Output = _syncer.GetOutput() }); ;
+            
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> LocalModeOrders(int? companyId,DateTime? dayDate)
+        {
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return Json(new { State = "Not Allowed", Output = "Not in Local Mode" });
+            DateTime day = dayDate.HasValue ? dayDate.Value : DateTime.Now;
+            if (!companyId.HasValue)
+                companyId = _syncer.GetDefaultCompanyId();
+            await _syncer.SyncOrders(companyId.Value, day.ResetHMS()); ;
+            return Json(new { State = "OK", Output = _syncer.GetOutput() }); ;
+
         }
     }
 }
