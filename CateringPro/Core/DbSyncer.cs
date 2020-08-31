@@ -18,13 +18,18 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
 using SQLitePCL;
+using Org.BouncyCastle.Math.EC;
+using Org.BouncyCastle.Crypto.Prng;
 
 namespace CateringPro.Core
 {
     public interface IDbSyncer
     {
+        int GetDefaultCompanyId();
         string GetOutput();
+        Task InitialSyncByDBContext(int companyId, DateTime daydate);
         Task SyncDb(int? companyId = default, DateTime? daydate = default);
+        Task SyncOrders(int companyId, DateTime daydate);
     }
     public class DbSyncer : IDbSyncer
     {
@@ -72,7 +77,7 @@ namespace CateringPro.Core
             return;
  
         }
-        private async Task SyncOrders(int companyId, DateTime daydate)
+        public async Task SyncOrders(int companyId, DateTime daydate)
         {
             if (_hostingEnv.EnvironmentName != "LocalProduction")
                 return;
@@ -82,7 +87,25 @@ namespace CateringPro.Core
             CopyDataTable(_remotecontext.UserDayDish, companyId, (d) => d.Date == daydate);
             CopyDataTable(_remotecontext.UserDayComplex, companyId, (d) => d.Date == daydate);
         }
-        private async Task InitialSyncByDBContext(int companyId , DateTime daydate )
+        public int GetDefaultCompanyId()
+        {
+            try
+            {
+              //  var companies = _remotecontext.Companies.IgnoreQueryFilters().ToList();
+                var company = _remotecontext.Companies.IgnoreQueryFilters().FirstOrDefault(c => c.IsDefault.HasValue && c.IsDefault.Value);
+                if (company == null)
+                    company = _remotecontext.Companies.IgnoreQueryFilters().FirstOrDefault();
+              
+                if (company != null)
+                    return company.Id;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error getCompanyId");
+            }
+            return -1;
+        }
+        public async Task InitialSyncByDBContext(int companyId , DateTime daydate )
         {
             if (_hostingEnv.EnvironmentName != "LocalProduction")
                 return;
@@ -186,6 +209,8 @@ namespace CateringPro.Core
         {
             try
             {
+                if (_context.Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite")
+                    return false;
                 string cmd = $"delete from {name} ";
                 _context.Database.ExecuteSqlRaw(cmd);
                 _output.Append($"table {name} cleaned {Environment.NewLine}");

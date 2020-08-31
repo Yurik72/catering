@@ -3,6 +3,7 @@
 @{
     Layout = null;
     List<DayIngredientsDetails> ingLs = new List<DayIngredientsDetails>();
+    string code = "";
 }
 
 
@@ -40,7 +41,7 @@
                             <td></td>
                             <td></td>
                             @*<td>
-                                </td>*@
+                        </td>*@
                         </tr>
                     </table>
                 </td>
@@ -56,8 +57,8 @@
                     @Localizer["Quantity"]
                 </td>
                 @*<td>
-                        Інгрідієнти
-                    </td>*@
+                Інгрідієнти
+            </td>*@
             </tr>
 
             @foreach (var day in Model.Days)
@@ -68,9 +69,20 @@
                     </td>
 
                 </tr>
+
                 @foreach (var item in day.Items)
                 {
-                    <tr class="dish">
+                    if (code != item.ComplexCode)
+                    {
+                        <tr class="item daydate">
+                            <td colspan="3">
+                               @item.ComplexName
+                            </td>
+
+                        </tr>
+                        code = item.ComplexCode;
+                    }
+                    <tr class=" heading">
                         <td>
                             @Html.DisplayFor(model => item.DishCode)
                         </td>

@@ -28,6 +28,15 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+
+      "StandAlone": {
+        "commandName": "Project",
+        "launchBrowser": true,
+        "applicationUrl": "https://localhost:7001;http://localhost:7000",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "LocalProduction"
+        }
+      },
       "applicationUrl": "http://localhost:51322/"
     }
   }

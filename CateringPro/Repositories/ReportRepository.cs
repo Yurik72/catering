@@ -141,14 +141,19 @@ namespace CateringPro.Repositories
             }
             var query1 =
                            from ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom   && ud.Date <= dateto) 
+                           join udc in _context.Complex.Where(ud => ud.CompanyId == companyid ) on ud.ComplexId equals udc.Id
+                           join cat in _context.Categories.Where(ud => ud.CompanyId == companyid) on udc.CategoriesId equals cat.Id
                            join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
-                           group ud by new { id = d.Id, name = d.Name, code = d.Code,daydate=ud.Date } into grp
+                           //orderby cat.Code
+                           group ud by new { id = d.Id, name = d.Name, code = d.Code,daydate=ud.Date,complexName=udc.Name,complexCode= cat.Code} into grp
                            select new
                            {
                                DayDate = grp.Key.daydate,
                                DishId = grp.Key.id,
                                DishCode = grp.Key.code,
                                DishName = grp.Key.name,
+                               ComplexName = grp.Key.complexName,
+                               ComplexCode = grp.Key.complexCode,
                                Quantity = grp.Sum(it => it.Quantity)
                            };
             DayProductioDayViewModel res = new DayProductioDayViewModel() { 
@@ -160,11 +165,14 @@ namespace CateringPro.Repositories
                             {
                                 DayDate= grp.Key,
                                 Items=from it in grp
+                                      orderby it.ComplexCode
                                 select new DayProductionDishViewModel()
                                 {
                                     DishCode = it.DishCode,
                                     DishId = it.DishId,
                                     DishName = it.DishName,
+                                    ComplexName = it.ComplexName,
+                                    ComplexCode = it.ComplexCode,
                                     Quantity = it.Quantity,
                                     Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
                                                    join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
