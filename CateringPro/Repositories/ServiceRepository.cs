@@ -252,7 +252,7 @@ namespace CateringPro.Repositories
             var fail = ServiceResponse.GetFailResult(request);
 
           
-           var dishes = await GetDishesToDeliveryAsync(request.UserId, request.DayDate, false);
+           var dishes = await GetDishesToDeliveryAsync(request.UserId, request.DayDate, false,request.ComplexCategoriesIds);
            
             if (dishes.Count() == 0)
             {
