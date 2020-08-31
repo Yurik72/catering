@@ -257,6 +257,7 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
               $(document).on('change', '.doc-line-amount', function () {
                   updateAmount();
               });
+
               function updateAmount() {
                   var amounts = $('.doc-line-amount').map((_, el) => el.value).get();
                   amounts = amounts.map(x => replaceAll(x, ",", "."));
@@ -267,6 +268,25 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
                   totalAmount = replaceAll(totalAmount+"", ".", ",")
                   $("#Amount").val(totalAmount);
               }
+              //$(document).on('change', '.doc-line-quantity', function () {
+              //    var i = $(this).attr("data-i");
+                  
+              //    updateDocAmount(i);
+              //});
+              //$(document).on('change', '.doc-line-price', function () {
+              //    var i = $(this).attr("data-i");
+
+              //    updateDocAmount(i);
+              //});
+              //function updateDocAmount(i){
+              //    var quan = replaceAll($("[name=DocLines[" + i + "].Quantity]").val(), ",", ".");
+              //    var price = replaceAll($("[name=DocLines[" + i + "].Price]").val(), ",", ".");
+              //    quan = parseFloat(quan);
+              //    price = parseFloat(price);
+              //    var doc_amount = $("[name=DocLines[" + i + "].Amount]");
+              //    var res = quan * price;
+              //    doc_amount.val(replaceAll(res + "", ".", ","));
+              //}
               function replaceAll(string, search, replace) {
                   return string.split(search).join(replace);
               }
