@@ -161,12 +161,13 @@ namespace CateringPro.Repositories
 
                     Days = from q in query1.ToList()
                            group q by q.DayDate into grp
+                           orderby grp.Key.Date
                             select new DayProductionViewModel()
                             {
                                 DayDate= grp.Key,
                                 Items=from it in grp
-                                      orderby it.ComplexCode
-                                select new DayProductionDishViewModel()
+                                      orderby it.ComplexCode, it.ComplexName
+                                      select new DayProductionDishViewModel()
                                 {
                                     DishCode = it.DishCode,
                                     DishId = it.DishId,

@@ -72,7 +72,7 @@
 
                 @foreach (var item in day.Items)
                 {
-                    if (code != item.ComplexCode)
+                    if (code != item.ComplexName)
                     {
                         <tr class="item daydate">
                             <td colspan="3">
@@ -80,7 +80,7 @@
                             </td>
 
                         </tr>
-                        code = item.ComplexCode;
+                        code = item.ComplexName;
                     }
                     <tr class=" heading">
                         <td>
