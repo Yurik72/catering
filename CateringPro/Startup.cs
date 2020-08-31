@@ -100,18 +100,20 @@ namespace CateringPro
 
             //services.AddScoped<IUserClaimsPrincipalFactory<CompanyUser>, UserClaimsPrincipalFactory<CompanyUser, CompanyRole>>();
             // Add scheduled tasks & scheduler
-            services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
-            services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
-            services.AddSingleton<IScheduledTask, MakeOrdersPaymentTask>();
-            services.AddSingleton<IScheduledTask, EMailSenderTask>();
-
-            services.AddScheduler((sender, args) => 
+            if (Environment.EnvironmentName != "LocalProduction")
             {
-                Console.Write(args.Exception.Message);
-                args.SetObserved();
-            });
+                services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
+                services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
+                services.AddSingleton<IScheduledTask, MakeOrdersPaymentTask>();
+                services.AddSingleton<IScheduledTask, EMailSenderTask>();
 
+                services.AddScheduler((sender, args) =>
+                {
+                    Console.Write(args.Exception.Message);
+                    args.SetObserved();
+                });
 
+            }
             services.AddMemoryCache();
             // services.AddDistributedMemoryCache();
             services.AddResponseCaching();
@@ -175,9 +177,11 @@ namespace CateringPro
                 //options.SlidingExpiration = true;
             });
             services.AddOptions();
-            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<IMassEmailService, MassEmailService>();
+
+                services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+                services.AddTransient<IEmailService, EmailService>();
+                services.AddTransient<IMassEmailService, MassEmailService>();
+            
             if (Environment.EnvironmentName == "LocalProduction")
             {
                 services.AddTransient<IDbSyncer, DbSyncer>();
@@ -198,6 +202,8 @@ namespace CateringPro
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+           // Console.WriteLine ("Configuration[\"ASPNETCORE_ENVIRONMENT\"] is {env}", Configuration["ASPNETCORE_ENVIRONMENT"]);
+            Console.WriteLine("WebHostEnvironment.EnvironmentName is {0}", env.EnvironmentName);
             if (  env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -38,13 +38,11 @@
                          style="color: #232323; cursor: pointer">
                         <img src="~/img/admin-icon.svg"
                              alt="" class="px-2">@Localizer["MenuAdmin"]
-                        </div>
+                     </div>
 
                     <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
                          style="box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
-                        @if (User.IsInRole("Admin")
-                     || User.IsInRole("CompanyAdmin")
-                     || User.IsInRole("KitchenAdmin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("KitchenAdmin"))
                         {
                             <a class="dropdown-item" asp-controller="Dishes" asp-action="Index">@Localizer["MenuDishes"]</a>
                             <a class="dropdown-item" asp-controller="Categories" asp-action="Index">@Localizer["MenuCategories"]</a>
@@ -58,18 +56,13 @@
                             <a class="dropdown-item" asp-controller="Docs" asp-action="Index">@Localizer["MenuDocs"]</a>
                             <a class="dropdown-item" asp-controller="Report" asp-action="Index">@Localizer["Reports"]</a>
                             <a class="dropdown-item" asp-controller="Service" asp-action="Cards">@Localizer["Service"]</a>
-                            <a class="dropdown-item" asp-controller="Service" asp-action="Index">@Localizer["PlacingOrder"]</a>
+
                         }
-                        @if (User.IsInRole("Admin")
-                     || User.IsInRole("CompanyAdmin")
-                     || User.IsInRole("UserAdmin")
-                     || User.IsInRole("KitchenAdmin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("UserAdmin") || User.IsInRole("KitchenAdmin"))
                         {
                             <a class="dropdown-item" asp-controller="CustomerOrders" asp-action="Index">@Localizer["MenuCustomerOrders"]</a>
                         }
-                        @if (User.IsInRole("Admin")
-                     || User.IsInRole("CompanyAdmin")
-                     || User.IsInRole("UserAdmin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("CompanyAdmin") || User.IsInRole("UserAdmin"))
                         {
                             <a class="dropdown-item" asp-controller="Company" asp-action="Setting">@Localizer["Setting"]</a>
                             <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
@@ -83,14 +76,26 @@
                         {
                             <a class="dropdown-item" asp-controller="Account" asp-action="Users">@Localizer["MenuUsers"]</a>
                         }
-                        @if (User.IsInRole("UserAdmin"))
+                        @if (User.IsInRole("UserAdmin") || User.IsInRole("ServiceAdmin"))
                         {
                             <a class="dropdown-item" asp-controller="Service" asp-action="Cards">@Localizer["Service"]</a>
+
                         }
-                        @if (User.IsInRole("ServiceAdmin"))
+                    <environment names="LocalProduction">
+                        @if (User.IsInRole("Admin") || User.IsInRole("UserAdmin") || User.IsInRole("ServiceAdmin"))
                         {
-                            <a class="dropdown-item" asp-controller="Service" asp-action="Cards">@Localizer["Service"]</a>
+
+
+                            <a class="nav-link dropdown-toggle text-main-color-dark px-0 navbar-size-14" href="#" id="navbarDropdownUserServiceLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                DatabaseSyncronization
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownUserServiceLink">
+                                <a class="dropdown-item" asp-controller="Service" asp-action="LocalModeInit">Initial Sync</a>
+                                <a class="dropdown-item" asp-controller="Service" asp-action="LocalModeInit">Orders Sync</a>
+                            </div>
+
                         }
+                    </environment>
 
                     </div>
                     </li>

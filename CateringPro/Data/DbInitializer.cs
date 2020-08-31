@@ -9,6 +9,7 @@ using CateringPro.Core;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace CateringPro.Data
 {
@@ -42,6 +43,7 @@ namespace CateringPro.Data
             }
             else
             {
+                /*
                 try
                 {
                     context.Database.ExecuteSqlRaw("CREATE TABLE [AspNetUserRoles]("
@@ -63,6 +65,23 @@ namespace CateringPro.Data
                 catch(Exception ex)
                 {
 
+                }
+                */
+                try
+                {
+                    if (context.Dishes.IgnoreQueryFilters().Count() == 0)
+                    {
+                        using (var serviceScope = service.CreateScope())
+                        {
+                            var sync = serviceScope.ServiceProvider.GetRequiredService<IDbSyncer>();
+                            sync.InitialSyncByDBContext(sync.GetDefaultCompanyId(),DateTime.Now.ResetHMS()).Wait();
+                        }
+
+                    }
+                }
+                catch(Exception ex)
+                {
+                    
                 }
                // RelationalDatabaseCreator databaseCreator =
                //                       (RelationalDatabaseCreator)context.Database.GetService<IDatabaseCreator>();
