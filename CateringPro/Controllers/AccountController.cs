@@ -799,6 +799,20 @@ namespace CateringPro.Controllers
                             }
                         }
                     }
+                    if (!user.ConfirmedByAdmin && usermodel.ConfirmedByAdmin)
+                    {
+                        user.EmailConfirmed = true;
+                        await _companyuser_repo.PostUpdateUserAsync(user, true);
+                        EmailService emailService = new EmailService();
+                        await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",
+                            $"Вітаю, {user.NameSurname}<br>" +
+                            $"Ваш аккаунт було підтверджено адміністратором!<br>" +
+                            $"Наразі вам доступний весь функціонал.<br>" +
+                            $"" +
+                            $"" +
+                            $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
+                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
+                    }
                     usermodel.CopyEditedModalDataTo(user);
                     var userResult = await _userManager.UpdateAsync(user);
                     if (!userResult.Succeeded)
@@ -826,21 +840,6 @@ namespace CateringPro.Controllers
                     }
                         
                     userResult = await _userManager.RemoveFromRolesAsync(user, removedRoles);
-
-                    if (user.ConfirmedByAdmin)
-                    {
-                        user.EmailConfirmed = true;
-                        await _companyuser_repo.PostUpdateUserAsync(user, true);
-                        EmailService emailService = new EmailService();
-                        await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",
-                            $"Вітаю, {user.NameSurname}<br>" +
-                            $"Ваш аккаунт було підтверджено адміністратором!<br>" +
-                            $"Наразі вам доступний весь функціонал.<br>" +
-                            $"" +
-                            $"" +
-                            $"<br><br><br>Якщо ви отримали цей лист випадково - проігноруйте його.<br>" +
-                            $"<h2>У разі виникнення питань звертайтесь на пошту: admin@kabachok.group</h2>");
-                    }
                     
                     if (!userResult.Succeeded)
                     {
