@@ -218,21 +218,21 @@ namespace CateringPro.Repositories
             return GetDefaultCompanyId();
 
         }
-        public async Task<bool> CheckUserFinanceAsync(CompanyUser user)
+        public async Task<bool> CheckUserFinanceAsync(CompanyUser user,int companyId)
         {
             try
             {
                 var fin = _context.UserFinances.Where(f => f.Id == user.Id).FirstOrDefault();
                 if (fin == null)
                 {
-                    fin = new UserFinance() { Id = user.Id, CompanyId = user.CompanyId };
+                    fin = new UserFinance() { Id = user.Id, CompanyId = companyId };
                     _context.Add(fin);
                     await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("CheckUserFinance", ex);
+                _logger.LogError(ex,"CheckUserFinance");
                 return false;
             }
             return true;
@@ -255,7 +255,7 @@ namespace CateringPro.Repositories
                 {
                     res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
                 }
-                res &= await CheckUserFinanceAsync(user);
+               // res &= await CheckUserFinanceAsync(user, user.CompanyId);
             }
             catch (Exception ex)
             {
@@ -350,7 +350,7 @@ namespace CateringPro.Repositories
             try
             {
                 await PostUpdateUserAsync(usr, true);
-                await CheckUserFinanceAsync(usr);
+                await CheckUserFinanceAsync(usr, companyId);
                 user.ChildrenCount = _context.Users.Where(u => u.ParentUserId == userId).Count() + 1;
                 _context.Update(user);
                 await _context.SaveChangesAsync();
