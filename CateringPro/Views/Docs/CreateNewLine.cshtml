@@ -42,19 +42,19 @@
                  style="font-size: 16px">
                 <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                       style="font-size: 14px; font-weight: bold">@Localizer["DocLine Quantity"]</span>
-                <input type="text" name="DocLines[@i].Quantity" asp-for="@Model.Quantity" class="form-control doc-line-quantity w-100"  style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                <input type="text" name="DocLines[@i].Quantity" asp-for="@Model.Quantity" class="form-control doc-line-quantity w-100" data-i="@i" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
             </div>
             <div class="col-md-1 pl-md-0 pl-lg-0 col-lg-1 col-12 d-flex justify-content-start flex-column mt-1"
                  style="font-size: 16px">
                 <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                       style="font-size: 14px; font-weight: bold">@Localizer["DocLine Price"]</span>
-                <input  type="text" name="DocLines[@i].Price" asp-for="@Model.Price"  class="form-control doc-line-price w-100" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                <input  type="text" name="DocLines[@i].Price" asp-for="@Model.Price"  class="form-control doc-line-price w-100" data-i="@i" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
             </div>
             <div class="col-md-1 pl-md-0 pl-lg-0 col-lg-1 col-12 d-flex justify-content-start flex-column mt-1"
                  style="font-size: 16px">
                 <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                       style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
-                <input class="form-control  w-100 doc-line-amount" asp-for="@Model.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                <input class="form-control  w-100 doc-line-amount" name="DocLines[@i].Amount" asp-for="@Model.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
             </div>
             <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
                  style="font-size: 16px">
