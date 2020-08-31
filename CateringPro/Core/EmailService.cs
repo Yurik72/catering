@@ -157,7 +157,8 @@ namespace CateringPro.Core
         {
             try
             {
-                await SendEmailAsync(email, subject, message, companyId);
+                // await SendEmailAsync(email, subject, message, companyId);
+                Task.Run(async () => { await SendEmailAsync(email, subject, message, companyId); });
                 return true;
             }
             catch(Exception ex)

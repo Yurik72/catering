@@ -832,7 +832,7 @@ namespace CateringPro.Controllers
                         user.EmailConfirmed = true;
                         await _companyuser_repo.PostUpdateUserAsync(user, true);
                         EmailService emailService = new EmailService();
-                        await _email.SendEmailAsync(usermodel.Email, "Підтвердження облікового запису",
+                        await _email.SendEmailNoExceptionAsync(usermodel.Email, "Підтвердження облікового запису",
                             $"Вітаю, {user.NameSurname}<br>" +
                             $"Ваш аккаунт було підтверджено адміністратором!<br>" +
                             $"Наразі вам доступний весь функціонал.<br>" +
