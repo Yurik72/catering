@@ -268,25 +268,28 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
                   totalAmount = replaceAll(totalAmount+"", ".", ",")
                   $("#Amount").val(totalAmount);
               }
-              //$(document).on('change', '.doc-line-quantity', function () {
-              //    var i = $(this).attr("data-i");
+              $(document).on('change', '.doc-line-quantity', function () {
+                  var i = $(this).attr("data-i");
                   
-              //    updateDocAmount(i);
-              //});
-              //$(document).on('change', '.doc-line-price', function () {
-              //    var i = $(this).attr("data-i");
+                  updateDocAmount(i);
+              });
+              $(document).on('change', '.doc-line-price', function () {
+                  var i = $(this).attr("data-i");
 
-              //    updateDocAmount(i);
-              //});
-              //function updateDocAmount(i){
-              //    var quan = replaceAll($("[name=DocLines[" + i + "].Quantity]").val(), ",", ".");
-              //    var price = replaceAll($("[name=DocLines[" + i + "].Price]").val(), ",", ".");
-              //    quan = parseFloat(quan);
-              //    price = parseFloat(price);
-              //    var doc_amount = $("[name=DocLines[" + i + "].Amount]");
-              //    var res = quan * price;
-              //    doc_amount.val(replaceAll(res + "", ".", ","));
-              //}
+                  updateDocAmount(i);
+              });
+              function updateDocAmount(i) {
+                  var q = $(".doc-line-quantity[data-i="+i+"]").val();
+                  var p = $(".doc-line-price[data-i=" + i +"]").val();
+                  var quan = replaceAll(q, ",", ".");
+                  var price = replaceAll(p, ",", ".");
+                  quan = parseFloat(quan);
+                  price = parseFloat(price);
+                  var doc_amount = $(".doc-line-amount[data-i=" + i +"]");
+                  var res = quan * price;
+                  doc_amount.val(replaceAll(res + "", ".", ","));
+                  $(".doc-line-amount").trigger("change");
+              }
               function replaceAll(string, search, replace) {
                   return string.split(search).join(replace);
               }

@@ -1401,7 +1401,7 @@ namespace CateringPro.Controllers
             var usercompanies = await _companyuser_repo.GetAssignedEditCompanies(userId);
             return PartialView(usercompanies);
         }
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
+        [Authorize/*(Roles = "Admin,CompanyAdmin,UserAdmin")*/]
         public async Task<IActionResult> SetCompanyId(int CompanyId)
         {
             if (!await _companyuser_repo.ChangeUserCompanyAsync(User.GetUserId(), CompanyId, User))
