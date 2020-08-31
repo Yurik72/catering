@@ -140,11 +140,11 @@
                                     <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                                           style="font-size: 14px; font-weight: bold">@Localizer["DocLine Ingredient"]</span>
                                         @*<input type="text" name="none[@i].Ingredients.Name"
-                                            asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname  w-100"
-                                            type="search" placeholder="Пошук..." aria-label="Search"
-                                            style="font-size: 16px; color:#797979; height: 34px;
-                                            background: url('../img/search-icon.svg') no-repeat 95%;
-                                            font-family: Open-Sans, sans-serif">*@
+                            asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname  w-100"
+                            type="search" placeholder="Пошук..." aria-label="Search"
+                            style="font-size: 16px; color:#797979; height: 34px;
+                            background: url('../img/search-icon.svg') no-repeat 95%;
+                            font-family: Open-Sans, sans-serif">*@
                                         <input type="hidden" name="DocLines[@i].IngredientsId" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
                                         <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
                                         @*<div class="input-search" style="width:100%">*@
@@ -167,7 +167,7 @@
                                                  style="font-size: 16px">
                                                 <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                                                       style="font-size: 14px; font-weight: bold">@Localizer["DocLine Amount"]</span>
-                                                    <input class="form-control  w-100 doc-line-amount" type="text" name="DocLines[@i].Amount" asp-for="@line.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                                                    <input class="form-control  w-100 doc-line-amount" type="text" name="DocLines[@i].Amount" data-i="@i" asp-for="@line.Amount" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
                                                 </div>
                                                 <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
                                                      style="font-size: 16px">
@@ -176,10 +176,10 @@
                                                         <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
                                                             <input asp-for="@line.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control w-100 doc-line-validto" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif " />
                                                             @*<span class="input-docs">
-                                                                    <input asp-for="@line.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control w-100 doc-line-validto" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif " />
-                                                                    <input class="form-control  w-100" type="text" min="0" value="13.11.2020" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
-                                                                    <div class="child-amount-control remove-date-section"></div>
-                                                                </span>*@
+                                                    <input asp-for="@line.ValidTo" name="DocLines[@i].ValidTo" type="date" class="form-control w-100 doc-line-validto" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif " />
+                                                    <input class="form-control  w-100" type="text" min="0" value="13.11.2020" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                                                    <div class="child-amount-control remove-date-section"></div>
+                                                </span>*@
                                                         </div>
                                                     </div>
 
@@ -192,7 +192,11 @@
                                                     i++;
                                                 }
                     <div class="row docfooter" id="doc-footer"></div>
-
+                    <div class="col-lg-3 col-md-3 col-12 px-lg-3 px-md-3 px-0">
+                        <button type="button" id="create-docline" class="col-12 btn btn-xl btn-outline-danger  justify-content-center  font-weight-bold btn-block" onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'" onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'" style="background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 34px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                            ＋@Localizer["Add"]
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
