@@ -127,7 +127,7 @@
                                                 <input type="hidden" name="DocLines[@i].DocsId" asp-for="@line.DocsId" class="form-control" />
                                                 <input type="hidden" name="DocLines[@i].Id" asp-for="@line.Id" class="form-control" />
                                                 <span class="input-docs">
-                                                    <input asp-for="Number" type="number" name="DocLines[@i].Number" class="form-control w-100" min="0" style="font-family: Open-Sans, sans-serif">
+                                                    <input asp-for="@line.Number" type="number" name="DocLines[@i].Number" class="form-control w-100" min="0" style="font-family: Open-Sans, sans-serif">
                                                     <div class="child-amount-control"
                                                          onclick="this.previousElementSibling.stepUp()">+</div>
                                                     <div class="child-amount-control"
