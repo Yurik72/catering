@@ -93,16 +93,18 @@ namespace CateringPro.Repositories
                 return fail;
             }
             //TODO
+            if (_context.CompanyId <= 0 && user!=null)
+                _context.SetCompanyID(user.CompanyId);
+            request.CompanyId = _context.CompanyId;
             if (user != null)
             {
-                request.CompanyId = user.CompanyId;
+                //request.CompanyId = user.CompanyId;
                 request.User = user;
                 request.UserId = user.Id;
 
 
             }
-            else
-                request.CompanyId = _context.CompanyId;
+           
             if (_context.CompanyId <= 0)
                 _context.SetCompanyID(request.CompanyId);
 
@@ -153,10 +155,8 @@ namespace CateringPro.Repositories
             try
             {
                 var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate.ResetHMS()
-                                   && q.Id> request.LastQueueId
-
-                                   /*to do*/)
-                             join ud in _context.UserDayDish.Where(ud => ud.Date == request.DayDate.ResetHMS()) on q.DishId equals ud.DishId
+                                   && q.Id> request.LastQueueId)
+                             join ud in _context.UserDayDish on new { q.DishId ,DayDate=q.DayDate,q.UserId } equals new { ud.DishId, DayDate=ud.Date, ud.UserId }
                              join d in _context.Dishes on q.DishId equals d.Id
                              join u in _context.CompanyUser on q.UserId equals u.Id
                              join c in _context.Complex on ud.ComplexId equals c.Id

@@ -90,7 +90,7 @@
             </div>
 
         </div>
-        <div id="userinfo" class="row" @*style="display: none;"*@>
+        <div id="userinfo" class="row" style="display: none;">
             <div class="col-4">
                 <label for="userid">userid</label>
                 <input id="userid" />
@@ -447,9 +447,9 @@
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
                     var timestam = Date.now();
                     var div = $(`<div class="row user-queue shadow p-1 mb-2 mt-2  justify-content-center" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
-                                            <div class="col-1 queue-number h1 text-success h-100 justify-content-center align-self-center">
+                                            <div class="col-1 h1 text-success h-100 justify-content-center align-self-center">
                                                 <div class="row">
-                                                    <div class="col-12  align-self-center text-center">
+                                                    <div class="col-12  queue-number  align-self-center text-center">
                                                         ${queunum}
                                                     </div>
                                                 </div>
