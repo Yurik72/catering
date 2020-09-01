@@ -189,6 +189,7 @@ namespace CateringPro.Controllers
                 {
                     byte[] imgdata = new byte[stream.Length];
                     stream.Read(imgdata, 0, (int)stream.Length);
+                    PicturesController.CompressPicture(pict, 350, 350);
                     pict.PictureData = imgdata;
                 }
                 _context.Add(pict);

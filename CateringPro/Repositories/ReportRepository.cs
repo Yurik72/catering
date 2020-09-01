@@ -145,16 +145,20 @@ namespace CateringPro.Repositories
                            join cat in _context.Categories.Where(ud => ud.CompanyId == companyid) on udc.CategoriesId equals cat.Id
                            join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
                            //orderby cat.Code
-                           group ud by new { id = d.Id, name = d.Name, code = d.Code,daydate=ud.Date,complexName=udc.Name,complexCode= cat.Code} into grp
+                           group ud by new { id = d.Id, name = d.Name, code = d.Code,
+                               daydate=ud.Date,complexName=udc.Name,complexCat=cat.Name,complexCode= cat.Code,
+                               weight = d.ReadyWeight
+                           } into grp
                            select new
                            {
                                DayDate = grp.Key.daydate,
                                DishId = grp.Key.id,
                                DishCode = grp.Key.code,
                                DishName = grp.Key.name,
-                               ComplexName = grp.Key.complexName,
+                               CategoryName = grp.Key.complexCat,
                                ComplexCode = grp.Key.complexCode,
-                               Quantity = grp.Sum(it => it.Quantity)
+                               Quantity = grp.Sum(it => it.Quantity),
+                               ReadyWeight=grp.Key.weight* grp.Sum(it => it.Quantity)
                            };
             DayProductioDayViewModel res = new DayProductioDayViewModel() { 
                     Company = GetOwnCompany(companyid),
@@ -166,14 +170,15 @@ namespace CateringPro.Repositories
                             {
                                 DayDate= grp.Key,
                                 Items=from it in grp
-                                      orderby it.ComplexCode, it.ComplexName
+                                      orderby it.ComplexCode, it.DishName
                                       select new DayProductionDishViewModel()
                                 {
                                     DishCode = it.DishCode,
                                     DishId = it.DishId,
                                     DishName = it.DishName,
-                                    ComplexName = it.ComplexName,
+                                    CategoryName = it.CategoryName,
                                     ComplexCode = it.ComplexCode,
+                                    ReadyWeight=it.ReadyWeight,
                                     Quantity = it.Quantity,
                                     Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
                                                    join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
@@ -187,6 +192,79 @@ namespace CateringPro.Repositories
                                                    })
                                 }
                             }
+
+
+            };
+
+            return res;
+        }
+        public DayProductioDayViewModel CompanyDayProductionWithoutIngredients(DateTime datefrom, DateTime dateto, int companyid)
+        {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyid);
+            }
+            var query1 =
+                           from ud in _context.UserDayDish.Where(ud => ud.CompanyId == companyid && ud.Date >= datefrom && ud.Date <= dateto)
+                           join udc in _context.Complex.Where(ud => ud.CompanyId == companyid) on ud.ComplexId equals udc.Id
+                           join cat in _context.Categories.Where(ud => ud.CompanyId == companyid) on udc.CategoriesId equals cat.Id
+                           join d in _context.Dishes.Where(dd => dd.CompanyId == companyid) on ud.DishId equals d.Id
+                           //orderby cat.Code
+                           group ud by new
+                           {
+                               id = d.Id,
+                               name = d.Name,
+                               code = d.Code,
+                               daydate = ud.Date,
+                               complexName = udc.Name,
+                               complexCat = cat.Name,
+                               complexCode = cat.Code,
+                               weight = d.ReadyWeight
+                           } into grp
+                           select new
+                           {
+                               DayDate = grp.Key.daydate,
+                               DishId = grp.Key.id,
+                               DishCode = grp.Key.code,
+                               DishName = grp.Key.name,
+                               CategoryName = grp.Key.complexCat,
+                               ComplexCode = grp.Key.complexCode,
+                               Quantity = grp.Sum(it => it.Quantity),
+                               ReadyWeight = grp.Key.weight * grp.Sum(it => it.Quantity)
+                           };
+            DayProductioDayViewModel res = new DayProductioDayViewModel()
+            {
+                Company = GetOwnCompany(companyid),
+
+                Days = from q in query1.ToList()
+                       group q by q.DayDate into grp
+                       orderby grp.Key.Date
+                       select new DayProductionViewModel()
+                       {
+                           DayDate = grp.Key,
+                           Items = from it in grp
+                                   orderby it.ComplexCode, it.DishName
+                                   select new DayProductionDishViewModel()
+                                   {
+                                       DishCode = it.DishCode,
+                                       DishId = it.DishId,
+                                       DishName = it.DishName,
+                                       CategoryName = it.CategoryName,
+                                       ComplexCode = it.ComplexCode,
+                                       ReadyWeight = it.ReadyWeight,
+                                       Quantity = it.Quantity
+                                       //Ingridients = (from ing in _context.Ingredients.WhereCompany(companyid)
+                                       //               join dishIng in _context.DishIngredients.WhereCompany(companyid) on ing.Id equals dishIng.IngredientId
+                                       //               where dishIng.DishId == it.DishId
+                                       //               select new DayIngredientsDetails()
+                                       //               {
+                                       //                   IngredientId = ing.Id,
+                                       //                   IngredientName = ing.Name,
+                                       //                   Quantity = dishIng.Proportion,
+                                       //                   MeasureUnit = ing.MeasureUnit
+                                       //               })
+                                   }
+                       }
 
 
             };
@@ -506,5 +584,6 @@ namespace CateringPro.Repositories
 
             return res;
         }
+        //public UserRoleViewModel
     }
 }
