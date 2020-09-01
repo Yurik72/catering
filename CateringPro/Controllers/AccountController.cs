@@ -21,6 +21,7 @@ using Image = System.Drawing.Image;
 using Org.BouncyCastle.Crypto.Tls;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CateringPro.Controllers
 {
@@ -452,8 +453,13 @@ namespace CateringPro.Controllers
 
                 string id = User.GetUserId();
                 CompanyUser user = await _userManager.FindByIdAsync(id);
-                if (user != null)
-                    return View(_companyuser_repo.GetUpdateUserModel(user));
+            if (user != null) 
+            {
+                var model = _companyuser_repo.GetUpdateUserModel(user);
+                model.IsChild = user.IsChild();
+                return View(model);
+            }
+                    
                 else
                     return RedirectToAction("Index", "Home");
 
@@ -1543,5 +1549,6 @@ namespace CateringPro.Controllers
                 return reskey;
             }
         }
+
     }
 }
