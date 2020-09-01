@@ -195,7 +195,36 @@ namespace CateringPro.Repositories
 
 
             };
+            var resD = res.Days.ToList();
+            resD.ForEach(
+                d => {
+                    var itemList = d.Items.ToList();
+                    var resList = new List<DayProductionDishViewModel>();
+                    itemList.ForEach(it =>
+                    {
+                        if (resList.Where(d => d.DishId == it.DishId).Count() != 0)
+                        {
+                            var item = resList.Where(d => d.DishId == it.DishId).SingleOrDefault();
+                            var index = resList.FindIndex(c => c.DishId == it.DishId);
+                            resList[index].ReadyWeight = item.ReadyWeight + it.ReadyWeight;
+                            resList[index].Quantity = item.Quantity + it.Quantity;
+                            //var item = resList.Where(d => d.DishId == it.DishId).SingleOrDefault();
+                            //resList.Remove(item);
+                            //item.ReadyWeight = item.ReadyWeight + it.ReadyWeight;
+                            //item.Quantity = item.Quantity + it.Quantity;
+                            //resList.Add(item);
+                        }
+                        else
+                        {
+                            resList.Add(it);
+                        }
+                    });
+                    //resList = resList.OrderBy(d => d.DishCode).ToList();
+                    d.Items = resList;
+                }
 
+                );
+            res.Days = resD;
             return res;
         }
         public DayProductioDayViewModel CompanyDayProductionWithoutIngredients(DateTime datefrom, DateTime dateto, int companyid)
@@ -268,7 +297,35 @@ namespace CateringPro.Repositories
 
 
             };
-
+            var resD = res.Days.ToList();
+            resD.ForEach(
+                d => {
+                    var itemList = d.Items.ToList();
+                    var resList = new List<DayProductionDishViewModel>();
+                    itemList.ForEach(it =>
+                    {
+                        if (resList.Where(d => d.DishId == it.DishId).Count() != 0)
+                        {
+                            var item = resList.Where(d => d.DishId == it.DishId).SingleOrDefault();
+                            var index = resList.FindIndex(c => c.DishId == it.DishId);
+                            resList[index].ReadyWeight = item.ReadyWeight + it.ReadyWeight;
+                            resList[index].Quantity = item.Quantity + it.Quantity;
+                            //resList.Remove(item);
+                            //item.ReadyWeight = item.ReadyWeight + it.ReadyWeight;
+                            //item.Quantity = item.Quantity + it.Quantity;
+                            //resList.Add(item);
+                        }
+                        else
+                        {
+                            resList.Add(it);
+                        }
+                    });
+                    //resList = resList.OrderBy(d => d.DishCode).ToList();
+                    d.Items = resList;
+                }
+                
+                );
+            res.Days = resD;
             return res;
         }
         public DayProductionViewModel CompanyDayProduction(DateTime daydate, int companyid)
@@ -313,6 +370,7 @@ namespace CateringPro.Repositories
 
             };
           
+
 
             return res;
         }
