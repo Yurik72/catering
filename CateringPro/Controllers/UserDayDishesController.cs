@@ -216,6 +216,10 @@ namespace CateringPro.Controllers
         public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> UserDayComplex, List<UserDayDish> UserDayDish)
         {
             var daycomplexes = UserDayComplex;
+           // daycomplexes.AddRange(UserDayComplex);
+            var duplicateKeys = daycomplexes.GroupBy(x => x)
+                        .Where(group => group.Count() > 1)
+                        .Select(group => group.Key);
             //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
             DateTime daydate = DateTime.Now;
   //          bool res = _userdaydishesrepo.SaveDayDishInComplex(UserDayDish, this.HttpContext);
@@ -229,8 +233,12 @@ namespace CateringPro.Controllers
             {
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
             }
-            
-            
+            if (duplicateKeys.Count() != 0)
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+            }
+
+
             if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
             {
                 //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
@@ -257,7 +265,7 @@ namespace CateringPro.Controllers
             int comapnyid = User.GetCompanyID();
             try
             {
-                //var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
+                var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
                 //test = test.OrderBy(a => a.Date);
                 var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
 
