@@ -83,7 +83,8 @@ namespace CateringPro.Data
                 }
                 catch(Exception ex)
                 {
-                    
+                    Console.WriteLine(ex.Message);
+
                 }
                // RelationalDatabaseCreator databaseCreator =
                //                       (RelationalDatabaseCreator)context.Database.GetService<IDatabaseCreator>();

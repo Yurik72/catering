@@ -7,7 +7,7 @@ namespace CateringPro.Core
 {
     public class FileLoggerOptions : BatchingLoggerOptions
     {
-        private int? _fileSizeLimit = 10 * 1024 * 1024;
+        private int? _fileSizeLimit = 16 * 1024 * 1024;
         private int? _retainedFileCountLimit = 2;
         private string _fileName = "logs-";
         private string _extension = "txt";

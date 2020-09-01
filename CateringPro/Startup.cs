@@ -249,8 +249,8 @@ namespace CateringPro
             }
 
             });
- 
-           
+
+            app.UseMiddleware<RequestMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -259,7 +259,7 @@ namespace CateringPro
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
-         
+
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
