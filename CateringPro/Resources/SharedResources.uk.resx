@@ -1003,5 +1003,7 @@
   <data name="Welcome" xml:space="preserve">
     <value>Привіт!</value>
   </data>
-
+  <data name="CompanyDayProductionWithoutIngredients" xml:space="preserve">
+    <value>Потреби у виробництвi без інгредієнтів</value>
+  </data>
 </root>

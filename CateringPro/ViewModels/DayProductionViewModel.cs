@@ -27,7 +27,9 @@ namespace CateringPro.Models
         public int DishId { get; set; }
         public string ComplexCode { get; set; }
         public string ComplexName { get; set; }
+        public string CategoryName { get; set; }
         public string DishName { get; set; }
+        public decimal ReadyWeight { get; set; }
         public int Quantity { get; set; }
         public IEnumerable<DayIngredientsDetails> Ingridients { get; set; }
     }
