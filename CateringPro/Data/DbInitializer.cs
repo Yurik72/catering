@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data.Entity;
 using System.Linq.Expressions;
+using System.IO;
+using System.Text;
 
 namespace CateringPro.Data
 {
@@ -22,9 +24,13 @@ namespace CateringPro.Data
             var roleManager = service.GetRequiredService<RoleManager<CompanyRole>>();
             var userManager = service.GetRequiredService<UserManager<CompanyUser>>();
             DateTime dayDate = DateTime.Now;
-          //  context.SetCompanyID(1);
-          //  var queue = context.DeliveryQueues.Where(dq => dq.UserId == "27fb457f-8b4f-4a66-96ce-5e98ae2f1d91" && dq.DayDate == dayDate.ResetHMS()).ToList();
+            //  context.SetCompanyID(1);
+            //  var queue = context.DeliveryQueues.Where(dq => dq.UserId == "27fb457f-8b4f-4a66-96ce-5e98ae2f1d91" && dq.DayDate == dayDate.ResetHMS()).ToList();
 
+            using (var sw = new StreamWriter("test.csv", false,new UTF8Encoding(true)))
+            {
+                context.Database.CSVWriter("select * from dishes").ToStreamAsync(sw).Wait();
+            }
             if (env.EnvironmentName != "LocalProduction")
             {
                 CreateAdminRole(context, roleManager, userManager);
@@ -77,13 +83,15 @@ namespace CateringPro.Data
                         {
                             var sync = serviceScope.ServiceProvider.GetRequiredService<IDbSyncer>();
                             sync.InitialSyncByDBContext(sync.GetDefaultCompanyId(),DateTime.Now.ResetHMS()).Wait();
+                            sync.SyncOrdersWeek(sync.GetDefaultCompanyId(), DateTime.Now.ResetHMS()).Wait();
                         }
 
                     }
                 }
                 catch(Exception ex)
                 {
-                    
+                    Console.WriteLine(ex.Message);
+
                 }
                // RelationalDatabaseCreator databaseCreator =
                //                       (RelationalDatabaseCreator)context.Database.GetService<IDatabaseCreator>();

@@ -63,7 +63,7 @@ namespace CateringPro.Controllers
             }
             return null;
         }
-        [ResponseCache(VaryByQueryKeys = new string[] { "id","width","height" }, Duration = 300,Location =ResponseCacheLocation.Any,NoStore =false)]
+        [ResponseCache( VaryByQueryKeys = new string[] { "*"/* "id","width","height"*/ }, Duration = 300*60,Location =ResponseCacheLocation.Any,NoStore =false)]
         public async Task<IActionResult> GetPicture(int? id,int? width,int? height)
         {
 

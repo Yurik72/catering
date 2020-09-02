@@ -21,6 +21,7 @@ using Image = System.Drawing.Image;
 using Org.BouncyCastle.Crypto.Tls;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CateringPro.Controllers
@@ -176,6 +177,25 @@ namespace CateringPro.Controllers
                 ReturnUrl = returnUrl
             });
         }
+        public async Task<IActionResult> AutoLogon(string token, string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // how to remove a claim
+
+
+            var isValid = await _userManager.VerifyUserTokenAsync(user, "Default", "passwordless-auth", token);
+            if (isValid)
+            {
+
+                await _signInManager.SignInAsync(user, false);
+            }
+            return RedirectToAction("Index", "Home");
+        }
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -195,9 +215,10 @@ namespace CateringPro.Controllers
                     
             }
             _logger.LogInformation("User {0} is going to login ", model.UserName);
-
+     
             var user = await _userManager.FindByNameAsync(model.UserName.ToLower());
-            if(user == null)
+
+            if (user == null)
             {
                 user = await _userManager.FindByEmailAsync(model.UserName.ToLower());
             }
@@ -488,7 +509,10 @@ namespace CateringPro.Controllers
                 ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
                 ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
 
-                return PartialView(_companyuser_repo.GetUpdateUserModel(user));
+            var model = _companyuser_repo.GetUpdateUserModel(user);
+            model.AutoLoginUrl = Url.Action("AutoLogon", "Account", new { token = model.AutoLoginToken, username = model.UserName }, Request.Scheme);
+
+            return PartialView(model);
 
         }
 

@@ -17,6 +17,7 @@ using CateringPro.ViewModels;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CateringPro.Repositories
 {
     public class CompanyUserRepository : ICompanyUserRepository
@@ -488,6 +489,8 @@ namespace CateringPro.Repositories
         public UpdateUserModel GetUpdateUserModel(CompanyUser user)
         {
             var res = new UpdateUserModel(user);
+            res.AutoLoginToken =  _userManager.GenerateUserTokenAsync(user, "Default", "passwordless-auth").Result;
+           
             var company = _cache.GetCachedCompanyAsync(_context, user.CompanyId).Result;
             if (company != null)
                 res.CompanyName = company.Name;

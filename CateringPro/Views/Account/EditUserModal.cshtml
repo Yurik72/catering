@@ -67,6 +67,9 @@
                             <div class="row p-0 flex-lg-row flex-md-row flex-column">
                                 <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black  align-content-center">
                                     <span style="font-size: 18px; font-weight: 500; color: #000000">Головна</span>
+                                    <a class="px-2" href="#" onclick="window.open('@Model.AutoLoginUrl', '_blank')">
+                                        @Localizer["UserButtonLogin"]
+                                    </a>
                                 </div>
                             </div>
                             @Html.ValidationSummary()

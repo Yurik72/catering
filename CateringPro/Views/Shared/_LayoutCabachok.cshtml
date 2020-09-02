@@ -5,9 +5,9 @@
 @inject CateringPro.Repositories.ICompanyUserRepository cu_repo
 @{ 
 
-    string[] newDesignPathes = { "Dishes","UserGroups", "IngredientCategories", "Categories", "Docs","MassEmail", "DayDishes","Complex","MyOrders", "Account", "Service" };
-    bool isNewDesign = Context.Request.Path.ToString().Split("/").Any(s => newDesignPathes.Contains(s)) || Context.Request.Path=="/";
-    string test = "";
+    //  string[] newDesignPathes = { "Dishes","UserGroups", "IngredientCategories", "Categories", "Docs","MassEmail", "DayDishes","Complex","MyOrders", "Account", "Service" };
+    bool isNewDesign = true;// Context.Request.Path.ToString().Split("/").Any(s => newDesignPathes.Contains(s)) || Context.Request.Path=="/";
+   // string test = "";
 }
 <!DOCTYPE html>
 <html lang="en">

@@ -30,6 +30,7 @@ namespace CateringPro.Core
         Task InitialSyncByDBContext(int companyId, DateTime daydate);
         Task SyncDb(int? companyId = default, DateTime? daydate = default);
         Task SyncOrders(int companyId, DateTime daydate);
+        Task SyncOrdersWeek(int companyId, DateTime startdate);
     }
     public class DbSyncer : IDbSyncer
     {
@@ -77,10 +78,26 @@ namespace CateringPro.Core
             return;
  
         }
+        public async Task SyncOrdersWeek(int companyId, DateTime startdate)
+        {
+            for (var i = 0; i < 7; i++)
+            {
+                DateTime date = startdate.AddDays(i);
+                await SyncOrders(companyId, date.ResetHMS());
+            }
+        }
         public async Task SyncOrders(int companyId, DateTime daydate)
         {
             if (_hostingEnv.EnvironmentName != "LocalProduction")
                 return;
+
+            CleanTable(_remotecontext.UserDayDish, companyId, (d) => d.Date == daydate);
+            CleanTable(_remotecontext.UserDayComplex, companyId, (d) => d.Date == daydate);
+            CleanTable(_remotecontext.UserDay, companyId, (d) => d.Date == daydate);
+            CleanTable(_remotecontext.DayDish, companyId, (d) => d.Date == daydate);
+            CleanTable(_remotecontext.DayComplex, companyId, (d) => d.Date == daydate);
+
+
             CopyDataTable(_remotecontext.DayDish, companyId,(d)=>d.Date== daydate);
             CopyDataTable(_remotecontext.DayComplex, companyId, (d) => d.Date == daydate);
             CopyDataTable(_remotecontext.UserDay, companyId, (d) => d.Date == daydate);
@@ -151,8 +168,8 @@ namespace CateringPro.Core
 
             CopyDataTable(_remotecontext.Pictures, companyId);
 
-            CopyDataTable(_remotecontext.UserGroups, companyId);
-            CopyDataTable(_remotecontext.UserSubGroups, companyId);
+            CopyDataTable(_remotecontext.UserGroups, -1);
+            CopyDataTable(_remotecontext.UserSubGroups, -1);
             CopyDataTable(_remotecontext.Roles, companyId);
             CopyDataTable(_remotecontext.RoleClaims, companyId);
             CopyDataTable(_remotecontext.Users, companyId);
@@ -223,9 +240,34 @@ namespace CateringPro.Core
             }
             return true;
         }
+        private bool CleanTable<T>(DbSet<T> dbset, int companyid, Expression<Func<T, bool>> predicate) where T : class
+        {
+            try
+            {
+                using (var serviceScope = _serviceProvider.CreateScope())
+                {
+                    using (AppDbContext local = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>())
+                    {
+                        local.SetCompanyID(companyid);
+                        var query = local.Set<T>().AsNoTracking().Where(predicate).ToList();
+                        local.RemoveRange(query);
+                        local.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //IEnumerable<T> dst = _context.Set<T>().AsNoTracking().ToList();
+                _output.Append($"Error clean table {typeof(T).Name}  {Environment.NewLine}");
+                _logger.LogError(ex, "CleanTable");
+                return false;
+            }
+            return true;
+        }
         private bool CopyDataTable<T>(DbSet<T> dbset,int companyid, Expression<Func<T,bool>> predicate=default) where T : class
         {
             const int batchsize = 20;
+            //IEnumerable<T> test = null;
             int inserted = 0;
             try
             {
@@ -236,15 +278,19 @@ namespace CateringPro.Core
                     using (AppDbContext local = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>()) {
                         using (AppDbContext remote = serviceScope.ServiceProvider.GetRequiredService<RemoteDbContext>())
                         {
+                            
                             local.SetCompanyID(companyid);
                             remote.SetCompanyID(companyid);
                             for (; true;)
 
                             {
                                 var query = remote.Set<T>().AsQueryable();
+                                if (companyid < 0)
+                                    query = query.IgnoreQueryFilters();
                                 if (predicate != null)
                                     query = query.Where(predicate);
                                 IEnumerable<T> src = query.AsNoTracking().Skip(inserted).Take(batchsize).ToList();
+                                //test = src;
                                 if (src.Count() == 0)
                                     break;
                                 inserted += src.Count();
