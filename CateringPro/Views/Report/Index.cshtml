@@ -145,6 +145,27 @@
                             </div>
                         </a>
                     }
+                    @if (User.IsInRole("Admin")
+                       || User.IsInRole("CompanyAdmin")
+                       || User.IsInRole("UserAdmin")
+                       || User.IsInRole("GroupAdmin"))
+                    {
+                        <a class="col-lg-5 col-12 hover-el-report d-flex flex-column align-items-center justify-content-around mt-4 set-datefrom set-dateto set-format"
+                           asp-controller="Report" asp-action="UsersOrdersReport"
+                           asp-route-datefrom="@DateTime.Today.ShortJSDate()"
+                           asp-route-dateto="@DateTime.Today.AddDays(3).ShortJSDate()"
+                           asp-route-format="html" target="_blank"
+                           style="box-shadow: 0px 0px 29px rgba(0, 0, 0, 0.15); border-radius: 4px; box-sizing: border-box; min-height: 211px; text-decoration: none; color: #232323">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border-radius: 50%; background: #F5FBF4; height: 94px; width: 94px">
+                                <img src="../img/profile-icon.svg"
+                                     alt="">
+                            </div>
+                            <div class="col-7 d-flex justify-content-center mb-4">
+                                <span style="text-align: center; font-weight: 500; font-size: 18px;">@Localizer["UsersOrders"]</span>
+                            </div>
+                        </a>
+                    }
 
                 </div>
             </div>

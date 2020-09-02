@@ -30,5 +30,6 @@ namespace CateringPro.Repositories
         DishSpecificationViewModel DishSpecification(DateTime datefrom, DateTime dateto, int companyid);
 
         InvoiceModel EmailWeekInvoice(DateTime daydate, int companyid, CompanyUser user);
+        UserDayReportViewModel UserDayReport(int[] groupid, DateTime datefrom, DateTime dateto, int companyid);
     }
 }

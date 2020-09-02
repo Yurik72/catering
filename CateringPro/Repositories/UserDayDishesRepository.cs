@@ -48,14 +48,18 @@ namespace CateringPro.Repositories
             if (company == null)
                 return false;
             var dateNow = DateTime.Now;
+            DateTime min = dateNow.AddHours(-10);
             dateNow = dateNow.AddDays(1);
             DateTime max = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
             dateNow = dateNow.AddDays(1);
-            DateTime min = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
             
-            dt = new DateTime(dt.Year, dt.Month, dt.Day, dateNow.Hour, dateNow.Minute, dateNow.Second);
+            //DateTime min = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
+            
+           // dt = new DateTime(dt.Year, dt.Month, dt.Day, dateNow.Hour, dateNow.Minute, dateNow.Second);
            max = max.AddHours(company.OrderThresholdTimeH.HasValue ? company.OrderThresholdTimeH.Value : 24);
-            min = min.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
+            //min = min.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
+          
+           // min = min.AddHours(-(company.OrderLeadTimeH.Value));
             //DateTime min = DateTime.Now.AddHours(-(company.OrderLeadTimeH.HasValue ? company.OrderLeadTimeH.Value : 24));
             if ((dt - min).TotalDays < 7)
                 for (DateTime t = dt; t > min; t = t.AddDays(-1))
@@ -65,10 +69,10 @@ namespace CateringPro.Repositories
                         min = min.AddDays(-1);
                     }
                 }
-            if (dt.Day == min.Day)
-            {
-                return dt.TimeOfDay < min.TimeOfDay && dt < max;
-            }
+            //if (dt.Day == min.Day)
+            //{
+            //    return dt.TimeOfDay < min.TimeOfDay && dt < max;
+            //}
             return dt > min && dt < max;
         }
         public CompanyModel GetOwnCompany(int companyid)
@@ -596,6 +600,11 @@ namespace CateringPro.Repositories
                     di.CompanyId==companyId &&
                     di.UserId == userId &&
                     di.Date==userDayComplex.Date).ToListAsync();
+                if (existing_db.Count() == 0)
+                {
+                    _logger.LogError("Delete UserDayComplex that doesn't exists {0}",userId);
+                    return false;
+                }
                 _context.UserDayComplex.RemoveRange(existing_db);
                 
 
