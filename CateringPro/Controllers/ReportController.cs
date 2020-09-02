@@ -28,7 +28,7 @@ namespace CateringPro.Controllers
         private IStockRepository _stockrepo;
         private readonly AppDbContext _context;
         private readonly ILogger<ReportController> _logger;
-        public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger)
+        public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger, ICompanyUserRepository comRep)
         {
             JsReportMVCService = jsReportMVCService;
             _reportrepo = rr;

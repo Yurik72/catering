@@ -304,10 +304,10 @@ namespace CateringPro.Repositories
                     var resList = new List<DayProductionDishViewModel>();
                     itemList.ForEach(it =>
                     {
-                        if (resList.Where(d => d.DishId == it.DishId).Count() != 0)
+                        if (resList.Where(d => d.DishId == it.DishId && d.CategoryName==it.CategoryName).Count() != 0)
                         {
-                            var item = resList.Where(d => d.DishId == it.DishId).SingleOrDefault();
-                            var index = resList.FindIndex(c => c.DishId == it.DishId);
+                            var item = resList.Where(d => d.DishId == it.DishId && d.CategoryName == it.CategoryName).SingleOrDefault();
+                            var index = resList.FindIndex(c => c.DishId == it.DishId && c.CategoryName == it.CategoryName);
                             resList[index].ReadyWeight = item.ReadyWeight + it.ReadyWeight;
                             resList[index].Quantity = item.Quantity + it.Quantity;
                             //resList.Remove(item);
