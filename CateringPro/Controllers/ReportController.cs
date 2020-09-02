@@ -76,6 +76,22 @@ namespace CateringPro.Controllers
             return View(_reportrepo.CompanyDayProduction(datefrom, dateto, User.GetCompanyID()));
         }
         [MiddlewareFilter(typeof(JsReportPipeline))]
+        public IActionResult CompanyDayProductionWithoutIngredients(DateTime datefrom, DateTime dateto, string format)
+        {
+            if (datefrom.Ticks == 0)
+            {
+                datefrom = DateTime.Today;
+            }
+            if (dateto.Ticks == 0)
+            {
+                dateto = DateTime.Today.AddDays(3);
+            }
+            datefrom = datefrom.ResetHMS();
+            dateto = dateto.ResetHMS();
+            SelectFormat(format);
+            return View(_reportrepo.CompanyDayProductionWithoutIngredients(datefrom, dateto, User.GetCompanyID()));
+        }
+        [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult CompanyMenu(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)

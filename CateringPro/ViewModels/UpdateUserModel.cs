@@ -96,6 +96,7 @@ namespace CateringPro.ViewModels
         public bool IsNew { get; set; }
         [DisplayName("CompanyName")]
         public string CompanyName { get; set; }
+        public bool IsChild { get; set; }
         public bool IsModal { get; set; }
         [ScaffoldColumn(false)]
         public string ReturnUrl { get; set; }

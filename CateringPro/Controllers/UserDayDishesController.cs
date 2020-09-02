@@ -216,9 +216,15 @@ namespace CateringPro.Controllers
         public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> UserDayComplex, List<UserDayDish> UserDayDish)
         {
             var daycomplexes = UserDayComplex;
+            // daycomplexes.AddRange(UserDayComplex);
+            //ad771929-223c-48eb-bb53-f042c96396b0
+            var duplicateKeys = daycomplexes.GroupBy(x => x)
+                        .Where(group => group.Count() > 1)
+                        .Select(group => group.Key);
             //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
             DateTime daydate = DateTime.Now;
-  //          bool res = _userdaydishesrepo.SaveDayDishInComplex(UserDayDish, this.HttpContext);
+            DateTime ordDay = UserDayDish.FirstOrDefault().Date;
+            var res = _userdaydishesrepo.OrderedComplexDay(ordDay, User.GetUserId(), User.GetCompanyID()).ToList();
             if (daycomplexes.Count > 0)
                 daydate = daycomplexes.First().Date;
             else
@@ -229,8 +235,20 @@ namespace CateringPro.Controllers
             {
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
             }
-            
-            
+            bool ordered = res.Any(x => daycomplexes.Any(y => y.ComplexId == x.ComplexId));
+            if (duplicateKeys.Count() != 0|| ordered)
+            {
+                if (duplicateKeys.Count() != 0) {
+                    _logger.LogWarning("Duplicates from front in User Day {0} userId {1}", ordDay, User.GetUserId());
+                        }
+                else
+                {
+                    _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", ordDay, User.GetUserId());
+                }
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+            }
+
+
             if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
             {
                 //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
@@ -257,7 +275,7 @@ namespace CateringPro.Controllers
             int comapnyid = User.GetCompanyID();
             try
             {
-                //var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
+                var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
                 //test = test.OrderBy(a => a.Date);
                 var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
 
