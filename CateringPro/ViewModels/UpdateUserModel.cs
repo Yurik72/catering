@@ -100,6 +100,9 @@ namespace CateringPro.ViewModels
         [ScaffoldColumn(false)]
         public string ReturnUrl { get; set; }
         public List<string> Errors { get; set; }
+
+        public string AutoLoginUrl { get; set; }
+        public string AutoLoginToken { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
             if (usr != null)

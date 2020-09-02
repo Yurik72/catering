@@ -173,7 +173,7 @@ namespace CateringPro.Repositories
                                        UserPictureId=u.PictureId,
                                        DishCource=q.DishCourse
                                    }
-                                   ).Take(request.MaxQueue)
+                                   ).Take(request.MaxQueue* request.DishesNum.Count())
                                    //.Any(value => request.DishesNum.Contains(value.DishCource)))
                                     .ToListAsync();
                 
@@ -195,7 +195,7 @@ namespace CateringPro.Repositories
                                    };
                 
                 var resp = ServiceQueueResponse.GetSuccessResult();
-                resp.Queues = client_query.ToList();
+                resp.Queues = client_query.Take(request.MaxQueue).ToList();
                 return resp;
             }
             catch(Exception ex)

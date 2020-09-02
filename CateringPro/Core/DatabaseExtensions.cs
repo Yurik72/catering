@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 
 using System.Linq.Expressions;
@@ -29,6 +31,17 @@ namespace CateringPro.Core
         string sqlQuery) where T : class, new()
         {
             return new CustomTypeSqlQuery<T>()
+            {
+                DatabaseFacade = database,
+                SQLQuery = sqlQuery
+            };
+        }
+
+       public static CsvMaterialize CSVWriter(
+       this DatabaseFacade database,
+       string sqlQuery) 
+        {
+            return new CsvMaterialize()
             {
                 DatabaseFacade = database,
                 SQLQuery = sqlQuery
@@ -119,4 +132,90 @@ namespace CateringPro.Core
             isBuild = true;
         }
     }
+
+    public class CsvMaterialize
+    {
+        private readonly string CsvDelimiter = ";";
+        public DatabaseFacade DatabaseFacade { get; set; }
+        public string SQLQuery { get; set; }
+
+        public async Task ToStreamAsync(StreamWriter sw)
+        {
+            
+            var conn = DatabaseFacade.GetDbConnection();
+            try
+            {
+                await conn.OpenAsync();
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = SQLQuery;
+                    DbDataReader reader = await command.ExecuteReaderAsync();
+                    await WriteToStreamAsync(reader, sw);
+
+                    reader.Dispose();
+                }
+            }
+
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+        private async Task WriteToStreamAsync(DbDataReader reader, StreamWriter sw)
+        {
+
+
+            if (reader.HasRows)
+            {
+                IDataRecord head = reader;
+                string header = string.Empty;
+                for (int i = 0; i < head.FieldCount; i++)
+                {
+                    header += head.GetName(i);
+                    if((i+1)<head.FieldCount)
+                        header += CsvDelimiter;
+                    
+                }
+                await sw.WriteLineAsync(header);
+                while (reader.Read())
+                {
+                    string valueLine = string.Empty;
+                    IDataRecord rec = reader;
+                    for (int i = 0; i < rec.FieldCount; i++)
+                    {
+                        object val = rec.GetValue(i);
+                        if (val != null)
+                        {
+
+                            var _val = val.ToString();
+
+                            //Escape quotas
+                            _val = _val.Replace("\"", "\"\"");
+
+                            //Check if the value contans a delimiter and place it in quotes if so
+                            if (_val.Contains(CsvDelimiter))
+                                _val = string.Concat("\"", _val, "\"");
+
+                            //Replace any \r or \n special characters from a new line with a space
+                            if (_val.Contains("\r"))
+                                _val = _val.Replace("\r", " ");
+                            if (_val.Contains("\n"))
+                                _val = _val.Replace("\n", " ");
+
+                            valueLine = string.Concat(valueLine, _val, CsvDelimiter);
+
+                        }
+                        else
+                        {
+                            valueLine = string.Concat(valueLine, string.Empty, CsvDelimiter);
+                        }
+                    }
+                    await sw.WriteLineAsync(valueLine.Remove(valueLine.Length - CsvDelimiter.Length));
+                }
+                await sw.FlushAsync();
+            }
+        }
+    }
 }
+

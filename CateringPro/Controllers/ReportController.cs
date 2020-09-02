@@ -11,6 +11,11 @@ using CateringPro.Core;
 using CateringPro.ViewModels;
 using System.Linq;
 using System.Collections;
+using System.IO;
+using System.Text;
+using CateringPro.Data;
+using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Controllers
 {
@@ -20,11 +25,15 @@ namespace CateringPro.Controllers
         public IJsReportMVCService JsReportMVCService { get; }
         private readonly IReportRepository _reportrepo;
         private IStockRepository _stockrepo;
-        public ReportController(IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo)
+        private readonly AppDbContext _context;
+        private readonly ILogger<ReportController> _logger;
+        public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger)
         {
             JsReportMVCService = jsReportMVCService;
             _reportrepo = rr;
             _stockrepo = stockrepo;
+            _context = context;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -141,6 +150,43 @@ namespace CateringPro.Controllers
                     break;
             }
 
+        }
+
+        public async Task<FileResult> DeliveryReport(DateTime dayDate)
+        {
+            //Response.ContentType = "text/csv";
+            return await CsvReportFromSQL($"exec DeliveryReport '{dayDate.ShortSqlDate()}' , {User.GetCompanyID()}",$"deliveryreport{dayDate.ShortSqlDate()}");
+
+        
+        }
+        public async Task<FileResult> DeliveryReportSummary(DateTime dayDate)
+        {
+            //Response.ContentType = "text/csv";
+            return await CsvReportFromSQL($"exec DeliveryReportSummary '{dayDate.ShortSqlDate()}' , {User.GetCompanyID()}", $"deliveryreportsummary{dayDate.ShortSqlDate()}");
+
+
+        }
+        private async Task<FileResult> CsvReportFromSQL(string sql,string filename)
+        {
+            Response.Headers.Add("Content-disposition", $"attachment;filename={filename}.csv");
+            using (var ms = new MemoryStream())
+            {
+                try
+                {
+                    using (var sw = new StreamWriter(ms, new UTF8Encoding(true)))
+                    {
+                        await _context.Database.CSVWriter(sql).ToStreamAsync(sw);
+                        FileContentResult fs = new FileContentResult(ms.GetBuffer(), new MediaTypeHeaderValue("text/csv"));
+                        return fs;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogError(ex, $"CsvReportFromSQL sql {sql}");
+                    return null;
+                }
+
+            }
         }
     }
 }

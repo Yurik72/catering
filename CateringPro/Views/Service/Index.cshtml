@@ -147,6 +147,7 @@
             var elnfc_online = $("#nfc_isonline");
             var elnfc_offline = $("#nfc_isoffline");
             var el_error = $("#error");
+            var is_button_shift = false;
             const el_header = $('#service-header');
 
             el_online.hide();
@@ -325,7 +326,7 @@
                 }
             }
             function getnewQueue() {
-                if (getQueueCount() <= max_queue) {
+                if (getQueueCount() < max_queue) {
                     requestfordeliveryQueue(function (data) {
                         fillQueue(data);
                         if (isStarted) {
@@ -424,7 +425,7 @@
                 $('#delivery-welcome-content').append(div);
             }
             function fillQueue(data) {
-                var queunum = getQueueCount() + 1;
+                var queunum = getQueueCount();
                 // $('#delivery-queue-content').empty(); // to do
                 var content = $('#delivery-queue-content');
                 if (!data || data.overalResult != "success") {
@@ -433,6 +434,7 @@
                 data.queues.forEach(el => {
                     var inner_div = '';
                     var queue_list = [];
+                    queunum++;
                     el.dishes.map(function (element, index) {
                         inner_div += `<div class="row queue-dish border rounded my-1 " class="queue-dish" data-queueid="${element.queueId}" data-id=${element.id}>
                                             <div class="col-12 h2">
@@ -446,7 +448,7 @@
 
                     var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
                     var timestam = Date.now();
-                    var div = $(`<div class="row user-queue shadow p-1 mb-2 mt-2  justify-content-center" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
+                    var div_start = `<div class="row user-queue shadow p-1 mb-2 mt-2  justify-content-center" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
                                             <div class="col-1 h1 text-success h-100 justify-content-center align-self-center">
                                                 <div class="row">
                                                     <div class="col-12  queue-number  align-self-center text-center">
@@ -468,15 +470,22 @@
                                                         <img src="${pictureURL}" class="queue-img"/>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-4 queue-dishes justify-content-center align-self-center h-100">
-                                                ${inner_div}
-                                             </div>
-                                             <div class="col-3  align-self-center h-100 ">
-                                                 <button class="btn bg-success text-white btn-confirm-queue  w-100" style="height:100px"  data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> @Localizer["Delivered"]</button >
-                                             </div>
+                                            </div>`;
 
-                                        </div>`);
+                    var div_dish=`<div class="col-4 queue-dishes justify-content-center align-self-center h-100">
+                                                ${inner_div}
+                                             </div>`;
+                    var div_btn = `<div class="col-3  align-self-center h-100 ">
+                                                 <button class="btn bg-success text-white btn-confirm-queue  w-100" style="height:100px"  data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> @Localizer["Delivered"]</button >
+                                             </div>`;
+
+                    var div_end = `</div>`;
+                    var div_all = div_start + div_dish + div_btn + div_end;
+                    if (is_button_shift==true) {
+                        div_all = div_start + div_btn + div_dish+ div_end;
+                    }
+                    is_button_shift = !is_button_shift;
+                    var div = $(div_all);
                     content.append(div);
                     content.find(".user-queue").removeClass("queue-first");
                     content.find(".user-queue").first().addClass("queue-first");
@@ -600,8 +609,9 @@
                 var dishesnum = getdishesnum();
                 var requesttype = 'askforqueue';
                 var categories = [];
+                var queuecount = getQueueCount();
                 categories.push(parseInt($('#complexcategories').children("option:selected").val()));
-                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue, LastQueueId: lastQueueid, ComplexCategoriesIds: categories };
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue - queuecount, LastQueueId: lastQueueid, ComplexCategoriesIds: categories };
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                     cb(data);
                 })
