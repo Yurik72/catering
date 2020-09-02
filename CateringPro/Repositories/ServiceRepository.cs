@@ -129,7 +129,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error save confirmation", ex);
+                _logger.LogError(ex,"Error save confirmation");
             }
             return ServiceResponse.GetFailResult();
         }
@@ -221,7 +221,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error save confirmation", ex);
+                _logger.LogError(ex,"Error save confirmation");
                 return ServiceResponse.GetFailResult(request);
             }
            
