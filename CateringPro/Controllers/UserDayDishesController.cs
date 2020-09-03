@@ -215,49 +215,57 @@ namespace CateringPro.Controllers
         }
         public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> UserDayComplex, List<UserDayDish> UserDayDish)
         {
-            var daycomplexes = UserDayComplex;
-            // daycomplexes.AddRange(UserDayComplex);
-            //ad771929-223c-48eb-bb53-f042c96396b0
-            var duplicateKeys = daycomplexes.GroupBy(x => x)
-                        .Where(group => group.Count() > 1)
-                        .Select(group => group.Key);
-            //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
-            DateTime daydate = DateTime.Now;
-            DateTime ordDay = UserDayDish.FirstOrDefault().Date;
-            var res = _userdaydishesrepo.OrderedComplexDay(ordDay, User.GetUserId(), User.GetCompanyID()).ToList();
-            if (daycomplexes.Count > 0)
-                daydate = daycomplexes.First().Date;
-            else
+            try
             {
-                return await Task.FromResult(Json(new { res = "FAIL", reason = "Empty" }));
-            }
-            if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
-            {
-                return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
-            }
-            bool ordered = res.Any(x => daycomplexes.Any(y => y.ComplexId == x.ComplexId));
-            if (duplicateKeys.Count() != 0|| ordered)
-            {
-                if (duplicateKeys.Count() != 0) {
-                    _logger.LogWarning("Duplicates from front in User Day {0} userId {1}", ordDay, User.GetUserId());
-                        }
+                var daycomplexes = UserDayComplex;
+                // daycomplexes.AddRange(UserDayComplex);
+                //ad771929-223c-48eb-bb53-f042c96396b0
+                var duplicateKeys = daycomplexes.GroupBy(x => x)
+                            .Where(group => group.Count() > 1)
+                            .Select(group => group.Key);
+                //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
+                DateTime daydate = DateTime.Now;
+                DateTime ordDay = UserDayDish.FirstOrDefault().Date;
+                var res = _userdaydishesrepo.OrderedComplexDay(ordDay, User.GetUserId(), User.GetCompanyID()).ToList();
+                if (daycomplexes.Count > 0)
+                    daydate = daycomplexes.First().Date;
                 else
                 {
-                    _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", ordDay, User.GetUserId());
+                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Empty" }));
                 }
+                if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+                {
+                    return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
+                }
+                bool ordered = res.Any(x => daycomplexes.Any(y => y.ComplexId == x.ComplexId));
+                if (duplicateKeys.Count() != 0 || ordered)
+                {
+                    if (duplicateKeys.Count() != 0)
+                    {
+                        _logger.LogWarning("Duplicates from front in User Day {0} userId {1}", ordDay, User.GetUserId());
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", ordDay, User.GetUserId());
+                    }
+                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+                }
+
+
+                if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(), User.GetCompanyID()))
+                {
+                    //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+                    return await Task.FromResult(Json(new { res = "OK" }));
+
+                }
+                else
+                {
+                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+                }
+            } catch(Exception ex)
+            {
+                _logger.LogError("SaveDayComplex error", ex);
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
-            }
-
-
-            if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(),User.GetCompanyID()))
-            {
-                //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
-                return await Task.FromResult(Json(new { res = "OK" }));
-               
-            }
-            else
-            {
-                return await Task.FromResult(Json(new { res = "FAIL" , reason = "Adding to db" }));
             }
  
             

@@ -48,7 +48,7 @@ namespace CateringPro.Repositories
             if (company == null)
                 return false;
             var dateNow = DateTime.Now;
-            DateTime min = dateNow.AddHours(-10);
+            DateTime min = dateNow.AddHours(-(company.OrderLeadTimeH.Value));
             dateNow = dateNow.AddDays(1);
             DateTime max = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
             dateNow = dateNow.AddDays(1);
