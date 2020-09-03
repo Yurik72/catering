@@ -69,7 +69,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject,DayFrom,DayTo")] MassEmail em)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject,DayFrom,DayTo,SQLCommand")] MassEmail em)
         {
             if (id != em.Id)
             {
@@ -79,14 +79,14 @@ namespace CateringPro.Controllers
             if (em.TemplateText == null) em.TemplateText = "";
             if (em.Schedule == null) em.Schedule = "";
             if (em.Name == null) em.Name = "";
-            if (em.NextSend.Ticks == 0) em.NextSend = DateTime.Now;
+             em.NextSend = new DateTime();
 
 
             ViewData["Templates"] = GetTemplates(em.TemplateName);
             return await this.UpdateCompanyDataAsync(em, _context, _logger);
 
         }
-        public async Task<JsonResult> SendTest([Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject,DayFrom,DayTo")] MassEmail em)
+        public async Task<JsonResult> SendTest([Bind("Id,Name,Schedule,TemplateText,DistributionType,DistributionList,TemplateName,Greetings,OnePerUser,Text,Subject,DayFrom,DayTo,SQLCommand")] MassEmail em)
         {
             await _massmailservice.SendMassEmailToUser(User.GetCompanyID(), await _mailrepo.GetUserAsync(User.GetUserId()), em);
             return Json(0);

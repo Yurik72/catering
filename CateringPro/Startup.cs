@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using CateringPro.Helpers;
+using Microsoft.Net.Http.Headers;
 
 namespace CateringPro
 {
@@ -230,7 +231,15 @@ namespace CateringPro
               
             };
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + durationInSeconds;
+                }
+            });
             UIOption uioption=Configuration.GetSection("UIOption").Get<UIOption>();
             var cultureInfo = new CultureInfo(uioption.DefaultCulture);
             cultureInfo.NumberFormat.CurrencySymbol = uioption.CurrencySymbol;

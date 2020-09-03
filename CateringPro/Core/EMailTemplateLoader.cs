@@ -4,6 +4,9 @@ using CateringPro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CateringPro.Core
@@ -32,7 +35,24 @@ namespace CateringPro.Core
         [TemplateLoader(typeof(DayProductionTemplateLoader))]
         DayProduction=3,
         [TemplateLoader(typeof(UserDayOrderTemplateLoader))]
-        UserOrderWeek = 4
+        UserOrderWeek = 4,
+        [TemplateLoader(typeof(CsvFlatExportLoader))]
+        CsvFlatExport = 5
+    }
+    public class ExecutionModel
+    {
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
+        public int CompanyId { get; set; }
+
+        public string UserFriendlyName { get; set; }
+
+        public string UserChildFriendlyName { get; set; }
+
+        public string ShortSQLDateFrom => DateFrom.ShortSqlDate();
+        public string ShortSQLDateTo => DateTo.ShortSqlDate();
+
+        
     }
     public abstract class  EMailTemplateLoader
     {
@@ -43,7 +63,13 @@ namespace CateringPro.Core
             _mailRepo = mailRepo;
             _companyid = companyid;
         }
+        public ExecutionModel ExecModel { get; protected set; }
         public abstract bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user);
+        protected virtual void LoadBaseFeature(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
+        {
+            ExecModel = GetExecutionModel(em, template, user);
+            template.Subject = ReplaceMacro(em.Subject, ExecModel);
+        }
         protected virtual void  DateCycle(MassEmail em, EmailTemplateViewModel template,Action<MassEmail, EmailTemplateViewModel,DateTime> action)
         {
             DateTime dayfrom = DateTime.Today.AddDays(em.DayFrom);
@@ -54,6 +80,35 @@ namespace CateringPro.Core
                
             }
         }
+        protected virtual ExecutionModel GetExecutionModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
+        {
+            return new ExecutionModel()
+            {
+                DateFrom = DateTime.Today.ResetHMS().AddDays(em.DayFrom),
+                DateTo = DateTime.Today.AddDays(em.DayTo),
+                CompanyId = _companyid,
+                UserFriendlyName = user?.NameSurname,
+                UserChildFriendlyName= user?.ChildNameSurname
+            };
+        }
+         protected virtual string ReplaceMacro(string value, ExecutionModel exmodel)
+        {
+            try
+            {
+                return Regex.Replace(value, @"{(?<exp>[^}]+)}", match =>
+                {
+                    var p = Expression.Parameter(typeof(ExecutionModel), "exmodel");
+                    var e = DynamicExpressionParser.ParseLambda(new[] { p }, null, match.Groups["exp"].Value);
+                    // var e = DynamicExpression.ParseLambda(new[] { p }, null, match.Groups["exp"].Value);
+                    return (e.Compile().DynamicInvoke(exmodel) ?? "").ToString();
+                });
+            }
+            catch(Exception ex)
+            {
+                return value;
+            }
+        }
+ 
     }
     public class InfoTemplateLoader : EMailTemplateLoader
     {
@@ -63,6 +118,7 @@ namespace CateringPro.Core
         }
         public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
+            LoadBaseFeature(em, template, user);
             return true;
         }
     }
@@ -74,6 +130,7 @@ namespace CateringPro.Core
         }
         public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
+            LoadBaseFeature(em, template, user);
             this.DateCycle(em,template,(em, template, dt) => {
                 template.Models.Add(dt, _mailRepo.ReportRepository.CompanyComplexMenu(dt, dt, _companyid));
             });
@@ -94,6 +151,7 @@ namespace CateringPro.Core
         }
         public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
+            LoadBaseFeature(em, template, user);
             //template.Models.
             DateTime datefrom = DateTime.Now;
             datefrom = datefrom.AddDays(em.DayFrom);
@@ -126,6 +184,7 @@ namespace CateringPro.Core
         }
         public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
         {
+            LoadBaseFeature(em, template, user);
             //this.DateCycle(em, template, (em, template, dt) => {
             //    template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid,user));
             //});
@@ -133,5 +192,41 @@ namespace CateringPro.Core
             template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid, user));
             return true;
         }
+    }
+    public class CsvFlatExportLoader : EMailTemplateLoader
+    {
+        public CsvFlatExportLoader(IMassEmailRepository mailRepo, int companyid) : base(mailRepo, companyid)
+        {
+
+        }
+        public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
+        {
+            LoadBaseFeature(em, template, user);
+            //this.DateCycle(em, template, (em, template, dt) => {
+            //    template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid,user));
+            //});
+          
+            string sql = ReplaceMacro(em.SQLCommand, ExecModel);
+            var attach = new EMailAttachment();
+            attach.Content = _mailRepo.ProduceFlatCSV(sql).Result;
+            attach.ContentType = "text/csv";
+            attach.Name= ReplaceMacro(em.Name, ExecModel);
+            attach.Name = Translit.cyr2lat(attach.Name) + ".csv";
+            template.Attachments.Add(attach);
+            template.JustAttachment = true;
+           
+            //template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid, user));
+            return true;
+        }
+        /*
+ * string ReplaceMacro(string value, Job job)
+{
+return Regex.Replace(value, @"{(?<exp>[^}]+)}", match => {
+var p = Expression.Parameter(typeof(Job), "job");
+var e = System.Linq.Dynamic.DynamicExpression.ParseLambda(new[] { p }, null, match.Groups["exp"].Value);
+return (e.Compile().DynamicInvoke(job) ?? "").ToString();
+});
+}
+ */
     }
 }

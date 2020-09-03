@@ -27,10 +27,7 @@ namespace CateringPro.Data
             //  context.SetCompanyID(1);
             //  var queue = context.DeliveryQueues.Where(dq => dq.UserId == "27fb457f-8b4f-4a66-96ce-5e98ae2f1d91" && dq.DayDate == dayDate.ResetHMS()).ToList();
 
-            using (var sw = new StreamWriter("test.csv", false,new UTF8Encoding(true)))
-            {
-                context.Database.CSVWriter("select * from dishes").ToStreamAsync(sw).Wait();
-            }
+            string str = string.Format("Context {CompanyId}", context.CompanyId);
             if (env.EnvironmentName != "LocalProduction")
             {
                 CreateAdminRole(context, roleManager, userManager);

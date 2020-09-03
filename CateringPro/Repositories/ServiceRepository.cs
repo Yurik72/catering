@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 //using System.Data.Entity;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
@@ -123,8 +124,10 @@ namespace CateringPro.Repositories
             {
                 user_daydishes_confirmed.ForEach(d => d.IsDelivered = true);
                 _context.UpdateRange(user_daydishes_confirmed);
-                _context.RemoveRange(confirmed_queue);
                 await _context.SaveChangesAsync();
+                _context.RemoveRange(confirmed_queue);
+                // await _context.SaveChangesAsync();
+                await SaveChangesLoopAsync();
                 return ServiceResponse.GetSuccessResult();
             }
             catch (Exception ex)
@@ -132,6 +135,36 @@ namespace CateringPro.Repositories
                 _logger.LogError(ex,"Error save confirmation");
             }
             return ServiceResponse.GetFailResult();
+        }
+        private async Task SaveChangesLoopAsync()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    break;
+                }
+                catch (DbUpdateException dbex)
+                {
+                    // get failed entries
+                    try
+                    {
+                        var entries = dbex.Entries;
+                        foreach (var entry in entries)
+                        {
+                            // change state to remove it from context 
+                            entry.State = EntityState.Detached;
+                        }
+                    }
+                    catch { }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error save confirmation in the loop");
+                    break;
+                }
+            }
         }
         public async Task<ServiceResponse> ProcessQueueRequestAsync(ServiceRequest request)
         {

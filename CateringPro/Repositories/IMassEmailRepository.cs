@@ -18,5 +18,6 @@ namespace CateringPro.Repositories
         Task<Company> GetCompanyAsync(int companyid);
 
         Task<CompanyUser> GetUserAsync(string userid);
+        Task<byte[]> ProduceFlatCSV(string sql);
     }
 }

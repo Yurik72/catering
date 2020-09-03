@@ -35,11 +35,11 @@ namespace CateringPro.Core
 #if DEBUG
         public string Schedule => "*/5 * * * *"; //every 5 minutes
 #else
-        public string Schedule => "0 23 * * *"; //every day  at 23:00
+        public string Schedule => "*/10 * * * *"; //every 10 minutes
 #endif
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Start job to Write Off production day");
+            _logger.LogInformation("EMailSenderTask => ExecuteAsync");
             try
             {
                 using (var serviceScope = _serviceProvider.CreateScope())
@@ -106,6 +106,9 @@ namespace CateringPro.Core
                 return;
             }
             this.LastRunTime = this.NextRunTime = src.NextSend;
+            if (src.NextSend.Ticks == 0)
+                Increment();
+            //Increment();
         }
         public bool ShouldSend
         {

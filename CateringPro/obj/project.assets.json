@@ -2682,6 +2682,15 @@
           "lib/netstandard1.6/System.Linq.dll": {}
         }
       },
+      "System.Linq.Dynamic.Core/1.2.2": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll": {}
+        }
+      },
       "System.Linq.Expressions/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -8657,6 +8666,42 @@
         "system.linq.nuspec"
       ]
     },
+    "System.Linq.Dynamic.Core/1.2.2": {
+      "sha512": "I3IaeyTL7eXF1EmRe5K5qpFomnD0Fd8uLfv7SqBC9IniiM2xaUDMarjDsHT1Qbvv40irH0278RkzEu0ajHKh+w==",
+      "type": "package",
+      "path": "system.linq.dynamic.core/1.2.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/System.Linq.Dynamic.Core.dll",
+        "lib/net35/System.Linq.Dynamic.Core.pdb",
+        "lib/net35/System.Linq.Dynamic.Core.xml",
+        "lib/net40/System.Linq.Dynamic.Core.dll",
+        "lib/net40/System.Linq.Dynamic.Core.pdb",
+        "lib/net40/System.Linq.Dynamic.Core.xml",
+        "lib/net45/System.Linq.Dynamic.Core.dll",
+        "lib/net45/System.Linq.Dynamic.Core.pdb",
+        "lib/net45/System.Linq.Dynamic.Core.xml",
+        "lib/net46/System.Linq.Dynamic.Core.dll",
+        "lib/net46/System.Linq.Dynamic.Core.pdb",
+        "lib/net46/System.Linq.Dynamic.Core.xml",
+        "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll",
+        "lib/netcoreapp2.1/System.Linq.Dynamic.Core.pdb",
+        "lib/netcoreapp2.1/System.Linq.Dynamic.Core.xml",
+        "lib/netstandard1.3/System.Linq.Dynamic.Core.dll",
+        "lib/netstandard1.3/System.Linq.Dynamic.Core.pdb",
+        "lib/netstandard1.3/System.Linq.Dynamic.Core.xml",
+        "lib/netstandard2.0/System.Linq.Dynamic.Core.dll",
+        "lib/netstandard2.0/System.Linq.Dynamic.Core.pdb",
+        "lib/netstandard2.0/System.Linq.Dynamic.Core.xml",
+        "lib/uap10.0/System.Linq.Dynamic.Core.dll",
+        "lib/uap10.0/System.Linq.Dynamic.Core.pdb",
+        "lib/uap10.0/System.Linq.Dynamic.Core.pri",
+        "lib/uap10.0/System.Linq.Dynamic.Core.xml",
+        "system.linq.dynamic.core.1.2.2.nupkg.sha512",
+        "system.linq.dynamic.core.nuspec"
+      ]
+    },
     "System.Linq.Expressions/4.3.0": {
       "sha512": "PGKkrd2khG4CnlyJwxwwaWWiSiWFNBGlgXvJpeO0xCXrZ89ODrQ6tjEWS/kOqZ8GwEOUATtKtzp1eRgmYNfclg==",
       "type": "package",
@@ -11671,6 +11716,7 @@
       "Newtonsoft.Json >= 12.0.3",
       "SixLabors.ImageSharp >= 1.0.0-beta0007",
       "System.Drawing.Common >= 4.7.0",
+      "System.Linq.Dynamic.Core >= 1.2.2",
       "Westwind.AspNetCore.Markdown >= 3.3.8",
       "awesome-bootstrap-checkbox >= 0.3.4.1",
       "jsreport.AspNetCore >= 2.1.0",
@@ -11681,19 +11727,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\andry\\.nuget\\packages\\": {}
+    "C:\\Users\\yurik\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
+      "projectUniqueName": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj",
       "projectName": "CateringPro",
-      "projectPath": "D:\\work\\catering\\CateringPro\\CateringPro.csproj",
-      "packagesPath": "C:\\Users\\andry\\.nuget\\packages\\",
-      "outputPath": "D:\\work\\catering\\CateringPro\\obj\\",
+      "projectPath": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\CateringPro.csproj",
+      "packagesPath": "C:\\Users\\yurik\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yurik\\source\\repos\\Ferolka\\catering\\CateringPro\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\andry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\yurik\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11793,6 +11843,10 @@
             "target": "Package",
             "version": "[4.7.0, )"
           },
+          "System.Linq.Dynamic.Core": {
+            "target": "Package",
+            "version": "[1.2.2, )"
+          },
           "Westwind.AspNetCore.Markdown": {
             "target": "Package",
             "version": "[3.3.8, )"
@@ -11840,7 +11894,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.400\\RuntimeIdentifierGraph.json"
       }
     }
   },
