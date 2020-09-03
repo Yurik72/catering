@@ -228,7 +228,8 @@ namespace CateringPro.Core
             {
                 if (_context.Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite")
                     return false;
-                string cmd = $"delete from {name} ";
+                
+                string cmd = $"PRAGMA foreign_keys=off; delete from {name}; PRAGMA foreign_keys=on;";
                 _context.Database.ExecuteSqlRaw(cmd);
                 _output.Append($"table {name} cleaned {Environment.NewLine}");
              }
