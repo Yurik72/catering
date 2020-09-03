@@ -85,7 +85,7 @@ namespace CateringPro.Core
             return new ExecutionModel()
             {
                 DateFrom = DateTime.Today.ResetHMS().AddDays(em.DayFrom),
-                DateTo = DateTime.Today.AddDays(em.DayTo),
+                DateTo = DateTime.Today.ResetHMS().AddDays(em.DayTo),
                 CompanyId = _companyid,
                 UserFriendlyName = user?.NameSurname,
                 UserChildFriendlyName= user?.ChildNameSurname

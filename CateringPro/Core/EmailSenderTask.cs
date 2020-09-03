@@ -106,7 +106,7 @@ namespace CateringPro.Core
                 return;
             }
             this.LastRunTime = this.NextRunTime = src.NextSend;
-            if (src.NextSend.Ticks == 0)
+            if (src.NextSend.Year < 2020)
                 Increment();
             //Increment();
         }
