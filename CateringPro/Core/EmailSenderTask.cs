@@ -107,7 +107,7 @@ namespace CateringPro.Core
             }
             this.LastRunTime = this.NextRunTime = src.NextSend;
             if (src.NextSend.Year < 2020)
-                Increment();
+                NextRunTime = Schedule.GetNextOccurrence(src.NextSend);
             //Increment();
         }
         public bool ShouldSend
