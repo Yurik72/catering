@@ -304,10 +304,10 @@ namespace CateringPro.Repositories
                     var resList = new List<DayProductionDishViewModel>();
                     itemList.ForEach(it =>
                     {
-                        if (resList.Where(d => d.DishId == it.DishId).Count() != 0)
+                        if (resList.Where(d => d.DishId == it.DishId && d.CategoryName==it.CategoryName).Count() != 0)
                         {
-                            var item = resList.Where(d => d.DishId == it.DishId).SingleOrDefault();
-                            var index = resList.FindIndex(c => c.DishId == it.DishId);
+                            var item = resList.Where(d => d.DishId == it.DishId && d.CategoryName == it.CategoryName).SingleOrDefault();
+                            var index = resList.FindIndex(c => c.DishId == it.DishId && c.CategoryName == it.CategoryName);
                             resList[index].ReadyWeight = item.ReadyWeight + it.ReadyWeight;
                             resList[index].Quantity = item.Quantity + it.Quantity;
                             //resList.Remove(item);
@@ -642,6 +642,103 @@ namespace CateringPro.Repositories
 
             return res;
         }
-        //public UserRoleViewModel
+        public UserDayReportViewModel UserDayReport(int[] groupid, DateTime datefrom, DateTime dateto, int companyid)
+        {
+
+            var query1 =
+                    from u in _context.Users.Where(u => u.UserSubGroupId.HasValue && groupid.Contains( u.UserSubGroupId.Value))
+                    join g in _context.UserSubGroups on u.UserSubGroupId equals g.Id
+                    join udd in _context.UserDayDish.Where(ud => ud.Date >= datefrom && ud.Date <= dateto && ud.CompanyId == companyid)on u.Id equals udd.UserId
+                    //join d in _context.Dishes on udd.DishId equals d.Id
+                    //join com in _context.Complex on udd.ComplexId equals com.Id
+                    group u by new
+                       {
+                               userId = u.Id,
+                               childNameSurname = u.ChildNameSurname,
+                               groupId = u.UserSubGroupId,
+                               groupName = g.Name,
+                        dayDate = udd.Date,
+                        //dishId = udd.DishId,
+                        //dishName = d.Name,
+                        //complexName = com.Name,
+                        //complexKind = com.DishKindId
+
+                    } into grp
+                       select new
+                       {
+                           UserId = grp.Key.userId,
+                           ChildNameSurname = grp.Key.childNameSurname,
+                           GroupId = grp.Key.groupId,
+                           GroupName = grp.Key.groupName,
+                           DayDate = grp.Key.dayDate,
+                           //DishId = grp.Key.dishId,
+                           //DishName = grp.Key.dishName,
+                           //ComplexName = grp.Key.complexName,
+                           //ComplexKind = grp.Key.complexKind
+                       };
+            UserDayReportViewModel res = new UserDayReportViewModel()
+            {
+                Company = GetOwnCompany(companyid),
+
+                Days = from q in query1.ToList()
+                       group q by q.DayDate into grp
+                       orderby grp.Key.Date
+                       select new UserOrderDaysViewModel()
+                       {
+                           Day = grp.Key,
+                           Users = from it in grp
+                                 //group it by it.ChildNameSurname into child
+                                   orderby it.GroupName, it.ChildNameSurname/*, it.DishName*/
+                                   select new UserOneDayOrderViewModel()
+                                   {
+                                       UserId = it.UserId,
+                                       ChildNameSurname = it.ChildNameSurname,
+                                       GroupId = it.GroupId,
+                                       GroupName = it.GroupName,
+                                       Dishes = (from udd in _context.UserDayDish.Where(ud => ud.Date >= datefrom && ud.Date <= dateto && ud.CompanyId == companyid && ud.UserId == it.UserId)
+                                                 join d in _context.Dishes on udd.DishId equals d.Id
+                                                 join com in _context.Complex on udd.ComplexId equals com.Id
+                                                 join kind in _context.DishesKind on com.DishKindId equals kind.Id
+                                                 join cat in _context.Categories on com.CategoriesId equals cat.Id
+                                                 orderby cat.Code, com.Name
+                                                 select new UserDayReportDishesViewModel()
+                                                 {
+                                                     DishId = udd.DishId,
+                                                     DishName = d.Name,
+                                                     ComplexName = com.Name,
+                                                     ComplexKind = com.DishKindId,
+                                                     ComplexKindName = kind.Name
+                                                 }
+                                                               )
+                                   }
+                       }
+
+
+            };
+            //var res = from u in _context.Users.Where(u => u.UserGroupId == groupid)
+            //          join g in _context.UserGroups on u.UserGroupId equals g.Id
+            //          //join udd in _context.UserDayDish.Where(ud => ud.Date >= datefrom && ud.Date <= dateto && ud.CompanyId == companyid) on u.Id equals udd.UserId
+            //          select new UserOneDayOrderViewModel()
+            //          {
+            //              UserId = u.Id,
+            //              ChildNameSurname = u.ChildNameSurname,
+            //              GroupId = u.UserGroupId,
+            //              GroupName = g.Name,
+            //              Dishes = (from udd in _context.UserDayDish.Where(ud => ud.Date >= datefrom && ud.Date <= dateto && ud.CompanyId == companyid && ud.UserId==u.Id) 
+            //                        join d in _context.Dishes on udd.DishId equals d.Id
+            //                        join com in _context.Complex on udd.ComplexId equals com.Id
+            //                        select new UserDayReportDishesViewModel()
+            //                        {
+            //                            DayDate = udd.Date,
+            //                            DishId = udd.DishId,
+            //                            DishName = d.Name,
+            //                            ComplexName = com.Name,
+            //                            ComplexKind = com.DishKindId
+            //                        }
+            //                        )
+            //          };
+
+            return res;
+        }
     }
 }

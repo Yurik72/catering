@@ -24,16 +24,18 @@ namespace CateringPro.Controllers
     {
         public IJsReportMVCService JsReportMVCService { get; }
         private readonly IReportRepository _reportrepo;
+        private readonly ICompanyUserRepository _companyRep;
         private IStockRepository _stockrepo;
         private readonly AppDbContext _context;
         private readonly ILogger<ReportController> _logger;
-        public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger)
+        public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger, ICompanyUserRepository comRep)
         {
             JsReportMVCService = jsReportMVCService;
             _reportrepo = rr;
             _stockrepo = stockrepo;
             _context = context;
             _logger = logger;
+            _companyRep = comRep;
         }
 
         public IActionResult Index()
@@ -137,6 +139,16 @@ namespace CateringPro.Controllers
 
 
             return View(resGroup);
+        }
+        [MiddlewareFilter(typeof(JsReportPipeline))]
+        public async Task<IActionResult> UsersOrdersReport(DateTime datefrom, DateTime dateto, string format)
+        {
+            SelectFormat(format);
+            //var groups = _companyRep.UserPermittedSubGroups(User.GetUserId(), User.GetCompanyID()).Result.ToArray();
+            var groups = _companyRep.GetUserSubGroups(User.GetUserId(), User.GetCompanyID()).ToArray();
+            var res = _reportrepo.UserDayReport(groups, datefrom, dateto, User.GetCompanyID());
+
+            return View(res);
         }
         [MiddlewareFilter(typeof(JsReportPipeline))]
         public void SelectFormat(string format)

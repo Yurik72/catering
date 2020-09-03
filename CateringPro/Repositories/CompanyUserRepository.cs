@@ -443,7 +443,49 @@ namespace CateringPro.Repositories
             }
             return res;
         }
+        public List<int> GetUserSubGroups(string userId, int companyid)
+        {
+            try
+            {
+                var userSubGroup = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (userSubGroup == null)
+                {
+                    return new List<int>();
+                }
+               var allGroups = _context.UserSubGroups.Where(us=> us.CompanyId==companyid).ToList();
+                List<int> res = new List<int>();
+                var first = allGroups.Where(u => u.Id == userSubGroup.UserSubGroupId).First();
+                int id = (int)userSubGroup.UserSubGroupId;
+                var start = new List<UserSubGroup>();
+                start.Add(first);
+                var ug = allParents(id, allGroups,start);
+                //ug.ForEach(gr =>
+                //{
+                //    res.Add(gr.Id);
+                //});
+                res = ug.Select(ug => ug.Id).ToList();
+                res = res.Distinct().ToList();
+                return res;
 
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("Get UserSubGroup {0}", userId);
+                return new List<int>();
+            }
+
+        }
+        private List<UserSubGroup> allParents(int i,List<UserSubGroup> allGroups,List<UserSubGroup> res)
+        {
+            allGroups.ForEach(us => {
+                if(us.ParentId == i)
+                {
+                    res.Add(us);
+                   res.AddRange( allParents(us.Id, allGroups, res));
+                }
+                });
+            return res;
+        }
         public UpdateUserModel GetUpdateUserModel(CompanyUser user)
         {
             var res = new UpdateUserModel(user);

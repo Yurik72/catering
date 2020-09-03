@@ -37,5 +37,6 @@ namespace CateringPro.Repositories
         Task<List<int>> UserPermittedSubGroups(string userId, int companyid);
         Task<List<UserSubGroup>> GetUserSubGroups(int companyId);
         UpdateUserModel GetUpdateUserModel(CompanyUser user);
+        List<int> GetUserSubGroups(string userId, int companyid);
     }
 }
