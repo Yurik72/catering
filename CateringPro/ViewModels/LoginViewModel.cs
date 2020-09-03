@@ -22,5 +22,9 @@ namespace CateringPro.ViewModels
         public string ReturnUrl { get; set; }
 
         public bool IsModal { get; set; }
+
+        [DisplayName("RemeberMe")]
+        public bool IsRemember { get; set; }
+
     }
 }

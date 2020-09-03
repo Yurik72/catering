@@ -227,7 +227,7 @@ namespace CateringPro.Controllers
                 var claims = await _userManager.GetClaimsAsync(user);
                 // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.IsRemember, true);
 
                 if (result.Succeeded)
                 {
@@ -247,7 +247,17 @@ namespace CateringPro.Controllers
                 //}
                 //user.AccessFailedCount += 1;
                 //await _companyuser_repo.PostUpdateUserAsync(user, true);
-                ModelState.AddModelError("", _localizer.GetLocalizedString("IncorrectPassword"));
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError("", _localizer.GetLocalizedString("UserLockedOut"));
+                    _logger.LogWarning("The  user {0} is Locked out", model.UserName);
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", _localizer.GetLocalizedString("IncorrectPassword"));
+                    _logger.LogWarning("The password for user {0} is invalid", model.UserName);
+                }
                 _logger.LogWarning("The password for user {0} is invalid", model.UserName);
                 return View("LoginModal", model);
             }

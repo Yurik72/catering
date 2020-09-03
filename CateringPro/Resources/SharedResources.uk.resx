@@ -1006,4 +1006,10 @@
   <data name="CompanyDayProductionWithoutIngredients" xml:space="preserve">
     <value>Потреби у виробництвi без інгредієнтів</value>
   </data>
+  <data name="RemeberMe" xml:space="preserve">
+    <value>Запам'ятати мене</value>
+  </data>
+  <data name="UserLockedOut" xml:space="preserve">
+    <value>Користувач заблокований</value>
+  </data>
 </root>
