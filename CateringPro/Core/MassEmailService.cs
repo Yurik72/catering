@@ -111,7 +111,7 @@ namespace CateringPro.Core
                     var email = _context.Users.Where(x => x.Id == user.Id).FirstOrDefault();
                     if (email.ConfirmedByAdmin)
                     {
-                        await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message);
+                        await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message, companyid, proto.Attachments);
                     }
                 }
             }
@@ -143,9 +143,17 @@ namespace CateringPro.Core
             try
             {
                 var model = await CreateEmailModel(companyid, user, em);
-                string viewname = $"/Views/MassEmail/{em.TemplateName}_Template.cshtml";
-                res.Message = await _razorViewToStringRenderer.RenderViewToStringAsync(viewname, model);
-                res.Subject = string.IsNullOrEmpty(em.Subject)?"Info": em.Subject;
+                res.JustAttachment = model.JustAttachment;
+                if (!res.JustAttachment)
+                {
+                    string viewname = $"/Views/MassEmail/{em.TemplateName}_Template.cshtml";
+                    res.Message = await _razorViewToStringRenderer.RenderViewToStringAsync(viewname, model);
+                }
+                model.Attachments.ForEach(a => res.Attachments.Add(a));
+                if (string.IsNullOrEmpty(model.Subject))
+                    res.Subject = string.IsNullOrEmpty(em.Subject) ? "Info" : em.Subject;
+                else
+                    res.Subject = model.Subject;
                 // var user = _userManager.Users.SingleOrDefault(u => u.Id == userid);
             }
             catch(Exception ex)

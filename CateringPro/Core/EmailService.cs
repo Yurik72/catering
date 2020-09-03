@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using CateringPro.Data;
+using CateringPro.ViewModels;
 
 namespace CateringPro.Core
 {
@@ -20,7 +21,7 @@ namespace CateringPro.Core
         List<EmailMessage> ReceiveEmail(int maxCount = 10);
         Task SendInvoice(string userid, DateTime daydate, int comapnyid);
         Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid);
-        Task SendEmailAsync(string email, string subject, string message, int? companyId = default);
+        Task SendEmailAsync(string email, string subject, string message, int? companyId = default, IEnumerable<EMailAttachment> attachments = default);
         Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message, int? companyId = default);
         Task<bool> SendEmailFromTemplate<TModel>(int comapnyid, string subject, string email, string templateName, TModel model);
     }
@@ -167,7 +168,8 @@ namespace CateringPro.Core
                 return false;
             }
         }
-        public async Task SendEmailAsync(string email, string subject, string message, int? companyId=default)
+ 
+        public async Task SendEmailAsync(string email, string subject, string message, int? companyId=default, IEnumerable<EMailAttachment> attachments = default)
         {
             var emailMessage = new MimeMessage();
 
@@ -176,11 +178,23 @@ namespace CateringPro.Core
             //emailMessage.From.Add(new MailboxAddress("Catering service", "admin@catering.in.ua"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            
+            if (attachments != null && attachments.Count()>0)
             {
-                Text = message
-            };
-
+                var builder = new BodyBuilder { HtmlBody = message };
+                attachments.ToList().ForEach(a => {
+                    builder.Attachments.Add(a.Name,a.Content);
+                   // builder.Attachments.Add("test.csv");
+                });
+                emailMessage.Body = builder.ToMessageBody();
+            }
+            else
+            {
+                emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                {
+                    Text = message
+                };
+            }
             using (var client = new SmtpClient())
             {
                 try

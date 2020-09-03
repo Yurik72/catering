@@ -117,6 +117,10 @@
               "target": "Package",
               "version": "[4.7.0, )"
             },
+            "System.Linq.Dynamic.Core": {
+              "target": "Package",
+              "version": "[1.2.2, )"
+            },
             "Westwind.AspNetCore.Markdown": {
               "target": "Package",
               "version": "[3.3.8, )"

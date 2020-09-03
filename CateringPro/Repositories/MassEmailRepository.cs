@@ -1,12 +1,15 @@
-﻿using CateringPro.Data;
+﻿using CateringPro.Core;
+using CateringPro.Data;
 using CateringPro.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
@@ -55,6 +58,28 @@ namespace CateringPro.Repositories
         public async Task<CompanyUser> GetUserAsync(string userid)
         {
             return await _userManager.FindByIdAsync(userid);
+        }
+
+        public async Task<byte[]> ProduceFlatCSV(string sql)
+        {
+            using (var ms = new MemoryStream())
+            {
+                try
+                {
+                    using (var sw = new StreamWriter(ms, new UTF8Encoding(true)))
+                    {
+                        await _context.Database.CSVWriter(sql).ToStreamAsync(sw);
+                       // FileContentResult fs = new FileContentResult(ms.GetBuffer(), new MediaTypeHeaderValue("text/csv"));
+                        return ms.GetBuffer();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"CsvReportFromSQL sql {sql}");
+                    return null;
+                }
+
+            }
         }
     }
 }

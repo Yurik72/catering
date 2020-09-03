@@ -48,5 +48,8 @@ namespace CateringPro.Models
 
         public int DayTo { get; set; }
         public DateTime NextSend { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string SQLCommand { get; set; }
     }
 }
