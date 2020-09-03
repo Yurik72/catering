@@ -79,7 +79,7 @@ namespace CateringPro.Controllers
             if (em.TemplateText == null) em.TemplateText = "";
             if (em.Schedule == null) em.Schedule = "";
             if (em.Name == null) em.Name = "";
-             em.NextSend = new DateTime();
+             em.NextSend = new DateTime(2000,1,1);
 
 
             ViewData["Templates"] = GetTemplates(em.TemplateName);
