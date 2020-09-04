@@ -85,107 +85,114 @@
                             @*<div asp-validation-summary="All" id="errr" class="text-danger"></div>*@
                             <input type="hidden" asp-for="Id" />
                             <input type="hidden" asp-for="IsNew" />
-                            <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                                <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                    <label asp-for="UserName" for="input-login"
-                                           class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">@Localizer["UserNameLogin"]</label>
-                                        <input asp-for="UserName" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                               id="input-login"
-                                               placeholder="Логін" style="height: 34px">
-                                        @*<span asp-validation-for="UserName" class="text-danger"></span>*@
+                                @*@if (Model.LockoutEnd > DateTimeOffset.MinValue) {
+                                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                                <button class="btn btn-primary">reset</button>
+                                            </div>
+                                        </div> 
+                                        }*@
+                                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="UserName" for="input-login"
+                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">@Localizer["UserNameLogin"]</label>
+                                                <input asp-for="UserName" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                                   id="input-login"
+                                                   placeholder="Логін" style="height: 34px">
+                                            @*<span asp-validation-for="UserName" class="text-danger"></span>*@
+                                        </div>
+                                    </div>
+                                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="Email" for="input-email"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                                            <input asp-for="Email" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                                   id="input-email"
+                                                   placeholder="E-mail" style="height: 34px">
+                                            @*<span asp-validation-for="Email" class="text-danger"></span>*@
+                                            @*@if (Model.EmailConfirmed)
+                        {
+                            <span class="confirmed fa fa-check fa-2x text-success"></span>
+                        }
+                        else
+                        {
+                            <span class="danger fa fa-times fa-2x text-danger"></span>
+                        }*@
+                                        </div>
+                                    </div>
+                                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="PhoneNumber" for="input-telephone"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                                            <input asp-for="PhoneNumber" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                                   id="input-telephone"
+                                                   placeholder="Телефон" style="height: 34px">
+                                            @*<span asp-validation-for="PhoneNumber" class="text-danger"></span>*@
+                                        </div>
+                                    </div>
+                                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="NameSurname" for="input-namesurname"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                                            <input asp-for="NameSurname" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                                   id="input-namesurname"
+                                                   placeholder="Ім'я" style="height: 34px">
+                                            @*<span asp-validation-for="NameSurname" class="text-danger"></span>*@
+                                        </div>
+                                    </div>
+                                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="City" for="input-city"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Місто</label>
+                                            <input asp-for="City" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                                   id="input-city"
+                                                   placeholder="Місто" style="height: 34px">
+                                            @*<span asp-validation-for="City" class="text-danger"></span>*@
+                                        </div>
+                                    </div>
+                                    <div class="row p-0 flex-column">
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="NewPassword" for="input-user-new-password"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center md-0 ">
+                                            </label>
+                                            <input asp-for="NewPassword" type="password" class="form-control col-12 col-lg-8 col-md-8 pl-3"
+                                                   id="input-user-new-password" placeholder="" style="height: 34px">
+                                            @*<span asp-validation-for="NewPassword" class="text-danger"></span>*@
+                                        </div>
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="ConfirmPassword" for="input-user-confirm-new-password"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">Підтвердити</label>
+                                            <input asp-for="ConfirmPassword" type="password" class="form-control col-12 col-lg-8 col-md-8 pl-3"
+                                                   id="input-user-confirm-new-password" placeholder="" style="height: 34px">
+                                            @*<span asp-validation-for="ConfirmPassword" class="text-danger"></span>*@
+                                        </div>
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="ConfirmedByAdmin" for="confirm-by-admin"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">
+                                            </label>
+                                            <label for="confirm-by-admin" class="col-1 pl-3">
+                                                <input asp-for="ConfirmedByAdmin" type="checkbox" id="confirm-by-admin" class="checkbox-user">
+                                                <span class="checkmark-user" style="margin-top: 3px"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="UserGroupId" for="input-select-group"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 "></label>
+                                            <select asp-for="UserGroupId" class="form-control col-12 col-lg-8 col-md-8 pl-3 "
+                                                    id="input-select-group"
+                                                    style="height: 34px; border: 1px solid #ced4da; border-radius: 4px" asp-items="ViewBag.UserGroupId">
+                                            </select>
+                                        </div>
+                                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
+                                            <label asp-for="UserSubGroupId" for="input-select-group"
+                                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 "></label>
+                                            <select asp-for="UserSubGroupId" class="form-control col-12 col-lg-8 col-md-8 pl-3 "
+                                                    id="input-select-group"
+                                                    style="height: 34px; border: 1px solid #ced4da; border-radius: 4px" asp-items="ViewBag.UserSubGroupId">
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="Email" for="input-email"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
-                                        <input asp-for="Email" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                               id="input-email"
-                                               placeholder="E-mail" style="height: 34px">
-                                        @*<span asp-validation-for="Email" class="text-danger"></span>*@
-                                        @*@if (Model.EmailConfirmed)
-        {
-            <span class="confirmed fa fa-check fa-2x text-success"></span>
-        }
-        else
-        {
-            <span class="danger fa fa-times fa-2x text-danger"></span>
-        }*@
-                                    </div>
-                                </div>
-                                <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="PhoneNumber" for="input-telephone"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
-                                        <input asp-for="PhoneNumber" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                               id="input-telephone"
-                                               placeholder="Телефон" style="height: 34px">
-                                        @*<span asp-validation-for="PhoneNumber" class="text-danger"></span>*@
-                                    </div>
-                                </div>
-                                <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="NameSurname" for="input-namesurname"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
-                                        <input asp-for="NameSurname" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                               id="input-namesurname"
-                                               placeholder="Ім'я" style="height: 34px">
-                                        @*<span asp-validation-for="NameSurname" class="text-danger"></span>*@
-                                    </div>
-                                </div>
-                                <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="City" for="input-city"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0">Місто</label>
-                                        <input asp-for="City" type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                               id="input-city"
-                                               placeholder="Місто" style="height: 34px">
-                                        @*<span asp-validation-for="City" class="text-danger"></span>*@
-                                    </div>
-                                </div>
-                                <div class="row p-0 flex-column">
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="NewPassword" for="input-user-new-password"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center md-0 ">
-                                        </label>
-                                        <input asp-for="NewPassword" type="password" class="form-control col-12 col-lg-8 col-md-8 pl-3"
-                                               id="input-user-new-password" placeholder="" style="height: 34px">
-                                        @*<span asp-validation-for="NewPassword" class="text-danger"></span>*@
-                                    </div>
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="ConfirmPassword" for="input-user-confirm-new-password"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">Підтвердити</label>
-                                        <input asp-for="ConfirmPassword" type="password" class="form-control col-12 col-lg-8 col-md-8 pl-3"
-                                               id="input-user-confirm-new-password" placeholder="" style="height: 34px">
-                                        @*<span asp-validation-for="ConfirmPassword" class="text-danger"></span>*@
-                                    </div>
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="ConfirmedByAdmin" for="confirm-by-admin"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">
-                                        </label>
-                                        <label for="confirm-by-admin" class="col-1 pl-3">
-                                            <input asp-for="ConfirmedByAdmin" type="checkbox" id="confirm-by-admin" class="checkbox-user">
-                                            <span class="checkmark-user" style="margin-top: 3px"></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="UserGroupId" for="input-select-group"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 "></label>
-                                        <select asp-for="UserGroupId" class="form-control col-12 col-lg-8 col-md-8 pl-3 "
-                                                id="input-select-group"
-                                                style="height: 34px; border: 1px solid #ced4da; border-radius: 4px" asp-items="ViewBag.UserGroupId">
-                                        </select>
-                                    </div>
-                                    <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
-                                        <label asp-for="UserSubGroupId" for="input-select-group"
-                                               class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 "></label>
-                                        <select asp-for="UserSubGroupId" class="form-control col-12 col-lg-8 col-md-8 pl-3 "
-                                                id="input-select-group"
-                                                style="height: 34px; border: 1px solid #ced4da; border-radius: 4px" asp-items="ViewBag.UserSubGroupId">
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="tab-pane fade"
                              id="user-role" role="tabpanel"
