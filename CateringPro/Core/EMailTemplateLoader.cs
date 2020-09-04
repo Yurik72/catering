@@ -49,8 +49,8 @@ namespace CateringPro.Core
 
         public string UserChildFriendlyName { get; set; }
 
-        public string ShortSQLDateFrom => DateFrom.ShortSqlDate();
-        public string ShortSQLDateTo => DateTo.ShortSqlDate();
+        public string ShortSQLDateFrom => DateFrom.ResetHMS().ShortSqlDate();
+        public string ShortSQLDateTo => DateTo.ResetHMS().ShortSqlDate();
 
         
     }
@@ -84,8 +84,8 @@ namespace CateringPro.Core
         {
             return new ExecutionModel()
             {
-                DateFrom = DateTime.Today.ResetHMS().AddDays(em.DayFrom),
-                DateTo = DateTime.Today.ResetHMS().AddDays(em.DayTo),
+                DateFrom = DateTime.Today.AddDays(em.DayFrom),
+                DateTo = DateTime.Today.AddDays(em.DayTo),
                 CompanyId = _companyid,
                 UserFriendlyName = user?.NameSurname,
                 UserChildFriendlyName= user?.ChildNameSurname
