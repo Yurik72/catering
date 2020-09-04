@@ -104,6 +104,7 @@ namespace CateringPro.ViewModels
 
         public string AutoLoginUrl { get; set; }
         public string AutoLoginToken { get; set; }
+        public DateTimeOffset LockoutEnd { get; set; }
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
             if (usr != null)

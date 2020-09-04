@@ -11732,11 +11732,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\den4i\\source\\repos\\catering\\CateringPro\\CateringPro.csproj",
+      "projectUniqueName": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
       "projectName": "CateringPro",
-      "projectPath": "C:\\Users\\den4i\\source\\repos\\catering\\CateringPro\\CateringPro.csproj",
+      "projectPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
       "packagesPath": "C:\\Users\\den4i\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\den4i\\source\\repos\\catering\\CateringPro\\obj\\",
+      "outputPath": "C:\\Users\\den4i\\Source\\Repos\\catering\\CateringPro\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
