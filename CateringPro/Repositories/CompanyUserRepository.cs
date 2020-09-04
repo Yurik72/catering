@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 using CateringPro.ViewModels;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Net.Http.Headers;
 
 namespace CateringPro.Repositories
 {
@@ -27,15 +27,17 @@ namespace CateringPro.Repositories
         private readonly UserManager<CompanyUser> _userManager;
         private readonly RoleManager<CompanyRole> _roleManager;
         private readonly IMemoryCache _cache;
-
+        private readonly SignInManager<CompanyUser> _signInManager;
         public CompanyUserRepository(AppDbContext context, ILogger<CompanyUser> logger,
-            UserManager<CompanyUser> userManager, IMemoryCache cache, RoleManager<CompanyRole> rolemanager)
+            UserManager<CompanyUser> userManager, IMemoryCache cache, RoleManager<CompanyRole> rolemanager,
+             SignInManager<CompanyUser> signInManager)
         {
             _context = context;
             _logger = logger;
             _userManager = userManager;
             _cache = cache;
             _roleManager = rolemanager;
+            _signInManager = signInManager;
 
 
         }
@@ -495,6 +497,19 @@ namespace CateringPro.Repositories
             if (company != null)
                 res.CompanyName = company.Name;
             return res;
+        }
+        public async Task<bool> ValidateBasicAuthAsync(string val)
+        {
+            var authHeader = AuthenticationHeaderValue.Parse(val);
+            var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
+            var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
+            var username = credentials[0];
+            var password = credentials[1];
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                return false;
+            var res = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+            return res.Succeeded;
         }
     }
 }

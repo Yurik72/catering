@@ -16,6 +16,7 @@ using System.Text;
 using CateringPro.Data;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
@@ -193,6 +194,28 @@ namespace CateringPro.Controllers
             return await CsvReportFromSQL($"exec DeliveryReportSummary '{dayDate.ShortSqlDate()}' , {User.GetCompanyID()}", $"deliveryreportsummary{dayDate.ShortSqlDate()}");
 
 
+        }
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> OrderPeriodDetailReport(DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+            if(string.IsNullOrEmpty( Request.Headers["Authorization"]))
+                 return StatusCode((int)HttpStatusCode.Unauthorized);
+            var autorize=await _companyRep.ValidateBasicAuthAsync(Request.Headers["Authorization"]);
+            if (!autorize)
+                return StatusCode((int)HttpStatusCode.Unauthorized);
+            Response.Headers["ContentType"] = "application/json";
+            return Content(await _reportrepo.OrderPeriodDetailReportAsync(dateFrom, dateTo, companyId));
+        }
+            // [AllowAnonymous]
+          public async Task<IActionResult> SQLRawJsonData(string sql)
+        {
+            // to do unsecure check injection
+            return Content("");
+            var jsonstring= await _context.Database.JsonWriter(sql).ToStringAsync();
+            Response.Headers["ContentType"]="application/json";
+            return Content(jsonstring);
         }
         private async Task<FileResult> CsvReportFromSQL(string sql,string filename)
         {

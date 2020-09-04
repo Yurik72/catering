@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CateringPro.Core
@@ -42,6 +44,16 @@ namespace CateringPro.Core
        string sqlQuery) 
         {
             return new CsvMaterialize()
+            {
+                DatabaseFacade = database,
+                SQLQuery = sqlQuery
+            };
+        }
+       public static JsonMaterialize JsonWriter(
+       this DatabaseFacade database,
+       string sqlQuery)
+        {
+            return new JsonMaterialize()
             {
                 DatabaseFacade = database,
                 SQLQuery = sqlQuery
@@ -216,6 +228,68 @@ namespace CateringPro.Core
                 await sw.FlushAsync();
             }
         }
+    }
+
+    public class JsonMaterialize
+    {
+     
+        public DatabaseFacade DatabaseFacade { get; set; }
+        public string SQLQuery { get; set; }
+
+        public async Task<string> ToStringAsync()
+        {
+            string res;
+            var conn = DatabaseFacade.GetDbConnection();
+            try
+            {
+                await conn.OpenAsync();
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = SQLQuery;
+                    DbDataReader reader = await command.ExecuteReaderAsync();
+                     res=await ToStringAsync(reader );
+
+                    reader.Dispose();
+                }
+            }
+
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        private async Task<string> ToStringAsync(DbDataReader reader)
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+
+            using (JsonWriter jsonWriter = new JsonTextWriter(sw))
+            {
+                jsonWriter.WriteStartArray();
+
+                while (reader.Read())
+                {
+                    jsonWriter.WriteStartObject();
+
+                    int fields = reader.FieldCount;
+
+                    for (int i = 0; i < fields; i++)
+                    {
+                        jsonWriter.WritePropertyName(reader.GetName(i));
+                        jsonWriter.WriteValue(reader[i]);
+                    }
+
+                    jsonWriter.WriteEndObject();
+                }
+
+                jsonWriter.WriteEndArray();
+
+                return sw.ToString();
+            }
+        }
+             
+        
     }
 }
 

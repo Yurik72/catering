@@ -38,5 +38,6 @@ namespace CateringPro.Repositories
         Task<List<UserSubGroup>> GetUserSubGroups(int companyId);
         UpdateUserModel GetUpdateUserModel(CompanyUser user);
         List<int> GetUserSubGroups(string userId, int companyid);
+        Task<bool> ValidateBasicAuthAsync(string val);
     }
 }

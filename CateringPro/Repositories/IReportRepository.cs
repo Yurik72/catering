@@ -31,5 +31,6 @@ namespace CateringPro.Repositories
 
         InvoiceModel EmailWeekInvoice(DateTime daydate, int companyid, CompanyUser user);
         UserDayReportViewModel UserDayReport(int[] groupid, DateTime datefrom, DateTime dateto, int companyid);
+        Task<string> OrderPeriodDetailReportAsync(DateTime? dateFrom, DateTime? dateTo, int? companyId);
     }
 }

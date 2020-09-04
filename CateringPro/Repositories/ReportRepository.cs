@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using CateringPro.Core;
 using System.Data;
 using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 //using AspNetCore;
 
 namespace CateringPro.Repositories
@@ -19,13 +21,15 @@ namespace CateringPro.Repositories
         private readonly ILogger<CompanyUser> _logger;
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly IInvoiceRepository _invoicerepo;
-        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo)
+        private readonly IMemoryCache _cache;
+        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo, IMemoryCache cache)
         {
             _context = context;
             _logger = logger;
             _udaydishrepo = ud;
             _invoicerepo = invoicerepo;
-        }
+            _cache = cache;
+    }
        public CompanyModel GetOwnCompany(int companyid)
         {
             CompanyModel res;
@@ -739,6 +743,17 @@ namespace CateringPro.Repositories
             //          };
 
             return res;
+        }
+        public async Task<string> OrderPeriodDetailReportAsync(DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+
+            if (!companyId.HasValue)
+                companyId = (await _cache.GetCachedCompaniesAsync(_context)).OrderBy(c => c.IsDefault).LastOrDefault().Id;
+            if (!dateFrom.HasValue)
+                dateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            if (!dateTo.HasValue)
+                dateTo = dateFrom.Value.AddMonths(1);
+            return await _context.Database.JsonWriter($"exec [OrderPeriodDetailReport] '{dateFrom.Value.ShortSqlDate()}','{dateTo.Value.ShortSqlDate()}', {companyId.Value}").ToStringAsync();
         }
     }
 }
