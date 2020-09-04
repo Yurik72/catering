@@ -163,6 +163,7 @@
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\OrderDetails\" />
     <Folder Include="Views\Shared\Components\CategoryMenu\" />
+    <Folder Include="wwwroot\animation\js\" />
   </ItemGroup>
 <ItemGroup>
 	<Content Include="SQL\**">
@@ -220,7 +221,7 @@
   <None Include="wwwroot\animation\img\Union.svg" />
   <None Include="wwwroot\animation\img\week-report.svg" />
   <None Include="wwwroot\animation\img\white-plus.svg" />
-  <None Include="wwwroot\animation\js\animation-bg-main-page.js" />
+  <None Include="wwwroot\js\animation-bg-main-page.js" />
   <None Include="wwwroot\css\bootstrap-grid.css.map" />
   <None Include="wwwroot\css\bootstrap-grid.min.css.map" />
   <None Include="wwwroot\css\bootstrap-reboot.css.map" />
