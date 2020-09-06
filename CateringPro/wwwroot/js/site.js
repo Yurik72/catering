@@ -40,7 +40,7 @@ function showAvaibleCookies() {
     document.getElementById("msg").innerHTML = "Cookies disabled";
 }
 function setup_changechield() {
-    $("#changechield").click(function (e) {
+    $("#changechield,#changechield-1").click(function (e) {
         var url = '/Account/UserChilds';
         var self = this;
         $.get(url, function (data) {
@@ -134,7 +134,7 @@ function getWeekDay(i) {
     return days[i];
 }
 function setup_changecompany() {
-    $("#selectcompany").click(function (e) {
+    $("#selectcompany,#selectcompany-1").click(function (e) {
         var id = $(this).attr("data-userid");
         var url = '/Account/CompaniesForUser?userId=' + id;
         var self = this;

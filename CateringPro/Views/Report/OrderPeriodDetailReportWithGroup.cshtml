@@ -68,6 +68,11 @@
 
                 @foreach (var item in Model)
                 {
+                    <tr class="information ">
+                    <td colspan="2 ">
+                            @item.Key
+                     </td>
+                     </tr>
                     @if (item.SubGroups != null)
                     {
                         ViewDataDictionary vd = new ViewDataDictionary(ViewData);
@@ -95,11 +100,7 @@ else
 {
 @foreach (var item in Model)
 {
-    @*
-        <div>
-            Start group @level ----  @item.Key
-        </div>
-    *@
+
     <tr class="item daydate">
         <td colspan="4">@item.Key</td>
     </tr>
@@ -113,17 +114,13 @@ else
     {
         @foreach (var it in item.Items)
         {
-            @* <div> ------------------@it.DishName   </div>*@
+           
             <tr>
                 <td>@it.DishName</td>
             </tr>
 
         }
     }
-    @*
-        <div>
-            End group
-        </div>
-    *@
+
 }
 }
