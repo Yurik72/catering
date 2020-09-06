@@ -1,0 +1,129 @@
+﻿@model IEnumerable<GroupResult<OrderDetailsViewModel>>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+    int level = 0;
+    if (ViewData["level"] != null)
+        level = (int)ViewData["level"];
+}
+
+@if (level == 0)
+{
+
+
+    <html>
+    <head>
+        <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body>
+
+        <div class="invoice-box">
+            <table cellpadding="0" cellspacing="0">
+               
+                <tr class="top">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <td class="title">
+                                </td>
+                                <td>
+
+                                    Замовлення
+                                    <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="information ">
+                    <td colspan="2 ">
+                        <table>
+                            <tr>
+                                <td>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="heading ">
+                    <td>
+                        @Localizer["Complex"]
+                    </td>
+                    <td colspan="2">
+                        @Localizer["Complex Name"]
+                    </td>
+
+                    <td style="text-align:left">
+                        @Localizer["ComplexKind"]
+                    </td>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    @if (item.SubGroups != null)
+                    {
+                        ViewDataDictionary vd = new ViewDataDictionary(ViewData);
+                        vd["level"] = level + 1;
+                        await Html.RenderPartialAsync("OrderPeriodDetailReportWithGroup", item.SubGroups, vd);
+                    }
+
+                }
+
+
+                <tr class="total ">
+                    <td></td>
+                    <td></td>
+
+                    <td>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </body>
+</html>
+}
+else
+{
+@foreach (var item in Model)
+{
+    @*
+        <div>
+            Start group @level ----  @item.Key
+        </div>
+    *@
+    <tr class="item daydate">
+        <td colspan="4">@item.Key</td>
+    </tr>
+    @if (item.SubGroups != null)
+    {
+        ViewDataDictionary vd = new ViewDataDictionary(ViewData);
+        vd["level"] = level + 1;
+        await Html.RenderPartialAsync("OrderPeriodDetailReportWithGroup", item.SubGroups, vd);
+    }
+    else
+    {
+        @foreach (var it in item.Items)
+        {
+            @* <div> ------------------@it.DishName   </div>*@
+            <tr>
+                <td>@it.DishName</td>
+            </tr>
+
+        }
+    }
+    @*
+        <div>
+            End group
+        </div>
+    *@
+}
+}

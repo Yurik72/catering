@@ -35,6 +35,14 @@ namespace CateringPro.Core
             
             return $"{dt.Year}{dt.Month.ToString("D2")}{dt.Day.ToString("D2")}";
         }
+        public static DateTime? SetDefaultIfNotSet(this DateTime? dt, DateTime dflt,bool resetHMS=true)
+        {
+            if (!dt.HasValue)
+                dt = dflt;
+            if (resetHMS)
+                dt = dt.Value.ResetHMS();
+            return dt;
+        }
         public static string ShortJSDate(this DateTime dt)
         {
 

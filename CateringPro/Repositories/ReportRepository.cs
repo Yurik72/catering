@@ -755,5 +755,29 @@ namespace CateringPro.Repositories
                 dateTo = dateFrom.Value.AddMonths(1);
             return await _context.Database.JsonWriter($"exec [OrderPeriodDetailReport] '{dateFrom.Value.ShortSqlDate()}','{dateTo.Value.ShortSqlDate()}', {companyId.Value}").ToStringAsync();
         }
+        public async Task<IEnumerable<OrderDetailsViewModel>> GetOrderPeriodDetailReport(DateTime datefrom, DateTime dateto, int companyId,int?usersubGroupId)
+        {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyId);
+            }
+            string subgroup = usersubGroupId.HasValue ? usersubGroupId.Value.ToString() : "NULL";
+            var query = await _context.Database.SqlQuery<OrderDetailsViewModel>(
+                $"exec OrderPeriodDetailReport '{datefrom.ShortSqlDate()}' ,'{dateto.ShortSqlDate()}' , {companyId},{subgroup}").ToListAsync();
+            return query;
+        }
+        public async Task<IEnumerable<GroupResult<OrderDetailsViewModel>>> GetOrderPeriodDetailReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId)
+        {
+            var query = await GetOrderPeriodDetailReport(datefrom, dateto, companyId, usersubGroupId);
+            /*  var querywithgroup=from orders in query
+                                 group orders by orders.GroupName into subgroup
+                                 from userGroup in
+                                      (from user in subgroup
+                                       group user by user.ChildNameSurname)
+                                 group userGroup by subgroup.Key;
+            */
+            var querywithgroup = query.GroupByMany(o => o.GroupName, o => o.ChildNameSurname, o => o.Category);
+            return querywithgroup;
+        }
     }
 }

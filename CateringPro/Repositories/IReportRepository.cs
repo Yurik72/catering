@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CateringPro.Core;
 using CateringPro.Models;
 using CateringPro.ViewModels;
 
@@ -32,5 +33,6 @@ namespace CateringPro.Repositories
         InvoiceModel EmailWeekInvoice(DateTime daydate, int companyid, CompanyUser user);
         UserDayReportViewModel UserDayReport(int[] groupid, DateTime datefrom, DateTime dateto, int companyid);
         Task<string> OrderPeriodDetailReportAsync(DateTime? dateFrom, DateTime? dateTo, int? companyId);
+        Task<IEnumerable<GroupResult<OrderDetailsViewModel>>> GetOrderPeriodDetailReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId);
     }
 }
