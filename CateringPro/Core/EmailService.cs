@@ -12,6 +12,7 @@ using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using CateringPro.Data;
 using CateringPro.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CateringPro.Core
 {
@@ -35,12 +36,13 @@ namespace CateringPro.Core
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         public EmailService(AppDbContext context,IEmailConfiguration emailConfiguration, 
             IRazorViewToStringRenderer razorRenderer, 
             IInvoiceRepository invoicerepo, 
             UserManager<CompanyUser> userManager, 
             ILogger<CompanyUser> logger, 
-            IUserDayDishesRepository ud, IConfiguration iConfig)
+            IUserDayDishesRepository ud, IConfiguration iConfig, IServiceScopeFactory serviceScopeFactory)
         {
             _context = context;
             _emailConfiguration = emailConfiguration;
@@ -50,6 +52,13 @@ namespace CateringPro.Core
             _logger = logger;
             _udaydishrepo = ud;
             _config = iConfig;
+            _serviceScopeFactory = serviceScopeFactory;
+#if DEBUG
+            _context.Disposing += (sender, args) =>
+             {
+                 _logger.LogWarning("context Disposing");
+             };
+#endif
         }
 
         public EmailService()
@@ -232,10 +241,18 @@ namespace CateringPro.Core
                     Body = message
 
                 };
-                if (companyId.HasValue)
-                    item.CompanyId = companyId.Value;
-                _context.Add(item);
-                await _context.SaveChangesAsync();
+                using (var serviceScope = _serviceScopeFactory.CreateScope())
+                {
+                    AppDbContext context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                    if (companyId.HasValue)
+                    {
+                        item.CompanyId = companyId.Value;
+                        context.SetCompanyID(item.CompanyId);
+                    }
+                    context.Add(item);
+                    await context.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {

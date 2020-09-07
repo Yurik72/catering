@@ -103,7 +103,7 @@ namespace CateringPro.Core
                     var email = _context.Users.Where(x => x.Id == user.ParentUserId).FirstOrDefault();
                     if (email.ConfirmedByAdmin)
                     {
-                        await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message);
+                        await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message, companyid);
                     }
                 }
                 else 
