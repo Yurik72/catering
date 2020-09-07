@@ -23,10 +23,25 @@ namespace CateringPro.Data
         private int companyId=-1;
         private bool isCompanyIdSet=false;
         private readonly IWebHostEnvironment _hostingEnv;
+#if DEBUG
+        public EventHandler Disposing;
+#endif
         protected AppDbContext()
         {
 
         }
+#if DEBUG
+        public override void Dispose()
+        {
+            Disposing?.Invoke(this, new EventArgs());
+            base.Dispose();
+        }
+        public override ValueTask DisposeAsync()
+        {
+            Disposing?.Invoke(this, new EventArgs());
+            return base.DisposeAsync();
+        }
+#endif
         public AppDbContext(DbContextOptions<AppDbContext> options, IHttpContextAccessor httpContextAccessor,IWebHostEnvironment hostingEnv) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;

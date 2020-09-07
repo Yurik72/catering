@@ -33,17 +33,20 @@ namespace CateringPro.Core
         }
 
 #if DEBUG
-        public string Schedule => "*/5 * * * *"; //every 5 minutes
+        public string Schedule => "*/1 * * * *"; //every 5 minutes
 #else
         public string Schedule => "*/10 * * * *"; //every 10 minutes
 #endif
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("EMailSenderTask => ExecuteAsync");
+          
             try
             {
                 using (var serviceScope = _serviceProvider.CreateScope())
                 {
+                   
+                   
+
                     AppDbContext context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
                     if (context == null)
                     {
@@ -72,15 +75,18 @@ namespace CateringPro.Core
                                 continue;
                             }
                             IMassEmailService meservice = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
-                            wrap.Increment();
-                            //if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
-                            //{
-
-                            //}
-                            var b = meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime).Result;
                             
+                                wrap.Increment();
+                                //if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
+                                //{
 
-                        }
+                                //}
+                             var success = await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime);
+                            // if(!success)
+                           //     _logger.LogError("SendMassEmailAsync failed");
+                        
+
+                    }
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,13 +43,20 @@ namespace CateringPro.Core
         {
             var taskFactory = new TaskFactory(TaskScheduler.Current);
             var referenceTime = DateTime.UtcNow;
-            
+
+#if DEBUG
+            Debug.WriteLine("ExecuteOnceAsync ");
+#endif
+
             var tasksThatShouldRun = _scheduledTasks.Where(t => t.ShouldRun(referenceTime)).ToList();
 
             foreach (var taskThatShouldRun in tasksThatShouldRun)
             {
                 taskThatShouldRun.Increment();
 
+#if DEBUG
+                Debug.WriteLine("Start  "+ taskThatShouldRun.Task.ToString());
+#endif
                 await taskFactory.StartNew(
                     async () =>
                     {
@@ -70,6 +78,9 @@ namespace CateringPro.Core
                         }
                     },
                     cancellationToken);
+#if DEBUG
+                Debug.WriteLine("executed  " + taskThatShouldRun.Task.ToString());
+#endif
             }
         }
 
