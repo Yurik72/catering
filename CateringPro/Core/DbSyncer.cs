@@ -30,7 +30,7 @@ namespace CateringPro.Core
         Task InitialSyncByDBContext(int companyId, DateTime daydate);
         Task SyncDb(int? companyId = default, DateTime? daydate = default);
         Task SyncOrders(int companyId, DateTime daydate);
-        Task SyncOrdersWeek(int companyId, DateTime startdate);
+        Task SyncOrdersDays(int companyId, DateTime startdate, int days = 4);
     }
     public class DbSyncer : IDbSyncer
     {
@@ -78,9 +78,10 @@ namespace CateringPro.Core
             return;
  
         }
-        public async Task SyncOrdersWeek(int companyId, DateTime startdate)
+        public async Task SyncOrdersDays(int companyId, DateTime startdate, int days=4)
         {
-            for (var i = 0; i < 7; i++)
+            _logger.LogWarning($"SyncOrdersDays company={companyId},date {startdate}, days{days}");
+            for (var i = 0; i < days; i++)
             {
                 DateTime date = startdate.AddDays(i);
                 await SyncOrders(companyId, date.ResetHMS());
@@ -90,7 +91,7 @@ namespace CateringPro.Core
         {
             if (_hostingEnv.EnvironmentName != "LocalProduction")
                 return;
-
+            _logger.LogWarning($"SyncOrders company={companyId},date {daydate}");
             CleanTable(_remotecontext.UserDayDish, companyId, (d) => d.Date == daydate);
             CleanTable(_remotecontext.UserDayComplex, companyId, (d) => d.Date == daydate);
             CleanTable(_remotecontext.UserDay, companyId, (d) => d.Date == daydate);
@@ -228,7 +229,7 @@ namespace CateringPro.Core
             {
                 if (_context.Database.ProviderName != "Microsoft.EntityFrameworkCore.Sqlite")
                     return false;
-                
+                _logger.LogWarning($"Sync CleanTable{name}");
                 string cmd = $"PRAGMA foreign_keys=off; delete from {name}; PRAGMA foreign_keys=on;";
                 _context.Database.ExecuteSqlRaw(cmd);
                 _output.Append($"table {name} cleaned {Environment.NewLine}");
@@ -270,6 +271,9 @@ namespace CateringPro.Core
             const int batchsize = 20;
             //IEnumerable<T> test = null;
             int inserted = 0;
+            string cmd_before = "PRAGMA foreign_keys=off";
+            string cmd_after="PRAGMA foreign_keys=on";
+            _logger.LogWarning($"Sync CopyTable {typeof(T).Name}");
             try
             {
                 //_context.Query(_context.Model.FindEntityType(tablename).ClrType);
@@ -279,7 +283,7 @@ namespace CateringPro.Core
                     using (AppDbContext local = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>()) {
                         using (AppDbContext remote = serviceScope.ServiceProvider.GetRequiredService<RemoteDbContext>())
                         {
-                            
+                            local.Database.ExecuteSqlRaw(cmd_before);
                             local.SetCompanyID(companyid);
                             remote.SetCompanyID(companyid);
                             for (; true;)
@@ -302,6 +306,7 @@ namespace CateringPro.Core
 
                             }
                             _output.Append($" {typeof(T).Name} Downloaded {inserted} records {Environment.NewLine}");
+                            local.Database.ExecuteSqlRaw(cmd_after);
                             //_context.Database.CommitTransaction();
                         }
                     }
@@ -313,6 +318,10 @@ namespace CateringPro.Core
                 _output.Append($"Error download table {typeof(T).Name}  {Environment.NewLine}");
                 _logger.LogError(ex, "CopyDataTable");
                 return false;
+            }
+            finally
+             {
+
             }
             return true;
 

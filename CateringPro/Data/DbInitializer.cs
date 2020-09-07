@@ -12,6 +12,7 @@ using System.Data.Entity;
 using System.Linq.Expressions;
 using System.IO;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Data
 {
@@ -50,6 +51,7 @@ namespace CateringPro.Data
             }
             else
             {
+                var logger=service.GetRequiredService<ILogger<Program>>();
                 /*
                 try
                 {
@@ -74,18 +76,29 @@ namespace CateringPro.Data
 
                 }
                 */
-                return;
+               
                 try
                 {
                     if (context.Dishes.IgnoreQueryFilters().Count() == 0)
                     {
+                        logger.LogWarning("STARTING FULL Initialization");
                         using (var serviceScope = service.CreateScope())
                         {
                             var sync = serviceScope.ServiceProvider.GetRequiredService<IDbSyncer>();
                             sync.InitialSyncByDBContext(sync.GetDefaultCompanyId(),DateTime.Now.ResetHMS()).Wait();
-                            sync.SyncOrdersWeek(sync.GetDefaultCompanyId(), DateTime.Now.ResetHMS()).Wait();
+                            sync.SyncOrdersDays(sync.GetDefaultCompanyId(), DateTime.Now.ResetHMS()).Wait();
                         }
 
+                    }
+                    else
+                    {
+                        using (var serviceScope = service.CreateScope())
+                        {
+                            logger.LogWarning("STARTING DATA Initialization");
+                            var sync = serviceScope.ServiceProvider.GetRequiredService<IDbSyncer>();
+
+                            sync.SyncOrdersDays(sync.GetDefaultCompanyId(), DateTime.Now.ResetHMS()).Wait();
+                        }
                     }
                 }
                 catch(Exception ex)
