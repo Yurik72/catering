@@ -57,8 +57,17 @@
 
                 @foreach (var item in Model)
                 {
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
                     <tr class="item daydate">
+                        @*@if (DateTime.TryParse(item.Key, out ))
+                            {*@
                         <td colspan="4">@item.Key</td>
+                        @*}*@
                     </tr>
                     <tr class="heading ">
                         <td>
@@ -72,9 +81,7 @@
                             @Localizer["ComplexKind"]
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="4"></td>
-                    </tr>
+
                     @if (item.SubGroups != null)
                     {
 
@@ -110,9 +117,18 @@ else
     *@
     @if (item.SubGroups != null)
     {
-        <tr class="item daydate">
-            <td colspan="4">@item.Key</td>
-        </tr>
+        @if (level == 2)
+        {
+            <tr class="item" style="background-color: #a0a0a0; text-align: center;">
+                <td colspan="4">@item.Key</td>
+            </tr>
+        }
+        else
+        {
+            <tr class="item daydate">
+                <td colspan="4">@item.Key</td>
+            </tr>
+        }
     }
     else
     {
@@ -122,8 +138,9 @@ else
             </td>
             <td colspan="2"></td>
             <td style="text-align:left">
-                @if (item.Items.FirstOrDefault()!= null) {
-                @item.Items.FirstOrDefault().DishKind
+                @if (item.Items.FirstOrDefault() != null)
+                {
+                    @item.Items.FirstOrDefault().DishKind
                 }
             </td>
         </tr>
@@ -138,9 +155,23 @@ else
     {
         @foreach (var it in item.Items)
         {
-           
-            <tr>
-                <td>@it.DishName</td>
+
+            @*<tr>
+                    <td>@it.DishName</td>
+                </tr>*@
+            <tr class="">
+                <td>
+                    @*@Html.DisplayFor(model => dish.DishCode)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(model => it.DishName)
+                </td>
+                <td style="text-align:left">
+                    @*@Html.DisplayFor(model => item.Quantity)*@
+                </td>
+                <td>
+                </td>
+
             </tr>
 
         }
