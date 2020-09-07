@@ -495,6 +495,8 @@
             function queueHandler(div) {
                 $(div).find('.btn-confirm-queue').click(function (e) {
                     e.preventDefault();
+                    var selfbtn = $(this)
+                    selfbtn.prop('disabled', true);
                     var timestamp = $(this).attr('data-timestamp');
                     var ServiceRequest = { DayDate: curr_date.toDateString(), UserId: $(this).attr('data-userid'), Type: "askforqueueconfirm", QueueIds: JSON.parse($(this).attr('data-queue-list')) };
 
@@ -507,6 +509,7 @@
                         .fail(function (xhr, code, error) {
                             el_error.val(error);
                             el_error.show();
+                            selfbtn.prop('disabled', false);
                         });
 
 

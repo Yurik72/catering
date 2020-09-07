@@ -55,7 +55,12 @@ namespace CateringPro.Core
 
                     }
                     var companies = await context.Companies.ToListAsync();
-                   
+                    IMassEmailService queue_mail = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
+                    var send_queue=await queue_mail.SendEmailFromQueueAsync();
+                    if (!send_queue)
+                    {
+                        _logger.LogError("Mass mail sending outstanding queue error");
+                    }
                     foreach (var comp in companies)
                     {
                         if (!context.IsHttpContext())

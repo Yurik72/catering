@@ -87,6 +87,8 @@ namespace CateringPro.Data
         public DbSet<DayComplex> DayComplex { get; set; }
 
         public DbSet<DeliveryQueue> DeliveryQueues { get; set; }
+
+        public DbSet<NotOrderedQueue> NotOrderedQueues { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
 

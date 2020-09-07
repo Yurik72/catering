@@ -12,11 +12,13 @@ using CateringPro.ViewModels;
 using System.Reflection;
 using System.Linq.Expressions;
 using CateringPro.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CateringPro.Core
 {
     public interface IMassEmailService
     {
+        Task<bool> SendEmailFromQueueAsync();
         Task<bool> SendMassEmailAsync(int companyid,MassEmail em, DateTime nextRun);
         Task<bool> SendMassEmailToUser(int companyid, CompanyUser user, MassEmail em);
     }
@@ -121,6 +123,39 @@ namespace CateringPro.Core
                 return false;
             }
             return true;
+        }
+        public async Task<bool> SendEmailFromQueueAsync()
+        {
+            bool res = true;
+            try
+            {
+                var emailqueue = await _context.EmailQueues.AsNoTracking().IgnoreQueryFilters().ToListAsync();
+                if (emailqueue.Count() > 0)
+                {
+                    _logger.LogWarning($"Sending {emailqueue.Count()} emails from queue");
+                }
+                emailqueue.ForEach(async (e) =>
+                {
+                    try
+                    {
+                        //await _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId);
+                        _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId).Wait();
+                        _context.Remove(e);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.LogError(ex, "Send queue mail error");
+                        res = false;
+                    }
+                });
+                return res;
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "SendEmailFromQueueAsync global  error");
+                return false;
+            }
         }
         private async Task<bool> SendMassEmailToUser(int companyid, string email, MassEmail em)
         {
