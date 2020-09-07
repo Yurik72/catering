@@ -20,7 +20,7 @@ using System.Net;
 
 namespace CateringPro.Controllers
 {
-    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin,UserAdmin")]
+    [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin,UserAdmin,SubGroupReportAdmin")]
     public class ReportController : Controller
     {
         public IJsReportMVCService JsReportMVCService { get; }
@@ -180,10 +180,13 @@ namespace CateringPro.Controllers
             }
 
         }
-        public async Task<IActionResult> OrderPeriodDetailReportWithGroup(DateTime? datefrom, DateTime? dateto,int? userSubGroupId)
+        [MiddlewareFilter(typeof(JsReportPipeline))]
+        public async Task<IActionResult> OrderPeriodDetailReportWithGroup(DateTime? datefrom, DateTime? dateto, string format, int? userSubGroupId)
         {
-            datefrom= datefrom.SetDefaultIfNotSet(DateTime.Now);
+            SelectFormat(format);
+            datefrom = datefrom.SetDefaultIfNotSet(DateTime.Now);
             dateto= dateto.SetDefaultIfNotSet(DateTime.Now);
+            userSubGroupId = _companyRep.GetUserSubGroupId(User.GetUserId());
             var model =await  _reportrepo.GetOrderPeriodDetailReportWithGroup(datefrom.Value, dateto.Value, User.GetCompanyID(), userSubGroupId);
             return PartialView(model);
         }

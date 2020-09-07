@@ -22,7 +22,7 @@
 
         <div class="invoice-box">
             <table cellpadding="0" cellspacing="0">
-               
+
                 <tr class="top">
                     <td colspan="2">
                         <table>
@@ -53,23 +53,31 @@
                         </table>
                     </td>
                 </tr>
-                <tr class="heading ">
-                    <td>
-                        @Localizer["Complex"]
-                    </td>
-                    <td colspan="2">
-                        @Localizer["Complex Name"]
-                    </td>
 
-                    <td style="text-align:left">
-                        @Localizer["ComplexKind"]
-                    </td>
-                </tr>
 
                 @foreach (var item in Model)
                 {
+                    <tr class="item daydate">
+                        <td colspan="4">@item.Key</td>
+                    </tr>
+                    <tr class="heading ">
+                        <td>
+                            @Localizer["Complex"]
+                        </td>
+                        <td colspan="2">
+                            @Localizer["Complex Name"]
+                        </td>
+
+                        <td style="text-align:left">
+                            @Localizer["ComplexKind"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
                     @if (item.SubGroups != null)
                     {
+
                         ViewDataDictionary vd = new ViewDataDictionary(ViewData);
                         vd["level"] = level + 1;
                         await Html.RenderPartialAsync("OrderPeriodDetailReportWithGroup", item.SubGroups, vd);
@@ -100,9 +108,26 @@ else
             Start group @level ----  @item.Key
         </div>
     *@
-    <tr class="item daydate">
-        <td colspan="4">@item.Key</td>
-    </tr>
+    @if (item.SubGroups != null)
+    {
+        <tr class="item daydate">
+            <td colspan="4">@item.Key</td>
+        </tr>
+    }
+    else
+    {
+        <tr class="heading">
+            <td>
+                @item.Key
+            </td>
+            <td colspan="2"></td>
+            <td style="text-align:left">
+                @if (item.Items.FirstOrDefault()!= null) {
+                @item.Items.FirstOrDefault().DishKind
+                }
+            </td>
+        </tr>
+    }
     @if (item.SubGroups != null)
     {
         ViewDataDictionary vd = new ViewDataDictionary(ViewData);

@@ -47,5 +47,6 @@ namespace CateringPro.Core
                 return false;// claim.Value;
             return bool.Parse(claim.Value);
         }
+        
     }
 }

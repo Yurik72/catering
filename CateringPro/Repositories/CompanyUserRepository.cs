@@ -445,6 +445,19 @@ namespace CateringPro.Repositories
             }
             return res;
         }
+        public int GetUserSubGroupId(string userId)
+        {
+            try
+            {
+                var userSubGroup = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                return (int)userSubGroup.UserSubGroupId;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Get UserSubGroupId {0}", userId);
+                return 0;
+            }
+        }
         public List<int> GetUserSubGroups(string userId, int companyid)
         {
             try

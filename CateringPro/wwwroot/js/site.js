@@ -40,7 +40,8 @@ function showAvaibleCookies() {
     document.getElementById("msg").innerHTML = "Cookies disabled";
 }
 function setup_changechield() {
-    $("#changechield").click(function (e) {
+    $(document).on('click', "#changechield", function (e) {
+   // $("#changechield").click(function (e) {
         var url = '/Account/UserChilds';
         var self = this;
         $.get(url, function (data) {

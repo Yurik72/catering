@@ -12,6 +12,7 @@ namespace CateringPro.ViewModels
         public string ChildNameSurname { get; set; }
         public string Category { get; set; }
         public string DishName { get; set; }
+        public string DishKind { get; set; }
 
         public bool IsDelivered { get; set; }
 

@@ -776,7 +776,7 @@ namespace CateringPro.Repositories
                                        group user by user.ChildNameSurname)
                                  group userGroup by subgroup.Key;
             */
-            var querywithgroup = query.GroupByMany(o => o.GroupName, o => o.ChildNameSurname, o => o.Category);
+            var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName, o => o.ChildNameSurname, o => o.Category);
             return querywithgroup;
         }
     }
