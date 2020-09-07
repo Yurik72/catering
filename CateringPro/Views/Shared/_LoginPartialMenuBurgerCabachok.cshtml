@@ -129,12 +129,12 @@
                             <a class="dropdown-item" asp-controller="Account" asp-action="AddBalance">@Localizer["AddBalance"]</a>
                             @if (current_user.ChildrenCount > 1 || current_user.IsChild())
                             {
-                                <a id="changechield" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
+                                <a id="changechield-1" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
                             }
 
                             @if (com_rep.GetUserCompanyCount(current_user.Id).Result > 1)
                             {
-                                <a id="selectcompany" class="dropdown-item" data-userid="@current_user.Id" href="#">@Localizer["MenuChangeCompany"]</a>
+                                <a id="selectcompany-1" class="dropdown-item" data-userid="@current_user.Id" href="#">@Localizer["MenuChangeCompany"]</a>
                             }
                         </div>
                     </li>
