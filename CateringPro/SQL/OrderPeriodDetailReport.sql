@@ -34,7 +34,9 @@ WITH RecursiveQuery (ID, ParentID,Level,TopParentId)
 AS
 ( 
 	 SELECT ID, ParentID,0 as Level,ParentID as TopParentId
-	 FROM UserSubGroups usb where   ( usb.parentid is not null or @UserSubGroupId IS NULL ) and usb.CompanyId=@CompanyId
+	 FROM UserSubGroups usb where   
+	 --( usb.parentid is not null or @UserSubGroupId IS NULL ) and 
+	 usb.CompanyId=@CompanyId
 	 UNION ALL 
 	 SELECT usb.ID, usb.ParentID,rec.Level+1 as Level,rec.ParentID as TopParentId
 	 FROM UserSubGroups usb 

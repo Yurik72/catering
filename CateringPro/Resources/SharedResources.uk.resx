@@ -1012,4 +1012,7 @@
   <data name="UserLockedOut" xml:space="preserve">
     <value>Користувач заблокований</value>
   </data>
+  <data name="UsersOrders" xml:space="preserve">
+    <value>Замовлення</value>
+  </data>
 </root>
