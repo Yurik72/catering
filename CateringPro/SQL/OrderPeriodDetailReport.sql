@@ -30,20 +30,20 @@ DECLARE @UsedCatVar table
     CatId int NOT NULL
 );
 
-WITH RecursiveQuery (ID, ParentID) 
+WITH RecursiveQuery (ID, ParentID,Level,TopParentId) 
 AS
 ( 
-	 SELECT ID, ParentID
+	 SELECT ID, ParentID,0 as Level,ParentID as TopParentId
 	 FROM UserSubGroups usb where   ( usb.parentid is not null or @UserSubGroupId IS NULL ) and usb.CompanyId=@CompanyId
 	 UNION ALL 
-	 SELECT usb.ID, usb.ParentID
+	 SELECT usb.ID, usb.ParentID,rec.Level+1 as Level,rec.ParentID as TopParentId
 	 FROM UserSubGroups usb 
     JOIN RecursiveQuery rec ON usb.ParentID = rec.ID and usb.CompanyId=@CompanyId and usb.CompanyId=@CompanyId
     )
 Insert into @UsedSubGroupsId(ID)
 	SELECT DISTINCT ID
-	FROM RecursiveQuery  where parentid=@UserSubGroupId or id=@UserSubGroupId or @UserSubGroupId IS NULL
-
+	FROM RecursiveQuery  
+where TopParentId=@UserSubGroupId or id=@UserSubGroupId or @UserSubGroupId IS NULL
 --select * from @UsedSubGroupsId
 Select ud.Date,g.name as GroupName, Isnull(u.ChildNameSurname,'') as ChildNameSurname,cat.Name as Category,ISNULL(dk.Name,'') as DishKind, d.name as DishName,ud.IsDelivered
 
