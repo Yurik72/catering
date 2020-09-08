@@ -40,7 +40,7 @@ namespace CateringPro.Repositories
                     join c in _context.Complex on ud.ComplexId equals c.Id
                     join dc in _context.DishComplex on new { DishId = d.Id, ComplexId = c.Id } equals new { DishId = dc.DishId, ComplexId = dc.ComplexId }
                     where (сategoriesIds.Length == 0 || сategoriesIds.Contains(c.CategoriesId))
-
+                    orderby dc.DishCourse
 
 
                     select new DeliveryDishViewModel() { ID = d.Id, Name = d.Name, IsComplex = ud.IsComplex, DishNumber = dc.DishCourse, ComplexId = (ud.ComplexId.HasValue ? ud.ComplexId.Value : -1) })
@@ -189,13 +189,14 @@ namespace CateringPro.Repositories
             {
                 var query = await (from q in _context.DeliveryQueues.Where(q => q.DayDate == request.DayDate.ResetHMS()
                                    && q.Id > request.LastQueueId)
-                                   join ud in _context.UserDayDish on new { q.DishId, DayDate = q.DayDate, q.UserId } equals new { ud.DishId, DayDate = ud.Date, ud.UserId }
+                                   join ud in _context.UserDayDish on new { q.DishId, DayDate = q.DayDate, q.UserId, ComplexId=q.ComplexId } equals new { ud.DishId, DayDate = ud.Date, ud.UserId, ComplexId=ud.ComplexId.Value }
                                    join d in _context.Dishes on q.DishId equals d.Id
                                    join u in _context.CompanyUser on q.UserId equals u.Id
                                    join c in _context.Complex on ud.ComplexId equals c.Id
                                    where request.DishesNum.Contains(q.DishCourse)
                                          && (request.ComplexCategoriesIds.Length == 0 || request.ComplexCategoriesIds.Contains(c.CategoriesId))
                                    // select new { userid = u.Id, dishid = d.Id, dishname = d.Name }
+                                  // orderby q.Id
                                    select new DeliveryQueueForGroup()
                                    {
                                        QueueId = q.Id,
@@ -240,10 +241,13 @@ namespace CateringPro.Repositories
         {
             // var res=ServiceResponse.GetSuccessResult(request);
             var queue = await _context.DeliveryQueues.Where(q => request.QueueIds.Contains(q.Id)).ToListAsync();
-            var confirmed_dishesid = queue.Select(q => q.DishId);
+            //var confirmed_dishesid = queue.Select(q => q.DishId);
+            var confirmed_dishes = queue.Select(q=>new { DishId = q.DishId ,ComplexId=q.ComplexId});
+            //var confirmed_complexes = queue.Select(q => q.DishId);
             //var confirmed_dishes = queue.Where(d => request.DishesIds.Contains(d.DishId)).ToList();
             var user_daydishes = await _context.UserDayDish.Where(ud => ud.UserId == request.UserId && ud.Date == request.DayDate.ResetHMS() && ud.IsDelivered == false).ToListAsync();
-            var user_daydishes_confirmed = user_daydishes.Where(q => confirmed_dishesid.Contains(q.DishId)).ToList();
+            //var user_daydishes_confirmed = user_daydishes.Where(q => confirmed_dishesid.Contains(q.DishId)).ToList();
+            var user_daydishes_confirmed = user_daydishes.Where(q => confirmed_dishes.Any(conf=>conf.DishId==q.DishId && conf.ComplexId==q.ComplexId)).ToList();
             try
             {
                 user_daydishes_confirmed.ForEach(d => d.IsDelivered = true);
@@ -294,8 +298,8 @@ namespace CateringPro.Repositories
                 return fail;
             }
             var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate.ResetHMS()).ToListAsync();
-            var queue_to_add = dishes.Where(d => !queue.Any(q => q.DishId == d.ID)).
-                Select((q, idx) => new DeliveryQueue() { UserId = request.UserId, DishId = q.ID, DayDate = request.DayDate.ResetHMS(), CompanyId = request.CompanyId, DishCourse = q.DishNumber, TerminalId = request.TerminalId });
+            var queue_to_add = dishes.Where(d => !queue.Any(q => q.DishId == d.ID && q.ComplexId==d.ComplexId)).
+                Select((q, idx) => new DeliveryQueue() { UserId = request.UserId, DishId = q.ID,ComplexId=q.ComplexId, DayDate = request.DayDate.ResetHMS(), CompanyId = request.CompanyId, DishCourse = q.DishNumber, TerminalId = request.TerminalId });
             //var queue= await _context.DeliveryQueues.FirstOrDefaultAsync(ud => ud.UserId == request.UserId && ud.DayDate == request.DayDate);
             try
             {

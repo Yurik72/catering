@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,5 +24,9 @@ namespace CateringPro.Models
 
         public virtual Ingredients Ingredients { get; set; }
 
+        [DisplayName("Doc Address")]
+        public int? AddressId { get; set; }
+        [DisplayName("Doc Address")]
+        public virtual Address Address { get; set; }
     }
 }

@@ -9,7 +9,12 @@ namespace CateringPro.Models
 {
     public class Address : CompanyDataOwnId
     {
+        public Address()
+        {
+            Docs = new HashSet<Docs>();
+            Consignments= new HashSet<Consignment>();
 
+        }
         [StringLength(50)]
         [DisplayName("Address Code")]
         public string Code { get; set; }
@@ -25,6 +30,7 @@ namespace CateringPro.Models
         [StringLength(15)]
         [DisplayName("PhoneNumber")]
         [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string PhoneNumber { get; set; }
 
         [DataType(DataType.PostalCode)]
@@ -47,6 +53,8 @@ namespace CateringPro.Models
         [DisplayName("Address2")]
         public string Address2 { get; set; }
 
+        public virtual ICollection<Docs> Docs { get; set; }
 
+        public virtual ICollection<Consignment> Consignments { get; set; }
     }
 }

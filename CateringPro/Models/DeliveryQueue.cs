@@ -18,7 +18,7 @@ namespace CateringPro.Models
 
         public int DishCourse { get; set; }
 
-
+        public int ComplexId { get; set; }
 
     }
 }

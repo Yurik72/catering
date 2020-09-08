@@ -29,8 +29,8 @@
                             <label asp-for="Date"
                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
                             @*<input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                                id="input-doc-date"
-                                placeholder="" style="height: 34px; font-family: Open-Sans, sans-serif">*@
+                id="input-doc-date"
+                placeholder="" style="height: 34px; font-family: Open-Sans, sans-serif">*@
                             <input asp-for="Date" class="form-control col-12 col-lg-8 col-md-8 pl-9" placeholder="" style="height: 34px; font-family: Open-Sans, sans-serif" />
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
@@ -49,20 +49,20 @@
                             <label asp-for="Type"
                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 "></label>
                             @*<select class="form-control col-12 col-lg-8 col-md-8 pl-3 "
-                                        id="input-doc-type"
-                                        style="height: 34px; border: 1px solid #ced4da; border-radius: 4px; font-family: Open-Sans, sans-serif">
-                                    <option selected>0.00</option>
-                                    <option>1.11</option>
-                                    <option>2.22</option>
-                                    <option>3.33</option>
-                                </select>*@
+                        id="input-doc-type"
+                        style="height: 34px; border: 1px solid #ced4da; border-radius: 4px; font-family: Open-Sans, sans-serif">
+                    <option selected>0.00</option>
+                    <option>1.11</option>
+                    <option>2.22</option>
+                    <option>3.33</option>
+                </select>*@
                             @if (Model.Type != 0)
-                                {
-                            <input type="hidden" asp-for="Type" />
-                                }
+                            {
+                                <input type="hidden" asp-for="Type" />
+                            }
                             <select class="form-control col-12 col-lg-8 col-md-8 pl-3 sel-type"
                                     style="height: 34px; border: 1px solid #ced4da; border-radius: 4px; font-family: Open-Sans, sans-serif"
-                                    name="Type" id="Type" @((Model.Type == 1 || Model.Type == 2||Model.Type == 3) ? "disabled" : "")>
+                                    name="Type" id="Type" @((Model.Type == 1 || Model.Type == 2 || Model.Type == 3) ? "disabled" : "")>
                                 <option value="1" class="doc-type" data-sel="@((Model.Type == 1) ? "true" : "false")">@Localizer["DocTypeIncome"]</option>
                                 <option value="2" class="doc-type" data-sel="@((Model.Type == 2) ? "true" : "false")">@Localizer["DocTypeOutcome"]</option>
                                 <option value="3" class="doc-type" data-sel="@((Model.Type == 3) ? "true" : "false")" disabled>@Localizer["DocTypeProduction"]</option>
@@ -78,6 +78,16 @@
                                    asp-for="Description"
                                    placeholder="Коментар" style="height: 34px; font-family: Open-Sans, sans-serif">
                             <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
+                            <label asp-for="Address"
+                                   class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
+                            <input class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                                   asp-for="Address.Name"
+                                   placeholder="@Localizer["Doc Address"]" style="height: 34px; font-family: Open-Sans, sans-serif">
+                            <span asp-validation-for="Address.Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row p-0 flex-lg-row flex-md-row flex-column">

@@ -59,7 +59,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Number,Type,Date,Amount,Description,DocLines")] Docs doc)
+        public async Task<IActionResult> EditModal(int id, [Bind("Id,Number,Type,Date,Amount,Description,DocLines,AddressId")] Docs doc)
         {
             if (id != doc.Id)
             {
@@ -100,7 +100,7 @@ namespace CateringPro.Controllers
             }
 
             //var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
-            var doc = await _context.Docs.SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
+            var doc = await _context.Docs.Include(d=>d.Address).SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
             var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
             docLines = docLines.OrderBy(doc => doc.Number).ToList();
             doc.DocLines = docLines;

@@ -22,11 +22,11 @@ namespace CateringPro.Controllers
     public class AddressController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IAddressRepository _addressRepo;
+        private readonly IGenericModelRepository<Address> _addressRepo;
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
         private int pageRecords = 20;
-        public AddressController(AppDbContext context, IAddressRepository addressRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public AddressController(AppDbContext context, IGenericModelRepository<Address> addressRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
         {
             _context = context;
             _addressRepo = addressRepo;
@@ -66,6 +66,10 @@ namespace CateringPro.Controllers
             if (id != adr.Id)
             {
                 return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return PartialView(adr);
             }
             return await this.UpdateCompanyDataAsync(adr, _context, _logger);
 

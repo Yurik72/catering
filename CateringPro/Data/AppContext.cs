@@ -244,7 +244,11 @@ namespace CateringPro.Data
             ////documents
             modelBuilder.Entity<Docs>()
              .HasKey(d =>  d.Id);
-
+            modelBuilder.Entity<Docs>()
+                 .HasOne(c => c.Address)
+                 .WithMany(a => a.Docs)
+                 .IsRequired(false)
+                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<DocLines>()
                 .HasKey(d => d.Id);
 
@@ -261,7 +265,11 @@ namespace CateringPro.Data
                  .WithMany(a => a.Consignments)
                  .IsRequired()
                  .OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<Consignment>()
+                 .HasOne(c => c.Address)
+                 .WithMany(a => a.Consignments)
+                 .IsRequired(false)
+                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<CompanyUser>()
                  .HasOne(u => u.UserGroup)

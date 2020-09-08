@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Linq.Expressions;
 using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace CateringPro.Core
 {
@@ -94,17 +95,25 @@ namespace CateringPro.Core
             }
             return res;
         }
+        private void EmailValidCheck(string email)
+        {
+            var isValid = new EmailAddressAttribute().IsValid(email);
+            if(!isValid)
+                throw new Exception($"Email {email} is not valid format");
+        }
         public async Task<bool> SendMassEmailToUser(int companyid, CompanyUser user, MassEmail em)
         {
             try
             {
                 //to do AK send parents email
+
                 EmailProtoType proto = await CreateEmail(companyid,user, em);
                 if (user.IsChild())
                 {
                     var email = _context.Users.Where(x => x.Id == user.ParentUserId).FirstOrDefault();
                     if (email.ConfirmedByAdmin)
                     {
+                        EmailValidCheck(email.Email);
                         await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message, companyid);
                     }
                 }
@@ -113,6 +122,7 @@ namespace CateringPro.Core
                     var email = _context.Users.Where(x => x.Id == user.Id).FirstOrDefault();
                     if (email.ConfirmedByAdmin)
                     {
+                        EmailValidCheck(email.Email);
                         await _mailservice.SendEmailAsync(email.Email, proto.Subject, proto.Message, companyid, proto.Attachments);
                     }
                 }

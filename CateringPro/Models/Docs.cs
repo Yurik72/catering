@@ -30,5 +30,11 @@ namespace CateringPro.Models
         public decimal Amount { get; set; }
 
         public ICollection<DocLines> DocLines { get; set; }
+
+
+        [DisplayName("Doc Address")]
+        public int? AddressId { get; set; }
+        [DisplayName("Doc Address")]
+        public virtual Address Address { get; set; }
     }
  }

@@ -1021,4 +1021,7 @@
   <data name="Address Code" xml:space="preserve">
     <value>ЄДРПОУ/IНН</value>
   </data>
+  <data name="Doc Address" xml:space="preserve">
+    <value>Постачальник</value>
+  </data>
 </root>
