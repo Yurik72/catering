@@ -22,6 +22,7 @@ namespace CateringPro.Repositories
         private readonly ILogger<ServiceRepository> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IMemoryCache _cache;
+      
         public ServiceRepository(AppDbContext context, ILogger<ServiceRepository> logger,
             UserManager<CompanyUser> userManager, IMemoryCache cache)
         {
@@ -29,6 +30,7 @@ namespace CateringPro.Repositories
             _logger = logger;
             _userManager = userManager;
             _cache = cache;
+           
         }
 
         public Task<List<DeliveryDishViewModel>> GetDishesToDeliveryAsync(string userId, DateTime dayDate, bool includeDelievered = false, int[] сategoriesIds = default)
@@ -79,6 +81,7 @@ namespace CateringPro.Repositories
         {
             var fail = ServiceResponse.GetFailResult();
             //var user = await _userManager.FindByIdAsync(request.UserId);  //now by tag
+            
             CompanyUser user = null;
             if (!string.IsNullOrEmpty(request.UserToken))
             {

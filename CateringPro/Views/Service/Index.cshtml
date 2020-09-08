@@ -453,8 +453,17 @@
                 // $('#delivery-queue-content').empty(); // to do
                 var content = $('#delivery-queue-content');
                 if (!data || data.overalResult != "success") {
-
+                    if (data) {
+                        el_error.val(data.errorMessage);
+                        el_error.show();
+                    }
+                    else {
+                        el_error.val("Сталася помилка, спробуйте перезавантажити");
+                        el_error.show();
+                    }
+                    return;
                 }
+                el_error.hide();
                 data.queues.forEach(el => {
                     var inner_div = '';
                     var queue_list = [];
@@ -651,8 +660,11 @@
 
                 var dishesnum = getdishesnum();
                 var requesttype = 'askfordelivery';
-                if (IsWelcomeMode())
+                if (IsWelcomeMode()) {
                     requesttype = 'askforregister';
+                    $('#delivery-welcome-content').empty();
+                    $('#delivery-welcome-content').append(gethtmlloading());
+                }
                 var categories = [];
                 categories.push(parseInt($('#complexcategories').children("option:selected").val()));
 
@@ -663,6 +675,10 @@
                     .fail(function (xhr, code, error) {
                         el_error.val(error);
                         el_error.show();
+                        if (IsWelcomeMode()) {
+                            $('#delivery-welcome-content').empty();
+                            $('#delivery-welcome-content').append(error);
+                        }
                     });
             }
             function showNfcInfo(msg) {

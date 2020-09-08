@@ -8,6 +8,8 @@ using CateringPro.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using CateringPro.Models;
 
 namespace CateringPro.Controllers
 {
@@ -18,13 +20,15 @@ namespace CateringPro.Controllers
         private readonly ICompanyUserRepository _companyuserreporepo;
         private readonly IDbSyncer _syncer;
         private readonly IWebHostEnvironment  _hostingEnv;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IWebHostEnvironment hostingEnv, IDbSyncer syncer=default )
+        private readonly SignInManager<CompanyUser> _signInManager;
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IWebHostEnvironment hostingEnv, SignInManager<CompanyUser> signInManager,IDbSyncer syncer=default )
         {
             _context = context;
             _servicerepo = servicerepo;
             _companyuserreporepo = companyuserreporepo;
             _syncer = syncer;
             _hostingEnv = hostingEnv;
+            _signInManager = signInManager;
         }
 
         // GET: Service
@@ -78,6 +82,12 @@ namespace CateringPro.Controllers
         [HttpPost]
         public async Task<JsonResult> RequestForDelivery(ServiceRequest request)
         {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                var fail = ServiceResponse.GetFailResult();
+                fail.ErrorMessage = "Для продовження видачі, необхідно повторно зайти в систему з відповідними правами доступу";
+                return Json(fail);
+            }
             var response = await _servicerepo.ProcessRequestAsync(request);
             return Json(response);
         }
