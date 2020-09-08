@@ -264,7 +264,7 @@ namespace CateringPro.Controllers
                 }
             } catch(Exception ex)
             {
-                _logger.LogError("SaveDayComplex error", ex);
+                _logger.LogError(ex,"SaveDayComplex error");
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
             }
  
