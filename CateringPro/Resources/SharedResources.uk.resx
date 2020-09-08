@@ -1015,4 +1015,10 @@
   <data name="UsersOrders" xml:space="preserve">
     <value>Замовлення</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Адреси</value>
+  </data>
+  <data name="Address Code" xml:space="preserve">
+    <value>ЄДРПОУ/IНН</value>
+  </data>
 </root>

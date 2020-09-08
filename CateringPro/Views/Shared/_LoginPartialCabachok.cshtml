@@ -95,6 +95,11 @@
                                 <a class="dropdown-item" asp-controller="Service" asp-action="Cards">@Localizer["UserCards"]</a>
 
                             }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="dropdown-item" asp-controller="Address" asp-action="Index">@Localizer["Address"]</a>
+
+                            }
                             <environment names="LocalProduction">
                                 @if (User.IsInRole("Admin") || User.IsInRole("UserAdmin") || User.IsInRole("ServiceAdmin"))
                                 {

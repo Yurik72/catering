@@ -16,6 +16,61 @@ namespace CateringPro.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.7");
 
+            modelBuilder.Entity("CateringPro.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address1")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("Address2")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<int>("AddressType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(25);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("CateringPro.Models.Categories", b =>
                 {
                     b.Property<int>("Id")
@@ -791,6 +846,35 @@ namespace CateringPro.Migrations
                     b.ToTable("MassEmail");
                 });
 
+            modelBuilder.Entity("CateringPro.Models.NotOrderedQueue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DayDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TerminalId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("NotOrderedQueues");
+                });
+
             modelBuilder.Entity("CateringPro.Models.Pictures", b =>
                 {
                     b.Property<int>("Id")
@@ -1225,6 +1309,15 @@ namespace CateringPro.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CateringPro.Models.Address", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CateringPro.Models.Categories", b =>
                 {
                     b.HasOne("CateringPro.Models.Company", "Company")
@@ -1479,6 +1572,15 @@ namespace CateringPro.Migrations
                 });
 
             modelBuilder.Entity("CateringPro.Models.MassEmail", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CateringPro.Models.NotOrderedQueue", b =>
                 {
                     b.HasOne("CateringPro.Models.Company", "Company")
                         .WithMany()

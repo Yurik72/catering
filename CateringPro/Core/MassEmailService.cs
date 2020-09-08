@@ -139,7 +139,7 @@ namespace CateringPro.Core
                     try
                     {
                         //await _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId);
-                        _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId).Wait();
+                        _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId,null,false).Wait();
                         _context.Remove(e);
                         await _context.SaveChangesAsync();
                     }

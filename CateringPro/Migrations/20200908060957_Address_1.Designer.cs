@@ -3,46 +3,96 @@ using System;
 using CateringPro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CateringPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200817084708_primaryKeyUserFin")]
-    partial class primaryKeyUserFin
+    [Migration("20200908060957_Address_1")]
+    partial class Address_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "3.1.7");
+
+            modelBuilder.Entity("CateringPro.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address1")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("Address2")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
+
+                    b.Property<int>("AddressType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(25);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(15);
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("CateringPro.Models.Categories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -56,61 +106,60 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Address1")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<string>("Address2")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(25)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(25);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(15)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(15);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<bool?>("IsDefault")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<int?>("OrderLeadTimeH")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("OrderThresholdTimeH")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("OrderType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<int?>("PictureId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("StampPictureId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
                     b.HasKey("Id");
@@ -121,26 +170,25 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.CompanyRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -148,128 +196,126 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.CompanyUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Address1")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<string>("Address2")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<string>("CardTag")
-                        .HasColumnType("nvarchar(64)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(64);
 
                     b.Property<DateTime?>("ChildBirthdayDate")
                         .HasColumnType("date");
 
                     b.Property<string>("ChildNameSurname")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<int>("ChildrenCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(25)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(25);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("ConfirmedByAdmin")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(15)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(15);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("MenuType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("NameSurname")
-                        .HasColumnType("nvarchar(40)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<string>("ParentUserId")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("PictureId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("UserGroupId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<int?>("UserSubGroupId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
                     b.HasKey("Id");
 
                     b.HasIndex("CardTag")
-                        .IsUnique()
-                        .HasFilter("[CardTag] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasName("UserNameIndex");
 
                     b.HasIndex("UserGroupId");
 
@@ -281,10 +327,10 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.CompanyUserCompany", b =>
                 {
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CompanyUserId")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.HasKey("CompanyId", "CompanyUserId");
@@ -298,21 +344,23 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DishKindId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DishesQuantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<decimal>("Price")
@@ -324,19 +372,21 @@ namespace CateringPro.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("DishKindId");
+
                     b.ToTable("Complex");
                 });
 
             modelBuilder.Entity("CateringPro.Models.Consignment", b =>
                 {
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LineId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IngredientsId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("InitialQuantity")
                         .HasColumnType("decimal(18,3)");
@@ -348,7 +398,7 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<DateTime>("ValidUntil")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CompanyId", "LineId", "IngredientsId");
 
@@ -363,10 +413,10 @@ namespace CateringPro.Migrations
                         .HasColumnType("date");
 
                     b.Property<int>("ComplexId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Date", "ComplexId", "CompanyId");
 
@@ -383,10 +433,10 @@ namespace CateringPro.Migrations
                         .HasColumnType("date");
 
                     b.Property<int>("DishId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Date", "DishId", "CompanyId");
 
@@ -401,26 +451,25 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DayDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("DishCourse")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DishId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TerminalId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -428,8 +477,7 @@ namespace CateringPro.Migrations
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("DayDate", "UserId", "DishId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("DeliveryQueues");
                 });
@@ -438,36 +486,35 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CookingTechnologie")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(255);
 
                     b.Property<int>("KKal")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<int?>("PictureId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -487,10 +534,10 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.DishCategory", b =>
                 {
                     b.Property<int>("DishId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("DishId", "CategoryId");
 
@@ -502,16 +549,16 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.DishComplex", b =>
                 {
                     b.Property<int>("DishId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ComplexId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DishCourse")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("DishId", "ComplexId", "DishCourse");
 
@@ -525,13 +572,13 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.DishIngredients", b =>
                 {
                     b.Property<int>("DishId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IngredientId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Proportion")
                         .HasColumnType("decimal(18,4)");
@@ -545,27 +592,55 @@ namespace CateringPro.Migrations
                     b.ToTable("DishIngredients");
                 });
 
+            modelBuilder.Entity("CateringPro.Models.DishKind", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("DishesKind");
+                });
+
             modelBuilder.Entity("CateringPro.Models.DocLines", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DocsId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IngredientsId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Number")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -574,7 +649,7 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<DateTime?>("ValidTo")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -591,26 +666,25 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Type")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -619,28 +693,53 @@ namespace CateringPro.Migrations
                     b.ToTable("Docs");
                 });
 
+            modelBuilder.Entity("CateringPro.Models.EmailQueue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(2000);
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("EmailQueues");
+                });
+
             modelBuilder.Entity("CateringPro.Models.IngredientCategories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -654,28 +753,30 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("AvgPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IngredientCategoriesId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("LastPurchasePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("MeasureUnit")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("StockDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("StockValue")
                         .HasColumnType("decimal(18,2)");
@@ -693,50 +794,52 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DayFrom")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DayTo")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("DistributionList")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("DistributionType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Greetings")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("NextSend")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("OnePerUser")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SQLCommand")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Schedule")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Subject")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TemplateName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TemplateText")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -745,12 +848,40 @@ namespace CateringPro.Migrations
                     b.ToTable("MassEmail");
                 });
 
+            modelBuilder.Entity("CateringPro.Models.NotOrderedQueue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DayDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TerminalId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("NotOrderedQueues");
+                });
+
             modelBuilder.Entity("CateringPro.Models.Pictures", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<byte[]>("PictureData")
                         .HasColumnType("image");
@@ -763,22 +894,22 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserDay", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
@@ -796,22 +927,22 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserDayComplex", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
                     b.Property<int>("ComplexId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "Date", "ComplexId", "CompanyId");
 
@@ -825,31 +956,31 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserDayDish", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
                     b.Property<int>("DishId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ComplexId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsComplex")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDelivered")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "Date", "DishId", "CompanyId", "ComplexId");
 
@@ -865,28 +996,47 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserFinIncome", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("IncomeType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsProjection")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsRejected")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(200);
+
+                    b.Property<decimal>("ProjectionAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ReturnCallBackData")
+                        .HasColumnType("nvarchar(400)");
+
+                    b.Property<string>("ReturnData")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TransactionData")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(2000);
 
                     b.HasKey("Id", "TransactionDate");
 
@@ -900,7 +1050,7 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserFinOutCome", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("DayDate")
@@ -910,17 +1060,17 @@ namespace CateringPro.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Comments")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemsCount")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("OutComeType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TransactionDate")
                         .ValueGeneratedOnAdd()
@@ -939,11 +1089,11 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserFinance", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Balance")
                         .ValueGeneratedOnAdd()
@@ -962,7 +1112,7 @@ namespace CateringPro.Migrations
 
                     b.Property<int>("TotalOrders")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasDefaultValueSql("(0)");
 
                     b.Property<decimal>("TotalOutCome")
@@ -980,15 +1130,12 @@ namespace CateringPro.Migrations
 
                     b.Property<int>("TotalPreOrders")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("INTEGER")
                         .HasDefaultValueSql("(0)");
 
                     b.HasKey("Id", "CompanyId");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("UserFinances");
                 });
@@ -997,19 +1144,18 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<int?>("UserGroupId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1024,18 +1170,17 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.Property<int?>("ParentId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -1049,13 +1194,13 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("CateringPro.Models.UserWeekBasket", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("BasketDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "BasketDate");
 
@@ -1068,18 +1213,17 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -1092,18 +1236,17 @@ namespace CateringPro.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -1115,17 +1258,17 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -1137,10 +1280,10 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -1152,20 +1295,29 @@ namespace CateringPro.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CateringPro.Models.Address", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CateringPro.Models.Categories", b =>
@@ -1217,6 +1369,10 @@ namespace CateringPro.Migrations
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CateringPro.Models.DishKind", "DishKind")
+                        .WithMany("Complexes")
+                        .HasForeignKey("DishKindId");
                 });
 
             modelBuilder.Entity("CateringPro.Models.Consignment", b =>
@@ -1345,6 +1501,15 @@ namespace CateringPro.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CateringPro.Models.DishKind", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CateringPro.Models.DocLines", b =>
                 {
                     b.HasOne("CateringPro.Models.Company", "Company")
@@ -1367,6 +1532,15 @@ namespace CateringPro.Migrations
                 });
 
             modelBuilder.Entity("CateringPro.Models.Docs", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CateringPro.Models.EmailQueue", b =>
                 {
                     b.HasOne("CateringPro.Models.Company", "Company")
                         .WithMany()
@@ -1400,6 +1574,15 @@ namespace CateringPro.Migrations
                 });
 
             modelBuilder.Entity("CateringPro.Models.MassEmail", b =>
+                {
+                    b.HasOne("CateringPro.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CateringPro.Models.NotOrderedQueue", b =>
                 {
                     b.HasOne("CateringPro.Models.Company", "Company")
                         .WithMany()
@@ -1507,12 +1690,6 @@ namespace CateringPro.Migrations
                         .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CateringPro.Models.CompanyUser", "CompanyUser")
-                        .WithOne("UserFinance")
-                        .HasForeignKey("CateringPro.Models.UserFinance", "Id")
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

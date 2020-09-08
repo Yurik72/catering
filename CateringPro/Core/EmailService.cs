@@ -22,7 +22,7 @@ namespace CateringPro.Core
         List<EmailMessage> ReceiveEmail(int maxCount = 10);
         Task SendInvoice(string userid, DateTime daydate, int comapnyid);
         Task SendWeekInvoice(string userid, DateTime daydate, int comapnyid);
-        Task SendEmailAsync(string email, string subject, string message, int? companyId = default, IEnumerable<EMailAttachment> attachments = default);
+        Task SendEmailAsync(string email, string subject, string message, int? companyId = default, IEnumerable<EMailAttachment> attachments = default, bool storeIffail = true);
         Task<bool> SendEmailNoExceptionAsync(string email, string subject, string message, int? companyId = default);
         Task<bool> SendEmailFromTemplate<TModel>(int comapnyid, string subject, string email, string templateName, TModel model);
     }
@@ -178,7 +178,7 @@ namespace CateringPro.Core
             }
         }
  
-        public async Task SendEmailAsync(string email, string subject, string message, int? companyId=default, IEnumerable<EMailAttachment> attachments = default)
+        public async Task SendEmailAsync(string email, string subject, string message, int? companyId=default, IEnumerable<EMailAttachment> attachments = default,bool storeIffail=true)
         {
             var emailMessage = new MimeMessage();
 
@@ -222,7 +222,10 @@ namespace CateringPro.Core
                 }
                 catch(Exception ex)
                 {
-                    await SaveFailedEmailToQueue(email, subject, message, companyId);
+                    if (storeIffail)
+                    {
+                        await SaveFailedEmailToQueue(email, subject, message, companyId);
+                    }
                     _logger.LogError(ex, "SendEmailAsync");
                     throw ex;
                 }

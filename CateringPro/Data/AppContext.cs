@@ -61,7 +61,11 @@ namespace CateringPro.Data
 
         public DbSet<CompanyUser> CompanyUser { get; set; }
 
+
+
         public DbSet<CompanyUserCompany> CompanyUserCompanies { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Categories> Categories { get; set; }
 
         public DbSet<UserGroups> UserGroups { get; set; }
