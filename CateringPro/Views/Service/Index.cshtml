@@ -29,6 +29,9 @@
     </header>
 
     <div class="container order-service">
+        <div id="error" class="bg-danger text-white h1" style=" display: none;width:100%;position:absolute;z-index:3000;top:0;left:0;height:200px;">
+
+        </div>
         <div id="nfc_isoffline" class="row container-state bg-danger text-white" style="display: none;">
             <div class="col-4 container-state">
                 <span id="nfc_isoffline">
@@ -263,12 +266,13 @@
                             });
                             $('#complexcategories').append(options);
                         }
+                        el_error.hide();
                     }
                     catch{
                     }
                 })
                     .fail(function (xhr, code, error) {
-                        el_error.val(error);
+                        el_error.text(error);
                         el_error.show();
                     });
             }
@@ -454,7 +458,7 @@
                 var content = $('#delivery-queue-content');
                 if (!data || data.overalResult != "success") {
                     if (data) {
-                        el_error.val(data.errorMessage);
+                        el_error.text(data.errorMessage);
                         el_error.show();
                     }
                     else {
@@ -537,10 +541,21 @@
                     $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
                         if (data && data.overalResult == 'success') {
                             removeQueue(timestamp);
+                            el_error.hide();
                         }
+                        else {
+                            if (data) {
+                                el_error.text(data.errorMessage);
+                            }
+                            else {
+                                el_error.text('Сталася помилка, спробуйте перезавантажити');
+                            }
+                            el_error.show();
+                        }
+                        
                     })
                         .fail(function (xhr, code, error) {
-                            el_error.val(error);
+                            el_error.text(error);
                             el_error.show();
                             selfbtn.prop('disabled', false);
                         });
@@ -636,7 +651,7 @@
                     cb(data);
                 })
                     .fail(function (xhr, code, error) {
-                        el_error.val(error);
+                        el_error.text(error);
                         el_error.show();
                     });
             }
@@ -649,10 +664,12 @@
                 categories.push(parseInt($('#complexcategories').children("option:selected").val()));
                 var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue - queuecount, LastQueueId: lastQueueid, ComplexCategoriesIds: categories };
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+                    el_error.hide();
                     cb(data);
+
                 })
                     .fail(function (xhr, code, error) {
-                        el_error.val(error);
+                        el_error.text(error);
                         el_error.show();
                     });
             }
@@ -670,10 +687,11 @@
 
                 var ServiceRequest = { DayDate: curr_date.toDateString(), UserToken: $('#userid').val(), UserId: $('#userid').val(), Type: requesttype, DishesNum: dishesnum, ComplexCategoriesIds: categories };
                 $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+                    el_error.hide();
                     cb(data);
                 })
                     .fail(function (xhr, code, error) {
-                        el_error.val(error);
+                        el_error.text(error);
                         el_error.show();
                         if (IsWelcomeMode()) {
                             $('#delivery-welcome-content').empty();
