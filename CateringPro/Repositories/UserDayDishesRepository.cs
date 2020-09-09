@@ -21,14 +21,15 @@ namespace CateringPro.Repositories
         private readonly ILogger<CompanyUser> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IMemoryCache _cache;
-
+        private readonly IPluginsRepository _plugins;
         public UserDayDishesRepository(AppDbContext context, ILogger<CompanyUser> logger,
-            UserManager<CompanyUser> userManager, IMemoryCache cache)
+            UserManager<CompanyUser> userManager, IMemoryCache cache, IPluginsRepository plugins)
         {
             _context = context;
             _logger = logger;
             _userManager = userManager;
             _cache = cache;
+            _plugins = plugins;
         }
         public OrderTypeEnum GetCompanyOrderType(int companyid)
         {
@@ -555,6 +556,11 @@ namespace CateringPro.Repositories
             daycomplex.ForEach(d => total += d.Price);
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
+             //   var discountplugin = _plugins.GetDiscointPlugin();
+             //   if (discountplugin != null)
+             //   {
+
+             //   }
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
 

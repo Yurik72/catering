@@ -12,6 +12,7 @@ using System.Collections.Generic;
 //using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
@@ -22,7 +23,7 @@ namespace CateringPro.Repositories
         private readonly ILogger<ServiceRepository> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IMemoryCache _cache;
-      
+        private static SemaphoreSlim register_locker = new SemaphoreSlim(1, 1);
         public ServiceRepository(AppDbContext context, ILogger<ServiceRepository> logger,
             UserManager<CompanyUser> userManager, IMemoryCache cache)
         {
@@ -287,7 +288,40 @@ namespace CateringPro.Repositories
 
             //return res;
         }
-        public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
+        private async Task InternalRegisterQueueAsync(ServiceRequest request, List<DeliveryDishViewModel> src)
+        {
+            _logger.LogWarning("Enter InternalRegisterQueueAsync");
+            await register_locker.WaitAsync();
+            try
+            {
+                _logger.LogWarning("Enter critical InternalRegisterQueueAsync");
+                Thread.Sleep(1000);
+                
+                var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate.ResetHMS()).ToListAsync();
+                var queue_to_add = src.Where(d => !queue.Any(q => q.DishId == d.ID && q.ComplexId == d.ComplexId)).
+                    Select((q, idx) => new DeliveryQueue() { UserId = request.UserId, DishId = q.ID, ComplexId = q.ComplexId, DayDate = request.DayDate.ResetHMS(), CompanyId = request.CompanyId, DishCourse = q.DishNumber, TerminalId = request.TerminalId });
+                //var queue= await _context.DeliveryQueues.FirstOrDefaultAsync(ud => ud.UserId == request.UserId && ud.DayDate == request.DayDate);
+
+                if (queue_to_add.Count() > 0)
+                {
+                    await _context.AddRangeAsync(queue_to_add);
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding delivery Queue");
+
+
+            }
+            finally
+            {
+                register_locker.Release();
+                _logger.LogWarning("Exit InternalRegisterQueueAsync");
+            }
+        }
+         public async Task<ServiceResponse> ProcessRegisterRequestAsync(ServiceRequest request)
         {
             var fail = ServiceResponse.GetFailResult(request);
 
@@ -300,20 +334,28 @@ namespace CateringPro.Repositories
                 await SaveNotOrderedQueueAsync(request);
                 return fail;
             }
+            var resp = ServiceResponse.GetSuccessResult(request);
+
+            resp.Dishes = dishes;
+            // to do
+            //_ = InternalRegisterQueueAsync(request, dishes);
+           // return resp;
+           await register_locker.WaitAsync();
+
+            try
+            {
+             
             var queue = await _context.DeliveryQueues.Where(dq => dq.UserId == request.UserId && dq.DayDate == request.DayDate.ResetHMS()).ToListAsync();
             var queue_to_add = dishes.Where(d => !queue.Any(q => q.DishId == d.ID && q.ComplexId==d.ComplexId)).
                 Select((q, idx) => new DeliveryQueue() { UserId = request.UserId, DishId = q.ID,ComplexId=q.ComplexId, DayDate = request.DayDate.ResetHMS(), CompanyId = request.CompanyId, DishCourse = q.DishNumber, TerminalId = request.TerminalId });
             //var queue= await _context.DeliveryQueues.FirstOrDefaultAsync(ud => ud.UserId == request.UserId && ud.DayDate == request.DayDate);
-            try
-            {
+           
                 if (queue_to_add.Count() > 0)
                 {
                     await _context.AddRangeAsync(queue_to_add);
                     await _context.SaveChangesAsync();
                 }
-                var resp = ServiceResponse.GetSuccessResult(request);
 
-                resp.Dishes = dishes;
                 return resp;
             }
             catch (Exception ex)
@@ -321,6 +363,10 @@ namespace CateringPro.Repositories
                 _logger.LogError(ex, "Error adding delivery Queue");
                 fail.ErrorMessage = "Internal Error";
                 return fail;
+            }
+            finally
+            {
+                register_locker.Release();
             }
         }
 
