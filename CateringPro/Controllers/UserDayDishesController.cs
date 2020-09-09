@@ -225,14 +225,15 @@ namespace CateringPro.Controllers
                             .Select(group => group.Key);
                 //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
                 DateTime daydate = DateTime.Now;
-                DateTime ordDay = UserDayDish.FirstOrDefault().Date;
-                var res = _userdaydishesrepo.OrderedComplexDay(ordDay, User.GetUserId(), User.GetCompanyID()).ToList();
+               
                 if (daycomplexes.Count > 0)
                     daydate = daycomplexes.First().Date;
                 else
                 {
                     return await Task.FromResult(Json(new { res = "FAIL", reason = "Empty" }));
                 }
+               // DateTime ordDay = UserDayDish.FirstOrDefault().Date;
+                var res = _userdaydishesrepo.OrderedComplexDay(daydate, User.GetUserId(), User.GetCompanyID()).ToList();
                 if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
                 {
                     return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
@@ -242,11 +243,11 @@ namespace CateringPro.Controllers
                 {
                     if (duplicateKeys.Count() != 0)
                     {
-                        _logger.LogWarning("Duplicates from front in User Day {0} userId {1}", ordDay, User.GetUserId());
+                        _logger.LogWarning("Duplicates from front in User Day {0} userId {1}", daydate, User.GetUserId());
                     }
                     else
                     {
-                        _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", ordDay, User.GetUserId());
+                        _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", daydate, User.GetUserId());
                     }
                     return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
                 }
@@ -264,7 +265,7 @@ namespace CateringPro.Controllers
                 }
             } catch(Exception ex)
             {
-                _logger.LogError("SaveDayComplex error", ex);
+                _logger.LogError(ex,"SaveDayComplex error");
                 return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
             }
  
