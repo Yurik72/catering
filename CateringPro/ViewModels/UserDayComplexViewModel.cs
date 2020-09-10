@@ -27,6 +27,9 @@ namespace CateringPro.Models
 
         public int Quantity { get; set; }
         public bool Confirmed { get; set; }
+        public decimal Total { get; set; }
+        public decimal? TotalWithoutDiscount { get; set; }
+        public decimal? Discount { get; set; }
 
         public bool Enabled { get; set; }
 

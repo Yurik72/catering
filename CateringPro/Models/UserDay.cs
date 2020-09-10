@@ -22,6 +22,13 @@ namespace CateringPro.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPaid { get; set; }
 
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? Discount { get; set; }
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TotalWtithoutDiscount { get; set; }
+        public int? DiscountId { get; set; }
         public bool IsConfirmed { get; set; }
 
         public bool IsPaid { get; set; }

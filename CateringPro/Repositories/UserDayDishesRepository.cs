@@ -391,7 +391,11 @@ namespace CateringPro.Repositories
                 daycomplex.ForEach(d =>
                 {
                     //await saveday(d);
-                   // httpcontext.User.AssignUserAttr(d);
+                    // httpcontext.User.AssignUserAttr(d);
+                    if (d.Price == null)
+                    {
+                        return;
+                    }
                     var userDayComplex = _context.UserDayComplex.SingleOrDefault(c => c.CompanyId == d.CompanyId
                                 && c.Date == d.Date
                                 && c.UserId == d.UserId
@@ -463,15 +467,18 @@ namespace CateringPro.Repositories
 
             return true;
         }
-        public async Task<bool> SaveUserDay(int quantity, decimal total,DateTime date, string userId, int companyId)
+        public async Task<bool> SaveUserDay(int quantity, decimal total, decimal discount,DateTime date, string userId, int companyId)
         {
             UserDay order = new UserDay();
             order.CompanyId = companyId;
             order.Date = date;
             order.UserId = userId;
             order.Quantity = quantity;
-            order.Total = total;
+            order.Total = total-discount;
+            order.Discount = discount;
+            order.TotalWtithoutDiscount = total;
             order.IsConfirmed = true;
+
             try
             {
                 
@@ -482,8 +489,11 @@ namespace CateringPro.Repositories
                                 && c.UserId == order.UserId);
                     if (userDay != null)
                     {
-                    userDay.Quantity += order.Quantity;
-                    userDay.Total += order.Total;
+                    userDay.Quantity = order.Quantity;
+                    // userDay.Total += order.Total;
+                    userDay.Total = total - discount;
+                    userDay.TotalWtithoutDiscount = total;
+                    userDay.Discount = discount;
                     userDay.IsConfirmed = true;
                         _context.Update(userDay);
                     }
@@ -557,17 +567,31 @@ namespace CateringPro.Repositories
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 var discountplugin = _plugins.GetDiscointPlugin();
-                if (discountplugin != null)
+                decimal discount = 0;
+                var res = OrderedComplexDay(daycomplex.First().Date, userId, companyId).ToList();
+                bool ordered = res.Any(x => daycomplex.Any(y => y.ComplexId == x.ComplexId));
+                if(ordered)
                 {
-                    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
+                    _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", daycomplex.First().Date, userId);
+                    return false;
                 }
+                res.ForEach(ord => {
+                    total += ord.Price;
+                    daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId }); 
+                });
+                //if (discountplugin != null)
+                //{
+                //    daycomplex.ForEach(dc => { dc.Complex =  _context.Complex.Find(dc.ComplexId); });
+                //    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
+                //    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                //}
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
 
 
                 if (!await SaveDayDishInComplex(userDayDishes, userId, companyId))
                     return false;
-                if (!await SaveUserDay(daycomplex.Count(), total, daycomplex.First().Date, userId, companyId))
+                if (!await SaveUserDay(daycomplex.Count(), total,discount, daycomplex.First().Date, userId, companyId))
                     return false;
                 //if (!await UserFinanceEdit(total,userId, companyId,false))
                 //    return false;
@@ -581,13 +605,31 @@ namespace CateringPro.Repositories
             
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
+                var discountplugin = _plugins.GetDiscointPlugin();
+                decimal discount = 0;
+                decimal total = 0;
+                var res = OrderedComplexDay(userDayComplex.Date, userId, companyId).ToList();
+                List<UserDayComplex> daycomplex = new List<UserDayComplex>();
+                res.ForEach(ord => {
+                    if (userDayComplex.ComplexId != ord.ComplexId)
+                    {
+                        total += ord.Price;
+                        daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId });
+                    }
+                });
+                //if (discountplugin != null)
+                //{
+                //    daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
+                //    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
+                //    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                //}
                 if (!await DeleteDayComplexDb(userDayComplex, userId, companyId))
                     return false;
 
 
                 if (!await DeleteDayDishInComplex(userDayComplex, userId, companyId))
                     return false;
-                if (!await DeleteUserDay(userDayComplex.Price, userDayComplex.Date, userId, companyId))
+                if (!await DeleteUserDay(total, discount, userDayComplex.Date, userId, companyId))
                     return false;
                 //if (!await UserFinanceEdit(userDayComplex.Price, userId, companyId, true))
                 //    return false;
@@ -649,7 +691,7 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        private async Task<bool> DeleteUserDay(decimal total, DateTime date , string userId, int companyId)
+        private async Task<bool> DeleteUserDay(decimal total, decimal discount,DateTime date , string userId, int companyId)
         {
             //var userId = httpcontext.User.GetUserId();
             //var companyId = httpcontext.User.GetCompanyID();
@@ -665,7 +707,9 @@ namespace CateringPro.Repositories
                     if (userDay != null)
                     {
                         userDay.Quantity -= 1;
-                        userDay.Total -= total;
+                        userDay.Total = total-discount;
+                        userDay.TotalWtithoutDiscount = total;
+                        userDay.Discount = discount;
                         _context.Update(userDay);
                     }
                 }
@@ -924,6 +968,9 @@ namespace CateringPro.Repositories
                             Price = dayd.Price,
                             Date = daydate,
                             Confirmed = uday.IsConfirmed,
+                            Total = uday.Total,
+                            TotalWithoutDiscount = uday.TotalWtithoutDiscount,
+                            Discount = uday.Discount,
                             Enabled = dayd.Date == daydate,  /*dayd != null*/
                             ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
                                             //join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
