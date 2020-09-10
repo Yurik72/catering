@@ -44,7 +44,7 @@ namespace CateringPro.Repositories
         public void CalculateComplexDayDiscount(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes)
         {
 
-            var triggered = promos.Where(p => p.CategoriesId.Except(daycomplex.Select(dc => dc.Complex.CategoriesId)).Count() == 0).ToList();
+            var triggered = promos.Where(p => p.CategoriesId.Except(daycomplex.Select(dc => dc.Complex.CategoriesId)).Any()).ToList();
             if (triggered.Count() == 0)
                 return;
            var discount_amont= triggered.Select(t => new { DiscountAmount = t.DiscountType == 1 ?/*absolute*/t.DiscountValue : /*percent*/daycomplex.Sum(dc => dc.Price) * t.DiscountValue / 100 }).Max(t=>t.DiscountAmount);
