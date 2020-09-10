@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using CateringPro.Models;
+using System.Collections.Generic;
 
 namespace CateringPro.Controllers
 {
@@ -19,9 +20,9 @@ namespace CateringPro.Controllers
         private readonly IServiceRepository _servicerepo;
         private readonly ICompanyUserRepository _companyuserreporepo;
         private readonly IDbSyncer _syncer;
-        private readonly IWebHostEnvironment  _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
         private readonly SignInManager<CompanyUser> _signInManager;
-        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IWebHostEnvironment hostingEnv, SignInManager<CompanyUser> signInManager,IDbSyncer syncer=default )
+        public ServiceController(AppDbContext context, IServiceRepository servicerepo, ICompanyUserRepository companyuserreporepo, IWebHostEnvironment hostingEnv, SignInManager<CompanyUser> signInManager, IDbSyncer syncer = default)
         {
             _context = context;
             _servicerepo = servicerepo;
@@ -56,9 +57,9 @@ namespace CateringPro.Controllers
         public async Task<JsonResult> GenUserCardToken(string userId)
         {
             var token = _companyuserreporepo.GenerateNewCardToken(userId, "", false);
-            return Json(new { isSuccess = true, CardTag = token,cmd="generate" });
+            return Json(new { isSuccess = true, CardTag = token, cmd = "generate" });
         }
-        public async Task<JsonResult> GenUserCardTokenConfirm(string userId,string token)
+        public async Task<JsonResult> GenUserCardTokenConfirm(string userId, string token)
         {
 
             var success = _companyuserreporepo.SaveUserCardTokenAsync(userId, token);
@@ -67,11 +68,11 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> UserCardDetails(string token)
         {
 
-            var card = await _servicerepo.GetUserCardAsync( token);
-        //    if (card == null)
-        //        return NotFound();
+            var card = await _servicerepo.GetUserCardAsync(token);
+            //    if (card == null)
+            //        return NotFound();
 
-            return PartialView( card);
+            return PartialView(card);
         }
         [HttpPost]
         public async Task<JsonResult> Status(ServiceRequest request)
@@ -94,7 +95,7 @@ namespace CateringPro.Controllers
         [HttpPost]
         public async Task<JsonResult> GetAvailableCategories(DateTime daydate)
         {
-           
+
             daydate = DateTime.Now;
             if (daydate.Ticks == 0)
             {
@@ -106,7 +107,7 @@ namespace CateringPro.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<JsonResult> GetOrdersSnapshot(int? companyid ,DateTime? daydate)
+        public async Task<JsonResult> GetOrdersSnapshot(int? companyid, DateTime? daydate)
         {
             return Json(await _servicerepo.GetOrdersSnapshot(companyid, daydate));
         }
@@ -114,10 +115,10 @@ namespace CateringPro.Controllers
         [HttpGet]
         public async Task<JsonResult> SyncDB()
         {
-            if(_hostingEnv.EnvironmentName!="LocalProduction")
-                return Json(new { State = "Not Allowed", Output="Not in Local Mode" });
+            if (_hostingEnv.EnvironmentName != "LocalProduction")
+                return Json(new { State = "Not Allowed", Output = "Not in Local Mode" });
             await _syncer.SyncDb();
-            return Json(new { State = "OK",Output= _syncer.GetOutput() }); ;
+            return Json(new { State = "OK", Output = _syncer.GetOutput() }); ;
         }
         [AllowAnonymous]
         [HttpGet]
@@ -129,11 +130,11 @@ namespace CateringPro.Controllers
                 companyId = _syncer.GetDefaultCompanyId();
             await _syncer.InitialSyncByDBContext(companyId.Value, DateTime.Today.ResetHMS()); ;
             return Json(new { State = "OK", Output = _syncer.GetOutput() }); ;
-            
+
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> LocalModeOrders(int? companyId,DateTime? dayDate)
+        public async Task<IActionResult> LocalModeOrders(int? companyId, DateTime? dayDate)
         {
             if (_hostingEnv.EnvironmentName != "LocalProduction")
                 return Json(new { State = "Not Allowed", Output = "Not in Local Mode" });
@@ -143,6 +144,13 @@ namespace CateringPro.Controllers
             await _syncer.SyncOrders(companyId.Value, day.ResetHMS()); ;
             return Json(new { State = "OK", Output = _syncer.GetOutput() }); ;
 
+        }
+
+        public async Task<IActionResult> UploadDelivery(List<UserDayDish> data)
+        {
+            if (await _servicerepo.UploadDelivery(data))
+                return Json(new { State = "OK" });
+            return BadRequest();
         }
     }
 }

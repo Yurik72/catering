@@ -48,7 +48,7 @@ namespace CateringPro.Controllers
         {
 
 
-            var query = this.GetQueryList(_context.Docs,
+            var query = this.GetQueryList(_context.Docs.Include(d=>d.Address),
                 querymodel,
                ( d => d.Description.Contains(querymodel.SearchCriteria) || d.Number.Contains(querymodel.SearchCriteria)),
                 pageRecords);

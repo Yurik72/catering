@@ -556,11 +556,11 @@ namespace CateringPro.Repositories
             daycomplex.ForEach(d => total += d.Price);
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-             //   var discountplugin = _plugins.GetDiscointPlugin();
-             //   if (discountplugin != null)
-             //   {
-
-             //   }
+                var discountplugin = _plugins.GetDiscointPlugin();
+                if (discountplugin != null)
+                {
+                    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
+                }
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
 

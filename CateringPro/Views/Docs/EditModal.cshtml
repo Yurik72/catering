@@ -26,11 +26,12 @@
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
                             <input type="hidden" asp-for="Id" />
                             <input type="hidden" asp-for="CompanyId" />
+                            <input type="hidden" asp-for="AddressId" />
                             <label asp-for="Date"
                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
                             @*<input type="text" class="form-control col-12 col-lg-8 col-md-8 pl-9"
-                id="input-doc-date"
-                placeholder="" style="height: 34px; font-family: Open-Sans, sans-serif">*@
+        id="input-doc-date"
+        placeholder="" style="height: 34px; font-family: Open-Sans, sans-serif">*@
                             <input asp-for="Date" class="form-control col-12 col-lg-8 col-md-8 pl-9" placeholder="" style="height: 34px; font-family: Open-Sans, sans-serif" />
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
@@ -84,9 +85,9 @@
                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column  col-12 input-row-black  align-content-center">
                             <label asp-for="Address"
                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0"></label>
-                            <input class="form-control col-12 col-lg-8 col-md-8 pl-9"
+                            <input class="form-control col-12 col-lg-8 col-md-8 pl-9 doc-address"
                                    asp-for="Address.Name"
-                                   placeholder="@Localizer["Doc Address"]" style="height: 34px; font-family: Open-Sans, sans-serif">
+                                   placeholder="@Localizer["Doc Address"]" style="height: 34px; background: url('../img/search-icon.svg') no-repeat 95%;font-family: Open-Sans, sans-serif">
                             <span asp-validation-for="Address.Name" class="text-danger"></span>
                         </div>
                     </div>

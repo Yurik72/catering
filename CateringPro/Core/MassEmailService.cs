@@ -149,7 +149,8 @@ namespace CateringPro.Core
                     try
                     {
                         //await _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId);
-                        _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId,null,false).Wait();
+                        if(!string.IsNullOrEmpty(e.Subject)  && !string.IsNullOrEmpty(e.Body))
+                            _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId,null,false).Wait();
                         _context.Remove(e);
                         await _context.SaveChangesAsync();
                     }

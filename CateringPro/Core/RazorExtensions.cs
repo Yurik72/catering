@@ -118,9 +118,11 @@ namespace CateringPro.Core
            
         }
 
-        public static IHtmlContent DisplayListHeaderForEx<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression,  dynamic additionalViewData=null)
+        public static IHtmlContent DisplayListHeaderForEx<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression,  dynamic additionalViewData=null,string dispname=default)
         {
-            string displayname = GetDisplayName(expression);
+            string displayname = dispname;
+            if(string.IsNullOrEmpty(displayname))
+                displayname=GetDisplayName(expression);
             dynamic addviewdata = new { colnumbers = 2 };
             if (additionalViewData != null)
                 addviewdata = Merge(addviewdata, additionalViewData);
@@ -134,7 +136,13 @@ namespace CateringPro.Core
             return builder;
 
         }
+        public static SortControlBuilder<TModel> DisplaySortField<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression, bool isDefault, bool isDefaultAsc)
+        {
+            var builder = new SortControlBuilder<TModel>(src);
+            builder.AddSortField(expression, isDefault, isDefaultAsc);
+            return builder;
 
+        }
         private static dynamic Merge(object item1, object item2)
         {
             IDictionary<string, object> result = new ExpandoObject();

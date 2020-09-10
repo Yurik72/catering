@@ -497,5 +497,50 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+
+        public async Task<bool> UploadDelivery(List<UserDayDish> data)
+        {
+            _logger.LogInformation("Start upload delivery");
+            try
+            {
+               var data_bycompany = data.Where(d=>d.IsDelivered).GroupBy(d => d.CompanyId); 
+               foreach(var companygroup in data_bycompany)
+               {
+                   
+                    int companyId = companygroup.Key;
+                    _logger.LogInformation($"Processing company with id={companyId}");
+                    _context.SetCompanyID(companyId);
+                    foreach (var entry in companygroup)
+                    {
+                        var src = _context.UserDayDish.Where(ud => ud.Date == entry.Date && ud.UserId == entry.UserId && ud.DishId == entry.DishId && ud.ComplexId == entry.ComplexId).FirstOrDefault();
+                        if (src == null)
+                        {
+                            _logger.LogWarning($"UserDayDish entry UserId={entry.UserId} Date={entry.Date} DishId={entry.DishId} ComplexId={entry.ComplexId} is not found in source database");
+                            continue;
+                        }
+                        if (src.IsDelivered)
+                            continue;
+                        src.IsDelivered = true;
+                        try
+                        {
+                            await _context.SaveChangesAsync();
+                        }
+                        catch(Exception ex)
+                        {
+                            _logger.LogError(ex, "failed to update entry");
+                            //exclude for the further update
+                            _context.Entry(src).State = EntityState.Detached;
+                        }
+                    }
+               }
+               
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error UploadDelivery");
+                return false;
+            }
+            return true;
+        }
     }
 }

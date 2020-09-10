@@ -39,7 +39,7 @@ namespace CateringPro.Core
 #endif
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Start job for CleanUpTask");
+            _logger.LogWarning("Start job for CleanUpTask");
             try
             {
                 using (var serviceScope = _serviceProvider.CreateScope())
@@ -62,7 +62,7 @@ namespace CateringPro.Core
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Write of production error");
+                _logger.LogError(ex, "CleanUpTask error");
             }
             
         }

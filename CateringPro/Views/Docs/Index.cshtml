@@ -37,7 +37,7 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
         </div>
     </div>
     <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
-        @Html.DisplaySortField(model => model.Date).AddSortField(model=>model.Type).AddSortField(model=>model.Number).Display(querymodel)
+        @Html.DisplaySortField(model => model.Date,true,false).AddSortField(model=>model.Type).AddSortField(model=>model.Number).Display(querymodel)
         <div class="col-lg-4 col-12 p-0 ">
             <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
                 @*<form class="form-inline col-12 p-0" style=" display: flex;">*@
@@ -179,7 +179,43 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
               });
               $('#modDialog').on('shown.bs.modal', function () {
                   setAutocomplete($(this));
+                  setAddressSearch($(this));
               });
+              function setAddressSearch(dlg) {
+                  $(".doc-address")
+                      .on("keydown", function (event) {
+                      if (event.keyCode === $.ui.keyCode.TAB &&
+                          $(this).autocomplete("instance").menu.active) {
+                          event.preventDefault();
+                      }
+                  })
+                      .autocomplete({
+                       
+                          source:  function (request, response) {
+                                        $.ajax({
+                                            url: '@Url.Action("Search", "Address")',
+                                            dataType: "json",
+                                            data: "term=" + request.term,
+                                            success: function (data) {
+                                                response($.map(data, function (item) {
+                                                    return {
+                                                        label: item.name,
+                                                        value: item.name,
+                                                        id :item.id
+                                                    };
+                                                }));
+                                            }});
+                                    },
+                          select: function (event, ui) {
+                              $('#AddressId').val(ui.item.id);
+                            //  $(event.target).parent().find(".doc-line-ingid").val(ui.item.id);
+
+                          },
+                          appendTo: "#modDialog"
+
+
+                    });
+              }
               function setAutocomplete(dlg) {
                   $(".doc-line-ingname")
                   .on("keydown", function (event) {
@@ -270,7 +306,7 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
               }
               $(document).on('change', '.doc-line-quantity', function () {
                   var i = $(this).attr("data-i");
-                  
+
                   updateDocAmount(i);
               });
               $(document).on('change', '.doc-line-price', function () {

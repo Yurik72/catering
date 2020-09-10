@@ -14,5 +14,6 @@ namespace CateringPro.Repositories
         Task<UserCardViewModel> GetUserCardAsync(string cardToken);
         Task<IEnumerable<UserCardViewModel>> GetUserCardsAsync(QueryModel queryModel);
           Task<ServiceResponse> ProcessRequestAsync(ServiceRequest request);
+        Task<bool> UploadDelivery(List<UserDayDish> data);
     }
 }

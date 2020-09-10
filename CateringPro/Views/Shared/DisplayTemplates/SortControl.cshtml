@@ -3,7 +3,9 @@
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
 
-
+    var defsort = Model.FieldList.FirstOrDefault(f => f.IsDefault);
+    if (defsort == null)
+        defsort = Model.FieldList.First();
 }
 <div class="col-lg-4 col-12 p-0 ">
     <div class="col-12 p-0 justify-content-lg-start justify-content-center"
@@ -13,7 +15,7 @@
                 style="border: none">
             @foreach (var it in Model.FieldList)
             {
-                if (it == Model.FieldList.First())
+                if (it == defsort)
                 {
                     <option class="drpdwn-btn selection" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder={it.SortType}")
                             style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">

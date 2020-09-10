@@ -14,6 +14,9 @@ namespace CateringPro.Core
         public string FieldName { get; set; }
         public string DisplayName { get; set; }
         public string SortType { get; set; }
+
+        public bool IsDefault { get; set; }
+        
     }
     public class SortFieldModel
     {
@@ -39,13 +42,17 @@ namespace CateringPro.Core
             FieldList.Add(new ExpressionHolder<TModel, TResult>(expression));
             return this;
         }
-
+        public SortControlBuilder<TModel> AddSortField<TResult>(Expression<Func<TModel, TResult>> expression, bool isDefault, bool isDefaultAsc)
+        {
+            FieldList.Add(new ExpressionHolder<TModel, TResult>(expression, isDefault, isDefaultAsc));
+            return this;
+        }
         public IHtmlContent Display(QueryModel querymodel=null)
         {
             var model = new SortFieldModel(querymodel);
             FieldList.ForEach(f => {
-                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "asc" });
-                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "desc" });
+                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "asc",IsDefault=(f.IsDefault && f.IsDefaultAsc) });
+                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "desc", IsDefault = (f.IsDefault && !f.IsDefaultAsc) });
                 }
             );
             return htmlhelper.DisplayFor(x=> model, "SortControl");
@@ -56,6 +63,9 @@ namespace CateringPro.Core
         public string SortType { get; set; }
         public abstract string GetFieldName();
         public abstract string GetDisplayName();
+        public bool IsDefault { get; set; }
+
+        public bool IsDefaultAsc { get; set; }
     }
     public class ExpressionHolder<TModel, TResult>: ExpressionHolderBase
     {
@@ -63,6 +73,12 @@ namespace CateringPro.Core
         {
             Expr = expr;
         }
+        public ExpressionHolder(Expression<Func<TModel, TResult>> expr,bool isDefault,bool isDefaultAsc):this(expr)
+        {
+            IsDefault = isDefault;
+            IsDefaultAsc = isDefaultAsc;
+        }
+
         public Expression<Func<TModel, TResult>> Expr { get; set; }
         public  override string GetFieldName()
         {

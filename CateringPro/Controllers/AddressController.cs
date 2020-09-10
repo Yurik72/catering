@@ -160,7 +160,19 @@ namespace CateringPro.Controllers
             return View(adr);
         }
 
-      
+        [HttpGet]
+        public ActionResult Search(string term, bool isShort = true)
+        {
+            var result = _context.Addresses.Where(d => d.Name.Contains(term) || d.Code.Contains(term));
+            if (isShort)
+            {
+                return Ok(result.Select(d => new { id = d.Id, name = d.Code+" "+d.Name }));
+            }
+
+            return Ok(result);
+
+
+        }
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

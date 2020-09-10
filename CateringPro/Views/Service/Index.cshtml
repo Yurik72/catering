@@ -370,6 +370,13 @@
             }
             $('#btnstart').click(function (e) {
                 e.preventDefault();
+                if (!IsWelcomeMode()) {
+                    var dishesnum = getdishesnum();
+                    if (dishes.dishesnum.length == 0) {
+                        alert("Не задано параметри для старту");
+                        return;
+                    }
+                }
                 isStarted = true;
                 lastQueueid = -1;
                 el_header.animate({
@@ -462,7 +469,7 @@
                         el_error.show();
                     }
                     else {
-                        el_error.val("Сталася помилка, спробуйте перезавантажити");
+                        el_error.text("Сталася помилка, спробуйте перезавантажити");
                         el_error.show();
                     }
                     return;
@@ -551,6 +558,7 @@
                                 el_error.text('Сталася помилка, спробуйте перезавантажити');
                             }
                             el_error.show();
+                            selfbtn.prop('disabled', false);
                         }
                         
                     })
