@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CateringPro.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Repositories
 {
@@ -29,6 +30,7 @@ namespace CateringPro.Repositories
         OrderTypeEnum GetCompanyOrderType(int companyid);
         bool GetConfrimedAdmin(string userid);
         bool IsBalancePositive(string userid);
+        IEnumerable<SelectListItem> DishesKind(DateTime dateFrom, DateTime dateTo, int companyid);
     }
 }
 

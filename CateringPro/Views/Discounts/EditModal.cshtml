@@ -1,0 +1,144 @@
+﻿@model CateringPro.Models.Discount
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+    <div class="modal-content col-lg-12 col-12">
+        <div class="modal-header align-items-center pl-lg-4 pl-2" style="padding-top:20px">
+            <h5 class="modal-title p-0" id="exampleModalLabel"
+                style="font-size: 34px; line-height: 40px; font-weight: bold">
+                @Localizer["Discount"]
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <img src="./img/close-modal.svg" aria-hidden="true" alt="">
+            </button>
+        </div>
+        <div class="modal-body col-auto">
+            <form asp-action="EditModal" enctype="multipart/form-data">
+                <div class="row justify-content-around flex-column flex-lg-row flex-md-row flex-sm-column align-content-sm-center align-content-center align-items-sm-center align-items-center"
+                     style=" min-height: 350px">
+
+                    <div class="col-12  justify-content-md-center justify-content-center mt-3 mt-md-0 mt-lg-0">
+
+                        <div class="row">
+                            <div class="col-12 p-0 ">
+                                <input type="hidden" asp-for="Id" />
+
+                                <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                     style="margin-bottom: 6px">
+                                    <label class="col-4" asp-for="Name"
+                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                        <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                            <input asp-for="Name" class="form-control"
+                                                   placeholder="@Localizer["Name"]"
+                                                   style="max-width: 245px; height: 34px" />
+
+                                        </div>
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                         style="margin-bottom: 6px">
+                                        <label class="col-4" asp-for="Code"
+                                               style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                            <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                                <input asp-for="Code" class="form-control"
+                                                       placeholder="@Localizer["Address Code"]"
+                                                       style="max-width: 245px; height: 34px" />
+
+                                            </div>
+                                            <span asp-validation-for="Code" class="text-danger"></span>
+                                        </div>
+                                        <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                             style="margin-bottom: 6px">
+                                            <label class="col-4" asp-for="Value"
+                                                   style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                                <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                                    <input asp-for="Value" class="form-control"
+                                                           placeholder=""
+                                                           style="max-width: 245px; height: 34px" />
+
+                                                </div>
+                                                <span asp-validation-for="Value" class="text-danger"></span>
+                                            </div>
+                                            <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                                 style="margin-bottom: 6px">
+                                                <label class="col-4" asp-for="Type"
+                                                       style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                                    <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                                        <input asp-for="Type" class="form-control"
+                                                               placeholder=""
+                                                               style="max-width: 245px; height: 34px" />
+
+                                                    </div>
+                                                    <span asp-validation-for="Type" class="text-danger"></span>
+                                                </div>
+                                                <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                                     style="margin-bottom: 6px">
+                                                    <label class="col-4" asp-for="DateFrom"
+                                                           style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                                        <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                                            <input asp-for="DateFrom" class="form-control"
+                                                                   placeholder=""
+                                                                   style="max-width: 245px; height: 34px" />
+
+                                                        </div>
+                                                        <span asp-validation-for="DateFrom" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                                         style="margin-bottom: 6px">
+                                                        <label class="col-4" asp-for="DateTo"
+                                                               style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                                            <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                                                <input asp-for="DateTo" class="form-control"
+                                                                       placeholder=""
+                                                                       style="max-width: 245px; height: 34px" />
+
+                                                            </div>
+                                                            <span asp-validation-for="DateTo" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="row col-12 justify-content-between p-0 m-0 align-items-center mb-2"
+                                                             style="margin-bottom: 6px">
+                                                            <label class="col-4" asp-for="Categories"
+                                                                   style="margin-bottom: 0; text-align: center; display: flex; justify-content: left; padding-left: 0">@*Страва*@</label>
+                                                                <div class="col-8 flex-grow-1 justify-content-end p-0">
+                                                                    <input asp-for="Categories" class="form-control"
+                                                                           placeholder=""
+                                                                           style="max-width: 245px; height: 34px" />
+
+                                                                </div>
+                                                                <span asp-validation-for="Categories" class="text-danger"></span>
+                                                            </div>
+
+
+
+                                                        </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+         </div>
+                    <div class="modal-footer justify-content-center"
+                         style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                        <button type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                style="background: #36C233; border: 1px solid #36C233; height: 48px" data-save="modal">
+                            @Localizer["Save"]
+                        </button>
+
+                        <button type="button" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
+                                style="background: #ffffff; border: 1px solid #F15E25; height: 48px; color: #f15e25"
+                                data-dismiss="modal">
+                            @Localizer["Cancel"]
+                        </button>
+                    </div>
+                </div>
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

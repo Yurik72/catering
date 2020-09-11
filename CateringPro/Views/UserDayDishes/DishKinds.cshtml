@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2"
+     id="type-menu-food">
+    @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
+            Стандартне
+        </button>
+        <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
+        <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
+        <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>*@
+    @foreach (var it in ViewBag.DishKindId)
+    {
+        if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
+        {
+            <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button" value="@it.Value">
+                @it.Text
+            </button>
+            continue;
+        }
+        <button class="btn btn-for-type-menu" type="button" value="@it.Value">@it.Text</button>
+    }
+</div>
+<select class="custom-select sources type-of-food"
+        placeholder="Стандарт"
+        style="border: none;"
+        id="dishKind">
+    @foreach (var it in ViewBag.DishKindId)
+    {
+        if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
+        {
+            <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
+            continue;
+        }
+        <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
+    }
+</select>

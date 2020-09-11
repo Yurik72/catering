@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Models
 {
-    public class Discounts : CompanyDataOwnId
+    public class Discount : CompanyDataOwnId
     {
 
         [StringLength(10)]
@@ -16,6 +16,7 @@ namespace CateringPro.Models
         [DisplayName("Code")]
         //  [Required]
         public string Code { get; set; }
+        public string Name { get; set; }
         public int Value { get; set; }
         public int Type { get; set; }
         public DateTime DateFrom { get; set; }
