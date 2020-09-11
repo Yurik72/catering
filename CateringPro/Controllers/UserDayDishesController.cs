@@ -95,6 +95,14 @@ namespace CateringPro.Controllers
             };
             return PartialView(model);
         }
+        public async Task<IActionResult> GetDishesKind(DateTime daydate, int? dishKind)
+        {
+            DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
+            DateTime endDate = daydate.AddDays(7);
+            var list = _userdaydishesrepo.DishesKind(startDate, endDate,User.GetCompanyID());
+            ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
+            return PartialView("DishKinds");
+        }
         // GET: UserDayDishes/Details/5
         public async Task<IActionResult> Details(string id)
         {

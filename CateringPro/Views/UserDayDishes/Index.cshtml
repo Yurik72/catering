@@ -32,27 +32,28 @@
             <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column-reverse mt-3">
                 <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
                     <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
-                    <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2"
-                         id="type-menu-food">
-                        @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
-                            Стандартне
-                        </button>
-                        <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
-                        <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
-                        <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>*@
-                        @foreach (var it in ViewBag.DishKindId)
-                        {
-                             if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
+                    <div class="select-dishesKind">
+                        <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2"
+                             id="type-menu-food">
+                            @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
+                Стандартне
+            </button>
+            <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
+            <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
+            <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>*@
+                            @foreach (var it in ViewBag.DishKindId)
                             {
-                    <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button" value="@it.Value">
-                        @it.Text
-                    </button>
-                                continue;
+                                if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
+                                {
+                                    <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button" value="@it.Value">
+                                        @it.Text
+                                    </button>
+                                    continue;
+                                }
+                                <button class="btn btn-for-type-menu" type="button" value="@it.Value">@it.Text</button>
                             }
-                            <button class="btn btn-for-type-menu" type="button" value="@it.Value">@it.Text</button>
-                        }
-                    </div>
-                    @*<select name="sources" id="sources" class="custom-select sources type-of-food"
+                        </div>
+                        @*<select name="sources" id="sources" class="custom-select sources type-of-food"
                 placeholder="Стандартне"
                 style="border: none; z-index: 2000">
             <option class="drpdown-btn-type selection" value="standart"
@@ -63,21 +64,22 @@
             <option class="drpdown-btn-type" value="no-gluten">Безглютенове</option>
             <option class="drpdown-btn-type" value="fish-and-vegetables">Овочево-рибне</option>
         </select>*@
-                   
-                <select class="custom-select sources type-of-food"
-                        placeholder="Стандарт"
-                        style="border: none;"
-                        id="dishKind">
-                    @foreach (var it in ViewBag.DishKindId)
-                    {
-                        if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
-                        {
-                            <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
-                            continue;
-                        }
-                <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
-                    }
-                </select>
+
+                        <select class="custom-select sources type-of-food"
+                                placeholder="Стандарт"
+                                style="border: none;"
+                                id="dishKind">
+                            @foreach (var it in ViewBag.DishKindId)
+                            {
+                                if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
+                                {
+                                    <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
+                                    continue;
+                                }
+                                <option class="drpdown-btn-type" value="@it.Value">@it.Text</option>
+                            }
+                        </select>
+                    </div>
                 </div>
                 <button type="button"
                         class="getDetails col-lg-3 col-md-3 pr-3 col-12 btn btn-xl btn-outline-danger   align-self-end  font-weight-bold  d-flex justify-content-between"
@@ -652,7 +654,9 @@ else
                 var navcontent = $('#nav-content-' + dayindex);
                 navcontent.html(html_loading);
                 var dishKind = $("#dishKind").val();
-             
+                if (dishKind==null) {
+                    dishKind = 1;
+                }
                 //navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString());
                 navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString() + "&dishKind=" + encodeURI(dishKind.toString())),
                     function (response, status, xhr) {
@@ -764,6 +768,7 @@ else
                 $('#weekselected').text(weektext());
                 //for (var i = 0; i < 7; i++)
                //    reloadDay(i);
+                
                 var index = parseInt($(".nav-day.active").attr("data-i"));
                 var start = 0
                 var cb = function() {
@@ -780,9 +785,19 @@ else
                         start++;
                     }
                 }
-
-                reloadDay(index, cb);
-
+                if (d != 0) {
+                    var dishKind = $(".select-dishesKind");
+                    dishKind.empty();
+                    dishKind.load('/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()),
+                        function (response, status, xhr) {
+                            setupDishKinds();
+                            reloadDay(index, cb);
+                        }
+                    );
+                } else {
+                   
+                    reloadDay(index, cb);
+                }
                 setClosedDaystyle();
             }
             $('.dayselectback').click((e) => {
@@ -793,6 +808,7 @@ else
                 e.preventDefault();
                 incrementday(7);
             });
+            setupDishKinds();
             incrementday(0);
             var showOrderResult = function (data) {
                 if (!data || !data.res) {
@@ -1163,46 +1179,48 @@ else
                 $(select).trigger("change");
 
             });
-            $('#dishKind').each(function () {
-                let classes = $(this).attr("class"),
-                    id = $(this).attr("id"),
-                    name = $(this).attr("name");
-                let template = '<div class="' + classes + '">';
-                template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
-                template += '<div class="custom-options">';
-                $(this).find("option").each(function () {
-                    template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+            function setupDishKinds() {
+                $('#dishKind').each(function () {
+                    let classes = $(this).attr("class"),
+                        id = $(this).attr("id"),
+                        name = $(this).attr("name");
+                    let template = '<div class="' + classes + '">';
+                    template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+                    template += '<div class="custom-options">';
+                    $(this).find("option").each(function () {
+                        template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+                    });
+                    template += '</div></div>';
+
+                    $(this).wrap('<div class="custom-select-wrapper d-block d-lg-none d-md-none" ></div>');
+                    $(this).hide();
+                    $(this).after(template);
                 });
-                template += '</div></div>';
-
-                $(this).wrap('<div class="custom-select-wrapper d-block d-lg-none d-md-none" ></div>');
-                $(this).hide();
-                $(this).after(template);
-            });
-            $(".custom-option:first-of-type").hover(function () {
-                $(this).parents(".custom-options").addClass("option-hover");
-            }, function () {
-                $(this).parents(".custom-options").removeClass("option-hover");
-            });
-            $(".custom-select-trigger").on("click", function () {
-                $('html').one('click', function () {
-                    $(".custom-select").removeClass("opened");
+                $(".custom-option:first-of-type").hover(function () {
+                    $(this).parents(".custom-options").addClass("option-hover");
+                }, function () {
+                    $(this).parents(".custom-options").removeClass("option-hover");
                 });
-                $(this).parents(".custom-select").toggleClass("opened");
-                event.stopPropagation();
-            });
-            $(".custom-option").on("click", function () {
-                var cus = $(this).attr("data-value");
-                var select = $(this).parents(".custom-select-wrapper").find("select");
-                $(select).val(cus);
-                $(select).trigger("change");
+                $(".custom-select-trigger").on("click", function () {
+                    $('html').one('click', function () {
+                        $(".custom-select").removeClass("opened");
+                    });
+                    $(this).parents(".custom-select").toggleClass("opened");
+                    event.stopPropagation();
+                });
+                $(".custom-option").on("click", function () {
+                    var cus = $(this).attr("data-value");
+                    var select = $(this).parents(".custom-select-wrapper").find("select");
+                    $(select).val(cus);
+                    $(select).trigger("change");
 
 
-                $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
-                $(this).addClass("selection");
-                $(this).parents(".custom-select").removeClass("opened");
-                $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
-            });
+                    $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+                    $(this).addClass("selection");
+                    $(this).parents(".custom-select").removeClass("opened");
+                    $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+                });
+            }
             //end
             function setDays() {
 

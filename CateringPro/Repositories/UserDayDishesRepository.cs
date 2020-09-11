@@ -12,6 +12,7 @@ using CateringPro.Core;
 using Microsoft.Extensions.Caching.Memory;
 using System.Transactions;
 using System.Xml.Schema;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Repositories
 {
@@ -997,6 +998,25 @@ namespace CateringPro.Repositories
             var confirmed1 = confirmed.ToList();
             query1.ForEach(d => d.Confirmed = confirmed1.FirstOrDefault().IsConfirmed);
             return query;
+        }
+        public IEnumerable<SelectListItem> DishesKind(DateTime dateFrom, DateTime dateTo, int companyid)
+        { 
+            var query = (from udc in _context.DayComplex.WhereCompany(companyid).Where(u=> u.Date>=dateFrom&&u.Date<=dateTo)
+                        join com in _context.Complex on udc.ComplexId equals com.Id
+                        join dc in _context.DishesKind on com.DishKindId equals dc.Id
+                        select new
+                        {
+                            Code = dc.Code,
+                            Value = dc.Id.ToString(),
+                            Text = dc.Name
+                        }).Distinct().OrderBy(dc => dc.Code).ToList();
+            List<SelectListItem> res = new List<SelectListItem>();
+            query.ForEach(dc =>
+            {
+                res.Add(new SelectListItem() { Value = dc.Value, Text = dc.Text });
+            });
+            
+            return res;
         }
         }
 }
