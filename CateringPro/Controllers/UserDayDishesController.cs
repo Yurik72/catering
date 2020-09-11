@@ -233,22 +233,23 @@ namespace CateringPro.Controllers
                     return await Task.FromResult(Json(new { res = "FAIL", reason = "Empty" }));
                 }
                // DateTime ordDay = UserDayDish.FirstOrDefault().Date;
-                var res = _userdaydishesrepo.OrderedComplexDay(daydate, User.GetUserId(), User.GetCompanyID()).ToList();
+                
                 if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
                 {
                     return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
                 }
-                bool ordered = res.Any(x => daycomplexes.Any(y => y.ComplexId == x.ComplexId));
-                if (duplicateKeys.Count() != 0 || ordered)
+                //var res = _userdaydishesrepo.OrderedComplexDay(daydate, User.GetUserId(), User.GetCompanyID()).ToList();
+                //bool ordered = res.Any(x => daycomplexes.Any(y => y.ComplexId == x.ComplexId));
+                if (duplicateKeys.Count() != 0 /*|| ordered*/)
                 {
-                    if (duplicateKeys.Count() != 0)
-                    {
+                    //if (duplicateKeys.Count() != 0)
+                    //{
                         _logger.LogWarning("Duplicates from front in User Day {0} userId {1}", daydate, User.GetUserId());
-                    }
-                    else
-                    {
-                        _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", daydate, User.GetUserId());
-                    }
+                    //}
+                    //else
+                    //{
+                    //    _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", daydate, User.GetUserId());
+                    //}
                     return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
                 }
 

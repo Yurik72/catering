@@ -44,6 +44,7 @@ namespace CateringPro.Repositories
                 if (plugin != null)
                 {
                     plugin.LoadConfig(_config);
+                    plugin.SetContext(_context);
                 }
                 return plugin;
             }
