@@ -113,11 +113,12 @@
                             <span id="total-amount"
                                   style="font-family: Open-Sans,sans-serif; color: #797979; font-size: 24px">
                                 @*@Model.Sum(it => it.Quantity * it.Price)*@ @Model.FirstOrDefault().Total @pageOptions.Value.CurrencySymbol
-                                @*@if (@Model.FirstOrDefault().TotalWithoutDiscount != null)
+                                @if (@Model.FirstOrDefault().TotalWithoutDiscount != null)
                                 {
-                                <span>Знижка</span>
-                                  @Model.FirstOrDefault().Discount
-                                }*@
+                                    <br />
+                                    <span>Знижка</span>
+                                    @Model.FirstOrDefault().Discount @pageOptions.Value.CurrencySymbol
+                                }
                             </span>
                             </div>
                         </div>

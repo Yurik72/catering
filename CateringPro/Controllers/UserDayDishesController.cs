@@ -62,7 +62,14 @@ namespace CateringPro.Controllers
                 ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes) > 0
 
             };
-            var list = GetDishesKindWithEmptyList();
+            DateTime daydate = DateTime.Now;
+            if(daydate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                daydate = daydate.AddDays(-2);
+            }
+            DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
+            DateTime endDate = startDate.AddDays(7);
+            var list = _userdaydishesrepo.DishesKind(startDate, endDate, User.GetCompanyID());
             ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
         }
@@ -97,8 +104,12 @@ namespace CateringPro.Controllers
         }
         public async Task<IActionResult> GetDishesKind(DateTime daydate, int? dishKind)
         {
+            if (daydate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                daydate = daydate.AddDays(-2);
+            }
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
-            DateTime endDate = daydate.AddDays(7);
+            DateTime endDate = startDate.AddDays(7);
             var list = _userdaydishesrepo.DishesKind(startDate, endDate,User.GetCompanyID());
             ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
             return PartialView("DishKinds");
