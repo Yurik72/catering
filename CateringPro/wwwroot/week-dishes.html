@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/custom-select.css">
+    <title>Кабачок - </title>
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100%">
+<header>
+    <div class="container-xl container-md container-sm container">
+        <nav class="navbar navbar-light navbar-expand-lg flex-grow-0 px-0">
+            <a class="navbar-brand" href="../index.html"><img src="../img/logo.png" alt="Catering logo"></a>
+            <button class="navbar-toggler pr-0" type="button" data-toggle="collapse" data-target="#navbarburger1"
+                    aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation"
+                    style="border: none; outline: none">
+                <img src="../img/hamburger-icon.svg" alt="">
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarburger1">
+                <ul class="navbar-nav nav justify-content-end float-right mr-0" id="nav-bar-burger"
+                    style="background: #ffffff">
+                    <li class="nav-item ml-3">
+                        <a class="nav-link px-0 navbar-size-14" href="#" style="color: #232323"><img
+                                src="../img/login-icon.svg"
+                                alt=""
+                                class="px-2">Увійти</a>
+                    </li>
+                    <li class="nav-item ml-3 float-right">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="./register.html"
+                           style="color: #232323"><img src="../img/reg-icon.svg"
+                                                       alt="" class="px-2">Реєстрація</a>
+                    </li>
+                    <li class="nav-item ml-3 dropdown">
+                        <div class="nav-link text-main-color-dark px-0 navbar-size-14 dropdown-toggle"
+                             id="dropdown-admin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                             style="color: #232323; cursor: pointer"><img
+                                src="../img/admin-icon.svg"
+                                alt="" class="px-2">Адміністрування
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-admin" id="dropdown-buttons-hover"
+                             style="box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15); border-radius: 4px; border: none; max-width: 245px; font-weight: 500; font-size: 14px;">
+                            <a class="dropdown-item" href="./dishes.html">Список страв</a>
+                            <a class="dropdown-item" href="./ingredients.html">Інгредієнти</a>
+                            <a class="dropdown-item" href="./complex.html">Комплекс</a>
+                            <a class="dropdown-item" href="./day-week-menu.html">Меню на день / тиждень</a>
+                            <a class="dropdown-item change-btn-eff" href="./week-dishes.html">Замовлення</a>
+                            <a class="dropdown-item" href="./stock.html">Склад</a>
+                            <a class="dropdown-item" href="./ConsignmentStock.html">Склад/Залишки</a>
+                            <a class="dropdown-item" href="./documents.html">Документи</a>
+                            <a class="dropdown-item " href="./settings.html">Налаштування</a>
+                            <a class="dropdown-item " href="./report.html">Звiти</a>
+                            <a class="dropdown-item" href="./users.html">Користувачi</a>
+                            <a class="dropdown-item" href="./users-group.html">Групи Користувачiв</a>
+                            <a class="dropdown-item" href="./mailing.html">Розсилки email</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark  pl-0 navbar-size-14"
+                           href="profile.html"
+                           style="color: #232323"><img
+                                src="../img/profile-icon.svg"
+                                alt="" class="px-2">Мій
+                            профіль</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/basket-icon.svg"
+                                alt="" class="px-2">Мої
+                            замовлення</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-main-color-dark px-0 navbar-size-14" href="#"
+                           style="color: #232323"><img
+                                src="../img/logout-icon.svg"
+                                alt="" class="px-2">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<main class="row mr-0 ml-0 flex-grow-1">
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="col-12 align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
+            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column">
+                <p class="h2 h2-mob pr-3" style="font-weight: 600;">
+                    Страви що будуть готоватись цього тижня</p>
+
+            </div>
+            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column-reverse mt-3">
+                <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
+                    <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
+                    <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2"
+                         id="type-menu-food">
+                        <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">Стандартне
+                        </button>
+                        <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
+                        <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
+                        <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>
+                    </div>
+                    <select name="sources" id="sources" class="custom-select sources type-of-food"
+                            placeholder="Стандартне"
+                            style="border: none; z-index: 2000">
+                        <option class="drpdown-btn-type selection" value="standart"
+                                style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">Стандартне
+                        </option>
+                        <option class="drpdown-btn-type" value="no-lactose">Безлактозне</option>
+                        <option class="drpdown-btn-type" value="no-gluten">Безглютенове</option>
+                        <option class="drpdown-btn-type" value="fish-and-vegetables">Овочево-рибне</option>
+                    </select>
+                </div>
+                <button type="button" data-toggle="modal" data-target="#change-user-modal"
+                        class="col-lg-3 col-md-3 pr-3 col-12 btn btn-xl btn-outline-danger   align-self-end  font-weight-bold  d-flex justify-content-between"
+                        style=" background: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; color: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
+                    <img src="../img/week-report.svg" alt=""><span class="d-flex align-content-center"
+                                                                   style="margin-right: 23%">Тижневий звіт</span>
+                </button>
+            </div>
+        </div>
+        <div id="days-of-week-carousel" class="carousel slide container px-0 order-carousel mt-3" data-ride="carousel">
+            <div class="carousel-inner" style="position: relative;">
+                <div style="position: absolute; z-index: 5; right: -5px; width: 40px; height: 70px;background: linear-gradient(270deg, #FFFFFF 50.1%, rgba(255, 255, 255, 0) 100%);"></div>
+                <div class="carousel-item active">
+                    <ul class="nav nav-tabs justify-content-lg-around justify-content-md-around justify-content-between weeks-tab "
+                        id="weeks-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px;">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px;">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(100%/7 + 14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(100%/7*2 + 14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(100%/7*3 + 14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(100%/7*4 + 14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(100%/7*5 + 14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                            <div class="col-2 disabled-hovered p-0  flex-column justify-content-center align-items-center px-3"
+                                 style="left: calc(100%/7*6 + 14px); ">На цей день замовлення закритi.
+                                <br>Зверніться до <span style="color: #36C233; text-decoration: underline">адміністратора</span>
+                                для замовлення
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="carousel-item">
+                    <ul class="nav nav-tabs justify-content-lg-around justify-content-md-around justify-content-between weeks-tab "
+                        id="weeks-tab2" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="carousel-item">
+                    <ul class="nav nav-tabs justify-content-lg-around justify-content-md-around justify-content-between weeks-tab "
+                        id="weeks-tab3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px;">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px; ">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link day-of-week p-lg-0 p-md-0" style="width: 100%;" data-toggle="tab" href=""
+                               role="tab"
+                               aria-controls="home"
+                               aria-selected="true">
+                                <div class="col-12 p-0 d-flex flex-lg-column flex-md-column flex-column-reverse date-container">
+                                    <div class="col-12 d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center arrow-down-mob"
+                                         style=" min-width: 55px;">
+                                        <img src="../img/mob-arrow-active.svg" alt=""></div>
+                                    <div class="col-12 d-flex justify-content-center day-of"></div>
+                                    <div class="col-12 number-of d-md-block d-lg-block d-none"
+                                         style="font-size: 14px; font-family: Open-Sans, sans-serif;"></div>
+                                    <div class="col-12 month-rus month-rus__active d-lg-none d-md-none d-flex p-0 justify-content-center align-items-center"
+                                         style=" font-size: 14px; font-family: Open-Sans, sans-serif; min-width: 55px; line-height: 29px;"></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <a class="carousel-control-prev  d-lg-flex d-md-flex align-items-start mt-3"
+               style="width: auto; z-index: 6" href="#days-of-week-carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon d-flex justify-content-start align-items-center"
+                      aria-hidden="true"
+                      style="width: 20px; height: 20px; border: 2px solid #F05E25; border-radius: 50%">
+                    <div style="border: 4px solid transparent;border-right: 5px solid #F05E25;display: block;width: 0;height: 0;"></div>
+                </span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next d-flex align-items-start mt-3" style="width: auto; z-index: 6"
+               href="#days-of-week-carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon d-flex justify-content-end align-items-center"
+                      aria-hidden="true"
+                      style="width: 20px; height: 20px; border: 2px solid #F05E25; border-radius: 50%">
+                    <div style="border: 4px solid transparent;border-left: 5px solid #F05E25;display: block;width: 0;height: 0;"></div>
+                </span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+        <div class="col-12 p-0" style="margin-top: -105px;z-index: 10">
+            <div class="row ml-0 mr-0 justify-content-start align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
+                 style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+
+                <div class="col-1 col-lg-1 col-md-2">
+                </div>
+                <div class="col-lg-11 p-0 pl-2 col-md-10 d-flex flex-lg-row flex-md-row">
+                    <div class="col-lg-2 col-md-2 pl-0" style="cursor: pointer"><span class="sort-span">Назва</span>
+                    </div>
+                    <div class="col-5 pl-5" style="cursor: pointer"><span class="sort-span">Категорія</span></div>
+                    <div class="col-lg-2 col-md-2" style="cursor: pointer"><span class="sort-span">Title</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 justify-content-end" style="cursor: pointer"><span
+                            class="sort-span justify-content-center">Вартість</span>
+                    </div>
+                    <div class="col-lg-1 col-md-1">
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 p-0 my-3 box-shadow-container" id="current-day-cart"
+                 style="border: 1px solid #eaeaea; border-radius: 4px">
+                <div class="col-12 p-0 justify-content-lg-around justify-content-md-around justify-content-start mt-3 d-flex flex-column brd-bot-line align-items-lg-center align-items-md-center align-items-start">
+                    <div class="col-3 align-self-end d-flex justify-content-end" id="hide-cart" style="cursor: pointer">
+                        <img src="../img/arrow-down.svg" alt="" id="image-hide-cart" class="" style="width: 20px;">
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-start justify-content-lg-center justify-content-md-center brd-bot-line">
+                        <span style="font-weight: 600; font-size: 30px; color: #232323">Кошик</span>
+                        <img src="../img/cart-icon.svg" alt="Cart" style="padding-left: 10px">
+                    </div>
+                    <div class="d-flex align-items-center px-lg-5 px-md-5 px-3 align-self-lg-end align-self-md-end my-2">
+                        <span style="font-weight: 600; font-size: 24px; color: #232323">Підтверджено</span>
+                        <label class="container-for-radio ml-3">
+                            <input type="checkbox" name="checked" class="custom-control-input" checked>
+                            <span class="checkmark-for-radio"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12 p-0 d-none flex-column" id="cart-for-hide" style="transition: 0.2s ease-in-out;">
+                    <div class="col-12 mt-3 brd-bot-line" style="font-size: 24px">Сніданок</div>
+                    <div class="col-12 p-0 parent-delete d-flex flex-column" id="dinner-container">
+                        <div class="col-12  position-relative brd-bot-line mb-3 mt-3">
+                            <div class="col-12 p-0 d-flex flex-column ">
+                                <div class="col-12 p-0 d-flex justify-content-between align-items-center brd-bot-line-reverse ">
+    <span class="h3 py-lg-0 py-md-0 py-3 m-0"
+          style="font-weight: 600; font-size: 18px; color: #232323">Сніданок для садочків</span>
+                                    <button class="btn delete-parent" style="background: none; border: none">
+                                        <img src="../img/delete-icon.svg" alt="Delete item">
+                                    </button>
+                                </div>
+                                <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+                                      style="font-size: 14px; line-height: 16px; color: #797979;">Перше</span>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3 ">
+                                <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png"
+                                                                               alt="Image week dish"
+                                                                               style="width: inherit; max-width: 61px;">
+                                </div>
+                                <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                                    <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                                         style="font-size: 16px;">Борщ з
+                                        пампушками
+                                    </div>
+                                    <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                                        <div class="pl-4">Смачний український
+                                            борщ з пампушками та запашним часником.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                                        <span>150 гр.</span>
+                                        <span class="d-inline d-md-none d-lg-none"> / </span>
+                                        <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-column">
+    <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+          style="font-size: 14px; line-height: 16px; color: #797979;">Друге</span>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3 ">
+                                <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png"
+                                                                               alt="Image week dish"
+                                                                               style="width: inherit; max-width: 61px;">
+                                </div>
+                                <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                                    <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                                         style="font-size: 16px;">Запечені яблука з сиром
+                                    </div>
+                                    <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                                        <div class="pl-4">Смачний український
+                                            борщ з пампушками та запашним часником.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                                        <span>150 гр.</span>
+                                        <span class="d-inline d-md-none d-lg-none"> / </span>
+                                        <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 p-0 d-flex py-2">
+                            <div class="col-1"></div>
+                            <div class="col-11 d-flex flex-row">
+                                <div class="col-7 d-lg-block d-md-block d-none"></div>
+                                <div class="col-lg-2 col-md-2 col-6"><span class="font-weight-bold"
+                                                                           style="font-size: 20px; color: #232323">Разом</span>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-6 p-0 d-flex justify-content-center"><span
+                                        id="amount-dinner"
+                                        style="font-family: Open-Sans,sans-serif; color: #797979;">56.00 ₴</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-3 brd-bot-line" style="font-size: 24px">Обід</div>
+                    <div class="col-12 p-0 parent-delete d-flex flex-column" id="lunch-container">
+                        <div class="col-12  position-relative brd-bot-line mb-3 mt-3">
+                            <div class="col-12 p-0 d-flex flex-column br">
+                                <div class="col-12 p-0 d-flex justify-content-between align-items-center  brd-bot-line-reverse">
+    <span class="h3 py-lg-0 py-md-0 py-3 m-0"
+          style="font-weight: 600; font-size: 18px; color: #232323">Обід для садочків</span>
+                                    <button class="btn delete-parent" style="background: none; border: none">
+                                        <img src="../img/delete-icon.svg" alt="Delete item">
+                                    </button>
+                                </div>
+                                <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+                                      style="font-size: 14px; line-height: 16px; color: #797979;">Перше</span>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3 ">
+                                <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png"
+                                                                               alt="Image week dish"
+                                                                               style="width: inherit; max-width: 61px;">
+                                </div>
+                                <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                                    <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                                         style="font-size: 16px;">Борщ з
+                                        пампушками
+                                    </div>
+                                    <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                                        <div class="pl-4">Смачний український
+                                            борщ з пампушками та запашним часником.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                                        <span>150 гр.</span>
+                                        <span class="d-inline d-md-none d-lg-none"> / </span>
+                                        <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-column">
+    <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+          style="font-size: 14px; line-height: 16px; color: #797979;">Друге</span>
+                            </div>
+                            <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3 ">
+                                <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png"
+                                                                               alt="Image week dish"
+                                                                               style="width: inherit; max-width: 61px;">
+                                </div>
+                                <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                                    <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                                         style="font-size: 16px;">Запечені яблука з сиром
+                                    </div>
+                                    <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                                        <div class="pl-4">Смачний український
+                                            борщ з пампушками та запашним часником.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                                        <span>150 гр.</span>
+                                        <span class="d-inline d-md-none d-lg-none"> / </span>
+                                        <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                                         style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 p-0 d-flex py-2">
+                            <div class="col-1"></div>
+                            <div class="col-11 d-flex flex-row">
+                                <div class="col-7 d-lg-block d-md-block d-none"></div>
+                                <div class="col-lg-2 col-md-2 col-6"><span class="font-weight-bold"
+                                                                           style="font-size: 20px; color: #232323">Разом</span>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-6 p-0 d-flex justify-content-center"><span
+                                        id="amount-lunch"
+                                        style="font-family: Open-Sans,sans-serif; color: #797979;">56.00 ₴</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 p-0 d-flex py-3 justify-content-md-end justify-content-lg-end justify-content-start brd-bot-line"
+                         style="border-top: 1px solid #EAEAEA">
+                        <div class="col-12 col-md-11 col-lg-11 d-flex flex-row px-lg-3 px-md-3 px-0">
+                            <div class="col-6 d-lg-block d-md-block d-none"></div>
+                            <div class="col-lg-3 col-md-3 col-6"><span class="font-weight-bold"
+                                                                       style="font-size: 20px; color: #232323">Загальна сума</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-6 p-0 d-flex justify-content-center"><span
+                                    id="total-amount"
+                                    style="font-family: Open-Sans,sans-serif; color: #797979; font-size: 24px">112.00 ₴</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12  d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                style="background: #36C233; border: 1px solid #36C233; height: 48px; text-transform: uppercase">
+                            ЗАМОВИТИ
+                        </button>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-12 p-0 justify-content-center mt-4 d-flex">
+                <span style="font-weight: 600; font-size: 28px; color: #232323">Комплексні страви</span>
+            </div>
+        </div>
+
+        <div class="tab-content mt-lg-2 pt-lg-3 mt-md-2 pt-md-3 mt-1 pt-0" id="week-day-content">
+            <div class="col-12 box-shadow-container position-relative brd-bot-line mb-3">
+                <div class="col-12 p-0 d-flex flex-column br">
+    <span class="h3 pt-lg-0 pt-md-0 pt-3 brd-bot-line-reverse pb-4 pb-md-0 pb-lg-0"
+          style="font-weight: 600; font-size: 18px; color: #232323">Сніданок для садочків</span>
+                    <div>
+                        <span style="font-size: 16px; line-height: 16px; color: #232323;">Ціна за комплекс: </span>
+                        <span style="font-size: 16px; line-height: 16px; color: #797979;">56.00 ₴</span>
+                    </div>
+                    <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+                          style="font-size: 14px; line-height: 16px; color: #797979;">Перше</span>
+                </div>
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                   style="width: inherit; max-width: 61px;">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                             style="font-size: 16px;">Борщ з
+                            пампушками
+                        </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4">Смачний український
+                                борщ з пампушками та запашним часником.
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span>150 гр.</span>
+                            <span class="d-inline d-md-none d-lg-none"> / </span>
+                            <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                        </div>
+                        <button class="col-5 d-flex d-md-none d-lg-none brn justify-content-start" type="button"
+                                data-toggle="modal" data-target="#dish-stock"
+                                style="outline: none; border: none; color: #36C233; font-size: 14px; background: transparent;">
+                            Склад >
+                        </button>
+
+                        <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                            <label class="container-for-radio">
+                                <input type="radio" name="first-dish" class="custom-control-input" checked>
+                                <span class="checkmark-for-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0 d-flex flex-column">
+    <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+          style="font-size: 14px; line-height: 16px; color: #797979;">Друге</span>
+                </div>
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                   style="width: inherit; max-width: 61px;">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                             style="font-size: 16px;">Запіканка
+                        </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4">Смачний український
+                                борщ з пампушками та запашним часником.
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span>150 гр.</span>
+                            <span class="d-inline d-md-none d-lg-none"> / </span>
+                            <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                        </div>
+                        <button class="col-5 d-flex d-md-none d-lg-none brn justify-content-start" type="button"
+                                data-toggle="modal" data-target="#dish-stock"
+                                style="outline: none; border: none; color: #36C233; font-size: 14px; background: transparent;">
+                            Склад >
+                        </button>
+
+                        <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                            <label class="container-for-radio">
+                                <input type="radio" name="second-complex" class="custom-control-input">
+                                <span class="checkmark-for-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                   style="width: inherit; max-width: 61px;">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                             style="font-size: 16px;">Запечені яблука з сиром
+                        </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4">Смачний український
+                                борщ з пампушками та запашним часником.
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span>150 гр.</span>
+                            <span class="d-inline d-md-none d-lg-none"> / </span>
+                            <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                        </div>
+                        <button class="col-5 d-flex d-md-none d-lg-none brn justify-content-start" type="button"
+                                data-toggle="modal" data-target="#dish-stock"
+                                style="outline: none; border: none; color: #36C233; font-size: 14px; background: transparent;">
+                            Склад >
+                        </button>
+
+                        <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                            <label class="container-for-radio">
+                                <input type="radio" name="second-complex" class="custom-control-input" checked>
+                                <span class="checkmark-for-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-control font-weight-bold d-flex justify-content-end p-0 pb-3 pb-lg-0 pb-md-0 pos-for-btn"
+                     style="width: 156px;  ">
+                    <label class="custom-control custom-checkbox m-0 p-0 d-flex justify-content-between align-items-center flex-grow-1 px-2"
+                           style="height: 36px; font-size: 14px; color: #36C233; width: 100%; border-radius: 4px; border: 1px solid #36C233;">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator align-self-start"></span>
+                        <span class="custom-control-description mr-1">ЗАМОВИТИ</span>
+                    </label>
+                </div>
+
+            </div>
+            <div class="col-12 box-shadow-container position-relative brd-bot-line mb-3">
+                <div class="col-12 p-0 d-flex flex-column br">
+    <span class="h3 pt-lg-0 pt-md-0 pt-3 brd-bot-line-reverse pb-4 pb-md-0 pb-lg-0"
+          style="font-weight: 600; font-size: 18px; color: #232323">Сніданок для садочків</span>
+                    <div>
+                        <span style="font-size: 16px; line-height: 16px; color: #232323;">Ціна за комплекс: </span>
+                        <span style="font-size: 16px; line-height: 16px; color: #797979;">56.00 ₴</span>
+                    </div>
+                    <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+                          style="font-size: 14px; line-height: 16px; color: #797979;">Перше</span>
+                </div>
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                   style="width: inherit; max-width: 61px;">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                             style="font-size: 16px;">Борщ з
+                            пампушками
+                        </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4">Смачний український
+                                борщ з пампушками та запашним часником.
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span>150 гр.</span>
+                            <span class="d-inline d-md-none d-lg-none"> / </span>
+                            <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                        </div>
+                        <button class="col-5 d-flex d-md-none d-lg-none brn justify-content-start" type="button"
+                                data-toggle="modal" data-target="#dish-stock"
+                                style="outline: none; border: none; color: #36C233; font-size: 14px; background: transparent;">
+                            Склад >
+                        </button>
+
+
+                        <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                            <label class="container-for-radio">
+                                <input type="radio" name="first-dish-second-complex" class="custom-control-input">
+                                <span class="checkmark-for-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0 d-flex flex-column">
+    <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
+          style="font-size: 14px; line-height: 16px; color: #797979;">Друге</span>
+                </div>
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                   style="width: inherit; max-width: 61px;">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                             style="font-size: 16px;">Запіканка
+                        </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4">Смачний український
+                                борщ з пампушками та запашним часником.
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span>150 гр.</span>
+                            <span class="d-inline d-md-none d-lg-none"> / </span>
+                            <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                        </div>
+                        <button class="col-5 d-flex d-md-none d-lg-none brn justify-content-start" type="button"
+                                data-toggle="modal" data-target="#dish-stock"
+                                style="outline: none; border: none; color: #36C233; font-size: 14px; background: transparent;">
+                            Склад >
+                        </button>
+                        <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                            <label class="container-for-radio">
+                                <input type="radio" name="second-complex-second-dish" class="custom-control-input">
+                                <span class="checkmark-for-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-1 col-md-2 col-2 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                   style="width: inherit; max-width: 61px;">
+                    </div>
+                    <div class="col-lg-11 p-0 pl-2 col-md-10 col-10 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                             style="font-size: 16px;">Запечені яблука з сиром
+                        </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4">Смачний український
+                                борщ з пампушками та запашним часником.
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span>150 гр.</span>
+                            <span class="d-inline d-md-none d-lg-none"> / </span>
+                            <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                        </div>
+                        <button class="col-5 d-flex d-md-none d-lg-none brn justify-content-start" type="button"
+                                data-toggle="modal" data-target="#dish-stock"
+                                style="outline: none; border: none; color: #36C233; font-size: 14px; background: transparent;">
+                            Склад >
+                        </button>
+                        <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-lg-start justify-content-md-start justify-content-end pr-4 pr-lg-0 pr-md-0">
+                            <label class="container-for-radio">
+                                <input type="radio" name="second-complex-second-dish" class="custom-control-input"
+                                       checked>
+                                <span class="checkmark-for-radio"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-control font-weight-bold d-flex justify-content-end p-0 pb-3 pb-lg-0 pb-md-0 pos-for-btn"
+                     style="width: 156px;  ">
+                    <label class="custom-control custom-checkbox m-0 p-0 d-flex justify-content-between align-items-center flex-grow-1 px-2"
+                           style="height: 36px; font-size: 14px; color: #36C233; width: 100%; border-radius: 4px; border: 1px solid #36C233;">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator align-self-start"></span>
+                        <span class="custom-control-description mr-1">ЗАМОВИТИ</span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12  d-flex justify-content-center align-items-center">
+            <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                    style="background: #36C233; border: 1px solid #36C233; height: 48px; text-transform: uppercase">
+                ЗАМОВИТИ
+            </button>
+
+        </div>
+        <div class="row" style="margin-top: 48px">
+            <div class="col-sm">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Previous"
+                               style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
+                                <span aria-hidden="true"><</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
+                                                 style="border: none; color: #232323; font-family: Open-Sans, sans-serif; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">1</a>
+                        </li>
+                        <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#"
+                                                 style="border: none; color: #232323; font-family: Open-Sans, sans-serif; font-size: 16px; line-height: 22px; width: 40px; height: 40px; background: #F1F2F4; text-align: center">2</a>
+                        </li>
+                        <li class="page-item"><a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0 active-custom"
+                                                 href="#"
+                                                 style="border: none; color: #232323; font-family: Open-Sans, sans-serif; font-size: 16px; line-height: 22px; width: 40px; height: 40px;  text-align: center">3<span
+                                class="sr-only">(current)</span></a></li>
+                        <li class="page-item">
+                            <a class="page-link m-lg-1 m-sm-2 m-md-3 m-2 mt-0 mb-0" href="#" aria-label="Next"
+                               style="border: none; color: #232323; width: 40px; height: 40px; background: #F1F2F4; border-radius: 0; text-align: center">
+                                <span aria-hidden="true">></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="change-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 966px">
+            <div class="modal-content col-lg-12 col-12 px-0">
+                <div class="modal-header align-items-center col-12 pl-0 pl-lg-3 pl-md-3 pr-0" style="padding-top:20px">
+                    <h5 class="modal-title px-3 px-lg-3 px-md-3 " id="exampleModalLabel"
+                        style="font-size: 34px; line-height: 40px; font-weight: bold">Title</h5>
+                    <button type="button" class="close mr-3" data-dismiss="modal" aria-label="Close">
+                        <img src="../img/close-modal.svg" aria-hidden="true" alt="">
+                    </button>
+                </div>
+                <div class="modal-body col-auto p-0 mt-2 ">
+                    <style>
+                        #modal-body {
+                            max-width: 966px;
+                        }
+
+                        #modal-body * {
+                            box-sizing: border-box;
+                        }
+
+                        #modal-body .btn {
+                            display: inline-block;
+                            font-weight: 400;
+                            color: #212529;
+                            text-align: center;
+                            vertical-align: middle;
+                            -webkit-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+                            background-color: transparent;
+                            border: 1px solid transparent;
+                            padding: .375rem .75rem;
+                            font-size: 1rem;
+                            line-height: 1.5;
+                            border-radius: .25rem;
+                            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+                        }
+
+                        #modal-body .btn-outline-danger {
+                            color: #dc3545;
+                            border-color: #dc3545;
+                        }
+
+                        #modal-body .btn:not(:disabled):not(.disabled) {
+                            cursor: pointer;
+                        }
+
+                        #modal-body .row {
+                            display: -ms-flexbox;
+                            display: flex;
+                            -ms-flex-wrap: wrap;
+                            flex-wrap: wrap;
+                            margin-right: -15px;
+                            margin-left: -15px;
+                        }
+
+                        #modal-body .col, #modal-body .col-1, #modal-body .col-10, #modal-body .col-11, #modal-body .col-12, #modal-body .col-2, #modal-body .col-3, #modal-body .col-4, #modal-body .col-5, #modal-body .col-6, #modal-body .col-7, #modal-body .col-8, #modal-body .col-9, #modal-body .col-auto, #modal-body .col-lg, #modal-body .col-lg-1, #modal-body .col-lg-10, #modal-body .col-lg-11, #modal-body .col-lg-12, #modal-body .col-lg-2, #modal-body .col-lg-3, #modal-body .col-lg-4, #modal-body .col-lg-5, #modal-body .col-lg-6, #modal-body .col-lg-7, #modal-body .col-lg-8, #modal-body .col-lg-9, #modal-body .col-lg-auto, #modal-body .col-md, #modal-body .col-md-1, #modal-body .col-md-10, #modal-body .col-md-11, #modal-body .col-md-12, #modal-body .col-md-2, #modal-body .col-md-3, #modal-body .col-md-4, #modal-body .col-md-5, #modal-body .col-md-6, #modal-body .col-md-7, #modal-body .col-md-8, #modal-body .col-md-9, #modal-body .col-md-auto, #modal-body .col-sm, #modal-body .col-sm-1, #modal-body .col-sm-10, #modal-body .col-sm-11, #modal-body .col-sm-12, #modal-body .col-sm-2, #modal-body .col-sm-3, #modal-body .col-sm-4, #modal-body .col-sm-5, .col-sm-6, #modal-body .col-sm-7, #modal-body .col-sm-8, #modal-body .col-sm-9, #modal-body .col-sm-auto, #modal-body .col-xl, #modal-body .col-xl-1, #modal-body .col-xl-10, #modal-body .col-xl-11, #modal-body .col-xl-12, #modal-body .col-xl-2, #modal-body .col-xl-3, #modal-body .col-xl-4, #modal-body .col-xl-5, #modal-body .col-xl-6, #modal-body .col-xl-7, #modal-body .col-xl-8, #modal-body .col-xl-9, #modal-body .col-xl-auto {
+                            position: relative;
+                            width: 100%;
+                            padding-right: 15px;
+                            padding-left: 15px;
+                        }
+
+                        #modal-body .col-2 {
+                            -ms-flex: 0 0 16.666667%;
+                            flex: 0 0 16.666667%;
+                            max-width: 16.666667%;
+                        }
+
+                        #modal-body .col-4 {
+                            -ms-flex: 0 0 33.333333%;
+                            flex: 0 0 33.333333%;
+                            max-width: 33.333333%;
+                        }
+
+                        #modal-body .col-6 {
+                            -ms-flex: 0 0 50%;
+                            flex: 0 0 50%;
+                            max-width: 50%;
+                        }
+
+                        #modal-body .col-7 {
+                            -ms-flex: 0 0 58.333333%;
+                            flex: 0 0 58.333333%;
+                            max-width: 58.333333%;
+                        }
+
+                        #modal-body .col-12 {
+                            -ms-flex: 0 0 100%;
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                        }
+
+                        #modal-body .d-flex {
+                            display: -ms-flexbox !important;
+                            display: flex !important;
+                        }
+
+                        #modal-body .flex-column {
+                            -ms-flex-direction: column !important;
+                            flex-direction: column !important;
+                        }
+
+                        #modal-body .flex-row {
+                            -ms-flex-direction: row !important;
+                            flex-direction: row !important;
+                        }
+
+                        #modal-body .align-content-center {
+                            -ms-flex-line-pack: center !important;
+                            align-content: center !important;
+                        }
+
+                        #modal-body .align-self-center {
+                            -ms-flex-item-align: center !important;
+                            align-self: center !important;
+                        }
+
+                        #modal-body .align-items-center {
+                            -ms-flex-align: center !important;
+                            align-items: center !important;
+                        }
+
+                        #modal-body .justify-content-start {
+                            -ms-flex-pack: start !important;
+                            justify-content: flex-start !important;
+                        }
+
+                        #modal-body .justify-content-between {
+                            -ms-flex-pack: justify !important;
+                            justify-content: space-between !important;
+                        }
+
+                        #modal-body .justify-content-around {
+                            -ms-flex-pack: distribute !important;
+                            justify-content: space-around !important;
+                        }
+
+                        #modal-body .justify-content-end {
+                            -ms-flex-pack: end !important;
+                            justify-content: flex-end !important;
+                        }
+
+                        #modal-body .order-active {
+                            background: #F1FFF1;
+                            border-left: 4px solid #36C233;
+                            font-weight: bold;
+                        }
+
+                        #modal-body .order-active__no-order {
+                            background: #FFF2F2;
+                            border-left: 4px solid #FF6666;
+                            font-weight: normal;
+                        }
+
+                        #modal-body .brd-bot-line-reverse {
+                            border-bottom: none;
+                        }
+
+                        #modal-body .change-color-grey {
+                            color: #797979;
+                        }
+
+                        #modal-body .change-weight {
+                            font-weight: normal;
+                        }
+
+                        #modal-body .p-0 {
+                            padding: 0 !important;
+                        }
+
+                        #modal-body .pl-0, #modal-body .px-0 {
+                            padding-left: 0 !important;
+                        }
+
+                        #modal-body .pr-0, #modal-body .px-0 {
+                            padding-right: 0 !important;
+                        }
+
+                        #modal-body .pb-2, #modal-body .py-2 {
+                            padding-bottom: .5rem !important;
+                        }
+
+                        #modal-body .pl-3, #modal-body .px-3 {
+                            padding-left: 1rem !important;
+                        }
+
+                        #modal-body .pr-3, #modal-body .px-3 {
+                            padding-right: 1rem !important;
+                        }
+
+                        #modal-body .ml-0, #modal-body .mx-0 {
+                            margin-left: 0 !important;
+                        }
+
+                        #modal-body .ml-4, #modal-body .mx-4 {
+                            margin-left: 1.5rem !important;
+                        }
+
+                        #modal-body .mr-0, #modal-body .mx-0 {
+                            margin-right: 0 !important;
+                        }
+
+                        #modal-body .mb-1, #modal-body .my-1 {
+                            margin-bottom: .25rem !important;
+                        }
+
+                        #modal-body .mt-1, #modal-body .my-1 {
+                            margin-top: .25rem !important;
+                        }
+
+                        #modal-body .mb-2, #modal-body .my-2 {
+                            margin-bottom: .5rem !important;
+                        }
+
+                        #modal-body .mb-3, #modal-body .my-3 {
+                            margin-bottom: 1rem !important;
+                        }
+
+                        #modal-body .mt-2, #modal-body .my-2 {
+                            margin-top: .5rem !important;
+                        }
+
+                        #modal-body .mt-3, #modal-body .my-3 {
+                            margin-top: 1rem !important;
+                        }
+
+                        #modal-body .mt-5, #modal-body .my-5 {
+                            margin-top: 3rem !important;
+                        }
+
+                        #modal-body .font-weight-bold {
+                            font-weight: 700 !important;
+                        }
+
+                        #modal-body .w-100 {
+                            width: 100% !important;
+                        }
+
+                        #modal-body .d-none {
+                            display: none !important;
+                        }
+
+                        #modal-body .d-inline {
+                            display: inline !important;
+                        }
+
+                        #modal-body .brd-bot-line-reverse {
+                            border-bottom: none;
+                        }
+
+
+                        @media (min-width: 576px) {
+                            #modal-body .d-sm-none {
+                                display: none !important;
+                            }
+
+                            #modal-body .col-sm-6 {
+                                -ms-flex: 0 0 50%;
+                                flex: 0 0 50%;
+                                max-width: 50%;
+                            }
+                        }
+
+                        @media (min-width: 768px) {
+
+                            #modal-body .flex-md-row {
+                                -ms-flex-direction: row !important;
+                                flex-direction: row !important;
+                            }
+
+                            #modal-body .justify-content-md-start {
+                                -ms-flex-pack: start !important;
+                                justify-content: flex-start !important;
+                            }
+
+                            #modal-body .justify-content-md-between {
+                                -ms-flex-pack: justify !important;
+                                justify-content: space-between !important;
+                            }
+
+                            #modal-body .justify-content-md-end {
+                                -ms-flex-pack: end !important;
+                                justify-content: flex-end !important;
+                            }
+
+                            #modal-body .col-md-2 {
+                                -ms-flex: 0 0 16.666667%;
+                                flex: 0 0 16.666667%;
+                                max-width: 16.666667%;
+                            }
+
+                            #modal-body .col-md-4 {
+                                -ms-flex: 0 0 33.333333%;
+                                flex: 0 0 33.333333%;
+                                max-width: 33.333333%;
+                            }
+
+                            #modal-body .col-md-5 {
+                                -ms-flex: 0 0 41.666667%;
+                                flex: 0 0 41.666667%;
+                                max-width: 41.666667%;
+                            }
+
+                            #modal-body .col-md-6 {
+                                -ms-flex: 0 0 50%;
+                                flex: 0 0 50%;
+                                max-width: 50%;
+                            }
+
+                            #modal-body .col-md-10 {
+                                -ms-flex: 0 0 83.333333%;
+                                flex: 0 0 83.333333%;
+                                max-width: 83.333333%;
+                            }
+
+                            #modal-body .pl-md-3, #modal-body .px-md-3 {
+                                padding-left: 1rem !important;
+                            }
+
+                            #modal-body .pr-md-3, #modal-body .px-md-3 {
+                                padding-right: 1rem !important;
+                            }
+
+                            #modal-body .mb-md-0, #modal-body .my-md-0 {
+                                margin-bottom: 0 !important;
+                            }
+
+                            #modal-body .mt-md-0, #modal-body .my-md-0 {
+                                margin-top: 0 !important;
+                            }
+
+                            #modal-body .ml-md-5, #modal-body .mx-md-5 {
+                                margin-left: 3rem !important;
+                            }
+
+                            #modal-body .d-md-none {
+                                display: none !important;
+                            }
+
+                            #modal-body .d-md-flex {
+                                display: -ms-flexbox !important;
+                                display: flex !important;
+                            }
+
+                            #modal-body .d-md-inline {
+                                display: inline !important;
+                            }
+
+                            #modal-body .brd-bot-line-reverse {
+                                border-bottom: 1px solid #EAEAEA !important;
+                            }
+
+                            #modal-body .brd-bot-line {
+                                border-bottom: none;
+                            }
+
+                            #modal-body .change-color-grey {
+                                color: #232323 !important;
+                            }
+
+                            #modal-body .change-weight {
+                                font-weight: 600;
+                            }
+                        }
+
+                        @media (min-width: 992px) {
+                            #modal-body .flex-lg-row {
+                                -ms-flex-direction: row !important;
+                                flex-direction: row !important;
+                            }
+
+                            #modal-body .justify-content-lg-start {
+                                -ms-flex-pack: start !important;
+                                justify-content: flex-start !important;
+                            }
+
+                            #modal-body .justify-content-lg-between {
+                                -ms-flex-pack: justify !important;
+                                justify-content: space-between !important;
+                            }
+
+                            #modal-body .justify-content-lg-end {
+                                -ms-flex-pack: end !important;
+                                justify-content: flex-end !important;
+                            }
+
+                            #modal-body .col-lg-2 {
+                                -ms-flex: 0 0 16.666667%;
+                                flex: 0 0 16.666667%;
+                                max-width: 16.666667%;
+                            }
+
+                            #modal-body .col-lg-4 {
+                                -ms-flex: 0 0 33.333333%;
+                                flex: 0 0 33.333333%;
+                                max-width: 33.333333%;
+                            }
+
+                            #modal-body .col-lg-5 {
+                                -ms-flex: 0 0 41.666667%;
+                                flex: 0 0 41.666667%;
+                                max-width: 41.666667%;
+                            }
+
+                            #modal-body .col-lg-6 {
+                                -ms-flex: 0 0 50%;
+                                flex: 0 0 50%;
+                                max-width: 50%;
+                            }
+
+                            #modal-body .col-lg-10 {
+                                -ms-flex: 0 0 83.333333%;
+                                flex: 0 0 83.333333%;
+                                max-width: 83.333333%;
+                            }
+
+                            #modal-body .pl-lg-3, #modal-body .px-lg-3 {
+                                padding-left: 1rem !important;
+                            }
+
+                            #modal-body .pr-lg-3, #modal-body .px-lg-3 {
+                                padding-right: 1rem !important;
+                            }
+
+                            #modal-body .mb-lg-0, #modal-body .my-lg-0 {
+                                margin-bottom: 0 !important;
+                            }
+
+                            #modal-body .mt-lg-0, #modal-body .my-lg-0 {
+                                margin-top: 0 !important;
+                            }
+
+                            #modal-body .ml-lg-5, #modal-body .mx-lg-5 {
+                                margin-left: 3rem !important;
+                            }
+
+                            #modal-body .d-lg-none {
+                                display: none !important;
+                            }
+
+                            #modal-body .d-lg-flex {
+                                display: -ms-flexbox !important;
+                                display: flex !important;
+                            }
+
+                            #modal-body .d-lg-inline {
+                                display: inline !important;
+                            }
+                        }
+
+                        #modal-body .order-active {
+                            background: #F1FFF1;
+                            border-left: 4px solid #36C233;
+                            font-weight: bold;
+                        }
+
+                        #modal-body .order-active__no-order {
+                            background: #FFF2F2;
+                            border-left: 4px solid #FF6666;
+                            font-weight: normal;
+                        }
+
+                        #modal-body .change-color-grey {
+                            color: #797979;
+                        }
+
+                        #modal-body .change-weight {
+                            font-weight: normal;
+                        }
+
+                        #modal-body .brd-bot-line {
+                            border-bottom: 1px solid #EAEAEA !important;
+                        }
+                    </style>
+                    <div class="col-12 d-flex flex-column px-0" id="modal-body">
+                        <div class="col-12 d-flex flex-lg-row flex-md-row flex-column">
+                            <div class="col-lg-2 col-md-2 col-12 px-0 px-lg-3 px-md-3 d-flex">
+                                <img src="../img/dish-image2.png" alt=""
+                                     style="width: inherit; max-width: 130px; max-height: 130px; margin-top: 10px">
+                                <div class="col-7 d-flex flex-column d-md-none d-lg-none mt-3" style="color: #232323">
+                                    <div class="col-12 d-flex flex-column justify-content-start"
+                                         style="max-height: 60px">
+                                        <span class="font-weight-bold" style="font-size: 14px;">Рахунок:</span>
+                                        <span style="font-family: Open-Sans, sans-serif; font-size: 16px;"> 75uirjyi59409</span>
+                                    </div>
+                                    <div class="col-12 d-flex flex-column justify-content-end" style="max-height: 60px">
+                                        <span class="font-weight-bold" style="font-size: 14px;">Дата:</span>
+                                        <span style="font-family: Open-Sans, sans-serif;font-size: 16px; ">07.08.2020</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-10 col-lg-10 px-0 px-lg-3 px-md-3 d-flex flex-column mt-3 mt-lg-0 mt-md-0">
+                                <div class="col-12 p-0 brd-bot-line d-flex flex-row justify-content-lg-between justify-content-md-between justify-content-center "
+                                     style="max-height: 80px">
+                                    <div class="col-4 col-md-5 col-lg-4 d-none flex-column d-md-flex d-lg-flex  pb-2"
+                                         style="color: #232323">
+                                        <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0"
+                                                  style="font-size: 14px; color: #797979;">Рахунок:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif; font-size: 16px;"> 75uirjyi59409</span>
+                                        </div>
+                                        <div class="col-12 d-flex flex-row justify-content-between"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0"
+                                                  style="font-size: 14px; color: #797979;">Дата:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif;font-size: 16px; ">07.08.2020</span>
+                                        </div>
+                                    </div>
+                                    <button type="button"
+                                            class=" btn btn-xl btn-outline-danger  font-weight-bold  col-12 col-sm-6 col-md-4 col-lg-4  d-flex justify-content-lg-start justify-content-md-start justify-content-around align-self-center mb-3 mb-lg-0 mb-md-0"
+                                            style=" color: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; background: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
+                                        <img src="../img/mail-icon-report.svg" alt=""><span
+                                            class="d-flex justify-content-center ml-4"
+                                            style="">надіслати на пошту</span>
+                                    </button>
+                                </div>
+                                <div class="brd-bot-line-reverse col-12 p-0 d-flex flex-column flex-md-row flex-lg-row ">
+                                    <div class="col-12 col-md-5 col-lg-5 d-flex flex-column pb-2 px-0 px-lg-3 px-md-3 "
+                                         style="color: #232323">
+                                        <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0 change-color-grey change-weight"
+                                                  style="font-size: 14px; color: #797979;">Test:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif; font-size: 16px;">admin</span>
+                                        </div>
+                                        <div class="col-12 d-flex flex-row justify-content-between px-0 px-lg-3 px-md-3"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0 change-color-grey change-weight"
+                                                  style="font-size: 14px; color: #797979;">Киев:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif;font-size: 16px; ">Kyiv</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6 d-flex flex-column pb-2 ml-md-5 ml-lg-5 px-0 px-lg-3 px-md-3"
+                                         style="color: #232323">
+                                        <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0 change-color-grey change-weight"
+                                                  style="font-size: 14px;">Украина:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif; font-size: 16px;">UA</span>
+                                        </div>
+                                        <div class="col-12 d-flex flex-row justify-content-between px-0 px-lg-3 px-md-3"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0 change-color-grey change-weight"
+                                                  style="font-size: 14px;">Вильямса 143:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif;font-size: 16px; ">Позняковская 43</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-5"
+                             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+                            <div class="col-12 d-flex">
+                                <div class="col-2" style="cursor: pointer"><span>Код</span></div>
+                                <div class="col-4" style="cursor: pointer"><span>Назва</span></div>
+                                <div class="col-2" style="cursor: pointer"><span>Кількість</span></div>
+                                <div class="col-2" style="cursor: pointer"><span>Вартiсть (₴)</span></div>
+                                <div class="col-2 d-flex justify-content-end" style="cursor: pointer">
+                                    <span>Сума (₴)</span></div>
+
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex flex-column px-0">
+                            <div class="col-12  d-flex flex-column px-0">
+                                <div class="col-12 my-3 px-0 px-lg-3 px-md-3">
+                                    <span class="px-3"
+                                          style="font-weight: 600; font-size: 18px; line-height: 21px; color: #232323">Понеділок 3</span>
+                                </div>
+                                <div class="col-12 px-0 order-active order-active__no-order" style="max-height: 51px">
+                                    <div class="col-12 d-flex align-items-center px-0 px-lg-3 px-md-3"
+                                         style="height: 51px">
+                                    <span class="px-3"
+                                          style="font-family: Open-Sans, sans-serif; font-size: 16px; color: #232323;">Немає замовлень</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex flex-column px-0">
+                            <div class="col-12  d-flex flex-column px-0">
+                                <div class="col-12 my-3 px-0 px-lg-3 px-md-3">
+                                    <span class="px-3"
+                                          style="font-weight: 600; font-size: 18px; line-height: 21px; color: #232323">Понеділок 4</span>
+                                </div>
+                                <div class="col-12 px-0 mb-2">
+                                    <div class="col-12 d-flex align-items-center px-0 px-lg-3 px-md-3 flex-column">
+
+                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column brd-bot-line-reverse"
+                                             style="font-size: 18px">
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1"
+                                                 style=" font-family: Open-Sans, sans-serif">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Код</span>
+                                                <span>48526</span></div>
+                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Назва</span>
+                                                <span>Сніданок для садочків</span></div>
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Кількість</span>
+                                                <span style=" font-family: Open-Sans, sans-serif"
+                                                      id="order-amount"></span></div>
+                                            <div class="col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Вартiсть (₴)</span>
+                                                <span style=" font-family: Open-Sans, sans-serif"
+                                                      id="order-price"></span></div>
+                                            <div class="col-md-2 col-lg-2 col-12 flex-row d-flex my-1 d-flex justify-content-lg-end justify-content-md-end">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Сума (₴)</span>
+                                                <span style=" font-family: Open-Sans, sans-serif" class=""
+                                                      id="total-order-price"></span></div>
+
+                                        </div>
+                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column align-items-center"
+                                             style="font-size: 18px; border-top: 1px solid #eaeaea; border-bottom:1px solid #eaeaea; ">
+                                            <div class=" col-md-2 col-lg-2 col-4 flex-row d-flex my-1  align-self-start"
+                                                 style=" font-family: Open-Sans, sans-serif">
+                                                <img src="../img/dish-image2.png" alt="" style="width: 50%"></div>
+                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline align-items-center justify-content-center"
+                                                      style="font-size: 14px; font-weight: bold">Назва</span>
+                                                <span>Борщ</span></div>
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Кількість</span>
+                                                <span style=" font-family: Open-Sans, sans-serif"
+                                                >1</span></div>
+                                            <div class="col-4"></div>
+
+                                        </div>
+                                        <div class="col-12 d-flex px-0 flex-md-row flex-lg-row flex-column align-items-center"
+                                             style="font-size: 18px; border-top: 1px solid #eaeaea; border-bottom:1px solid #eaeaea; ">
+                                            <div class=" col-md-2 col-lg-2 col-4 flex-row d-flex my-1  align-self-start"
+                                                 style=" font-family: Open-Sans, sans-serif">
+                                                <img src="../img/dish-image2.png" alt="" style="width: 50%"></div>
+                                            <div class=" col-md-4 col-lg-4 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline align-items-center justify-content-center"
+                                                      style="font-size: 14px; font-weight: bold">Назва</span>
+                                                <span>Борщ</span></div>
+                                            <div class=" col-md-2 col-lg-2 col-12 flex-row d-flex my-1">
+                                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                                      style="font-size: 14px; font-weight: bold">Кількість</span>
+                                                <span style=" font-family: Open-Sans, sans-serif"
+                                                >1</span></div>
+                                            <div class="col-4"></div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 px-0 order-active" style="max-height: 51px">
+                                    <div class="col-12 d-flex align-items-center" style="height: 51px">
+                                        <div class="col-12 d-flex px-0" style="font-size: 18px">
+                                            <div class="col-2 d-none d-lg-inline d-md-inline"></div>
+                                            <div class="col-4  d-none d-lg-inline d-md-inline"></div>
+                                            <div class=" col-md-4 col-lg-4 col-6 px-0 px-lg-3 px-md-3"
+                                                 style="cursor: pointer"><span>Загальна сума:</span></div>
+                                            <div class=" col-md-2 col-lg-2 col-6 px-0 px-lg-3 px-md-3"
+                                                 style="cursor: pointer; font-family: Open-Sans, sans-serif"><span
+                                                    class="d-flex justify-content-lg-end justify-content-md-end">00,00 (₴)</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 d-flex justify-content-lg-end justify-content-md-end">
+                        <div class="col-12 col-md-6 col-lg-6 d-flex px-0 flex-lg-row flex-md-row flex-column">
+                            <div class="col-6 px-0 px-lg-3 px-md-3 mb-3" style="font-weight: 500; font-size: 18px;">
+                                Директор
+                            </div>
+                            <div class="col-6 px-0 px-lg-3 px-md-3">
+                                <img src="../img/director.png" alt="" style="width: inherit">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer justify-content-center border-0"
+                     style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal d-md-none d-lg-none" id="dish-stock" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-modal="true" style="margin-top: 100px">
+        <div class="modal-dialog" style="max-width: 966px">
+            <div class="modal-content col-lg-12 col-12">
+                <div class="modal-header align-items-center col-12 px-0 px-md-3 px-lg-3" style="padding-top:20px">
+                    <h5 class="modal-title p-0" id="name-of-dish"
+                        style="font-size: 34px; line-height: 40px; font-weight: bold">Склад</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="../img/close-modal.svg" aria-hidden="true" alt="">
+                    </button>
+                </div>
+                <div class="modal-body col-auto p-0 mt-2 d-flex flex-column">
+                    <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                        <div class="col-lg-2 col-md-2 col-3 px-0"><img src="../img/img-week.png" alt="Image week dish"
+                                                                       style="width: inherit; ">
+                        </div>
+                        <div class="col-lg-10 p-0 pl-2 col-md-10 col-9 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                            <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change"
+                                 style="font-size: 16px;">Борщ з
+                                пампушками
+                            </div>
+                            <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                                <div class="pl-4">Смачний український
+                                    борщ з пампушками та запашним часником.
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                                 style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                                <span>150 гр.</span>
+                                <span class="d-inline d-md-none d-lg-none"> / </span>
+                                <span class="d-inline d-md-none d-lg-none">40.09 ₴</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                                 style="font-family: Open-Sans, sans-serif; font-size: 16px;">40.09 ₴
+                            </div>
+                        </div>
+                    </div>
+    <div class="col-12 p-0"><p style="font-style: normal; font-weight: normal; font-size: 16px; color: #232323">Склад: борошно пшеничне, журавлина в'ялена, курага, родзинка, масло солодковершкове, родзинки, розпушувач, цукати, цукор, цукор ванільний, яйце куряче.</p></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer class="footer row m-0" style="background: #222222">
+    <div class="w-100 p-0 first-footer d-flex align-items-center">
+        <div class="container">
+            <div class="col-12 p-0 d-flex justify-content-between align-items-center">
+                <div class="col-lg-9 col-md-9 col-6 p-0 justify-content-center align-items-center">
+                    <nav class="nav col-12 p-0 d-flex justify-content-between">
+                        <div class=" p-0 justify-content-between d-none d-lg-flex d-md-flex non-visible-mob"
+                             style="width: 120px; ">
+                            <a style="height: 50px; width: 50px; border: 1px solid #B1B1B1; border-radius: 50%; text-decoration: none;"
+                               href="#"></a>
+                            <a style="height: 50px; width: 50px; border: 1px solid #B1B1B1; border-radius: 50%; text-decoration: none;"></a>
+                        </div>
+                        <div class=" justify-content-between d-flex d-lg-none d-md-none visible-mob"
+                             style="width: 70px; ">
+                            <a style="height: 20px; width: 20px;  text-decoration: none;" href="#"></a>
+                            <a style="height: 20px; width: 20px;  text-decoration: none;" href="#"></a>
+                        </div>
+                        <div class="col-9 justify-content-between align-items-center d-none d-lg-flex d-md-flex flex-grow-1 mail-non-visible">
+                            <div class="col-5 p-0" style="font-size: 16px; color: #ffffff"><img
+                                    src="../img/phone-footer-pc.svg" alt="" style="margin-right: 6px">(XXX) XXX-XXXX
+                            </div>
+                            <div class="col-7 p-0" style="font-size: 16px; color: #ffffff"><img
+                                    src="../img/mail-footer-pc.svg" alt="" style="margin-right: 6px">mail@example.com
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="col-md-3 col-lg-3 col-6 p-0 justify-content-center" style="height: 24px">
+                    <nav class="nav justify-content-end">
+                        <a class="nav-link p-0  align-self-center" href="#"
+                           style="color: #36C233; font-size: 14px; line-height: 16px;">Privacy</a>
+                        <div class="align-self-center px-3" style="color: #36C233">|</div>
+                        <a class="nav-link p-0 align-self-center" href="#"
+                           style="color: #36C233; font-size: 14px; line-height: 16px;">Terms</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-0 w-100 d-flex align-items-center second-footer" style="height: 38px;">
+        <div class="container container-sm container-md container-lg">
+            <div class="col-12 p-0 d-flex justify-content-center"
+                 style="color: #ffffff; font-size: 14px; line-height: 16px;">
+                <span>© 2017-2018 Company, Inc.</span>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    let btnsType = [...document.querySelectorAll('.btn-for-type-menu')];
+    btnsType.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            if (btn.classList.contains('btn-for-type-menu--active')) {
+
+            } else {
+                btnsType.forEach((scbtn) => {
+                    scbtn.classList.remove('btn-for-type-menu--active')
+                });
+                btn.classList.add('btn-for-type-menu--active');
+            }
+        })
+    })
+</script>
+<script src="../js/index-week.js"></script>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+<script>
+    $('#hide-cart').click(() => {
+        $('#cart-for-hide').toggleClass('d-flex');
+        $('#image-hide-cart').toggleClass('rotate-image-cart')
+    });
+
+    $('#sources').each(function () {
+        let classes = $(this).attr("class"),
+            id = $(this).attr("id"),
+            name = $(this).attr("name");
+        let template = '<div class="' + classes + '">';
+        template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+        template += '<div class="custom-options">';
+        $(this).find("option").each(function () {
+            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+        });
+        template += '</div></div>';
+
+        $(this).wrap('<div class="custom-select-wrapper d-block d-lg-none d-md-none" ></div>');
+        $(this).hide();
+        $(this).after(template);
+    });
+    $(".custom-option:first-of-type").hover(function () {
+        $(this).parents(".custom-options").addClass("option-hover");
+    }, function () {
+        $(this).parents(".custom-options").removeClass("option-hover");
+    });
+    $(".custom-select-trigger").on("click", function () {
+        $('html').one('click', function () {
+            $(".custom-select").removeClass("opened");
+        });
+        $(this).parents(".custom-select").toggleClass("opened");
+        event.stopPropagation();
+    });
+    $(".custom-option").on("click", function () {
+        $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+        $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+        $(this).addClass("selection");
+        $(this).parents(".custom-select").removeClass("opened");
+        $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+    });
+
+    $('.delete-parent').click(function () {
+
+        let addSomeDishes = '<div class="col-12 p-0 d-flex justify-content-center" style=" background: #FDF5F1;">\n' +
+            '                                <span class="px-3 no-checked-dishes" style="">Потрібно вибрати комплекс!</span>\n' +
+            '                            </div>';
+        $(this).closest('.parent-delete').html(addSomeDishes);
+
+    });
+
+
+</script>
+<script>
+    $('.carousel').carousel({
+        interval: 0
+    });
+
+    $('.focus').mousemove(function (e) {
+        let X = e.pageX;
+        let Y = e.pageY;
+        let top = Y + 10 + 'px';
+        let left = X + 10 + 'px';
+        let id = $(this).data('tooltip');
+        $('#tip-' + id).css({
+            display: "flex",
+            top: top,
+            left: left
+        });
+    });
+    $('.focus').mouseout(function () {
+        var id = $(this).data('tooltip');
+        $('#tip-' + id).css({
+            display: "none"
+        });
+    });
+
+
+</script>
+</body>
+</html>

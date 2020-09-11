@@ -28,7 +28,7 @@ namespace CateringPro.Core
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
         private readonly IEmailService _mailservice;
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<MassEmailService> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IMassEmailRepository _mailrepo;
         private readonly AppDbContext _context;
@@ -36,7 +36,7 @@ namespace CateringPro.Core
             IRazorViewToStringRenderer razorRenderer,
             IEmailService mailservice,
             UserManager<CompanyUser> userManager,
-            ILogger<CompanyUser> logger,
+            ILogger<MassEmailService> logger,
             IMassEmailRepository mailrepo, AppDbContext context)
         {
             _emailConfiguration = emailConfiguration;
@@ -58,6 +58,9 @@ namespace CateringPro.Core
                     case DistributionEnum.All:
                     case DistributionEnum.Users:
                         res = await SendMassEmailOnePerUser(companyid, em);
+                        break;
+                    case DistributionEnum.UsersParents:
+                        res = await SendMassEmailOnePerUser(companyid, em, await _mailrepo.GetDistributionUsersAsync(companyid,false));
                         break;
                     case DistributionEnum.Admin:
                         res = await SendMassEmailOnePerUser(companyid, em, await _mailrepo.GetDistributionRoleUsersAsync(companyid,"Admin"));
@@ -142,7 +145,7 @@ namespace CateringPro.Core
                 var emailqueue = await _context.EmailQueues.AsNoTracking().IgnoreQueryFilters().ToListAsync();
                 if (emailqueue.Count() > 0)
                 {
-                    _logger.LogWarning($"Sending {emailqueue.Count()} emails from queue");
+                    _logger.LogInformation($"Sending {emailqueue.Count()} emails from queue");
                 }
                 emailqueue.ForEach(async (e) =>
                 {
@@ -152,10 +155,12 @@ namespace CateringPro.Core
                         if(!string.IsNullOrEmpty(e.Subject)  && !string.IsNullOrEmpty(e.Body))
                             _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId,null,false).Wait();
                         _context.Remove(e);
-                        await _context.SaveChangesAsync();
+                        //await _context.SaveChangesAsync();
+                        _context.SaveChanges(); //wiil wait 
                     }
                     catch(Exception ex)
                     {
+                        _context.Entry(e).State = EntityState.Detached;
                         _logger.LogError(ex, "Send queue mail error");
                         res = false;
                     }

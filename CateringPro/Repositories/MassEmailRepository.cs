@@ -42,9 +42,9 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        public async Task<List<CompanyUser>> GetDistributionUsersAsync(int companyid)
+        public async Task<List<CompanyUser>> GetDistributionUsersAsync(int companyid, bool includechild=true)
         {
-            return await _userManager.Users.Where(u => u.CompanyId == companyid).ToListAsync();
+            return await _userManager.Users.Where(u => u.CompanyId == companyid && u.EmailConfirmed && u.ConfirmedByAdmin && (includechild || u.ParentUserId==null)).ToListAsync();
          
         }
         public async Task<List<CompanyUser>> GetDistributionRoleUsersAsync(int companyid, string rolename)

@@ -19,19 +19,20 @@ namespace CateringPro.Core
 
     public class EMailSenderTask : IScheduledTask
     {
-        
 
-        private readonly ILogger<CompanyUser> _logger;
+
+        private readonly ILogger<EMailSenderTask> _logger;
         private IConfiguration _configuration;
         private IServiceProvider _serviceProvider;
-        public EMailSenderTask( ILogger<CompanyUser> logger, IConfiguration configuration, IServiceProvider serviceProvider)
+        public EMailSenderTask(ILogger<EMailSenderTask> logger, IConfiguration configuration, IServiceProvider serviceProvider)
         {
 
             _logger = logger;
             _configuration = configuration;
             _serviceProvider = serviceProvider;
         }
-
+        //private bool isRunning = false;
+        public bool IsRunning { get; private set; }
 #if DEBUG
         public string Schedule => "*/1 * * * *"; //every 5 minutes
 #else
@@ -39,13 +40,13 @@ namespace CateringPro.Core
 #endif
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-          
+            IsRunning = true;
             try
             {
                 using (var serviceScope = _serviceProvider.CreateScope())
                 {
-                   
-                   
+
+
 
                     AppDbContext context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
                     if (context == null)
@@ -56,7 +57,7 @@ namespace CateringPro.Core
                     }
                     var companies = await context.Companies.ToListAsync();
                     IMassEmailService queue_mail = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
-                    var send_queue=await queue_mail.SendEmailFromQueueAsync();
+                    var send_queue = await queue_mail.SendEmailFromQueueAsync();
                     if (!send_queue)
                     {
                         _logger.LogError("Mass mail sending outstanding queue error");
@@ -69,7 +70,9 @@ namespace CateringPro.Core
                         }
                         foreach (var em in await context.MassEmail.WhereCompany(comp.Id).AsNoTracking().ToListAsync())
                         {
+                           // Thread.Sleep(1000000);
                             MassMailWrapper wrap = new MassMailWrapper(em);
+                            _logger.LogInformation($"Processing mass email {em.Name} next send=>{wrap.NextRunTime}");
                             if (wrap.InvalidSchedule)
                             {
                                 _logger.LogWarning("Mass mail {0} has wrong schedule definition.", em.Id);
@@ -77,27 +80,33 @@ namespace CateringPro.Core
                             }
                             if (!wrap.ShouldSend)
                             {
+
                                 continue;
                             }
                             IMassEmailService meservice = serviceScope.ServiceProvider.GetRequiredService<IMassEmailService>();
-                            
-                                wrap.Increment();
-                                //if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
-                                //{
 
-                                //}
-                             var success = await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime);
+                            wrap.Increment();
+                            _logger.LogWarning($"Scheduling next send for  {em.Name} =>{wrap.NextRunTime}");
+                            //if (await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime))
+                            //{
+
+                            //}
+                            var success = await meservice.SendMassEmailAsync(comp.Id, em, wrap.NextRunTime);
                             // if(!success)
-                           //     _logger.LogError("SendMassEmailAsync failed");
-                        
+                            //     _logger.LogError("SendMassEmailAsync failed");
 
-                    }
+
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "EMailSenderTask error");
+            }
+            finally
+            {
+                IsRunning = false;
             }
             
         }
@@ -118,7 +127,7 @@ namespace CateringPro.Core
             }
             this.LastRunTime = this.NextRunTime = src.NextSend;
             if (src.NextSend.Year < 2020)
-                NextRunTime = Schedule.GetNextOccurrence(DateTime.Now);
+                NextRunTime = Schedule.GetNextOccurrence(DateTime.Now.AddMinutes(-15));
             //Increment();
         }
         public bool ShouldSend

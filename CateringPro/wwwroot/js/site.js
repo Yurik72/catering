@@ -188,7 +188,11 @@ function setup_changecompany() {
 }
 
 function setup_listitems(options) {
-    let defaultoptions = { href: '#', onloadedcb: undefined, method: "ListItems", editmethod: "EditModal", createmethod: "CreateModal" };
+    let defaultoptions = {
+        href: '#', onloadedcb: undefined, method: "ListItems",
+        editmethod: "EditModal", createmethod: "CreateModal",
+        onbeforesave: undefined
+    };
     if (typeof (options) == 'object') {
         //new versoins
          //this.options = { ...defaultoptions, ...options };
@@ -204,6 +208,8 @@ function setup_listitems(options) {
             this.options.editmethod = options.editmethod;
         if (options.createmethod)
             this.options.createmethod = options.createmethod;
+        if (options.onbeforesave)
+            this.options.onbeforesave = options.onbeforesave;
             
     }
     else {
@@ -425,7 +431,9 @@ function setup_listitems(options) {
 
     $(document).on('click', '[data-action="modal"]', function (event) {
         event.preventDefault();
-
+        if (self.options && self.options.onbeforesave) {
+            self.options.onbeforesave();
+        }
         var form = $(this).parents('.modal-body').find('form');
         if (form.length == 0)
             form = $('#modDialog').find('.modal-body').find('form');
@@ -443,6 +451,9 @@ function setup_listitems(options) {
     $(document).on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
         // console.log("Data Save");
+        if (self.options && self.options.onbeforesave) {
+            self.options.onbeforesave();
+        }
         var form = $(this).parents('.modal-body').find('form');
         if (form.length == 0)
             form = $('#modDialog').find('.modal-body').find('form');

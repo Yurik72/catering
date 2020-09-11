@@ -12,8 +12,10 @@ namespace CateringPro.Models
         None=0,
         Admin=1,
         Users=2,
-        All=3,
-        Dedicated=4
+        UsersParents=3,
+        All=4,
+        Dedicated=5,
+
     }
 
     public class MassEmail:CompanyDataOwnId
