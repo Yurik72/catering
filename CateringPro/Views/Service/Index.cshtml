@@ -370,9 +370,10 @@
             }
             $('#btnstart').click(function (e) {
                 e.preventDefault();
+
                 if (!IsWelcomeMode()) {
                     var dishesnum = getdishesnum();
-                    if (dishes.dishesnum.length == 0) {
+                    if (dishesnum &&  dishesnum.length == 0) {
                         alert("Не задано параметри для старту");
                         return;
                     }
