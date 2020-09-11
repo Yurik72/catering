@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
@@ -236,7 +237,7 @@ namespace CateringPro.Controllers
                 dish.DishIngredients = dish_orig.DishIngredients;
                 return PartialView(dish);
             }
-
+          
             return res;
         }
 
@@ -354,6 +355,10 @@ namespace CateringPro.Controllers
                 var dish = await _context.Dishes.FindAsync(id);
                 _context.Dishes.Remove(dish);
                 await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                return StatusCode((int)HttpStatusCode.FailedDependency);
             }
             catch (Exception ex)
             {

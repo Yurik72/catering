@@ -2,7 +2,8 @@
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{ ViewData["Title"] = "Delete"; }
 
-
+@{ await Html.RenderPartialAsync("DeleteDialog", new DeleteDialogViewModel() { Id = Model.Id, Name = Model.Name, ModelName = Localizer["Dish"] });}
+@*
 <div class="modal-content delete-content">
     <div class="modal-header">
         <h5 class="modal-title">@Localizer["ConfirmDelete"]</h5>
@@ -41,3 +42,4 @@
         </form>
     </div>
 </div>
+    *@
