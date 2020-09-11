@@ -33,7 +33,7 @@ namespace CateringPro.Core
             _serviceProvider = serviceProvider;
          
         }
-
+        public bool IsRunning { get; private set; }
 #if DEBUG
         public string Schedule => "*/5 * * * *"; //every 5 minutes
 #else
@@ -42,7 +42,7 @@ namespace CateringPro.Core
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Start job LocalDBSyncerTask");
-            
+            IsRunning = true;
             try
             {
                 using (var serviceScope = _serviceProvider.CreateScope())
@@ -65,7 +65,10 @@ namespace CateringPro.Core
             {
                 _logger.LogError(ex, "Write of production error");
             }
-            
+            finally 
+            {
+                IsRunning = false ;
+            }
         }
     }
     

@@ -7,5 +7,7 @@ namespace CateringPro.Core
     {
         string Schedule { get; }
         Task ExecuteAsync(CancellationToken cancellationToken);
+
+        bool IsRunning { get; }
     }
 }

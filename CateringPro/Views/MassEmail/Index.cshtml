@@ -108,16 +108,28 @@ else
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
 }
+@section Styles
+{
+    <link type="text/css" href="~/css/jquery-cron.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/jquery-gentleSelect.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/summernote.min.css" rel="stylesheet" />
+
+}
 @section Scripts
 {
     <script type="text/javascript" src="~/js/jquery-cron-min.js"></script>
 
-    <link type="text/css" href="~/css/jquery-cron.css" rel="stylesheet" />
+
     <script type="text/javascript" src="~/js/jquery-gentleSelect-min.js"></script>
-    <link type="text/css" href="~/css/jquery-gentleSelect.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/js/summernote.min.js"></script>
+
     <script type="text/javascript">
         $(function () {
-            setup_listitems({ href: '@Url.Content("~/MassEmail")', onloadedcb:loadForm });
+            setup_listitems({ href: '@Url.Content("~/MassEmail")', onloadedcb: loadForm, onbeforesave: onsave});
+            function onsave(){
+                var markupStr = $('#summernote').summernote('code');
+                $('#Text').text(markupStr);
+            };
             function loadForm() {
                 var sch = $("#Schedule");
                 var initial = sch.val();
@@ -135,6 +147,20 @@ else
 
                     useGentleSelect: true // default: false);
                 });
+                $('#modDialog').find('.modal-body').tooltip();
+               // $('#summernote').text($('#Text').text());
+                $('#summernote').summernote({
+                    dialogsInBody: true,
+
+                  
+                    callbacks: {
+                        onBlur: function () {
+                            onsave();
+                        }
+                    }
+                });
+                $('#summernote').summernote('code', $('#Text').text());
+               
             };
         })
     </script>

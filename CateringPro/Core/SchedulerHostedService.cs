@@ -48,7 +48,7 @@ namespace CateringPro.Core
             Debug.WriteLine("ExecuteOnceAsync ");
 #endif
 
-            var tasksThatShouldRun = _scheduledTasks.Where(t => t.ShouldRun(referenceTime)).ToList();
+            var tasksThatShouldRun = _scheduledTasks.Where(t => t.ShouldRun(referenceTime) && !t.Task.IsRunning ).ToList();
 
             foreach (var taskThatShouldRun in tasksThatShouldRun)
             {

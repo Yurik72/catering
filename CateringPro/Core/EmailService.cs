@@ -31,7 +31,7 @@ namespace CateringPro.Core
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly IRazorViewToStringRenderer _razorViewToStringRenderer;
         private readonly IInvoiceRepository _invoicerepo;
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<EmailService> _logger;
         private readonly UserManager<CompanyUser> _userManager;
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly IConfiguration _config;
@@ -41,7 +41,7 @@ namespace CateringPro.Core
             IRazorViewToStringRenderer razorRenderer, 
             IInvoiceRepository invoicerepo, 
             UserManager<CompanyUser> userManager, 
-            ILogger<CompanyUser> logger, 
+            ILogger<EmailService> logger, 
             IUserDayDishesRepository ud, IConfiguration iConfig, IServiceScopeFactory serviceScopeFactory)
         {
             _context = context;
@@ -56,7 +56,7 @@ namespace CateringPro.Core
 #if DEBUG
             _context.Disposing += (sender, args) =>
              {
-                 _logger.LogWarning("context Disposing");
+                 _logger.LogInformation("context Disposing");
              };
 #endif
         }
@@ -220,7 +220,28 @@ namespace CateringPro.Core
 
                     await client.DisconnectAsync(true);
                 }
-                catch(Exception ex)
+                catch (SmtpCommandException smptex)
+                {
+                    switch (smptex.StatusCode)
+                    {
+                        case SmtpStatusCode.Ok:
+                            break;
+                        case SmtpStatusCode.MailboxNameNotAllowed:
+                        case SmtpStatusCode.MailboxUnavailable:
+                            storeIffail = false;
+                            _logger.LogError($"Please check user with email{email} which is not valid");
+                            break;
+                        default:
+                            break;
+                    }
+                    if (storeIffail)
+                    {
+                        await SaveFailedEmailToQueue(email, subject, message, companyId);
+                    }
+                    _logger.LogError(smptex, "SendEmailAsync");
+                    throw smptex;
+                }
+                catch (Exception ex)
                 {
                     if (storeIffail)
                     {

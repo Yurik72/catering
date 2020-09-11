@@ -69,6 +69,7 @@ namespace CateringPro.Core
         {
             ExecModel = GetExecutionModel(em, template, user);
             template.Subject = ReplaceMacro(em.Subject, ExecModel);
+            template.Greeting = ReplaceMacro(em.Greetings, ExecModel);
         }
         protected virtual void  DateCycle(MassEmail em, EmailTemplateViewModel template,Action<MassEmail, EmailTemplateViewModel,DateTime> action)
         {

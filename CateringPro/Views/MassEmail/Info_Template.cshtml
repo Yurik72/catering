@@ -1,6 +1,8 @@
 ﻿@model EmailTemplateViewModel
+@using CateringPro.Core 
 @{
     Layout = null;
+    bool isHtml = Html.ContainsHTMLElements(Model.Message);
 }
 
 <html>
@@ -11,7 +13,13 @@
 <body>
     @Model.Greeting
     <br />
-
-    @Model.Message
+    @if (isHtml)
+    {
+        @Html.Raw(@Model.Message)
+    }
+    else
+    {
+        @Model.Message
+    }
 </body>
 </html>

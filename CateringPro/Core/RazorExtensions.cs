@@ -161,5 +161,11 @@ namespace CateringPro.Core
 
             return result;
         }
+
+        public static bool ContainsHTMLElements<TModel>(this IHtmlHelper<TModel> src,  string text)
+        {
+            //to do
+            return text.Contains("<p>") || text.Contains("<html>") || text.Contains("<br>");
+        }
     }
 }

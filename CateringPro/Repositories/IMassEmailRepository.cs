@@ -11,7 +11,7 @@ namespace CateringPro.Repositories
     {
         IReportRepository ReportRepository{ get; }
         Task<bool> SaveMassEMailAsync(MassEmail mail);
-        Task<List<CompanyUser>> GetDistributionUsersAsync(int companyid);
+        Task<List<CompanyUser>> GetDistributionUsersAsync(int companyid,bool includechild=true);
 
         Task<List<CompanyUser>> GetDistributionRoleUsersAsync(int companyid,string rolename);
 

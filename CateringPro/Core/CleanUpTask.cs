@@ -31,7 +31,7 @@ namespace CateringPro.Core
             _configuration = configuration;
             _serviceProvider = serviceProvider;
         }
-
+        public bool IsRunning { get; private set; }
 #if DEBUG
         public string Schedule => "*/5 * * * *"; //every 5 minutes
 #else
@@ -39,6 +39,7 @@ namespace CateringPro.Core
 #endif
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            IsRunning = true;
             _logger.LogWarning("Start job for CleanUpTask");
             try
             {
@@ -63,6 +64,10 @@ namespace CateringPro.Core
             catch (Exception ex)
             {
                 _logger.LogError(ex, "CleanUpTask error");
+            }
+            finally
+            {
+                IsRunning = false;
             }
             
         }
