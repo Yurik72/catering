@@ -63,7 +63,7 @@ namespace CateringPro.Repositories
             var triggered = promos.Where(p => !p.CategoriesId.Except(daycomplex.Select(dc => dc.Complex.CategoriesId)).Any()).ToList();
             if (triggered.Count() == 0)
                 return 0;
-            var discount_amont = triggered.Select(t => new { DiscountAmount = t.DiscountType == 1 ?/*absolute*/t.DiscountValue : /*percent*/daycomplex.Sum(dc => dc.Price) * t.DiscountValue / 100 }).Max(t => t.DiscountAmount);
+            var discount_amont = triggered.Select(t => new { DiscountAmount = t.DiscountType == 1 ?/*absolute*/t.DiscountValue : /*percent*/daycomplex.Sum(dc => dc.Complex.Price) * t.DiscountValue / 100 }).Max(t => t.DiscountAmount);
             // now find max discount and calculate
             return discount_amont;
         }

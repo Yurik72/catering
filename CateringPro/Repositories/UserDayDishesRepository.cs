@@ -580,12 +580,12 @@ namespace CateringPro.Repositories
                     total += ord.Price;
                     daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId }); 
                 });
-                //if (discountplugin != null)
-                //{
-                //    daycomplex.ForEach(dc => { dc.Complex =  _context.Complex.Find(dc.ComplexId); });
-                //    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
-                //    discount = discountplugin.GetComplexDayDiscount(daycomplex);
-                //}
+                if (discountplugin != null)
+                {
+                    daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
+                    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
+                    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                }
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
 
@@ -618,12 +618,12 @@ namespace CateringPro.Repositories
                         daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId });
                     }
                 });
-                //if (discountplugin != null)
-                //{
-                //    daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
-                //    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
-                //    discount = discountplugin.GetComplexDayDiscount(daycomplex);
-                //}
+                if (discountplugin != null)
+                {
+                    daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
+                    //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
+                    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                }
                 if (!await DeleteDayComplexDb(userDayComplex, userId, companyId))
                     return false;
 
