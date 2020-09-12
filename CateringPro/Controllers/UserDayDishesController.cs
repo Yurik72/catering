@@ -69,7 +69,7 @@ namespace CateringPro.Controllers
                 daydate = daydate.AddDays(2);
             }
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
-            DateTime endDate = startDate.AddDays(7);
+            DateTime endDate = startDate.AddDays(6);
             var list = _userdaydishesrepo.DishesKind(startDate, endDate, User.GetCompanyID());
             ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
             return View(model); //await _userdishes.CategorizedDishesPerDay(DateTime.Now, _userManager.GetUserId(HttpContext.User)).ToListAsync());
@@ -110,7 +110,7 @@ namespace CateringPro.Controllers
                 daydate = daydate.AddDays(2);
             }
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
-            DateTime endDate = startDate.AddDays(7);
+            DateTime endDate = startDate.AddDays(6);
             var list = _userdaydishesrepo.DishesKind(startDate, endDate,User.GetCompanyID());
             var selected = list.Where(sl => sl.Value == dishKind.ToString()).FirstOrDefault();
             if (selected == null)
