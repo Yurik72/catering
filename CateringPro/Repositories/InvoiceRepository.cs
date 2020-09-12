@@ -146,6 +146,7 @@ namespace CateringPro.Repositories
                 var query2 = from dd in _context.DayComplex.Where(dd => dd.CompanyId == companyid && dd.Date == daydate)
                              join d in _context.Complex.Where(dd => dd.CompanyId == companyid) on dd.ComplexId equals d.Id
                              join ud in _context.UserDayComplex.Where(ud => ud.UserId == UserId && ud.CompanyId == companyid && ud.Date == daydate) on dd.ComplexId equals ud.ComplexId
+                             join uday in _context.UserDay.Where(u=> u.CompanyId == companyid && u.Date == daydate) on ud.UserId equals uday.UserId
                              //join cu in _context.Users on ud.UserId equals cu.Id
                              select new InvoiceItemModel
                              {
@@ -154,6 +155,7 @@ namespace CateringPro.Repositories
                                  Name = d.Name,
                                  Quantity = ud.Quantity,
                                  Price = ud.Price,
+                                 Discount = uday.Discount==null ? 0 : (decimal)uday.Discount,
                                  Amount = ud.Quantity * d.Price//,
                                //  DayComplex = ordered_list.Where(x => x.ComplexId == d.Id).FirstOrDefault()
                              };

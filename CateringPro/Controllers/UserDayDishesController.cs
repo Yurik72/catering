@@ -63,9 +63,10 @@ namespace CateringPro.Controllers
 
             };
             DateTime daydate = DateTime.Now;
-            if(daydate.DayOfWeek == DayOfWeek.Sunday)
+            //daydate = daydate.AddDays(1);
+            if (daydate.DayOfWeek == DayOfWeek.Saturday|| daydate.DayOfWeek == DayOfWeek.Sunday)
             {
-                daydate = daydate.AddDays(-2);
+                daydate = daydate.AddDays(2);
             }
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
             DateTime endDate = startDate.AddDays(7);
@@ -102,16 +103,21 @@ namespace CateringPro.Controllers
             };
             return PartialView(model);
         }
-        public async Task<IActionResult> GetDishesKind(DateTime daydate, int? dishKind)
+        public async Task<IActionResult> GetDishesKind(DateTime daydate, int dishKind)
         {
-            if (daydate.DayOfWeek == DayOfWeek.Sunday)
+            if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
             {
-                daydate = daydate.AddDays(-2);
+                daydate = daydate.AddDays(2);
             }
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
             DateTime endDate = startDate.AddDays(7);
             var list = _userdaydishesrepo.DishesKind(startDate, endDate,User.GetCompanyID());
-            ViewData["DishKindId"] = new SelectList(list, "Value", "Text", list.FirstOrDefault());
+            var selected = list.Where(sl => sl.Value == dishKind.ToString()).FirstOrDefault();
+            if (selected == null)
+            {
+                selected = list.FirstOrDefault();
+            }
+            ViewData["DishKindId"] = new SelectList(list, "Value", "Text", selected);
             return PartialView("DishKinds");
         }
         // GET: UserDayDishes/Details/5
@@ -304,7 +310,7 @@ namespace CateringPro.Controllers
             int comapnyid = User.GetCompanyID();
             try
             {
-                var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
+                //var test = _userdaydishesrepo.WeekOrder(daydate, daydate.AddDays(7), userid, comapnyid);
                 //test = test.OrderBy(a => a.Date);
                 var model = _invoicerepo.CustomerInvoice(userid, daydate, comapnyid);
 

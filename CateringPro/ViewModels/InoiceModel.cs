@@ -85,6 +85,8 @@ namespace CateringPro.Models
         public decimal Price { get; set; }
         [DisplayFormat(DataFormatString ="0.00") ]
         public decimal Amount { get; set; }
+        [DisplayFormat(DataFormatString = "0.00")]
+        public decimal Discount { get; set; }
         public UserDayComplexViewModel DayComplex { get; set; }
     }
 }

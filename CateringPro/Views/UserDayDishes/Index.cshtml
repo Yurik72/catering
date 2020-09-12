@@ -9,9 +9,18 @@
 }
 @{
     DateTime daydate = Model.DayDate;
-    if (daydate.DayOfWeek == DayOfWeek.Sunday)
+    daydate = daydate.AddDays(1);
+    //if (daydate.DayOfWeek == DayOfWeek.Sunday)
+    //{
+    //daydate = daydate.AddDays(1);
+    //}
+    //if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
+    //{
+    //    daydate = daydate.AddDays(2);
+    //}
+    if (daydate.DayOfWeek == DayOfWeek.Saturday)
     {
-        daydate = daydate.AddDays(-2);
+        daydate = daydate.AddDays(1);
     }
     long ms_since1970 = (long)daydate.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds;
     CultureInfo ci = new CultureInfo("en-US");
@@ -33,7 +42,7 @@
                 <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
                     <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
                     <div class="select-dishesKind">
-                        <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-between mt-2"
+                        <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-start mt-2"
                              id="type-menu-food">
                             @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
                 Стандартне
@@ -828,9 +837,23 @@ else
                 }
                 if (d != 0) {
                     var dishKind = $(".select-dishesKind");
+                    var dishKindVal = $("#dishKind").val();
+                    if (dishKindVal == null) {
+                        dishKindVal = 0;
+                    }
                     dishKind.empty();
-                    dishKind.load('/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()),
+                    dishKind.load('/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKindVal.toString()),
                         function (response, status, xhr) {
+                            var select = $(".custom-select");
+                            //if (dishKindVal != 0) {
+                                
+                            //}
+                            $(".drpdown-btn-type").each(function () {
+                                if ($(this).val() == dishKindVal) {
+                                    $(select).val(dishKindVal);
+                                }
+                            });
+                           
                             setupDishKinds();
                             reloadDay(index, cb);
                         }
