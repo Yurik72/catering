@@ -1,4 +1,5 @@
 ﻿using CateringPro.Models;
+using CateringPro.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,6 @@ namespace CateringPro.Repositories
         void SaveChanges();
         Task SaveChangesAsync();
         Expression<Func<TModel, bool>> GetContainsFilter(string filter);
+        DeleteDialogViewModel GetDeleteDialogViewModel(TModel src);
     }
 }

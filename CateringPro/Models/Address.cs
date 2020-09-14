@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CateringPro.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,9 @@ namespace CateringPro.Models
 {
     public class Address : CompanyDataOwnId
     {
+
+     
+
         public Address()
         {
             Docs = new HashSet<Docs>();
@@ -20,6 +24,7 @@ namespace CateringPro.Models
         public string Code { get; set; }
         [StringLength(256)]
         [DisplayName("Name")]
+        [DefaultName]
         public string Name { get; set; }
         public int AddressType { get; set; }
         [DataType(DataType.EmailAddress)]
