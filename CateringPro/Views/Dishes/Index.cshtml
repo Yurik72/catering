@@ -182,11 +182,14 @@ else
                     href = '/Dishes/ListItems?';
                 else
                     href += "&";
-                var getstr = `searchcriteria=${$("#table-content").data("filter")}&sortfield=${$("#table-content").data("sortfield")}&sortorder=${ $("#table-content").data("sortorder")}`;
-                var searchcriteria = '';
-                if ($('#search-val').length > 0)
-                    searchcriteria = $('#search-val').val()
-                $('#table-content').load(href + 'searchcriteria=' + searchcriteria);
+                var getstr = `searchcriteria=${$("#table-content").attr("data-filter")}&sortfield=${$("#table-content").attr("data-sortfield")}&sortorder=${ $("#table-content").attr("data-sortorder")}`;
+                href += getstr;
+                //var searchcriteria = 'Бануш з';
+                //if ($('#search-val').length > 0)
+               //     searchcriteria = $('#search-val').val()
+                $('#table-content').load(href, function () {
+                    var done = true;
+                });
 
             }
 
@@ -223,9 +226,9 @@ else
             $('#search-val').keydown((event) => {
                 if (event.which == 13) {
                     event.preventDefault();
-                    $("#table-content").attr("data-filter", $('#search-val').val());
+                   $("#table-content").attr("data-filter", encodeURIComponent($('#search-val').val()));
                    // console.log($("span.selection").attr("data-value"));
-                    reload($("span.selection").attr("data-value"));
+                    reload();
                 }
             });
             $("#search-form").submit(function (e) {

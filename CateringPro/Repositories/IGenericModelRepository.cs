@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
@@ -24,5 +25,6 @@ namespace CateringPro.Repositories
 
         void SaveChanges();
         Task SaveChangesAsync();
+        Expression<Func<TModel, bool>> GetContainsFilter(string filter);
     }
 }

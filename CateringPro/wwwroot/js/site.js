@@ -228,8 +228,11 @@ function setup_listitems(options) {
 
         }
         var searchcriteria = $("#table-content").attr("data-filter")
-        if (typeof searchcriteria === 'undefined')
+        if (typeof searchcriteria === 'undefined') {
             searchcriteria = "";
+        }
+
+       
         var sortfield = $("#table-content").attr("data-sortfield")
        
         if (typeof sortfield === 'undefined')
@@ -242,6 +245,7 @@ function setup_listitems(options) {
         var getstr = `&searchcriteria=${searchcriteria}&sortfield=${sortfield}&sortorder=${sortorder}`;
 
         href += getstr;
+       
         $('#table-content').load(href);
         // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
@@ -305,7 +309,7 @@ function setup_listitems(options) {
     $('#search-val').keydown((event) => {
         if (event.which == 13) {
             event.preventDefault();
-            $("#table-content").attr("data-filter", $('#search-val').val());
+            $("#table-content").attr("data-filter", encodeURIComponent($('#search-val').val()));
             // console.log($("span.selection").attr("data-value"));
             reload();
         }

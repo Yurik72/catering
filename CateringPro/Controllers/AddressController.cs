@@ -15,6 +15,7 @@ using CateringPro.Data;
 using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
+using System.Linq.Expressions;
 
 namespace CateringPro.Controllers
 {
@@ -44,17 +45,8 @@ namespace CateringPro.Controllers
 
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
-            //QueryModel querymodel=new QueryModel() { }
-
-            var query = this.GetQueryList(_context.Addresses,
-                querymodel,
-                d => d.Name.Contains(querymodel.SearchCriteria)
-                 || d.PhoneNumber.Contains(querymodel.SearchCriteria)
-                 || d.Email.Contains(querymodel.SearchCriteria)
-                 || d.Address1.Contains(querymodel.SearchCriteria)
-                 || d.Address2.Contains(querymodel.SearchCriteria)
-                 || d.Code.Contains(querymodel.SearchCriteria),
-                pageRecords);
+    
+            var query = this.GetQueryList(_context.Addresses, querymodel, _addressRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
 
             return PartialView(await query.ToListAsync());
 

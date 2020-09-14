@@ -52,6 +52,7 @@ namespace CateringPro.Controllers
         {
             //_logger.LogWarning("Dish Controllers  - ListItems User.GetCompanyID() {0} ", User.GetCompanyID());
             //_logger.LogWarning("ListItems pageRecords {0} ", pageRecords);
+          
             ViewData["QueryModel"] = querymodel;
             ViewData["CategoriesId"] = new SelectList(_context.Categories/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
             //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);

@@ -5,18 +5,24 @@ using System.Threading.Tasks;
 using CateringPro.Models;
 using Microsoft.EntityFrameworkCore;
 using CateringPro.Data;
+using System.Collections.Concurrent;
+using System.Linq.Expressions;
+using CateringPro.Core;
 
 namespace CateringPro.Repositories
 {
     public class GenericModelRepository<TModel> : IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
     {
         private readonly AppDbContext _context;
-
+  
         public GenericModelRepository(AppDbContext context)
         {
             _context = context;
         }
-
+        public Expression<Func<TModel, bool>> GetContainsFilter(string filter)
+        {
+            return _context.Set<TModel>().AsQueryable().GetContainsFilter(filter);
+        }
         public IEnumerable<TModel> Models => _context.Set<TModel>(); //include here
 
         public void Add(TModel model)
