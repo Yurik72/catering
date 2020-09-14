@@ -492,82 +492,95 @@ return;
                     <div class="col-lg-2 col-md-2 col-12 px-0 px-lg-3 px-md-3 d-flex">
                         <img src="@Url.BuildPictureUrl(Model.Seller.PictureId)" alt=""
                              style="width: inherit; max-width: 130px; max-height: 130px; margin-top: 10px">
-                        <div class="col-7 d-flex flex-column d-md-none d-lg-none mt-3" style="color: #232323">
-                            <div class="col-12 d-flex flex-column justify-content-start"
-                                 style="max-height: 60px">
-                                <span class="font-weight-bold" style="font-size: 14px;">Рахунок:</span>
-                                <span style="font-family: Open-Sans, sans-serif; font-size: 16px;"> @Model.Number</span>
-                            </div>
-                            <div class="col-12 d-flex flex-column justify-content-end" style="max-height: 60px">
-                                <span class="font-weight-bold" style="font-size: 14px;">Дата:</span>
-                                <span style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@DateTime.Now.ToShortDateString()</span>
+                        @*<div class="col-7 d-flex flex-column d-md-none d-lg-none mt-3" style="color: #232323">*@
+                            <div class="col-7 d-md-none d-lg-none mt-3" style="color: #232323">
+                                <div class="col-12 d-flex flex-column justify-content-start"
+                                     style="max-height: 60px">
+                                    <span class="font-weight-bold" style="font-size: 14px;">Рахунок:</span>
+                                    <span style="font-family: Open-Sans, sans-serif; font-size: 16px;"> @Model.Number</span>
+                                </div>
+                                <div class="col-12 d-flex flex-column justify-content-end" style="max-height: 60px">
+                                    <span class="font-weight-bold" style="font-size: 14px;">Дата:</span>
+                                    <span style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@DateTime.Now.ToShortDateString()</span>
+                                </div>
+                                <div class="col-12 d-flex flex-column justify-content-end" style="max-height: 60px">
+                                    <span class="font-weight-bold" style="font-size: 14px;">Дитина:</span>
+                                    <span style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@Model.Buyer.ChildName</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <div class="col-12 col-md-10 col-lg-10 px-0 px-lg-3 px-md-3 d-flex flex-column mt-3 mt-lg-0 mt-md-0">
                         <div class="col-12 p-0 brd-bot-line d-flex flex-row justify-content-lg-between justify-content-md-between justify-content-center "
-                             style="max-height: 80px">
+                             style="max-height: 100px">
                             <div class="col-4 col-md-5 col-lg-4 d-none flex-column d-md-flex d-lg-flex  pb-2"
                                  style="color: #232323">
-                                <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2"
-                                     style="line-height: 22px; max-height: 22px">
-                                    <span class="col-6 p-0"
-                                          style="font-size: 14px; color: #797979;">Рахунок:</span>
-                                    <span class="col-6 p-0"
-                                          style="font-family: Open-Sans, sans-serif; font-size: 16px;"> @Model.Number</span>
-                                    </div>
-                                    <div class="col-12 d-flex flex-row justify-content-between"
+                               
+                                    <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2"
                                          style="line-height: 22px; max-height: 22px">
                                         <span class="col-6 p-0"
-                                              style="font-size: 14px; color: #797979;">Дата:</span>
+                                              style="font-size: 14px; color: #797979;">Рахунок:</span>
                                         <span class="col-6 p-0"
-                                              style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@DateTime.Now.ToShortDateString()</span>
+                                              style="font-family: Open-Sans, sans-serif; font-size: 16px;"> @Model.Number</span>
                                         </div>
-                                    </div>
-                                    <button type="button"
-                                            class="sendWeek btn btn-xl btn-outline-danger  font-weight-bold  col-12 col-sm-6 col-md-4 col-lg-4  d-flex justify-content-lg-start justify-content-md-start justify-content-around align-self-center mb-3 mb-lg-0 mb-md-0"
-                                            style=" color: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; background: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
-                                        <img src="../img/mail-icon-report.svg" alt=""><span class="d-flex justify-content-center ml-4"
-                                                                                            style="">@Localizer["SendEmail"]</span>
-                                                                                        </button>
-                                                                                    </div>
-                                                                                    <div class="brd-bot-line-reverse col-12 p-0 d-flex flex-column flex-md-row flex-lg-row ">
-                                                                                        <div class="col-12 col-md-5 col-lg-5 d-flex flex-column pb-2 px-0 px-lg-3 px-md-3 "
-                                                                                             style="color: #232323">
-                                                                                            <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
-                                                                                                 style="line-height: 22px; max-height: 22px">
-                                                                                                <span class="col-6 p-0 change-color-grey change-weight"
-                                                                                                      style="font-size: 14px; color: #797979;">@Model.Seller.Name</span>
-                                                                                                    <span class="col-6 p-0"
-                                                                                                          style="font-family: Open-Sans, sans-serif; font-size: 16px;">@Model.Buyer.Name</span>
-                                                                                                    </div>
-                                                                                                    <div class="col-12 d-flex flex-row justify-content-between px-0 px-lg-3 px-md-3"
+                                        <div class="col-12 d-flex flex-row justify-content-between"
+                                             style="line-height: 22px; max-height: 22px">
+                                            <span class="col-6 p-0"
+                                                  style="font-size: 14px; color: #797979;">Дата:</span>
+                                            <span class="col-6 p-0"
+                                                  style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@DateTime.Now.ToShortDateString()</span>
+                                            </div>
+                                            <div class="col-12 d-flex flex-row justify-content-between"
+                                                 style="line-height: 22px; max-height: 22px">
+                                                <span class="col-6 p-0"
+                                                      style="font-size: 14px; color: #797979;">Дитина:</span>
+                                                <span class="col-6 p-0"
+                                                      style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@Model.Buyer.ChildName</span>
+                                                </div>
+                                            </div>
+                                            <button type="button"
+                                                    class="sendWeek btn btn-xl btn-outline-danger  font-weight-bold  col-12 col-sm-6 col-md-4 col-lg-4  d-flex justify-content-lg-start justify-content-md-start justify-content-around align-self-center mb-3 mb-lg-0 mb-md-0"
+                                                    style=" color: rgb(255, 255, 255); border-color: rgb(54, 194, 51); outline: none; height: 48px; background: rgb(54, 194, 51); display: flex; align-items: center; justify-content: space-evenly; font-size: 14px; text-transform: uppercase">
+                                                <img src="../img/mail-icon-report.svg" alt=""><span class="d-flex justify-content-center ml-4"
+                                                                                                    style="">@Localizer["SendEmail"]</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="brd-bot-line-reverse col-12 p-0 d-flex flex-column flex-md-row flex-lg-row ">
+                                                                                                <div class="col-12 col-md-5 col-lg-5 d-flex flex-column pb-2 px-0 px-lg-3 px-md-3 "
+                                                                                                     style="color: #232323">
+                                                                                                    <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
                                                                                                          style="line-height: 22px; max-height: 22px">
                                                                                                         <span class="col-6 p-0 change-color-grey change-weight"
-                                                                                                              style="font-size: 14px; color: #797979;">@Model.Seller.City</span>
+                                                                                                              style="font-size: 14px; color: #797979;">@Model.Seller.Name</span>
                                                                                                             <span class="col-6 p-0"
-                                                                                                                  style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@Model.Buyer.City</span>
+                                                                                                                  style="font-family: Open-Sans, sans-serif; font-size: 16px;">@Model.Buyer.Name</span>
                                                                                                             </div>
-                                                                                                        </div>
-                                                                                                        <div class="col-12 col-md-6 col-lg-6 d-flex flex-column pb-2 ml-md-5 ml-lg-5 px-0 px-lg-3 px-md-3"
-                                                                                                             style="color: #232323">
-                                                                                                            <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
+                                                                                                            <div class="col-12 d-flex flex-row justify-content-between px-0 px-lg-3 px-md-3"
                                                                                                                  style="line-height: 22px; max-height: 22px">
                                                                                                                 <span class="col-6 p-0 change-color-grey change-weight"
-                                                                                                                      style="font-size: 14px;">@Model.Seller.Country</span>
+                                                                                                                      style="font-size: 14px; color: #797979;">@Model.Seller.City</span>
                                                                                                                     <span class="col-6 p-0"
-                                                                                                                          style="font-family: Open-Sans, sans-serif; font-size: 16px;">@Model.Buyer.Country</span>
-                                                                                                                    </div>
-                                                                                                                    <div class="col-12 d-flex flex-row justify-content-between px-0 px-lg-3 px-md-3"
-                                                                                                                         style="line-height: 22px; max-height: 22px">
-                                                                                                                        <span class="col-6 p-0 change-color-grey change-weight"
-                                                                                                                              style="font-size: 14px;">@Model.Seller.Address1</span>
-                                                                                                                            <span class="col-6 p-0"
-                                                                                                                                  style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@Model.Buyer.Address1</span>
-                                                                                                                            </div>
-                                                                                                                        </div>
+                                                                                                                          style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@Model.Buyer.City</span>
                                                                                                                     </div>
                                                                                                                 </div>
+                                                                                                                <div class="col-12 col-md-6 col-lg-6 d-flex flex-column pb-2 ml-md-5 ml-lg-5 px-0 px-lg-3 px-md-3"
+                                                                                                                     style="color: #232323">
+                                                                                                                    <div class="col-12 d-flex flex-row justify-content-between mb-3 mt-2 px-0 px-lg-3 px-md-3"
+                                                                                                                         style="line-height: 22px; max-height: 22px">
+                                                                                                                        <span class="col-6 p-0 change-color-grey change-weight"
+                                                                                                                              style="font-size: 14px;">@Model.Seller.Country</span>
+                                                                                                                            <span class="col-6 p-0"
+                                                                                                                                  style="font-family: Open-Sans, sans-serif; font-size: 16px;">@Model.Buyer.Country</span>
+                                                                                                                            </div>
+                                                                                                                            <div class="col-12 d-flex flex-row justify-content-between px-0 px-lg-3 px-md-3"
+                                                                                                                                 style="line-height: 22px; max-height: 22px">
+                                                                                                                                <span class="col-6 p-0 change-color-grey change-weight"
+                                                                                                                                      style="font-size: 14px;">@Model.Seller.Address1</span>
+                                                                                                                                    <span class="col-6 p-0"
+                                                                                                                                          style="font-family: Open-Sans, sans-serif;font-size: 16px; ">@Model.Buyer.Address1</span>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
 
                                                                                                             </div>
                                                                                                             <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-5"
