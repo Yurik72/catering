@@ -928,12 +928,14 @@ namespace CateringPro.Controllers
             //ViewData["GroupId"] = new SelectList(_context.UserGroups/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
             //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
-            var query = this.GetQueryListUsers(_userManager.Users,querymodel,
+            var query = this.GetQueryListUsers(_userManager.Users.Include(u=>u.UserGroup).Include(u=>u.UserSubGroup),querymodel,
                         d => string.IsNullOrEmpty(querymodel.SearchCriteria) || 
                         d.ChildNameSurname.Contains(querymodel.SearchCriteria) || 
                         d.Email.Contains(querymodel.SearchCriteria) || 
                         d.UserName.Contains(querymodel.SearchCriteria) ||
-                        d.NameSurname.Contains(querymodel.SearchCriteria),
+                        d.NameSurname.Contains(querymodel.SearchCriteria) ||
+                        d.UserGroup.Name.Contains(querymodel.SearchCriteria) ||
+                        d.UserSubGroup.Name.Contains(querymodel.SearchCriteria),
                      20);
             //if (querymodel.RelationFilter > 0)
             //{
