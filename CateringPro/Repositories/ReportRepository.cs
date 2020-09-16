@@ -614,6 +614,7 @@ namespace CateringPro.Repositories
             {
                 Company = GetOwnCompany(companyid),
                 Items = (from d in _context.Dishes.Include(x => x.DishIngredients).ThenInclude(x => x.Ingredient).WhereCompany(companyid)
+                         orderby d.Name
                          select new DishSpecificationItemViewModel()
                          {
                              DishId = d.Id,
@@ -625,7 +626,8 @@ namespace CateringPro.Repositories
                                     IngredientId = di.IngredientId,
                                     Name = di.Ingredient.Name,
                                     MeasureUnit=di.Ingredient.MeasureUnit,
-                                    Proportion= di.Proportion
+                                    Proportion= di.Proportion,
+                                    AvgPrice = di.Ingredient.AvgPrice
                                 }).ToList()
                              :new List<DishIngredientsProportionViewModel>()
                              /*

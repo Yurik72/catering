@@ -16,21 +16,22 @@ using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace CateringPro.Controllers
 {
     //[Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
-    public class GeneralController : Controller
+    public class GeneralController<TModel> : Controller where TModel : CompanyDataOwnId ,new()
     {
-        private readonly AppDbContext _context;
-        private readonly IGenericModelRepository<Address> _addressRepo;
-        private readonly ILogger<CompanyUser> _logger;
-        private IConfiguration _configuration;
-        private int pageRecords = 20;
-        public GeneralController(AppDbContext context, IGenericModelRepository<Address> addressRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public readonly AppDbContext _context;
+        public readonly IGenericModelRepository<TModel> _generalRepo;
+        public readonly ILogger<CompanyUser> _logger;
+        public IConfiguration _configuration;
+        public int pageRecords = 20;
+        public GeneralController(AppDbContext context, IGenericModelRepository<TModel> generakRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
         {
             _context = context;
-            _addressRepo = addressRepo;
+            _generalRepo = generakRepo;
             _logger = logger;
             _configuration = Configuration;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
@@ -38,133 +39,55 @@ namespace CateringPro.Controllers
         }
 
         // GET: Categories
-        public IActionResult Index()
-        {
-            return View(new List<Address>());
-        }
+        //public IActionResult Index()
+        //{
+        //    return View(new List<TModel>());
+        //}
 
-        public async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
-        {
+        //public async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        //{
     
-            var query = this.GetQueryList(_context.Addresses, querymodel, _addressRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
+        //    var query = this.GetQueryList(_context.Set<TModel>(), querymodel, _generalRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
 
-            return PartialView(await query.ToListAsync());
+        //    return PartialView(await query.ToListAsync());
 
-        }
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Code,Name,AddressType,Email,PhoneNumber,ZipCode,Country,City,Address1,Address2")] Address adr)
-        {
-            if (id != adr.Id)
-            {
-                return NotFound();
-            }
-            if (!ModelState.IsValid)
-            {
-                return PartialView(adr);
-            }
-            return await this.UpdateCompanyDataAsync(adr, _context, _logger);
+        //}
+        //[ValidateAntiForgeryToken]
+        //[HttpPost]
+        //public async Task<IActionResult> EditModal(int id, TModel mod)
+        //{
+        //    if (id != mod.Id)
+        //    {
+        //        return NotFound();
+        //    }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return PartialView(mod);
+        //    }
+        //     return await this.UpdateCompanyDataAsync(mod, _context, _logger);
 
-        }
+        //}
 
 
-        public async Task<IActionResult> EditModal(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> EditModal(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var adr = await _context.Addresses.FindAsync(id);
-            if (adr == null)
-            {
-                return NotFound();
-            }
+        //    var adr = await _generalRepo.GetByIdAsync(id);
+        //    if (adr == null)
+        //    {
+        //        return NotFound();
+        //    }
             
-            return PartialView(adr);
-        }
-        public IActionResult CreateModal()
-        {
+        //    return PartialView(adr);
+        //}
+        
 
-            var adr = new Address();
-            if (adr == null)
-            {
-                return NotFound();
-            }
-            
-            return PartialView("EditModal", adr);
-        }
-
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var adresses = await _addressRepo.GetByIdAsync(id);
-
-            if (adresses == null)
-            {
-                return NotFound();
-            }
-
-            return View(adresses);
-        }
-
-        // GET: Categories/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Categories/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name,AddressType,Email,PhoneNumber,ZipCode,Country,City,Address1,Address2")] Address adr)
-        {
-            if (ModelState.IsValid)
-            {
-                _addressRepo.Add(adr);
-                await _addressRepo.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(adr);
-        }
-
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var adr = await _addressRepo.GetByIdAsync(id);
-
-            if (adr == null)
-            {
-                return NotFound();
-            }
-            return View(adr);
-        }
-
-        [HttpGet]
-        public ActionResult Search(string term, bool isShort = true)
-        {
-            var result = _context.Addresses.Where(d => d.Name.Contains(term) || d.Code.Contains(term));
-            if (isShort)
-            {
-                return Ok(result.Select(d => new { id = d.Id, name = d.Code+" "+d.Name }));
-            }
-
-            return Ok(result);
-
-
-        }
+       
+       
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -173,14 +96,24 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var adr = await _addressRepo.GetByIdAsync(id);
+            var mod = await _generalRepo.GetByIdAsync(id);
 
-            if (adr == null)
+            if (mod == null)
             {
                 return NotFound();
             }
+            Type myType = typeof(TModel);
+            PropertyInfo myPropInfo = myType.GetProperty("Name"); ;
+            DeleteDialogViewModel del = new DeleteDialogViewModel()
+            {
+                CompanyId = User.GetCompanyID(),
+                Id = mod.Id,
+                ModelName = myPropInfo.Name,
+                Name = myPropInfo.GetConstantValue().ToString()
 
-            return PartialView(adr);
+            };
+
+            return PartialView("~/Views/Shared/Delete.cshtml", del);
         }
 
         // POST: Categories/Delete/5
@@ -188,9 +121,9 @@ namespace CateringPro.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var adr = await _addressRepo.GetByIdAsync(id);
-            _addressRepo.Remove(adr);
-            await _addressRepo.SaveChangesAsync();
+            var mod = await _generalRepo.GetByIdAsync(id);
+            _generalRepo.Remove(mod);
+            await _generalRepo.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }

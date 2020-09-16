@@ -17,7 +17,7 @@ namespace CateringPro.Models
         //  [Required]
         public string Code { get; set; }
         public string Name { get; set; }
-        public int Value { get; set; }
+        public decimal Value { get; set; }
         public int Type { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }

@@ -98,8 +98,12 @@
                             @Html.DisplayFor(model => di.Proportion)
                         </td>
                         <td>
+                            @{ decimal pr = di.AvgPrice;}
+                            @pr.ToString("0.00")
                         </td>
                         <td>
+                            @{ pr = di.AvgPrice * di.Proportion;}
+                            @pr.ToString("0.00")
                         </td>
                     </tr>
                 }

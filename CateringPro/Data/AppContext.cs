@@ -81,6 +81,8 @@ namespace CateringPro.Data
 
 
         public DbSet<Dish> Dishes { get; set; }
+        //added discount
+        public DbSet<Discount> Discounts { get; set; }
 
         public DbSet<EmailQueue> EmailQueues { get; set; }
 

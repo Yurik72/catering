@@ -161,6 +161,7 @@
     <Folder Include="Reports\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />
+    <Folder Include="Views\General\" />
     <Folder Include="Views\OrderDetails\" />
     <Folder Include="Views\Shared\Components\CategoryMenu\" />
     <Folder Include="wwwroot\animation\js\" />
