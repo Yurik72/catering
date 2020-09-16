@@ -46,7 +46,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
     
-            var query = this.GetQueryList(_context.Addresses, querymodel, _addressRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
+            var query = this.GetQueryList(_addressRepo.Models, querymodel, _addressRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
 
             return PartialView(await query.ToListAsync());
 

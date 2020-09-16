@@ -13,6 +13,7 @@ using System.Text;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CateringPro.Repositories
 {
@@ -23,14 +24,18 @@ namespace CateringPro.Repositories
         private readonly ILogger<GenericModelRepository<TModel>> _logger;
         private readonly IHttpContextAccessor _httpcontext;
         private readonly IUserContext _usercontext;
+        private readonly IServiceProvider _serviceProvider;
         public GenericModelRepository(AppDbContext context, SharedViewLocalizer localizer, 
-            ILogger<GenericModelRepository<TModel>> logger, IHttpContextAccessor httpcontext, IUserContext usercontext=null)
+            ILogger<GenericModelRepository<TModel>> logger, IHttpContextAccessor httpcontext,
+            IServiceProvider serviceProvider,
+            IUserContext usercontext=null)
         {
             _context = context;
             _localizer = localizer;
             _logger = logger;
             _httpcontext = httpcontext;
             _usercontext = usercontext;  // for unit tests
+            _serviceProvider = serviceProvider;
         }
         private int CompanyId
         {
@@ -58,7 +63,7 @@ namespace CateringPro.Repositories
         {
             return _context.Set<TModel>().AsQueryable().GetContainsFilter(filter);
         }
-        public IEnumerable<TModel> Models => _context.Set<TModel>(); //include here
+        public IQueryable<TModel> Models => _context.Set<TModel>(); //include here
 
         public void Add(TModel model)
         {
@@ -123,5 +128,31 @@ namespace CateringPro.Repositories
         {
             return new DeleteDialogViewModel() { Id = src.Id, Name = GetModelFriendlyName(src),ModelName=_localizer[typeof(TModel).Name] };
         }
+        private void BuildViewBagRelations()
+        {
+            var navs = GetOneToManyNavigations().ToList();
+            navs.ForEach(n => { 
+            
+            
+            });
+
+        }
+        private IEnumerable<INavigation> GetOneToManyNavigations() {
+
+            return _context.Model.FindEntityType(typeof(TModel)).GetNavigations().Where(n => !n.PropertyInfo.PropertyType.IsGenericType);
+        }
+        private object GetModelRepository(Type modelType)
+        {
+            Type generic = typeof(GenericModelRepository<>);
+           
+            Type[] typeArgs = { modelType };
+
+            Type constructed = generic.MakeGenericType(typeArgs);
+            return null;
+        }
+        
+
+        
+
     }
 }

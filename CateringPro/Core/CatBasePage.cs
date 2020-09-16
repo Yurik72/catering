@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Razor;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.Internal;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +12,75 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Core
 {
+    public delegate void RenderSyncDelegate();
+    public class TemplateParams
+    {
+        public RenderAsyncDelegate Action { get; set; }
+        public RazorPageBase Page { get; set; }
 
+    }
     public abstract class CatBasePage<TModel> : RazorPage<TModel>
     {
+
+        public virtual void DefineTemplateSection(string name, RenderAsyncDelegate action)
+        {
+            this.ViewData[name] = new TemplateParams() { Action = action, Page = this };
+        }
+        public virtual HtmlString RenderTemplateSection(string name)
+        {
+            
+
+            var task= RenderTemplateSectionAsync(name);
+            
+            return task.GetAwaiter().GetResult();
+        }
+        private  HtmlString RenderTemplateSectionSync(string name)
+        {
+            //   (this.ViewData[name] as RenderAsyncDelegate)?.Invoke();
+            if (this.ViewData.TryGetValue(name, out var executor))
+            {
+                var typedexecutor = executor as TemplateParams;
+                if (typedexecutor == null)
+                    return null;
+                var orig = typedexecutor.Page.ViewContext;
+                try
+                {
+                    typedexecutor.Page.ViewContext = this.ViewContext;
+                    typedexecutor.Action();
+                }
+                finally
+                {
+                    typedexecutor.Page.ViewContext = orig;
+                }
+                return HtmlString.Empty;
+            }
+            return null;
+
+        }
+        private  async Task<HtmlString> RenderTemplateSectionAsync(string name)
+        {
+            //   (this.ViewData[name] as RenderAsyncDelegate)?.Invoke();
+            if (this.ViewData.TryGetValue(name, out object executor))
+            {
+                var typedexecutor = executor as TemplateParams;
+                if (typedexecutor == null)
+                    return null;
+                var orig = typedexecutor.Page.ViewContext;
+                try
+                {
+                    typedexecutor.Page.ViewContext = this.ViewContext;
+                    await typedexecutor.Action();
+                }
+                finally
+                {
+                    typedexecutor.Page.ViewContext = orig;
+                }
+                return HtmlString.Empty;
+                return HtmlString.Empty;
+            }
+            return null;
+
+        }
         // [RazorInject]
         public override void Write(string value)
         {

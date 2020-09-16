@@ -2,6 +2,8 @@
 @using  CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
+
+
     var ModelName = "Address";
     ViewData["Title"] = ModelName;
     QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
@@ -9,6 +11,38 @@
     {
         querymodel = new QueryModel();
     }
+    /*
+    void SortField()
+    {
+
+        @Html.DisplaySortField(model => model.Name).Display(querymodel)
+
+    }
+    void HeadersField()
+    {
+
+        @Html.DisplayListHeaderForEx(model => model.Name, new { colnumbers = 2 })
+        @Html.DisplayListHeaderForEx(model => model.Code, new { colnumbers = 2 })
+        <div class="col-1"></div>
+        @Html.DisplayListHeaderForEx(model => model.PhoneNumber, new { colnumbers = 2 })
+        @Html.DisplayListHeaderForEx(model => model.Email, new { colnumbers = 3 })
+
+    }
+
+    ViewData["IsIndex"] = true;
+   
+    ViewData["SourcePage"] = this;
+    var sort = Html.DisplaySortField(model => model.Name).Display(querymodel);
+    ViewData["SourcePage"] = this;
+    DefineTemplateSection("SortField", async () =>
+    {
+        SortField();
+    });
+    DefineTemplateSection("HeadersField", async () =>
+    {
+        HeadersField();
+    });
+   */
 }
 
 
@@ -16,7 +50,7 @@
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
             <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
                 <p class="h2" style="font-weight: 600">
-                    @Localizer["Address"] 
+                    @Localizer["Address"]
                 </p>
             </div>
         </div>
@@ -64,6 +98,7 @@
     <div id="modDialog" class="modal fade">
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
+
 
 
 

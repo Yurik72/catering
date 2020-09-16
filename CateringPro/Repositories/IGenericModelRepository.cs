@@ -10,7 +10,7 @@ namespace CateringPro.Repositories
 {
     public interface IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
     {
-        IEnumerable<TModel> Models { get; }
+        IQueryable<TModel> Models { get; }
 
         TModel GetById(int? id);
         Task<TModel> GetByIdAsync(int? id);
