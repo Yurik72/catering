@@ -7,7 +7,10 @@
 
     //  string[] newDesignPathes = { "Dishes","UserGroups", "IngredientCategories", "Categories", "Docs","MassEmail", "DayDishes","Complex","MyOrders", "Account", "Service" };
     bool isNewDesign = true;// Context.Request.Path.ToString().Split("/").Any(s => newDesignPathes.Contains(s)) || Context.Request.Path=="/";
-   // string test = "";
+                            // string test = "";
+
+    //bool isIndex = ViewData["IsIndex"] != null ;
+    //var ModelName = ViewData["ModelName"];
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -34,29 +37,9 @@
 </head>
 
 <body style="display: flex; flex-direction: column; min-height: 100%; position: relative">
-    @RenderSection("BodyStart", required: false)
-    @*
-        <div class="background-animation-container position-absolute background-foliage"
-             style="width: 100%; height: 100%; overflow: hidden">
-            <div class="position-absolute d-none d-md-block d-lg-block" style="height: 925px; width: 800px; right: 0; top: 0;">
-                <div class="mouse-move-animation onion-animation reverse-mouse" style="height: 15%; width: 12%;"></div>
-                <div class="mouse-move-animation carrot-animation follow-mouse" style="height: 16%; width: 31%;"></div>
-                <div class="mouse-move-animation pepper-animation reverse-mouse-y" style="height: 23%; width: 31%;"></div>
-                <div class="mouse-move-animation cabbage-animation" style="height: 23%; width: 21%;"></div>
-                <div class="mouse-move-animation avocado-animation reverse-mouse" style="height: 16%; width: 16%;"></div>
-                <div class="mouse-move-animation cheese-animation reverse-mouse-y" style="height: 10%; width: 13%;"></div>
-                <div class="mouse-move-animation linear-animation" style="height: 5%; width: 7%;"></div>
-                <div class="mouse-move-animation linear-2-animation" style="height: 5%; width: 7%;"></div>
-                <div class="mouse-move-animation linear-3-animation" style="height: 5%; width: 7%;"></div>
-                <div class="mouse-move-animation linear-4-animation" style="height: 5%; width: 7%;"></div>
-                <div class="mouse-move-animation leaf-1-animation reverse-mouse" style="height: 24%; width: 28%;"></div>
-                <div class="mouse-move-animation parsley-animation reverse-mouse" style="height: 13%; width: 28%;"></div>
-                <div class="mouse-move-animation leaf-2-animation follow-mouse" style="height: 24%; width: 19%;"></div>
-                <div class="mouse-move-animation leaf-3-animation reverse-mouse-x" style="height: 17%; width: 25%;"></div>
-            </div>
 
-        </div>
-    *@
+    @RenderSection("BodyStart", required: false)
+
     <header style="position: relative;">
         <div class="container-xl container-md container-sm container" style="height: 90px; ">
             <div id="cookies"></div>
@@ -71,6 +54,13 @@
         @await Html.PartialAsync("_LoginPartialMenuBurgerCabachok")
     </div>
     <main class="row mr-0 ml-0">
+@*
+        @if (isIndex)
+        {
+            @await Html.PartialAsync("IndexTemplate")
+
+        }
+*@
         @RenderBody()
     </main>
 

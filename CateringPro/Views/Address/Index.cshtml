@@ -2,6 +2,8 @@
 @using  CateringPro.Core
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 @{
+
+
     var ModelName = "Address";
     ViewData["Title"] = ModelName;
     QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
@@ -9,10 +11,41 @@
     {
         querymodel = new QueryModel();
     }
+    /*
+    void SortField()
+    {
+
+        @Html.DisplaySortField(model => model.Name).Display(querymodel)
+
+    }
+    void HeadersField()
+    {
+
+        @Html.DisplayListHeaderForEx(model => model.Name, new { colnumbers = 2 })
+        @Html.DisplayListHeaderForEx(model => model.Code, new { colnumbers = 2 })
+        <div class="col-1"></div>
+        @Html.DisplayListHeaderForEx(model => model.PhoneNumber, new { colnumbers = 2 })
+        @Html.DisplayListHeaderForEx(model => model.Email, new { colnumbers = 3 })
+
+    }
+
+    ViewData["IsIndex"] = true;
+   
+    ViewData["SourcePage"] = this;
+    var sort = Html.DisplaySortField(model => model.Name).Display(querymodel);
+    ViewData["SourcePage"] = this;
+    DefineTemplateSection("SortField", async () =>
+    {
+        SortField();
+    });
+    DefineTemplateSection("HeadersField", async () =>
+    {
+        HeadersField();
+    });
+   */
 }
 
-@if (Layout == "_LayoutCabachok")
-{
+
     <div class="container-xl container container-md container-sm container-lg">
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
             <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
@@ -66,48 +99,9 @@
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
 
-}
-else
-{
 
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-md-6 right">
-                <h2>@Localizer["Address"]</h2>
-            </div>
-            <div class="col-md-6 right">
-                <div id="custom-search-input">
-                    <div class="input-group">
-                        <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Address"]" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-info btn-lg" id="search-btn" type="button">
-                                <span class="fa fa-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12">
-                <div id="table-content" class="table-content">
 
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-                <div id="create-btn" class="col-lg-3 col-md-3 create">
-                    <span class="fa fa-plus fa-2x" aria-hidden="true"></span>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="modDialog" class="modal fade">
-        <div id="dialogContent" class="modal-dialog"></div>
-    </div>
-}
 @section Scripts
 {
     <script type="text/javascript">

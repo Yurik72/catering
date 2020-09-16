@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace CateringPro.Core
 {
@@ -17,7 +18,15 @@ namespace CateringPro.Core
         public override string ToString()
         { return string.Format("{0} ({1})", Key, Count); }
     }
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+    public sealed class DefaultNameAttribute : DataTypeAttribute
+    {
+        public DefaultNameAttribute():base(nameof(DefaultNameAttribute))
+        {
 
+        }
+
+    }
     public static class Linqextension
     {
         public static IQueryable<T> OrderByEx<T>(this IQueryable<T> source,  string propertyName,string order)

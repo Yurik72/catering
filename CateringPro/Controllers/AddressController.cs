@@ -46,7 +46,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
     
-            var query = this.GetQueryList(_context.Addresses, querymodel, _addressRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
+            var query = this.GetQueryList(_addressRepo.Models, querymodel, _addressRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
 
             return PartialView(await query.ToListAsync());
 
@@ -155,7 +155,7 @@ namespace CateringPro.Controllers
         [HttpGet]
         public ActionResult Search(string term, bool isShort = true)
         {
-            var result = _context.Addresses.Where(d => d.Name.Contains(term) || d.Code.Contains(term));
+            var result = _context.Addresses.Where(_addressRepo.GetContainsFilter(term));
             if (isShort)
             {
                 return Ok(result.Select(d => new { id = d.Id, name = d.Code+" "+d.Name }));
@@ -180,7 +180,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            return PartialView(adr);
+            return PartialView("DeleteDialog", _addressRepo.GetDeleteDialogViewModel(adr));
         }
 
         // POST: Categories/Delete/5
