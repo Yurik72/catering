@@ -16,6 +16,7 @@ using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using System.Text.Json;
 
 namespace CateringPro.Controllers
 {
@@ -56,7 +57,7 @@ namespace CateringPro.Controllers
         */
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, /*[Bind("Id,Code,Value,Type,DateFrom,DateTo,Categories")]*/ Discount disc)
+        public override async Task<IActionResult> EditModal(int id, /*[Bind("Id,Code,Value,Type,DateFrom,DateTo,Categories")]*/ Discount disc)
         {
             if (id != disc.Id)
             {
@@ -66,12 +67,16 @@ namespace CateringPro.Controllers
             {
                 return PartialView(disc);
             }
+            if (disc.Code == null) disc.Code = "";
+            //string json = JsonSerializer.Serialize(disc.Categories);
+            //disc.Categories = json;
+            DiscountJson json = JsonSerializer.Deserialize<DiscountJson>(disc.Categories);
             return await this.UpdateCompanyDataAsync(disc, _context, _logger);
 
         }
 
 
-        public async Task<IActionResult> EditModal(int? id)
+        public override async Task<IActionResult> EditModal(int? id)
         {
             if (id == null)
             {
@@ -83,14 +88,22 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-            
+            ViewData["CategoriesId"] = _context.Categories.OrderBy(c => c.Code)/*.WhereCompany(User.GetCompanyID())*/.ToList();
             return PartialView(adr);
         }
-       
 
-        
+        public override IActionResult CreateModal()
+        {
 
-       
+            var model = new Discount();
+            if (model == null)
+            {
+                return NotFound();
+            }
+            ViewData["CategoriesId"] = _context.Categories.OrderBy(c => c.Code)/*.WhereCompany(User.GetCompanyID())*/.ToList();
+            return PartialView("EditModal", model);
+        }
+
 
 
     }

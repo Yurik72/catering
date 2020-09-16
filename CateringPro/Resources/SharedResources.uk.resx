@@ -1024,4 +1024,10 @@
   <data name="Doc Address" xml:space="preserve">
     <value>Постачальник</value>
   </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Знижки</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
 </root>

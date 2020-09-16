@@ -17,5 +17,6 @@ namespace CateringPro.Repositories
 
         }
         decimal GetComplexDayDiscount(List<UserDayComplex> daycomplex);
+        decimal GetComplexDayDiscount(List<UserDayComplex> daycomplex, int companyId);
     }
 }

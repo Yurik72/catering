@@ -55,38 +55,38 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
-        //[ValidateAntiForgeryToken]
-        //[HttpPost]
-        //public async Task<IActionResult> EditModal(int id, TModel mod)
-        //{
-        //    if (id != mod.Id)
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return PartialView(mod);
-        //    }
-        //     return await this.UpdateCompanyDataAsync(mod, _context, _logger);
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public virtual async Task<IActionResult> EditModal(int id, TModel mod)
+        {
+            if (id != mod.Id)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return PartialView(mod);
+            }
+            return await this.UpdateCompanyDataAsync(mod, _context, _logger);
 
-        //}
+        }
 
 
-        //public async Task<IActionResult> EditModal(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public virtual async Task<IActionResult> EditModal(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var adr = await _generalRepo.GetByIdAsync(id);
-        //    if (adr == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var adr = await _generalRepo.GetByIdAsync(id);
+            if (adr == null)
+            {
+                return NotFound();
+            }
 
-        //    return PartialView(adr);
-        //}
+            return PartialView(adr);
+        }
 
 
 
@@ -100,6 +100,18 @@ namespace CateringPro.Controllers
             }
 
             return PartialView("EditModal", model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(TModel mod)
+        {
+            if (ModelState.IsValid)
+            {
+                _generalRepo.Add(mod);
+                await _generalRepo.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(mod);
         }
         // GET: Categories/Delete/5
         public virtual async Task<IActionResult> Delete(int? id)
@@ -115,18 +127,9 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
-            Type myType = typeof(TModel);
-            PropertyInfo myPropInfo = myType.GetProperty("Name"); ;
-            DeleteDialogViewModel del = new DeleteDialogViewModel()
-            {
-                CompanyId = User.GetCompanyID(),
-                Id = mod.Id,
-                ModelName = myPropInfo.Name,
-                Name = myPropInfo.GetConstantValue().ToString()
+           
 
-            };
-
-            return PartialView("~/Views/Shared/Delete.cshtml", del);
+            return PartialView("~/Views/Shared/DeleteDialog.cshtml", _generalRepo.GetDeleteDialogViewModel(mod));
         }
 
         // POST: Categories/Delete/5

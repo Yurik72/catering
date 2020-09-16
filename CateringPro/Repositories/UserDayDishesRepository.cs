@@ -584,7 +584,7 @@ namespace CateringPro.Repositories
                 {
                     daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
                     //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
-                    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                    discount = discountplugin.GetComplexDayDiscount(daycomplex,companyId);
                 }
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
@@ -622,7 +622,8 @@ namespace CateringPro.Repositories
                 {
                     daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
                     //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
-                    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                    //discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                    discount = discountplugin.GetComplexDayDiscount(daycomplex, companyId);
                 }
                 if (!await DeleteDayComplexDb(userDayComplex, userId, companyId))
                     return false;

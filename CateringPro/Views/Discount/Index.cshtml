@@ -13,17 +13,26 @@
 
 @if (Layout == "_LayoutCabachok")
 {
+    <style>
+
+        li.list-group-item.active {
+            z-index: 2;
+            color: #fff;
+            background-color: #F05E25;
+            border-color: #F05E25;
+        }
+    </style>
     <div class="container-xl container container-md container-sm container-lg">
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
             <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
                 <p class="h2" style="font-weight: 600">
-                    @Localizer["Discounts"]
+                    @Localizer["Discount"]
                 </p>
             </div>
         </div>
         <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
 
-            @Html.DisplaySortField(model => model.Name).Display(querymodel)
+            @Html.DisplaySortField(model => model.Name).AddSortField(model => model.Code).AddSortField(model => model.Type).Display(querymodel)
 
 
             <div class="col-lg-4 col-12 p-0 ">
@@ -52,7 +61,7 @@
             @Html.DisplayListHeaderForEx(model => model.Code, new { colnumbers = 2 })
             <div class="col-1"></div>
             @*@Html.DisplayListHeaderForEx(model => model.DateFrom, new { colnumbers = 2 })
-        @Html.DisplayListHeaderForEx(model => model.DateTo, new { colnumbers = 3 })*@
+                @Html.DisplayListHeaderForEx(model => model.DateTo, new { colnumbers = 3 })*@
             @Html.DisplayListHeaderForEx(model => model.Value, new { colnumbers = 3 })
             @Html.DisplayListHeaderForEx(model => model.Type, new { colnumbers = 3 })
 
@@ -118,6 +127,22 @@ else
             setup_listitems({
                 href: '@Url.Content("~/Discount")',
 
+            });
+            $(document).on("click", ".role-item", function (e) {
+
+                e.preventDefault();
+                if ($(this).hasClass('active'))
+                    $(this).removeClass('active');
+                else
+                    $(this).addClass('active');
+                var selCat = {
+                    CategoriesId: []
+                } ;
+                var roles = $(document).find(".role-item.active").map(function () {
+                    selCat.CategoriesId.push(+$(this).attr("data-val"));
+                });
+                var json = JSON.stringify(selCat);
+                $("#Categories").val(json);
             });
 
         })
