@@ -26,7 +26,7 @@ namespace CateringPro.Controllers
         private readonly IGenericModelRepository<Discount> _discountRepo;
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
-        private int pageRecords = 20;
+       
         public DiscountController(AppDbContext context, IGenericModelRepository<Discount> discountRepo, ILogger<CompanyUser> logger, IConfiguration Configuration) :
             base(context, discountRepo, logger,Configuration)
         {
@@ -34,16 +34,12 @@ namespace CateringPro.Controllers
             _discountRepo = discountRepo;
             _logger = logger;
             _configuration = Configuration;
-            int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
+           
 
         }
 
-        //GET: Categories
-        public IActionResult Index()
-        {
-            return View(new List<Discount>());
-        }
 
+        /*
         public async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel = new QueryModel() { }
@@ -54,9 +50,10 @@ namespace CateringPro.Controllers
                 || d.Code.Contains(querymodel.SearchCriteria),
                 pageRecords);
 
-            return PartialView(/*await query.ToListAsync()*/);
+            return PartialView(await query.ToListAsync());
 
         }
+        */
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> EditModal(int id, /*[Bind("Id,Code,Value,Type,DateFrom,DateTo,Categories")]*/ Discount disc)

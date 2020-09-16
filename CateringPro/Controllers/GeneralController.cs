@@ -43,15 +43,18 @@ namespace CateringPro.Controllers
         //{
         //    return View(new List<TModel>());
         //}
-
-        //public async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
-        //{
+        public virtual IActionResult Index()
+        {
+            return View(new List<TModel>());
+        }
+        public virtual async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        {
     
-        //    var query = this.GetQueryList(_context.Set<TModel>(), querymodel, _generalRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
+            var query = this.GetQueryList(_context.Set<TModel>(), querymodel, _generalRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
 
-        //    return PartialView(await query.ToListAsync());
+            return PartialView(await query.ToListAsync());
 
-        //}
+        }
         //[ValidateAntiForgeryToken]
         //[HttpPost]
         //public async Task<IActionResult> EditModal(int id, TModel mod)
@@ -81,15 +84,25 @@ namespace CateringPro.Controllers
         //    {
         //        return NotFound();
         //    }
-            
+
         //    return PartialView(adr);
         //}
-        
 
-       
-       
+
+
+        public virtual IActionResult CreateModal()
+        {
+
+            var model = new TModel();
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("EditModal", model);
+        }
         // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public virtual async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -119,7 +132,7 @@ namespace CateringPro.Controllers
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public virtual async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mod = await _generalRepo.GetByIdAsync(id);
             _generalRepo.Remove(mod);
