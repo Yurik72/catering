@@ -1,20 +1,18 @@
+using CateringPro.Core;
+using CateringPro.Data;
+using CateringPro.Models;
+using CateringPro.Repositories;
+using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-
-using CateringPro.Models;
-using CateringPro.Repositories;
-using CateringPro.Data;
-using CateringPro.Core;
-using CateringPro.ViewModels;
-using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
@@ -95,6 +93,7 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+           
             ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", ing.IngredientCategoriesId);
             return PartialView(ing);
         }

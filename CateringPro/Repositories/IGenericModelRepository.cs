@@ -1,5 +1,6 @@
 ﻿using CateringPro.Models;
 using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,18 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
 {
-    public interface IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
+    public class ISelectListResult
+    {
+         SelectList SelectList { get; set; }
+         string SourceField { get; set; }
+
+         object SourceValue { get; set; }
+    }
+    public interface IGenericModelRepositoryBase
+    {
+        SelectList GetSelectList(string relationField, object relationvalue);
+    }
+    public interface IGenericModelRepository<TModel>: IGenericModelRepositoryBase where TModel : CompanyDataOwnId
     {
         IQueryable<TModel> Models { get; }
 
@@ -28,5 +40,7 @@ namespace CateringPro.Repositories
         Task SaveChangesAsync();
         Expression<Func<TModel, bool>> GetContainsFilter(string filter);
         DeleteDialogViewModel GetDeleteDialogViewModel(TModel src);
+        List<ISelectListResult> GetSelectList(TModel src);
+
     }
 }
