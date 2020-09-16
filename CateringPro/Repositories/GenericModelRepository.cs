@@ -14,11 +14,20 @@ using CateringPro.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Repositories
 {
     public class GenericModelRepository<TModel> : IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
     {
+        public class SelectListResult: ISelectListResult
+        {
+            public SelectList SelectList { get;set;}
+            public string SourceField { get; set; }
+
+            public object SourceValue { get; set; }
+        }
         private readonly AppDbContext _context;
         private readonly SharedViewLocalizer _localizer;
         private readonly ILogger<GenericModelRepository<TModel>> _logger;
@@ -111,7 +120,7 @@ namespace CateringPro.Repositories
         {
             _context.Update(model);
         }
-        private  IEnumerable<PropertyInfo> GetNameAttributes()
+        private  IEnumerable<PropertyInfo> GetNameProps()
         {
            return  typeof(TModel).GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(DefaultNameAttribute)) || prop.Name=="Name");
@@ -120,35 +129,73 @@ namespace CateringPro.Repositories
         private string GetModelFriendlyName(TModel src)
         {
             List<string> names = new List<string>();
-            GetNameAttributes().ToList().ForEach(prop =>   names.Add(prop.GetValue(src).ToString()));
+            GetNameProps().ToList().ForEach(prop =>   names.Add(prop.GetValue(src).ToString()));
             return string.Join(",", names);
         }
-
+        private object GetFieldValue(TModel src, PropertyInfo prop)
+        {
+            return prop.GetValue(src);
+        }
+        private object GetFieldValue(TModel src, string propname)
+        {
+            return GetFieldValue(src, typeof(TModel).GetProperty(propname));
+        }
         public DeleteDialogViewModel GetDeleteDialogViewModel(TModel src)
         {
             return new DeleteDialogViewModel() { Id = src.Id, Name = GetModelFriendlyName(src),ModelName=_localizer[typeof(TModel).Name] };
         }
-        private void BuildViewBagRelations()
+        public SelectList GetSelectList(string relationField,object relationvalue)
         {
-            var navs = GetOneToManyNavigations().ToList();
-            navs.ForEach(n => { 
-            
-            
-            });
+            var res = new SelectList(Models, "Id", GetNameProps().First().Name, relationvalue);
+            return res;
+        }
 
+        private List<ISelectListResult> BuildViewBagRelations(TModel src)
+        {
+            var res = new List<ISelectListResult>();
+            var navs = GetOneToManyNavigations().ToList();
+            navs.ForEach(n => {
+                using (var serviceScope = _serviceProvider.CreateScope())
+                {
+                    try
+                    {
+                        var repotype = n.ForeignKey.PrincipalEntityType.ClrType;
+                        if (repotype.IsSubclassOf(typeof(CompanyDataOwnId)))
+                        {
+                            var sl = new SelectListResult();
+                            var relrepo = GetModelRepository(serviceScope, n.ForeignKey.PrincipalEntityType.ClrType);
+                            var relfield = n.ForeignKey.Properties.First().Name;
+                            sl.SelectList  = relrepo.GetSelectList(relfield, GetFieldValue(src, relfield));
+                            res.Add(sl);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                }
+            });
+            return res;
+
+        }
+        public List<ISelectListResult> GetSelectList(TModel src)
+        {
+              return  BuildViewBagRelations(src);
         }
         private IEnumerable<INavigation> GetOneToManyNavigations() {
 
             return _context.Model.FindEntityType(typeof(TModel)).GetNavigations().Where(n => !n.PropertyInfo.PropertyType.IsGenericType);
         }
-        private object GetModelRepository(Type modelType)
+        private IGenericModelRepositoryBase GetModelRepository(IServiceScope scope, Type modelType)
         {
-            Type generic = typeof(GenericModelRepository<>);
+            Type generic = typeof(IGenericModelRepository<>);
            
             Type[] typeArgs = { modelType };
 
             Type constructed = generic.MakeGenericType(typeArgs);
-            return null;
+
+             
+            return scope.ServiceProvider.GetRequiredService(constructed) as IGenericModelRepositoryBase; 
         }
         
 
