@@ -34,7 +34,7 @@ namespace CateringPro.Repositories
         private readonly SharedViewLocalizer _localizer;
         private readonly ILogger<GenericModelRepository<TModel>> _logger;
         private readonly IHttpContextAccessor _httpcontext;
-        private readonly IUserContext _usercontext;
+        private  IUserContext _usercontext;
         private readonly IServiceProvider _serviceProvider;
         public GenericModelRepository(AppDbContext context, SharedViewLocalizer localizer, 
             ILogger<GenericModelRepository<TModel>> logger, IHttpContextAccessor httpcontext,
@@ -47,6 +47,10 @@ namespace CateringPro.Repositories
             _httpcontext = httpcontext;
             _usercontext = usercontext;  // for unit tests
             _serviceProvider = serviceProvider;
+        }
+        public void SetUserContext(IUserContext cont)
+        {
+            _usercontext = cont;
         }
         private int CompanyId
         {

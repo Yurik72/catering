@@ -46,5 +46,6 @@ namespace CateringPro.Repositories
         Task<bool> UpdateEntityAsync(TModel entity, EntityWrap<TModel> wrap);
         string GetModelFriendlyNameEx(TModel src);
         string GetModelFriendlyName(TModel src);
+        void SetUserContext(IUserContext cont);
     }
 }

@@ -29,6 +29,7 @@ namespace CateringPro.Controllers
         protected readonly ILogger<TModel> _logger;
         protected IConfiguration _configuration;
         protected int pageRecords = 20;
+        private IUserContext _cont;
         public GeneralController(AppDbContext context, IGenericModelRepository<TModel> generakRepo, ILogger<TModel> logger, IConfiguration Configuration)
         {
             _context = context;
@@ -38,7 +39,12 @@ namespace CateringPro.Controllers
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
 
         }
-
+        //for test
+        public void SetUserContext(IUserContext cont)
+        {
+            _cont = cont;
+            _generalRepo.SetUserContext(cont);
+        }
 
         public virtual IActionResult Index()
         {
@@ -55,7 +61,9 @@ namespace CateringPro.Controllers
         [HttpGet]
         public virtual ActionResult Search(string term, bool isShort = true)
         {
-            var result = _context.Set<TModel>().Where(_generalRepo.GetContainsFilter(term));
+            var result = _context.Set<TModel>().AsQueryable();
+            if (!string.IsNullOrEmpty(term))
+                 result = result.Where(_generalRepo.GetContainsFilter(term));
             if (isShort)
             {
                 return Ok(result.Select(d => new { id = d.Id, name = _generalRepo.GetModelFriendlyNameEx(d) }));

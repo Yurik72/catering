@@ -1,0 +1,26 @@
+﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": "My Fake Connection String"
+  },
+  "AllowedHosts": "*",
+  "SQL": {
+    "PageRecords": 20
+  },
+  "EmailConfiguration": {
+    "SmtpServer": "smtp.myserver.com",
+    "SmtpPort": 25,
+    "SmtpUsername": "smtpusername",
+    "SmtpPassword": "smtppassword",
+    "SenderName": "Кабачок груп",
+
+    "PopServer": "popserver",
+    "PopPort": 995,
+    "PopUsername": "popusername",
+    "PopPassword": "poppassword"
+  },
+  "UIOption": {
+    "CurrencySymbol": "₴",
+    "DefaultCulture": "uk-UA",
+    "DefaultRequestCulture": "uk"
+  }
+}
