@@ -115,7 +115,7 @@ namespace CateringPro.Controllers
 
             var query = _stockrepo.ConsignmentStock(User.GetCompanyID());
 
-
+            return View(new List<ConsignmentStockViewModel>());
             return View(await query.ToListAsync());
 
         }
@@ -127,5 +127,13 @@ namespace CateringPro.Controllers
             return PartialView(await _stockrepo.ConsignmentStock(querymodel, User.GetCompanyID()));
 
         }
+        public async Task<IActionResult> IngredientStockDetails(int id)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        {
+            //QueryModel querymodel=new QueryModel() { }
+            
+            return PartialView(await _stockrepo.IngredientStockDetail(id, User.GetCompanyID()));
+
+        }
+        
     }
 }
