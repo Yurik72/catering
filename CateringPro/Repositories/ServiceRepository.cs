@@ -275,7 +275,12 @@ namespace CateringPro.Repositories
 
             try
             {
-
+                try
+                {
+                    _logger.LogWarning($"Remove queue at {DateTime.Now.ToString()} ");
+                    queue.ForEach(q => _logger.LogWarning($"Queue id={q.Id} DishId={q.DishId} removed by user"));
+                }
+                catch { }
                 _context.RemoveRange(queue);
                 await _context.SaveChangesAsync();
                 return ServiceResponse.GetSuccessResult(request);

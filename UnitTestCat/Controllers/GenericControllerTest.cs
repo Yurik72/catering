@@ -14,6 +14,7 @@ using System.Linq.Dynamic.Core;
 using MyTested.AspNetCore.Mvc.Builders.Contracts.Base;
 using MyTested.AspNetCore.Mvc.Builders.Base;
 using System.Security.Claims;
+using MyTested.AspNetCore.Mvc.Utilities.Extensions;
 
 namespace CateringPro.Test.Controllers
 {
@@ -25,20 +26,20 @@ namespace CateringPro.Test.Controllers
         {
             var actualBuilder = (BaseTestBuilderWithComponentBuilder<TBuilder>)builder;
 
-            // actualBuilder.TestContext.HttpContext = httpContext;
 
-            //((ClaimsIdentity)principal.Identity).AddClaims(
-            //     new[] { new Claim("companyid", user.CompanyId.ToString())
-            //    });
            
             return actualBuilder.Builder;
         }
 
     }
-    public class GenericControllerTest<TModel,TController> where TModel : CompanyDataOwnId, new() 
-        where TController: GeneralController<TModel>
+    public abstract class GenericControllerTest<TModel, TController> where TModel : CompanyDataOwnId, new()
+        where TController : GeneralController<TModel>
     {
+        protected  List<TModel> entities;
+        public GenericControllerTest()
+        {
 
+        }
         [Fact]
         public void ListItemsShouldGeneratePartialView()
         {
@@ -55,8 +56,8 @@ namespace CateringPro.Test.Controllers
                     .WithModelOfType<List<TModel>>()
                     .Passing(m => m.Count == 10));
         }
-        
 
+        [Fact]
         public void SearchShouldReturnObjectResult()
         {
             MyMvc
@@ -83,17 +84,35 @@ namespace CateringPro.Test.Controllers
                  .WithEntities(entities => CreateTestModels(
                      number: 10,
                      dbContext: entities)))
-             .Calling(c => c.EditModal(1, new TModel() { Id = 1 }))
+             .Calling(c =>   c.EditModal(5, entities.First(e=>e.Id==5)))
              .ShouldReturn()
              .ActionResult(obj =>
-                obj.Json()
+                obj.Json(j=>j.WithModelOfType<JSONResultResponse>().Passing(m=>m.res=="OK"))
              );
                  
+        }
+        [Fact]
+        public void EditModalShouldReturnNotFoundWithWrongObject()
+        {
+
+            MyMvc
+             .Controller<TController>()
+              .WithUser(u => u.WithClaims(UserContextEx.GetClaims()))
+             .WithData(db => db
+                 .WithEntities(entities => CreateTestModels(
+                     number: 10,
+                     dbContext: entities)))
+             .Calling(c => c.EditModal(100, new TModel() { Id=100}))
+             .ShouldReturn()
+             .ActionResult(obj =>
+                obj.NotFound()
+             );
+
         }
         protected  virtual TModel[] CreateTestModels(int number, DbContext dbContext)
         {
             int companyId = TestStartup.CompanyId;
-            var models = Enumerable.Range(1, number).Select(n =>
+            entities = Enumerable.Range(1, number).Select(n =>
                   new TModel
                   {
                       Id = n,
@@ -102,10 +121,15 @@ namespace CateringPro.Test.Controllers
 
 
             dbContext.Add(new Company() { Id = companyId });
-            dbContext.AddRange(models);
+            OnEntitiesAdd(dbContext,entities);
+            dbContext.AddRange(entities);
             dbContext.SaveChanges();
 
-            return models.ToArray();
+            return entities.ToArray();
+        }
+        protected virtual void OnEntitiesAdd(DbContext cont, List<TModel> ent)
+        {
+
         }
     }
 }

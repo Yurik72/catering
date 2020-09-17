@@ -22,6 +22,12 @@ using System.Net;
 namespace CateringPro.Controllers
 {
     //[Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
+
+    public class JSONResultResponse
+    {
+        public string res { get; set; }
+        public string reason { get; set; }
+    }
     public class GeneralController<TModel> : Controller where TModel : CompanyDataOwnId ,new()
     {
         protected readonly AppDbContext _context;
@@ -199,12 +205,12 @@ namespace CateringPro.Controllers
         }
         public IActionResult UpdateOk()
         {
-            return Json(new { res = "OK" });
+            return Json(new JSONResultResponse(){ res = "OK" });
 
         }
         public IActionResult ErrorResult( Result res)
         {
-            return Json(new { res = "FAIL", reason = res.Error });
+            return Json(new  JSONResultResponse() { res = "FAIL", reason = res.Error });
         }
         public virtual IActionResult PartialViewEdit(TModel entity,string viewName="EditModal")
         {
