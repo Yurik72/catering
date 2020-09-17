@@ -27,6 +27,15 @@ namespace CateringPro.Core
         }
 
     }
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+    public sealed class DefaultNameExAttribute : DataTypeAttribute
+    {
+        public DefaultNameExAttribute() : base(nameof(DefaultNameExAttribute))
+        {
+
+        }
+
+    }
     public static class Linqextension
     {
         public static IQueryable<T> OrderByEx<T>(this IQueryable<T> source,  string propertyName,string order)

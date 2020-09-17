@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections;
+using Microsoft.ApplicationInsights.Common;
 
 namespace CateringPro.Repositories
 {
@@ -126,10 +128,22 @@ namespace CateringPro.Repositories
                 prop => Attribute.IsDefined(prop, typeof(DefaultNameAttribute)) || prop.Name=="Name");
              
         }
-        private string GetModelFriendlyName(TModel src)
+        private IEnumerable<PropertyInfo> GetNameExProps()
+        {
+            return typeof(TModel).GetProperties().Where(
+                 prop => Attribute.IsDefined(prop, typeof(DefaultNameExAttribute)) || prop.Name == "Name");
+
+        }
+        public string GetModelFriendlyName(TModel src)
         {
             List<string> names = new List<string>();
             GetNameProps().ToList().ForEach(prop =>   names.Add(prop.GetValue(src).ToString()));
+            return string.Join(",", names);
+        }
+        public string GetModelFriendlyNameEx(TModel src)
+        {
+            List<string> names = new List<string>();
+            GetNameExProps().ToList().ForEach(prop => names.Add(prop.GetValue(src).ToString()));
             return string.Join(",", names);
         }
         private object GetFieldValue(TModel src, PropertyInfo prop)
@@ -197,9 +211,100 @@ namespace CateringPro.Repositories
              
             return scope.ServiceProvider.GetRequiredService(constructed) as IGenericModelRepositoryBase; 
         }
-        
 
-        
+        public virtual async Task<bool> UpdateEntityAsync(TModel entity)
+        {
+            return await UpdateEntityAsync(entity, null);
+        }
+        public virtual  async Task<bool> UpdateEntityAsync(TModel entity, EntityWrap<TModel> wrap)
+        {
+            var res = false;
+            try
+            {
+                if (wrap != null)
+                    PreApplyWraps(entity,  wrap);
+                AssignCompantAttr(entity);
+                _context.Update(entity);
+                var entry = _context.Entry(entity);
+                if (entry.State == EntityState.Modified)
+                {
+                    if (entry.OriginalValues.GetValue<int>("CompanyId") != this.CompanyId)  //something wrong with hack
+                    {
+                        throw new Exception("Fobidden");
+                    }
+                }
+                if (wrap != null)
+                    PostApplyWraps(entity,  wrap);
+                await _context.SaveChangesAsync();
+                res = await PostUpdateEntityAsync(entity);
+            }
+            catch (DbUpdateConcurrencyException exdb)
+            {
+                _logger.LogError(exdb, "Update {0}", entity.GetType().Name);
+                if (_context.Find(entity.GetType(), entity.Id) == null)
+                {
+                    return false;
+                }
+                return true;
 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Update {0}", entity.GetType().Name);
+                return false; //to do
+            }
+            return res;
+        }
+        public virtual async Task<bool> PostUpdateEntityAsync(TModel entity)
+        {
+            return true;
+        }
+        public  void AssignCompantAttr(TModel entity)
+        {
+            entity.CompanyId = this.CompanyId;
+        }
+        private void PreApplyWraps(TModel entity,  EntityWrap<TModel> wrap) 
+        {
+            foreach (var dels in wrap.CollectionList)
+                TrackCollection(entity, dels);
+            foreach (var entry in _context.ChangeTracker.Entries())
+            {
+                if (entry.State != EntityState.Deleted)
+                    entry.State = EntityState.Detached;
+            }
+        }
+        private  void TrackCollection(TModel entity, IList deletedcol)
+        {
+
+            foreach (var entry in _context.ChangeTracker.Entries())
+            {
+                if (deletedcol.Contains(entry.Entity))
+                {
+                    entry.State = EntityState.Deleted;
+
+                }
+
+            }
+        }
+        private  void PostApplyWraps(TModel entity,  EntityWrap<TModel> wrap) 
+        {
+            // return;
+            foreach (var entry in _context.ChangeTracker.Entries())
+            {
+                if (wrap.ExclusionList.Contains(entry.Entity.GetType()))
+                {
+                    entry.State = EntityState.Unchanged;
+
+                    //_context.Entry(entry.Entity).State = EntityState.Detached;
+                }
+                if (wrap.CompanyList.Contains(entry.Entity.GetType()))
+                {
+                    AssignCompantAttr(entry.Entity as TModel);
+                    
+                }
+
+            }
+
+        }
     }
 }

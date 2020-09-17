@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
 {
-    public class ISelectListResult
+    public interface ISelectListResult
     {
          SelectList SelectList { get; set; }
          string SourceField { get; set; }
@@ -19,6 +19,7 @@ namespace CateringPro.Repositories
     public interface IGenericModelRepositoryBase
     {
         SelectList GetSelectList(string relationField, object relationvalue);
+       
     }
     public interface IGenericModelRepository<TModel>: IGenericModelRepositoryBase where TModel : CompanyDataOwnId
     {
@@ -41,6 +42,9 @@ namespace CateringPro.Repositories
         Expression<Func<TModel, bool>> GetContainsFilter(string filter);
         DeleteDialogViewModel GetDeleteDialogViewModel(TModel src);
         List<ISelectListResult> GetSelectList(TModel src);
-
+        Task<bool> UpdateEntityAsync(TModel entity);
+        Task<bool> UpdateEntityAsync(TModel entity, EntityWrap<TModel> wrap);
+        string GetModelFriendlyNameEx(TModel src);
+        string GetModelFriendlyName(TModel src);
     }
 }

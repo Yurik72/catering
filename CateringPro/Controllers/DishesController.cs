@@ -359,6 +359,7 @@ namespace CateringPro.Controllers
             }
             catch (DbUpdateException dbex)
             {
+                _logger.LogError(dbex, "Delete confirmed error");
                 return StatusCode((int)HttpStatusCode.FailedDependency);
             }
             catch (Exception ex)

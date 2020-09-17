@@ -17,18 +17,19 @@ using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
     //[Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class GeneralController<TModel> : Controller where TModel : CompanyDataOwnId ,new()
     {
-        public readonly AppDbContext _context;
-        public readonly IGenericModelRepository<TModel> _generalRepo;
-        public readonly ILogger<CompanyUser> _logger;
-        public IConfiguration _configuration;
-        public int pageRecords = 20;
-        public GeneralController(AppDbContext context, IGenericModelRepository<TModel> generakRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        protected readonly AppDbContext _context;
+        protected readonly IGenericModelRepository<TModel> _generalRepo;
+        protected readonly ILogger<TModel> _logger;
+        protected IConfiguration _configuration;
+        protected int pageRecords = 20;
+        public GeneralController(AppDbContext context, IGenericModelRepository<TModel> generakRepo, ILogger<TModel> logger, IConfiguration Configuration)
         {
             _context = context;
             _generalRepo = generakRepo;
@@ -38,11 +39,7 @@ namespace CateringPro.Controllers
 
         }
 
-        // GET: Categories
-        //public IActionResult Index()
-        //{
-        //    return View(new List<TModel>());
-        //}
+
         public virtual IActionResult Index()
         {
             return View(new List<TModel>());
@@ -55,6 +52,19 @@ namespace CateringPro.Controllers
             return PartialView(await query.ToListAsync());
 
         }
+        [HttpGet]
+        public virtual ActionResult Search(string term, bool isShort = true)
+        {
+            var result = _context.Set<TModel>().Where(_generalRepo.GetContainsFilter(term));
+            if (isShort)
+            {
+                return Ok(result.Select(d => new { id = d.Id, name = _generalRepo.GetModelFriendlyNameEx(d) }));
+            }
+
+            return Ok(result);
+
+
+        }
         [ValidateAntiForgeryToken]
         [HttpPost]
         public virtual async Task<IActionResult> EditModal(int id, TModel mod)
@@ -65,10 +75,10 @@ namespace CateringPro.Controllers
             }
             if (!ModelState.IsValid)
             {
-                return PartialView(mod);
+                return PartialViewEdit(mod);
             }
-            return await this.UpdateCompanyDataAsync(mod, _context, _logger);
-
+            return await UpdateEntityAsync(mod);
+            
         }
 
 
@@ -79,13 +89,13 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            var adr = await _generalRepo.GetByIdAsync(id);
-            if (adr == null)
+            var entity = await _generalRepo.GetByIdAsync(id);
+            if (entity == null)
             {
                 return NotFound();
             }
 
-            return PartialView(adr);
+            return PartialViewEdit(entity);
         }
 
 
@@ -99,7 +109,7 @@ namespace CateringPro.Controllers
                 return NotFound();
             }
 
-            return PartialView("EditModal", model);
+            return PartialViewEdit(model);// PartialView("EditModal", model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -132,18 +142,74 @@ namespace CateringPro.Controllers
             return PartialView("~/Views/Shared/DeleteDialog.cshtml", _generalRepo.GetDeleteDialogViewModel(mod));
         }
 
-        // POST: Categories/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mod = await _generalRepo.GetByIdAsync(id);
-            _generalRepo.Remove(mod);
-            await _generalRepo.SaveChangesAsync();
-
+            try
+            {
+                _generalRepo.Remove(mod);
+                await _generalRepo.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Delete confirmed error DbUpdateException");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete confirmed error");
+                return BadRequest();
+            }
             return RedirectToAction("Index");
         }
+        public virtual async Task<IActionResult> UpdateEntityAsync(TModel entity)
+        {
+            return await UpdateEntityAsync(entity, null);
+        }
+        public virtual async Task<IActionResult> UpdateEntityAsync(TModel entity, EntityWrap<TModel> wrap = null)
+        {
+            if (!ModelState.IsValid)
+                return PartialView(entity);
+            OnBeforeUpdateEntity(entity);
+            bool res = await _generalRepo.UpdateEntityAsync(entity, wrap);
+            OnAfterUpdateEntity(entity);
+            if (!res)
+                return NotFound();
 
+            return UpdateOk();
+        }
+        public virtual void OnBeforeUpdateEntity(TModel entity)
+        {
 
+        }
+        public virtual void OnAfterUpdateEntity(TModel entity)
+        {
+
+        }
+        public IActionResult UpdateOk()
+        {
+            return Json(new { res = "OK" });
+
+        }
+        public IActionResult ErrorResult( Result res)
+        {
+            return Json(new { res = "FAIL", reason = res.Error });
+        }
+        public virtual IActionResult PartialViewEdit(TModel entity,string viewName="EditModal")
+        {
+            OnViewEdit(entity);
+            return PartialView(viewName,entity);
+        }
+        public virtual void OnViewEdit(TModel entity)
+        {
+            var selectlist = _generalRepo.GetSelectList(entity);
+            foreach(var item in selectlist)
+            {
+                ViewBag[item.SourceField] = item.SelectList;
+            }
+        }
     }
 }
