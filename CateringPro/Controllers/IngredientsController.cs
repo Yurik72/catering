@@ -19,6 +19,7 @@ namespace CateringPro.Controllers
     [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class IngredientsController : Controller
     {
+
         private readonly AppDbContext _context;
        
         private readonly ILogger<CompanyUser> _logger;
