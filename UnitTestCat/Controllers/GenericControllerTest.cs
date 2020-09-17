@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Dynamic.Core;
 using MyTested.AspNetCore.Mvc.Builders.Contracts.Base;
 using MyTested.AspNetCore.Mvc.Builders.Base;
+using System.Security.Claims;
 
 namespace CateringPro.Test.Controllers
 {
@@ -24,8 +25,12 @@ namespace CateringPro.Test.Controllers
         {
             var actualBuilder = (BaseTestBuilderWithComponentBuilder<TBuilder>)builder;
 
-           // actualBuilder.TestContext.HttpContext = httpContext;
+            // actualBuilder.TestContext.HttpContext = httpContext;
 
+            //((ClaimsIdentity)principal.Identity).AddClaims(
+            //     new[] { new Claim("companyid", user.CompanyId.ToString())
+            //    });
+           
             return actualBuilder.Builder;
         }
 
@@ -38,7 +43,8 @@ namespace CateringPro.Test.Controllers
         public void ListItemsShouldGeneratePartialView()
         {
             MyMvc
-                .Controller<TController>().WithContext()
+                .Controller<TController>()
+                .WithUser(u=>u.WithClaims(UserContextEx.GetClaims()))
                 .WithData(db => db
                     .WithEntities(entities => CreateTestModels(
                         number: 10,
@@ -49,11 +55,13 @@ namespace CateringPro.Test.Controllers
                     .WithModelOfType<List<TModel>>()
                     .Passing(m => m.Count == 10));
         }
-        [Fact]
+        
+
         public void SearchShouldReturnObjectResult()
         {
             MyMvc
                 .Controller<TController>()
+
                 .WithData(db => db
                     .WithEntities(entities => CreateTestModels(
                         number: 10,
@@ -70,6 +78,7 @@ namespace CateringPro.Test.Controllers
 
             MyMvc
              .Controller<TController>()
+              .WithUser(u => u.WithClaims(UserContextEx.GetClaims()))
              .WithData(db => db
                  .WithEntities(entities => CreateTestModels(
                      number: 10,
@@ -83,7 +92,7 @@ namespace CateringPro.Test.Controllers
         }
         protected  virtual TModel[] CreateTestModels(int number, DbContext dbContext)
         {
-            int companyId = TestStartup.CommanyId;
+            int companyId = TestStartup.CompanyId;
             var models = Enumerable.Range(1, number).Select(n =>
                   new TModel
                   {

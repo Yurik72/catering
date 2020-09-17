@@ -13,10 +13,11 @@ namespace CateringPro.Test
     using Microsoft.AspNetCore.Identity;
     using CateringPro.Test.Mocks;
     using CateringPro.Repositories;
+    using System.Security.Claims;
 
     public class TestStartup : Startup
     {
-        public const int CommanyId = 5;
+        public const int CompanyId = 5;
         public const string UserId = "testuser";
         public TestStartup(IConfiguration configuration, IWebHostEnvironment env):
             base(configuration, env)
@@ -34,6 +35,16 @@ namespace CateringPro.Test
             //services.Replace<IService, MockedService>();
         }
     }
+    public static class UserContextEx
+    {
+        public static IEnumerable<Claim> GetClaims()
+        {
+
+            return new[] { new Claim("companyid", TestStartup.CompanyId.ToString()),
+                           new Claim(System.Security.Claims.ClaimTypes.NameIdentifier, TestStartup.UserId)
+                            };
+        }
+    }
     public class UserContext : IUserContext
     {
         public UserContext()
@@ -42,6 +53,6 @@ namespace CateringPro.Test
         }
         public string UserId => TestStartup.UserId;
 
-        public int CompanyId => TestStartup.CommanyId;
+        public int CompanyId => TestStartup.CompanyId;
     }
 }
