@@ -17,6 +17,8 @@ namespace CateringPro.Models
         [DisplayName("Code")]
         //  [Required]
         public string Code { get; set; }
+
+        [DisplayName("Name")]
         public string Name { get; set; }
         [DisplayName("Amount")]
         public decimal Value { get; set; }
