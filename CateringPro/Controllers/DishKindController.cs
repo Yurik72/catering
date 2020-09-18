@@ -20,6 +20,19 @@ using System.Net;
 namespace CateringPro.Controllers
 {
     [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
+    public class DishKindController : GeneralController<DishKind>
+    {
+        public DishKindController(AppDbContext context, IGenericModelRepository<DishKind> repo, ILogger<DishKind> logger, IConfiguration Configuration)
+             : base(context, repo, logger, Configuration)
+        {
+
+        }
+
+
+
+
+    }
+    /*
     public class DishKindController : Controller
     {
         private readonly AppDbContext _context;
@@ -51,26 +64,7 @@ namespace CateringPro.Controllers
                 querymodel,
                 d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria),
                 pageRecords);
-            /*
-            ViewData["QueryModel"] = querymodel;
 
-            var query = (IQueryable<Categories>)_context.Categories.WhereCompany(User.GetCompanyID());
-            
-            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
-            {
-                query = query.Where(d => d.Name.Contains(querymodel.SearchCriteria) || d.Description.Contains(querymodel.SearchCriteria));
-                
-
-            }
-            if (!string.IsNullOrEmpty(querymodel.SortField))
-            {
-                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            }
-            if (querymodel.Page > 0)
-            {
-                query = query.Skip(pageRecords * querymodel.Page);
-            }
-            */
             return PartialView(await query.ToListAsync());
 
         }
@@ -232,4 +226,5 @@ namespace CateringPro.Controllers
 
 
     }
+    */
 }

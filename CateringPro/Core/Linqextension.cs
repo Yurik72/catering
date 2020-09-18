@@ -28,6 +28,15 @@ namespace CateringPro.Core
 
     }
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+    public sealed class DefaultIncludeAttribute : DataTypeAttribute
+    {
+        public DefaultIncludeAttribute() : base(nameof(DefaultIncludeAttribute))
+        {
+
+        }
+
+    }
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class DefaultNameExAttribute : DataTypeAttribute
     {
         public DefaultNameExAttribute() : base(nameof(DefaultNameExAttribute))

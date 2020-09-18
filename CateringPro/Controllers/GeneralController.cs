@@ -49,7 +49,7 @@ namespace CateringPro.Controllers
         public void SetUserContext(IUserContext cont)
         {
             _cont = cont;
-            _generalRepo.SetUserContext(cont);
+           // _generalRepo.SetUserContext(cont);
         }
 
         public virtual IActionResult Index()
@@ -59,7 +59,7 @@ namespace CateringPro.Controllers
         public virtual async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
     
-            var query = this.GetQueryList(_context.Set<TModel>(), querymodel, _generalRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
+            var query = this.GetQueryList(_generalRepo.FullModels, querymodel, _generalRepo.GetContainsFilter(querymodel.SearchCriteria), pageRecords);
 
             return PartialView(await query.ToListAsync());
 
@@ -67,15 +67,13 @@ namespace CateringPro.Controllers
         [HttpGet]
         public virtual ActionResult Search(string term, bool isShort = true)
         {
-            var result = _context.Set<TModel>().AsQueryable();
-            if (!string.IsNullOrEmpty(term))
-                 result = result.Where(_generalRepo.GetContainsFilter(term));
+
             if (isShort)
             {
-                return Ok(result.Select(d => new { id = d.Id, name = _generalRepo.GetModelFriendlyNameEx(d) }));
+                return Ok(_generalRepo.GetShortSelectResult(term));
             }
 
-            return Ok(result);
+            return Ok(_generalRepo.GetSelectResult(term));
 
 
         }
@@ -178,6 +176,16 @@ namespace CateringPro.Controllers
                 return BadRequest();
             }
             return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> SearchView( QueryModel querymodel)
+        {
+
+            // ViewData["courseindex"] = course;
+            var query = _generalRepo.GetSearchViewResult(querymodel);
+
+
+            return PartialView(await query.ToListAsync());
+
         }
         public virtual async Task<IActionResult> UpdateEntityAsync(TModel entity)
         {

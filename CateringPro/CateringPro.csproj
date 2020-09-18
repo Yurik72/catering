@@ -107,6 +107,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Categories\Create.cshtml" />
+    <Content Remove="Views\Categories\Delete.cshtml" />
+    <Content Remove="Views\Categories\Details.cshtml" />
+    <Content Remove="Views\Categories\Edit.cshtml" />
+    <Content Remove="Views\IngredientCategories\Create.cshtml" />
+    <Content Remove="Views\IngredientCategories\Delete.cshtml" />
+    <Content Remove="Views\IngredientCategories\Details.cshtml" />
+    <Content Remove="Views\IngredientCategories\Edit.cshtml" />
     <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
     <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
     <Content Remove="Views\Shared\PizzaSummary.cshtml" />

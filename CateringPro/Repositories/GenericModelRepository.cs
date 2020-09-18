@@ -17,29 +17,38 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections;
-using Microsoft.ApplicationInsights.Common;
+
 
 namespace CateringPro.Repositories
 {
-    public class GenericModelRepository<TModel> : IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
+    public class ShortSelectResult
     {
-        public class SelectListResult: ISelectListResult
+        public int id { get; set; }
+        public string name { get; set; }
+    }
+
+      public class GenericModelRepository<TModel> : IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
+    {
+        public class SelectListResult : ISelectListResult
         {
-            public SelectList SelectList { get;set;}
+            public SelectList SelectList { get; set; }
             public string SourceField { get; set; }
 
             public object SourceValue { get; set; }
         }
+
         private readonly AppDbContext _context;
         private readonly SharedViewLocalizer _localizer;
         private readonly ILogger<GenericModelRepository<TModel>> _logger;
         private readonly IHttpContextAccessor _httpcontext;
-        private  IUserContext _usercontext;
+        private IUserContext _usercontext;
         private readonly IServiceProvider _serviceProvider;
-        public GenericModelRepository(AppDbContext context, SharedViewLocalizer localizer, 
+
+
+        public GenericModelRepository(AppDbContext context, SharedViewLocalizer localizer,
             ILogger<GenericModelRepository<TModel>> logger, IHttpContextAccessor httpcontext,
             IServiceProvider serviceProvider,
-            IUserContext usercontext=null)
+            IUserContext usercontext = null)
         {
             _context = context;
             _localizer = localizer;
@@ -48,10 +57,9 @@ namespace CateringPro.Repositories
             _usercontext = usercontext;  // for unit tests
             _serviceProvider = serviceProvider;
         }
-        public void SetUserContext(IUserContext cont)
-        {
-            _usercontext = cont;
-        }
+
+        //private Dictionary<TModel,List<Expression<Func<TModel, TProperty>>> 
+
         private int CompanyId
         {
             get
@@ -78,8 +86,27 @@ namespace CateringPro.Repositories
         {
             return _context.Set<TModel>().AsQueryable().GetContainsFilter(filter);
         }
-        public IQueryable<TModel> Models => _context.Set<TModel>(); //include here
-
+        public IQueryable<TModel> Models 
+        {
+            get
+            {
+                return _context.Set<TModel>();
+            }
+        }
+        public IQueryable<TModel> FullModels
+        {
+            get
+            {
+                var full = _context.Set<TModel>().AsQueryable();
+                var props = GetIncludeProps();
+                
+                foreach(var p in props)
+                {
+                    full = full.Include(p.Name);
+                }
+                return full ;   // Additionally provides eager loading of related data by Include
+            }
+        }
         public void Add(TModel model)
         {
             _context.Add(model);
@@ -87,22 +114,22 @@ namespace CateringPro.Repositories
 
         public IEnumerable<TModel> GetAll()
         {
-            return _context.Set<TModel>().ToList();
+            return FullModels.ToList();
         }
 
         public async Task<IEnumerable<TModel>> GetAllAsync()
         {
-            return await _context.Set<TModel>().ToListAsync();
+            return await FullModels.ToListAsync();
         }
 
         public TModel GetById(int? id)
         {
-            return _context.Set<TModel>().FirstOrDefault(p => p.Id == id);
+            return Models.FirstOrDefault(p => p.Id == id);
         }
 
         public async Task<TModel> GetByIdAsync(int? id)
         {
-            return await _context.Set<TModel>().FirstOrDefaultAsync(p => p.Id == id);
+            return await Models.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         
@@ -126,11 +153,44 @@ namespace CateringPro.Repositories
         {
             _context.Update(model);
         }
+        public IQueryable<ShortSelectResult> GetShortSelectResult(string term)
+        {
+            var result = Models.AsQueryable();
+
+            if (!string.IsNullOrEmpty(term))
+                result = result.Where(GetContainsFilter(term));
+
+             return result.Select(d => new ShortSelectResult (){ id = d.Id, name = GetModelFriendlyNameEx(d) });
+        }
+        public IQueryable<TModel> GetSelectResult(string term)
+        {
+            var result = FullModels;
+
+            if (!string.IsNullOrEmpty(term))
+                result = result.Where(GetContainsFilter(term));
+
+            return result;
+        }
+        public IQueryable<TModel> GetSearchViewResult(QueryModel querymodel)
+        {
+            var result = FullModels;
+
+            if (!string.IsNullOrEmpty(querymodel.SearchCriteria))
+                result = result.Where(GetContainsFilter(querymodel.SearchCriteria));
+            result = result.Take(10);
+            return result;
+        }
         private  IEnumerable<PropertyInfo> GetNameProps()
         {
            return  typeof(TModel).GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(DefaultNameAttribute)) || prop.Name=="Name");
              
+        }
+        private IEnumerable<PropertyInfo> GetIncludeProps()
+        {
+            return typeof(TModel).GetProperties().Where(
+                 prop => Attribute.IsDefined(prop, typeof(DefaultIncludeAttribute)));
+
         }
         private IEnumerable<PropertyInfo> GetNameExProps()
         {

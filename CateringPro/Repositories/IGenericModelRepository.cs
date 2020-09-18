@@ -24,6 +24,7 @@ namespace CateringPro.Repositories
     public interface IGenericModelRepository<TModel>: IGenericModelRepositoryBase where TModel : CompanyDataOwnId
     {
         IQueryable<TModel> Models { get; }
+        IQueryable<TModel> FullModels { get; }
 
         TModel GetById(int? id);
         Task<TModel> GetByIdAsync(int? id);
@@ -46,6 +47,9 @@ namespace CateringPro.Repositories
         Task<bool> UpdateEntityAsync(TModel entity, EntityWrap<TModel> wrap);
         string GetModelFriendlyNameEx(TModel src);
         string GetModelFriendlyName(TModel src);
-        void SetUserContext(IUserContext cont);
+
+        IQueryable<ShortSelectResult> GetShortSelectResult(string term);
+        IQueryable<TModel> GetSelectResult(string term);
+        IQueryable<TModel> GetSearchViewResult(QueryModel querymodel);
     }
 }

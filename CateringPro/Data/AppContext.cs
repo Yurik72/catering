@@ -23,6 +23,8 @@ namespace CateringPro.Data
         private int companyId=-1;
         private bool isCompanyIdSet=false;
         private readonly IWebHostEnvironment _hostingEnv;
+
+
 #if DEBUG
         public EventHandler Disposing;
 #endif
@@ -147,6 +149,7 @@ namespace CateringPro.Data
                 return null;
             }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -412,7 +415,8 @@ namespace CateringPro.Data
             //modelBuilder.Entity<Dish>().HasQueryFilter(u =>u.CompanyId== this.CompanyId);
             // to do dynamically
             SetGlobalFilters(modelBuilder);
-
+            //!! Comapny User Company will be filtered by cuurent company
+            modelBuilder.Entity<CompanyUserCompany>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
         }
         private void SetGlobalFilters(ModelBuilder modelBuilder)
         {

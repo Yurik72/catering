@@ -15,6 +15,7 @@ using MyTested.AspNetCore.Mvc.Builders.Contracts.Base;
 using MyTested.AspNetCore.Mvc.Builders.Base;
 using System.Security.Claims;
 using MyTested.AspNetCore.Mvc.Utilities.Extensions;
+using CateringPro.Data;
 
 namespace CateringPro.Test.Controllers
 {
@@ -35,7 +36,7 @@ namespace CateringPro.Test.Controllers
     public abstract class GenericControllerTest<TModel, TController> where TModel : CompanyDataOwnId, new()
         where TController : GeneralController<TModel>
     {
-        protected  List<TModel> entities;
+        protected  List<TModel> models;
         public GenericControllerTest()
         {
 
@@ -62,16 +63,16 @@ namespace CateringPro.Test.Controllers
         {
             MyMvc
                 .Controller<TController>()
-
+                .WithUser(u => u.WithClaims(UserContextEx.GetClaims()))
                 .WithData(db => db
                     .WithEntities(entities => CreateTestModels(
                         number: 10,
                         dbContext: entities)))
                 .Calling(c => c.Search("",true))
                 .ShouldReturn()
-                .Ok(obj => obj
-                    .WithModelOfType<IQueryable>()
-                    .Passing(m => m.Count()==10));
+                .Ok(obj => 
+                        obj.WithModelOfType<IQueryable>()
+                        .Passing(m => m.Count()==10));
         }
         [Fact]
         public void EditModalShouldReturnObjectResult()
@@ -84,7 +85,7 @@ namespace CateringPro.Test.Controllers
                  .WithEntities(entities => CreateTestModels(
                      number: 10,
                      dbContext: entities)))
-             .Calling(c =>   c.EditModal(5, entities.First(e=>e.Id==5)))
+             .Calling(c =>   c.EditModal(5, models.First(e=>e.Id==5)))
              .ShouldReturn()
              .ActionResult(obj =>
                 obj.Json(j=>j.WithModelOfType<JSONResultResponse>().Passing(m=>m.res=="OK"))
@@ -112,7 +113,7 @@ namespace CateringPro.Test.Controllers
         protected  virtual TModel[] CreateTestModels(int number, DbContext dbContext)
         {
             int companyId = TestStartup.CompanyId;
-            entities = Enumerable.Range(1, number).Select(n =>
+            models = Enumerable.Range(1, number).Select(n =>
                   new TModel
                   {
                       Id = n,
@@ -121,11 +122,12 @@ namespace CateringPro.Test.Controllers
 
 
             dbContext.Add(new Company() { Id = companyId });
-            OnEntitiesAdd(dbContext,entities);
-            dbContext.AddRange(entities);
             dbContext.SaveChanges();
-
-            return entities.ToArray();
+            OnEntitiesAdd(dbContext, models);
+            dbContext.AddRange(models);
+            dbContext.SaveChanges();
+            
+            return models.ToArray();
         }
         protected virtual void OnEntitiesAdd(DbContext cont, List<TModel> ent)
         {

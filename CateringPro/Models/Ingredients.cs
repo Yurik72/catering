@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CateringPro.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -43,6 +44,7 @@ namespace CateringPro.Models
         public int IngredientCategoriesId { get; set; }
 
         [DisplayName("Ingredient Category")]
+        [DefaultInclude]
         public virtual IngredientCategories IngredientCategory { get; set; }
 
 

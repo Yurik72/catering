@@ -87,7 +87,7 @@ namespace CateringPro.Repositories
         public async Task<List<Company>> GetCurrentUsersCompaniesAsync(string userId)
         {
 
-            return await _context.CompanyUserCompanies.Include(c => c.Company).Where(cu => cu.CompanyUserId == userId).
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().Include(c => c.Company).Where(cu => cu.CompanyUserId == userId).
                 Select(c => c.Company).ToListAsync();
         }
         public async Task<List<Company>> GetCompaniesAsync()
@@ -132,12 +132,12 @@ namespace CateringPro.Repositories
         public async Task<List<CompanyUserCompany>> GetCurrentUsersCompaniesUserAsync(string userId)
         {
 
-            return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).ToListAsync();
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().Where(cu => cu.CompanyUserId == userId).ToListAsync();
 
         }
         public async Task<int> GetUserCompanyCount(string userId)
         {
-            return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).CountAsync();
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().Where(cu => cu.CompanyUserId == userId).CountAsync();
         }
         public async Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims)
         {

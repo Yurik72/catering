@@ -23,6 +23,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace CateringPro.Controllers
 {
@@ -925,10 +926,12 @@ namespace CateringPro.Controllers
            // var query = _userManager.Users;
 
             ViewData["QueryModel"] = querymodel;
-            //ViewData["GroupId"] = new SelectList(_context.UserGroups/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
-            //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
-            var query = this.GetQueryListUsers(_userManager.Users.Include(u=>u.UserGroup).Include(u=>u.UserSubGroup),querymodel,
+            var query = this.GetQueryListUsers(_userManager.Users.
+                Include(u=>u.UserGroup).
+                Include(u=>u.UserSubGroup).
+                Include(u=>u.CompanyUserCompany),
+                querymodel,
                         d => string.IsNullOrEmpty(querymodel.SearchCriteria) || 
                         d.ChildNameSurname.Contains(querymodel.SearchCriteria) || 
                         d.Email.Contains(querymodel.SearchCriteria) || 
@@ -947,7 +950,7 @@ namespace CateringPro.Controllers
             {
                 if (User.IsInRole(Core.UserExtension.UserRole_CompanyAdmin) || User.IsInRole(Core.UserExtension.UserRole_UserAdmin))
                 {
-                    query = query.Where(u => u.CompanyId == User.GetCompanyID());
+                    query = query.Where(u => u.CompanyUserCompany.FirstOrDefault()!=null  && u.CompanyUserCompany.FirstOrDefault().CompanyId == User.GetCompanyID());
                 }
                 else if (User.IsInRole(Core.UserExtension.UserRole_GroupAdmin))
                 {
@@ -971,7 +974,7 @@ namespace CateringPro.Controllers
 
 
 
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]
         public IActionResult Users()//async Task<IActionResult> Users()
         {
             // return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());

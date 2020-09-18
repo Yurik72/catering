@@ -76,7 +76,7 @@ namespace CateringPro
 
            
            
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
+           // services.AddTransient<ICategoryRepository, CategoryRepository>();
            
            
 
@@ -97,6 +97,10 @@ namespace CateringPro
             services.AddTransient<IGenericModelRepository<Discount>, GenericModelRepository<Discount>>();
             services.AddTransient<IGenericModelRepository<Ingredients>, GenericModelRepository<Ingredients>>();
             services.AddTransient<IGenericModelRepository<IngredientCategories>, GenericModelRepository<IngredientCategories>>();
+            services.AddTransient<IGenericModelRepository<Categories>, GenericModelRepository<Categories>>();
+            services.AddTransient<IGenericModelRepository<DishKind>, GenericModelRepository<DishKind>>();
+            services.AddTransient<IGenericModelRepository<Ingredients>, GenericModelRepository<Ingredients>>();
+
             services.AddTransient<IPluginsRepository, PluginsRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

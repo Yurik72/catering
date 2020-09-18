@@ -25,11 +25,13 @@ namespace CateringPro.Controllers
         private readonly ILogger<CompanyUser> _logger;
         private IConfiguration _configuration;
         private int pageRecords = 20;
-        public IngredientsController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration)
+       // private IGenericModelRepository<Ingredients> _repo;
+        public IngredientsController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration/*, IGenericModelRepository<Ingredients> repo*/)
         {
             _context = context;
             _logger = logger;
             _configuration = Configuration;
+         //   _repo = repo;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
@@ -41,8 +43,8 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel=new QueryModel() { }
-           // ViewData["QueryModel"] = querymodel;
-
+            // ViewData["QueryModel"] = querymodel;
+           
             ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
 
 
