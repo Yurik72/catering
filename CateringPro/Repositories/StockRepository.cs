@@ -81,14 +81,8 @@ namespace CateringPro.Repositories
 
 
             }
-            //if (!string.IsNullOrEmpty(querymodel.SortField))
-            // {
-            //     query1 = query1.OrderByEx(querymodel.SortField, querymodel.SortOrder);
-            //  }
-            if (querymodel.Page > 0)
-            {
-                query1 = query1.Skip(querymodel.PageRecords * querymodel.Page);
-            }
+         
+            
             var queryfinal = from ing in query1
                              select new ConsignmentStockViewModel()
                              {
@@ -106,6 +100,12 @@ namespace CateringPro.Repositories
             {
                 queryfinal = queryfinal.OrderByEx(querymodel.SortField, querymodel.SortOrder);
             }
+            if (querymodel.Page > 0)
+            {
+                queryfinal = queryfinal.Skip(querymodel.PageRecords * querymodel.Page);
+            }
+            if (querymodel.PageRecords > 0)
+                queryfinal = queryfinal.Take(querymodel.PageRecords);
             return await queryfinal.ToListAsync();
         }
         public bool WriteOffProduction(DateTime daydate, int companyId)
