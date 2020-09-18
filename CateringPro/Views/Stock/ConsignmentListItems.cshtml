@@ -23,7 +23,11 @@
                     <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center my-2 my-lg-0 my-md-0">
                         <div class="col-md-1 col-lg-1 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">
-                            <a href="@Url.Action("IngredientStockDetails","Stock",new { id=item.IngredientId})">Деталi</a>
+                            <a 
+                                 asp-controller="Stock" 
+                                 asp-action="IngredientStockDetails"
+                                 asp-route-id="@item.IngredientId"
+                                 target="_blank">Деталi</a>
                         </div>
                         <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
                              style="font-size: 16px">

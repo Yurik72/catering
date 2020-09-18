@@ -1030,4 +1030,13 @@
   <data name="Type" xml:space="preserve">
     <value>Тип</value>
   </data>
+  <data name="Consignments" xml:space="preserve">
+    <value>Партії</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Цiна</value>
+  </data>
+  <data name="WriteOff" xml:space="preserve">
+    <value>Списання</value>
+  </data>
 </root>

@@ -55,6 +55,7 @@ namespace CateringPro.Core
                 bool res = false;
                 switch (em.DistribType)
                 {
+#if !DEBUG
                     case DistributionEnum.All:
                     case DistributionEnum.Users:
                         res = await SendMassEmailOnePerUser(companyid, em);
@@ -62,10 +63,12 @@ namespace CateringPro.Core
                     case DistributionEnum.UsersParents:
                         res = await SendMassEmailOnePerUser(companyid, em, await _mailrepo.GetDistributionUsersAsync(companyid,false));
                         break;
+#endif
                     case DistributionEnum.Admin:
                         res = await SendMassEmailOnePerUser(companyid, em, await _mailrepo.GetDistributionRoleUsersAsync(companyid,"Admin"));
                         break;
-
+                    default:
+                        break;
                 }
                 em.NextSend = nextRun;
                 await _mailrepo.SaveMassEMailAsync(em);

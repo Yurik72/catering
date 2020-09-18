@@ -1,42 +1,90 @@
 ﻿@model CateringPro.ViewModels.IngredientStockDetailsViewModel
 @inject CateringPro.Core.SharedViewLocalizer Localizer
+@{ 
+    string DocTypeDescr(int docType)
+    {
+        switch (docType)
+        {
+            case 1:
+                return @Localizer["DocTypeIncome"];
+            case 2:
+                return @Localizer["DocTypeOutcome"];
+            case 3:
+                return @Localizer["DocTypeProduction"];
+            default:
+                return "---";
+        }
+    }
+    string MoveTypeDescr(int docType)
+    {
+        switch (docType)
+        {
+            case 1:
+                return @Localizer["DocTypeIncome"];
+            case 2:
+                return @Localizer["DocTypeOutcome"];
+            case 3:
+                return @Localizer["DocTypeProduction"];
+            default:
+                return "---";
+        }
+    }
+    bool IsOutcome(int docType)
+    {
+        return docType != 1;
+    }
+}
 <html>
 <head>
     <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
     <div class="invoice-box">
+        <div>
+            <h3> @Localizer["Ingredients"]</h3>
+            <h4> @Model.Ingredients?.Name</h4>
+        </div>
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td class="title">
-                                @Localizer["Ingredients"]
-                            </td>
-
-                            <td>
+                            <td style="width: 20%; text-align: left;">
                                 Залишок
                             </td>
-                            <td>
-                                Середня цiна
+                            <td style="width: 20%; text-align: left;">
+                                @Model.Ingredients?.StockValue
                             </td>
-                            <td>
-                                Остання цiна
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;">
+                                @Localizer["AvgPrice"]
+                            </td>
+                            <td style="        text-align: left;">
+                                @Model.Ingredients?.AvgPrice
+                            </td>
+                            <td style="width: 20%; text-align: left;">
+
+                                @Localizer["LastPurchasePrice"]
+                            </td>
+                            <td style="text-align:left;">
+                                @Model.Ingredients?.LastPurchasePrice
                             </td>
                         </tr>
                         <tr>
-                            <td class="title">
-                                @Model.Ingredients?.Name
+                            <td style="width: 20%; text-align: left;">
+                                @Localizer["Income"]
                             </td>
-                            <td>
-                                @Model.Ingredients?.StockValue
+                            <td style="text-align:left;">
+                                @Model.TotalDocIncome
                             </td>
-                            <td>
-                                @Model.Ingredients?.AvgPrice
+                            <td style="width: 20%; text-align: left;">
+                                @Localizer["OutCome"]
                             </td>
-                            <td>
-                                @Model.Ingredients?.LastPurchasePrice
+                            <td style="text-align:left;">
+                                @Model.TotalDocOutcome
                             </td>
                         </tr>
                     </table>
@@ -56,47 +104,164 @@
                     </table>
                 </td>
             </tr>
+        </table>
+
+        <h4>@Localizer["Consignments"]</h4>
+
+        <table>
             <tr class="heading ">
-                <td>
-                    Код
+                <td style="width:15%;text-align:left;">
+                    @Localizer["Code"]
                 </td>
-                <td>
-                    Дата
+                <td style="width:10%;text-align:left;">
+                    @Localizer["Date"]
                 </td>
-                <td>
+                <td style="width:15%;text-align:right;">
                     Поч.кiлькiсть
                 </td>
-                <td>
-                    Kiлькiсть
+                <td style="width:15%;text-align:right;">
+                    @Localizer["Quantity"]
                 </td>
-                <td>
-                    Цiна
+                <td style="width:15%;text-align:right;">
+                    @Localizer["Price"]
+                </td>
+                <td style="width:15%;text-align:right;">
+                    @Localizer["Consignment ValidTo"]
                 </td>
             </tr>
 
             @foreach (var item in Model.ConsignmentsDetail)
             {
+        <tr class="item">
+            <td style="width:15%">
+                @item.DocNumber
+            </td>
+            <td style="width:10%;text-align:left;">
+                @item.DocDate.ToString("d")
+            </td>
+            <td style="width:15%;text-align:right;">
+                @item.InitialQuantity
+            </td>
+            <td style="width:15%;text-align:right;">
+                @item.Quantity
+            </td>
+            <td style="width:15%;text-align:right;">
+                @item.Price
+
+            </td>
+            <td style="width:15%;text-align:right;">
+                @item.ValidUntil?.ToString("d")
+
+            </td>
+        </tr>
+            }
+
+
+        </table>
+        <h4> @Localizer["Docs"]</h4>
+        <table>
+
+            <tr class="heading ">
+                <td>
+                    @Localizer["Code"]
+                </td>
+                <td style="width:10%;text-align:left;">
+                    @Localizer["Date"]
+                </td>
+                <td style="width:20%;text-align:left;">
+                    @Localizer["Type"]
+                </td>
+                <td style="width:15%;text-align:right;">
+                    @Localizer["Income"]
+                </td>
+                <td style="width:15%;text-align:right;">
+                    @Localizer["OutCome"]
+
+                </td>
+                <td style="width:15%;text-align:right;">
+                    @Localizer["Price"]
+                </td>
+            </tr>
+            @foreach (var item in Model.ConsignmentDocDetails)
+            {
                 <tr class="item">
-                    <td>
+                    <td style="width:20%">
                         @item.DocNumber
                     </td>
-                    <td>
-                        @item.DocDate
+                    <td style="width:10%;text-align:left;">
+                        @item.DocDate.ToString("d")
                     </td>
-                    <td>
-                        @item.InitialQuantity
+                    <td style="width:20%;text-align:left;">
+                        @DocTypeDescr(@item.Type)
                     </td>
-                    <td>
-                        @item.Quantity
+                    <td style="width:20%;text-align:right;">
+                        @if (!IsOutcome(@item.Type))
+                        {
+                            @item.Quantity
+                        }
                     </td>
-                    <td>
-                        @item.Price
+                    <td style="width:20%;text-align:right;">
+                        @if (IsOutcome(@item.Type))
+                        {
+                            @item.Quantity
+                        }
+                    </td>
+                    <td style="width:20%;text-align:right;">
+                        @if (!IsOutcome(@item.Type))
+                        {
+                            @item.Price
+                        }
+                    </td>
+                </tr>
+            }
+            <tr class="total">
+                <td colspan="3">
+                    @Localizer["Total"]
+                </td>
+                <td style="width:20%;text-align:right;">
+                    @Model.TotalDocIncome
+                </td>
+                <td style="width:20%;text-align:right;">
+                    @Model.TotalDocOutcome
+                </td>
+                <td style="width:20%;text-align:right;">
+                </td>
+            </tr>
+        </table>
+
+        <h4> @Localizer["WriteOff"]</h4>
+        <table>
+
+            <tr class="heading ">
+
+                <td style="width:20%;text-align:left;">
+                    @Localizer["Date"]
+                </td>
+                <td style="width:20%;text-align:left;">
+                    @Localizer["Type"]
+                </td>
+                <td style="width:20%;text-align:right;">
+                    @Localizer["Quantity"]
+                </td>
+
+            </tr>
+            @foreach (var item in Model.ConsignmentMoveDetails)
+            {
+                <tr class="item">
+
+                    <td style="width:20%;text-align:left;">
+                        @item.DocDate.ToString("d")
+                    </td>
+                    <td style="width:20%;text-align:left;">
+                        @MoveTypeDescr(@item.Type)
+                    </td>
+                    <td style="width:25%;text-align:right;">
+                            @item.Quantity
 
                     </td>
 
                 </tr>
             }
-
 
         </table>
     </div>

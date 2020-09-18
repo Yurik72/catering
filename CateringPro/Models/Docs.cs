@@ -32,6 +32,9 @@ namespace CateringPro.Models
         public ICollection<DocLines> DocLines { get; set; }
 
 
+        [DisplayName("Doc ProductionDate")]
+        public DateTime? ProductionDay { get; set; }
+
         [DisplayName("Doc Address")]
         public int? AddressId { get; set; }
         [DisplayName("Doc Address")]

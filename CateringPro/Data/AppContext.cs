@@ -110,6 +110,8 @@ namespace CateringPro.Data
         public DbSet<DocLines> DocLines { get; set; }
 
         public DbSet<Consignment> Consignment { get; set; }
+
+        public DbSet<ConsignmentMove> ConsignmentMove { get; set; }
         public DbSet<UserWeekBasket> UserWeekBasket { get; set; }
 
         public DbSet<UserDay> UserDay { get; set; }
@@ -272,6 +274,9 @@ namespace CateringPro.Data
                  .WithMany(a => a.Consignments)
                  .IsRequired(false)
                  .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ConsignmentMove>()
+            .HasKey(c => new { c.CompanyId, c.LineId, c.LineOutId,c.IngredientsId });
 
             modelBuilder.Entity<CompanyUser>()
                  .HasOne(u => u.UserGroup)

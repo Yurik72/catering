@@ -151,10 +151,41 @@ namespace CateringPro.Repositories
                                                   Price=cons.Price,
                                                   DocNumber = d.Number,
                                                   DocDate=d.Date,
-                                                  DocId=d.Id
+                                                  DocId=d.Id,
+                                                  ValidUntil=cons.ValidUntil
+
+                                              }).ToListAsync();
+            model.ConsignmentMoveDetails = await (from cm in _context.ConsignmentMove.Where(c => c.IngredientsId == id)
+                                              join dl in _context.DocLines on cm.LineOutId equals dl.Id
+                                              join d in _context.Docs on dl.DocsId equals d.Id
+                                              orderby d.Date descending
+                                              select new ConsignmentMoveDetailsViewModel()
+
+                                              {
+                                                 
+                                                  Quantity = cm.Quantity,
+                                                  Type=cm.Type,
+                                                  DocNumber = d.Number,
+                                                  DocDate = d.Date,
+                                                 
 
                                               }).ToListAsync();
             model.Ingredients = await _context.Ingredients.Include(i => i.IngredientCategory).FirstOrDefaultAsync(i => i.Id == id);
+            model.ConsignmentDocDetails = await (from dl in _context.DocLines.Where(c => c.IngredientsId == id)
+                                              join d in _context.Docs on dl.DocsId equals d.Id
+                                              orderby d.Date descending
+                                              select new ConsignmentDocDetailsViewModel()
+                                              {
+                                                  
+                                                  Quantity = dl.Quantity,
+                                                 
+                                                  DocNumber = d.Number,
+                                                  DocDate = d.Date,
+                                                  Type = d.Type,
+                                                  DayProduction=d.ProductionDay,
+                                                  Price=dl.Price
+
+                                              }).ToListAsync();
             return model;
         }
     }
