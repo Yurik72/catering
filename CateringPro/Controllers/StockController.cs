@@ -62,6 +62,8 @@ namespace CateringPro.Controllers
             {
                 query = query.Skip(pageRecords * querymodel.Page);
             }
+            if (pageRecords > 0)
+                query = query.Take(pageRecords);
             return PartialView(await query.ToListAsync());
 
         }
