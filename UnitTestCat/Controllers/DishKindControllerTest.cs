@@ -14,7 +14,13 @@
     public class DishKindControllerTest: GenericControllerTest<DishKind,DishKindController>
     {
 
-       
-        
+        protected override void OnEntitiesAdd(DbContext cont, List<DishKind> ent)
+        {
+            base.OnEntitiesAdd(cont, ent);
+            ent.ForEach(e => e.Name = "name" + e.Id.ToString());
+        }
+
     }
+
+
 }

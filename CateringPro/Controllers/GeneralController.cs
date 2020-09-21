@@ -25,6 +25,14 @@ namespace CateringPro.Controllers
 
     public class JSONResultResponse
     {
+        public static JSONResultResponse GetOKResult()
+        {
+            return new JSONResultResponse() { res = "OK" };
+        }
+        public static JSONResultResponse GetFailResult( string reason)
+        {
+            return new JSONResultResponse() { res = "FAIL",reason=reason };
+        }
         public string res { get; set; }
         public string reason { get; set; }
     }

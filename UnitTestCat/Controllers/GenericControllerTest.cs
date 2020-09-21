@@ -95,15 +95,15 @@ namespace CateringPro.Test.Controllers
         [Fact]
         public void EditModalShouldReturnNotFoundWithWrongObject()
         {
-
+            TModel[] items = new TModel[0];
             MyMvc
              .Controller<TController>()
               .WithUser(u => u.WithClaims(UserContextEx.GetClaims()))
              .WithData(db => db
-                 .WithEntities(entities => CreateTestModels(
+                 .WithEntities(entities => items= CreateTestModels(
                      number: 10,
                      dbContext: entities)))
-             .Calling(c => c.EditModal(100, new TModel() { Id=100}))
+             .Calling(c => c.EditModal(100, items.First()))
              .ShouldReturn()
              .ActionResult(obj =>
                 obj.NotFound()
