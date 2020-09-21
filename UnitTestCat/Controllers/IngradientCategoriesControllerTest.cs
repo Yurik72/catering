@@ -14,7 +14,12 @@
     public class IngradientCategoriesControllerTest : GenericControllerTest<IngredientCategories,IngredientCategoriesController>
     {
 
-       
-        
+        protected override void OnEntitiesAdd(DbContext cont, List<IngredientCategories> ent)
+        {
+            base.OnEntitiesAdd(cont, ent);
+            ent.ForEach(e => e.Name = "name" + e.Id.ToString());
+        }
+
+
     }
 }

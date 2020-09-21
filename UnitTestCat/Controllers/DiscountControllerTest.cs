@@ -12,6 +12,10 @@
     using CateringPro.ViewModels;
     public class DiscountControllerTest : GenericControllerTest<Discount, DiscountController>
     {
-
+        protected override void OnEntitiesAdd(DbContext cont, List<Discount> ent)
+        {
+            base.OnEntitiesAdd(cont, ent);
+            ent.ForEach(e => e.Name = "name" + e.Id.ToString());
+        }
     }
 }

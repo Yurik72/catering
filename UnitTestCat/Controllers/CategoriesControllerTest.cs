@@ -14,7 +14,12 @@
     public class CategoriesControllerTest: GenericControllerTest<Categories,CategoriesController>
     {
 
-       
-        
+        protected override void OnEntitiesAdd(DbContext cont, List<Categories> ent)
+        {
+            base.OnEntitiesAdd(cont, ent);
+            ent.ForEach(e => e.Name = "name" + e.Id.ToString());
+        }
+
+
     }
 }

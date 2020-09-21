@@ -14,7 +14,11 @@
     public class AddressControllerTest: GenericControllerTest<Address,AddressController>
     {
 
-       
-        
+
+        protected override void OnEntitiesAdd(DbContext cont, List<Address> ent)
+        {
+            base.OnEntitiesAdd(cont, ent);
+            ent.ForEach(e => e.Name = "name" + e.Id.ToString());
+        }
     }
 }
