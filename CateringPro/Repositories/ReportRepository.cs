@@ -781,5 +781,30 @@ namespace CateringPro.Repositories
             var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName, o => o.ChildNameSurname, o => o.Category);
             return querywithgroup;
         }
+        public async Task<IEnumerable<UserFinanceReportViewModel>> GetUserFinancePeriodReport(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId)
+        {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyId);
+            }
+            string subgroup = usersubGroupId.HasValue ? usersubGroupId.Value.ToString() : "NULL";
+            var query = await _context.Database.SqlQuery<UserFinanceReportViewModel>(
+                $"exec UserFinancePeriodReport '{datefrom.ShortSqlDate()}' ,'{dateto.ShortSqlDate()}' , {companyId},{subgroup}").ToListAsync();
+            
+            return query;
+        }
+        public async Task<IEnumerable<GroupResult<UserFinanceReportViewModel>>> GetUserFinancePeriodReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId)
+        {
+            var query = await GetUserFinancePeriodReport(datefrom, dateto, companyId, usersubGroupId);
+            /*  var querywithgroup=from orders in query
+                                 group orders by orders.GroupName into subgroup
+                                 from userGroup in
+                                      (from user in subgroup
+                                       group user by user.ChildNameSurname)
+                                 group userGroup by subgroup.Key;
+            */
+            var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName);
+            return querywithgroup;
+        }
     }
 }

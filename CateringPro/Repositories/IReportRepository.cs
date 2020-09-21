@@ -34,5 +34,6 @@ namespace CateringPro.Repositories
         UserDayReportViewModel UserDayReport(int[] groupid, DateTime datefrom, DateTime dateto, int companyid);
         Task<string> OrderPeriodDetailReportAsync(DateTime? dateFrom, DateTime? dateTo, int? companyId);
         Task<IEnumerable<GroupResult<OrderDetailsViewModel>>> GetOrderPeriodDetailReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId);
+        Task<IEnumerable<GroupResult<UserFinanceReportViewModel>>> GetUserFinancePeriodReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId);
     }
 }

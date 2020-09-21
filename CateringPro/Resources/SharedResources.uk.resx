@@ -1039,4 +1039,13 @@
   <data name="WriteOff" xml:space="preserve">
     <value>Списання</value>
   </data>
+  <data name="AmountDay" xml:space="preserve">
+    <value>Сума за день</value>
+  </data>
+  <data name="TotalWithoutDiscount" xml:space="preserve">
+    <value>Сума без знижки</value>
+  </data>
+  <data name="UsersFinances" xml:space="preserve">
+    <value>Сума замовлення користувачів</value>
+  </data>
 </root>

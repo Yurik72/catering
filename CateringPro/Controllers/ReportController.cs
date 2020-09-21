@@ -190,6 +190,16 @@ namespace CateringPro.Controllers
             var model =await  _reportrepo.GetOrderPeriodDetailReportWithGroup(datefrom.Value, dateto.Value, User.GetCompanyID(), userSubGroupId);
             return PartialView(model);
         }
+        [MiddlewareFilter(typeof(JsReportPipeline))]
+        public async Task<IActionResult> UserFinancePeriodReportWithGroup(DateTime? datefrom, DateTime? dateto, string format, int? userSubGroupId)
+        {
+            SelectFormat(format);
+            datefrom = datefrom.SetDefaultIfNotSet(DateTime.Now);
+            dateto = dateto.SetDefaultIfNotSet(DateTime.Now);
+            userSubGroupId = _companyRep.GetUserSubGroupId(User.GetUserId());
+            var model = await _reportrepo.GetUserFinancePeriodReportWithGroup(datefrom.Value, dateto.Value, User.GetCompanyID(), userSubGroupId);
+            return PartialView(model);
+        }
         public async Task<FileResult> DeliveryReport(DateTime dayDate)
         {
             //Response.ContentType = "text/csv";
