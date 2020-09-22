@@ -18,161 +18,165 @@
 
 @if (Layout == "_LayoutCabachok")
 {
-<div class="container-xl container container-md container-sm container-lg">
-    <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
-        <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
-            <p class="h2" style="font-weight: 600">
-                @ModelName
-            </p>
-        </div>
-    </div>
-    <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
-
-        @Html.DisplaySortField(model => model.Name).AddSortField(model=>model.Category.Name).Display(querymodel)
-
-        @*
-        <div class="col-lg-4 col-12 p-0 ">
-            <div class="col-12 p-0 justify-content-lg-start justify-content-center"
-                 style="display: flex; flex-wrap: nowrap">
-                <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
-
-                <select name="sources" id="sort" class="custom-select sources" placeholder="по ціні"
-                        style="border: none">
-                    <option class="drpdwn-btn selection" value="price"
-                            style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
-                        по ціні
-                    </option>
-                    <option class="drpdwn-btn" value="popular">по популярності</option>
-                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=asc" style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">@Html.DisplayListHeaderForEx(model => model.Name) А-Я</option>
-                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Name) Я-А</option>
-                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=asc">@Html.DisplayListHeaderForEx(model => model.Category.Name) А-Я</option>
-                    <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Category.Name) Я-А</option>
-                </select>
-
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+                <p class="h2" style="font-weight: 600">
+                    @ModelName
+                </p>
             </div>
         </div>
-        *@
-        <div class="col-lg-4 col-12 p-0 ">
-            <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
-                <form id="search-form" class="form-inline col-12 p-0" style=" display: flex;">
-                    <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
-                           style="font-size: 16px; color:#797979; height: 48px; background:  url('/img/search-icon.svg') no-repeat; background-position: 95%">
-                </form>
-            </div>
-        </div>
-        <div class="col-lg-4 col-12 p-0 d-none d-md-block">
-            <div class="col-12 p-0 justify-content-center" style="height: 48px">
-                <button type="button" id="create-btn"
-                        class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
-                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                        style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                    &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
-         style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;"
-         >
-        <div class="col-1">
-        </div>
-        @Html.DisplayListHeaderForEx(model => model.Category.Name)
-        @Html.DisplayListHeaderForEx(model => model.Name)
-        @Html.DisplayListHeaderForEx(model => model.Description,new { colnumbers = 4})
-        @Html.DisplayListHeaderForEx(model => model.Price)
-        @* <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
-            <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
-            <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
-            <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>*@
-        <div class="col-2"></div>
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center m-0 flex-md-column flex-lg-row flex-column container p-0">
 
-    </div>
-    <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
+            @Html.DisplaySortField(model => model.Name).AddSortField(model => model.Category.Name).Display(querymodel)
 
-    </div>
-</div>
-<div class="modal fade" @*id="change-item-modal"*@ id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" id="dialogContent"  style="max-width: 850px">
-    </div>
-</div>
+            @*
+                <div class="col-lg-4 col-12 p-0 ">
+                    <div class="col-12 p-0 justify-content-lg-start justify-content-center"
+                         style="display: flex; flex-wrap: nowrap">
+                        <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
 
-<div id="modDialogingredientline" class="modal modal-search fade ingredient-line">
-    <div id="dialogContentingredientline" class="modal-dialog modal-search-dialog">
-        <div class="modal-content modal-content-search">
-            <div class="modal-header">
-               
-                <div class="container">
-                    <div class="row">
-                        <h3>Додати Інгрідієнт</h3>
-                        <button type="button" class="close" data-toggle="modal" data-target="#modDialogingredientline">X</button>
-                    </div>
-                    <div class="row">
-                        <input type="text" id="search-ingredient" class="form-control input-lg" placeholder="...." />
+                        <select name="sources" id="sort" class="custom-select sources" placeholder="по ціні"
+                                style="border: none">
+                            <option class="drpdwn-btn selection" value="price"
+                                    style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                                по ціні
+                            </option>
+                            <option class="drpdwn-btn" value="popular">по популярності</option>
+                            <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=asc" style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">@Html.DisplayListHeaderForEx(model => model.Name) А-Я</option>
+                            <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Name) Я-А</option>
+                            <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=asc">@Html.DisplayListHeaderForEx(model => model.Category.Name) А-Я</option>
+                            <option class="drpdwn-btn" value="/Dishes/ListItems?sortfield=Category.Name&sortorder=desc">@Html.DisplayListHeaderForEx(model => model.Category.Name) Я-А</option>
+                        </select>
+
                     </div>
                 </div>
+            *@
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    <form id="search-form" class="form-inline col-12 p-0" style=" display: flex;">
+                        <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
+                               style="font-size: 16px; color:#797979; height: 48px; background:  url('/img/search-icon.svg') no-repeat; background-position: 95%">
+                    </form>
+                </div>
             </div>
-            <div class="modal-body modal-search-body">
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button" id="create-btn"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @*СТВОРИТИ*@ @Localizer["Create"]
+                    </button>
+                </div>
             </div>
+        </div>
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none "
+             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+            <div class="col-1">
+            </div>
+            @Html.DisplayListHeaderForEx(model => model.Category.Name)
+            @Html.DisplayListHeaderForEx(model => model.Name)
+            @Html.DisplayListHeaderForEx(model => model.Description, new { colnumbers = 4 })
+            @Html.DisplayListHeaderForEx(model => model.Price)
+            @* <div class="col-2" style="cursor: pointer"><span class="sort-span">Комплекс</span></div>
+                <div class="col-2" style="cursor: pointer"><span class="sort-span">Страва</span></div>
+                <div class="col-4" style="cursor: pointer"><span class="sort-span">Опис</span></div>
+                <div class="col-2" style="cursor: pointer"><span class="sort-span">Вартість</span></div>*@
+            <div class="col-2"></div>
+
+        </div>
+        <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
 
         </div>
     </div>
-</div>
+    <div class="modal fade" @*id="change-item-modal"*@ id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
+        </div>
+    </div>
 
-@*<div id="modDialog" class="modal dishes-modal fade">
-        <div id="dialogContent" class="modal-dialog"></div>
-    </div>*@
+    <div id="modDialogingredientline" class="modal modal-search fade ingredient-line">
+        <div id="dialogContentingredientline" class="modal-dialog modal-search-dialog">
+            <div class="modal-content modal-content-search">
+                <div class="modal-header">
+
+                    <div class="container">
+                        <div class="row">
+                            <h3>Додати Інгрідієнт</h3>
+                            <button type="button" class="close" data-toggle="modal" data-target="#modDialogingredientline">X</button>
+                        </div>
+                        <div class="row">
+                            <input type="text" id="search-ingredient" class="form-control input-lg" placeholder="...." />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body modal-search-body">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @*<div id="modDialog" class="modal dishes-modal fade">
+            <div id="dialogContent" class="modal-dialog"></div>
+        </div>*@
 }
 else
 {
-<div class="container">
-    <div class="row justify-content-end">
-        <div class="col-md-6 right">
-            <h2>@ModelName</h2>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-6 right">
+                <h2>@ModelName</h2>
+            </div>
+            <div class="col-md-6 right">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" id="search-val" class="form-control input-lg" placeholder="@ModelName" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" id="search-btn" type="button">
+                                <span class="fa fa-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6 right">
-            <div id="custom-search-input">
-                <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@ModelName" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" id="search-btn" type="button">
-                            <span class="fa fa-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div id="table-content" class="table-content">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
+                <div id="create-btn" class="col-lg-3 col-md-3 create">
+                    <span>@Localizer["Create"]</span>
+                    <span class="fa fa-plus" aria-hidden="true"></span>
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12">
-            <div id="table-content" class="table-content">
 
-            </div>
-        </div>
+    <div id="modDialog" class="modal dishes-modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-            <div id="create-btn" class="col-lg-3 col-md-3 create">
-                <span>@Localizer["Create"]</span>
-                <span class="fa fa-plus" aria-hidden="true"></span>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modDialog" class="modal dishes-modal fade">
-    <div id="dialogContent" class="modal-dialog"></div>
-</div>
+    {
+        await Html.RenderPartialAsync("ModalSearch", "Ingredient");
+    }
+}
+@section Styles
 {
-    await Html.RenderPartialAsync("ModalSearch", "Ingredient");
-}
-}
 
+    <link type="text/css" href="~/css/summernote.min.css" rel="stylesheet" />
+
+}
 @section scripts
 {
-    @*<script src="http://malsup.github.com/jquery.form.js"></script>*@
+    <script type="text/javascript" src="~/js/summernote.min.js"></script>
     <script type="text/javascript">
 
         $(function () {
@@ -207,14 +211,14 @@ else
                 const urlParams = new URLSearchParams(url);
                 const field = urlParams.get('sortfield');
                 const order = urlParams.get('sortorder');
-               
+
                 $('#table-content').attr('data-sortfield', field);
                 $('#table-content').attr('data-sortorder', order);
             });
             $.ajaxSetup({ cache: false });
             //$('#table-content').load('@Url.Action("ListItems","Dishes", new { searchcriteria = "" })');
 
-            
+
             reload($(".selection").val());
             $('#search-btn').click(function (e) {
 
@@ -288,11 +292,11 @@ else
                         $(dlg).attr("_changed", false);
                     }
                 }
-                
+
                 $(dlg).on('hide.bs.modal', hidehandler);
 
             }
-            
+
             $(document).on( "click", "a.dishitem", function(e) {
                e.preventDefault();
 
@@ -307,11 +311,26 @@ else
                     var id = $('#dialogContent').find("#Id").val();
                     loadingredients(id);
                     loadingredientsproprotion(id);
+                    setupCookTechnology($('#dialogContent'))
 
                    // $('#dialogContent').find("#nav-tab").tab();
                 });
             });
+            function setupCookTechnology(dlg) {
+                const elem = dlg.find("#cooktechnology");
+                elem.summernote({
+                    dialogsInBody: true,
+                   
 
+                    callbacks: {
+                        onBlur: function () {
+                            //onsave();
+                        }
+                    }
+                });
+               
+                //$('#summernote').summernote('code', $('#Text').text());
+            }
             $(document).on("click", "a.cmd-delete-old", function (e) {
                 e.preventDefault();
                 $.get(this.href, function (data) {
@@ -364,7 +383,7 @@ else
                         var index = $('#dialogContent').find(".ingredients-content-proportion").find(".ingredient-dishes-line").length;
                         var url_newline = `@Url.Content("~/Dishes/NewIngredientDishesLine")?Index=${index}&IngredientId=${item.id}&IngredientName=${item.name}`;
                         if (item.id != undefined) {
-                           
+
                             var ids = $('#dialogContent').find(".ingredients-content-proportion").find(".ingredient-dishes-line").map(function () { return $(this).attr("data-id"); }).get();
                             if (ids.includes(item.id)) {
                                 showeditdayalert({ class: 'alert-danger', text: "@Localizer["SameIngredient"]" });

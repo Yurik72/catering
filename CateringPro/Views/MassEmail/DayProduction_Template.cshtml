@@ -96,6 +96,7 @@
                             <td></td>
                             <td> @ing.IngredientName</td>
                             @{ var res = ing.Quantity * item.Quantity;
+                                var resnetto = ing.QuantityNetto * item.Quantity;
                                 if (ingLs.Exists(i => i.IngredientId == ing.IngredientId))
                                 {
                                     var index = ingLs.FindIndex(c => c.IngredientId == ing.IngredientId);
@@ -103,7 +104,7 @@
                                 }
                                 else
                                 {
-                                    ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, ing.MeasureUnit));
+                                    ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, resnetto, ing.MeasureUnit));
                                 }
                             }
                             <td>

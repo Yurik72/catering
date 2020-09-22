@@ -361,7 +361,7 @@
     <value>Інгредієнти</value>
   </data>
   <data name="Ingredients Proprotion" xml:space="preserve">
-    <value>Частка</value>
+    <value>Брутто</value>
   </data>
   <data name="Ingredients_MeasureUnit" xml:space="preserve">
     <value>Од.вим.</value>
@@ -1047,5 +1047,14 @@
   </data>
   <data name="UsersFinances" xml:space="preserve">
     <value>Сума замовлення користувачів</value>
+  </data>
+  <data name="Ingredients ProprotionNetto" xml:space="preserve">
+    <value>Нетто</value>
+  </data>
+  <data name="DateReport" xml:space="preserve">
+    <value>Дата формування</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Період</value>
   </data>
 </root>

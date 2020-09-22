@@ -192,6 +192,7 @@ namespace CateringPro.Repositories
                                                        IngredientId = ing.Id,
                                                        IngredientName = ing.Name,
                                                        Quantity = dishIng.Proportion,
+                                                       QuantityNetto = dishIng.ProportionNetto,
                                                        MeasureUnit = ing.MeasureUnit
                                                    })
                                 }
@@ -367,6 +368,7 @@ namespace CateringPro.Repositories
                                               IngredientId = ing.Id,
                                               IngredientName = ing.Name,
                                               Quantity = dishIng.Proportion,
+                                              QuantityNetto = dishIng.ProportionNetto,
                                               MeasureUnit = ing.MeasureUnit
                                           })
                        }
@@ -503,6 +505,7 @@ namespace CateringPro.Repositories
                                    IngName = grp.Key.name,
                                    IngMu = grp.Key.mu,
                                    Quantity = grp.Sum(it=>it.ud.Quantity*it.di.Proportion),
+                                   QuantityNetto = grp.Sum(it => it.ud.Quantity * it.di.ProportionNetto),
                                    DishQuantity = grp.Sum(it => it.ud.Quantity )
                                };
                 DayIngredientsViewModel res = new DayIngredientsViewModel()
@@ -514,7 +517,8 @@ namespace CateringPro.Repositories
                                 IngredientId = q.IngId,
                                 IngredientName = q.IngName,
                                 Quantity = q.Quantity,
-                                MeasureUnit=q.IngMu,
+                                QuantityNetto=q.QuantityNetto,
+                                MeasureUnit =q.IngMu,
                                 DishQuantity=q.DishQuantity
                             }
 

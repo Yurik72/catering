@@ -135,6 +135,18 @@ namespace CateringPro.Repositories
             return await _context.CompanyUserCompanies.IgnoreQueryFilters().Where(cu => cu.CompanyUserId == userId).ToListAsync();
 
         }
+        public async Task<CompanyUserCompany> GetCurrentUserCompaniesUserAsync(string userId)
+        {
+
+            return await _context.CompanyUserCompanies.FirstOrDefaultAsync(cu => cu.CompanyUserId == userId);
+
+        }
+        public async Task<CompanyUserCompany> GetUserCompaniesUserAsync(string userId,int companyId)
+        {
+
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().FirstOrDefaultAsync(cu => cu.CompanyUserId == userId && cu.CompanyId==companyId);
+
+        }
         public async Task<int> GetUserCompanyCount(string userId)
         {
             return await _context.CompanyUserCompanies.IgnoreQueryFilters().Where(cu => cu.CompanyUserId == userId).CountAsync();
@@ -143,13 +155,31 @@ namespace CateringPro.Repositories
         {
             if (companyid == _context.CompanyId)
                 return true;
-            var newcompany = (await GetCurrentUsersCompaniesAsync(userId)).FirstOrDefault(c => c.Id == companyid);
+            //var newcompany = (await GetCurrentUsersCompaniesAsync(userId)).FirstOrDefault(c => c.Id == companyid);
+            var currentcompany = await GetCurrentUserCompaniesUserAsync(userId );
+            var newcompany = await GetUserCompaniesUserAsync(userId, companyid);
             if (newcompany == null)
                 return false;
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return false;
             user.CompanyId = companyid;
+            user.UserGroupId = newcompany.UserGroupId;
+            user.UserSubGroupId = newcompany.UserSubGroupId;
+            try
+            {
+                if (currentcompany.UserGroupId != user.UserGroupId || currentcompany.UserSubGroupId != user.UserSubGroupId)
+                {
+                    currentcompany.UserGroupId = user.UserGroupId;
+                    currentcompany.UserSubGroupId = user.UserSubGroupId;
+                    _context.Update(currentcompany);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex,"Error change groups");
+            }
             _context.Update(user);
             await _context.SaveChangesAsync();
             CustomClaimsPrincipalFactory.ChangeCompanyId(claims, companyid);
@@ -257,6 +287,14 @@ namespace CateringPro.Repositories
                 if (existing_companies.Count == 0)
                 {
                     res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                }
+                var current_companyrecord = await GetCurrentUserCompaniesUserAsync(user.Id);
+                if(current_companyrecord!=null)
+                {
+                    current_companyrecord.UserGroupId = user.UserGroupId;
+                    current_companyrecord.UserSubGroupId = user.UserSubGroupId;
+                    await _context.SaveChangesAsync();
+
                 }
                // res &= await CheckUserFinanceAsync(user, user.CompanyId);
             }

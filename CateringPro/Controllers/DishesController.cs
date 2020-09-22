@@ -296,7 +296,9 @@ namespace CateringPro.Controllers
                 {
                     IngredientId = d.Ingredient.Id,
                     Name = d.Ingredient.Name,
-                    Proportion = d.Proportion
+                    Proportion = d.Proportion,
+                    ProportionNetto=d.ProportionNetto
+                    
 
                 }
                 )
