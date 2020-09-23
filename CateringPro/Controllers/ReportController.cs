@@ -17,6 +17,7 @@ using CateringPro.Data;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using Microsoft.AspNetCore.Identity;
 
 namespace CateringPro.Controllers
 {
@@ -29,6 +30,7 @@ namespace CateringPro.Controllers
         private IStockRepository _stockrepo;
         private readonly AppDbContext _context;
         private readonly ILogger<ReportController> _logger;
+
         public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger, ICompanyUserRepository comRep)
         {
             JsReportMVCService = jsReportMVCService;
@@ -37,6 +39,7 @@ namespace CateringPro.Controllers
             _context = context;
             _logger = logger;
             _companyRep = comRep;
+
         }
 
         public IActionResult Index()
@@ -58,6 +61,8 @@ namespace CateringPro.Controllers
             }
             datefrom = datefrom.ResetHMS();
             dateto = dateto.ResetHMS();
+            ViewData["datefrom"] = datefrom;
+            ViewData["dateto"] = dateto;
             SelectFormat(format);
 
             return View(await _reportrepo.CompanyProductionForecast(datefrom, dateto, User.GetCompanyID()));
@@ -75,6 +80,8 @@ namespace CateringPro.Controllers
             }
             datefrom = datefrom.ResetHMS();
             dateto = dateto.ResetHMS();
+            ViewData["datefrom"] = datefrom;
+            ViewData["dateto"] = dateto;
             SelectFormat(format);
             return View(_reportrepo.CompanyDayProduction(datefrom, dateto, User.GetCompanyID()));
         }
@@ -91,6 +98,8 @@ namespace CateringPro.Controllers
             }
             datefrom = datefrom.ResetHMS();
             dateto = dateto.ResetHMS();
+            ViewData["datefrom"] = datefrom;
+            ViewData["dateto"] = dateto;
             SelectFormat(format);
             return View(_reportrepo.CompanyDayProductionWithoutIngredients(datefrom, dateto, User.GetCompanyID()));
         }
@@ -108,6 +117,8 @@ namespace CateringPro.Controllers
             datefrom = datefrom.ResetHMS();
             dateto = dateto.ResetHMS();
             SelectFormat(format);
+            ViewData["datefrom"] = datefrom;
+            ViewData["dateto"] = dateto;
             return View(_reportrepo.CompanyMenu(datefrom, dateto, User.GetCompanyID()));
         }
         [MiddlewareFilter(typeof(JsReportPipeline))]
@@ -123,6 +134,8 @@ namespace CateringPro.Controllers
             }
             datefrom = datefrom.ResetHMS();
             dateto = dateto.ResetHMS();
+            ViewData["datefrom"] = datefrom;
+            ViewData["dateto"] = dateto;
             SelectFormat(format);
 
             return View(_reportrepo.DishSpecification(datefrom, dateto, User.GetCompanyID()));
@@ -197,6 +210,22 @@ namespace CateringPro.Controllers
             datefrom = datefrom.SetDefaultIfNotSet(DateTime.Now);
             dateto = dateto.SetDefaultIfNotSet(DateTime.Now);
             userSubGroupId = _companyRep.GetUserSubGroupId(User.GetUserId());
+            var toplevelsubgroup = _companyRep.GetTopLevelSubGroup();
+            if(User.IsInRole(Core.UserExtension.UserRole_Admin) 
+                || User.IsInRole(Core.UserExtension.UserRole_UserAdmin)
+                )
+            {
+                userSubGroupId = toplevelsubgroup;
+            }
+
+            ViewData["datefrom"] = datefrom;
+            ViewData["dateto"] = dateto;
+            ViewData["CompanyModel"] = _reportrepo.GetOwnCompany(User.GetCompanyID());
+            if (userSubGroupId.HasValue)
+                ViewData["UserSubGroupName"] = _companyRep.GetUserSubGroupName(userSubGroupId.Value);
+            else
+                ViewData["UserSubGroupName"] = string.Empty;
+
             var model = await _reportrepo.GetUserFinancePeriodReportWithGroup(datefrom.Value, dateto.Value, User.GetCompanyID(), userSubGroupId);
             return PartialView(model);
         }
@@ -226,6 +255,15 @@ namespace CateringPro.Controllers
                 return StatusCode((int)HttpStatusCode.Unauthorized);
             Response.Headers["ContentType"] = "application/json";
             return Content(await _reportrepo.OrderPeriodDetailReportAsync(dateFrom, dateTo, companyId));
+        }
+        private async Task<bool> IsBaseAutorizedAsync()
+        {
+            if (string.IsNullOrEmpty(Request.Headers["Authorization"]))
+                return false;
+            var autorize = await _companyRep.ValidateBasicAuthAsync(Request.Headers["Authorization"]);
+            return autorize;
+
+           
         }
             // [AllowAnonymous]
           public async Task<IActionResult> SQLRawJsonData(string sql)

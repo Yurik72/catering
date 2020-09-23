@@ -4,8 +4,8 @@
     Layout = null;
     List<DayIngredientsDetails> ingLs = new List<DayIngredientsDetails>();
     string code = "";
-    DateTime dateFrom = @Model.Days.Min(m => m.DayDate);
-    DateTime dateTo = @Model.Days.Max(m => m.DayDate);
+    DateTime dateFrom = (DateTime)ViewData["datefrom"];
+    DateTime dateTo = (DateTime)ViewData["dateTo"]; ;
 }
 
 

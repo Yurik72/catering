@@ -1,6 +1,11 @@
 ﻿@model CateringPro.Models.CompanyMenuModel
 @{
     Layout = null;
+
+    DateTime dateFrom =(DateTime) ViewData["datefrom"];
+    DateTime dateTo = (DateTime) ViewData["dateTo"];
+
+
 }
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
@@ -11,173 +16,174 @@
 </head>
 <body>
     <div class="report-box">
-        <table cellpadding="0" cellspacing="0">
-            <tr class="top">
-                <td colspan="2">
-                    <table>
-                        <tr>
-                            <td class="title">
-                                <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
-                            </td>
-                            <td>
-
-                                @Localizer["Menu"]
-                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
-
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-
-            <tr class="information ">
-                <td colspan="2 ">
-                    <table>
-                        <tr>
-                            <td>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            @foreach (var day in Model.Days)
-            {
-
-                if (day.ComplexItems != null && day.ComplexItems.Count() > 0)
-                {
-                    <tr class="tabledate">
-                        <td colspan="3">
-                            @day.DayDate.ToString("m", System.Globalization.CultureInfo.CurrentUICulture)
-
+        <table>
+        <tr class="top">
+            <td colspan="4">
+                <table>
+                    <tr>
+                        <td class="title" style="width:20%;">
+                            <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
                         </td>
+                        <td style="width:80%;">
 
+                            <h1>@Localizer["Menu"]</h1>
+                            <br /> @Localizer["DateReport"]: @DateTime.Now.ToShortDateString()
+                            <br />@Localizer["Period"]: @dateFrom.ToShortDateString() - @dateTo.ToShortDateString()
+                        </td>
                     </tr>
-                    <tr class="tablename">
+                </table>
+            </td>
+         </tr>
 
-                        <td colspan="4">
-                            @Localizer["Complex Dishes"]
-                        </td>
-
-
-                    </tr>
-                    <tr class="heading ">
-
-                        <td colspan="3">
-                           @Localizer["Name"]
-                        </td>
+        <tr class="information ">
+            <td colspan="2 ">
+                <table>
+                    <tr>
                         <td>
-                            @Localizer["Complex Price"] @Localizer["CurrencySymbol"]
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        @foreach (var day in Model.Days)
+        {
+
+            if (day.ComplexItems != null && day.ComplexItems.Count() > 0)
+            {
+                <tr class="tabledate">
+                    <td colspan="5">
+                        @day.DayDate.ToString("m", System.Globalization.CultureInfo.CurrentUICulture)
+
+                    </td>
+
+                </tr>
+                <tr class="tablename">
+
+                    <td colspan="5">
+                        @Localizer["Complex Dishes"]
+                    </td>
+
+
+                </tr>
+                <tr class="heading ">
+
+                    <td colspan="4">
+                        @Localizer["Name"]
+                    </td>
+                    <td style="width:20%;text-align:right;">
+                        @Localizer["Complex Price"] @Localizer["CurrencySymbol"] 
+                    </td>
+
+                </tr>
+
+
+
+                @foreach (var complexitem in day.ComplexItems)
+                {
+                    <tr class="item">
+
+                        <td colspan="4" style="width:30%;text-align:left;font-weight:bold; ">
+                            @Html.DisplayFor(model => complexitem.Name)
                         </td>
 
+                        <td style="width:20%;text-align:right;">
+                            @*Html.DisplayFor(model => complexitem.Price) *@
+                            @complexitem.Price
+                        </td>
                     </tr>
-
-
-
-                    @foreach (var complexitem in day.ComplexItems)
-                    {
-                        <tr class="item">
-                            <td>
-                                @Html.DisplayFor(model => complexitem.Name)
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => complexitem.Price)
-                            </td>
-                        </tr>
-                        <tr class="item">
-                            <td colspan="3">
-                                <table class="sub-table">
-                                    @foreach (var dishitem in complexitem.Items)
-                                    {
+                    <tr class="item">
+                        <td colspan="5">
+                            <table class="sub-table">
+                                @foreach (var dishitem in complexitem.Items)
+                                {
                                     <tr>
-                                        <td class="w-10">
-                                        <td>
+                                        <td style="width:10%;text-align:left;">
+                                            @(dishitem.DishCourse+1)
+                                        </td>
+                                        <td style="width:20%;text-align:left;">
                                             @Html.DisplayFor(model => dishitem.Name)
                                         </td>
-                                        <td>
+                                        <td style="width:20%;text-align:left;">
                                             @Html.DisplayFor(model => dishitem.Weight) @Localizer["gr"]
                                         </td>
-                                        <td class="text-small">
+                                        <td class="text-small" style="width:30%;text-align:left;">
                                             @Html.DisplayFor(model => dishitem.Description)
                                         </td>
 
-                                        <td class="w-10">
+                                        <td  style="width:20%;text-align:right;">
                                         <td>
                                     </tr>
-                                    }
-                                 </table>
+                                }
+                            </table>
 
-                        </tr>
-                    }
-                    <tr class="total ">
-                        <td></td>
-                        <td></td>
-
-                        <td>
-                        </td>
                     </tr>
                 }
-
-
-                if (day.Items != null && day.Items.Count() > 0)
-                {
-                    <tr class="daydate">
-                        <td colspan="4">
-                            @day.DayDate.ToShortDateString()
-                        </td>
-
-                    </tr>
-                    <tr class="tablename">
-
-                        <td colspan="4">
-                            @Localizer["Complex Dishes"]
-                        </td>
-
-
-                    </tr>
-                    <tr class="heading ">
-
-                        <td colspan="3">
-                            @Localizer["Name"]
-                        </td>
-                        <td style="text-align:right;">
-                            @Localizer["Complex Price"]
-                        </td>
-
-                    </tr>
-                    @foreach (var item in day.Items)
-                    {
-                        <tr class="item">
-                            <td>
-                                @Html.DisplayFor(model => item.Code)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.Price)
-                            </td>
-                        </tr>
-                    }
-                    <tr class="total ">
-                        <td></td>
-                        <td></td>
-
-                        <td>
-                        </td>
-                    </tr>
-                }
-
-
-
+        <tr class="total ">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
             }
+
+
+            if (day.Items != null && day.Items.Count() > 0)
+            {
+                <tr class="daydate">
+                    <td colspan="4">
+                        @day.DayDate.ToShortDateString()
+                    </td>
+
+                </tr>
+                <tr class="tablename">
+
+                    <td colspan="4">
+                        @Localizer["Complex Dishes"]
+                    </td>
+
+
+                </tr>
+                <tr class="heading ">
+
+                    <td colspan="3">
+                        @Localizer["Name"]
+                    </td>
+                    <td style="text-align:right;">
+                        @Localizer["Complex Price"]
+                    </td>
+
+                </tr>
+                @foreach (var item in day.Items)
+                {
+                    <tr class="item">
+                        <td>
+                            @Html.DisplayFor(model => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Price)
+                        </td>
+                    </tr>
+                }
+                <tr class="total ">
+                    <td></td>
+                    <td></td>
+
+                    <td>
+                    </td>
+                </tr>
+            }
+
+
+
+        }
         </table>
     </div>
 </body>

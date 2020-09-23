@@ -151,21 +151,23 @@
                                         </div>
                                     </div>
                                     <div class="row p-0 flex-column">
+                                        @*
                                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
                                             <label asp-for="NewPassword" for="input-user-new-password"
                                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center md-0 ">
                                             </label>
                                             <input asp-for="NewPassword" type="password" class="form-control col-12 col-lg-8 col-md-8 pl-3"
-                                                   id="input-user-new-password" placeholder="" style="height: 34px">
-                                            @*<span asp-validation-for="NewPassword" class="text-danger"></span>*@
+                                                   id="input-user-new-password" placeholder="" style="height: 34px" autocomplete="off">
+                                           
                                         </div>
                                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
                                             <label asp-for="ConfirmPassword" for="input-user-confirm-new-password"
                                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">Підтвердити</label>
                                             <input asp-for="ConfirmPassword" type="password" class="form-control col-12 col-lg-8 col-md-8 pl-3"
-                                                   id="input-user-confirm-new-password" placeholder="" style="height: 34px">
-                                            @*<span asp-validation-for="ConfirmPassword" class="text-danger"></span>*@
+                                                   id="input-user-confirm-new-password" placeholder="" style="height: 34px" autocomplete="off">
+                                           
                                         </div>
+                                        *@
                                         <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-9 col-md-9 col-12 input-row-black  align-content-center">
                                             <label asp-for="ConfirmedByAdmin" for="confirm-by-admin"
                                                    class="profile-form-title col-12 col-lg-4 col-md-4 p-0 d-flex align-items-center mb-0 ">

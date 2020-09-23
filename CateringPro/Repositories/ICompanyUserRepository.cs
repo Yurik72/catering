@@ -42,5 +42,7 @@ namespace CateringPro.Repositories
         Task<bool> ValidateBasicAuthAsync(string val);
         Task<CompanyUserCompany> GetCurrentUserCompaniesUserAsync(string userId);
         Task<CompanyUserCompany> GetUserCompaniesUserAsync(string userId, int companyId);
+        int GetTopLevelSubGroup();
+        string GetUserSubGroupName(int subgroupid);
     }
 }

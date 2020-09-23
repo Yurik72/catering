@@ -492,8 +492,40 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Get UserSubGroupId {0}", userId);
+                _logger.LogError(ex,"Get UserSubGroupId {0}", userId);
                 return 0;
+            }
+        }
+        public string GetUserSubGroupName(int subgroupid)
+        {
+            try
+            {
+                var userSubGroup=_context.UserSubGroups.FirstOrDefault(usb => usb.Id== subgroupid);
+                if (userSubGroup != null)
+                    return userSubGroup.Name;
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"GetUserSubGroupName error");
+                return string.Empty;
+            }
+        }
+        public int GetTopLevelSubGroup()
+        {
+            try
+            {
+                var userSubGroup = _context.UserSubGroups.FirstOrDefault(usb=>!usb.ParentId.HasValue);
+                if (userSubGroup != null)
+                    return userSubGroup.Id;
+                return -1;
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetTopLevelSubGroup error");
+                return -1;
             }
         }
         public List<int> GetUserSubGroups(string userId, int companyid)
@@ -523,11 +555,12 @@ namespace CateringPro.Repositories
             }
             catch(Exception ex)
             {
-                _logger.LogError("Get UserSubGroup {0}", userId);
+                _logger.LogError(ex,"Get UserSubGroup {0}", userId);
                 return new List<int>();
             }
 
         }
+
         private List<UserSubGroup> allParents(int i,List<UserSubGroup> allGroups,List<UserSubGroup> res)
         {
             allGroups.ForEach(us => {

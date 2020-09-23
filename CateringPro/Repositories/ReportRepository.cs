@@ -11,6 +11,7 @@ using System.Data;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using CateringPro.Helpers;
 //using AspNetCore;
 
 namespace CateringPro.Repositories
@@ -22,13 +23,15 @@ namespace CateringPro.Repositories
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly IInvoiceRepository _invoicerepo;
         private readonly IMemoryCache _cache;
-        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo, IMemoryCache cache)
+        private readonly URLHelperContextLess _helpercontextless;
+        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo, IMemoryCache cache, URLHelperContextLess helpercontextless)
         {
             _context = context;
             _logger = logger;
             _udaydishrepo = ud;
             _invoicerepo = invoicerepo;
             _cache = cache;
+            _helpercontextless = helpercontextless;
     }
        public CompanyModel GetOwnCompany(int companyid)
         {
@@ -51,8 +54,8 @@ namespace CateringPro.Repositories
                     Country = company.Country,
                     PictureId = company.PictureId,
                     StampPictureId = company.StampPictureId,
-                    UrlPicture = string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.PictureId),
-                    UrlStampPicture= string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.StampPictureId)
+                    UrlPicture = _helpercontextless.BuildPictureUrl(company.PictureId, 100, 100), //string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.PictureId),
+                    UrlStampPicture = _helpercontextless.BuildPictureUrl(company.StampPictureId, 100, 100) //string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.StampPictureId)
                 };
 
 
@@ -547,11 +550,14 @@ namespace CateringPro.Repositories
                 Price = c.Price,
                 Items = from dd in _context.DishComplex.WhereCompany(companyid).Where(it => it.ComplexId == c.Id)
                         join d in _context.Dishes.WhereCompany(companyid) on dd.DishId equals d.Id
+                        orderby  dd.DishCourse ascending
                         select new CompanyMenuItemModel()
                         {
                             Name = d.Name,
                             Description = d.Description,
-                            Weight = d.ReadyWeight
+                            Weight = d.ReadyWeight,
+                            DishCourse= dd.DishCourse
+
                         }
             };
         }

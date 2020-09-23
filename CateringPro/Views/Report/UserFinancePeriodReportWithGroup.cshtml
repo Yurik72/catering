@@ -12,6 +12,10 @@
     decimal totalDis = 0;
     decimal totalGroup = 0;
     decimal totalDisGroup = 0;
+    DateTime dateFrom = (DateTime)ViewData["datefrom"];
+    DateTime dateTo = (DateTime)ViewData["dateTo"];
+    CompanyModel comp_model = ViewData["CompanyModel"] as CompanyModel;
+    string subgroupname = ViewData["UserSubGroupName"].ToString();
 }
 
 @if (level == 0)
@@ -26,23 +30,25 @@
 
         <div class="invoice-box">
             <table cellpadding="0" cellspacing="0">
-
                 <tr class="top">
-                    <td colspan="2">
+                    <td colspan="4">
                         <table>
                             <tr>
-                                <td class="title">
+                                <td style="width:20%;" class="title">
+                                    <img src="@comp_model?.UrlPicture" style="width:100%; max-width:300px;" />
                                 </td>
-                                <td>
+                                <td style="width:80%;">
 
-                                    @Localizer["UsersFinances"]
-                                    <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
-
+                                    <h1>@Localizer["UsersFinances"]</h1>
+                                    <br /> @Localizer["DateReport"]: @DateTime.Now.ToShortDateString()
+                                    <br />@Localizer["Period"]: @dateFrom.ToShortDateString() - @dateTo.ToShortDateString()
+                                    <br />@Localizer["UserSubGroups"]: @subgroupname
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
+
                 <tr class="information ">
                     <td colspan="2 ">
                         <table>
@@ -75,7 +81,7 @@
                     </tr>
                     <tr class="item daydate">
                         @*@if (DateTime.TryParse(item.Key, out ))
-                            {*@
+                {*@
                         @{
                             DateTime res;
                             DateTime.TryParse(item.Key.ToString(), out res);
@@ -85,7 +91,7 @@
                     </tr>
                     <tr class="heading ">
                         <td>
-                            @Localizer["ChildNameSurname"]
+                            @Localizer["ChildNameSurname"] / @Localizer["UserSubGroups"]
                         </td>
                         <td>
                             @Localizer["TotalWithoutDiscount"]
@@ -93,7 +99,7 @@
                         <td>
                             @Localizer["Discount"]
                         </td>
-                        
+
                         <td style="text-align:right">
                             @Localizer["Amount"]
                         </td>
