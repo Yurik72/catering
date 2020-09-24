@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Internal;
+using CateringPro.Helpers;
 
 namespace CateringPro.Controllers
 {
@@ -517,16 +518,25 @@ namespace CateringPro.Controllers
                 }
             }
 
-                ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
-                ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
-
+            ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
+            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
+            
+            
+            ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(user.UserTypeEn,_localizer).ToList() ;
             var model = _companyuser_repo.GetUpdateUserModel(user);
             model.AutoLoginUrl = Url.Action("AutoLogon", "Account", new { token = model.AutoLoginToken, username = model.UserName }, Request.Scheme);
 
             return PartialView(model);
 
         }
+        private IActionResult PartialEditUserModal(UpdateUserModel usermodel)
+        {
+            ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserGroupId);
+            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserSubGroupId);
+            ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(usermodel.UserTypeEn, _localizer).ToList();
 
+            return PartialView("EditUserModal", usermodel);
+        }
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -535,7 +545,7 @@ namespace CateringPro.Controllers
 
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
-                return PartialView(usermodel);
+                return PartialEditUserModal(usermodel);
                 //return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
                 
             _logger.LogInformation("EditUserModal");
@@ -600,7 +610,7 @@ namespace CateringPro.Controllers
                         //return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured while creating user" }));
                         usermodel.Errors = userResult.Errors.Select(x => x.Description).ToList();
                         _logger.LogWarning("Error creating user async : {0} ", usr.UserName);
-                        return PartialView(usermodel);
+                        return PartialEditUserModal(usermodel);
                     }
 
                     //current  roles
@@ -893,7 +903,7 @@ namespace CateringPro.Controllers
             {
                 _logger.LogError(ex, "Error EditUser");
                 ModelState.AddModelError("", ex.Message);
-                return PartialView(usermodel);
+                return PartialEditUserModal(usermodel);
             }
             return this.UpdateOk();
 
@@ -1480,7 +1490,7 @@ namespace CateringPro.Controllers
             if (user == null && string.IsNullOrEmpty(userId))
                 return PartialView("ChildrenDataOfUser", null);
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
-
+            ViewData["UserId"] = userId;
             return PartialView("ChildrenDataOfUser", childs);
         }
 

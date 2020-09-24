@@ -11,6 +11,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CateringPro.Models
 {
+
+    public enum UserTypeEnum : int
+    {
+        [Display(Name = "Child")]
+        Child = 0,
+        Adult=1,
+        Employee = 2
+
+    }
     public class CompanyUser :IdentityUser<string>
     {
         public CompanyUser()
@@ -75,6 +84,16 @@ namespace CateringPro.Models
 
         [StringLength(64)]
         public string CardTag { get; set; }
+
+        [DisplayName("UserType")]
+        public int UserType { get; set; }
+
+        [NotMapped]
+        public UserTypeEnum UserTypeEn
+        {
+            get => (UserTypeEnum)this.UserType;
+            set => this.UserType = (int)value;
+        }
         public string GetChildUserName()
         {
             return string.IsNullOrEmpty(ChildNameSurname) ?
@@ -86,7 +105,10 @@ namespace CateringPro.Models
             return !string.IsNullOrEmpty(this.ParentUserId);
         }
 
-        
+        [NotMapped]
+        public bool IsChildType => UserTypeEn == UserTypeEnum.Child;
+        [NotMapped]
+        public bool IsAddultType => UserTypeEn != UserTypeEnum.Child;
     }
     public class CompanyRole : IdentityRole
     {
