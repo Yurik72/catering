@@ -1057,4 +1057,19 @@
   <data name="Period" xml:space="preserve">
     <value>Період</value>
   </data>
+  <data name="UserType" xml:space="preserve">
+    <value>Тип Користувача</value>
+  </data>
+  <data name="Adult" xml:space="preserve">
+    <value>Дорослий</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Працівник</value>
+  </data>
+  <data name="EditPhoto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="EditPhotoAndChildren" xml:space="preserve">
+    <value>Фото и діти</value>
+  </data>
 </root>
