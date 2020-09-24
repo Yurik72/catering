@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Transactions;
 using System.Xml.Schema;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing.Drawing2D;
 
 namespace CateringPro.Repositories
 {
@@ -490,7 +491,7 @@ namespace CateringPro.Repositories
                                 && c.UserId == order.UserId);
                     if (userDay != null)
                     {
-                    userDay.Quantity = order.Quantity;
+                    userDay.Quantity += order.Quantity;
                     // userDay.Total += order.Total;
                     userDay.Total = total - discount;
                     userDay.TotalWtithoutDiscount = total;
@@ -564,7 +565,16 @@ namespace CateringPro.Repositories
         public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, string userId, int companyId)
         {
             decimal total = 0;
-            daycomplex.ForEach(d => total += d.Price);
+            int quan = 0;
+            daycomplex = daycomplex.Where(d => d.Quantity > 0).ToList();
+            userDayDishes = userDayDishes.Where(d => d.Quantity > 0).ToList();
+            daycomplex.ForEach(d => {
+                if (d.Quantity > 0)
+                {
+                    quan += d.Quantity;
+                    total += d.Price * d.Quantity;
+                }
+            });
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 var discountplugin = _plugins.GetDiscointPlugin();
@@ -577,7 +587,7 @@ namespace CateringPro.Repositories
                     return false;
                 }
                 res.ForEach(ord => {
-                    total += ord.Price;
+                    total += ord.Price*ord.Quantity;
                     daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId }); 
                 });
                 if (discountplugin != null)
@@ -592,7 +602,7 @@ namespace CateringPro.Repositories
 
                 if (!await SaveDayDishInComplex(userDayDishes, userId, companyId))
                     return false;
-                if (!await SaveUserDay(daycomplex.Count(), total,discount, daycomplex.First().Date, userId, companyId))
+                if (!await SaveUserDay(quan, total,discount, daycomplex.First().Date, userId, companyId))
                     return false;
                 //if (!await UserFinanceEdit(total,userId, companyId,false))
                 //    return false;
@@ -614,7 +624,8 @@ namespace CateringPro.Repositories
                 res.ForEach(ord => {
                     if (userDayComplex.ComplexId != ord.ComplexId)
                     {
-                        total += ord.Price;
+                        //total += ord.Price;
+                        total += ord.Price * ord.Quantity;
                         daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId });
                     }
                 });
@@ -631,7 +642,7 @@ namespace CateringPro.Repositories
 
                 if (!await DeleteDayDishInComplex(userDayComplex, userId, companyId))
                     return false;
-                if (!await DeleteUserDay(total, discount, userDayComplex.Date, userId, companyId))
+                if (!await DeleteUserDay(total, discount, userDayComplex.Quantity, userDayComplex.Date, userId, companyId))
                     return false;
                 //if (!await UserFinanceEdit(userDayComplex.Price, userId, companyId, true))
                 //    return false;
@@ -693,7 +704,7 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        private async Task<bool> DeleteUserDay(decimal total, decimal discount,DateTime date , string userId, int companyId)
+        private async Task<bool> DeleteUserDay(decimal total, decimal discount,int quantity,DateTime date , string userId, int companyId)
         {
             //var userId = httpcontext.User.GetUserId();
             //var companyId = httpcontext.User.GetCompanyID();
@@ -703,12 +714,12 @@ namespace CateringPro.Repositories
                     (di => di.CompanyId == companyId &&
                     di.UserId == userId &&
                     di.Date == date).ToListAsync();
-                if (existing_db.FirstOrDefault().Quantity > 1)
+                if (existing_db.FirstOrDefault().Quantity > 1&& existing_db.FirstOrDefault().Quantity!=quantity)
                 {
                     var userDay = existing_db.FirstOrDefault();
                     if (userDay != null)
                     {
-                        userDay.Quantity -= 1;
+                        userDay.Quantity -= quantity;
                         userDay.Total = total-discount;
                         userDay.TotalWtithoutDiscount = total;
                         userDay.Discount = discount;
