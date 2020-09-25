@@ -816,41 +816,18 @@ namespace CateringPro.Repositories
             var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName);
             return querywithgroup;
         }
-        public void BigReport(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId)
+        public async Task<string> UsersOrderPeriodReport(DateTime? datefrom, DateTime? dateto, int? companyId, int? usersubGroupId)
         {
-           
-            var res =  (from ud in _context.UserDay.WhereCompany(companyId).Where(ud => ud.Date >= datefrom && ud.Date <= dateto)
-                        join udd in _context.UserDayDish.WhereCompany(companyId).Where(ud => ud.Date >= datefrom && ud.Date <= dateto) on ud.UserId equals udd.UserId
-                        join udc in _context.UserDayComplex.WhereCompany(companyId).Where(ud => ud.Date >= datefrom && ud.Date <= dateto) on ud.UserId equals udc.UserId
-                        join com in _context.Complex.WhereCompany(companyId) on udc.ComplexId equals com.Id
-                        join cat in _context.Categories.WhereCompany(companyId) on com.CategoriesId equals cat.Id
-                        join dk in _context.DishesKind.WhereCompany(companyId) on com.DishKindId equals dk.Id
-                        join u in _context.Users on ud.UserId equals u.Id
-                        group new { ud,udd,udc,com,cat,dk,u } by new { 
-                            userName = u.NameSurname,
-                            dkName= dk.Name,
-                            total = ud.Total,
-                            discount = ud.Discount,
-                            totalWithoutDiscount = ud.TotalWtithoutDiscount,
 
-                        } into grp
-                        select new
-                         {
-                            StartDate = datefrom,
-                            EndDate = dateto,
-                            UserName = grp.Key.userName,
-                            Category = grp.Key.dkName,
-                            Items = new
-                            {
-
-                            },
-                            Total= grp.Sum(it => it.ud.Total)
-                             
-                         });
-           
-
-
-            //return res;
+            if (!companyId.HasValue)
+                companyId = (await _cache.GetCachedCompaniesAsync(_context)).OrderBy(c => c.IsDefault).LastOrDefault().Id;
+            if (!datefrom.HasValue)
+                datefrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            if (!dateto.HasValue)
+                dateto = datefrom.Value.AddMonths(1);
+            var query = await _context.Database.SqlQuery<UsersOrderPeriodViewModel>($"exec [UsersOrderPeriodReport] '{datefrom.Value.ShortSqlDate()}','{dateto.Value.ShortSqlDate()}', {companyId.Value}").ToListAsync();
+            //return await _context.Database.JsonWriter($"exec [UsersOrderPeriodReport] '{datefrom.Value.ShortSqlDate()}','{dateto.Value.ShortSqlDate()}', {companyId.Value}").ToStringAsync();
+            return "ok";
         }
     }
 }
