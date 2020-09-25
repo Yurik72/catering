@@ -46,9 +46,9 @@
                                         <input data-val="true" name="UserDayComplex[@dayCom].ComplexId" type="hidden" value="@item.ComplexId">
                                         <input data-val="true" name="UserDayComplex[@dayCom].Price" type="hidden" value="@item.Price">
                                         <input data-val="true" name="UserDayComplex[@dayCom].Date" type="hidden" value="@item.Date">
-                                        @Html.HiddenFor(modelItem => item.ComplexId, new { datafield = "ComplexID" })
+                                        @*@Html.HiddenFor(modelItem => item.ComplexId, new { datafield = "ComplexID" })
                                         @Html.HiddenFor(modelItem => item.Price, new { datafield = "Price" })
-                                        @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })
+                                        @Html.HiddenFor(modelItem => item.Date, new { datafield = "Date" })*@
 
                                         @Html.DisplayFor(modelItem => item.ComplexName)
                                     </div>
@@ -59,15 +59,23 @@
                                     <div class="col col-lg-4 col-md-4 col-sm-4">
                                         @if (allowEdit)
                                         {
-                                            <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayComplex[@dayCom].Quantity" type="number" value="0" style="display: none;">
-                                            //@Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
-                                        }
-                                        else
-                                        {
-                                            @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
-                                        }
+                                        @*<span class="input-docs">*@
+                                            <input name="UserDayComplex[@dayCom].Quantity" type="number" value="0" class="complex-quantity form-control w-100" complexId="@item.ComplexId" min="0" style="font-family: Open-Sans, sans-serif">
+                                            @*<div class="child-amount-control"
+                                                 onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.fireEvent("change")">+</div>
+                                            <div class="child-amount-control"
+                                                 onclick="this.previousElementSibling.previousElementSibling.stepDown()">-</div>*@
+                                        @*</span>*@
+                                                //<input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayComplex[@dayCom].Quantity" type="number" value="0" style="display: none;">
+                                                //@Html.EditorFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })
+                                                
+                                                }
+                                                else
+                                                {
+                                                @Html.DisplayFor(modelItem => item.Quantity, new { htmlAttributes = new { datafield = "Quantity" } })
+                                                }
 
-                                    </div>
+                                        </div>
                                 </div>
                                 @{dayCom++;
                                 }
@@ -111,11 +119,11 @@
                                             @if (allowEdit)
                                             {
                                                 @*@Html.EditorFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity", @class = "numberspinner" } })*@
-                                                <input class="numberspinner text-box single-line" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayDish[@com].Quantity" type="number" value="0" style="display: none;">
+                                                <input type="hidden" class=" text-box single-line" dishcomplex="@item.ComplexId" data-val="true" data-val-required="The DishQuantity field is required." name="UserDayDish[@com].Quantity" @*type="number"*@ value="0" >
                                             }
                                             else
                                             {
-                                                @Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })
+                                                @*@Html.DisplayFor(modelItem => dish.DishQuantity, new { htmlAttributes = new { datafield = "Quantity" } })*@
                                             }
 
                                         </div>

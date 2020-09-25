@@ -844,5 +844,18 @@ namespace CateringPro.Repositories
             catch { }
             return fs1;
         }
+        public async Task<string> UsersOrderPeriodReport(DateTime? datefrom, DateTime? dateto, int? companyId, int? usersubGroupId)
+        {
+
+            if (!companyId.HasValue)
+                companyId = (await _cache.GetCachedCompaniesAsync(_context)).OrderBy(c => c.IsDefault).LastOrDefault().Id;
+            if (!datefrom.HasValue)
+                datefrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            if (!dateto.HasValue)
+                dateto = datefrom.Value.AddMonths(1);
+            var query = await _context.Database.SqlQuery<UsersOrderPeriodViewModel>($"exec [UsersOrderPeriodReport] '{datefrom.Value.ShortSqlDate()}','{dateto.Value.ShortSqlDate()}', {companyId.Value}").ToListAsync();
+            //return await _context.Database.JsonWriter($"exec [UsersOrderPeriodReport] '{datefrom.Value.ShortSqlDate()}','{dateto.Value.ShortSqlDate()}', {companyId.Value}").ToStringAsync();
+            return "ok";
+        }
     }
 }
