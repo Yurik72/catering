@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CateringPro.Core;
 using CateringPro.Models;
 using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CateringPro.Repositories
 {
@@ -35,5 +36,6 @@ namespace CateringPro.Repositories
         Task<string> OrderPeriodDetailReportAsync(DateTime? dateFrom, DateTime? dateTo, int? companyId);
         Task<IEnumerable<GroupResult<OrderDetailsViewModel>>> GetOrderPeriodDetailReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId);
         Task<IEnumerable<GroupResult<UserFinanceReportViewModel>>> GetUserFinancePeriodReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId);
+        Task<FileContentResult> ExcelReport(string name, DateTime? dateFrom, DateTime? dateTo, int? companyId);
     }
 }

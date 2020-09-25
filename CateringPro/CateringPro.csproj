@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
     <PackageReference Include="Dotmim.Sync.Core" Version="0.5.6" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="jsreport.AspNetCore" Version="2.1.0" />
@@ -167,6 +168,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Logs\" />
+    <Folder Include="Temp\" />
     <Folder Include="Reports\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />
@@ -346,5 +348,10 @@
   <Content Update="SQL\OutStockTest._sql">
     <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
+</ItemGroup>
+<ItemGroup>
+  <None Update="Templates\OrderFinDetails.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 </Project>

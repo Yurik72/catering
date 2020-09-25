@@ -296,5 +296,13 @@ namespace CateringPro.Controllers
 
             }
         }
+        //excel
+        public async Task<FileResult> OrderFinDetails(DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+            int companyid = User.GetCompanyID();
+            if (companyId.HasValue)
+                companyid = companyId.Value;
+            return await _reportrepo.ExcelReport("OrderFinDetails", dateFrom, dateTo, companyid);
+         }
     }
 }

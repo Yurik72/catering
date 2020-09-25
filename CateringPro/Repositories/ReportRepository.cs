@@ -12,6 +12,9 @@ using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using CateringPro.Helpers;
+using Microsoft.Net.Http.Headers;
+using System.IO;
+//using System.Net.Http.Headers;
 //using AspNetCore;
 
 namespace CateringPro.Repositories
@@ -815,6 +818,31 @@ namespace CateringPro.Repositories
             */
             var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName);
             return querywithgroup;
+        }
+        public async Task<FileContentResult> ExcelReport(string name, DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+            if (!companyId.HasValue)
+                companyId = (await _cache.GetCachedCompaniesAsync(_context)).OrderBy(c => c.IsDefault).LastOrDefault().Id;
+            if (!dateFrom.HasValue)
+                dateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            if (!dateTo.HasValue)
+                dateTo = dateFrom.Value.AddMonths(1);
+            string sql = $"exec [{name}] '{dateFrom.Value.ShortSqlDate()}','{dateTo.Value.ShortSqlDate()}',{companyId}";
+
+            var tempfile = await _context.Database.ExcelMaterialize(sql, name).GetStreamAsync();
+            string filename = $"{name}_{dateFrom.Value.ShortSqlDate()}_{dateTo.Value.ShortSqlDate()}.xlsx";
+
+            byte[] mas = System.IO.File.ReadAllBytes(tempfile);
+            FileContentResult fs1 = new FileContentResult(mas, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = filename
+            };
+            try
+            {
+                File.Delete(tempfile);
+            }
+            catch { }
+            return fs1;
         }
     }
 }
