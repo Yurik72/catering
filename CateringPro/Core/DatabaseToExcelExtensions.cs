@@ -183,14 +183,15 @@ namespace CateringPro.Core
             SheetData sheetData = wssheatpart.Worksheet.GetFirstChild<SheetData>();
             uint rowindex = 2;
             int fields = reader.FieldCount;
-            Func<Type,CellValues> typeselector = (t) =>
+            Func<Type,CellValues?> typeselector = (t) =>
             {
                // if (t == typeof(DateTime))
-               //     return CellValues.Date;
-               if (t == typeof(decimal))
+               //          return CellValues.Date;
+                if (t == typeof(decimal))
+                //       return null;
                    return CellValues.Number;
                // if (t == typeof(bool))
-               //     return CellValues.Boolean;
+               //     return CellValues.Boolean;    
                 return CellValues.String;
             };
             NumberFormatInfo nfi = new NumberFormatInfo();
@@ -202,6 +203,12 @@ namespace CateringPro.Core
                     if (reader.IsDBNull(idx))
                         return "0.00";
                     return reader.GetDecimal(idx).ToString(nfi);
+                }
+                if (reader.GetFieldType(idx) == typeof(DateTime))
+                {
+                    if (reader.IsDBNull(idx))
+                        return "";
+                    return reader.GetDateTime(idx).ToShortDateString();
                 }
                 return reader[idx].ToString();
             };
