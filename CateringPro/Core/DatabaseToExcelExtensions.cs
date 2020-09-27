@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Org.BouncyCastle.Asn1.X509.Qualified;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -182,6 +183,35 @@ namespace CateringPro.Core
             SheetData sheetData = wssheatpart.Worksheet.GetFirstChild<SheetData>();
             uint rowindex = 2;
             int fields = reader.FieldCount;
+            Func<Type,CellValues?> typeselector = (t) =>
+            {
+               // if (t == typeof(DateTime))
+               //          return CellValues.Date;
+                if (t == typeof(decimal))
+                //       return null;
+                   return CellValues.Number;
+               // if (t == typeof(bool))
+               //     return CellValues.Boolean;    
+                return CellValues.String;
+            };
+            NumberFormatInfo nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
+            Func<DbDataReader, int, string> formatvalue = (reader, idx) =>
+            {
+                if (reader.GetFieldType(idx) == typeof(decimal))
+                {
+                    if (reader.IsDBNull(idx))
+                        return "0.00";
+                    return reader.GetDecimal(idx).ToString(nfi);
+                }
+                if (reader.GetFieldType(idx) == typeof(DateTime))
+                {
+                    if (reader.IsDBNull(idx))
+                        return "";
+                    return reader.GetDateTime(idx).ToShortDateString();
+                }
+                return reader[idx].ToString();
+            };
             while (reader.Read())
             {
                 // Row row = FindRow(firstChild, rowindex); ///too long
@@ -189,8 +219,9 @@ namespace CateringPro.Core
                 for (int i = 0; i < fields; i++)
                 {
                     Cell cell = new Cell();
-                    cell.DataType = CellValues.String;
-                    cell.CellValue = new CellValue(reader[i].ToString());
+                    //if(reader.GetFieldType(i)!=typeof(decimal))
+                    cell.DataType = typeselector(reader.GetFieldType(i)); //CellValues.String;
+                    cell.CellValue = new CellValue(formatvalue(reader, i));//[new CellValue(reader[i].ToString());
                     row.AppendChild(cell);
                 }
                 sheetData.AppendChild(row);
