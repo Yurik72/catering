@@ -818,7 +818,7 @@ else
                 $('#weekselected').text(weektext());
                 //for (var i = 0; i < 7; i++)
                //    reloadDay(i);
-                
+
                 var index = parseInt($(".nav-day.active").attr("data-i"));
                 var start = 0
                 var cb = function() {
@@ -846,20 +846,20 @@ else
                         function (response, status, xhr) {
                             var select = $(".custom-select");
                             //if (dishKindVal != 0) {
-                                
+
                             //}
                             $(".drpdown-btn-type").each(function () {
                                 if ($(this).val() == dishKindVal) {
                                     $(select).val(dishKindVal);
                                 }
                             });
-                           
+
                             setupDishKinds();
                             reloadDay(index, cb);
                         }
                     );
                 } else {
-                   
+
                     reloadDay(index, cb);
                 }
                 setClosedDaystyle();
@@ -1159,6 +1159,10 @@ else
                         complex.Quantity = 1;
                         if (categories.indexOf($(this).attr("category")) > -1) {
                             dialog_error("Не можна замовити 2 комплекси з однаковою категорією");
+                             $(".send").html("@Localizer["MyOrdersSave"]").css({
+                    "cursor": "",
+                    "pointer-events": ""
+                });
                             flag = false;
                             return;
                         }
