@@ -353,5 +353,8 @@
   <None Update="Templates\OrderFinDetails.xlsx">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
+  <None Update="Templates\OrderPeriodDetailReport.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 </Project>
