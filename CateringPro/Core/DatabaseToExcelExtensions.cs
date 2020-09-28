@@ -190,8 +190,8 @@ namespace CateringPro.Core
                 if (t == typeof(decimal))
                 //       return null;
                    return CellValues.Number;
-               // if (t == typeof(bool))
-               //     return CellValues.Boolean;    
+                if (t == typeof(bool))
+                        return CellValues.Number;
                 return CellValues.String;
             };
             NumberFormatInfo nfi = new NumberFormatInfo();
@@ -203,6 +203,12 @@ namespace CateringPro.Core
                     if (reader.IsDBNull(idx))
                         return "0.00";
                     return reader.GetDecimal(idx).ToString(nfi);
+                }
+                if (reader.GetFieldType(idx) == typeof(bool))
+                {
+                    if (reader.IsDBNull(idx))
+                        return "0";
+                    return reader.GetBoolean(idx)?"1":"0";
                 }
                 if (reader.GetFieldType(idx) == typeof(DateTime))
                 {
