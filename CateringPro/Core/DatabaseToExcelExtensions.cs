@@ -187,7 +187,7 @@ namespace CateringPro.Core
             {
                // if (t == typeof(DateTime))
                //          return CellValues.Date;
-                if (t == typeof(decimal))
+                if (t == typeof(decimal) || t== typeof(Int32))
                 //       return null;
                    return CellValues.Number;
                 if (t == typeof(bool))
@@ -203,6 +203,12 @@ namespace CateringPro.Core
                     if (reader.IsDBNull(idx))
                         return "0.00";
                     return reader.GetDecimal(idx).ToString(nfi);
+                }
+                if (reader.GetFieldType(idx) == typeof(Int32))
+                {
+                    if (reader.IsDBNull(idx))
+                        return "0";
+                    return reader.GetInt32(idx).ToString();
                 }
                 if (reader.GetFieldType(idx) == typeof(bool))
                 {

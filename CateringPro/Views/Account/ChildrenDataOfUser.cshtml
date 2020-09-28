@@ -8,7 +8,9 @@
 
     string userId = (await SignInManager.UserManager.GetUserAsync(User)).Id;
     int i = 0;
-    string parentUserId = ViewData["UserId"].ToString();
+    string parentUserId = string.Empty;
+    if( ViewData["UserId"]!=null)
+        parentUserId = ViewData["UserId"].ToString();
 }
 
 @if (true)
