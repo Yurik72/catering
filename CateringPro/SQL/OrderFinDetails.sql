@@ -47,9 +47,10 @@ Insert into @UsedSubGroupsId(ID)
 	FROM RecursiveQuery  
 where TopParentId=@UserSubGroupId or id=@UserSubGroupId or @UserSubGroupId IS NULL
 --select * from @UsedSubGroupsId
+select * from(
 Select ud.Date, (case  when u.UserType = 0 then Isnull(u.ChildNameSurname,'') else u.NameSurname end)as ChildNameSurname,
 cat.Name as Category,ISNULL(dk.Name,'') as DishKind, 
-ud.IsDelivered, uday.Total as Total, uday.Discount as Discount, uday.TotalWtithoutDiscount as TotalWithoutDiscount
+ud.IsDelivered, c.Price as Total, null as Discount, null as TotalWithoutDiscount
 
 --COUNT(*) AS TotalOrdered 
 
@@ -65,8 +66,18 @@ left join DishesKind dk on dk.CompanyId=c.CompanyId and dk.Id=c.DishKindId
 inner join usersubgroups g on g.CompanyId=@companyId and u.UserSubGroupId=g.id
 inner join @UsedSubGroupsId usb on  g.id=usb.id
 where ud.Date>=@DayFrom and ud.Date<=@DayTo   and ud.CompanyId=@companyId 
-
-order by ud.Date,g.name,u.ChildNameSurname,cat.code
+union
+select uday.Date, (case  when u.UserType = 0 then Isnull(u.ChildNameSurname,'') else u.NameSurname end)as ChildNameSurname,
+null as Category,null as DishKind, 
+null, uday.Total as Total, uday.Discount as Discount, uday.TotalWtithoutDiscount as TotalWithoutDiscount
+from UserDay uday
+ join aspnetusers u on u.Id=uday.userid
+--inner join UserDay on uday.CompanyId=ud.CompanyId and uday.UserId=u.Id 
+inner join usersubgroups g on g.CompanyId=@companyId and u.UserSubGroupId=g.id
+inner join @UsedSubGroupsId usb on  g.id=usb.id
+where uday.Date>=@DayFrom and uday.Date<=@DayTo   and uday.CompanyId=@companyId 
+) t
+order by t.Date,t.ChildNameSurname
 
 
 END
