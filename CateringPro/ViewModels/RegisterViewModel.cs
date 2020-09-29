@@ -62,5 +62,7 @@ namespace CateringPro.ViewModels
 
         public List<string> Errors { get; set; }
 
+        public int? CompanyId { get; set; }
+
     }
 }

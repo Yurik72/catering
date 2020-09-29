@@ -1,5 +1,6 @@
 ﻿using CateringPro.Models;
 using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,5 +45,7 @@ namespace CateringPro.Repositories
         Task<CompanyUserCompany> GetUserCompaniesUserAsync(string userId, int companyId);
         int GetTopLevelSubGroup();
         string GetUserSubGroupName(int subgroupid);
+        List<SelectListItem> GetUserSubgroupsdWithEmptyList();
+        List<SelectListItem> GetCompaniesWithEmptyList();
     }
 }
