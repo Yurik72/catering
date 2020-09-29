@@ -878,7 +878,7 @@ namespace CateringPro.Repositories
                                             join dishCom in _context.DishComplex.WhereCompany(companyid) on d.Id equals dishCom.DishId
                                             //join udd in _context.UserDayDish.WhereCompany(companyid).Where(i => i.Date == daydate && i.UserId == userId)  on d.Id equals udd.DishId
                                             where dishCom.ComplexId == comp.Id
-                                            orderby dishCom.DishCourse
+                                            orderby dishCom.DishCourse ascending,dishCom.IsDefault descending
                                             select new UserDayComplexDishViewModel()
                                             {
 
