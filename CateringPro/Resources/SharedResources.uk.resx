@@ -1072,4 +1072,13 @@
   <data name="EditPhotoAndChildren" xml:space="preserve">
     <value>Фото и діти</value>
   </data>
+  <data name="OrderFinDetails" xml:space="preserve">
+    <value>Фінан звіт замовлень користувачів</value>
+  </data>
+  <data name="UserBalanceReport" xml:space="preserve">
+    <value>Фінан звіт балансу користувачів</value>
+  </data>
+  <data name="UserFinDetails" xml:space="preserve">
+    <value>Фінан звіт доходів / витрат у розрізі користувачів</value>
+  </data>
 </root>

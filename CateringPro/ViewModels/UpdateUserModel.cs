@@ -155,6 +155,7 @@ namespace CateringPro.ViewModels
                 usr.UserGroupId = this.UserGroupId;
                 usr.UserSubGroupId = this.UserSubGroupId;
                 usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
+                usr.UserTypeEn = this.UserTypeEn;
                 if (isNew)
                     usr.Email = this.Email;
             }

@@ -356,5 +356,11 @@
   <None Update="Templates\OrderPeriodDetailReport.xlsx">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </None>
+  <None Update="Templates\UserBalanceReport.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\UserFinDetails.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 </Project>
