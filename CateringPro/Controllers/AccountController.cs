@@ -59,11 +59,13 @@ namespace CateringPro.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Register()
+        public IActionResult Register(int? companyid)
         {
+            ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", companyid.HasValue?companyid.Value.ToString():string.Empty);
+                
             return View(new RegisterViewModel
             {
-
+                CompanyId= companyid
             });
         }
 
@@ -77,6 +79,8 @@ namespace CateringPro.Controllers
             {
                 model.Errors.Clear();
             }
+            ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", model.CompanyId.HasValue ? model.CompanyId.Value.ToString() : string.Empty);
+           
             if (ModelState.IsValid)
             {
                 var user = new CompanyUser
@@ -93,12 +97,19 @@ namespace CateringPro.Controllers
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
                     ChildrenCount = 1,
                     //RegisterDate = DateTime.Now,
-                    Id = Guid.NewGuid().ToString()
+                    Id = Guid.NewGuid().ToString(),
+                    
 
                 };
+                if (model.CompanyId.HasValue)
+                {
+                    user.CompanyId = model.CompanyId.Value;
+                }
                 if (!model.Password.Equals(model.ConfirmPassword))
                 {
                     ModelState.AddModelError("", _localizer.GetLocalizedString("PasswordMismatch"));
+                    ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", string.Empty);
+
                     return View("Register", model);
                 }
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -133,6 +144,8 @@ namespace CateringPro.Controllers
                 else
                 {
                     model.Errors = result.Errors.Select(x => x.Description).ToList();
+                    ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", string.Empty);
+
                     return View("Register", model);
                 }
             }
@@ -518,21 +531,25 @@ namespace CateringPro.Controllers
                 }
             }
 
-            ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
-            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
+            //ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
+            //ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
             
             
-            ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(user.UserTypeEn,_localizer).ToList() ;
+            //ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(user.UserTypeEn,_localizer).ToList() ;
             var model = _companyuser_repo.GetUpdateUserModel(user);
             model.AutoLoginUrl = Url.Action("AutoLogon", "Account", new { token = model.AutoLoginToken, username = model.UserName }, Request.Scheme);
 
-            return PartialView(model);
+            //return PartialView(model);
+            return PartialEditUserModal(model);
 
         }
         private IActionResult PartialEditUserModal(UpdateUserModel usermodel)
         {
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserGroupId);
-            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserSubGroupId);
+      //      ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserSubGroupId);
+            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubgroupsdWithEmptyList(),"Value","Text", usermodel.UserSubGroupId.HasValue? usermodel.UserSubGroupId.Value.ToString():string.Empty);
+
+
             ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(usermodel.UserTypeEn, _localizer).ToList();
 
             return PartialView("EditUserModal", usermodel);

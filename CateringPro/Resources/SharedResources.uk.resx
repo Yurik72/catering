@@ -1081,4 +1081,7 @@
   <data name="UserFinDetails" xml:space="preserve">
     <value>Фінан звіт доходів / витрат у розрізі користувачів</value>
   </data>
+  <data name="Company" xml:space="preserve">
+    <value>Компанія</value>
+  </data>
 </root>

@@ -17,6 +17,7 @@ using CateringPro.ViewModels;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Repositories
 {
@@ -594,6 +595,33 @@ namespace CateringPro.Repositories
                 return false;
             var res = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             return res.Succeeded;
+        }
+
+        public List<SelectListItem> GetUserSubgroupsdWithEmptyList()
+        {
+            List<SelectListItem> res = _context.UserSubGroups.AsNoTracking()
+                  .OrderBy(n => n.Id ).Select(n =>
+                      new SelectListItem
+                      {
+                          Value = n.Id.ToString(),
+                          Text = n.Name
+                      }).ToList();
+            var empty = new SelectListItem() { Value = "", Text = string.Empty };
+            res.Insert(0, empty);
+            return res;
+        }
+        public List<SelectListItem> GetCompaniesWithEmptyList()
+        {
+            List<SelectListItem> res = _cache.GetCachedCompaniesAsync(_context).GetAwaiter().GetResult()
+                  .OrderBy(n => n.Id).Select(n =>
+                     new SelectListItem
+                     {
+                         Value = n.Id.ToString(),
+                         Text = n.Name
+                     }).ToList();
+            var empty = new SelectListItem() { Value = "", Text = string.Empty };
+            res.Insert(0, empty);
+            return res;
         }
     }
 }
