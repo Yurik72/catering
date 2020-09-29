@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    decimal discount = 0;
 }
 
 @model CateringPro.Models.InvoiceModel
@@ -603,6 +604,7 @@ return;
                                                                                                                     <div class="col-12  d-flex flex-column px-0">
                                                                                                                         @if (date != item.DayComplex.Date)
                                                                                                                         {
+                                                                                                                            discount += item.Discount;
                                                                                                                             date = item.DayComplex.Date;
                                                                                                                             <div class="col-12 my-3 px-0 px-lg-3 px-md-3">
                                                                                                                                 <span class="px-3"
@@ -703,7 +705,8 @@ return;
                                                                                                                                              style="cursor: pointer; font-family: Open-Sans, sans-serif">
                                                                                                                                             @{
                                                                                                                                                 var total = Model.Items.Sum(i => i.Amount);
-                                                                                                                                                var discount = Model.Items.Sum(i => i.Discount);
+
+                                                                                                                                             //   var discount = Model.Items.Sum(i => i.Discount);
                                                                                                                                                 total -= discount;
                                                                                                                                             }
                                                                                                                                             <span class="d-flex justify-content-lg-end justify-content-md-end">

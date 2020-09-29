@@ -841,7 +841,10 @@ namespace CateringPro.Repositories
             {
                 File.Delete(tempfile);
             }
-            catch { }
+            catch {
+                return fs1;
+            }
+            
             return fs1;
         }
         public async Task<string> UsersOrderPeriodReport(DateTime? datefrom, DateTime? dateto, int? companyId, int? usersubGroupId)

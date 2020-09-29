@@ -887,6 +887,7 @@ namespace CateringPro.Repositories
                                                 DishReadyWeight = d.ReadyWeight,
                                                 PictureId = d.PictureId,
                                                 DishCourse = dishCom.DishCourse,
+                                                IsDefault = dishCom.IsDefault,
                                                 //  DishQuantity = udd.Quantity,
 
                                                 DishDescription = d.Description,

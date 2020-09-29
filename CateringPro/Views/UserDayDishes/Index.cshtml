@@ -1093,7 +1093,14 @@ else
                     var max = Math.max.apply(Math,courses);
                    // console.log(max);
                     for (var i = 0; i <= max; i++) {
-                       var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                       //var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                       // $(dish).prop('checked', true);
+                        var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "'][default=\'true\']");
+                        //console.log($(dish).attr('default'));
+                        if (dish.length == 0) {
+                            //console.log("in if");
+                            dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                        }
                         $(dish).prop('checked', true);
                     }
                 }
@@ -1119,7 +1126,12 @@ else
                         for (var i = 0; i <= max; i++) {
                             if (i == chCourse)
                                 continue;
-                            var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                            var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "'][default=\'true\']");
+                            //console.log($(dish).attr('default'));
+                            if (dish.length == 0) {
+                                //console.log("in if");
+                                dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                            }
                             $(dish).prop('checked', true);
                         }
                     }
