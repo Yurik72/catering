@@ -719,7 +719,7 @@ namespace CateringPro.Controllers
                         {
                             usermodel.ChildNameSurname = reb.ChildNameSurname;
                             usermodel.ChildBirthdayDate = reb.ChildBirthdayDate;
-                            usermodel.CopyEditedParamsTo(user);
+                            //usermodel.CopyEditedParamsTo(user);
                             user_to_update = user;
                         }
                         else
@@ -786,19 +786,22 @@ namespace CateringPro.Controllers
                             user_to_update.PictureId = pict.Id;
 
                         }
-                        try
+                        if (reb.Id != usermodel.Id)
                         {
-                            IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
-                            if (!rebResult.Succeeded)
+                            try
                             {
-                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
+                                IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
+                                if (!rebResult.Succeeded)
+                                {
+                                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
+                                }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Error Update Child");
-                            ModelState.AddModelError("", ex.Message);
-                            return RedirectToAction("Users");
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "Error Update Child");
+                                ModelState.AddModelError("", ex.Message);
+                                return RedirectToAction("Users");
+                            }
                         }
                         i++;
                     }

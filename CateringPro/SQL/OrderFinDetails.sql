@@ -48,7 +48,10 @@ Insert into @UsedSubGroupsId(ID)
 where TopParentId=@UserSubGroupId or id=@UserSubGroupId or @UserSubGroupId IS NULL
 --select * from @UsedSubGroupsId
 select * from(
-Select 'Complex' as OrderType, ud.Date, (case  when u.UserType = 0 then Isnull(u.ChildNameSurname,'') else u.NameSurname end)as ChildNameSurname,
+Select 'Complex' as OrderType, ud.Date,
+(CASE u.UserType WHEN 0 THEN 'Child' WHEN 1 THEN 'Adult' ELSE 'Employee' END) as UserType,
+ISNULL(g.Name,'') as SubGroupName, (case  when u.UserType = 0 then Isnull(u.ChildNameSurname,'') else u.NameSurname end)as ChildNameSurname,
+
 cat.Name as Category,ISNULL(dk.Name,'') as DishKind, 
 --ud.IsDelivered, 
 (udc.Price*udc.Quantity) -((udc.Price*udc.Quantity)*(ISNULL(uday.Discount,0)/uday.Total)) as Total, 
@@ -75,7 +78,7 @@ inner join categories cat on cat.id=c.Categoriesid
 inner join UserDay uday on uday.CompanyId=ud.CompanyId and uday.UserId=u.Id and uday.Date=ud.Date
 inner join UserDayComplex  udc on   udc.CompanyId=ud.CompanyId and udc.UserId=u.Id  and udc.Date=ud.Date and udc.ComplexId=ud.ComplexId
 left join DishesKind dk on dk.CompanyId=c.CompanyId and dk.Id=c.DishKindId 
-inner join usersubgroups g on g.CompanyId=@companyId and u.UserSubGroupId=g.id
+inner join usersubgroups g on g.CompanyId=@companyId and ( u.UserSubGroupId=g.id )
 inner join @UsedSubGroupsId usb on  g.id=usb.id
 where ud.Date>=@DayFrom and ud.Date<=@DayTo   and ud.CompanyId=@companyId 
 /*   to do with dishes

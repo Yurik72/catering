@@ -304,5 +304,20 @@ namespace CateringPro.Controllers
                 companyid = companyId.Value;
             return await _reportrepo.ExcelReport("OrderFinDetails", dateFrom, dateTo, companyid);
          }
+
+        public async Task<FileResult> UserBalanceReport(DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+            int companyid = User.GetCompanyID();
+            if (companyId.HasValue)
+                companyid = companyId.Value;
+            return await _reportrepo.ExcelReport("UserBalanceReport", dateFrom, dateTo, companyid);
+        }
+        public async Task<FileResult> UserFinDetails(DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+            int companyid = User.GetCompanyID();
+            if (companyId.HasValue)
+                companyid = companyId.Value;
+            return await _reportrepo.ExcelReport("UserFinDetails", dateFrom, dateTo, companyid);
+        }
     }
 }
