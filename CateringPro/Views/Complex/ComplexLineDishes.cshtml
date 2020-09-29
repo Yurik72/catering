@@ -27,21 +27,36 @@
             </div>
             @foreach (var it in Model)
             {
-                <div class="col-12  my-2 d-flex align-items-center justify-content-between parent-delete dish-line" dish-id="@it.DishId">
-                    <div class="">
-                        <img src="@Url.Action("GetPicture", "Pictures", new { id = it.Dish.PictureId, width = 40, height = 40 })" alt="Complex image"
-                             style="width: 40px; height: 40px">
-                    </div>
-                    <div class="col-8" style="font-size: 16px; color: #232323">
-                        @Html.DisplayFor(modelItem => it.Dish.Name)
-                    </div>
-                    <div class="col-2 pr-0 d-flex justify-content-end">
-                        <button class="btn delete-parent pr-0 delete-item"
-                                style="background: none; border: none">
-                            <img src="../img/delete-icon.svg" alt="Delete item">
-                        </button>
-                    </div>
-                </div>
+    <div class="col-12  my-2 d-flex align-items-center justify-content-between parent-delete dish-line" dish-id="@it.DishId">
+        <div class="">
+            <img src="@Url.Action("GetPicture", "Pictures", new { id = it.Dish.PictureId, width = 40, height = 40 })" alt="Complex image"
+                 style="width: 40px; height: 40px">
+        </div>
+        <div class="col-7" style="font-size: 16px; color: #232323">
+            @Html.DisplayFor(modelItem => it.Dish.Name)
+        </div>
+        <div class="col-2 pr-0 d-flex justify-content-end">
+            
+                <input class="default-dish" course="@i" dish-id="@it.DishId"
+                       type="radio" name="Course(@i)"@if (it.IsDefault!=null&&(bool)it.IsDefault) {
+                           @:checked
+                               }
+                       @*value="@(it.IsDefault!=null ? it.IsDefault : false)"*@>
+                @*<label class="container-for-radio ml-3">
+                    <input class="custom-control-input"
+                           type="radio" name="Course(@i)"
+                           value="@(it.IsDefault!=null ? it.IsDefault : false)">
+                    <span class="checkmark-for-radio"></span>
+                </label>*@
+            
+        </div>
+        <div class="col-2 pr-0 d-flex justify-content-end">
+            <button class="btn delete-parent pr-0 delete-item"
+                    style="background: none; border: none">
+                <img src="../img/delete-icon.svg" alt="Delete item">
+            </button>
+        </div>
+    </div>
             }
             <div id="course-footer @i" class="course-footer-@i"></div>
             <button type="button" class="col-12 my-2 d-flex align-items-center add-complex-line" course="@i"

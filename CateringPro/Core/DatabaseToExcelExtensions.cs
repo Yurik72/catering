@@ -64,6 +64,7 @@ namespace CateringPro.Core
             
             string testpath = "c:\\Temp\\SavedDocument.xlsx";
             string temppath = Path.Combine("Temp", Guid.NewGuid().ToString());
+            Directory.CreateDirectory("Temp");
             string templatepath = Path.Combine("Templates", $"{ReportName}.xlsx");
             using (MemoryStream ms = new MemoryStream()) {
                 using (FileStream file = new FileStream(templatepath, FileMode.Open, FileAccess.Read))
