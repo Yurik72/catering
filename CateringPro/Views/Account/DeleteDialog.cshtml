@@ -8,11 +8,12 @@
         <h5 class="modal-title">
             @Localizer["ConfirmDelete"]
 
-            @if (Model.IsSupportDeactivation)
-            {
-                @Localizer["ConfirmDeactivate"]
-            }
-        </h5>
+                @if (Model.IsSupportDeactivation)
+                {
+                    @Localizer["ConfirmDeactivate"]
+                }
+            </h5>
+
         <button class="close" data-dismiss="modal" area-hidden="true">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -32,10 +33,10 @@
             </div>
             <div class="row justify-content-center  my-4">
                 <div class="col-12 align-content-center">
-                    <form asp-action="Delete">
+                    <form asp-action="Delete" >
                         <div class="container form-actions no-color">
                             <div class="row justify-content-center  align-self-center">
-                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="UserId"/>
                             @Html.AntiForgeryToken()
                             <div class="col-6  align-self-center text-center">
                                 <input type="submit" value="@Localizer["Delete"]" class="btn btn-danger" />

@@ -120,6 +120,8 @@
             $('#connectnfc').click(function (e) {
                 $('#connectnfc').prop('disabled', true);
                 e.preventDefault();
+                if (localStorage[key_url])
+                    localStorage.removeItem(key_url);
                 localStorage[key_url] = $('#nfcurl').val();
                 nfcsock = new nfc_socket($('#nfcurl').val(),
                     function (data) {
