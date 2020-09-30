@@ -385,13 +385,14 @@ function setup_listitems(options) {
                 return promise;
             })
             .then((form) => {
+                var formdata = new FormData(form.get(0));
                 return fetch(form.attr('action'), {
                     method: 'POST',
                     headers: {
 
                         'RequestVerificationToken': form.find("[name='__RequestVerificationToken'").val()
                     },
-                    body: form.serialize()
+                    body: formdata
                 })
             })
             .then(response => {

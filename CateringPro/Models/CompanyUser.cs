@@ -20,7 +20,7 @@ namespace CateringPro.Models
         Employee = 2
 
     }
-    public class CompanyUser :IdentityUser<string>
+    public class CompanyUser :IdentityUser<string>, ISupportDeactivate
     {
         public CompanyUser()
         {
@@ -109,6 +109,8 @@ namespace CateringPro.Models
         public bool IsChildType => UserTypeEn == UserTypeEnum.Child;
         [NotMapped]
         public bool IsAddultType => UserTypeEn != UserTypeEnum.Child;
+
+        public bool IsDeactivated { get ; set; }
     }
     public class CompanyRole : IdentityRole
     {

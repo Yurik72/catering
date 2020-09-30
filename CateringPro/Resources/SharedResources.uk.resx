@@ -625,10 +625,10 @@
     <value>Помилка бази даних</value>
   </data>
   <data name="DuplicateEmail" xml:space="preserve">
-    <value>Поштова адреса {0} вже зареестрована</value>
+    <value>Поштова адреса {0} вже зареестрована.Якщо це були Ви і не можете використовувати систему, зверніться до адміністратора.</value>
   </data>
   <data name="DuplicateUserName" xml:space="preserve">
-    <value>Логін {0} вже зареестрований</value>
+    <value>Логін {0} вже зареестрований.Якщо це були Ви і не можете використовувати систему, зверніться до адміністратора.</value>
   </data>
   <data name="MenuChangeChild" xml:space="preserve">
     <value>Вибрати дитину</value>
@@ -1083,5 +1083,8 @@
   </data>
   <data name="Company" xml:space="preserve">
     <value>Компанія</value>
+  </data>
+  <data name="ConfirmDeactivate" xml:space="preserve">
+    <value>Об'єкт буде де-активований, ви зможете його пізніше активувати знову. Підтвердіть.</value>
   </data>
 </root>

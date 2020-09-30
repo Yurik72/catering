@@ -25,6 +25,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Internal;
 using CateringPro.Helpers;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
@@ -928,6 +929,51 @@ namespace CateringPro.Controllers
             return this.UpdateOk();
 
         }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+      
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string userid)
+        {
+            if (userid == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var deldialog = new DeleteDialogViewModel() { UserId = user.Id, ModelName = $"Login: {user.UserName} Name:{user.NameSurname}",IsSupportDeactivation=true,CompanyId=User.GetCompanyID() };
+            return PartialView("DeleteDialog", deldialog);
+           
+        }
+
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+
+                user.IsDeactivated = true;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Delete confirmed error");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete confirmed error");
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Users));
+        }
+
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public IActionResult CreateUserModal()
         {

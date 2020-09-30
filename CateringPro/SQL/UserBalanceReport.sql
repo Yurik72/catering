@@ -56,7 +56,7 @@ inner join CompanyUserCompanies cu on cu.CompanyId=@CompanyId and cu.CompanyUser
 left join UserFinances uf on uf.CompanyId=@CompanyId and uf.Id=u.Id
 left join @UsedSubGroupsId usb on  u.UserSubGroupId=usb.id 
 left join usersubgroups g on g.CompanyId=@companyId and  usb.id=g.id 
-
+where u.IsDeactivated=0
 order by u.UserType asc,g.name asc,u.NameSurname,u.ChildNameSurname
 END
 GO

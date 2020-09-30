@@ -17,50 +17,50 @@
 
 
 
-    <div class="container-xl container container-md container-sm container-lg">
+<div class="container-xl container container-md container-sm container-lg">
 
-
-        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
-            @*@Html.DisplaySortField(model => model.ChildNameSurname).AddSortField(model => model.Email).AddSortField(model => model.UserGroup).Display(querymodel)*@
-            @Html.DisplaySortField(model => model.Email).AddSortField(model => model.ChildNameSurname).AddSortField(model => model.UserSubGroup.Name).AddSortField(model => model.UserGroup.Name).Display(querymodel)
-            <div class="col-lg-4 col-12 p-0 ">
-                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
-                    <form class="form-inline col-12 p-0" style=" display: flex;">
-                        <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
-                               style="font-size: 16px; color:#797979; height: 48px; background: url('../img/search-icon.svg') no-repeat; background-position: 95%">
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
-                <div class="col-12 p-0 justify-content-center" style="height: 48px">
-                    <button type="button" id="create-btn"
-                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
-                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                        &#65291; @Localizer["Create"]
-                    </button>
-                </div>
+    
+    <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
+        @*@Html.DisplaySortField(model => model.ChildNameSurname).AddSortField(model => model.Email).AddSortField(model => model.UserGroup).Display(querymodel)*@
+        @Html.DisplaySortField(model => model.Email).AddSortField(model => model.ChildNameSurname).AddSortField(model => model.UserSubGroup.Name).AddSortField(model => model.UserGroup.Name).Display(querymodel)
+        <div class="col-lg-4 col-12 p-0 ">
+            <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                <form class="form-inline col-12 p-0" style=" display: flex;">
+                    <input id="search-val" class="form-control  w-100" type="search" placeholder="Пошук..." aria-label="Search"
+                           style="font-size: 16px; color:#797979; height: 48px; background: url('../img/search-icon.svg') no-repeat; background-position: 95%">
+                </form>
             </div>
         </div>
-        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
-             style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
-
-            @Html.DisplayListHeaderForEx(model => model.ChildNameSurname, new { colnumbers = 3 })
-            @Html.DisplayListHeaderForEx(model => model.Email, new { colnumbers = 3 })
-            @Html.DisplayListHeaderForEx(model => model.UserSubGroup.Name, new { colnumbers = 2 })
-            @Html.DisplayListHeaderForEx(model => model.UserGroup.Name, new { colnumbers = 2 })
-            @*@Html.DisplayListHeaderForEx(model => model.RegisterDate, new { colnumbers = 3 })*@
-
-
-            <div class="col-2"></div>
-
-
-        </div>
-        <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
-
+        <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+            <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                <button type="button" id="create-btn"
+                        class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                        style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                    &#65291; @Localizer["Create"]
+                </button>
+            </div>
         </div>
     </div>
+    <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3"
+         style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+
+        @Html.DisplayListHeaderForEx(model => model.ChildNameSurname, new { colnumbers = 3 })
+        @Html.DisplayListHeaderForEx(model => model.Email, new { colnumbers = 3 })
+        @Html.DisplayListHeaderForEx(model => model.UserSubGroup.Name, new { colnumbers = 2 })
+        @Html.DisplayListHeaderForEx(model => model.UserGroup.Name, new { colnumbers = 2 })
+        @*@Html.DisplayListHeaderForEx(model => model.RegisterDate, new { colnumbers = 3 })*@
+
+
+        <div class="col-2"></div>
+
+
+    </div>
+    <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" class="row ml-0 mr-0 mt-0 justify-content-center w-100 table-content">
+
+    </div>
+</div>
     <div class="col-lg-4 col-12 p-0 d-lg-none d-md-none d-block position-sticky sticky-class align-content-center "
          style="display: flex; bottom: -2px; height: 70px; background: #ffffff; box-shadow: 0px -11px 22px -15px rgba(0, 0, 0, 0.25);">
         <div class="container h-100 ">

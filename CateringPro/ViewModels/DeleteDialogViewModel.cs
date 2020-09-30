@@ -12,5 +12,9 @@ namespace CateringPro.ViewModels
         public string  Name { get; set; }
 
         public string ModelName { get; set; }
+
+        public bool IsSupportDeactivation { get; set; }
+
+        public string UserId { get; set; }
     }
 }

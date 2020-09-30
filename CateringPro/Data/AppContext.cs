@@ -415,9 +415,31 @@ namespace CateringPro.Data
             //modelBuilder.Entity<Dish>().HasQueryFilter(u =>u.CompanyId== this.CompanyId);
             // to do dynamically
             SetGlobalFilters(modelBuilder);
+            SetDeactivatedFilter(modelBuilder);
             //!! Comapny User Company will be filtered by cuurent company
             modelBuilder.Entity<CompanyUserCompany>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
         }
+        private void SetDeactivatedFilter(ModelBuilder modelBuilder)
+        {
+            Assembly.GetExecutingAssembly().DefinedTypes.ToList().ForEach(ti =>
+            {
+                if (!ti.IsGenericType && !ti.IsAbstract && typeof(ISupportDeactivate).IsAssignableFrom(ti.AsType()))
+                {
+                    Type t = ti.AsType();
+                    MethodInfo method = typeof(ModelBuilder).GetMethods().
+                            SingleOrDefault(m => m.Name == nameof(ModelBuilder.Entity) && m.ReturnType.IsGenericType);
+                    MethodInfo generic = method.MakeGenericMethod(t);
+                    EntityTypeBuilder x = generic.Invoke(modelBuilder, null) as EntityTypeBuilder;
+                    ParameterExpression parameter = Expression.Parameter(t, "x");
+                    MemberExpression leftMember = Expression.Property(parameter, "IsDeactivated");
+                    Expression trueproperty = Expression.Constant(false);
+                    Expression filterexpr = Expression.Equal(leftMember, trueproperty);
+                    LambdaExpression lambda = Expression.Lambda(filterexpr, parameter);
+                    x.HasQueryFilter(lambda);
+
+                }
+            });
+         }
         private void SetGlobalFilters(ModelBuilder modelBuilder)
         {
             Assembly.GetExecutingAssembly().DefinedTypes.ToList().ForEach(ti =>
