@@ -190,8 +190,9 @@ namespace CateringPro.Controllers
         {
             return PartialView("LoginModal", new LoginViewModel
             {
-                ReturnUrl = returnUrl
-            });
+                ReturnUrl = returnUrl,
+                IsRemember = true
+            }); ;
         }
         public async Task<IActionResult> AutoLogon(string token, string username)
         {
@@ -240,13 +241,22 @@ namespace CateringPro.Controllers
             }
             if (user != null && user.EmailConfirmed)
             {
-                var claims = await _userManager.GetClaimsAsync(user);
+                //var claims = await _userManager.GetClaimsAsync(user);
                 // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
-
+                
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.IsRemember, true);
 
                 if (result.Succeeded)
                 {
+                    var validation = _companyuser_repo.ValidateUserOnLogin(user);
+                    if (validation > 0)   // required refresh of claims
+                    {
+                        await _signInManager.RefreshSignInAsync(user);
+                    }
+                    if (validation < 0)   // probably not allow to login
+                    {
+
+                    }
                     if (model.IsModal)
                     {
                         return Ok(new { res = "OK", returnUrl = string.IsNullOrEmpty(model.ReturnUrl) ? Url.Action("Index", "Home") : model.ReturnUrl });
@@ -296,7 +306,7 @@ namespace CateringPro.Controllers
                 return View(model);
 
         }
-
+        
         [Authorize]
         public async Task<IActionResult> LogOut()
         {
