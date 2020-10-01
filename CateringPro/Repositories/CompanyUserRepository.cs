@@ -154,36 +154,49 @@ namespace CateringPro.Repositories
         }
         public async Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims)
         {
-            if (companyid == _context.CompanyId)
-                return true;
+            //if (companyid == _context.CompanyId)
+            //    return true;
             //var newcompany = (await GetCurrentUsersCompaniesAsync(userId)).FirstOrDefault(c => c.Id == companyid);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return false;
+            if (user.CompanyId == companyid)
+            {
+                _logger.LogWarning($"Attempt to change company for user {user.Id} to the same {companyid}. Something wrong");
+                return true;
+            }
+                
             var currentcompany = await GetCurrentUserCompaniesUserAsync(userId );
             var newcompany = await GetUserCompaniesUserAsync(userId, companyid);
             if (newcompany == null)
                 return false;
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-                return false;
-            user.CompanyId = companyid;
-            user.UserGroupId = newcompany.UserGroupId;
-            user.UserSubGroupId = newcompany.UserSubGroupId;
+
+
             try
             {
-                if (currentcompany.UserGroupId != user.UserGroupId || currentcompany.UserSubGroupId != user.UserSubGroupId)
+                if (currentcompany!=null && ( currentcompany.UserGroupId != user.UserGroupId || currentcompany.UserSubGroupId != user.UserSubGroupId))
                 {
                     currentcompany.UserGroupId = user.UserGroupId;
                     currentcompany.UserSubGroupId = user.UserSubGroupId;
                     _context.Update(currentcompany);
                     await _context.SaveChangesAsync();
                 }
+                else if (currentcompany == null)
+                {
+                    _logger.LogWarning($"Company with ID={user.CompanyId} detached from user {user.Id} as result user references to group are lost");
+                }
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex,"Error change groups");
             }
+            user.CompanyId = companyid;
+            user.UserGroupId = newcompany.UserGroupId;
+            user.UserSubGroupId = newcompany.UserSubGroupId;
             _context.Update(user);
             await _context.SaveChangesAsync();
-            CustomClaimsPrincipalFactory.ChangeCompanyId(claims, companyid);
+            if(claims!=null)
+                CustomClaimsPrincipalFactory.ChangeCompanyId(claims, companyid);
 
             return true;
         }
@@ -232,10 +245,10 @@ namespace CateringPro.Repositories
         }
         public int GetDefaultCompanyId()
         {
-            var comp = _cache.GetCachedCompaniesAsync(_context).Result.FirstOrDefault(c => c.IsDefault.HasValue && c.IsDefault.Value);
+            var comp = _cache.GetCachedCompaniesAsync(_context).GetAwaiter().GetResult().FirstOrDefault(c => c.IsDefault.HasValue && c.IsDefault.Value);
             if (comp != null)
                 return comp.Id;
-            comp = _cache.GetCachedCompaniesAsync(_context).Result.FirstOrDefault();
+            comp = _cache.GetCachedCompaniesAsync(_context).GetAwaiter().GetResult().FirstOrDefault();
             if (comp != null)
                 return comp.Id;
             return 0;
@@ -280,6 +293,7 @@ namespace CateringPro.Repositories
                 var existing_companies = await GetCurrentUsersCompaniesUserAsync(user.Id);
                 if (!IsCompanyExist(user.CompanyId))
                 {
+                    _logger.LogWarning($"Something wrong with user {user.Id} attached to  not existing company {user.CompanyId}");
                     user.CompanyId = await GetDefaultCompanyForUser(user);
                     _context.Update(user);
                     await _context.SaveChangesAsync();
@@ -287,10 +301,30 @@ namespace CateringPro.Repositories
 
                 if (existing_companies.Count == 0)
                 {
-                    res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                    _logger.LogWarning($"Something wrong user {user.Id} are not assigned to any company ");
+
+                     res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                    _logger.LogWarning($"Assigning user {user.Id} to company {user.CompanyId } ");
+                    existing_companies= await GetCurrentUsersCompaniesUserAsync(user.Id);
+
                 }
-                var current_companyrecord = await GetCurrentUserCompaniesUserAsync(user.Id);
-                if(current_companyrecord!=null)
+                var current_companyrecord = existing_companies.FirstOrDefault(c => c.CompanyId == user.CompanyId);
+                if(current_companyrecord==null && existing_companies.Count>0)
+                {
+
+                    var newcompany = existing_companies.FirstOrDefault().CompanyId;
+                    _logger.LogWarning($"Changing  user {user.Id} default company to {newcompany } ");
+                    if (ChangeUserCompanyAsync(user.Id, newcompany, null).GetAwaiter().GetResult())
+                    {
+                        current_companyrecord = existing_companies.FirstOrDefault(c => c.CompanyId == newcompany);
+                    }
+                    else
+                    {
+                        _logger.LogError("ChangeUserCompanyAsync return false");
+                    }
+                }
+                //var current_companyrecord = await GetCurrentUserCompaniesUserAsync(user.Id);
+                if(current_companyrecord!=null && (current_companyrecord.UserGroupId != user.UserGroupId || current_companyrecord.UserSubGroupId != user.UserSubGroupId))
                 {
                     current_companyrecord.UserGroupId = user.UserGroupId;
                     current_companyrecord.UserSubGroupId = user.UserSubGroupId;
@@ -623,5 +657,35 @@ namespace CateringPro.Repositories
             res.Insert(0, empty);
             return res;
         }
+
+        public int ValidateUserOnLogin(CompanyUser user)
+        {
+            try
+            {
+                var companies = GetCurrentUsersCompaniesUserAsync(user.Id).GetAwaiter().GetResult();
+                var current_company = companies.FirstOrDefault(c => c.CompanyId == user.CompanyId);
+                if (current_company == null)
+                {
+                    _logger.LogWarning($"Attempt to login user {user.Id} to detached company {user.CompanyId}");
+                    var defaultcompany = GetDefaultCompanyForUser(user).GetAwaiter().GetResult();
+                    if (defaultcompany == 0)
+                    {
+                        _logger.LogWarning($"Not possible to obtain default company for user {user.Id}");
+                        return -1;
+
+                    }
+                    var changeres = ChangeUserCompanyAsync(user.Id, defaultcompany, null).GetAwaiter().GetResult();
+                    return changeres ? 1 : -1;
+                }
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "ValidateUserOnLogin on error");
+                return -1;
+            }
+            return 0;
+        }
+
     }
 }

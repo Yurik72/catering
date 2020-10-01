@@ -47,5 +47,6 @@ namespace CateringPro.Repositories
         string GetUserSubGroupName(int subgroupid);
         List<SelectListItem> GetUserSubgroupsdWithEmptyList();
         List<SelectListItem> GetCompaniesWithEmptyList();
+        int ValidateUserOnLogin(CompanyUser user);
     }
 }
