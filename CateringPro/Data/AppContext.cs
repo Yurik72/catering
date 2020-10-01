@@ -96,6 +96,7 @@ namespace CateringPro.Data
 
         public DbSet<DeliveryQueue> DeliveryQueues { get; set; }
 
+        public DbSet<DeliveryQueues_history> DeliveryQueues_history { get; set; }
         public DbSet<NotOrderedQueue> NotOrderedQueues { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
@@ -442,7 +443,11 @@ namespace CateringPro.Data
          }
         private void SetGlobalFilters(ModelBuilder modelBuilder)
         {
-            Assembly.GetExecutingAssembly().DefinedTypes.ToList().ForEach(ti =>
+            var types = Assembly.GetExecutingAssembly().DefinedTypes.ToList();
+           // IEnumerable<Type> subclasses = types.Where(t => t.IsSubclassOf(typeof(CompanyData)));
+           // IEnumerable<Type> subclasses_direct = types.Where(t => t.BaseType == typeof(CompanyData));
+            
+            types.ForEach(ti =>
             {
                 if(!ti.IsGenericType && !ti.IsAbstract && ti.AsType().IsSubclassOf(typeof(CompanyData)))
                 {

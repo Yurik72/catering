@@ -152,5 +152,18 @@ namespace CateringPro.Controllers
                 return Json(new { State = "OK" });
             return BadRequest();
         }
+
+        public async Task<IActionResult> ServiceHistory(ServiceRequest request)
+        {
+            return View(request);
+        }
+        public async Task<IActionResult> ServiceHistoryListItems(ServiceRequest request)
+        {
+
+
+            return PartialView(null);
+
+        }
+
     }
 }

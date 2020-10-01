@@ -1,0 +1,110 @@
+﻿@model ServiceRequest
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["OrderWindowHistory"];
+    Layout = null;
+    int numDishes = 10;
+
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/service.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="main-header">
+
+        <div id="service-header" class="service-header">
+            <h1>@Localizer["OrderWindowHistory"]</h1>
+            <h1 id="currentdate"></h1>
+        </div>
+    </header>
+    <div class="container order-service">
+        <div id="error" class="bg-danger text-white h1" style=" display: none;width:100%;position:absolute;z-index:3000;top:0;left:0;height:200px;">
+
+        </div>
+
+        <div class="row dishes-num">
+            <div data-num="-1" class="col-2 order-complexcategories-select  border rounded bg-secondary text-white btn">
+                <select class="form-control" id="complexcategories" name="complexcategories">
+                </select>
+            </div>
+            <div data-num="-1" class="col-2 order-dish-select welcome border rounded bg-secondary text-white btn">
+                @* <span data-num="-1" class="order-dish-select welcome w-100">Welcome</span>*@
+                @Localizer["Welcome"]
+
+            </div>
+            @for (int i = 1; i <= numDishes; i++)
+            {
+                <div data-num="@(i-1)" class="col-2 order-dish-select border rounded bg-secondary text-white btn">
+                    @i @Localizer["Dish"]
+                </div>
+            }
+        </div>
+
+
+        <div id="delivery-dishes-row" class="row" style="display: none;">
+            <div id="delivery-dishes-content" class="col-12 delivery-dishes-content">
+
+            </div>
+        </div>
+        <div id="delivery-queue-row" class="row" style="display: none;">
+            <div class="col-12">
+                <div id="delivery-queue-content" class="container  delivery-queue-content">
+
+                </div>
+            </div>
+        </div>
+        <div id="delivery-welcome-row" class="row fo" style="display: none;">
+            <div class="col-12">
+                <div id="delivery-welcome-content" class="container  h-100 delivery-welcome-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/resources.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <script>
+    $(function () {
+
+        var baseurl = "/Service";
+        var curr_date = new Date();
+        var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
+
+        $('#currentdate').text(readable_date);
+        fillComplexCategories();
+        function fillComplexCategories() {
+
+            $.post(baseurl + '/GetAvailableCategories', readable_date).done(function (data, statusText, xhr) {
+                $('#complexcategories').empty();
+                try {
+                    if (data && Array.isArray(data) && data.length != 0) {
+                        var options = "";
+                        data.forEach(function (elem, idx) {
+                            var sel = idx == 0 ? 'selected' : ''
+                            options += `<option ${sel} value='${elem.id}'>${elem.name}</option>`;
+                        });
+                        $('#complexcategories').append(options);
+                    }
+                    el_error.hide();
+                }
+                catch{
+                }
+            })
+                .fail(function (xhr, code, error) {
+                    el_error.text(error);
+                    el_error.show();
+                });
+        }
+
+    })
+    </script>
+</body >
+</html >
