@@ -447,6 +447,12 @@ namespace CateringPro.Controllers
                 var model = new RegisterViewModel() { UserId = userId, TokenCode = code, Email = user.Email };
                 if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", code))
                 {
+                if (!user.EmailConfirmed)
+                {
+                    user.EmailConfirmed = true;
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                }
                     return View(model);
                 }
                 else
