@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using CateringPro.Models;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace CateringPro.Controllers
 {
@@ -153,17 +154,19 @@ namespace CateringPro.Controllers
             return BadRequest();
         }
 
-        public async Task<IActionResult> ServiceHistory(ServiceRequest request)
+        public async Task<IActionResult> ServiceHistory(string request)
         {
-            return View(request);
+            ServiceRequest servrequest = new ServiceRequest();
+            try
+            {
+                if (!string.IsNullOrEmpty(request))
+                    servrequest = JsonConvert.DeserializeObject<ServiceRequest>(request);
+            }
+            catch {
+            }
+            return View(servrequest);
         }
-        public async Task<IActionResult> ServiceHistoryListItems(ServiceRequest request)
-        {
 
-
-            return PartialView(null);
-
-        }
 
     }
 }

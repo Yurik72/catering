@@ -33,7 +33,7 @@ namespace CateringPro.ViewModels
         public int LastQueueId { get; set; }
         public bool IsRequiredUser()
         {
-            return Type != "askforqueue";
+            return Type != "askforqueue" && Type != "askforhistoryqueue";
         }
     }
 }
