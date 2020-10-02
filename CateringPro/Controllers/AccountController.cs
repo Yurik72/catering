@@ -989,6 +989,30 @@ namespace CateringPro.Controllers
             }
             return RedirectToAction(nameof(Users));
         }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BlockConfirmed(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+                // to do block User Childs
+                user.LockoutEnd = DateTime.Now.AddYears(10);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Block confirmed error");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Block confirmed error");
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Users));
+        }
 
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public IActionResult CreateUserModal()
