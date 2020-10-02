@@ -27,14 +27,25 @@ body {
     display: block;
     overflow: hidden;
 }
-.toogles{
-    position:absolute;
-    top:0;
-    left:0;
-    display:block;
-    background-color:grey;
-    height:30px;
-    width:100px;
+.toogles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background-color: grey;
+    height: 30px;
+    width: 100px;
+    cursor: pointer;
+}
+.toogles-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    background-color: grey;
+    height: 30px;
+    width: 100px;
+    cursor:pointer;
 }
 /*
 h1 {

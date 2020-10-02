@@ -4,6 +4,9 @@
     ViewData["Title"] = Localizer["OrderWindowHistory"];
     Layout = null;
     int numDishes = 10;
+    int selectedcat_id = 0;
+    if (Model.ComplexCategoriesIds != null)
+        selectedcat_id = Model.ComplexCategoriesIds.FirstOrDefault();
 
 }
 <!doctype html>
@@ -22,7 +25,8 @@
         </div>
     </header>
     <div class="container order-service">
-        <div id="error" class="bg-danger text-white h1" style=" display: none;width:100%;position:absolute;z-index:3000;top:0;left:0;height:200px;">
+        <input type="hidden" id="selected_cat_id" value="@selectedcat_id"/>
+        <div id="error" class="bg-danger text-white h1" style=" display: none;width:100%;position:relative;z-index:3000;top:0;left:0;height:200px;">
 
         </div>
 
@@ -31,14 +35,11 @@
                 <select class="form-control" id="complexcategories" name="complexcategories">
                 </select>
             </div>
-            <div data-num="-1" class="col-2 order-dish-select welcome border rounded bg-secondary text-white btn">
-                @* <span data-num="-1" class="order-dish-select welcome w-100">Welcome</span>*@
-                @Localizer["Welcome"]
 
-            </div>
             @for (int i = 1; i <= numDishes; i++)
             {
-                <div data-num="@(i-1)" class="col-2 order-dish-select border rounded bg-secondary text-white btn">
+                string addclass = (Model.DishesNum != null && Model.DishesNum.Contains(i-1)) ? "active bg-success" : "";
+                <div data-num="@(i-1)" class="col-2 order-dish-select border rounded bg-secondary text-white btn @addclass">
                     @i @Localizer["Dish"]
                 </div>
             }
@@ -74,21 +75,26 @@
     <script>
     $(function () {
 
+        const max_queue = 15;
+        const refresh_ms = 15000;
         var baseurl = "/Service";
+        var serviceurl = baseurl + "/RequestForDelivery";
         var curr_date = new Date();
         var readable_date = curr_date.toJSON().slice(0, 10).split("-").reverse().join(".");
-
+        var el_error = $("#error");
         $('#currentdate').text(readable_date);
         fillComplexCategories();
-        function fillComplexCategories() {
+        getnewQueueHistory();
 
+        function fillComplexCategories() {
+            var selid = $('#selected_cat_id').val();
             $.post(baseurl + '/GetAvailableCategories', readable_date).done(function (data, statusText, xhr) {
                 $('#complexcategories').empty();
                 try {
                     if (data && Array.isArray(data) && data.length != 0) {
                         var options = "";
                         data.forEach(function (elem, idx) {
-                            var sel = idx == 0 ? 'selected' : ''
+                            var sel = elem.id == selid ? 'selected' : ''
                             options += `<option ${sel} value='${elem.id}'>${elem.name}</option>`;
                         });
                         $('#complexcategories').append(options);
@@ -103,7 +109,144 @@
                     el_error.show();
                 });
         }
+        function getnewQueueHistory() {
+            var queue_count = getQueueCount();
+               requestforHistoryQueue(function (data) {
+                    fillQueueHistory(data);
+                    setTimeout(getnewQueueHistory, refresh_ms);  //start only when last finished completelly
+                });
 
+
+        }
+        function requestforHistoryQueue(cb) {
+
+            var dishesnum = getdishesnum();
+            var requesttype = 'askforhistoryqueue';
+            var categories = getcategories();
+            var queuecount = getQueueCount();
+            var ServiceRequest = { DayDate: curr_date.toDateString(), Type: requesttype, DishesNum: dishesnum, MaxQueue: max_queue ,  ComplexCategoriesIds: categories };
+            $.post(serviceurl, ServiceRequest).done(function (data, statusText, xhr) {
+                el_error.hide();
+                cb(data);
+
+            })
+                .fail(function (xhr, code, error) {
+                    el_error.text(error);
+                    el_error.show();
+                });
+        }
+        function getdishesnum() {
+            return $('.dishes-num').find('.order-dish-select.active').map(function (index, element) {
+                return parseInt($(element).attr('data-num'));
+            }).get();
+        }
+        function getcategories() {
+
+            var categories = [];
+
+            categories.push(parseInt($('#complexcategories').children("option:selected").val()));
+            return categories;
+        }
+        function getQueueCount() {
+            return $('#delivery-queue-content').find(".user-queue").length;
+        }
+         function fillQueueHistory(data) {
+                var queunum = getQueueCount();
+                // $('#delivery-queue-content').empty(); // to do
+                var content = $('#delivery-queue-content');
+                if (!data || data.overalResult != "success") {
+                    if (data) {
+                        el_error.text(data.errorMessage);
+                        el_error.show();
+                    }
+                    else {
+                        el_error.text("Сталася помилка, спробуйте перезавантажити");
+                        el_error.show();
+                    }
+                    return;
+                }
+                el_error.hide();
+                data.queues.forEach(el => {
+                    var inner_div = '';
+                    var queue_list = [];
+                    queunum++;
+                    el.dishes.map(function (element, index) {
+                        inner_div += `<div class="row queue-dish border rounded my-1 " class="queue-dish" data-queueid="${element.queueId}" data-id=${element.id}>
+                                            <div class="col-12 h2">
+                                               ${element.name}
+                                            </div>
+                                          </div> `;
+                        queue_list.push(element.queueId);
+                    });
+                    var maxid = el.dishes.reduce((max, p) => p.queueId > max ? p.queueId : max, el.dishes[0].queueId);
+                    lastQueueid = maxid;
+
+                    var pictureURL = '/Pictures/GetPicture?id=' + el.userPictureId;
+                    var timestam = Date.now();
+                    var div_start = `<div class="row user-queue shadow p-1 mb-2 mt-2  justify-content-center" data-userid="${el.userId}"  data-timestamp="${timestam}" data-number="${queunum} data-maxid=${maxid} ">
+                                            <div class="col-1 h1 text-success h-100 justify-content-center align-self-center">
+                                                <div class="row">
+                                                    <div class="col-12  queue-number  align-self-center text-center">
+                                                        ${queunum}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12  align-self-center text-center" >
+                                                       <button class="btn bg-danger text-white btn-remove-queue" data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}>X</button >
+                                                    </div>
+                                                 </div>
+                                            </div>
+                                            <div class="col-4 queue-user">
+                                                <div class="row">
+                                                    <div class="col-12 h5">${el.userName}</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 ">
+                                                        <img src="${pictureURL}" class="queue-img"/>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+
+                    var div_dish=`<div class="col-4 queue-dishes justify-content-center align-self-center h-100">
+                                                ${inner_div}
+                                             </div>`;
+                    var div_btn = `<div class="col-3  align-self-center h-100 ">
+                                                 <button class="btn bg-success text-white btn-confirm-queue  w-100" style="height:100px"  data-userid="${el.userId}"  data-timestamp="${timestam}"  data-queue-list=${JSON.stringify(queue_list)}> @Localizer["Delivered"]</button >
+                                             </div>`;
+
+                    var div_end = `</div>`;
+                    var div_all = div_start + div_dish + div_btn + div_end;
+                    if (is_button_shift==true) {
+                        div_all = div_start + div_btn + div_dish+ div_end;
+                    }
+                    is_button_shift = !is_button_shift;
+                    var div = $(div_all);
+                    content.append(div);
+                    content.find(".user-queue").removeClass("queue-first");
+                    content.find(".user-queue").first().addClass("queue-first");
+                    queueHandler(div);
+                });
+        }
+        $(".order-dish-select").click(function (e) {
+            e.preventDefault();
+
+            var dishnum = parseInt($(this).attr('data-num'));
+           
+
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            }
+            else {
+
+                if (dishnum < 0)
+                    $('.order-dish-select').removeClass('active');
+                $(this).addClass('active')
+            }
+            $('.order-dish-select').not('active').removeClass("bg-success").addClass('bg-secondary');
+            $('.order-dish-select.active').removeClass('bg-secondary').addClass("bg-success");
+          
+
+        });
     })
     </script>
 </body >
