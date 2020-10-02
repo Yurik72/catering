@@ -1012,37 +1012,43 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]
         [Route("Account/Users/UsersList")]
         [Route("Account/UsersList")]
-        public async Task<IActionResult> UsersList([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
+        public async Task<IActionResult> UsersList(QueryModel querymodel)
         {
 
            // var query = _userManager.Users;
 
             ViewData["QueryModel"] = querymodel;
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
-            var query = this.GetQueryListUsers(_userManager.Users.
-                Include(u=>u.UserGroup).
-                Include(u=>u.UserSubGroup).
-                Include(u=>u.CompanyUserCompany),
-                querymodel,
-                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || 
-                        d.ChildNameSurname.Contains(querymodel.SearchCriteria) || 
-                        d.Email.Contains(querymodel.SearchCriteria) || 
-                        d.UserName.Contains(querymodel.SearchCriteria) ||
-                        d.NameSurname.Contains(querymodel.SearchCriteria) ||
-                        d.UserGroup.Name.Contains(querymodel.SearchCriteria) ||
-                        d.UserSubGroup.Name.Contains(querymodel.SearchCriteria),
-                     20);
+            var query = await  GetQueryListUsers(querymodel, 20);
             //if (querymodel.RelationFilter > 0)
             //{
             //    query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);
             //}
 
 
+
+            //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            return PartialView(query);
+        }
+        public async Task<List<CompanyUser>> GetQueryListUsers(QueryModel querymodel,  int pageRecords,bool loadchilds=true)
+        {
+            ViewData["QueryModel"] = querymodel;
+            var query = _userManager.Users.
+                Include(u => u.UserGroup).
+                Include(u => u.UserSubGroup).
+                Include(u => u.CompanyUserCompany)
+                .Where(d => string.IsNullOrEmpty(querymodel.SearchCriteria) ||
+                        d.ChildNameSurname.Contains(querymodel.SearchCriteria) ||
+                        d.Email.Contains(querymodel.SearchCriteria) ||
+                        d.UserName.Contains(querymodel.SearchCriteria) ||
+                        d.NameSurname.Contains(querymodel.SearchCriteria) ||
+                        d.UserGroup.Name.Contains(querymodel.SearchCriteria) ||
+                        d.UserSubGroup.Name.Contains(querymodel.SearchCriteria));
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
             {
                 if (User.IsInRole(Core.UserExtension.UserRole_CompanyAdmin) || User.IsInRole(Core.UserExtension.UserRole_UserAdmin))
                 {
-                    query = query.Where(u => u.CompanyUserCompany.FirstOrDefault()!=null  && u.CompanyUserCompany.FirstOrDefault().CompanyId == User.GetCompanyID());
+                    query = query.Where(u => u.CompanyUserCompany.FirstOrDefault() != null && u.CompanyUserCompany.FirstOrDefault().CompanyId == User.GetCompanyID());
                 }
                 else if (User.IsInRole(Core.UserExtension.UserRole_GroupAdmin))
                 {
@@ -1060,10 +1066,37 @@ namespace CateringPro.Controllers
                     }
                 }
             }
-            //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
-            return PartialView(await query.ToListAsync());
+            if (!string.IsNullOrEmpty(querymodel.SortField))
+            {
+                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
+            }
+            if (querymodel.Page > 0)
+            {
+                query = query.Skip(pageRecords * querymodel.Page);
+            }
+            if (pageRecords > 0)
+                query = query.Take(pageRecords);
+            List<CompanyUser> userslist;
+            if (loadchilds)
+            {
+                userslist = query.ToList();
+                var userids = userslist.Select(u => u.Id).ToList();
+                Func<CompanyUser, IEnumerable<CompanyUser>, CompanyUser> func = (usr, child) =>
+                  {
+                      usr.UserChilds = child.ToList();
+                      return usr;
+                  };
+                var queryx = userslist.ToList().GroupJoin(_userManager.Users.Where(u => userids.Contains(u.ParentUserId)), u => u.Id, c => c.ParentUserId,
+                    (usr, childs) => func(usr, childs)
+                );
+                userslist = queryx.ToList();
+            }
+            else
+            {
+                userslist = await query.ToListAsync();
+            }
+            return userslist;
         }
-
 
 
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]

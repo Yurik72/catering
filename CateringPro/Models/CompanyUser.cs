@@ -111,6 +111,9 @@ namespace CateringPro.Models
         public bool IsAddultType => UserTypeEn != UserTypeEnum.Child;
 
         public bool IsDeactivated { get ; set; }
+
+        [NotMapped]
+        public ICollection<CompanyUser> UserChilds;
     }
     public class CompanyRole : IdentityRole
     {
