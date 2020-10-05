@@ -1087,4 +1087,16 @@
   <data name="ConfirmDeactivate" xml:space="preserve">
     <value>Об'єкт буде де-активований, ви зможете його пізніше активувати знову. Підтвердіть.</value>
   </data>
+  <data name="Block" xml:space="preserve">
+    <value>Заблокувати</value>
+  </data>
+  <data name="ConfirmBlock" xml:space="preserve">
+    <value>Заблокувати користувача</value>
+  </data>
+  <data name="TotalIngredientsSum" xml:space="preserve">
+    <value>Загальна вартість продуктів:</value>
+  </data>
+  <data name="UnBlock" xml:space="preserve">
+    <value>Розблокувати</value>
+  </data>
 </root>

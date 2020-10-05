@@ -104,7 +104,7 @@ namespace CateringPro.ViewModels
 
         public string AutoLoginUrl { get; set; }
         public string AutoLoginToken { get; set; }
-        public DateTimeOffset LockoutEnd { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
 
         [DisplayName("UserType")]
         [NotMapped]
@@ -136,6 +136,8 @@ namespace CateringPro.ViewModels
                 this.PictureId = usr.PictureId;
                 this.UserTypeEn = usr.UserTypeEn;
                 this.IsChild = usr.IsChild();
+                 if(usr.LockoutEnd!=null)
+                this.LockoutEnd = (DateTimeOffset)usr.LockoutEnd;
     }
 
             return this;
