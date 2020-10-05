@@ -249,6 +249,14 @@ namespace CateringPro
                         "public,max-age=" + durationInSeconds;
                 }
             });
+            /*
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\media")),
+
+                RequestPath = new PathString("/media")
+            });
+            */
             UIOption uioption=Configuration.GetSection("UIOption").Get<UIOption>();
             var cultureInfo = new CultureInfo(uioption.DefaultCulture);
             cultureInfo.NumberFormat.CurrencySymbol = uioption.CurrencySymbol;

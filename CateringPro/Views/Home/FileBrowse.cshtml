@@ -1,0 +1,126 @@
+﻿@model IEnumerable<FileViewModel>
+
+
+@section Styles
+{
+    <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+}
+<div class="container">
+<div class="row">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Media files</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item mx-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+                        Upload
+                    </button>
+                   
+                </li>
+
+
+            </ul>
+            <form asp-action="FileBrowse" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</div>
+<div class="row">
+    <div class="invoice-box" style="min-width:800px;width:100%" >
+        <table cellpadding="0" cellspacing="0">
+            <tr class="heading ">
+                <td style="width: 40%; text-align: left;">
+                    Name
+                </td>
+                <td style="width: 20%; text-align: left;">
+                    Preview
+                </td>
+                <td style="width: 20%; text-align: right;">
+                    Date
+                </td>
+                <td style="width: 20%; text-align: right;">
+                    Size
+                </td>
+            </tr>
+            @foreach (var item in @Model)
+            {
+        <tr class="item">
+            <td style="width: 40%; text-align: left;">
+                <a href="@item.URLLink"> @item.Name</a>
+            </td>
+            <td style="width: 20%; text-align: left;">
+               <img src="@item.URLLink" style="width:100px;height:100px;"/>
+            </td>
+            <td style="width: 20%; text-align: right;">
+                @item.DateLastModif
+            </td>
+            <td style="width: 20%; text-align: right;">
+                @item.Size
+
+            </td>
+        </tr>
+            }
+        </table>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="fileform" asp-action="UploadFile" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <img class="col-12" id="imgfilepicture" src="#" alt="" style="padding: 0">
+                    <div class="custom-file mt-3">
+                        <input type="file" class="custom-file-input" id="filepicture" name="filepicture"
+                               placeholder="Файл не обрано..."
+                               style="height: 48px; display: flex; align-items: center" multiple accept="image/jpeg,image/png">
+                        <label class="custom-file-label" id="self-button" for="load-image"
+                               style="height: 48px; display: flex; align-items: center">Файл не обрано</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="$('#fileform').submit()" >Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+<script>
+    $(function () {
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgfilepicture').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $(document).on("change", "#filepicture", function () {
+            readURL(this);
+        });
+    })
+</script>
+}
