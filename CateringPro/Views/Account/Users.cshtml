@@ -19,7 +19,7 @@
 
 <div class="container-xl container container-md container-sm container-lg">
 
-    
+
     <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
         @*@Html.DisplaySortField(model => model.ChildNameSurname).AddSortField(model => model.Email).AddSortField(model => model.UserGroup).Display(querymodel)*@
         @Html.DisplaySortField(model => model.Email).AddSortField(model => model.ChildNameSurname).AddSortField(model => model.UserSubGroup.Name).AddSortField(model => model.UserGroup.Name).Display(querymodel)
@@ -61,90 +61,95 @@
 
     </div>
 </div>
-    <div class="col-lg-4 col-12 p-0 d-lg-none d-md-none d-block position-sticky sticky-class align-content-center "
-         style="display: flex; bottom: -2px; height: 70px; background: #ffffff; box-shadow: 0px -11px 22px -15px rgba(0, 0, 0, 0.25);">
-        <div class="container h-100 ">
-            <div class="col-12 p-0 justify-content-center h-100 align-items-center d-flex">
-                <button type="button"
-                        class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
-                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                        style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
-                    &#65291; @Localizer["Create"]
+<div class="col-lg-4 col-12 p-0 d-lg-none d-md-none d-block position-sticky sticky-class align-content-center "
+     style="display: flex; bottom: -2px; height: 70px; background: #ffffff; box-shadow: 0px -11px 22px -15px rgba(0, 0, 0, 0.25);">
+    <div class="container h-100 ">
+        <div class="col-12 p-0 justify-content-center h-100 align-items-center d-flex">
+            <button type="button"
+                    class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                    onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                    onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                    style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                &#65291; @Localizer["Create"]
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="dialogContent" style="max-width: 966px">
+
+    </div>
+</div>
+<div class="modal fade" id="modDialogBlock" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="dialogContentBlock" style="max-width: 966px">
+
+    </div>
+</div>
+
+<div id="modDialog-addbalance" class="modal fade wide-modal" tabindex="-1" role="dialog">
+    <div id="dialogContent-addbalance" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>@Localizer["AddBalance"]</h5>
+                <button type="button" class="close" data-dismiss="modal" data-target="modDialog-addbalance" aria-label="Close">
+                    <span aria-hidden="true">X</span>
                 </button>
             </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" id="dialogContent" style="max-width: 966px">
-
-        </div>
-    </div>
-
-    <div id="modDialog-addbalance" class="modal fade wide-modal" tabindex="-1" role="dialog">
-        <div id="dialogContent-addbalance" class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-
-                    <h5 class="modal-title"><i class="fa fa-exclamation-circle fa-3" style="color:red" aria-hidden="true"></i>@Localizer["AddBalance"]</h5>
-                    <button type="button" class="close" data-dismiss="modal" data-target="modDialog-addbalance" aria-label="Close">
-                        <span aria-hidden="true">X</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
-                                <label for="add-balance-amount"
-                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
-                                <input id="add-balance-amount"
-                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
-                                       placeholder="@Localizer["Amount"]" Amount" style="height: 34px">
-                            </div>
-                        </div>
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-                            <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
-                                <label for="add-balance-comment"
-                                       class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
-                                <input id="add-balance-comment"
-                                       type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
-                                       placeholder="@Localizer["Comment"]" style="height: 34px">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <div class="container">
-                        <div class="row p-0 flex-lg-row flex-md-row flex-column">
-
-                            <div class="col-6 my-2 text-center">
-                                <button id="add-balance-confirm" type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
-                                        style="background: #36C233; border: 1px solid #36C233; height: 48px" data-dismiss="modal" data-target="modDialog-addbalance">
-                                    @Localizer["Add"]
-                                </button>
-                            </div>
-                            <div class="col-6 my-2 text-center">
-                                <button id="add-balance-reject" type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
-                                        style="background: #36C233; border: 1px solid #36C233; height: 48px" data-dismiss="modal" data-target="modDialog-addbalance">
-                                    @Localizer["Reject"]
-                                </button>
-                            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="add-balance-amount"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                            <input id="add-balance-amount"
+                                   type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   placeholder="@Localizer["Amount"]" Amount" style="height: 34px">
                         </div>
                     </div>
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
+                        <div class="form-group d-flex flex-lg-row flex-md-row flex-column col-lg-6 col-md-6 col-12 input-row-black justify-content-end align-content-center">
+                            <label for="add-balance-comment"
+                                   class="profile-form-title col-12 col-lg-3 col-md-3 p-0 d-flex align-items-center mb-0"></label>
+                            <input id="add-balance-comment"
+                                   type="text" class="form-control col-12 col-lg-6 col-md-6 pl-3"
+                                   placeholder="@Localizer["Comment"]" style="height: 34px">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row p-0 flex-lg-row flex-md-row flex-column">
 
+                        <div class="col-6 my-2 text-center">
+                            <button id="add-balance-confirm" type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                    style="background: #36C233; border: 1px solid #36C233; height: 48px" data-dismiss="modal" data-target="modDialog-addbalance">
+                                @Localizer["Add"]
+                            </button>
+                        </div>
+                        <div class="col-6 my-2 text-center">
+                            <button id="add-balance-reject" type="button" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
+                                    style="background: #36C233; border: 1px solid #36C233; height: 48px" data-dismiss="modal" data-target="modDialog-addbalance">
+                                @Localizer["Reject"]
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 
 
-    @section Scripts
+@section Scripts
         {
 
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-        <script type="text/javascript">
+    <script type="text/javascript">
 
     $(function () {
         //$(document).on('submit', '[method="post"]', function (e) {
@@ -219,7 +224,7 @@
                             //alert("ERROR !" + error);
                         }
                     });
-                       
+
                 });
         function isFileImage(file) {
             const acceptedImageTypes = ['image/jpeg', 'image/png'];
@@ -380,10 +385,71 @@
                             });
                         };
 
+        }
+        $(document).on("click", "a.cmd-block", function (e) {
+            e.preventDefault();
+            fetch(this.href, { method: 'GET' })
+                .then(response => response.text())
+                .then(data => {
+                    $('#dialogContentBlock').html(data);
+                    $('#modDialogBlock').modal('show');
+                    const form = $('#modDialogBlock').find('form');
+                    form.submit(function (e) { e.preventDefault(); });
+
+                    var promise = new Promise((resolve, reject) => {
+                        $('#modDialogBlock').find('input[type="submit"]').click(function (e) {
+                            e.preventDefault();
+                            resolve(form);
+
+                        });
+                        $('#modDialogBlock').find('button[type="button"]').click(function (e) {
+
+                            reject();
+
+                        });
+                    });
+                    return promise;
+                })
+                .then((form) => {
+                    var formdata = new FormData(form.get(0));
+                    return fetch(form.attr('action'), {
+                        method: 'POST',
+                        headers: {
+
+                            'RequestVerificationToken': form.find("[name='__RequestVerificationToken'").val()
+                        },
+                        body: formdata
+                    })
+                })
+                .then(response => {
+                    if (response.ok != true) {
+                        if (response.status == 424) {
+                            throw $.text_resource.deleteeditusingerror
+                        }
+                        else {
+                            throw response.statusText;
+                        }
+
                     }
+                    $(location).attr('href', '/Account/Users')
+
+                })
+                .catch(error => {
+                    if (error)
+                        dialog_error(error);
+
+                })
+                .finally(function () {
+                    $('#modDialogBlock').modal('hide');
+                    $('#dialogContentBlock').empty();
+                    reload();
                 });
-        </script>
-    }
+
+
+        });
+                });
+    </script>
+}
 
 
 

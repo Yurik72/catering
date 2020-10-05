@@ -990,8 +990,25 @@ namespace CateringPro.Controllers
             return RedirectToAction(nameof(Users));
         }
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
-       // [HttpPost, ActionName("Delete")]
-       // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Block(string userid)
+        {
+            if (userid == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var deldialog = new DeleteDialogViewModel() { UserId = user.Id, ModelName = $"Login: {user.UserName} Name:{user.NameSurname}", IsSupportDeactivation = true, CompanyId = User.GetCompanyID() };
+            return PartialView("BlockDialog", deldialog);
+
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [HttpPost, ActionName("Block")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> BlockConfirmed(string userid)
         {
             try
@@ -1001,6 +1018,8 @@ namespace CateringPro.Controllers
                 List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
                 childs.ForEach(ch => ch.LockoutEnd = DateTime.Now.AddYears(10));
                 user.LockoutEnd = DateTime.Now.AddYears(10);
+                childs.Add(user);
+                _context.UpdateRange(childs);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException dbex)
@@ -1558,6 +1577,7 @@ namespace CateringPro.Controllers
                     }
                     var parentResult = await _userManager.UpdateAsync(parent);
                     var childResult = await _userManager.UpdateAsync(child);
+
                 }
             }
             return RedirectToAction("Users");

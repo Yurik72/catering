@@ -400,7 +400,7 @@ namespace CateringPro.Repositories
             CompanyUser usr = new CompanyUser() { CompanyId = companyId };
             usr.Id = Guid.NewGuid().ToString();
             string ticks= DateTime.Now.Ticks.ToString();
-            string translit_text = Translit.cyr2lat(user.ChildNameSurname);
+            //string translit_text = Translit.cyr2lat(user.ChildNameSurname);
             // usr.UserName = user.UserName + "_" + translit_text;
             usr.UserName = add_name +"_"+user.UserName ;
             var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;

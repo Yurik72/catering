@@ -1,6 +1,7 @@
 ﻿@model CateringPro.Models.DishSpecificationViewModel
 @{
     Layout = null;
+    decimal total = 0;
 }
 @inject CateringPro.Core.SharedViewLocalizer Localizer
 
@@ -80,6 +81,7 @@
                         @Localizer["DocLine Amount"]
                     </td>
                 </tr>
+                { total = 0; }
                 @foreach (var di in d.Ingredients)
                 {
                     <tr class="item">
@@ -102,37 +104,25 @@
                             @pr.ToString("0.00")
                         </td>
                         <td>
-                            @{ pr = di.AvgPrice * di.Proportion;}
+                            @{ pr = di.AvgPrice * di.Proportion;
+                                total += Math.Round((Decimal)pr, 2);}
                             @pr.ToString("0.00")
                         </td>
                     </tr>
                 }
-                @*<tr class="information ">
-                    <td colspan="2 ">
-                    </td>
-                    <td colspan="2 ">
-                        Загальна вартість продуктів:
-                    </td>
-                </tr>
-                <tr class="information ">
-                    <td colspan="2 ">
-                    </td>
-                    <td colspan="2 ">
-                        Загальна вартість набору:
-                    </td>
-                </tr>
-                <tr class="information ">
-
-                    <td colspan="2 ">
-                        Зав виробництвом:
-                    </td>
-                </tr>
-                <tr class="information ">
-
-                    <td colspan="2 ">
-                        Калькуляцію виконав:
-                    </td>
-                </tr>*@
+        <tr class="information ">
+            <td colspan="2 ">
+            </td>
+            <td colspan="2 ">
+                @Localizer["TotalIngredientsSum"]
+            </td>
+            <td colspan="2 ">
+            </td>
+            <td colspan="2 ">
+                @total.ToString("0.00")
+            </td>
+        </tr>
+                
             }
         </table>
     </div>
