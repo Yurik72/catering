@@ -43,7 +43,7 @@ namespace CateringPro.Controllers
                 orderamount = amount.Value;
 
             orderamount = 1m;
-            var model = await _fin.GenerateLiqPayCheckOut(User.GetUserId(), orderamount, User.GetCompanyID(), GetUrl("/Payment/Redirect"), GetUrl("/Payment/Callback"));
+            var model = await _fin.GenerateLiqPayCheckOut(User.GetUserId(), orderamount, User.GetCompanyID(), GetUrl("/Payment/RedirectResult"), GetUrl("/Payment/Callback"));
              if(model==null)
                  return View("Error");
            // var inc = _context.UserFinIncomes.FirstOrDefault(u => u.Id == User.GetUserId());
@@ -82,7 +82,7 @@ namespace CateringPro.Controllers
         /// </summary>
         /// <returns></returns>
         
-        public async Task<ActionResult> Redirect(string orderid)
+        public async Task<ActionResult> RedirectResult(string orderid)
         {
             var userid = User.GetUserId();
             var companyId = User.GetCompanyID();
