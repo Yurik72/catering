@@ -990,15 +990,43 @@ namespace CateringPro.Controllers
             return RedirectToAction(nameof(Users));
         }
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+       // [HttpPost, ActionName("Delete")]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> BlockConfirmed(string userid)
         {
             try
             {
                 var user = await _userManager.FindByIdAsync(userid);
                 // to do block User Childs
+                List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
+                childs.ForEach(ch => ch.LockoutEnd = DateTime.Now.AddYears(10));
                 user.LockoutEnd = DateTime.Now.AddYears(10);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Block confirmed error");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Block confirmed error");
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Users));
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        // [HttpPost, ActionName("Delete")]
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnBlock(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+                // to do block User Childs
+                List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
+                childs.ForEach(ch => ch.LockoutEnd = null);
+                user.LockoutEnd = null;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException dbex)

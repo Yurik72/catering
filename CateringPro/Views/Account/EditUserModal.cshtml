@@ -82,6 +82,10 @@
                                     <a class="px-2" href="#" onclick="window.open('@Model.AutoLoginUrl', '_blank')">
                                         @Localizer["UserButtonLogin"]
                                     </a>
+                                    @*<a class="px-2" href="@Url.Action("BlockConfirmed", "Account",
+                           new { userId = Model.Id })">
+                                        @Localizer["Block"]
+                                    </a>*@
                                 </div>
                             </div>
                             @Html.ValidationSummary()
