@@ -160,7 +160,7 @@ namespace CateringPro.Repositories
             if (!string.IsNullOrEmpty(term))
                 result = result.Where(GetContainsFilter(term));
 
-             return result.Select(d => new ShortSelectResult (){ id = d.Id, name = GetModelFriendlyNameEx(d) });
+             return result.Select(d => new ShortSelectResult (){ id = d.Id, name = GetModelFriendlyNameSt(d) });
         }
         public IQueryable<TModel> GetSelectResult(string term)
         {
@@ -198,6 +198,12 @@ namespace CateringPro.Repositories
                  prop => Attribute.IsDefined(prop, typeof(DefaultNameExAttribute)) || prop.Name == "Name");
 
         }
+        private static IEnumerable<PropertyInfo> GetNameExPropsSt()
+        {
+            return typeof(TModel).GetProperties().Where(
+                 prop => Attribute.IsDefined(prop, typeof(DefaultNameExAttribute)) || prop.Name == "Name");
+
+        }
         public string GetModelFriendlyName(TModel src)
         {
             List<string> names = new List<string>();
@@ -208,6 +214,12 @@ namespace CateringPro.Repositories
         {
             List<string> names = new List<string>();
             GetNameExProps().ToList().ForEach(prop => names.Add(prop.GetValue(src).ToString()));
+            return string.Join(",", names);
+        }
+        public static string GetModelFriendlyNameSt(TModel src)
+        {
+            List<string> names = new List<string>();
+            GetNameExPropsSt().ToList().ForEach(prop => names.Add(prop.GetValue(src).ToString()));
             return string.Join(",", names);
         }
         private object GetFieldValue(TModel src, PropertyInfo prop)

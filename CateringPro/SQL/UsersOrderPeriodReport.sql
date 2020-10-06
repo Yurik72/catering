@@ -47,7 +47,7 @@ Insert into @UsedSubGroupsId(ID)
 	FROM RecursiveQuery  
 where TopParentId=@UserSubGroupId or id=@UserSubGroupId or @UserSubGroupId IS NULL
 --select * from @UsedSubGroupsId
-Select ud.Date, cast(case  when u.UserType = 0 then Isnull(u.ChildNameSurname,'') else u.NameSurname end)as ChildNameSurname,cat.Name as Category,ISNULL(dk.Name,'') as DishKind, ud.IsDelivered, uday.Total as Total, uday.Discount as Discount, uday.TotalWtithoutDiscount as TotalWithoutDiscount
+Select ud.Date, (case  when u.UserType = 0 then Isnull(u.ChildNameSurname,'') else u.NameSurname end)as ChildNameSurname,cat.Name as Category,ISNULL(dk.Name,'') as DishKind, ud.IsDelivered, uday.Total as Total, uday.Discount as Discount, uday.TotalWtithoutDiscount as TotalWithoutDiscount
 
 --COUNT(*) AS TotalOrdered 
 
