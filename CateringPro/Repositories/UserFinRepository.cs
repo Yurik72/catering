@@ -70,8 +70,10 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        public async Task<UserFinanceViewModel> GetUserFinModelAsync(string userId, int companyId)
+        public async Task<UserFinanceViewModel> GetUserFinModelAsync(string userId, int companyId, int mounth=1)
         {
+            DateTime from = DateTime.Now.AddMonths(-mounth);
+            DateTime to = DateTime.Now.AddMonths(-mounth + 1);
             var model = new UserFinanceViewModel() { UserId = userId, CompanyId = companyId };
             model.Finance = await _context.UserFinances.FirstOrDefaultAsync(m => m.Id == userId);
             if (model.Finance == null)
@@ -82,6 +84,10 @@ namespace CateringPro.Repositories
             }
             model.Outcomes = await _context.UserFinOutComes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
             model.Incomes = await _context.UserFinIncomes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
+
+            //model.Outcomes = await _context.UserFinOutComes.Where(o => (o.Id == userId)&&(o.TransactionDate>=from)&&(o.TransactionDate<=to)).OrderByDescending(o => o.TransactionDate).ToListAsync();
+            //model.Incomes = await _context.UserFinIncomes.Where(o => (o.Id == userId) && (o.TransactionDate >= from) && (o.TransactionDate <= to)).OrderByDescending(o => o.TransactionDate).ToListAsync();
+
             return model;
         }
 
