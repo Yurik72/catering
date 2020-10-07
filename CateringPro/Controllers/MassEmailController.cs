@@ -24,12 +24,12 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
        
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<MassEmailController> _logger;
         private readonly IMassEmailRepository _mailrepo;
         private readonly IMassEmailService _massmailservice;
         private IConfiguration _configuration;
         private int pageRecords = 20;
-        public MassEmailController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration, IMassEmailRepository mailrepo, IMassEmailService massmailservice)
+        public MassEmailController(AppDbContext context, ILogger<MassEmailController> logger, IConfiguration Configuration, IMassEmailRepository mailrepo, IMassEmailService massmailservice)
         {
             _context = context;
             _logger = logger;
@@ -164,10 +164,12 @@ namespace CateringPro.Controllers
             }
             catch (DbUpdateException dbex)
             {
+                _logger.LogError(dbex, "DeleteConfirmed");
                 return StatusCode((int)HttpStatusCode.FailedDependency);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "DeleteConfirmed");
                 return BadRequest();
             }
             return RedirectToAction("Index");

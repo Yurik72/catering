@@ -99,7 +99,9 @@ namespace CateringPro.Core
                 await conn.OpenAsync();
                 using (var command = conn.CreateCommand())
                 {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
                     command.CommandText = SQLQuery;
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
                     DbDataReader reader = await command.ExecuteReaderAsync();
 
                     if (reader.HasRows)
@@ -160,7 +162,9 @@ namespace CateringPro.Core
                 await conn.OpenAsync();
                 using (var command = conn.CreateCommand())
                 {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
                     command.CommandText = SQLQuery;
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
                     DbDataReader reader = await command.ExecuteReaderAsync();
                     await WriteToStreamAsync(reader, sw);
 
@@ -245,7 +249,9 @@ namespace CateringPro.Core
                 await conn.OpenAsync();
                 using (var command = conn.CreateCommand())
                 {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
                     command.CommandText = SQLQuery;
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
                     DbDataReader reader = await command.ExecuteReaderAsync();
                      res=await ToStringAsync(reader );
 
@@ -285,7 +291,7 @@ namespace CateringPro.Core
 
                 jsonWriter.WriteEndArray();
 
-                return sw.ToString();
+                return await Task.FromResult(sw.ToString());
             }
         }
              

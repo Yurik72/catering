@@ -38,17 +38,17 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Index()
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
-            return View();
+            return await Task.FromResult(View());
         }
         public async Task<IActionResult> Test()
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
-            return View();
+            return await Task.FromResult(View());
         }
         public async Task<IActionResult> Cards()
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
-            return View();
+            return await Task.FromResult(View());
         }
         public async Task<IActionResult> CardsList([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
@@ -58,7 +58,7 @@ namespace CateringPro.Controllers
         public async Task<JsonResult> GenUserCardToken(string userId)
         {
             var token = _companyuserreporepo.GenerateNewCardToken(userId, "", false);
-            return Json(new { isSuccess = true, CardTag = token, cmd = "generate" });
+            return await Task.FromResult(Json(new { isSuccess = true, CardTag = token, cmd = "generate" }));
         }
         public async Task<JsonResult> GenUserCardTokenConfirm(string userId, string token)
         {
@@ -164,7 +164,7 @@ namespace CateringPro.Controllers
             }
             catch {
             }
-            return View(servrequest);
+            return await Task.FromResult(View(servrequest));
         }
 
 

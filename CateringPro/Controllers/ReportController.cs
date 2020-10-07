@@ -162,7 +162,7 @@ namespace CateringPro.Controllers
             var groups = _companyRep.GetUserSubGroups(User.GetUserId(), User.GetCompanyID()).ToArray();
             var res = _reportrepo.UserDayReport(groups, datefrom, dateto, User.GetCompanyID());
 
-            return View(res);
+            return await Task.FromResult(View(res));
         }
         [MiddlewareFilter(typeof(JsReportPipeline))]
         public void SelectFormat(string format)
@@ -269,10 +269,10 @@ namespace CateringPro.Controllers
           public async Task<IActionResult> SQLRawJsonData(string sql)
         {
             // to do unsecure check injection
-            return Content("");
-            var jsonstring= await _context.Database.JsonWriter(sql).ToStringAsync();
-            Response.Headers["ContentType"]="application/json";
-            return Content(jsonstring);
+            return await Task.FromResult(Content(""));
+           // var jsonstring= await _context.Database.JsonWriter(sql).ToStringAsync();
+           // Response.Headers["ContentType"]="application/json";
+           // return Content(jsonstring);
         }
         private async Task<FileResult> CsvReportFromSQL(string sql,string filename)
         {

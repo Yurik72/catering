@@ -22,11 +22,11 @@ namespace CateringPro.Controllers
 
         private readonly AppDbContext _context;
        
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<IngredientsController> _logger;
         private IConfiguration _configuration;
         private int pageRecords = 20;
        // private IGenericModelRepository<Ingredients> _repo;
-        public IngredientsController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration/*, IGenericModelRepository<Ingredients> repo*/)
+        public IngredientsController(AppDbContext context, ILogger<IngredientsController> logger, IConfiguration Configuration/*, IGenericModelRepository<Ingredients> repo*/)
         {
             _context = context;
             _logger = logger;

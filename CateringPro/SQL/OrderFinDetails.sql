@@ -65,11 +65,13 @@ ud.OrderedDishes,DeliveredDishes
 
 
 from 
-(select CompanyId,UserId,Date,ComplexId,
-count(*) as OrderedDishes,Sum(CASE WHEN t1.IsDelivered=1 THEN 1 ELSE 0 END) as DeliveredDishes
-from UserDayDish t1 
-	where t1.Date>=@DayFrom and t1.Date<=@DayTo and t1.CompanyId=@companyId and t1.IsComplex=1 
-	group by CompanyId,UserId,Date,ComplexId )  ud
+(
+	select CompanyId,UserId,Date,ComplexId,
+	count(*) as OrderedDishes,Sum(CASE WHEN t1.IsDelivered=1 THEN 1 ELSE 0 END) as DeliveredDishes
+	from UserDayDish t1 
+		where t1.Date>=@DayFrom and t1.Date<=@DayTo and t1.CompanyId=@companyId and t1.IsComplex=1 
+		group by CompanyId,UserId,Date,ComplexId 
+	)  ud
  join aspnetusers u on u.Id=ud.userid
 inner join complex c on c.CompanyId=ud.CompanyId and ud.complexid=c.id 
 --inner join DishComplex dc on dc.CompanyId=ud.CompanyId and dc.DishId=ud.DishId and dc.ComplexId=c.id

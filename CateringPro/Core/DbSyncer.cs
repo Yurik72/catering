@@ -104,6 +104,7 @@ namespace CateringPro.Core
             CopyDataTable(_remotecontext.UserDay, companyId, (d) => d.Date == daydate);
             CopyDataTable(_remotecontext.UserDayDish, companyId, (d) => d.Date == daydate);
             CopyDataTable(_remotecontext.UserDayComplex, companyId, (d) => d.Date == daydate);
+            await Task.CompletedTask;
         }
         public int GetDefaultCompanyId()
         {
@@ -208,6 +209,7 @@ namespace CateringPro.Core
 
             }
             */
+            await Task.CompletedTask;
         }
         private bool DbIsEmpty()
         {

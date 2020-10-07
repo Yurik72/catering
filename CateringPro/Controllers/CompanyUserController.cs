@@ -23,10 +23,10 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IUserGroupsRepository _usrGrRepo;
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<CompanyUserController> _logger;
         private IConfiguration _configuration;
         private int pageRecords = 20;
-        public CompanyUserController(AppDbContext context, IUserGroupsRepository usrGrRepo, ILogger<CompanyUser> logger, IConfiguration Configuration)
+        public CompanyUserController(AppDbContext context, IUserGroupsRepository usrGrRepo, ILogger<CompanyUserController> logger, IConfiguration Configuration)
         {
             _context = context;
             _usrGrRepo = usrGrRepo;

@@ -159,7 +159,7 @@ namespace CateringPro.Core
                             _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId,null,false).Wait();
                         _context.Remove(e);
                         //await _context.SaveChangesAsync();
-                        _context.SaveChanges(); //wiil wait 
+                        _context.SaveChanges(); //will wait 
                     }
                     catch(Exception ex)
                     {
@@ -188,7 +188,7 @@ namespace CateringPro.Core
                 _logger.LogError(ex, "SendMassEmailToUser error");
                 return false;
             }
-            return true;
+            return await Task.FromResult(true);
         }
 
         private async Task<EmailProtoType> CreateEmail(int companyid, CompanyUser user, MassEmail em)

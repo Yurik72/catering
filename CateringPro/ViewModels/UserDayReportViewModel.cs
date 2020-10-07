@@ -31,7 +31,7 @@ namespace CateringPro.ViewModels
         public int DishId { get; set; }
         public string DishName { get; set; }
         public int? ComplexKind { get; set; }
-        public string? ComplexKindName { get; set; }
+        public string ComplexKindName { get; set; }
         public string ComplexName { get; set; }
 
     }

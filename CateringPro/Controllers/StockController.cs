@@ -23,11 +23,11 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
        
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<StockController> _logger;
         private IConfiguration _configuration;
         private IStockRepository _stockrepo;
         private int pageRecords = 20;
-        public StockController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration,IStockRepository stockrepo)
+        public StockController(AppDbContext context, ILogger<StockController> logger, IConfiguration Configuration,IStockRepository stockrepo)
         {
             _context = context;
             _logger = logger;
