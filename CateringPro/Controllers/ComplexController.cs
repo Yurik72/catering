@@ -24,11 +24,11 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IComplexRepository _complexRepo;
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<ComplexController> _logger;
         private IConfiguration _configuration;
         private readonly SharedViewLocalizer _localizer;
         private int pageRecords = 20;
-        public ComplexController(AppDbContext context, IComplexRepository complexRepo, ILogger<CompanyUser> logger, IConfiguration Configuration, SharedViewLocalizer localizer)        {
+        public ComplexController(AppDbContext context, IComplexRepository complexRepo, ILogger<ComplexController> logger, IConfiguration Configuration, SharedViewLocalizer localizer)        {
             _context = context;
             _complexRepo = complexRepo;
             _logger = logger;
@@ -199,6 +199,7 @@ namespace CateringPro.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "DeleteConfirmed");
                 return BadRequest();
             }
             return RedirectToAction("Index");

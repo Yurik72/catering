@@ -116,6 +116,7 @@ namespace CateringPro
                 services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
                 services.AddSingleton<IScheduledTask, MakeOrdersPaymentTask>();
                 services.AddSingleton<IScheduledTask, EMailSenderTask>();
+                services.AddSingleton<IScheduledTask, CleanUpTask>();
 
                 services.AddScheduler((sender, args) =>
                 {

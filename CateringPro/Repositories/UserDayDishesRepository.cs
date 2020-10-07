@@ -743,10 +743,10 @@ namespace CateringPro.Repositories
         }
         private bool UpdateUserComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
         {
-            var userid = httpcontext.User.GetUserId();
-            var companyid = httpcontext.User.GetCompanyID();
-            bool isnew = false;
-            UserDay userDay = null;
+           // var userid = httpcontext.User.GetUserId();
+            //var companyid = httpcontext.User.GetCompanyID();
+            //bool isnew = false;
+           // UserDay userDay = null;
 
 
             return true;

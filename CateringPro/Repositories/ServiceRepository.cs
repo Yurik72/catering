@@ -242,6 +242,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "ProcessQueueRequestAsync");
                 return ServiceQueueResponse.GetFailResult();
             }
         }
@@ -298,6 +299,7 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "ProcessQueueHistoryRequestAsync");
                 return ServiceQueueResponse.GetFailResult();
             }
         }

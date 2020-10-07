@@ -22,7 +22,7 @@ namespace CateringPro.Controllers
     public class DishesController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<DishesController> _logger;
         private IConfiguration _configuration;
         private readonly IDishesRepository _dishesRepo;
         private readonly SharedViewLocalizer _localizer;
@@ -30,7 +30,7 @@ namespace CateringPro.Controllers
 
         public DishesController(AppDbContext context,
             IDishesRepository dishesRepo,
-            ILogger<CompanyUser> logger,
+            ILogger<DishesController> logger,
             IConfiguration Configuration,
             SharedViewLocalizer localizer)
         {
@@ -142,7 +142,7 @@ namespace CateringPro.Controllers
         // GET: Dishes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            return NotFound();
+            return await Task.FromResult(NotFound());
         }
 
         // POST: Dishes/Edit/5
@@ -153,7 +153,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Dish dish)
         {
 
-            return NotFound();
+            return await Task.FromResult(NotFound());
         }
 
         //     public async Task<IActionResult> GetDishPicture(int id)
@@ -366,6 +366,7 @@ namespace CateringPro.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "DeleteConfirmed");
                 return BadRequest();
             }
             return RedirectToAction(nameof(Index));

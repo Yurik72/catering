@@ -261,7 +261,7 @@ namespace CateringPro.Repositories
                     }
                     catch(Exception ex)
                     {
-
+                        _logger.LogError(ex, "BuildViewBagRelations");
                     }
                 }
             });
@@ -333,7 +333,7 @@ namespace CateringPro.Repositories
         }
         public virtual async Task<bool> PostUpdateEntityAsync(TModel entity)
         {
-            return true;
+            return await Task.FromResult(true);
         }
         public  void AssignCompantAttr(TModel entity)
         {

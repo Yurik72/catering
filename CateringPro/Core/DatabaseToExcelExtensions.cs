@@ -43,7 +43,9 @@ namespace CateringPro.Core
                 await conn.OpenAsync();
                 using (var command = conn.CreateCommand())
                 {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
                     command.CommandText = SQLQuery;
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
                     using (DbDataReader reader = await command.ExecuteReaderAsync())
                     {
 
@@ -62,7 +64,7 @@ namespace CateringPro.Core
         private  string Export(DbDataReader reader)
         {
             
-            string testpath = "c:\\Temp\\SavedDocument.xlsx";
+          //  string testpath = "c:\\Temp\\SavedDocument.xlsx";
             string temppath = Path.Combine("Temp", Guid.NewGuid().ToString());
             Directory.CreateDirectory("Temp");
             string templatepath = Path.Combine("Templates", $"{ReportName}.xlsx");

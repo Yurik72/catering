@@ -128,7 +128,7 @@ namespace CateringPro.Controllers
                 return View("Success");
             }
             */
-            return View("Success");
+           // return View("Success");
         }
         [HttpPost]
         public async Task<JsonResult> RegisterWidgetCallback(string orderid,string data)

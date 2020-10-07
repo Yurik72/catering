@@ -94,11 +94,11 @@ namespace CateringPro.Repositories
         {
             entity.CompanyId = companyId;
         }
-        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, EntityWrap<TEntity> wrap, AppDbContext _context, ILogger<CompanyUser> _logger, Func<TEntity,Task<bool>>   postSaveAction = null) where TEntity : CompanyDataOwnId
+        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity, TController>(this TController ctl, EntityWrap<TEntity> wrap, AppDbContext _context, ILogger<TController> _logger, Func<TEntity,Task<bool>>   postSaveAction = null) where TEntity : CompanyDataOwnId where TController:Controller
         {
             return await ctl.UpdateCompanyDataAsync(wrap.Src, _context, _logger, postSaveAction, wrap);
         }
-        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger, Func<TEntity, Task<bool>> postSaveAction = null, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
+        public static async Task<IActionResult> UpdateCompanyDataAsync<TEntity,TController>(this TController ctl, TEntity entity, AppDbContext _context, ILogger<TController> _logger, Func<TEntity, Task<bool>> postSaveAction = null, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId where TController : Controller
         {
             if (!ctl.ModelState.IsValid)
                 return ctl.PartialView(entity);
@@ -114,7 +114,7 @@ namespace CateringPro.Repositories
             }
             return ctl.UpdateOk();
         }
-        public static async Task<IActionResult> UpdateDBCompanyDataAsyncEx<TEntity>(this Controller ctl, TEntity entity,  ILogger<CompanyUser> _logger, Func<TEntity, Task<bool>> funcUpdate = null,EntityWrap < TEntity> wrap = null) where TEntity : CompanyDataOwnId
+        public static async Task<IActionResult> UpdateDBCompanyDataAsyncEx<TEntity,TController>(this TController ctl, TEntity entity,  ILogger<TController> _logger, Func<TEntity, Task<bool>> funcUpdate = null,EntityWrap < TEntity> wrap = null) where TEntity : CompanyDataOwnId where TController: Controller
         {
             if (!ctl.ModelState.IsValid)
                 return ctl.PartialView(entity);
@@ -126,7 +126,7 @@ namespace CateringPro.Repositories
             return ctl.UpdateOk();
 
         }
-        public static async Task<IActionResult> UpdateDBCompanyDataAsyncEx2<TEntity>(this Controller ctl, TEntity entity, ILogger<CompanyUser> _logger, Func<TEntity, Task<Result>> funcUpdate = null, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
+        public static async Task<IActionResult> UpdateDBCompanyDataAsyncEx2<TEntity,TController>(this TController ctl, TEntity entity, ILogger<TController> _logger, Func<TEntity, Task<Result>> funcUpdate = null, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId where TController : Controller
         {
             if (!ctl.ModelState.IsValid)
                 return ctl.PartialView(entity);
@@ -149,7 +149,7 @@ namespace CateringPro.Repositories
         {
             return ctl.Json(new { res = "FAIL",reason=res.Error });
         }
-        public static async Task<bool> UpdateDBCompanyDataAsync<TEntity>(this Controller ctl, TEntity entity, AppDbContext _context, ILogger<CompanyUser> _logger, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId
+        public static async Task<bool> UpdateDBCompanyDataAsync<TEntity,TController>(this TController ctl, TEntity entity, AppDbContext _context, ILogger<TController> _logger, EntityWrap<TEntity> wrap = null) where TEntity : CompanyDataOwnId where TController:Controller
         {
             try
             {

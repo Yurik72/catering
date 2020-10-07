@@ -26,11 +26,11 @@ namespace CateringPro.Controllers
 
         private readonly AppDbContext _context;
 
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<DocsController> _logger;
         private IConfiguration _configuration;
         private IDocRepository _docrepo;
         private int pageRecords = 20;
-        public DocsController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration configuration,IDocRepository docrepo)
+        public DocsController(AppDbContext context, ILogger<DocsController> logger, IConfiguration configuration,IDocRepository docrepo)
         {
 
             _context = context;
@@ -143,6 +143,7 @@ namespace CateringPro.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex, "DeleteConfirmed");
                 return BadRequest();
             }
             return RedirectToAction(nameof(Index));
