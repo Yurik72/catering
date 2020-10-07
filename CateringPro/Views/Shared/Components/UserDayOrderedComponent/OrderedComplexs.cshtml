@@ -57,7 +57,7 @@
                                     }
                                 </div>
                                 <span class="h4 font-italic d-flex align-items-center pb-2 pb-lg-0 pb-md-0 mt-2"
-                                      style="font-size: 14px; line-height: 16px; color: #797979;">Ціна за комплекс: @string.Format("{0:0.00}{1}", item.Price, pageOptions.Value.CurrencySymbol)</span>
+                                      style="font-size: 14px; line-height: 16px; color: #797979;">Кількість: @item.Quantity Ціна за комплекс: @string.Format("{0:0.00}{1}", item.Price, pageOptions.Value.CurrencySymbol)</span>
                             </div>
                             
                                 @foreach (var dish in item.ComplexDishes)

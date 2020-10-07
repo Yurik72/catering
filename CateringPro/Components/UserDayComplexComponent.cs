@@ -51,7 +51,8 @@ namespace CateringPro.ViewComponents
            }
             else
             {
-                return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.ComplexPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
+                return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
+                //return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.ComplexPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
             }
             // return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
         }
