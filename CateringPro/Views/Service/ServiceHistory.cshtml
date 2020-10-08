@@ -151,9 +151,11 @@
             return $('#delivery-queue-content').find(".user-queue").length;
         }
          function fillQueueHistory(data) {
-                var queunum = getQueueCount();
+             var queunum = getQueueCount();
+             $('#delivery-queue-row').show();
                 // $('#delivery-queue-content').empty(); // to do
-                var content = $('#delivery-queue-content');
+             var content = $('#delivery-queue-content');
+             content.empty();
                 if (!data || data.overalResult != "success") {
                     if (data) {
                         el_error.text(data.errorMessage);
