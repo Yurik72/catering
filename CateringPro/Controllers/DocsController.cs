@@ -103,10 +103,14 @@ namespace CateringPro.Controllers
             var doc = await _context.Docs.Include(d=>d.Address).SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
             var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
             docLines = docLines.OrderBy(doc => doc.Number).ToList();
-            doc.DocLines = docLines;
+         
             if (doc == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                doc.DocLines = docLines;
             }
 
             return PartialView(doc);
@@ -121,10 +125,14 @@ namespace CateringPro.Controllers
             //var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
             var doc = await _context.Docs.SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
             var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
-            doc.DocLines = docLines;
+            
             if (doc == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                doc.DocLines = docLines;
             }
 
             return PartialView(doc);

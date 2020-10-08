@@ -12,7 +12,7 @@ namespace CateringPro.Repositories
     {
         Task<bool> AddBalanceToAsync(UserFinIncome userincome);
          Task<LiqPayCheckoutFormModel> GenerateLiqPayCheckOut(string userId, decimal amount, int companyId, string result_url, string callback_url);
-        Task<UserFinanceViewModel> GetUserFinModelAsync(string userId, int companyId);
+        Task<UserFinanceViewModel> GetUserFinModelAsync(string userId, int companyId, int mounth=1);
         bool RegisterLiqPayResponse(string userId, string data, string signature, out Dictionary<string, string> dataresult, out string decodedString);
         bool MakeOrderPayment(DateTime daydate, int companyId);
         Task<bool> MakeOrderPaymentAsync(DateTime daydate, int companyId);
