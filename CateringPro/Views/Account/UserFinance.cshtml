@@ -6,89 +6,96 @@
 @inject IConfiguration Configuration
 @{
     SiteSetting setting = Configuration.GetSection("SiteSetting").Get<SiteSetting>();
+ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
 }
 @if (true)
 {
 
-    <div class="d-flex justify-content-center flex-column align-items-center">
-        <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-start  flex-column">
-            @*  <span class="h2 mb-3" style="font-weight: 500; font-size: 18px; line-height: 21px; color: #232323;">Фінанси</span>*@
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
-                 style="font-weight: normal; font-size: 16px;">
-                <span class=" m-0">@Localizer["Balance"]</span>
-                    <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.Balance</span>
-            </div>
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
-                 style="font-weight: normal; font-size: 16px;">
-                <span class=" m-0">@Localizer["Income"]</span>
-                <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalIncome</span>
-            </div>
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
-                 style="font-weight: normal; font-size: 16px;">
-                <span class=" m-0">@Localizer["OutCome"]</span>
-                <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalOutCome</span>
-            </div>
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
-                 style="font-weight: normal; font-size: 16px;">
-                <span class=" m-0">@Localizer["TotalPreOrderedAmount"]</span>
-                <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalPreOrderedAmount</span>
-            </div>
-            <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
-                 style="font-weight: normal; font-size: 16px;">
-                <span class=" m-0">@Localizer["TotalPreOrderBalance"]</span>
-                <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalPreOrderBalance</span>
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-start  flex-column">
+        @*  <span class="h2 mb-3" style="font-weight: 500; font-size: 18px; line-height: 21px; color: #232323;">Фінанси</span>*@
+        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+             style="font-weight: normal; font-size: 16px;">
+            <span class=" m-0">@Localizer["Balance"]</span>
+            <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.Balance</span>
+        </div>
+        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+             style="font-weight: normal; font-size: 16px;">
+            <span class=" m-0">@Localizer["Income"]</span>
+            <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalIncome</span>
+        </div>
+        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+             style="font-weight: normal; font-size: 16px;">
+            <span class=" m-0">@Localizer["OutCome"]</span>
+            <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalOutCome</span>
+        </div>
+        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+             style="font-weight: normal; font-size: 16px;">
+            <span class=" m-0">@Localizer["TotalPreOrderedAmount"]</span>
+            <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalPreOrderedAmount</span>
+        </div>
+        <div class="col-12 col-md-7 my-2 col-lg-6 p-0  d-flex flex-row justify-content-between align-items-lg-center align-items-md-center"
+             style="font-weight: normal; font-size: 16px;">
+            <span class=" m-0">@Localizer["TotalPreOrderBalance"]</span>
+            <span class=" m-0" style="font-family: Open-Sans">@Model.Finance.TotalPreOrderBalance</span>
+        </div>
+    </div>
+    <div class="container border rounded my-2">
+        @if (setting.EnableLiqPay)
+            {
+        <div class="row justify-content-center ">
+            <div class="col-12 text-center">
+                Додати баланс за допомогою LiqPay
+                Введiть сумму та натиснить додати
             </div>
         </div>
-        <div class="container border rounded my-2">
-            @if (setting.EnableLiqPay)
-            {
-                <div class="row justify-content-center ">
-                    <div class="col-12 text-center">
-                        Додати баланс за допомогою LiqPay
-                        Введiть сумму та натиснить додати
-                    </div>
-                </div>
             }
             else
             {
-                <div class="row justify-content-center ">
-                    <div class="col-12 text-center">
-                        <a href="@Html.Raw("https://next.privat24.ua/payments/form/%7B%22token%22%3A%223700ff9e-b150-4e47-9bbe-8588a59144fa%22%7D?fbclid=IwAR1Ft3dFuABYjCdQjy9BBN3rnTUXsel2Q7yhv5Msggy3D3SZdgPdG0wad8I")" >
-                            Ви можете сплатит перейшовши за посиланням
-                        </a>
-                    </div>
-                </div>
+        <div class="row justify-content-center ">
+            <div class="col-12 text-center">
+                <a href="@Html.Raw("https://next.privat24.ua/payments/form/%7B%22token%22%3A%223700ff9e-b150-4e47-9bbe-8588a59144fa%22%7D?fbclid=IwAR1Ft3dFuABYjCdQjy9BBN3rnTUXsel2Q7yhv5Msggy3D3SZdgPdG0wad8I")">
+                    Ви можете сплатит перейшовши за посиланням
+                </a>
+            </div>
+        </div>
             }
-            <div id="addbalanceliqpay" class="row  my-2">
-                <div class="container">
-                    <div class="row justify-content-center  my-2">
+        <div id="addbalanceliqpay" class="row  my-2">
+            <div class="container">
+                <div class="row justify-content-center  my-2">
 
-                        <div class="col-6  text-center">
+                    <div class="col-6  text-center">
 
-                            <input class="form-control text-right font-weight-bold" id="liqpay-amount" type="number" name="amount" value="500.00" placeholder="Сумма" style="max-width:200px;" />
+                        <input class="form-control text-right font-weight-bold" id="liqpay-amount" type="number" name="amount" value="500.00" placeholder="Сумма" style="max-width:200px;" />
 
-
-                        </div>
 
                     </div>
-                    <div class="row  justify-content-center my-2">
-                        <div class="col-6 text-center">
+
+                </div>
+                <div class="row  justify-content-center my-2">
+                    <div class="col-6 text-center">
 
 
-                            <button type="button" id="addliqpay-btn"
-                                    class="btn btn-xl btn-outline-danger  font-weight-bold btn-block "
-                                    onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                                    onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                                    style="max-width: 200px; background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
-                                &#65291;@Localizer["AddBalance"]
-                            </button>
-
-                        </div>
+                        <button type="button" id="addliqpay-btn"
+                                class="btn btn-xl btn-outline-danger  font-weight-bold btn-block "
+                                onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                style="max-width: 200px; background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; font-size: 14px;">
+                            &#65291;@Localizer["AddBalance"]
+                        </button>
 
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
+    <div class="finance-table container" >
         <div class="container border rounded">
             <div class="row justify-content-center">
                 <div class="col-12 bg-info text-white">
@@ -99,18 +106,18 @@
 
             @foreach (var it in Model.Incomes)
             {
-                <div class="row">
+            <div class="row">
 
-                    <div class="col-4">
-                        <span>@it.TransactionDate</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Comments</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Amount</span>
-                    </div>
+                <div class="col-4">
+                    <span>@it.TransactionDate</span>
                 </div>
+                <div class="col-4">
+                    <span>@it.Comments</span>
+                </div>
+                <div class="col-4">
+                    <span>@it.Amount</span>
+                </div>
+            </div>
             }
 
         </div>
@@ -123,96 +130,100 @@
             </div>
             @foreach (var it in Model.Outcomes)
             {
-                <div class="row">
+            <div class="row">
 
-                    <div class="col-4">
-                        <span>@it.TransactionDate</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Comments</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Amount</span>
-                    </div>
+                <div class="col-4">
+                    <span>@it.TransactionDate</span>
                 </div>
+                <div class="col-4">
+                    <span>@it.Comments</span>
+                </div>
+                <div class="col-4">
+                    <span>@it.Amount</span>
+                </div>
+            </div>
             }
         </div>
     </div>
+    @Html.DisplayFor(model => querymodel, "PageNavigation", null)
+</div>
 }
 
 else
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <span>@Localizer["Balance"]</span>
-            </div>
-            <div class="col-4">
-                <span>@Model.Finance.Balance</span>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <span>@Localizer["Balance"]</span>
         </div>
-        <div class="row">
-            <div class="col-4">
-                <span>@Localizer["Income"]</span>
-            </div>
-            <div class="col-4">
-                <span>@Model.Finance.TotalIncome</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                <span>@Localizer["OutCome"]</span>
-            </div>
-            <div class="col-4">
-                <span>@Model.Finance.TotalOutCome</span>
-            </div>
-        </div>
-        <div class="container border rounded">
-            <div class="row justify-content-center">
-                <div class="col-12 bg-info text-white">
-                    @Localizer["Income"]
-                </div>
-
-            </div>
-
-            @foreach (var it in Model.Incomes)
-            {
-                <div class="row">
-
-                    <div class="col-4">
-                        <span>@it.TransactionDate</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Comments</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Amount</span>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="container border rounded">
-            <div class="row justify-content-center">
-                <div class="col-12 bg-info text-white">
-                    @Localizer["OutCome"]
-                </div>
-
-            </div>
-            @foreach (var it in Model.Outcomes)
-            {
-                <div class="row">
-
-                    <div class="col-4">
-                        <span>@it.TransactionDate</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Comments</span>
-                    </div>
-                    <div class="col-4">
-                        <span>@it.Amount</span>
-                    </div>
-                </div>
-            }
+        <div class="col-4">
+            <span>@Model.Finance.Balance</span>
         </div>
     </div>
+    <div class="row">
+        <div class="col-4">
+            <span>@Localizer["Income"]</span>
+        </div>
+        <div class="col-4">
+            <span>@Model.Finance.TotalIncome</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <span>@Localizer["OutCome"]</span>
+        </div>
+        <div class="col-4">
+            <span>@Model.Finance.TotalOutCome</span>
+        </div>
+    </div>
+    <div class="container border rounded">
+        <div class="row justify-content-center">
+            <div class="col-12 bg-info text-white">
+                @Localizer["Income"]
+            </div>
+
+        </div>
+
+        @foreach (var it in Model.Incomes)
+            {
+        <div class="row">
+
+            <div class="col-4">
+                <span>@it.TransactionDate</span>
+            </div>
+            <div class="col-4">
+                <span>@it.Comments</span>
+            </div>
+            <div class="col-4">
+                <span>@it.Amount</span>
+            </div>
+        </div>
+            }
+    </div>
+    <div class="container border rounded">
+        <div class="row justify-content-center">
+            <div class="col-12 bg-info text-white">
+                @Localizer["OutCome"]
+            </div>
+
+        </div>
+        @foreach (var it in Model.Outcomes)
+            {
+        <div class="row">
+
+            <div class="col-4">
+                <span>@it.TransactionDate</span>
+            </div>
+            <div class="col-4">
+                <span>@it.Comments</span>
+            </div>
+            <div class="col-4">
+                <span>@it.Amount</span>
+            </div>
+        </div>
+            }
+    </div>
+</div>
 }
+
+

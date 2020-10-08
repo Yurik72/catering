@@ -245,8 +245,11 @@ function setup_listitems(options) {
         var getstr = `&searchcriteria=${searchcriteria}&sortfield=${sortfield}&sortorder=${sortorder}`;
 
         href += getstr;
-       
-        $('#table-content').load(href);
+        if ($("#table-content").length) {
+            $('#table-content').load(href);
+        } else {
+            $('.table-content').load(href);
+        }
         // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
     }

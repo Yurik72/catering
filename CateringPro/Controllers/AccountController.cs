@@ -1745,9 +1745,20 @@ namespace CateringPro.Controllers
             return PartialView(await _fin.GetUserFinModelAsync(user.Id, User.GetCompanyID()));
         }
         [Authorize]
-        public async Task<IActionResult> UserFinance()
+        public async Task<IActionResult> UserFinance(QueryModel querymodel)
         {
-            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
+            if (querymodel != null)
+            {
+                querymodel.SortField = "";
+                querymodel.SearchCriteria = "";
+                ViewData["QueryModel"] = querymodel;
+                return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID(),(querymodel.Page+1)));
+            }
+            else
+            {
+               
+                return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
+            }
         }
 
         [HttpPost]

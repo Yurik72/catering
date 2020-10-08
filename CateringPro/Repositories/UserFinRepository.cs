@@ -82,11 +82,11 @@ namespace CateringPro.Repositories
                 _context.Add(model.Finance);
                 await _context.SaveChangesAsync();
             }
-            model.Outcomes = await _context.UserFinOutComes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
-            model.Incomes = await _context.UserFinIncomes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
+            //model.Outcomes = await _context.UserFinOutComes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
+            //model.Incomes = await _context.UserFinIncomes.Where(o => o.Id == userId).OrderByDescending(o => o.TransactionDate).Take(20).ToListAsync();
 
-            //model.Outcomes = await _context.UserFinOutComes.Where(o => (o.Id == userId)&&(o.TransactionDate>=from)&&(o.TransactionDate<=to)).OrderByDescending(o => o.TransactionDate).ToListAsync();
-            //model.Incomes = await _context.UserFinIncomes.Where(o => (o.Id == userId) && (o.TransactionDate >= from) && (o.TransactionDate <= to)).OrderByDescending(o => o.TransactionDate).ToListAsync();
+            model.Outcomes = await _context.UserFinOutComes.Where(o => (o.Id == userId) && (o.TransactionDate >= from) && (o.TransactionDate <= to)).OrderByDescending(o => o.TransactionDate).ToListAsync();
+            model.Incomes = await _context.UserFinIncomes.Where(o => (o.Id == userId) && (o.TransactionDate >= from) && (o.TransactionDate <= to)).OrderByDescending(o => o.TransactionDate).ToListAsync();
 
             return model;
         }
