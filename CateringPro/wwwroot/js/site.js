@@ -564,7 +564,7 @@ function setup_search(_options) {
         // $(dlg).find('.add-item').click(function (e) {
         $(dlg).find('.table.search-items tr').click(function (e) {
             if (self.options.onitemselectedcb)
-                self.options.onitemselectedcb(src, this, { id: $(this).attr("data-id"), name: $(this).attr("data-name") });
+                self.options.onitemselectedcb(src, this, { id: $(this).attr("data-id"), name: $(this).attr("data-name"), measure: $(this).attr("data-measure")  });
             if (!self.options.multiselect) {
                 $(dlg).modal('hide');
                 dlg.find(".modal-body").empty();

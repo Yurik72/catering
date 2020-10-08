@@ -381,7 +381,7 @@ else
                     classname: 'ingredient',
                     onitemselectedcb: function (src, html_item, item) {
                         var index = $('#dialogContent').find(".ingredients-content-proportion").find(".ingredient-dishes-line").length;
-                        var url_newline = `@Url.Content("~/Dishes/NewIngredientDishesLine")?Index=${index}&IngredientId=${item.id}&IngredientName=${item.name}`;
+                        var url_newline = `@Url.Content("~/Dishes/NewIngredientDishesLine")?Index=${index}&IngredientId=${item.id}&IngredientName=${item.name}&IngredientMeasureUnit=${item.measure}`;
                         if (item.id != undefined) {
 
                             var ids = $('#dialogContent').find(".ingredients-content-proportion").find(".ingredient-dishes-line").map(function () { return $(this).attr("data-id"); }).get();

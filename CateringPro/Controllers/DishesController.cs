@@ -243,12 +243,14 @@ namespace CateringPro.Controllers
         }
 
 
-        public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName)
+        public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName,string IngredientMeasureUnit)
         {
+            //string measure = _context.Ingredients.Where(ing => ing.Id == IngredientId).FirstOrDefault().MeasureUnit;
             return PartialView("IngredientDishesLine", new DishIngredientsProportionViewModel()
             {
                 IngredientId = IngredientId,
                 LineIndex = Index,
+                MeasureUnit = IngredientMeasureUnit,
                 Name = IngredientName
             });
         }
@@ -296,6 +298,7 @@ namespace CateringPro.Controllers
                 {
                     IngredientId = d.Ingredient.Id,
                     Name = d.Ingredient.Name,
+                    MeasureUnit = d.Ingredient.MeasureUnit,
                     Proportion = d.Proportion,
                     ProportionNetto=d.ProportionNetto
                     

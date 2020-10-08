@@ -24,23 +24,29 @@ else
     <input type="hidden" id="proportion[@Model.LineIndex].IngredientId" name="proportion[@Model.LineIndex].IngredientId" asp-for="@Model.IngredientId" class="form-control" />
     <label class="col-3" asp-for="@Model.LineIndex"
            style="margin-bottom: 0; text-align: center; display: flex; justify-content: left;">@Model.Name</label>
-        <div class="col-3">
+        <div class="col-2">
             <input id="iln-@Model.LineIndex" class="form-control"
                    type="text" name="proportion[@Model.LineIndex].ProportionNetto" asp-for="@Model.ProportionNetto"
                    placeholder="Код"
                    style="max-width: 153px; height: 34px; font-family: Open-Sans">
         </div>
-        <div class="col-3">
+        <div class="col-1">
+            @Html.DisplayFor(modelItem => Model.MeasureUnit)
+        </div>
+        <div class="col-2">
             <input id="ilb-@Model.LineIndex" class="form-control"
                    type="text" name="proportion[@Model.LineIndex].Proportion" asp-for="@Model.Proportion"
                    placeholder="Код"
-                   style="max-width: 153px; height: 34px; font-family: Open-Sans">
+                   style="max-width: 153px; height: 34px; font-family: Open-Sans"> 
+            </div>
+            <div class="col-1">
+                @Html.DisplayFor(modelItem => Model.MeasureUnit)
+            </div>
+            <div class="col-3">
+                <button class="btn delete-parent delete-ingredients-dishes-line"
+                        style="background: none; border: none">
+                    <img src="./img/delete-icon.svg" alt="Delete item">
+                </button>
+            </div>
         </div>
-        <div class="col-3">
-            <button class="btn delete-parent delete-ingredients-dishes-line"
-                    style="background: none; border: none">
-                <img src="./img/delete-icon.svg" alt="Delete item">
-            </button>
-        </div>
-    </div>
 }
