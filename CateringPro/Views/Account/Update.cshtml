@@ -5,6 +5,12 @@
 @inject IConfiguration Configuration
 @{
     SiteSetting setting = Configuration.GetSection("SiteSetting").Get<SiteSetting>();
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
 }
 
 @if (true)
@@ -162,7 +168,7 @@
                     }
 
                 </div>
-                <div class="tab-pane fade table-content" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+                <div class="tab-pane fade table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
                     
 
                 </div>

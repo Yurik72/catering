@@ -1751,6 +1751,7 @@ namespace CateringPro.Controllers
             {
                 querymodel.SortField = "";
                 querymodel.SearchCriteria = "";
+                querymodel.SortOrder = "asc";
                 ViewData["QueryModel"] = querymodel;
                 return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID(),(querymodel.Page+1)));
             }
