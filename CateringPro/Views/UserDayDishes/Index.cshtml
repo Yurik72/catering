@@ -9,7 +9,7 @@
 }
 @{
     DateTime daydate = Model.DayDate;
-    //daydate = daydate.AddDays(-1);
+    daydate = daydate.AddDays(2);
     //if (daydate.DayOfWeek == DayOfWeek.Sunday)
     //{
     //daydate = daydate.AddDays(1);
@@ -812,7 +812,9 @@ else
             var incrementday = function (d) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
+                console.log("before" + dt);
                 dt.setDate(dt.getDate() + d);
+                console.log("after" + dt);
                 $('#currentdate').val(dt.getTime());
                 $('#weekselector').text(weektext());
                 $('#weekselected').text(weektext());
@@ -842,6 +844,9 @@ else
                         dishKindVal = 0;
                     }
                     dishKind.empty();
+                   
+                    //dt.setDate(dt.getDate() - dt.getDay() + 1);
+                    console.log("day" + dt);
                     dishKind.load('/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKindVal.toString()),
                         function (response, status, xhr) {
                             var select = $(".custom-select");

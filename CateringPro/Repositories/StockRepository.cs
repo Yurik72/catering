@@ -91,6 +91,7 @@ namespace CateringPro.Repositories
                                  IngredientId = ing.Id,
                                  IngredientName = ing.Name,
                                  StockValue = ing.StockValue,
+                                 Price = ing.AvgPrice,
                                  MeasureUnit = ing.MeasureUnit/*,
                                 Consignments = from entry in query.Where(x => x.IngredientId == ing.Id)
                                                select entry*/

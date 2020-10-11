@@ -105,10 +105,10 @@ namespace CateringPro.Controllers
         }
         public async Task<IActionResult> GetDishesKind(DateTime daydate, int dishKind)
         {
-            if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
-            {
-                daydate = daydate.AddDays(2);
-            }
+            //if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
+            //{
+            //    daydate = daydate.AddDays(2);
+            //}
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
             DateTime endDate = startDate.AddDays(6);
             var list = _userdaydishesrepo.DishesKind(startDate, endDate,User.GetCompanyID());
