@@ -127,7 +127,7 @@ namespace CateringPro.Repositories
                         from dayd in proto.DefaultIfEmpty()
                         join dk in _context.DishesKind on comp.DishKindId equals dk.Id into leftdk
                         from subdk in leftdk.DefaultIfEmpty()
-                        orderby dayd.Date != daydate
+                        orderby dayd.Date != daydate, cat.Code
                         select new DayComplexViewModel()
                         {
                             ComplexId = comp.Id,
@@ -141,6 +141,7 @@ namespace CateringPro.Repositories
                             ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
                                             join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId
                                             where dc.ComplexId == comp.Id
+                                            orderby dc.DishCourse ascending, dc.IsDefault descending
                                             select new DayComplexDishesViewModel()
                                             {
 

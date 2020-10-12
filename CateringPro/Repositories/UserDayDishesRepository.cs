@@ -972,6 +972,7 @@ namespace CateringPro.Repositories
                         join dd in (from usubday in _context.UserDayComplex where usubday.UserId == userId && usubday.Date == daydate && usubday.CompanyId == companyid select usubday) on comp.Id equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
                         where dayd.Quantity>0
+                        orderby cat.Code
                         select new UserDayComplexViewModel()
                         {
                             ComplexId = comp.Id,

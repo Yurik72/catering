@@ -39,6 +39,7 @@ namespace CateringPro.Models
 
         public bool OnePerUser { get; set; }
 
+        [StringLength(50, MinimumLength = 2)]
         public string Subject { get; set; }
         public string Greetings { get; set; }
 
