@@ -25,6 +25,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using CateringPro.Helpers;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace CateringPro
 {
@@ -197,6 +198,12 @@ namespace CateringPro
             {
                 services.AddTransient<IDbSyncer, DbSyncer>();
             }
+            //for inventarization
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueCountLimit = int.MaxValue;
+                options.ValueLengthLimit = 1024 * 1024 * 100; // 100MB max len form data
+            });
 
 
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();

@@ -132,9 +132,9 @@
     <div id="modDialog" class="modal document-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
         <div id="dialogContent" class="modal-dialog" style="max-width: 966px"></div>
     </div>
-    <div id="inventDialog" class="modal invent-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
+    @*<div id="inventDialog" class="modal invent-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
         <div id="inventdialogContent" class="modal-dialog" style="max-width: 966px"></div>
-    </div>
+    </div>*@
 
 }
 else
@@ -400,16 +400,48 @@ else
               function replaceAll(string, search, replace) {
                   return string.split(search).join(replace);
               }
+              //inventarization
               $('#invent-btn').click(function (e) {
+                  if ($(this).css('cursor') == "wait") {
+                      return;
+                  }
+                  $(this).html("Loading...").css({
+                      "cursor": "wait",
+                      "pointer-events": "none"
+                  });
                   e.preventDefault();
                   var url = self.options.href + '/CreateInvetarization' ;
                   $.get(url, function (data) {
-                      $('#inventdialogContent').html(data);
-                      $('#inventDialog').modal('show');
+                      //$('#inventdialogContent').html(data);
+                      //$('#inventDialog').modal('show');
+                      $('#dialogContent').html(data);
+                      $('#modDialog').modal('show');
+                      $("#invent-btn").html("@Localizer["Inventarization"]").css({
+                    "cursor": "",
+                    "pointer-events": ""
+                });
                       if (self.options.onloadedcb)
                           self.options.onloadedcb();
                   });
               });
+              $(document).on('change', '.invent-line-actquan', function () {
+                  var i = $(this).attr("data-i");
+
+                  updateInventDiff(i);
+              });
+              function updateInventDiff(i) {
+                  var q = $(".invent-line-quan[data-i=" + i + "]").val();
+                  var actq = $(".invent-line-actquan[data-i=" + i + "]").val();
+                 // var d = $(".invent-line-diff[data-i=" + i + "]").val();
+                  var quan = replaceAll(q, ",", ".");
+                  var actual = replaceAll(actq, ",", ".");
+                  quan = parseFloat(quan);
+                  actual = parseFloat(actual);
+                  var diff = $(".invent-line-diff[data-i=" + i + "]");
+                  var res = actual-quan;
+                var res1 = replaceAll(res + "", ".", ",");
+                  diff.val(res1);
+              }
 
         })
     </script>

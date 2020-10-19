@@ -1099,4 +1099,13 @@
   <data name="UnBlock" xml:space="preserve">
     <value>Розблокувати</value>
   </data>
+  <data name="Inventarization" xml:space="preserve">
+    <value>Інвентаризація</value>
+  </data>
+  <data name="Inventarization Differance" xml:space="preserve">
+    <value>Різниця</value>
+  </data>
+  <data name="Inventarization Quantity" xml:space="preserve">
+    <value>Наявна кількість</value>
+  </data>
 </root>

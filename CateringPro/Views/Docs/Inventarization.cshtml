@@ -56,14 +56,14 @@
                     <option>2.22</option>
                     <option>3.33</option>
                 </select>*@
-                            @if (Model.Type != 0)
+                            @*@if (Model.Type != 0)
                             {
                                 <input type="hidden" asp-for="Type" />
-                            }
+                            }*@
                         <select class="form-control col-12 col-lg-8 col-md-8 pl-3 sel-type"
                                 style="height: 34px; border: 1px solid #ced4da; border-radius: 4px; font-family: Open-Sans, sans-serif"
                                 name="Type" id="Type">
-                            <option value="4" class="doc-type" selected disabled>@Localizer["Inventarization"]</option>
+                            <option value="4" class="doc-type" selected>@Localizer["Inventarization"]</option>
                         </select>
                             <span asp-validation-for="Type" class="text-danger"></span>
                         </div>
@@ -96,15 +96,16 @@
                 </div>*@
             </div>
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-            <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3" style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
-               @* <div class="col-2" style="cursor: pointer"><span>@Localizer["DocLine Number"]</span></div>*@
-                <div class="col-3 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["DocLine Ingredient"]</span></div>
-                <div class="col-2 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["DocLine Quantity"]</span></div>
-                <div class="col-1 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["Inventarization Quantity"]</span></div>
-                <div class="col-1 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["Inventarization Differance"]</span></div>
-                @*<div class="col-3 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["DocLine ValidTo"]</span></div>*@
+        <div class="row ml-0 mr-0 justify-content-start w-100 align-content-center d-lg-flex d-none d-md-flex d-sm-none mt-3" style="height: 40px; font-weight: 500; font-size: 18px; color: #232323; background: #F7F7F7;">
+            <div class="col-2" style="cursor: pointer"><span>@Localizer["DocLine Number"]</span></div>
+            <div class="col-3 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["DocLine Ingredient"]</span></div>
+            <div class="col-2 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["DocLine Quantity"]</span></div>
+            <div class="col-1 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["Inventarization Quantity"]</span></div>
+            <div class="col-1 pl-md-0 pl-lg-0" style="cursor: pointer"><span></span></div>
+            <div class="col-1 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["Inventarization Differance"]</span></div>
+            @*<div class="col-3 pl-md-0 pl-lg-0" style="cursor: pointer"><span>@Localizer["DocLine ValidTo"]</span></div>*@
 
-            </div>
+        </div>
             <div class="row mx-0 justify-content-start w-100 align-content-center">
                 <div class="col-12 p-0  mt-2 doc-lines" id="doc-lines">
                     @{
@@ -122,14 +123,14 @@
                                       style="font-size: 14px; font-weight: bold">@Localizer["DocLine Number"]</span>
                                 <div class="col-12 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
                                     <input type="hidden" name="InventarizationLines[@i].CompanyId" asp-for="@line.CompanyId" class="form-control doc-line-ingid" />
-                                    @*<input type="hidden" name="InventarizationLines[@i].InventarizationId" asp-for="@line.InventarizationId" class="form-control" />*@
+                                    <input type="hidden" name="InventarizationLines[@i].InventarizationId" asp-for="@line.InventarizationId" class="form-control" />
                                     <input type="hidden" name="InventarizationLines[@i].Id" asp-for="@line.Id" class="form-control" />
                                     <span class="input-docs">
-                                        @*<input asp-for="@line.Number" type="number" name="InventarizationLines[@i].Number" class="form-control w-100" min="0" style="font-family: Open-Sans, sans-serif">
+                                        <input asp-for="@line.Number" type="number" name="InventarizationLines[@i].Number" class="form-control w-100" min="0" style="font-family: Open-Sans, sans-serif">
             <div class="child-amount-control"
                  onclick="this.previousElementSibling.stepUp()">+</div>
             <div class="child-amount-control"
-                 onclick="this.previousElementSibling.previousElementSibling.stepDown()">-</div>*@
+                 onclick="this.previousElementSibling.previousElementSibling.stepDown()">-</div>
                                     </span>
                                 </div>
                                 </div>
@@ -144,22 +145,22 @@
                     background: url('../img/search-icon.svg') no-repeat 95%;
                     font-family: Open-Sans, sans-serif">*@
                                         <input type="hidden" name="InventarizationLines[@i].IngredientsId" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
-                                        @*<input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />*@
+                                        <input type="hidden" name="none[@i].Ingredients.Id" asp-for="@line.IngredientsId" class="form-control doc-line-ingid" />
                                         @*<div class="input-search" style="width:100%">*@
-                                        @*<input type="text" name="none[@i].IngredientsName" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" style="font-size: 16px; color:#797979; height: 34px; background: url('../img/search-icon.svg') no-repeat 95%; font-family: Open-Sans, sans-serif" />*@
-                                        @*</div>*@
+                                       <input type="text" disabled name="none[@i].IngredientsName" asp-for="@line.Ingredients.Name" class="form-control doc-line-ingname" style="font-size: 16px; color:#797979; height: 34px; background: url('../img/search-icon.svg') no-repeat 95%; font-family: Open-Sans, sans-serif" />
+                                         @*</div>*@
                                     </div>
                                     <div class="col-md-2 pl-md-0 pl-lg-0 col-lg-2 col-12 d-flex justify-content-start flex-column mt-1"
                                          style="font-size: 16px">
                                         <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                                               style="font-size: 14px; font-weight: bold">@Localizer["DocLine Quantity"]</span>
-                                            <input type="text"  name="InventarizationLines[@i].Quantity" asp-for="@line.Quantity" class="form-control doc-line-quantity w-100" data-i="@i" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                                            <input type="text" disabled  name="InventarizationLines[@i].Quantity" asp-for="@line.Quantity" class="form-control invent-line-quan w-100" data-i="@i" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
                                         </div>
                                         <div class="col-md-1 pl-md-0 pl-lg-0 col-lg-1 col-12 d-flex justify-content-start flex-column mt-1"
                                              style="font-size: 16px">
                                             <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                                                   style="font-size: 14px; font-weight: bold">@Localizer["InventarizationQuantity"]</span>
-                                                @*<input type="text" name="InventarizationLines[@i].InventarizationQuantity" asp-for="@line.InventarizationQuantity" class="form-control invent-line-quan w-100" data-i="@i" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">*@
+                                                <input type="text" name="InventarizationLines[@i].InventarizationQuantity" asp-for="@line.InventarizationQuantity" class="form-control invent-line-actquan w-100" data-i="@i" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
                                                 
                                             </div>
                                             <div class="col-md-1 pl-md-0 pl-lg-0 col-lg-1 col-12 d-flex justify-content-start flex-column mt-1"
@@ -170,13 +171,13 @@
                                                      style="font-size: 16px">
                                                     <span class="col-4 p-0 d-md-none d-lg-none d-inline"
                                                           style="font-size: 14px; font-weight: bold">@Localizer["InventarizationDifferance"]</span>
-                                                        <input class="form-control  w-100 doc-line-amount" type="text" name="InventarizationLines[@i].Differance" data-i="@i" asp-for="@line.Differance" min="0" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
+                                                        <input class="form-control  w-100 invent-line-diff" type="text" name="InventarizationLines[@i].Differance" data-i="@i" asp-for="@line.Differance" style="font-size: 16px; color:#797979; height: 34px;font-family: Open-Sans, sans-serif ">
                                                     </div>
 
 
-                                                    <div class="col-12 col-lg-1 col-md-1 d-flex mb-1  justify-content-end">
+                                                    <!--<div class="col-12 col-lg-1 col-md-1 d-flex mb-1  justify-content-end">-->
                                                         @*<a href="#" class="btn ml-3  delete-line delete-parent"><img src="../img/delete-icon.svg" alt="Delete item"></a>*@
-                                                    </div>
+                                                    <!--</div>-->
                                                 </div>
                                             </div>
                                                     i++;
@@ -194,8 +195,8 @@
     </div>
     <div class="modal-footer justify-content-center border-0"
          style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">
-        <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
-                style="background: #36C233; border: 1px solid #36C233; height: 48px" data-save="modal">
+        <button type="button" class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12 send-invent"
+                style="background: #36C233; border: 1px solid #36C233; height: 48px" data-save="modal" >
             @Localizer["Save"]
         </button>
         <button type="button" class="btn btn-secondary m-2 col-sm-4 col-xl-4 col-12 "
@@ -207,16 +208,7 @@
 
 </div>
 <script>
-    function set() {
-        $(".doc-type").each(function (opt) {
-            //console.log($(this).attr("data-sel"));
-            if ($(this).attr("data-sel") == "true") {
-                // console.log($(this).val());
-                $(".sel-type").val($(this).val());
-            }
-        });
-    }
-    set();
+    
 </script>
 
 

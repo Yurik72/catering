@@ -22,6 +22,8 @@ namespace CateringPro.Models
         public decimal Price { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? ActualQuantity { get; set; }
 
 
         public DateTime? ValidTo { get; set; }
