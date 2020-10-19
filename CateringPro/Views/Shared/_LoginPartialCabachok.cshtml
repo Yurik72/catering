@@ -60,6 +60,7 @@
           || User.IsInRole("UserAdmin")
           || User.IsInRole("KitchenAdmin")
           || User.IsInRole("GroupAdmin")
+          || User.IsInRole("SubGroupAdmin")
           || User.IsInRole("ServiceAdmin")
           || User.IsInRole("SubGroupReportAdmin"))
                 {
@@ -91,7 +92,7 @@
                                         @await RenderMenuItem("Categories", "Index", Localizer["MenuCategories"], "Admin,CompanyAdmin,KitchenAdmin")
                                     </div>
                                     <div class="col-sm-4 p-0">
-                                        @await RenderMenuItem("Account", "Users", Localizer["MenuUsers"], "Admin,CompanyAdmin,UserAdmin")
+                                        @await RenderMenuItem("Account", "Users", Localizer["MenuUsers"], "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")
                                     </div>
                                     <div class="col-sm-4 p-0">
                                         @await RenderMenuItem("Service", "Cards", Localizer["UserCards"], "Admin,CompanyAdmin,UserAdmin,ServiceAdmin")

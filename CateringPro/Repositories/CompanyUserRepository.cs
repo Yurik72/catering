@@ -504,7 +504,8 @@ namespace CateringPro.Repositories
             sb += $"where CompanyId={companyid} ";
             if (user.UserGroupId.HasValue)
             {
-                sb += $" AND ( ParentId= {user.UserGroupId.Value}  OR  Id={user.UserGroupId.Value})";
+                //sb += $" AND ( ParentId= {user.UserGroupId.Value}  OR  Id={user.UserGroupId.Value})";
+                sb += $" AND ( ParentId= {user.UserSubGroupId.Value}  OR  Id={user.UserSubGroupId.Value})";
             }
 
             try
