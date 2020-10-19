@@ -41,6 +41,7 @@
             *border-right-width: 2px;
             *border-bottom-width: 2px;
         }
+
         .ui-menu-item > a.ui-corner-all {
             display: block;
             padding: 3px 15px;
@@ -50,9 +51,8 @@
             color: #555555;
             white-space: nowrap;
         }
-            .ui-state-hover, .ui-state-active
 
-        {
+        .ui-state-hover, .ui-state-active {
             color: #ffffff;
             text-decoration: none;
             background-color: #0088cc;
@@ -61,9 +61,6 @@
             -moz-border-radius: 0px;
             background-image: none;
         }
-
-        
-        
     </style>
 }
 
@@ -115,6 +112,17 @@
                     </button>
                 </div>
             </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button" id="invent-btn"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @Localizer["Inventarization"]
+                    </button>
+                </div>
+            </div>
         </div>
         <div id="table-content" class="" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria">
 
@@ -123,6 +131,9 @@
 
     <div id="modDialog" class="modal document-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
         <div id="dialogContent" class="modal-dialog" style="max-width: 966px"></div>
+    </div>
+    <div id="inventDialog" class="modal invent-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
+        <div id="inventdialogContent" class="modal-dialog" style="max-width: 966px"></div>
     </div>
 
 }
@@ -389,6 +400,16 @@ else
               function replaceAll(string, search, replace) {
                   return string.split(search).join(replace);
               }
+              $('#invent-btn').click(function (e) {
+                  e.preventDefault();
+                  var url = self.options.href + '/CreateInvetarization' ;
+                  $.get(url, function (data) {
+                      $('#inventdialogContent').html(data);
+                      $('#inventDialog').modal('show');
+                      if (self.options.onloadedcb)
+                          self.options.onloadedcb();
+                  });
+              });
 
         })
     </script>
