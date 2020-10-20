@@ -104,7 +104,14 @@ namespace CateringPro.ViewModels
 
         public string AutoLoginUrl { get; set; }
         public string AutoLoginToken { get; set; }
-        public DateTimeOffset LockoutEnd { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
+
+        [DisplayName("UserType")]
+        [NotMapped]
+        public UserTypeEnum UserTypeEn { get; set; }
+
+        public bool IsChildType =>  UserTypeEn == UserTypeEnum.Child;
+        public bool IsAddultType => UserTypeEn != UserTypeEnum.Child;
         public UpdateUserModel CopyFrom(CompanyUser usr)
         {
             if (usr != null)
@@ -127,6 +134,10 @@ namespace CateringPro.ViewModels
                 this.ChildBirthdayDate = usr.ChildBirthdayDate;
                 this.EmailConfirmed = usr.EmailConfirmed;
                 this.PictureId = usr.PictureId;
+                this.UserTypeEn = usr.UserTypeEn;
+                this.IsChild = usr.IsChild();
+                 if(usr.LockoutEnd!=null)
+                this.LockoutEnd = (DateTimeOffset)usr.LockoutEnd;
     }
 
             return this;
@@ -146,6 +157,9 @@ namespace CateringPro.ViewModels
                 usr.UserGroupId = this.UserGroupId;
                 usr.UserSubGroupId = this.UserSubGroupId;
                 usr.ConfirmedByAdmin = this.ConfirmedByAdmin;
+                usr.UserTypeEn = this.UserTypeEn;
+                usr.ChildBirthdayDate = this.ChildBirthdayDate;
+                usr.ChildNameSurname = this.ChildNameSurname;
                 if (isNew)
                     usr.Email = this.Email;
             }
@@ -179,6 +193,7 @@ namespace CateringPro.ViewModels
                 usr.PictureId = this.PictureId;
                 if (isNew)
                     usr.Email = this.Email;
+                usr.UserTypeEn = this.UserTypeEn;
             }
 
             return usr;
@@ -205,6 +220,7 @@ namespace CateringPro.ViewModels
                 }
                 if (isNew)
                     usr.Email = this.Email;
+                usr.UserTypeEn = this.UserTypeEn;
             }
 
             return usr;

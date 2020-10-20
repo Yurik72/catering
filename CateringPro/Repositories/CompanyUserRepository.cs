@@ -17,6 +17,7 @@ using CateringPro.ViewModels;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CateringPro.Repositories
 {
@@ -87,7 +88,7 @@ namespace CateringPro.Repositories
         public async Task<List<Company>> GetCurrentUsersCompaniesAsync(string userId)
         {
 
-            return await _context.CompanyUserCompanies.Include(c => c.Company).Where(cu => cu.CompanyUserId == userId).
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().Include(c => c.Company).Where(cu => cu.CompanyUserId == userId).
                 Select(c => c.Company).ToListAsync();
         }
         public async Task<List<Company>> GetCompaniesAsync()
@@ -132,27 +133,70 @@ namespace CateringPro.Repositories
         public async Task<List<CompanyUserCompany>> GetCurrentUsersCompaniesUserAsync(string userId)
         {
 
-            return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).ToListAsync();
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().Where(cu => cu.CompanyUserId == userId).ToListAsync();
+
+        }
+        public async Task<CompanyUserCompany> GetCurrentUserCompaniesUserAsync(string userId)
+        {
+
+            return await _context.CompanyUserCompanies.FirstOrDefaultAsync(cu => cu.CompanyUserId == userId);
+
+        }
+        public async Task<CompanyUserCompany> GetUserCompaniesUserAsync(string userId,int companyId)
+        {
+
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().FirstOrDefaultAsync(cu => cu.CompanyUserId == userId && cu.CompanyId==companyId);
 
         }
         public async Task<int> GetUserCompanyCount(string userId)
         {
-            return await _context.CompanyUserCompanies.Where(cu => cu.CompanyUserId == userId).CountAsync();
+            return await _context.CompanyUserCompanies.IgnoreQueryFilters().Where(cu => cu.CompanyUserId == userId).CountAsync();
         }
         public async Task<bool> ChangeUserCompanyAsync(string userId, int companyid, ClaimsPrincipal claims)
         {
-            if (companyid == _context.CompanyId)
-                return true;
-            var newcompany = (await GetCurrentUsersCompaniesAsync(userId)).FirstOrDefault(c => c.Id == companyid);
-            if (newcompany == null)
-                return false;
+            //if (companyid == _context.CompanyId)
+            //    return true;
+            //var newcompany = (await GetCurrentUsersCompaniesAsync(userId)).FirstOrDefault(c => c.Id == companyid);
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return false;
+            if (user.CompanyId == companyid)
+            {
+                _logger.LogWarning($"Attempt to change company for user {user.Id} to the same {companyid}. Something wrong");
+                return true;
+            }
+                
+            var currentcompany = await GetCurrentUserCompaniesUserAsync(userId );
+            var newcompany = await GetUserCompaniesUserAsync(userId, companyid);
+            if (newcompany == null)
+                return false;
+
+
+            try
+            {
+                if (currentcompany!=null && ( currentcompany.UserGroupId != user.UserGroupId || currentcompany.UserSubGroupId != user.UserSubGroupId))
+                {
+                    currentcompany.UserGroupId = user.UserGroupId;
+                    currentcompany.UserSubGroupId = user.UserSubGroupId;
+                    _context.Update(currentcompany);
+                    await _context.SaveChangesAsync();
+                }
+                else if (currentcompany == null)
+                {
+                    _logger.LogWarning($"Company with ID={user.CompanyId} detached from user {user.Id} as result user references to group are lost");
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex,"Error change groups");
+            }
             user.CompanyId = companyid;
+            user.UserGroupId = newcompany.UserGroupId;
+            user.UserSubGroupId = newcompany.UserSubGroupId;
             _context.Update(user);
             await _context.SaveChangesAsync();
-            CustomClaimsPrincipalFactory.ChangeCompanyId(claims, companyid);
+            if(claims!=null)
+                CustomClaimsPrincipalFactory.ChangeCompanyId(claims, companyid);
 
             return true;
         }
@@ -201,10 +245,10 @@ namespace CateringPro.Repositories
         }
         public int GetDefaultCompanyId()
         {
-            var comp = _cache.GetCachedCompaniesAsync(_context).Result.FirstOrDefault(c => c.IsDefault.HasValue && c.IsDefault.Value);
+            var comp = _cache.GetCachedCompaniesAsync(_context).GetAwaiter().GetResult().FirstOrDefault(c => c.IsDefault.HasValue && c.IsDefault.Value);
             if (comp != null)
                 return comp.Id;
-            comp = _cache.GetCachedCompaniesAsync(_context).Result.FirstOrDefault();
+            comp = _cache.GetCachedCompaniesAsync(_context).GetAwaiter().GetResult().FirstOrDefault();
             if (comp != null)
                 return comp.Id;
             return 0;
@@ -249,6 +293,7 @@ namespace CateringPro.Repositories
                 var existing_companies = await GetCurrentUsersCompaniesUserAsync(user.Id);
                 if (!IsCompanyExist(user.CompanyId))
                 {
+                    _logger.LogWarning($"Something wrong with user {user.Id} attached to  not existing company {user.CompanyId}");
                     user.CompanyId = await GetDefaultCompanyForUser(user);
                     _context.Update(user);
                     await _context.SaveChangesAsync();
@@ -256,7 +301,35 @@ namespace CateringPro.Repositories
 
                 if (existing_companies.Count == 0)
                 {
-                    res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                    _logger.LogWarning($"Something wrong user {user.Id} are not assigned to any company ");
+
+                     res &= await AddCompaniesToUserAsync(user.Id, (new[] { user.CompanyId }).ToList());
+                    _logger.LogWarning($"Assigning user {user.Id} to company {user.CompanyId } ");
+                    existing_companies= await GetCurrentUsersCompaniesUserAsync(user.Id);
+
+                }
+                var current_companyrecord = existing_companies.FirstOrDefault(c => c.CompanyId == user.CompanyId);
+                if(current_companyrecord==null && existing_companies.Count>0)
+                {
+
+                    var newcompany = existing_companies.FirstOrDefault().CompanyId;
+                    _logger.LogWarning($"Changing  user {user.Id} default company to {newcompany } ");
+                    if (ChangeUserCompanyAsync(user.Id, newcompany, null).GetAwaiter().GetResult())
+                    {
+                        current_companyrecord = existing_companies.FirstOrDefault(c => c.CompanyId == newcompany);
+                    }
+                    else
+                    {
+                        _logger.LogError("ChangeUserCompanyAsync return false");
+                    }
+                }
+                //var current_companyrecord = await GetCurrentUserCompaniesUserAsync(user.Id);
+                if(current_companyrecord!=null && (current_companyrecord.UserGroupId != user.UserGroupId || current_companyrecord.UserSubGroupId != user.UserSubGroupId))
+                {
+                    current_companyrecord.UserGroupId = user.UserGroupId;
+                    current_companyrecord.UserSubGroupId = user.UserSubGroupId;
+                    await _context.SaveChangesAsync();
+
                 }
                // res &= await CheckUserFinanceAsync(user, user.CompanyId);
             }
@@ -327,7 +400,7 @@ namespace CateringPro.Repositories
             CompanyUser usr = new CompanyUser() { CompanyId = companyId };
             usr.Id = Guid.NewGuid().ToString();
             string ticks= DateTime.Now.Ticks.ToString();
-            string translit_text = Translit.cyr2lat(user.ChildNameSurname);
+            //string translit_text = Translit.cyr2lat(user.ChildNameSurname);
             // usr.UserName = user.UserName + "_" + translit_text;
             usr.UserName = add_name +"_"+user.UserName ;
             var resultUser = _userManager.FindByNameAsync(usr.UserName).Result;
@@ -431,7 +504,8 @@ namespace CateringPro.Repositories
             sb += $"where CompanyId={companyid} ";
             if (user.UserGroupId.HasValue)
             {
-                sb += $" AND ( ParentId= {user.UserGroupId.Value}  OR  Id={user.UserGroupId.Value})";
+                //sb += $" AND ( ParentId= {user.UserGroupId.Value}  OR  Id={user.UserGroupId.Value})";
+                sb += $" AND ( ParentId= {user.UserSubGroupId.Value}  OR  Id={user.UserSubGroupId.Value})";
             }
 
             try
@@ -454,8 +528,40 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Get UserSubGroupId {0}", userId);
+                _logger.LogError(ex,"Get UserSubGroupId {0}", userId);
                 return 0;
+            }
+        }
+        public string GetUserSubGroupName(int subgroupid)
+        {
+            try
+            {
+                var userSubGroup=_context.UserSubGroups.FirstOrDefault(usb => usb.Id== subgroupid);
+                if (userSubGroup != null)
+                    return userSubGroup.Name;
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"GetUserSubGroupName error");
+                return string.Empty;
+            }
+        }
+        public int GetTopLevelSubGroup()
+        {
+            try
+            {
+                var userSubGroup = _context.UserSubGroups.FirstOrDefault(usb=>!usb.ParentId.HasValue);
+                if (userSubGroup != null)
+                    return userSubGroup.Id;
+                return -1;
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetTopLevelSubGroup error");
+                return -1;
             }
         }
         public List<int> GetUserSubGroups(string userId, int companyid)
@@ -485,11 +591,12 @@ namespace CateringPro.Repositories
             }
             catch(Exception ex)
             {
-                _logger.LogError("Get UserSubGroup {0}", userId);
+                _logger.LogError(ex,"Get UserSubGroup {0}", userId);
                 return new List<int>();
             }
 
         }
+
         private List<UserSubGroup> allParents(int i,List<UserSubGroup> allGroups,List<UserSubGroup> res)
         {
             allGroups.ForEach(us => {
@@ -524,5 +631,62 @@ namespace CateringPro.Repositories
             var res = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             return res.Succeeded;
         }
+
+        public List<SelectListItem> GetUserSubgroupsdWithEmptyList()
+        {
+            List<SelectListItem> res = _context.UserSubGroups.AsNoTracking()
+                  .OrderBy(n => n.Id ).Select(n =>
+                      new SelectListItem
+                      {
+                          Value = n.Id.ToString(),
+                          Text = n.Name
+                      }).ToList();
+            var empty = new SelectListItem() { Value = "", Text = string.Empty };
+            res.Insert(0, empty);
+            return res;
+        }
+        public List<SelectListItem> GetCompaniesWithEmptyList()
+        {
+            List<SelectListItem> res = _cache.GetCachedCompaniesAsync(_context).GetAwaiter().GetResult()
+                  .OrderBy(n => n.Id).Select(n =>
+                     new SelectListItem
+                     {
+                         Value = n.Id.ToString(),
+                         Text = n.Name
+                     }).ToList();
+            var empty = new SelectListItem() { Value = "", Text = string.Empty };
+            res.Insert(0, empty);
+            return res;
+        }
+
+        public int ValidateUserOnLogin(CompanyUser user)
+        {
+            try
+            {
+                var companies = GetCurrentUsersCompaniesUserAsync(user.Id).GetAwaiter().GetResult();
+                var current_company = companies.FirstOrDefault(c => c.CompanyId == user.CompanyId);
+                if (current_company == null)
+                {
+                    _logger.LogWarning($"Attempt to login user {user.Id} to detached company {user.CompanyId}");
+                    var defaultcompany = GetDefaultCompanyForUser(user).GetAwaiter().GetResult();
+                    if (defaultcompany == 0)
+                    {
+                        _logger.LogWarning($"Not possible to obtain default company for user {user.Id}");
+                        return -1;
+
+                    }
+                    var changeres = ChangeUserCompanyAsync(user.Id, defaultcompany, null).GetAwaiter().GetResult();
+                    return changeres ? 1 : -1;
+                }
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "ValidateUserOnLogin on error");
+                return -1;
+            }
+            return 0;
+        }
+
     }
 }

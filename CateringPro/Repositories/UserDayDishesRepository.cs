@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Transactions;
 using System.Xml.Schema;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing.Drawing2D;
 
 namespace CateringPro.Repositories
 {
@@ -490,7 +491,7 @@ namespace CateringPro.Repositories
                                 && c.UserId == order.UserId);
                     if (userDay != null)
                     {
-                    userDay.Quantity = order.Quantity;
+                    userDay.Quantity += order.Quantity;
                     // userDay.Total += order.Total;
                     userDay.Total = total - discount;
                     userDay.TotalWtithoutDiscount = total;
@@ -564,7 +565,16 @@ namespace CateringPro.Repositories
         public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, string userId, int companyId)
         {
             decimal total = 0;
-            daycomplex.ForEach(d => total += d.Price);
+            int quan = 0;
+            daycomplex = daycomplex.Where(d => d.Quantity > 0).ToList();
+            userDayDishes = userDayDishes.Where(d => d.Quantity > 0).ToList();
+            daycomplex.ForEach(d => {
+                if (d.Quantity > 0)
+                {
+                    quan += d.Quantity;
+                    total += d.Price * d.Quantity;
+                }
+            });
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 var discountplugin = _plugins.GetDiscointPlugin();
@@ -577,14 +587,14 @@ namespace CateringPro.Repositories
                     return false;
                 }
                 res.ForEach(ord => {
-                    total += ord.Price;
+                    total += ord.Price*ord.Quantity;
                     daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId }); 
                 });
                 if (discountplugin != null)
                 {
                     daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
                     //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
-                    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                    discount = discountplugin.GetComplexDayDiscount(daycomplex,companyId);
                 }
                 if (!await SaveDayComplex(daycomplex, userId, companyId))
                     return false;
@@ -592,7 +602,7 @@ namespace CateringPro.Repositories
 
                 if (!await SaveDayDishInComplex(userDayDishes, userId, companyId))
                     return false;
-                if (!await SaveUserDay(daycomplex.Count(), total,discount, daycomplex.First().Date, userId, companyId))
+                if (!await SaveUserDay(quan, total,discount, daycomplex.First().Date, userId, companyId))
                     return false;
                 //if (!await UserFinanceEdit(total,userId, companyId,false))
                 //    return false;
@@ -614,7 +624,8 @@ namespace CateringPro.Repositories
                 res.ForEach(ord => {
                     if (userDayComplex.ComplexId != ord.ComplexId)
                     {
-                        total += ord.Price;
+                        //total += ord.Price;
+                        total += ord.Price * ord.Quantity;
                         daycomplex.Add(new UserDayComplex() { ComplexId = ord.ComplexId });
                     }
                 });
@@ -622,7 +633,8 @@ namespace CateringPro.Repositories
                 {
                     daycomplex.ForEach(dc => { dc.Complex = _context.Complex.Find(dc.ComplexId); });
                     //discountplugin.CalculateComplexDayDiscount(daycomplex, userDayDishes);
-                    discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                    //discount = discountplugin.GetComplexDayDiscount(daycomplex);
+                    discount = discountplugin.GetComplexDayDiscount(daycomplex, companyId);
                 }
                 if (!await DeleteDayComplexDb(userDayComplex, userId, companyId))
                     return false;
@@ -630,7 +642,7 @@ namespace CateringPro.Repositories
 
                 if (!await DeleteDayDishInComplex(userDayComplex, userId, companyId))
                     return false;
-                if (!await DeleteUserDay(total, discount, userDayComplex.Date, userId, companyId))
+                if (!await DeleteUserDay(total, discount, userDayComplex.Quantity, userDayComplex.Date, userId, companyId))
                     return false;
                 //if (!await UserFinanceEdit(userDayComplex.Price, userId, companyId, true))
                 //    return false;
@@ -692,7 +704,7 @@ namespace CateringPro.Repositories
             }
             return true;
         }
-        private async Task<bool> DeleteUserDay(decimal total, decimal discount,DateTime date , string userId, int companyId)
+        private async Task<bool> DeleteUserDay(decimal total, decimal discount,int quantity,DateTime date , string userId, int companyId)
         {
             //var userId = httpcontext.User.GetUserId();
             //var companyId = httpcontext.User.GetCompanyID();
@@ -702,12 +714,12 @@ namespace CateringPro.Repositories
                     (di => di.CompanyId == companyId &&
                     di.UserId == userId &&
                     di.Date == date).ToListAsync();
-                if (existing_db.FirstOrDefault().Quantity > 1)
+                if (existing_db.FirstOrDefault().Quantity > 1&& existing_db.FirstOrDefault().Quantity!=quantity)
                 {
                     var userDay = existing_db.FirstOrDefault();
                     if (userDay != null)
                     {
-                        userDay.Quantity -= 1;
+                        userDay.Quantity -= quantity;
                         userDay.Total = total-discount;
                         userDay.TotalWtithoutDiscount = total;
                         userDay.Discount = discount;
@@ -731,10 +743,10 @@ namespace CateringPro.Repositories
         }
         private bool UpdateUserComplex(List<UserDayComplex> daycomplex, HttpContext httpcontext)
         {
-            var userid = httpcontext.User.GetUserId();
-            var companyid = httpcontext.User.GetCompanyID();
-            bool isnew = false;
-            UserDay userDay = null;
+           // var userid = httpcontext.User.GetUserId();
+            //var companyid = httpcontext.User.GetCompanyID();
+            //bool isnew = false;
+           // UserDay userDay = null;
 
 
             return true;
@@ -866,7 +878,7 @@ namespace CateringPro.Repositories
                                             join dishCom in _context.DishComplex.WhereCompany(companyid) on d.Id equals dishCom.DishId
                                             //join udd in _context.UserDayDish.WhereCompany(companyid).Where(i => i.Date == daydate && i.UserId == userId)  on d.Id equals udd.DishId
                                             where dishCom.ComplexId == comp.Id
-                                            orderby dishCom.DishCourse
+                                            orderby dishCom.DishCourse ascending,dishCom.IsDefault descending
                                             select new UserDayComplexDishViewModel()
                                             {
 
@@ -875,6 +887,7 @@ namespace CateringPro.Repositories
                                                 DishReadyWeight = d.ReadyWeight,
                                                 PictureId = d.PictureId,
                                                 DishCourse = dishCom.DishCourse,
+                                                IsDefault = dishCom.IsDefault,
                                                 //  DishQuantity = udd.Quantity,
 
                                                 DishDescription = d.Description,
@@ -959,6 +972,7 @@ namespace CateringPro.Repositories
                         join dd in (from usubday in _context.UserDayComplex where usubday.UserId == userId && usubday.Date == daydate && usubday.CompanyId == companyid select usubday) on comp.Id equals dd.ComplexId into proto
                         from dayd in proto.DefaultIfEmpty()
                         where dayd.Quantity>0
+                        orderby cat.Code
                         select new UserDayComplexViewModel()
                         {
                             ComplexId = comp.Id,

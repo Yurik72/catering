@@ -94,10 +94,15 @@
                                                 @if (allowEdit)
                                                 {
                                                     <input class="custom-control-input dish-check"
-                                                           dish-check" type="radio" name="Complex[@item.ComplexId].Course[@dish.DishCourse].DishId"
-                                                           complexdish="@item.ComplexId"
-                                                           day="@Model.First().Date.Day" course="@dish.DishCourse" value="@dish.DishId">
-                                                    <span class="checkmark-for-radio"></span>
+                                                           @*dish-check"*@ type="radio" name="Complex[@item.ComplexId].Course[@dish.DishCourse].DishId"
+                                                           complexdish="@item.ComplexId" @if (dish.IsDefault!=null&&(bool)dish.IsDefault) {
+                                                               @:default="true" 
+                                                           }
+                                                               @*else {@:false"
+                                                           }*@
+                                                               day="@Model.First().Date.Day" course="@dish.DishCourse" value="@dish.DishId">
+    
+                                                        <span class="checkmark-for-radio"></span>
                                                 }
                                             </label>
                                         </div>

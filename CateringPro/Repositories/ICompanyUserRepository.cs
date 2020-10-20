@@ -1,5 +1,6 @@
 ﻿using CateringPro.Models;
 using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,5 +41,12 @@ namespace CateringPro.Repositories
         List<int> GetUserSubGroups(string userId, int companyid);
         int GetUserSubGroupId(string userId);
         Task<bool> ValidateBasicAuthAsync(string val);
+        Task<CompanyUserCompany> GetCurrentUserCompaniesUserAsync(string userId);
+        Task<CompanyUserCompany> GetUserCompaniesUserAsync(string userId, int companyId);
+        int GetTopLevelSubGroup();
+        string GetUserSubGroupName(int subgroupid);
+        List<SelectListItem> GetUserSubgroupsdWithEmptyList();
+        List<SelectListItem> GetCompaniesWithEmptyList();
+        int ValidateUserOnLogin(CompanyUser user);
     }
 }

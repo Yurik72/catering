@@ -123,6 +123,7 @@ namespace CateringPro.Core
             }
             catch(Exception ex)
             {
+                
                 return;
             }
             this.LastRunTime = this.NextRunTime = src.NextSend;

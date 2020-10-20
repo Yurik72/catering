@@ -22,6 +22,9 @@
         <div class="toogles">
 
         </div>
+        <div class="toogles-right">
+            H
+        </div>
         <div id="service-header" class="service-header">
             <h1>@Localizer["OrderWindow"]</h1>
             <h1 id="currentdate"></h1>
@@ -409,6 +412,30 @@
                 e.preventDefault();
                 $('.delivery-command').toggle(500);
             })
+            $('.toogles-right').click(function (e) {
+                e.preventDefault();
+                var url = `${baseurl}/ServiceHistory`;
+                var dishesnum = getdishesnum();
+                var categories = getcategories();
+                var ServiceRequest = { DayDate: curr_date.toDateString(), Type: "info", DishesNum: dishesnum, MaxQueue: max_queue, ComplexCategoriesIds: categories };
+               // var str = "";
+               // for (var key in ServiceRequest) {
+               //     if (str != "") {
+               //         str += "&";
+               //     }
+               //     str += key + "=" + encodeURIComponent(ServiceRequest[key]);
+               // }
+                var url = `${baseurl}/ServiceHistory?request=${JSON.stringify(ServiceRequest)}`;
+                window.open(url, '_blank');
+            })
+            function getcategories() {
+
+                var categories = [];
+                var selected = parseInt($('#complexcategories').children("option:selected").val());
+                if (!isNaN(selected))
+                     categories.push(selected);
+                return categories;
+            }
             function getQueueCount() {
                 return $('#delivery-queue-content').find(".user-queue").length;
             }

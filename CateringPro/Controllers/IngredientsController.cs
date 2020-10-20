@@ -1,36 +1,37 @@
+using CateringPro.Core;
+using CateringPro.Data;
+using CateringPro.Models;
+using CateringPro.Repositories;
+using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-
-using CateringPro.Models;
-using CateringPro.Repositories;
-using CateringPro.Data;
-using CateringPro.Core;
-using CateringPro.ViewModels;
-using Microsoft.Extensions.Configuration;
 
 namespace CateringPro.Controllers
 {
     [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin")]
     public class IngredientsController : Controller
     {
+
         private readonly AppDbContext _context;
        
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<IngredientsController> _logger;
         private IConfiguration _configuration;
         private int pageRecords = 20;
-        public IngredientsController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration)
+       // private IGenericModelRepository<Ingredients> _repo;
+        public IngredientsController(AppDbContext context, ILogger<IngredientsController> logger, IConfiguration Configuration/*, IGenericModelRepository<Ingredients> repo*/)
         {
             _context = context;
             _logger = logger;
             _configuration = Configuration;
+         //   _repo = repo;
             int.TryParse(_configuration["SQL:PageRecords"], out pageRecords);
         }
 
@@ -42,8 +43,8 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> ListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel=new QueryModel() { }
-           // ViewData["QueryModel"] = querymodel;
-
+            // ViewData["QueryModel"] = querymodel;
+           
             ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
 
 
@@ -95,6 +96,7 @@ namespace CateringPro.Controllers
             {
                 return NotFound();
             }
+           
             ViewData["IngredientCategoriesId"] = new SelectList(_context.IngredientCategories.WhereCompany(User.GetCompanyID()).ToList(), "Id", "Name", ing.IngredientCategoriesId);
             return PartialView(ing);
         }

@@ -245,8 +245,11 @@ function setup_listitems(options) {
         var getstr = `&searchcriteria=${searchcriteria}&sortfield=${sortfield}&sortorder=${sortorder}`;
 
         href += getstr;
-       
-        $('#table-content').load(href);
+        if ($("#table-content").length) {
+            $('#table-content').load(href);
+        } else {
+            $('.table-content').load(href);
+        }
         // $('#table-content').load(href + 'searchcriteria=' + $('#search-val').val());
 
     }
@@ -385,13 +388,14 @@ function setup_listitems(options) {
                 return promise;
             })
             .then((form) => {
+                var formdata = new FormData(form.get(0));
                 return fetch(form.attr('action'), {
                     method: 'POST',
                     headers: {
 
                         'RequestVerificationToken': form.find("[name='__RequestVerificationToken'").val()
                     },
-                    body: form.serialize()
+                    body: formdata
                 })
             })
             .then(response => {
@@ -560,7 +564,7 @@ function setup_search(_options) {
         // $(dlg).find('.add-item').click(function (e) {
         $(dlg).find('.table.search-items tr').click(function (e) {
             if (self.options.onitemselectedcb)
-                self.options.onitemselectedcb(src, this, { id: $(this).attr("data-id"), name: $(this).attr("data-name") });
+                self.options.onitemselectedcb(src, this, { id: $(this).attr("data-id"), name: $(this).attr("data-name"), measure: $(this).attr("data-measure")  });
             if (!self.options.multiselect) {
                 $(dlg).modal('hide');
                 dlg.find(".modal-body").empty();

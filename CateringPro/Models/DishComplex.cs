@@ -17,6 +17,7 @@ namespace CateringPro.Models
 
         [DisplayName("Select Dish course")]
         public int DishCourse { get; set; }
+        public bool? IsDefault { get; set; }
 
 
         public virtual Dish Dish { get; set; }

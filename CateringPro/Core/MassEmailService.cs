@@ -55,6 +55,7 @@ namespace CateringPro.Core
                 bool res = false;
                 switch (em.DistribType)
                 {
+#if !DEBUG
                     case DistributionEnum.All:
                     case DistributionEnum.Users:
                         res = await SendMassEmailOnePerUser(companyid, em);
@@ -62,10 +63,12 @@ namespace CateringPro.Core
                     case DistributionEnum.UsersParents:
                         res = await SendMassEmailOnePerUser(companyid, em, await _mailrepo.GetDistributionUsersAsync(companyid,false));
                         break;
+#endif
                     case DistributionEnum.Admin:
                         res = await SendMassEmailOnePerUser(companyid, em, await _mailrepo.GetDistributionRoleUsersAsync(companyid,"Admin"));
                         break;
-
+                    default:
+                        break;
                 }
                 em.NextSend = nextRun;
                 await _mailrepo.SaveMassEMailAsync(em);
@@ -156,7 +159,7 @@ namespace CateringPro.Core
                             _mailservice.SendEmailAsync(e.EmailAddress, e.Subject, e.Body, e.CompanyId,null,false).Wait();
                         _context.Remove(e);
                         //await _context.SaveChangesAsync();
-                        _context.SaveChanges(); //wiil wait 
+                        _context.SaveChanges(); //will wait 
                     }
                     catch(Exception ex)
                     {
@@ -185,7 +188,7 @@ namespace CateringPro.Core
                 _logger.LogError(ex, "SendMassEmailToUser error");
                 return false;
             }
-            return true;
+            return await Task.FromResult(true);
         }
 
         private async Task<EmailProtoType> CreateEmail(int companyid, CompanyUser user, MassEmail em)

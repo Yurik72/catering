@@ -11,6 +11,10 @@ using System.Data;
 using CateringPro.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using CateringPro.Helpers;
+using Microsoft.Net.Http.Headers;
+using System.IO;
+//using System.Net.Http.Headers;
 //using AspNetCore;
 
 namespace CateringPro.Repositories
@@ -22,13 +26,15 @@ namespace CateringPro.Repositories
         private readonly IUserDayDishesRepository _udaydishrepo;
         private readonly IInvoiceRepository _invoicerepo;
         private readonly IMemoryCache _cache;
-        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo, IMemoryCache cache)
+        private readonly URLHelperContextLess _helpercontextless;
+        public ReportRepository(AppDbContext context,  ILogger<CompanyUser> logger, IUserDayDishesRepository ud, IInvoiceRepository invoicerepo, IMemoryCache cache, URLHelperContextLess helpercontextless)
         {
             _context = context;
             _logger = logger;
             _udaydishrepo = ud;
             _invoicerepo = invoicerepo;
             _cache = cache;
+            _helpercontextless = helpercontextless;
     }
        public CompanyModel GetOwnCompany(int companyid)
         {
@@ -51,8 +57,8 @@ namespace CateringPro.Repositories
                     Country = company.Country,
                     PictureId = company.PictureId,
                     StampPictureId = company.StampPictureId,
-                    UrlPicture = string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.PictureId),
-                    UrlStampPicture= string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.StampPictureId)
+                    UrlPicture = _helpercontextless.BuildPictureUrl(company.PictureId, 100, 100), //string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.PictureId),
+                    UrlStampPicture = _helpercontextless.BuildPictureUrl(company.StampPictureId, 100, 100) //string.Format(@"http://catering.in.ua/Pictures/GetPicture/{0}", company.StampPictureId)
                 };
 
 
@@ -192,6 +198,7 @@ namespace CateringPro.Repositories
                                                        IngredientId = ing.Id,
                                                        IngredientName = ing.Name,
                                                        Quantity = dishIng.Proportion,
+                                                       QuantityNetto = dishIng.ProportionNetto,
                                                        MeasureUnit = ing.MeasureUnit
                                                    })
                                 }
@@ -367,6 +374,7 @@ namespace CateringPro.Repositories
                                               IngredientId = ing.Id,
                                               IngredientName = ing.Name,
                                               Quantity = dishIng.Proportion,
+                                              QuantityNetto = dishIng.ProportionNetto,
                                               MeasureUnit = ing.MeasureUnit
                                           })
                        }
@@ -503,6 +511,7 @@ namespace CateringPro.Repositories
                                    IngName = grp.Key.name,
                                    IngMu = grp.Key.mu,
                                    Quantity = grp.Sum(it=>it.ud.Quantity*it.di.Proportion),
+                                   QuantityNetto = grp.Sum(it => it.ud.Quantity * it.di.ProportionNetto),
                                    DishQuantity = grp.Sum(it => it.ud.Quantity )
                                };
                 DayIngredientsViewModel res = new DayIngredientsViewModel()
@@ -514,7 +523,8 @@ namespace CateringPro.Repositories
                                 IngredientId = q.IngId,
                                 IngredientName = q.IngName,
                                 Quantity = q.Quantity,
-                                MeasureUnit=q.IngMu,
+                                QuantityNetto=q.QuantityNetto,
+                                MeasureUnit =q.IngMu,
                                 DishQuantity=q.DishQuantity
                             }
 
@@ -543,11 +553,14 @@ namespace CateringPro.Repositories
                 Price = c.Price,
                 Items = from dd in _context.DishComplex.WhereCompany(companyid).Where(it => it.ComplexId == c.Id)
                         join d in _context.Dishes.WhereCompany(companyid) on dd.DishId equals d.Id
+                        orderby  dd.DishCourse ascending
                         select new CompanyMenuItemModel()
                         {
                             Name = d.Name,
                             Description = d.Description,
-                            Weight = d.ReadyWeight
+                            Weight = d.ReadyWeight,
+                            DishCourse= dd.DishCourse
+
                         }
             };
         }
@@ -780,6 +793,72 @@ namespace CateringPro.Repositories
             */
             var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName, o => o.ChildNameSurname, o => o.Category);
             return querywithgroup;
+        }
+        public async Task<IEnumerable<UserFinanceReportViewModel>> GetUserFinancePeriodReport(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId)
+        {
+            if (!_context.IsHttpContext())
+            {
+                _context.SetCompanyID(companyId);
+            }
+            string subgroup = usersubGroupId.HasValue ? usersubGroupId.Value.ToString() : "NULL";
+            var query = await _context.Database.SqlQuery<UserFinanceReportViewModel>(
+                $"exec UserFinancePeriodReport '{datefrom.ShortSqlDate()}' ,'{dateto.ShortSqlDate()}' , {companyId},{subgroup}").ToListAsync();
+            
+            return query;
+        }
+        public async Task<IEnumerable<GroupResult<UserFinanceReportViewModel>>> GetUserFinancePeriodReportWithGroup(DateTime datefrom, DateTime dateto, int companyId, int? usersubGroupId)
+        {
+            var query = await GetUserFinancePeriodReport(datefrom, dateto, companyId, usersubGroupId);
+            /*  var querywithgroup=from orders in query
+                                 group orders by orders.GroupName into subgroup
+                                 from userGroup in
+                                      (from user in subgroup
+                                       group user by user.ChildNameSurname)
+                                 group userGroup by subgroup.Key;
+            */
+            var querywithgroup = query.GroupByMany(o => o.Date, o => o.GroupName);
+            return querywithgroup;
+        }
+        public async Task<FileContentResult> ExcelReport(string name, DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+            if (!companyId.HasValue)
+                companyId = (await _cache.GetCachedCompaniesAsync(_context)).OrderBy(c => c.IsDefault).LastOrDefault().Id;
+            if (!dateFrom.HasValue)
+                dateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            if (!dateTo.HasValue)
+                dateTo = dateFrom.Value.AddMonths(1);
+            string sql = $"exec [{name}] '{dateFrom.Value.ShortSqlDate()}','{dateTo.Value.ShortSqlDate()}',{companyId}";
+
+            var tempfile = await _context.Database.ExcelMaterialize(sql, name).GetStreamAsync();
+            string filename = $"{name}_{dateFrom.Value.ShortSqlDate()}_{dateTo.Value.ShortSqlDate()}.xlsx";
+
+            byte[] mas = System.IO.File.ReadAllBytes(tempfile);
+            FileContentResult fs1 = new FileContentResult(mas, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = filename
+            };
+            try
+            {
+                File.Delete(tempfile);
+            }
+            catch {
+                return fs1;
+            }
+            
+            return fs1;
+        }
+        public async Task<string> UsersOrderPeriodReport(DateTime? datefrom, DateTime? dateto, int? companyId, int? usersubGroupId)
+        {
+
+            if (!companyId.HasValue)
+                companyId = (await _cache.GetCachedCompaniesAsync(_context)).OrderBy(c => c.IsDefault).LastOrDefault().Id;
+            if (!datefrom.HasValue)
+                datefrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            if (!dateto.HasValue)
+                dateto = datefrom.Value.AddMonths(1);
+            var query = await _context.Database.SqlQuery<UsersOrderPeriodViewModel>($"exec [UsersOrderPeriodReport] '{datefrom.Value.ShortSqlDate()}','{dateto.Value.ShortSqlDate()}', {companyId.Value}").ToListAsync();
+            //return await _context.Database.JsonWriter($"exec [UsersOrderPeriodReport] '{datefrom.Value.ShortSqlDate()}','{dateto.Value.ShortSqlDate()}', {companyId.Value}").ToStringAsync();
+            return "ok";
         }
     }
 }

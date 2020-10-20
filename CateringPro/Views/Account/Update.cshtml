@@ -5,6 +5,12 @@
 @inject IConfiguration Configuration
 @{
     SiteSetting setting = Configuration.GetSection("SiteSetting").Get<SiteSetting>();
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+
+    if (querymodel == null)
+    {
+        querymodel = new QueryModel();
+    }
 }
 
 @if (true)
@@ -156,14 +162,14 @@
                         </div>}
                     else
                     {
-                        <label
-                               class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
+                        <label class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
                             Наразі ви під обліковим записом дитини
                         </label>
                     }
 
                 </div>
-                <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+                <div class="tab-pane fade table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+                    
 
                 </div>
                 <div class="container">
@@ -194,18 +200,18 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-        <script>
-            $(function () {
+<script>
+       $(function () {
                 var userId = document.getElementById("id-value-id-user").value;
                 $(document).on("click", "#btnLink", function () {
                     $('#ModalPopUp').modal('show');
                     $(".modal-content").html(gethtmlloading());
                     var urlfin = '@Url.Content("~/Account/ChangePasswordModal?userId=")' + userId;
                     $.get(urlfin, function (data) {
-                        $(".modal-content").html(data);
+                    $(".modal-content").html(data);
                     });
-                });
-                $(document).on('click', '[data-save="modal"]', function (event) {
+                    });
+                    $(document).on('click', '[data-save="modal"]', function (event) {
                     event.preventDefault();
 
                     var form = $(this).parent().parents().find('.modal-body').find('form');
@@ -213,95 +219,98 @@
                     var dataToSend = form.serialize();
 
                     $.post(actionUrl, dataToSend).done(function (data, statusText, xhr) {
-                        var isValid = false;
+                    var isValid = false;
 
-                        if (data && data.res && data.res == "OK")
-                            isValid = true;
+                    if (data && data.res && data.res == "OK")
+                    isValid = true;
 
-                        if (isValid) {
-                            $('#modDialog').modal('hide');
-                            $('#dialogContent').empty();
+                    if (isValid) {
+                    $('#modDialog').modal('hide');
+                    $('#dialogContent').empty();
 
-                            window.location.href = data.returnUrl;
-                        }
-                        else {
-                            var newBody = $('.modal-body', data);
-                            $(document).find('.modal-body').replaceWith(newBody);
-                        }
+                    window.location.href = data.returnUrl;
+                    }
+                    else {
+                    var newBody = $('.modal-body', data);
+                    $(document).find('.modal-body').replaceWith(newBody);
+                    }
                     }).fail(function (xhr, status, error) {
-                        var message = error + '\r\n';
-                        if (xhr)
-                            message += xhr.responseText;
-                        dialog_error(message);
-                        // $('html').html(xhr.responseText);
+                    var message = error + '\r\n';
+                    if (xhr)
+                    message += xhr.responseText;
+                    dialog_error(message);
+                    // $('html').html(xhr.responseText);
                     });
-                });
+                    });
 
-                $("#nav-content-fin").html(gethtmlloading());
+                    $("#nav-content-fin").html(gethtmlloading());
 
-                $.get('/Account/UserFinance', function (data) {
+                    $.get('/Account/UserFinance', function (data) {
 
                     $("#nav-content-fin").html(data);
                     var enable_liqpay = false;
-@if (setting.EnableLiqPay)
-{
-                @Html.Raw("enable_liqpay = true;")
-}
-                $("#nav-content-fin").find('#addliqpay-btn').click(function(e) {
+                    @if (setting.EnableLiqPay)
+                    {
+                        @Html.Raw("enable_liqpay = true;")
+                    }
+                    $("#nav-content-fin").find('#addliqpay-btn').click(function(e) {
                     e.preventDefault();
                     if (enable_liqpay == true)
-                         window.location.replace(`@Url.Action("Index", "Payment") ? amount =${$("#nav-content-fin").find('#liqpay-amount').val()}`);
-                });
+                    window.location.replace(`@Url.Action("Index", "Payment") ? amount =${$("#nav-content-fin").find('#liqpay-amount').val()}`);
+                    });
 
-            });
- 
-                $.get('/Account/UserChilds?view=UserChildsData', function (data) {
+                    });
+
+                    $.get('/Account/UserChilds?view=UserChildsData', function (data) {
                     var childcontainer = $('#child-container')
                     childcontainer.find('.child-data').remove();
                     childcontainer.append(data);
                     // $("#nextchilds").html(data);
 
-                });
-                $("#addchild").click(function (e) {
+                    });
+                    $("#addchild").click(function (e) {
                     e.preventDefault();
                     var token = $("[name='__RequestVerificationToken'").val();
                     $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
-                        //alert(data);
-                        var childcontainer = $('#child-container');
-                        childcontainer.find('.child-data').remove();
-                        childcontainer.append(data);
+                    //alert(data);
+                    var childcontainer = $('#child-container');
+                    childcontainer.find('.child-data').remove();
+                    childcontainer.append(data);
                     })
-                        .fail(function (xhr, code, error) {
-                            dialog_error(error);
-                        });
-                });
+                    .fail(function (xhr, code, error) {
+                    dialog_error(error);
+                    });
+                    });
 
-                function isFileImage(file) {
+                    function isFileImage(file) {
                     const acceptedImageTypes = ['image/jpeg', 'image/png'];
 
                     return file && acceptedImageTypes.includes(file['type'])
-                }
-                function readURL(input) {
-                    if (input.files && input.files[0]) {
-                        var target_img = $($(input).attr('data-target'));
-                        if (!isFileImage(input.files[0])) {
-                            $(input).val('');
-                            return;
-                        }
-                        var reader = new FileReader();
-
-                        reader.onload = function (e) {
-                            $(target_img).attr('src', e.target.result);
-                        }
-
-                        reader.readAsDataURL(input.files[0]);
                     }
-                }
-                $(document).on("change", ".custom-file-input", function () {
+                    function readURL(input) {
+                    if (input.files && input.files[0]) {
+                    var target_img = $($(input).attr('data-target'));
+                    if (!isFileImage(input.files[0])) {
+                    $(input).val('');
+                    return;
+                    }
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                    $(target_img).attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                    }
+                    }
+                    $(document).on("change", ".custom-file-input", function () {
                     readURL(this);
-                });
-            });
-        </script>
+                    });
+
+            setup_listitems({ href:'@Url.Content("~/Account")',method:"UserFinance" });
+       });
+
+</script>
     }
 
 }

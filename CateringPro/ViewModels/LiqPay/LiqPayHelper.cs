@@ -39,7 +39,7 @@ namespace CateringPro.ViewModels.LiqPay
                 order_id = order_id,
                 sandbox = 1,
 
-                result_url= "http://localhost:1274/Home/Redirect",
+                //result_url= "http://localhost:1274/Home/RedirectResult",
 
                 product_category ="Напої",
                 product_description="Гаряче какао з альпійським молоком",

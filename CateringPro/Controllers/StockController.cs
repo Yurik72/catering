@@ -23,11 +23,11 @@ namespace CateringPro.Controllers
     {
         private readonly AppDbContext _context;
        
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<StockController> _logger;
         private IConfiguration _configuration;
         private IStockRepository _stockrepo;
         private int pageRecords = 20;
-        public StockController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration Configuration,IStockRepository stockrepo)
+        public StockController(AppDbContext context, ILogger<StockController> logger, IConfiguration Configuration,IStockRepository stockrepo)
         {
             _context = context;
             _logger = logger;
@@ -62,6 +62,8 @@ namespace CateringPro.Controllers
             {
                 query = query.Skip(pageRecords * querymodel.Page);
             }
+            if (pageRecords > 0)
+                query = query.Take(pageRecords);
             return PartialView(await query.ToListAsync());
 
         }
@@ -115,17 +117,28 @@ namespace CateringPro.Controllers
 
             var query = _stockrepo.ConsignmentStock(User.GetCompanyID());
 
-
+            return View(new List<ConsignmentStockViewModel>());
             return View(await query.ToListAsync());
 
         }
-        public async Task<IActionResult> ConsignmentListItems([Bind("SearchCriteria,SortField,SortOrder,Page")]  QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        public async Task<IActionResult> ConsignmentListItems(/*[Bind("SearchCriteria,SortField,SortOrder,Page")] */ QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
         {
             //QueryModel querymodel=new QueryModel() { }
             ViewData["QueryModel"] = querymodel;
             querymodel.PageRecords = pageRecords;
-            return PartialView(await _stockrepo.ConsignmentStock(querymodel, User.GetCompanyID()));
+           
+          
+             return PartialView(await _stockrepo.ConsignmentStock(querymodel, User.GetCompanyID()));
+           // return PartialView(query);
 
         }
+        public async Task<IActionResult> IngredientStockDetails(int id)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        {
+            //QueryModel querymodel=new QueryModel() { }
+            
+            return PartialView(await _stockrepo.IngredientStockDetail(id, User.GetCompanyID()));
+
+        }
+        
     }
 }

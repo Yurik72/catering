@@ -12,11 +12,103 @@
     }
 
 }
+@{
+    async Task RenderUserRowAsync(CompanyUser item,int level=0)
+    {
+        string addstyle = "";
+        string addclass_name = "";
+        string addname = "";
+        if (level==1)
+        {
+            addclass_name = "ml-5";
+            addname = "=>";
+            addstyle = "style=\"background: #EDEDED\"";
+        }
+        <div class="col-12 p-0  mt-2 " @Html.Raw(@addstyle)>
+            <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
+                 style="min-height: 52px; color: #232323">
+                <div class="col-12 p-0  d-flex flex-lg-row flex-md-row flex-column align-items-center mt-2 mt-lg-0 mt-md-0">
+                    <div class="col-md-4 col-lg-4 col-12 d-flex justify-content-between mt-1"
+                         style="font-size: 16px">
+                        <span class="col-6 p-0 d-md-none d-lg-none d-inline @addclass_name"
+                              style="font-size: 14px; font-weight: bold">Користувач</span>
+                        @if (item.UserTypeEn == UserTypeEnum.Child)
+                        {
 
+                            @if (level > 0)
+                            {
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="col-lg-12 col-md-12 col-6 p-0 ">@item.ChildNameSurname</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                    <div class="container px-0 py-0 ">
+                        <div class="row">
+                            <div class="col-12">
+                                <span>@item.ChildNameSurname</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="font-weight: bold;">
+                                <span>@item.NameSurname</span>
+                            </div>
+                        </div>
+                    </div>
+                            }
+                        }
+                        else
+                        {
+                            <span class="col-lg-12 col-md-12 col-6 p-0 @addclass_name" style="font-weight: bold;">
+                                @item.NameSurname
+                            </span>
+                        }
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
+                         style="font-size: 16px;overflow:hidden">
+                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                              style="font-size: 12px; font-weight: bold">Email</span><span class="col-lg-12 col-md-12 col-6 p-0" style="font-size: 12px;">@item.Email</span>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                            style="font-size: 16px">
+                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@item.UserSubGroup?.Name</span>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                            style="font-size: 16px">
+                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@item.UserGroup?.Name</span>
+                    </div>
+                    <div class="col-12 col-lg-1 col-md-1 d-flex mb-2  pr-0 pl-0 justify-content-lg-between justify-content-md-between justify-content-end">
+                        <div class="btn">
+                            <a href="@Url.Action("EditUserModal","Account",
+                        new { userId = item.Id })" class="cmd-edit dialog-edit-icon"><img src="../img/pen-icon.svg" alt="Change item" /></a>
+                        </div>
+
+                        <a asp-action="Delete" asp-route-userid="@item.Id" class="btn cmd-delete dialog-edit-icon"><img src="~/img/delete-icon.svg" alt="Delete item"></a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                @if (item.UserChilds != null)
+                {
+                    foreach(var child in item.UserChilds)
+                    {
+                        await RenderUserRowAsync(child, level + 1);
+                    }
+                }
+        }
+}
 @if (true)
 {
     @foreach (var item in Model)
     {
+        await RenderUserRowAsync(item);
+        @*
         <div class="col-12 p-0  mt-2">
             <div class="col-12 p-0 d-flex box-shadow-container brd-bot-line mb-3 mb-lg-0 mb-md-0"
                  style="min-height: 52px; color: #232323">
@@ -24,34 +116,38 @@
                     <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                          style="font-size: 16px">
                         <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                              style="font-size: 14px; font-weight: bold">Користувач</span><span class="col-lg-12 col-md-12 col-6 p-0">@item.ChildNameSurname</span>
+                              style="font-size: 14px; font-weight: bold">Користувач</span><span class="col-lg-12 col-md-12 col-6 p-0">@(item.UserTypeEn==UserTypeEnum.Child ? item.ChildNameSurname : item.NameSurname)</span>
                     </div>
                     <div class="col-md-3 col-lg-3 col-12 d-flex justify-content-between mt-1"
                          style="font-size: 16px">
                         <span class="col-6 p-0 d-md-none d-lg-none d-inline"
                               style="font-size: 14px; font-weight: bold">Email</span><span class="col-lg-12 col-md-12 col-6 p-0">@item.Email</span>
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
-                         style="font-size: 16px">
-                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                              style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@item.UserSubGroup?.Name</span>
-                    </div>
-                    <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
-                         style="font-size: 16px">
-                        <span class="col-6 p-0 d-md-none d-lg-none d-inline"
-                              style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@item.UserGroup?.Name</span>
-                    </div>
-                    <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
-                        <div class="btn" >
-                            <a href="@Url.Action("EditUserModal","Account",
-                                  new { userId = item.Id })" class = "cmd-edit dialog-edit-icon"><img src="../img/pen-icon.svg" alt="Change item" /></a>
                         </div>
-                        <a href="#" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+                        <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                             style="font-size: 16px">
+                            <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                  style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@item.UserSubGroup?.Name</span>
+                            </div>
+                            <div class="col-md-2 col-lg-2 col-12 d-flex justify-content-between mt-1"
+                                 style="font-size: 16px">
+                                <span class="col-6 p-0 d-md-none d-lg-none d-inline"
+                                      style="font-size: 14px; font-weight: bold"></span><span class="col-lg-12 col-md-12 col-6 p-0">@item.UserGroup?.Name</span>
+                                </div>
+                                <div class="col-12 col-lg-2 col-md-2 d-flex mb-2  pr-0 justify-content-lg-between justify-content-md-between justify-content-end">
+                                    <div class="btn">
+                                        <a href="@Url.Action("EditUserModal","Account",
+                                  new { userId = item.Id })" class="cmd-edit dialog-edit-icon"><img src="../img/pen-icon.svg" alt="Change item" /></a>
+                                    </div>
+
+                                    <a asp-action="Delete" asp-route-userid="@item.Id" class="btn cmd-delete dialog-edit-icon"><img src="~/img/delete-icon.svg" alt="Delete item"></a>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    }
+            *@
+                }
+    @Html.DisplayFor(model => querymodel, "PageNavigation", null)
     @*@Html.DisplayFor(model => querymodel, "PageNavigation", null)*@
 }
 

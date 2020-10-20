@@ -1,4 +1,5 @@
-﻿using CateringPro.Models;
+﻿using CateringPro.Core;
+using CateringPro.Models;
 using CateringPro.Repositories;
 using CateringPro.ViewModels;
 using System;
@@ -37,8 +38,11 @@ namespace CateringPro.Core
         [TemplateLoader(typeof(UserDayOrderTemplateLoader))]
         UserOrderWeek = 4,
         [TemplateLoader(typeof(CsvFlatExportLoader))]
-        CsvFlatExport = 5
+        CsvFlatExport = 5,
+        [TemplateLoader(typeof(ExcelExportLoader))]
+        ExcelExport = 6
     }
+
     public class ExecutionModel
     {
         public DateTime DateFrom { get; set; }
@@ -219,15 +223,37 @@ namespace CateringPro.Core
             //template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid, user));
             return true;
         }
-        /*
- * string ReplaceMacro(string value, Job job)
-{
-return Regex.Replace(value, @"{(?<exp>[^}]+)}", match => {
-var p = Expression.Parameter(typeof(Job), "job");
-var e = System.Linq.Dynamic.DynamicExpression.ParseLambda(new[] { p }, null, match.Groups["exp"].Value);
-return (e.Compile().DynamicInvoke(job) ?? "").ToString();
-});
-}
- */
+
     }
+
+public class ExcelExportLoader : EMailTemplateLoader
+{
+    public ExcelExportLoader(IMassEmailRepository mailRepo, int companyid) : base(mailRepo, companyid)
+    {
+
+    }
+    public override bool LoadModel(MassEmail em, EmailTemplateViewModel template, CompanyUser user)
+    {
+        LoadBaseFeature(em, template, user);
+        //this.DateCycle(em, template, (em, template, dt) => {
+        //    template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid,user));
+        //});
+
+        //string sql = ReplaceMacro(em.SQLCommand, ExecModel);
+        string reportname= em.SQLCommand;
+        var attach = new EMailAttachment();
+        var result = _mailRepo.ProduceExcel(reportname, ExecModel.DateFrom,ExecModel.DateTo, _companyid).GetAwaiter().GetResult();
+        attach.Content = result.FileContents;
+        attach.ContentType = result.ContentType;
+        attach.Name = result.FileDownloadName;
+       
+        template.Attachments.Add(attach);
+        template.JustAttachment = true;
+
+        //template.Models.Add(dt, _mailRepo.ReportRepository.EmailWeekInvoice(dt, _companyid, user));
+        return true;
+    }
+
+}
+
 }

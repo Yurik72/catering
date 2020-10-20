@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = null;
+    decimal discount = 0;
 }
 
 @model CateringPro.Models.InvoiceModel
@@ -107,7 +108,7 @@
         <tr>
             <td colspan="5" style="font-weight: 600; padding: 0 15px; height: 48px">@System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName(date.DayOfWeek)  @date.Day</td>
         </tr>
-
+            discount += item.Discount;
         }
         @if (!item.DayComplex.Enabled)
            {
@@ -151,7 +152,7 @@
     <tbody>
         @{
             var total = Model.Items.Sum(i => i.Amount);
-            var discount = Model.Items.Sum(i => i.Discount);
+            //var discount = Model.Items.Sum(i => i.Discount);
             total -= discount;
         }
         <tr style="background-color: #F1FFF1; border-left: 4px solid #36C233; padding: 0 15px; height: 48px; font-weight: 600;">

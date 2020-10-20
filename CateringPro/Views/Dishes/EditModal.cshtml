@@ -329,52 +329,65 @@ else
 
                                             <div class="col-2 pr-0 mr-0 mr-lg-1">
                                                 @*<a class="add-ingredients-dishes-line" style="cursor:pointer;">@Localizer["Add"]</a>*@
-                                                <a  class="btn btn-outline-danger float-right font-weight-bold add-ingredients-dishes-line"
-                                                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'" @*id="add-ingredients-dishes-line"*@
-                                                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                                                        style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
+                                                <a class="btn btn-outline-danger float-right font-weight-bold add-ingredients-dishes-line"
+                                                   onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'" @*id="add-ingredients-dishes-line"*@
+                                                   onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                                   style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
                                                     &#65291;<span class="d-none d-md-block">@Localizer["Create"]</span>
 
                                                 </a>
                                                 @*<button type="button" class="btn btn-outline-danger float-right font-weight-bold "
-                                                        onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'" 
-                                                        onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                                                        style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
-                                                    &#65291;<span class="d-none d-md-block">@Localizer["Create"]</span>
+                                                onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                                onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                                style="margin: 0; border-color: #36C233; max-width: 130px; height:30px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly;  font-size: 14px;">
+                                            &#65291;<span class="d-none d-md-block">@Localizer["Create"]</span>
 
-                                                </button>*@
+                                        </button>*@
 
                                             </div>
                                             <div id="responseS"></div>
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="row justify-content-lg-end justify-content-xl-end justify-content-center">
-                                    <div class="col-12 col-sm-12 col-xl-5 col-md-12 mr-xl-4 mr-0 justify-content-center p-0 "
+                                    <div class="col-12 col-sm-12 col-xl-12 col-md-12  mr-0 justify-content-center p-0 "
                                          style="display: flex; justify-content: center;">
                                         <div class="col-12 col-sm-12 col-xl-12 col-md-12  mr-xl-3 mr-0"
                                              style="border: 1px solid #B1B1B1; border-radius: 4px; height: 235px; overflow-y: scroll; box-sizing: border-box; width:340px">
 
-                                            <div class="row mt-3" style="max-width: 350px;">
-                                                <div class="col">
+                                            <div class="row mt-3" style="max-width: 750px;">
+                                                <div class="col-12">
                                                     @*<div id="responseS" class="row"></div>*@
                                                     <div class="row" style="margin-bottom: 9px">
-                                                        <div class="col-4">Назва</div>
-                                                        <div class="col-4">Частка</div>
+                                                        <div class="col-3">@Localizer["Ingredient Name"]</div>
+                                                        <div class="col-3">@Localizer["Ingredients ProprotionNetto"]</div>
+                                                        <div class="col-3">@Localizer["Ingredients Proprotion"]</div>
                                                     </div>
                                                     <div class="ingredients-content-proportion" id="nav-content-3" role="tabpanel" aria-labelledby="nav-tab-3">
 
-                                                        @*<div class="ingredients-content-proportion-footer"></div>*@
+
                                                     </div>
 
-                                                    <div> <textarea asp-for="CookingTechnologie" class="form-control " style="display: none" rows="10">@Model.CookingTechnologie</textarea></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                                <div class="row justify-content-lg-end justify-content-xl-end justify-content-center mb-4 mt-2">
+                                    
+                                        <div class="col-xl-8 col-sm-9 pl-xl-1 pl-sm-1 pl-0 col-10"
+                                             style="font-size: 18px; line-height: 21px; color: #232323; font-weight: 500;">
+                                            @Localizer["CookingTechnologie"]
+                                        </div>
+                                </div>   
+                                        <div class="row justify-content-lg-end justify-content-xl-end justify-content-center">
+                                            <div class="col-12" style="min-height:300px" >
+                                                <div style="height:100%"> <textarea id="cooktechnology" asp-for="CookingTechnologie" class="form-control"  style="height:300px" >@Model.CookingTechnologie</textarea></div>
+                                            </div>
+                                 </div>
+                                
+</form>
                         </div>
                         <div class="modal-footer justify-content-center"
                              style="font-size: 14px; font-weight: bold; line-height: 16px; padding: 40px 0 58px">

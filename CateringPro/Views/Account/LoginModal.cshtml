@@ -36,11 +36,14 @@
                 <label asp-for="IsRemember" class="col-md-8 col-8 control-label"></label>
                 <div class="col-md-4 col-4">
                     <input asp-for="IsRemember" />
-
                 </div>
+
 
             </div>
         </form>
+        <div class="col-md-7 col-7">
+            <input type="checkbox" onclick="myFunction()">Show Password
+        </div>
     </div>
     <div class="modal-footer">
         <a href="/Account/RestorePassword" class="mr-auto">@Localizer["ForgotPassword"]</a>
@@ -48,7 +51,16 @@
         <input asp-controller="Account" asp-action="Login" type="submit" class="btn btn-primary" data-save="modal" value="@Localizer["UserButtonLogin"]" />
     </div>
 
-
+    <script>
+        function myFunction() {
+            var x = document.getElementById("Password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

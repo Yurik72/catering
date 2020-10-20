@@ -45,13 +45,16 @@ namespace CateringPro.Models
         public int IngredientId { get; set; }
         public string IngredientName { get; set; }
         public decimal  Quantity { get; set; }
+
+        public decimal QuantityNetto { get; set; }
         public int  DishQuantity { get; set; }
 
         public string MeasureUnit { get; set; }
-        public DayIngredientsDetails(int id, string name, decimal quantity, string measure) {
+        public DayIngredientsDetails(int id, string name, decimal quantity, decimal quantitynetto, string measure) {
             IngredientId = id;
             IngredientName = name;
             Quantity = quantity;
+            QuantityNetto = quantitynetto;
             MeasureUnit = measure;
         }
         public DayIngredientsDetails() { }

@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using System.ComponentModel.DataAnnotations;
+using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace CateringPro.Core
 {
@@ -13,15 +15,87 @@ namespace CateringPro.Core
     {
         public object Key { get; set; }
         public int Count { get; set; }
+
+       // public string KeyType { get; set; }
+        public int Level { get; set; }
         public IEnumerable<TItem> Items { get; set; }
         public IEnumerable<GroupResult<TItem>> SubGroups { get; set; }
         public override string ToString()
         { return string.Format("{0} ({1})", Key, Count); }
     }
+     public interface IGroupBuilder<TElement>: IEnumerable<GroupResult<TElement>>
+    {
+        IGroupBuilder<TElement> Then<TKey>(Func<TElement, TKey> selector);
+    }
+
+    public abstract class GroupResultBuilder<TElement> :  IGroupBuilder<TElement>
+    {
+        protected IEnumerable<TElement> source;
+        protected IEnumerable<GroupResult<TElement>> result;
+        public GroupResultBuilder(IEnumerable<TElement> src)
+        {
+            source = src;
+        }
+
+        public abstract IGroupBuilder<TElement> Then<TKey>(Func<TElement, TKey> selector);
+
+
+
+        IEnumerator<GroupResult<TElement>> IEnumerable<GroupResult<TElement>>.GetEnumerator()
+        {
+            return result.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return result.GetEnumerator();
+        }
+    }
+    public class GroupResultBuilderSelector<TElement,TKey>: GroupResultBuilder<TElement>
+    {
+        Func<TElement, TKey> thenselector;
+        public GroupResultBuilderSelector(IEnumerable<TElement> src, Func<TElement, TKey> selector)
+            :base(src)
+        {
+            thenselector = selector;
+            //result = src.GroupBy(selector).Select(
+            //            g => new GroupResult<TElement>
+            //            {
+            //                Key = g.Key,
+            //                // KeyType= selector.ToString(),
+            //                Count = g.Count(),
+            //                Items = g
+            //                //SubGroups = g.GroupByMany(nextSelectors)
+            //            });
+        }
+
+        public override IGroupBuilder<TElement> Then<TKey1>(Func<TElement, TKey1> selector) 
+        {
+            return new GroupResultBuilderSelector<TElement, TKey1>(source, selector);
+        }
+    }
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class DefaultNameAttribute : DataTypeAttribute
     {
         public DefaultNameAttribute():base(nameof(DefaultNameAttribute))
+        {
+
+        }
+
+    }
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+    public sealed class DefaultIncludeAttribute : DataTypeAttribute
+    {
+        public DefaultIncludeAttribute() : base(nameof(DefaultIncludeAttribute))
+        {
+
+        }
+
+    }
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+    public sealed class DefaultNameExAttribute : DataTypeAttribute
+    {
+        public DefaultNameExAttribute() : base(nameof(DefaultNameExAttribute))
         {
 
         }
@@ -77,6 +151,12 @@ namespace CateringPro.Core
             return source.Provider.CreateQuery<T>(resultExp);
             
         }
+        public static IEnumerable<GroupResult<TElement>> GroupByMany<TElement, TKey>(
+            this IEnumerable<TElement> elements, Func<TElement, TKey> selector)
+        {
+          
+            return  new GroupResultBuilderSelector<TElement, TKey>(elements, selector);
+        }
     public static IEnumerable<GroupResult<TElement>> GroupByMany<TElement>(
     this IEnumerable<TElement> elements,
     params Func<TElement, object>[] groupSelectors)
@@ -92,6 +172,7 @@ namespace CateringPro.Core
                         g => new GroupResult<TElement>
                         {
                             Key = g.Key,
+                           // KeyType= selector.ToString(),
                             Count = g.Count(),
                             Items = g,
                             SubGroups = g.GroupByMany(nextSelectors)
@@ -170,6 +251,35 @@ namespace CateringPro.Core
 
             }
             return finalBinaryExpression;
+        }
+    }
+    public static class ExpressionExtensions
+    {
+        // Given an expression for a method that takes in a single parameter (and
+        // returns a bool), this method converts the parameter type of the parameter
+        // from TSource to TTarget.
+        public static Expression<Func<TTarget, bool>> Convert<TSource, TTarget>(
+          this Expression<Func<TSource, bool>> root)
+        {
+            var visitor = new ParameterTypeVisitor<TSource, TTarget>();
+            return (Expression<Func<TTarget, bool>>)visitor.Visit(root);
+        }
+
+        class ParameterTypeVisitor<TSource, TTarget> : ExpressionVisitor
+        {
+            private ReadOnlyCollection<ParameterExpression> _parameters;
+
+            protected override Expression VisitParameter(ParameterExpression node)
+            {
+                return _parameters?.FirstOrDefault(p => p.Name == node.Name)
+                  ?? (node.Type == typeof(TSource) ? Expression.Parameter(typeof(TTarget), node.Name) : node);
+            }
+
+            protected override Expression VisitLambda<T>(Expression<T> node)
+            {
+                _parameters = VisitAndConvert<ParameterExpression>(node.Parameters, "VisitLambda");
+                return Expression.Lambda(Visit(node.Body), _parameters);
+            }
         }
     }
 }

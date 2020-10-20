@@ -23,6 +23,9 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Internal;
+using CateringPro.Helpers;
+using System.Net;
 
 namespace CateringPro.Controllers
 {
@@ -57,11 +60,13 @@ namespace CateringPro.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Register()
+        public IActionResult Register(int? companyid)
         {
+            ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", companyid.HasValue?companyid.Value.ToString():string.Empty);
+                
             return View(new RegisterViewModel
             {
-
+                CompanyId= companyid
             });
         }
 
@@ -75,6 +80,8 @@ namespace CateringPro.Controllers
             {
                 model.Errors.Clear();
             }
+            ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", model.CompanyId.HasValue ? model.CompanyId.Value.ToString() : string.Empty);
+           
             if (ModelState.IsValid)
             {
                 var user = new CompanyUser
@@ -91,12 +98,19 @@ namespace CateringPro.Controllers
                     ConfirmedByAdmin = model.ConfirmedByAdmin,
                     ChildrenCount = 1,
                     //RegisterDate = DateTime.Now,
-                    Id = Guid.NewGuid().ToString()
+                    Id = Guid.NewGuid().ToString(),
+                    
 
                 };
+                if (model.CompanyId.HasValue)
+                {
+                    user.CompanyId = model.CompanyId.Value;
+                }
                 if (!model.Password.Equals(model.ConfirmPassword))
                 {
                     ModelState.AddModelError("", _localizer.GetLocalizedString("PasswordMismatch"));
+                    ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", string.Empty);
+
                     return View("Register", model);
                 }
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -131,6 +145,8 @@ namespace CateringPro.Controllers
                 else
                 {
                     model.Errors = result.Errors.Select(x => x.Description).ToList();
+                    ViewData["Companies"] = new SelectList(_companyuser_repo.GetCompaniesWithEmptyList(), "Value", "Text", string.Empty);
+
                     return View("Register", model);
                 }
             }
@@ -174,8 +190,9 @@ namespace CateringPro.Controllers
         {
             return PartialView("LoginModal", new LoginViewModel
             {
-                ReturnUrl = returnUrl
-            });
+                ReturnUrl = returnUrl,
+                IsRemember = true
+            }); ;
         }
         public async Task<IActionResult> AutoLogon(string token, string username)
         {
@@ -224,13 +241,22 @@ namespace CateringPro.Controllers
             }
             if (user != null && user.EmailConfirmed)
             {
-                var claims = await _userManager.GetClaimsAsync(user);
+                //var claims = await _userManager.GetClaimsAsync(user);
                 // claims.Add(new System.Security.Claims.Claim("companyid", "44"));
-
+                
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.IsRemember, true);
 
                 if (result.Succeeded)
                 {
+                    var validation = _companyuser_repo.ValidateUserOnLogin(user);
+                    if (validation > 0)   // required refresh of claims
+                    {
+                        await _signInManager.RefreshSignInAsync(user);
+                    }
+                    if (validation < 0)   // probably not allow to login
+                    {
+
+                    }
                     if (model.IsModal)
                     {
                         return Ok(new { res = "OK", returnUrl = string.IsNullOrEmpty(model.ReturnUrl) ? Url.Action("Index", "Home") : model.ReturnUrl });
@@ -280,7 +306,7 @@ namespace CateringPro.Controllers
                 return View(model);
 
         }
-
+        
         [Authorize]
         public async Task<IActionResult> LogOut()
         {
@@ -421,6 +447,12 @@ namespace CateringPro.Controllers
                 var model = new RegisterViewModel() { UserId = userId, TokenCode = code, Email = user.Email };
                 if (await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.PasswordResetTokenProvider, "ResetPassword", code))
                 {
+                if (!user.EmailConfirmed)
+                {
+                    user.EmailConfirmed = true;
+                    _context.Users.Update(user);
+                    await _context.SaveChangesAsync();
+                }
                     return View(model);
                 }
                 else
@@ -516,16 +548,29 @@ namespace CateringPro.Controllers
                 }
             }
 
-                ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
-                ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
-
+            //ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserGroupId);
+            //ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", user.UserSubGroupId);
+            
+            
+            //ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(user.UserTypeEn,_localizer).ToList() ;
             var model = _companyuser_repo.GetUpdateUserModel(user);
             model.AutoLoginUrl = Url.Action("AutoLogon", "Account", new { token = model.AutoLoginToken, username = model.UserName }, Request.Scheme);
 
-            return PartialView(model);
+            //return PartialView(model);
+            return PartialEditUserModal(model);
 
         }
+        private IActionResult PartialEditUserModal(UpdateUserModel usermodel)
+        {
+            ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserGroupId);
+      //      ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubGroups(User.GetCompanyID()).Result, "Id", "Name", usermodel.UserSubGroupId);
+            ViewData["UserSubGroupId"] = new SelectList(_companyuser_repo.GetUserSubgroupsdWithEmptyList(),"Value","Text", usermodel.UserSubGroupId.HasValue? usermodel.UserSubGroupId.Value.ToString():string.Empty);
 
+
+            ViewData["UserType"] = EnumHelper<UserTypeEnum>.GetSelectListWithIntegerValues(usermodel.UserTypeEn, _localizer).ToList();
+
+            return PartialView("EditUserModal", usermodel);
+        }
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -534,7 +579,7 @@ namespace CateringPro.Controllers
 
             //string id = User.GetUserId();
             if (!ModelState.IsValid)
-                return PartialView(usermodel);
+                return PartialEditUserModal(usermodel);
                 //return await Task.FromResult(Json(new { res = "FAIL", reason = "Error occured! Maybe passwords are mismatching" }));
                 
             _logger.LogInformation("EditUserModal");
@@ -599,7 +644,7 @@ namespace CateringPro.Controllers
                         //return await Task.FromResult(Json(new { res = "FAIL", reason = "error occured while creating user" }));
                         usermodel.Errors = userResult.Errors.Select(x => x.Description).ToList();
                         _logger.LogWarning("Error creating user async : {0} ", usr.UserName);
-                        return PartialView(usermodel);
+                        return PartialEditUserModal(usermodel);
                     }
 
                     //current  roles
@@ -708,7 +753,7 @@ namespace CateringPro.Controllers
                         {
                             usermodel.ChildNameSurname = reb.ChildNameSurname;
                             usermodel.ChildBirthdayDate = reb.ChildBirthdayDate;
-                            usermodel.CopyEditedParamsTo(user);
+                            //usermodel.CopyEditedParamsTo(user);
                             user_to_update = user;
                         }
                         else
@@ -775,19 +820,22 @@ namespace CateringPro.Controllers
                             user_to_update.PictureId = pict.Id;
 
                         }
-                        try
+                        if (reb.Id != usermodel.Id)
                         {
-                            IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
-                            if (!rebResult.Succeeded)
+                            try
                             {
-                                return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
+                                IdentityResult rebResult = await _userManager.UpdateAsync(user_to_update);
+                                if (!rebResult.Succeeded)
+                                {
+                                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Some error occured" }));
+                                }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Error Update Child");
-                            ModelState.AddModelError("", ex.Message);
-                            return RedirectToAction("Users");
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "Error Update Child");
+                                ModelState.AddModelError("", ex.Message);
+                                return RedirectToAction("Users");
+                            }
                         }
                         i++;
                     }
@@ -892,11 +940,127 @@ namespace CateringPro.Controllers
             {
                 _logger.LogError(ex, "Error EditUser");
                 ModelState.AddModelError("", ex.Message);
-                return PartialView(usermodel);
+                return PartialEditUserModal(usermodel);
             }
             return this.UpdateOk();
 
         }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+      
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string userid)
+        {
+            if (userid == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var deldialog = new DeleteDialogViewModel() { UserId = user.Id, ModelName = $"Login: {user.UserName} Name:{user.NameSurname}",IsSupportDeactivation=true,CompanyId=User.GetCompanyID() };
+            return PartialView("DeleteDialog", deldialog);
+           
+        }
+
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+
+                user.IsDeactivated = true;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Delete confirmed error");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Delete confirmed error");
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Users));
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        public async Task<IActionResult> Block(string userid)
+        {
+            if (userid == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var deldialog = new DeleteDialogViewModel() { UserId = user.Id, ModelName = $"Login: {user.UserName} Name:{user.NameSurname}", IsSupportDeactivation = true, CompanyId = User.GetCompanyID() };
+            return PartialView("BlockDialog", deldialog);
+
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [HttpPost, ActionName("Block")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BlockConfirmed(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+                // to do block User Childs
+                List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
+                childs.ForEach(ch => ch.LockoutEnd = DateTime.Now.AddYears(10));
+                user.LockoutEnd = DateTime.Now.AddYears(10);
+                childs.Add(user);
+                _context.UpdateRange(childs);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Block confirmed error");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Block confirmed error");
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Users));
+        }
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        // [HttpPost, ActionName("Delete")]
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnBlock(string userid)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userid);
+                // to do block User Childs
+                List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
+                childs.ForEach(ch => ch.LockoutEnd = null);
+                user.LockoutEnd = null;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbex)
+            {
+                _logger.LogError(dbex, "Block confirmed error");
+                return StatusCode((int)HttpStatusCode.FailedDependency);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Block confirmed error");
+                return BadRequest();
+            }
+            return RedirectToAction(nameof(Users));
+        }
+
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin")]
         public IActionResult CreateUserModal()
         {
@@ -919,35 +1083,43 @@ namespace CateringPro.Controllers
         [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]
         [Route("Account/Users/UsersList")]
         [Route("Account/UsersList")]
-        public async Task<IActionResult> UsersList([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
+        public async Task<IActionResult> UsersList(QueryModel querymodel)
         {
 
            // var query = _userManager.Users;
 
             ViewData["QueryModel"] = querymodel;
-            //ViewData["GroupId"] = new SelectList(_context.UserGroups/*.WhereCompany(User.GetCompanyID())*/.ToList(), "Id", "Name", querymodel.RelationFilter);
             ViewData["UserGroupId"] = new SelectList(_companyuser_repo.GetUserGroups(User.GetCompanyID()).Result, "Id", "Name", querymodel.RelationFilter);
-            //var query = (IQueryable<Dish>)_context.Dishes/*.WhereCompany(User.GetCompanyID())*/.Include(d=>d.Category).Include(d => d.DishIngredients).ThenInclude(di => di.Ingredient);
-            var query = this.GetQueryListUsers(_userManager.Users.Include(u=>u.UserGroup).Include(u=>u.UserSubGroup),querymodel,
-                        d => string.IsNullOrEmpty(querymodel.SearchCriteria) || 
-                        d.ChildNameSurname.Contains(querymodel.SearchCriteria) || 
-                        d.Email.Contains(querymodel.SearchCriteria) || 
-                        d.UserName.Contains(querymodel.SearchCriteria) ||
-                        d.NameSurname.Contains(querymodel.SearchCriteria) ||
-                        d.UserGroup.Name.Contains(querymodel.SearchCriteria) ||
-                        d.UserSubGroup.Name.Contains(querymodel.SearchCriteria),
-                     20);
+            var query = await  GetQueryListUsers(querymodel, 20);
             //if (querymodel.RelationFilter > 0)
             //{
             //    query = query.Where(d => d.CategoriesId == querymodel.RelationFilter);
             //}
 
 
+
+            //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
+            return PartialView(query);
+        }
+        public async Task<List<CompanyUser>> GetQueryListUsers(QueryModel querymodel,  int pageRecords,bool loadchilds=true)
+        {
+            ViewData["QueryModel"] = querymodel;
+            var query = _userManager.Users.
+                Include(u => u.UserGroup).
+                Include(u => u.UserSubGroup).
+                Include(u => u.CompanyUserCompany)
+                .Where(d => string.IsNullOrEmpty(querymodel.SearchCriteria) ||
+                        d.ChildNameSurname.Contains(querymodel.SearchCriteria) ||
+                        d.Email.Contains(querymodel.SearchCriteria) ||
+                        d.UserName.Contains(querymodel.SearchCriteria) ||
+                        d.NameSurname.Contains(querymodel.SearchCriteria) ||
+                        d.UserGroup.Name.Contains(querymodel.SearchCriteria) ||
+                        d.UserSubGroup.Name.Contains(querymodel.SearchCriteria));
             if (!User.IsInRole(Core.UserExtension.UserRole_Admin))
             {
                 if (User.IsInRole(Core.UserExtension.UserRole_CompanyAdmin) || User.IsInRole(Core.UserExtension.UserRole_UserAdmin))
                 {
-                    query = query.Where(u => u.CompanyId == User.GetCompanyID());
+                    query = query.Where(u => u.CompanyUserCompany.FirstOrDefault() != null && u.CompanyUserCompany.FirstOrDefault().CompanyId == User.GetCompanyID());
                 }
                 else if (User.IsInRole(Core.UserExtension.UserRole_GroupAdmin))
                 {
@@ -965,13 +1137,40 @@ namespace CateringPro.Controllers
                     }
                 }
             }
-            //return PartialView(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
-            return PartialView(await query.ToListAsync());
+            if (!string.IsNullOrEmpty(querymodel.SortField))
+            {
+                query = query.OrderByEx(querymodel.SortField, querymodel.SortOrder);
+            }
+            if (querymodel.Page > 0)
+            {
+                query = query.Skip(pageRecords * querymodel.Page);
+            }
+            if (pageRecords > 0)
+                query = query.Take(pageRecords);
+            List<CompanyUser> userslist;
+            if (loadchilds)
+            {
+                userslist = query.ToList();
+                var userids = userslist.Select(u => u.Id).ToList();
+                Func<CompanyUser, IEnumerable<CompanyUser>, CompanyUser> func = (usr, child) =>
+                  {
+                      usr.UserChilds = child.ToList();
+                      return usr;
+                  };
+                var queryx = userslist.ToList().GroupJoin(_userManager.Users.Where(u => userids.Contains(u.ParentUserId)), u => u.Id, c => c.ParentUserId,
+                    (usr, childs) => func(usr, childs)
+                );
+                userslist = queryx.ToList();
+            }
+            else
+            {
+                userslist = await query.ToListAsync();
+            }
+            return userslist;
         }
 
 
-
-        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin")]
+        [Authorize(Roles = "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupAdmin")]
         public IActionResult Users()//async Task<IActionResult> Users()
         {
             // return View(await _userManager.Users.Where(u => u.CompanyId == User.GetCompanyID()).ToListAsync());
@@ -1378,6 +1577,7 @@ namespace CateringPro.Controllers
                     }
                     var parentResult = await _userManager.UpdateAsync(parent);
                     var childResult = await _userManager.UpdateAsync(child);
+
                 }
             }
             return RedirectToAction("Users");
@@ -1477,7 +1677,7 @@ namespace CateringPro.Controllers
             if (user == null && string.IsNullOrEmpty(userId))
                 return PartialView("ChildrenDataOfUser", null);
             List<CompanyUser> childs = await _companyuser_repo.GetUserChilds(user.Id, user.CompanyId, false);
-
+            ViewData["UserId"] = userId;
             return PartialView("ChildrenDataOfUser", childs);
         }
 
@@ -1545,9 +1745,21 @@ namespace CateringPro.Controllers
             return PartialView(await _fin.GetUserFinModelAsync(user.Id, User.GetCompanyID()));
         }
         [Authorize]
-        public async Task<IActionResult> UserFinance()
+        public async Task<IActionResult> UserFinance(QueryModel querymodel)
         {
-            return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
+            if (querymodel != null)
+            {
+                querymodel.SortField = "";
+                querymodel.SearchCriteria = "";
+                querymodel.SortOrder = "asc";
+                ViewData["QueryModel"] = querymodel;
+                return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID(),(querymodel.Page+1)));
+            }
+            else
+            {
+               
+                return PartialView(await _fin.GetUserFinModelAsync(User.GetUserId(), User.GetCompanyID()));
+            }
         }
 
         [HttpPost]

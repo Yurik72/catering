@@ -107,6 +107,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Categories\Create.cshtml" />
+    <Content Remove="Views\Categories\Delete.cshtml" />
+    <Content Remove="Views\Categories\Details.cshtml" />
+    <Content Remove="Views\Categories\Edit.cshtml" />
+    <Content Remove="Views\IngredientCategories\Create.cshtml" />
+    <Content Remove="Views\IngredientCategories\Delete.cshtml" />
+    <Content Remove="Views\IngredientCategories\Details.cshtml" />
+    <Content Remove="Views\IngredientCategories\Edit.cshtml" />
     <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
     <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
     <Content Remove="Views\Shared\PizzaSummary.cshtml" />
@@ -117,9 +125,11 @@
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\CateringPro2 - Web Deploy.pubxml" />
+    <None Remove="SQL\UserFinancePeriodReport.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
     <PackageReference Include="Dotmim.Sync.Core" Version="0.5.6" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="jsreport.AspNetCore" Version="2.1.0" />
@@ -158,6 +168,7 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Logs\" />
+    <Folder Include="Temp\" />
     <Folder Include="Reports\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="ViewComponents\" />
@@ -337,5 +348,19 @@
   <Content Update="SQL\OutStockTest._sql">
     <CopyToOutputDirectory>Never</CopyToOutputDirectory>
   </Content>
+</ItemGroup>
+<ItemGroup>
+  <None Update="Templates\OrderFinDetails.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\OrderPeriodDetailReport.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\UserBalanceReport.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\UserFinDetails.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
 </ItemGroup>
 </Project>

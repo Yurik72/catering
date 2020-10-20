@@ -12,6 +12,7 @@ using CateringPro.Core;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using System.Data.Common;
+using Microsoft.Extensions.Logging;
 
 namespace CateringPro.Controllers
 {
@@ -19,12 +20,14 @@ namespace CateringPro.Controllers
     public class UserSubGroupsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<UserSubGroupsController> _logger;
 
         private readonly ICompanyUserRepository _companyuser_repo;
-        public UserSubGroupsController(AppDbContext context, ICompanyUserRepository companyuser_repo)
+        public UserSubGroupsController(AppDbContext context, ICompanyUserRepository companyuser_repo, ILogger<UserSubGroupsController> logger)
         {
             _context = context;
             _companyuser_repo = companyuser_repo;
+            _logger = logger;
         }
 
         // GET: UserSubGroups
@@ -58,10 +61,12 @@ namespace CateringPro.Controllers
             }
             catch(DbUpdateException dbex)
             {
+                _logger.LogError(dbex, "Delete");
                 return new JsonHttpStatusResult(new { }, HttpStatusCode.FailedDependency);
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex, "Delete");
                 return new JsonHttpStatusResult(new { }, HttpStatusCode.InternalServerError);
             }
             //return RedirectToAction("Index");

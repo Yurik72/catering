@@ -1,0 +1,224 @@
+﻿@model IEnumerable<GroupResult<UserFinanceReportViewModel>>
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+    int level = 0;
+    if (ViewData["level"] != null)
+        level = (int)ViewData["level"];
+    decimal total = 0;
+    decimal totalDis = 0;
+    decimal totalGroup = 0;
+    decimal totalDisGroup = 0;
+    DateTime dateFrom = (DateTime)ViewData["datefrom"];
+    DateTime dateTo = (DateTime)ViewData["dateTo"];
+    CompanyModel comp_model = ViewData["CompanyModel"] as CompanyModel;
+    string subgroupname = ViewData["UserSubGroupName"].ToString();
+}
+
+@if (level == 0)
+{
+
+
+    <html>
+    <head>
+        <link href="~/css/invoice.css" type="text/css" rel="stylesheet" />
+    </head>
+    <body>
+
+        <div class="invoice-box">
+            <table cellpadding="0" cellspacing="0">
+                <tr class="top">
+                    <td colspan="4">
+                        <table>
+                            <tr>
+                                <td style="width:20%;" class="title">
+                                    <img src="@comp_model?.UrlPicture" style="width:100%; max-width:300px;" />
+                                </td>
+                                <td style="width:80%;">
+
+                                    <h1>@Localizer["UsersFinances"]</h1>
+                                    <br /> @Localizer["DateReport"]: @DateTime.Now.ToShortDateString()
+                                    <br />@Localizer["Period"]: @dateFrom.ToShortDateString() - @dateTo.ToShortDateString()
+                                    <br />@Localizer["UserSubGroups"]: @subgroupname
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr class="information ">
+                    <td colspan="2 ">
+                        <table>
+                            <tr>
+                                <td>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                    <tr class="item daydate">
+                        @*@if (DateTime.TryParse(item.Key, out ))
+                {*@
+                        @{
+                            DateTime res;
+                            DateTime.TryParse(item.Key.ToString(), out res);
+                        }
+                        <td colspan="4">@res.ToShortDateString()</td>
+                        @*}*@
+                    </tr>
+                    <tr class="heading ">
+                        <td>
+                            @Localizer["ChildNameSurname"] / @Localizer["UserSubGroups"]
+                        </td>
+                        <td>
+                            @Localizer["TotalWithoutDiscount"]
+                        </td>
+                        <td>
+                            @Localizer["Discount"]
+                        </td>
+
+                        <td style="text-align:right">
+                            @Localizer["Amount"]
+                        </td>
+                    </tr>
+
+                    @if (item.SubGroups != null)
+                    {
+
+                        ViewDataDictionary vd = new ViewDataDictionary(ViewData);
+                        vd["level"] = level + 1;
+                        await Html.RenderPartialAsync("UserFinancePeriodReportWithGroup", item.SubGroups, vd);
+                    }
+
+                }
+
+
+
+            </table>
+
+        </div>
+    </body>
+</html>
+}
+else
+{
+@foreach (var item in Model)
+{
+    @*
+        <div>
+            Start group @level ----  @item.Key
+        </div>
+    *@
+    @if (item.SubGroups != null)
+    {
+        @*@if (level == 2)
+            {
+                <tr class="item" style="background-color: #a0a0a0; text-align: center;">
+                    <td colspan="4">@item.Key</td>
+                </tr>
+            }
+            else
+            {*@
+        <tr class="item daydate">
+            <td colspan="4">@item.Key</td>
+        </tr>
+        //}
+    }
+    else
+    {
+        <tr class="item daydate">
+            <td colspan="4">
+                @item.Key
+            </td>
+
+        </tr>
+    }
+    @if (item.SubGroups != null)
+    {
+        ViewDataDictionary vd = new ViewDataDictionary(ViewData);
+        vd["level"] = level + 1;
+        await Html.RenderPartialAsync("UserFinancePeriodReportWithGroup", item.SubGroups, vd);
+    }
+    else
+    {
+        {
+            totalGroup = 0;
+            totalDisGroup = 0;
+        }
+        @foreach (var it in item.Items)
+        {
+
+            @*<tr>
+                    <td>@it.DishName</td>
+                </tr>*@
+            <tr class="">
+                <td>
+                    @Html.DisplayFor(model => it.ChildNameSurname)
+                </td>
+                <td> @Html.DisplayFor(model => it.TotalWtithoutDiscount)</td>
+                <td>
+                    @Html.DisplayFor(model => it.Discount)
+                </td>
+
+                <td style="text-align:right">
+                    @Html.DisplayFor(model => it.Total)
+                </td>
+                @*<td style="text-align:left">
+                        @Html.DisplayFor(model => item.Quantity)
+                    </td>*@
+                @*<td>
+                    </td>*@
+                @{
+                    totalGroup += it.Total;
+                    totalDisGroup += it.Discount;
+                }
+            </tr>
+
+        }
+        {
+            total += totalGroup;
+            totalDis += totalDisGroup;
+        }
+        <tr class="heading">
+            <td>@Localizer["Amount"]</td>
+            <td></td>
+            <td>@totalDisGroup</td>
+            <td style="text-align:right">@totalGroup</td>
+
+        </tr>
+    }
+
+
+}
+                    <tr></tr>
+<tr class="total ">
+    <td>@Localizer["AmountDay"]</td>
+    <td></td>
+
+    <td>@totalDis</td>
+    <td style="text-align:right">@total</td>
+</tr>
+}

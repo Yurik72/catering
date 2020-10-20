@@ -2,6 +2,7 @@
 using CateringPro.Data;
 using CateringPro.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -81,5 +82,22 @@ namespace CateringPro.Repositories
 
             }
         }
+
+        public async Task<FileContentResult> ProduceExcel(string name, DateTime? dateFrom, DateTime? dateTo, int? companyId)
+        {
+
+                try
+                {
+                    var res =await _reportrepo.ExcelReport(name, dateFrom, dateTo, companyId);
+                    return res;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"ProduceExcel name {name}");
+                    return null;
+                }
+
+            }
+        }
     }
-}
+

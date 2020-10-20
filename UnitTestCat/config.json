@@ -1,0 +1,13 @@
+{
+  "AppSettings": {
+    "SiteTitle": "ASP.NET MVC Catering Pro",
+    "CacheDbResults": true
+  },
+  "DefaultAdminUsername": "Admin",
+  "DefaultAdminPassword": "Password123",
+  "Data": {
+    "DefaultConnection": {
+      "ConnectionString": "Dummy Connection"
+    }
+  }
+}

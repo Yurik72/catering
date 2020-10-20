@@ -15,6 +15,7 @@ using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CateringPro.Controllers
 {
@@ -26,11 +27,11 @@ namespace CateringPro.Controllers
 
         private readonly AppDbContext _context;
 
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<DocsController> _logger;
         private IConfiguration _configuration;
         private IDocRepository _docrepo;
         private int pageRecords = 20;
-        public DocsController(AppDbContext context, ILogger<CompanyUser> logger, IConfiguration configuration,IDocRepository docrepo)
+        public DocsController(AppDbContext context, ILogger<DocsController> logger, IConfiguration configuration,IDocRepository docrepo)
         {
 
             _context = context;
@@ -103,10 +104,14 @@ namespace CateringPro.Controllers
             var doc = await _context.Docs.Include(d=>d.Address).SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
             var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
             docLines = docLines.OrderBy(doc => doc.Number).ToList();
-            doc.DocLines = docLines;
+         
             if (doc == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                doc.DocLines = docLines;
             }
 
             return PartialView(doc);
@@ -121,10 +126,14 @@ namespace CateringPro.Controllers
             //var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
             var doc = await _context.Docs.SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
             var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
-            doc.DocLines = docLines;
+            
             if (doc == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                doc.DocLines = docLines;
             }
 
             return PartialView(doc);
@@ -143,6 +152,7 @@ namespace CateringPro.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex, "DeleteConfirmed");
                 return BadRequest();
             }
             return RedirectToAction(nameof(Index));
@@ -167,6 +177,169 @@ namespace CateringPro.Controllers
             ViewData["lineindex"] = linenum;
 
             return PartialView("CreateNewLine", docline);
+        }
+        public async Task<IActionResult> CreateInvetarization()
+        {
+            var invent = new Inventarization();
+
+            invent.Date = DateTime.Now;
+            var ingredients = _context.Ingredients.WhereCompany(User.GetCompanyID()).ToList();
+            var query = from ing in _context.Ingredients.WhereCompany(User.GetCompanyID())
+                        orderby ing.Name
+                        select new InventarizationLines()
+                        {
+                            Ingredients = ing,
+                            IngredientsId = ing.Id,
+                            Quantity = ing.StockValue,
+                            InventarizationQuantity = ing.StockValue,
+                            Differance = 0,
+                            CompanyId = User.GetCompanyID()
+                        };
+            List<InventarizationLines> inlines = new List<InventarizationLines>();
+            foreach(var ing in ingredients)
+            {
+                inlines.Add(new InventarizationLines
+                {
+                    
+                    Ingredients = ing,
+                    IngredientsId=ing.Id,
+                    Quantity = ing.StockValue,
+                    InventarizationQuantity = ing.StockValue,
+                    Differance = 0,
+                    CompanyId = User.GetCompanyID()
+                    
+                });
+            }
+            inlines = inlines.OrderBy(o => o.Ingredients.Name).ToList();
+            invent.InventarizationLines = query.ToList();
+            return PartialView("Inventarization", invent);
+
+           
+        }
+
+        [HttpPost]
+        
+        public async Task<IActionResult> Inventarization(int id,Inventarization invent)
+        {
+            if (id != invent.Id)
+            {
+                return NotFound();
+            }
+            
+            if (invent.Description == null) invent.Description = "";
+
+            if (invent.Number == null) invent.Number = "";
+
+            //var res = .UpdateDBCompanyDataAsync(_context, _logger, User.GetCompanyID());
+            //var res = await this.UpdateDBCompanyDataAsyncEx(doc, _logger,
+            //    e => { return _docrepo.UpdateDocEntity(e, User.GetCompanyID()); });
+            if (!ModelState.IsValid)
+            {
+                var ingredients = _context.Ingredients.WhereCompany(User.GetCompanyID()).ToList();
+                List<InventarizationLines> inlines = new List<InventarizationLines>();
+                foreach (var ing in ingredients)
+                {
+                    inlines.Add(new InventarizationLines
+                    {
+
+                        Ingredients = ing,
+                        IngredientsId = ing.Id,
+                        Quantity = ing.StockValue,
+                        InventarizationQuantity = ing.StockValue,
+                        Differance = 0,
+                        CompanyId = User.GetCompanyID()
+
+                    });
+                }
+                inlines = inlines.OrderBy(o => o.Ingredients.Name).ToList();
+                invent.InventarizationLines = inlines;
+                return PartialView(invent);
+            }
+            Docs doc = new Docs()
+            {
+                Id = invent.Id,
+                CompanyId=invent.CompanyId,
+                Number = invent.Number,
+                Description= invent.Description,
+                Date = invent.Date,
+                Type = invent.Type
+
+            };
+            List<DocLines> dll = new List<DocLines>();
+            foreach(var invl in invent.InventarizationLines)
+            {
+                dll.Add(new DocLines()
+                {
+                    Id=invl.Id,
+                    DocsId=invl.InventarizationId,
+                    IngredientsId=invl.IngredientsId,
+                    Quantity=invl.Differance,
+                    ActualQuantity = invl.InventarizationQuantity,
+                    CompanyId=invl.CompanyId,
+                });
+            }
+            doc.DocLines = dll;
+            //if (doc.Description == null) doc.Description = "";
+
+            //if (doc.Number == null) doc.Number = "";
+            var res = await this.UpdateDBCompanyDataAsyncEx(doc, _logger,
+              e => { return _docrepo.UpdateDocEntity(e, User.GetCompanyID()); });
+            //return await this.UpdateCompanyDataAsync(
+            //    doc.ExcludeTrack(typeof(Ingredients))
+            //    .IncludeCompany(typeof(DocLines))
+            //    .TrackCollection(_context.DocLines.WhereCompany(User.GetCompanyID()).Where(l => l.DocsId == doc.Id), doc.DocLines),
+            //    _context, _logger);
+            return res;
+        }
+        public async Task<IActionResult> EditInventarization(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //var doc = await _context.Docs.Include(d=>d.DocLines).ThenInclude(dl=>dl.Ingredients).SingleOrDefaultAsync(d=>d.Id== id && d.CompanyId==User.GetCompanyID());
+            var doc = await _context.Docs.Include(d => d.Address).SingleOrDefaultAsync(d => d.Id == id && d.CompanyId == User.GetCompanyID());
+            var docLines = await _context.DocLines.Where(d => d.DocsId == id && d.CompanyId == User.GetCompanyID()).Include(dl => dl.Ingredients).ToListAsync();
+            docLines = docLines.OrderBy(doc => doc.Number).ToList();
+
+            if (doc == null)
+            {
+                return NotFound();
+            }
+            
+            Inventarization invent = new Inventarization()
+            {
+                Id= doc.Id,
+                CompanyId = doc.CompanyId,
+                Date= doc.Date,
+                Number = doc.Number,
+                Description = doc.Description,
+                Type = doc.Type,
+                
+            };
+            List<InventarizationLines> inlines = new List<InventarizationLines>();
+            foreach (var ing in docLines)
+            {
+                decimal actQuan = 0;
+                if (ing.ActualQuantity != null) {
+                 actQuan= (decimal)ing.ActualQuantity;
+                }
+                inlines.Add(new InventarizationLines
+                {
+
+                    Ingredients = ing.Ingredients,
+                    IngredientsId = ing.Id,
+                    Quantity = actQuan-ing.Quantity,
+                    InventarizationQuantity = actQuan ,
+                    Differance = ing.Quantity,
+                    CompanyId = User.GetCompanyID()
+
+                }); 
+            }
+            inlines = inlines.OrderBy(o => o.Ingredients.Name).ToList();
+            invent.InventarizationLines = inlines;
+            return PartialView("Inventarization", invent);
         }
     }
 }

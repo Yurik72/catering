@@ -253,8 +253,11 @@ else
 
                 $('#nav-content-' + dayindex).html(html_loading);
                 var dishKind = $("#dishKind").val();
-
-                $('#nav-content-' + dayindex).load('/DayDishes/EditDayContent?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKind.toString()),
+                var dishKindparam = '';
+                if (dishKind == parseInt(dishKind, 10)) {
+                  dishKindparam = encodeURI(dishKind.toString());
+                }
+                $('#nav-content-' + dayindex).load('/DayDishes/EditDayContent?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + dishKindparam,
                     function (response, status, xhr) {
                         var daytabtext = dateToshortString(dt);
                         //old design 

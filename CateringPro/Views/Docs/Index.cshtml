@@ -4,137 +4,207 @@
 @{
     var ModelName = "Categories";
     ViewData["Title"] = ModelName;
-QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
+    QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
     if (querymodel == null)
     {
         querymodel = new QueryModel();
     }
 }
+@section Styles{
+    <style>
+        .ui-autocomplete {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            float: left;
+            display: none;
+            min-width: 160px;
+            _width: 160px;
+            padding: 4px 0;
+            margin: 2px 0 0 0;
+            list-style: none;
+            background-color: #ffffff;
+            border-color: #ccc;
+            border-color: rgba(0, 0, 0, 0.2);
+            border-style: solid;
+            border-width: 1px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -webkit-background-clip: padding-box;
+            -moz-background-clip: padding;
+            background-clip: padding-box;
+            *border-right-width: 2px;
+            *border-bottom-width: 2px;
+        }
+
+        .ui-menu-item > a.ui-corner-all {
+            display: block;
+            padding: 3px 15px;
+            clear: both;
+            font-weight: normal;
+            line-height: 18px;
+            color: #555555;
+            white-space: nowrap;
+        }
+
+        .ui-state-hover, .ui-state-active {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #0088cc;
+            border-radius: 0px;
+            -webkit-border-radius: 0px;
+            -moz-border-radius: 0px;
+            background-image: none;
+        }
+    </style>
+}
 
 @if (Layout == "_LayoutCabachok")
 {
-<style>
-    .ui-menu {
-       background-color: white; 
-    }
-    .ui-menu-item {
-        list-style-type: none;
-        cursor: pointer;
-    }
-        .ui-menu-item:hover {
-            color: white;
-            background-color: #F05E25;
+    <style>
+        .ui-menu {
+            background-color: white;
         }
-</style>
 
-<div class="container-xl container container-md container-sm container-lg">
-    <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
-        <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
-            <p class="h2 h2-mob"
-               style="font-weight: 600">
-                @Localizer["Docs"]
-            </p>
-        </div>
-    </div>
-    <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
-        @Html.DisplaySortField(model => model.Date,true,false).AddSortField(model=>model.Type).AddSortField(model=>model.Number).Display(querymodel)
-        <div class="col-lg-4 col-12 p-0 ">
-            <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
-                @*<form class="form-inline col-12 p-0" style=" display: flex;">*@
-                    <input class="form-control  w-100" id="search-val" type="search" placeholder="Search..." aria-label="Search"
-                           style="font-size: 16px; color:#797979; height: 48px; background: url('../img/search-icon.svg') no-repeat; background-position: 95%">
-                @*</form>*@
+        .ui-menu-item {
+            list-style-type: none;
+            cursor: pointer;
+        }
+
+            .ui-menu-item:hover {
+                color: white;
+                background-color: #F05E25;
+            }
+    </style>
+
+    <div class="container-xl container container-md container-sm container-lg">
+        <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
+            <div class="col-7 col-xl-9 col-md-6 col-sm-6 align-content-center mr-md-auto pl-0">
+                <p class="h2 h2-mob"
+                   style="font-weight: 600">
+                    @Localizer["Docs"]
+                </p>
             </div>
         </div>
-        <div class="col-lg-4 col-12 p-0 d-none d-md-block">
-            <div class="col-12 p-0 justify-content-center" style="height: 48px">
+        <div class="row pb-3 ml-xl-0 ml-md-0 ml-sm-0 p-lg-0 p-md-0 align-items-center  justify-content-end m-0 flex-md-column flex-lg-row flex-column container p-0">
+            @Html.DisplaySortField(model => model.Date, true, false).AddSortField(model => model.Type).AddSortField(model => model.Number).Display(querymodel)
+            <div class="col-lg-4 col-12 p-0 ">
+                <div class="col-12 p-0 justify-content-center w-100" style="display: flex">
+                    @*<form class="form-inline col-12 p-0" style=" display: flex;">*@
+                    <input class="form-control  w-100" id="search-val" type="search" placeholder="Search..." aria-label="Search"
+                           style="font-size: 16px; color:#797979; height: 48px; background: url('../img/search-icon.svg') no-repeat; background-position: 95%">
+                    @*</form>*@
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button" id="create-btn"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @Localizer["Create"]
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 p-0 d-none d-md-block">
+                <div class="col-12 p-0 justify-content-center" style="height: 48px">
+                    <button type="button" id="invent-btn"
+                            class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
+                            onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                            style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                        &#65291; @Localizer["Inventarization"]
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="table-content" class="" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria">
+
+        </div>
+    </div>
+
+    <div id="modDialog" class="modal document-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
+        <div id="dialogContent" class="modal-dialog" style="max-width: 966px"></div>
+    </div>
+    @*<div id="inventDialog" class="modal invent-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
+        <div id="inventdialogContent" class="modal-dialog" style="max-width: 966px"></div>
+    </div>*@
+
+}
+else
+{
+
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-6 right">
+                <h2>@Localizer["Docs"]</h2>
+            </div>
+            <div class="col-md-6 right">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Docs"]" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" id="search-btn" type="button">
+                                <span class="fa fa-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div id="table-content" class="table-content">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
                 <button type="button" id="create-btn"
                         class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
                         onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
                         onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
                         style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                    &#65291; @Localizer["Create"]
+                    &#65291; @*—“¬Œ–»“»*@ @Localizer["Create"]
                 </button>
             </div>
         </div>
     </div>
-    <div id="table-content" class="" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria">
-
+    <div id="modDialog" class="modal document-modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
     </div>
-</div>
+    <div id="modDialogingredientline" class="modal modal-search fade ingredient-line">
+        <div id="dialogContentingredientline" class="modal-dialog modal-search-dialog">
+            <div class="modal-content modal-content-search">
+                <div class="modal-header">
 
-<div id="modDialog" class="modal document-modal fade" aria-hidden="true" tabindex="-1" role="dialog">
-    <div id="dialogContent" class="modal-dialog" style="max-width: 966px"></div>
-</div>
-
-        }
-        else{
-
-<div class="container">
-    <div class="row justify-content-end">
-        <div class="col-md-6 right">
-            <h2>@Localizer["Docs"]</h2>
-        </div>
-        <div class="col-md-6 right">
-            <div id="custom-search-input">
-                <div class="input-group">
-                    <input type="text" id="search-val" class="form-control input-lg" placeholder="@Localizer["Docs"]" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" id="search-btn" type="button">
-                            <span class="fa fa-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12">
-            <div id="table-content" class="table-content">
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12  table-footer bg-white text-success">
-            <button type="button" id="create-btn"
-                    class=" btn btn-xl btn-outline-danger float-lg-right justify-content-center float-md-none font-weight-bold btn-block col-lg-6"
-                    onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
-                    onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
-                    style="background: #ffffff; border-color: #36C233; outline: none; height: 48px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
-                &#65291; @*—“¬Œ–»“»*@ @Localizer["Create"]
-            </button>
-        </div>
-    </div>
-</div>
-<div id="modDialog" class="modal document-modal fade">
-    <div id="dialogContent" class="modal-dialog"></div>
-</div>
-<div id="modDialogingredientline" class="modal modal-search fade ingredient-line">
-    <div id="dialogContentingredientline" class="modal-dialog modal-search-dialog">
-        <div class="modal-content modal-content-search">
-            <div class="modal-header">
-
-                <div class="container">
-                    <div class="row">
-                        <h3>ƒÓ‰‡ÚË ≤Ì„≥‰≥∫ÌÚ</h3>
-                        <button type="button" class="close" data-toggle="modal" data-target="#modDialogingredientline">X</button>
-                    </div>
-                    <div class="row">
-                        <input type="text" id="search-ingredient" class="form-control input-lg" placeholder="...." />
+                    <div class="container">
+                        <div class="row">
+                            <h3>ƒÓ‰‡ÚË ≤Ì„≥‰≥∫ÌÚ</h3>
+                            <button type="button" class="close" data-toggle="modal" data-target="#modDialogingredientline">X</button>
+                        </div>
+                        <div class="row">
+                            <input type="text" id="search-ingredient" class="form-control input-lg" placeholder="...." />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-body modal-search-body">
-            </div>
+                <div class="modal-body modal-search-body">
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
-        {
+    {
         //await Html.RenderPartialAsync("ModalSearch", "Ingredient");
-        }
-        }
+    }
+}
 @section Scripts
 {
     <script type="text/javascript">
@@ -190,7 +260,7 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
                       }
                   })
                       .autocomplete({
-                       
+
                           source:  function (request, response) {
                                         $.ajax({
                                             url: '@Url.Action("Search", "Address")',
@@ -240,7 +310,8 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
                                                     };
                                                 }));
                                             }});
-                                    },
+                          },
+
                           select: function (event, ui) {
                               //$(event.target).prev(".doc-line-ingid").val(ui.item.id);
                               $(event.target).parent().find(".doc-line-ingid").val(ui.item.id);
@@ -328,6 +399,48 @@ QueryModel querymodel = ViewData["QueryModel"] as QueryModel;
               }
               function replaceAll(string, search, replace) {
                   return string.split(search).join(replace);
+              }
+              //inventarization
+              $('#invent-btn').click(function (e) {
+                  if ($(this).css('cursor') == "wait") {
+                      return;
+                  }
+                  $(this).html("Loading...").css({
+                      "cursor": "wait",
+                      "pointer-events": "none"
+                  });
+                  e.preventDefault();
+                  var url = self.options.href + '/CreateInvetarization' ;
+                  $.get(url, function (data) {
+                      //$('#inventdialogContent').html(data);
+                      //$('#inventDialog').modal('show');
+                      $('#dialogContent').html(data);
+                      $('#modDialog').modal('show');
+                      $("#invent-btn").html("+@Localizer["Inventarization"]").css({
+                    "cursor": "",
+                    "pointer-events": ""
+                });
+                      if (self.options.onloadedcb)
+                          self.options.onloadedcb();
+                  });
+              });
+              $(document).on('change', '.invent-line-actquan', function () {
+                  var i = $(this).attr("data-i");
+
+                  updateInventDiff(i);
+              });
+              function updateInventDiff(i) {
+                  var q = $(".invent-line-quan[data-i=" + i + "]").val();
+                  var actq = $(".invent-line-actquan[data-i=" + i + "]").val();
+                 // var d = $(".invent-line-diff[data-i=" + i + "]").val();
+                  var quan = replaceAll(q, ",", ".");
+                  var actual = replaceAll(actq, ",", ".");
+                  quan = parseFloat(quan);
+                  actual = parseFloat(actual);
+                  var diff = $(".invent-line-diff[data-i=" + i + "]");
+                  var res = actual-quan;
+                var res1 = replaceAll(res + "", ".", ",");
+                  diff.val(res1);
               }
 
         })

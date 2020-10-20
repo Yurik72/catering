@@ -1,5 +1,6 @@
 ﻿using CateringPro.Models;
 using CateringPro.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,22 @@ using System.Threading.Tasks;
 
 namespace CateringPro.Repositories
 {
-    public interface IGenericModelRepository<TModel> where TModel : CompanyDataOwnId
+    public interface ISelectListResult
+    {
+         SelectList SelectList { get; set; }
+         string SourceField { get; set; }
+
+         object SourceValue { get; set; }
+    }
+    public interface IGenericModelRepositoryBase
+    {
+        SelectList GetSelectList(string relationField, object relationvalue);
+       
+    }
+    public interface IGenericModelRepository<TModel>: IGenericModelRepositoryBase where TModel : CompanyDataOwnId
     {
         IQueryable<TModel> Models { get; }
+        IQueryable<TModel> FullModels { get; }
 
         TModel GetById(int? id);
         Task<TModel> GetByIdAsync(int? id);
@@ -28,5 +42,14 @@ namespace CateringPro.Repositories
         Task SaveChangesAsync();
         Expression<Func<TModel, bool>> GetContainsFilter(string filter);
         DeleteDialogViewModel GetDeleteDialogViewModel(TModel src);
+        List<ISelectListResult> GetSelectList(TModel src);
+        Task<bool> UpdateEntityAsync(TModel entity);
+        Task<bool> UpdateEntityAsync(TModel entity, EntityWrap<TModel> wrap);
+        string GetModelFriendlyNameEx(TModel src);
+        string GetModelFriendlyName(TModel src);
+
+        IQueryable<ShortSelectResult> GetShortSelectResult(string term);
+        IQueryable<TModel> GetSelectResult(string term);
+        IQueryable<TModel> GetSearchViewResult(QueryModel querymodel);
     }
 }

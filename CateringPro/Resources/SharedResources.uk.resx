@@ -361,7 +361,7 @@
     <value>Інгредієнти</value>
   </data>
   <data name="Ingredients Proprotion" xml:space="preserve">
-    <value>Частка</value>
+    <value>Брутто</value>
   </data>
   <data name="Ingredients_MeasureUnit" xml:space="preserve">
     <value>Од.вим.</value>
@@ -625,10 +625,10 @@
     <value>Помилка бази даних</value>
   </data>
   <data name="DuplicateEmail" xml:space="preserve">
-    <value>Поштова адреса {0} вже зареестрована</value>
+    <value>Поштова адреса {0} вже зареестрована.Якщо це були Ви і не можете використовувати систему, зверніться до адміністратора.</value>
   </data>
   <data name="DuplicateUserName" xml:space="preserve">
-    <value>Логін {0} вже зареестрований</value>
+    <value>Логін {0} вже зареестрований.Якщо це були Ви і не можете використовувати систему, зверніться до адміністратора.</value>
   </data>
   <data name="MenuChangeChild" xml:space="preserve">
     <value>Вибрати дитину</value>
@@ -1023,5 +1023,89 @@
   </data>
   <data name="Doc Address" xml:space="preserve">
     <value>Постачальник</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Знижки</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Consignments" xml:space="preserve">
+    <value>Партії</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Цiна</value>
+  </data>
+  <data name="WriteOff" xml:space="preserve">
+    <value>Списання</value>
+  </data>
+  <data name="AmountDay" xml:space="preserve">
+    <value>Сума за день</value>
+  </data>
+  <data name="TotalWithoutDiscount" xml:space="preserve">
+    <value>Сума без знижки</value>
+  </data>
+  <data name="UsersFinances" xml:space="preserve">
+    <value>Сума замовлення користувачів</value>
+  </data>
+  <data name="Ingredients ProprotionNetto" xml:space="preserve">
+    <value>Нетто</value>
+  </data>
+  <data name="DateReport" xml:space="preserve">
+    <value>Дата формування</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Період</value>
+  </data>
+  <data name="UserType" xml:space="preserve">
+    <value>Тип Користувача</value>
+  </data>
+  <data name="Adult" xml:space="preserve">
+    <value>Дорослий</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Працівник</value>
+  </data>
+  <data name="EditPhoto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="EditPhotoAndChildren" xml:space="preserve">
+    <value>Фото и діти</value>
+  </data>
+  <data name="OrderFinDetails" xml:space="preserve">
+    <value>Фінан звіт замовлень користувачів</value>
+  </data>
+  <data name="UserBalanceReport" xml:space="preserve">
+    <value>Фінан звіт балансу користувачів</value>
+  </data>
+  <data name="UserFinDetails" xml:space="preserve">
+    <value>Фінан звіт доходів / витрат у розрізі користувачів</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Компанія</value>
+  </data>
+  <data name="ConfirmDeactivate" xml:space="preserve">
+    <value>Об'єкт буде де-активований, ви зможете його пізніше активувати знову. Підтвердіть.</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Заблокувати</value>
+  </data>
+  <data name="ConfirmBlock" xml:space="preserve">
+    <value>Заблокувати користувача</value>
+  </data>
+  <data name="TotalIngredientsSum" xml:space="preserve">
+    <value>Загальна вартість продуктів:</value>
+  </data>
+  <data name="UnBlock" xml:space="preserve">
+    <value>Розблокувати</value>
+  </data>
+  <data name="Inventarization" xml:space="preserve">
+    <value>Інвентаризація</value>
+  </data>
+  <data name="Inventarization Differance" xml:space="preserve">
+    <value>Різниця</value>
+  </data>
+  <data name="Inventarization Quantity" xml:space="preserve">
+    <value>Наявна кількість</value>
   </data>
 </root>

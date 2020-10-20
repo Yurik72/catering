@@ -11,7 +11,7 @@ namespace CateringPro.Repositories
     {
         IQueryable<ConsignmentStockViewModel> ConsignmentStock(int companyid, bool showZero = false);
         Task<IEnumerable<ConsignmentStockViewModel>> ConsignmentStock(QueryModel querymodel, int companyid, bool showZero = false);
-
+        Task<IngredientStockDetailsViewModel> IngredientStockDetail(int id, int companyid);
         bool WriteOffProduction(DateTime daydate, int companyId);
         Task<bool> WriteOffProductionAsync(DateTime daydate, int companyId);
 

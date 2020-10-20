@@ -23,6 +23,8 @@ namespace CateringPro.Data
         private int companyId=-1;
         private bool isCompanyIdSet=false;
         private readonly IWebHostEnvironment _hostingEnv;
+
+
 #if DEBUG
         public EventHandler Disposing;
 #endif
@@ -94,6 +96,7 @@ namespace CateringPro.Data
 
         public DbSet<DeliveryQueue> DeliveryQueues { get; set; }
 
+        public DbSet<DeliveryQueues_history> DeliveryQueues_history { get; set; }
         public DbSet<NotOrderedQueue> NotOrderedQueues { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
 
@@ -110,6 +113,8 @@ namespace CateringPro.Data
         public DbSet<DocLines> DocLines { get; set; }
 
         public DbSet<Consignment> Consignment { get; set; }
+
+        public DbSet<ConsignmentMove> ConsignmentMove { get; set; }
         public DbSet<UserWeekBasket> UserWeekBasket { get; set; }
 
         public DbSet<UserDay> UserDay { get; set; }
@@ -145,6 +150,7 @@ namespace CateringPro.Data
                 return null;
             }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -272,6 +278,9 @@ namespace CateringPro.Data
                  .WithMany(a => a.Consignments)
                  .IsRequired(false)
                  .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ConsignmentMove>()
+            .HasKey(c => new { c.CompanyId, c.LineId, c.LineOutId,c.IngredientsId });
 
             modelBuilder.Entity<CompanyUser>()
                  .HasOne(u => u.UserGroup)
@@ -407,11 +416,38 @@ namespace CateringPro.Data
             //modelBuilder.Entity<Dish>().HasQueryFilter(u =>u.CompanyId== this.CompanyId);
             // to do dynamically
             SetGlobalFilters(modelBuilder);
-
+            SetDeactivatedFilter(modelBuilder);
+            //!! Comapny User Company will be filtered by cuurent company
+            modelBuilder.Entity<CompanyUserCompany>().HasQueryFilter(u => u.CompanyId == this.CompanyId);
         }
-        private void SetGlobalFilters(ModelBuilder modelBuilder)
+        private void SetDeactivatedFilter(ModelBuilder modelBuilder)
         {
             Assembly.GetExecutingAssembly().DefinedTypes.ToList().ForEach(ti =>
+            {
+                if (!ti.IsGenericType && !ti.IsAbstract && typeof(ISupportDeactivate).IsAssignableFrom(ti.AsType()))
+                {
+                    Type t = ti.AsType();
+                    MethodInfo method = typeof(ModelBuilder).GetMethods().
+                            SingleOrDefault(m => m.Name == nameof(ModelBuilder.Entity) && m.ReturnType.IsGenericType);
+                    MethodInfo generic = method.MakeGenericMethod(t);
+                    EntityTypeBuilder x = generic.Invoke(modelBuilder, null) as EntityTypeBuilder;
+                    ParameterExpression parameter = Expression.Parameter(t, "x");
+                    MemberExpression leftMember = Expression.Property(parameter, "IsDeactivated");
+                    Expression trueproperty = Expression.Constant(false);
+                    Expression filterexpr = Expression.Equal(leftMember, trueproperty);
+                    LambdaExpression lambda = Expression.Lambda(filterexpr, parameter);
+                    x.HasQueryFilter(lambda);
+
+                }
+            });
+         }
+        private void SetGlobalFilters(ModelBuilder modelBuilder)
+        {
+            var types = Assembly.GetExecutingAssembly().DefinedTypes.ToList();
+           // IEnumerable<Type> subclasses = types.Where(t => t.IsSubclassOf(typeof(CompanyData)));
+           // IEnumerable<Type> subclasses_direct = types.Where(t => t.BaseType == typeof(CompanyData));
+            
+            types.ForEach(ti =>
             {
                 if(!ti.IsGenericType && !ti.IsAbstract && ti.AsType().IsSubclassOf(typeof(CompanyData)))
                 {

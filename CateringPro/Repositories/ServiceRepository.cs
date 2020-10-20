@@ -68,6 +68,8 @@ namespace CateringPro.Repositories
                     return await ProcessConfirmRequestAsync(request);
                 case "askforqueue":
                     return await ProcessQueueRequestAsync(request);
+                case "askforhistoryqueue":
+                    return await ProcessQueueHistoryRequestAsync(request);
                 case "askforqueueconfirm":
                     return await ProcessQueueConfirmRequestAsync(request);
                 case "askforqueueremove":
@@ -97,6 +99,8 @@ namespace CateringPro.Repositories
                 fail.ErrorMessage = "User Not Found";
                 return fail;
             }
+            if (request.DishesNum == null)
+                request.DishesNum = new int[0];
             //TODO
             if (_context.CompanyId <= 0 && user != null)
                 _context.SetCompanyID(user.CompanyId);
@@ -238,9 +242,68 @@ namespace CateringPro.Repositories
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "ProcessQueueRequestAsync");
                 return ServiceQueueResponse.GetFailResult();
             }
         }
+
+        public async Task<ServiceResponse> ProcessQueueHistoryRequestAsync(ServiceRequest request)
+        {
+
+            try
+            {
+                var query = await (from q in _context.DeliveryQueues_history.Where(q => q.DayDate == request.DayDate.ResetHMS()
+                                  // && q.Id > request.LastQueueId
+                                  )
+                                   join ud in _context.UserDayDish on new { q.DishId, DayDate = q.DayDate, q.UserId, ComplexId = q.ComplexId } equals new { ud.DishId, DayDate = ud.Date, ud.UserId, ComplexId = ud.ComplexId.Value }
+                                   join d in _context.Dishes on q.DishId equals d.Id
+                                   join u in _context.CompanyUser on q.UserId equals u.Id
+                                   join c in _context.Complex on ud.ComplexId equals c.Id
+                                   where request.DishesNum.Contains(q.DishCourse)
+                                         && (request.ComplexCategoriesIds.Length == 0 || request.ComplexCategoriesIds.Contains(c.CategoriesId))
+                                    orderby q.Id descending
+                                   select new DeliveryQueueForGroup()
+                                   {
+                                       QueueId = q.Id,
+                                       UserId = u.Id,
+                                       UserName = u.GetChildUserName(),
+                                       DishId = d.Id,
+                                       DishName = d.Name,
+                                       UserPictureId = u.PictureId,
+                                       DishCource = q.DishCourse
+                                   }
+                                   ).Take((request.MaxQueue + 1) * request.DishesNum.Count() + 1)
+                                    //.Any(value => request.DishesNum.Contains(value.DishCource)))
+                                    .ToListAsync();
+
+                var client_query = from q in query
+                                   group q by new { q.UserId, q.UserName, q.UserPictureId } into grp
+                                   select new ServiceResponse()
+                                   {
+                                       UserId = grp.Key.UserId,
+                                       UserName = grp.Key.UserName,
+                                       UserPictureId = grp.Key.UserPictureId,
+                                       Dishes = from it in grp
+                                                select new DeliveryDishViewModel()
+                                                {
+                                                    ID = it.DishId,
+                                                    QueueId = it.QueueId,
+                                                    Name = it.DishName
+                                                }
+
+                                   };
+
+                var resp = ServiceQueueResponse.GetSuccessResult();
+                resp.Queues = client_query.Take(request.MaxQueue).ToList();
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ProcessQueueHistoryRequestAsync");
+                return ServiceQueueResponse.GetFailResult();
+            }
+        }
+        
         public async Task<ServiceResponse> ProcessQueueConfirmRequestAsync(ServiceRequest request)
         {
             // var res=ServiceResponse.GetSuccessResult(request);
@@ -275,7 +338,12 @@ namespace CateringPro.Repositories
 
             try
             {
-
+                try
+                {
+                    _logger.LogWarning($"Remove queue at {DateTime.Now.ToString()} ");
+                    queue.ForEach(q => _logger.LogWarning($"Queue id={q.Id} DishId={q.DishId} removed by user"));
+                }
+                catch { }
                 _context.RemoveRange(queue);
                 await _context.SaveChangesAsync();
                 return ServiceResponse.GetSuccessResult(request);

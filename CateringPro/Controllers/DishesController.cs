@@ -22,7 +22,7 @@ namespace CateringPro.Controllers
     public class DishesController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly ILogger<CompanyUser> _logger;
+        private readonly ILogger<DishesController> _logger;
         private IConfiguration _configuration;
         private readonly IDishesRepository _dishesRepo;
         private readonly SharedViewLocalizer _localizer;
@@ -30,7 +30,7 @@ namespace CateringPro.Controllers
 
         public DishesController(AppDbContext context,
             IDishesRepository dishesRepo,
-            ILogger<CompanyUser> logger,
+            ILogger<DishesController> logger,
             IConfiguration Configuration,
             SharedViewLocalizer localizer)
         {
@@ -142,7 +142,7 @@ namespace CateringPro.Controllers
         // GET: Dishes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            return NotFound();
+            return await Task.FromResult(NotFound());
         }
 
         // POST: Dishes/Edit/5
@@ -153,7 +153,7 @@ namespace CateringPro.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Price,Description,CategoriesId")] Dish dish)
         {
 
-            return NotFound();
+            return await Task.FromResult(NotFound());
         }
 
         //     public async Task<IActionResult> GetDishPicture(int id)
@@ -243,12 +243,14 @@ namespace CateringPro.Controllers
         }
 
 
-        public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName)
+        public IActionResult NewIngredientDishesLine(int Index, int IngredientId, string IngredientName,string IngredientMeasureUnit)
         {
+            //string measure = _context.Ingredients.Where(ing => ing.Id == IngredientId).FirstOrDefault().MeasureUnit;
             return PartialView("IngredientDishesLine", new DishIngredientsProportionViewModel()
             {
                 IngredientId = IngredientId,
                 LineIndex = Index,
+                MeasureUnit = IngredientMeasureUnit,
                 Name = IngredientName
             });
         }
@@ -296,7 +298,10 @@ namespace CateringPro.Controllers
                 {
                     IngredientId = d.Ingredient.Id,
                     Name = d.Ingredient.Name,
-                    Proportion = d.Proportion
+                    MeasureUnit = d.Ingredient.MeasureUnit,
+                    Proportion = d.Proportion,
+                    ProportionNetto=d.ProportionNetto
+                    
 
                 }
                 )
@@ -359,10 +364,12 @@ namespace CateringPro.Controllers
             }
             catch (DbUpdateException dbex)
             {
+                _logger.LogError(dbex, "Delete confirmed error");
                 return StatusCode((int)HttpStatusCode.FailedDependency);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "DeleteConfirmed");
                 return BadRequest();
             }
             return RedirectToAction(nameof(Index));

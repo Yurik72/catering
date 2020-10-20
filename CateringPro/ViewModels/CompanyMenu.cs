@@ -44,5 +44,7 @@ namespace CateringPro.Models
         public decimal Amount { get; set; }
 
         public decimal Weight { get; set; }
+
+        public int DishCourse { get; set; }
     }
 }

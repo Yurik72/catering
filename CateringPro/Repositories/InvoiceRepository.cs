@@ -205,6 +205,7 @@ namespace CateringPro.Repositories
                                                                                    IngredientId = ing.Id,
                                                                                    IngredientName = ing.Name,
                                                                                    Quantity = dishIng.Proportion,
+                                                                                   QuantityNetto= dishIng.ProportionNetto,
                                                                                    MeasureUnit = ing.MeasureUnit
                                                                                })
 

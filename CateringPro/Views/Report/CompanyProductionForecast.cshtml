@@ -3,6 +3,8 @@
 @{
     Layout = null;
     List<ProductionForecastItemViewModel> peridRep = new List<ProductionForecastItemViewModel>();
+    DateTime dateFrom = (DateTime)ViewData["datefrom"];
+    DateTime dateTo = (DateTime)ViewData["dateTo"];
 }
 
 
@@ -15,17 +17,17 @@
     <div class="production-forecast-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
-                            <td class="title">
-                                <img src="@Url.Action("GetPicture", "Pictures", new { id = @Model.Company.PictureId, width = 200, height = 100 })" style="width:100%; max-width:300px;" />
+                            <td style="width:20%;" class="title">
+                                <img src="@Url.Action("GetPicture","Pictures",new { id=@Model.Company.PictureId,width=200,height=100})" style="width:100%; max-width:300px;" />
                             </td>
-                            <td>
+                            <td style="width:80%;">
 
-                                @Localizer["CompanyProductionForecast"]
-                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
-
+                                <h1>@Localizer["CompanyDayProductionForecast"]</h1>
+                                <br /> @Localizer["DateReport"]: @DateTime.Now.ToShortDateString()
+                                <br />@Localizer["Period"]: @dateFrom.ToShortDateString() - @dateTo.ToShortDateString()
                             </td>
                         </tr>
                     </table>
@@ -46,20 +48,20 @@
                 </td>
             </tr>
             <tr class="heading ">
-                <td>
+                <td style="width:30%;text-align: left;">
                     @Localizer["Name"]
                 </td>
-                <td>
-                   @Localizer["ValueBef"]
+                <td style="width:20%;text-align: right;">
+                    @Localizer["ValueBef"]
                 </td>
-                <td>
+                <td style="width:20%;text-align: right;">
                     @Localizer["Need"]
                 </td>
-                <td>
+                <td style="width:20%;text-align: right;">
                     @Localizer["ValueAft"]
                 </td>
 
-                <td style="text-align:center;">
+                <td style="width:10%;text-align: right;">
                     @Localizer["Ingredients_MeasureUnit"]
                 </td>
             </tr>
@@ -67,11 +69,11 @@
             @foreach (var day in Model.Days)
             {
                 @*<tr class="item daydate">
-                        <td colspan="5">
-                            @day.Daydate.ToShortDateString()
-                        </td>
+                <td colspan="5">
+                    @day.Daydate.ToShortDateString()
+                </td>
 
-                    </tr>*@
+            </tr>*@
                 @foreach (var item in day.Items)
                 {
                     if (peridRep.Exists(i => i.IngredientId == item.IngredientId))
@@ -94,35 +96,35 @@
                         });
                     }
                     @*<tr class="item">
-                            <td>
-                                @Html.DisplayFor(model => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.BeginDay)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.ProductionQuantity)
-                            </td>
-                            <td class="@(item.AfterDayStockValue<0?"warning":"")">
-                                @Html.DisplayFor(model => item.AfterDayStockValue)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.MeasureUnit)
-                            </td>
-                        </tr>*@
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.BeginDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.ProductionQuantity)
+                    </td>
+                    <td class="@(item.AfterDayStockValue<0?"warning":"")">
+                        @Html.DisplayFor(model => item.AfterDayStockValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.MeasureUnit)
+                    </td>
+                </tr>*@
                 }
             }
             @* period item start*@
-            @if (@Model.Days.Count() >0)
+            @if (@Model.Days.Count() > 0)
             {
-            @if (@Model.Days.FirstOrDefault().Daydate != @Model.Days.LastOrDefault().Daydate)
-            {
-                <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString() - @Model.Days.LastOrDefault().Daydate.ToShortDateString()</td></tr>
-            }
-            else
-            {
-                <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString()</td></tr>
-            }
+                @if (@Model.Days.FirstOrDefault().Daydate != @Model.Days.LastOrDefault().Daydate)
+                {
+                    <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString() - @Model.Days.LastOrDefault().Daydate.ToShortDateString()</td></tr>
+                }
+                else
+                {
+                    <tr class="item daydate"><td colspan="5">@Model.Days.FirstOrDefault().Daydate.ToShortDateString()</td></tr>
+                }
             }
             @{
                 peridRep.GroupBy(it => it.IngredientId).SelectMany(c => c).ToList();
@@ -136,19 +138,19 @@
                     ingId = item.IngredientCategoriesId;
                 }
                 <tr class="item">
-                    <td>
+                    <td style="width:30%;text-align: left;">
                         @Html.DisplayFor(model => item.Name)
                     </td>
-                    <td>
+                    <td style="width:20%;text-align: right;">
                         @Html.DisplayFor(model => item.BeginDay)
                     </td>
-                    <td>
+                    <td style="width:20%;text-align: right;">
                         @Html.DisplayFor(model => item.ProductionQuantity)
                     </td>
-                    <td class="@(item.AfterDayStockValue < 0 ? "warning" : "")">
+                    <td class="@(item.AfterDayStockValue < 0 ? "warning" : "")" style="width:20%;text-align: right;">
                         @Html.DisplayFor(model => item.AfterDayStockValue)
                     </td>
-                    <td>
+                    <td style="width:0%;text-align: right;">
                         @Html.DisplayFor(model => item.MeasureUnit)
                     </td>
                 </tr>

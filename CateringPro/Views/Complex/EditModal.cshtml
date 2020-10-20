@@ -100,7 +100,7 @@
                     </div>
                 </div>*@
                 <div class="col-lg-9 col-md-9 col-12 d-flex justify-content-end px-0 px-lg-3 px-md-3">
-                    <div class="col-lg-8 col-md-8 col-12 border-reverse p-0 p-lg-3 p-md-3 complex-content" style="overflow-y: scroll;">
+                    <div class="col-lg-9 col-md-8 col-12 border-reverse p-0 p-lg-3 p-md-3 complex-content" style="overflow-y: scroll;">
                         @for (int i = 0; i < Model.DishesQuantity; i++)
                         {
                             await Html.RenderPartialAsync("ComplexLineDishes", Model.DishComplex.Where(d => d.DishCourse == i));

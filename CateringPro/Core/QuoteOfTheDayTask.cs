@@ -31,11 +31,12 @@ namespace CateringPro.Core
         
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-          //  var httpClient = new HttpClient();
+            //  var httpClient = new HttpClient();
 
-           // var quoteJson = JObject.Parse(await httpClient.GetStringAsync("http://quotes.rest/qod.json"));
+            // var quoteJson = JObject.Parse(await httpClient.GetStringAsync("http://quotes.rest/qod.json"));
 
-          //  QuoteOfTheDay.Current = JsonConvert.DeserializeObject<QuoteOfTheDay>(quoteJson["contents"]["quotes"][0].ToString());
+            //  QuoteOfTheDay.Current = JsonConvert.DeserializeObject<QuoteOfTheDay>(quoteJson["contents"]["quotes"][0].ToString());
+            await Task.CompletedTask;
         }
     }
     

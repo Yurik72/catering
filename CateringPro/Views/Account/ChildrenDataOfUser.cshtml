@@ -8,6 +8,9 @@
 
     string userId = (await SignInManager.UserManager.GetUserAsync(User)).Id;
     int i = 0;
+    string parentUserId = string.Empty;
+    if( ViewData["UserId"]!=null)
+        parentUserId = ViewData["UserId"].ToString();
 }
 
 @if (true)
@@ -15,51 +18,64 @@
 @if(Model != null){
     foreach (var it in Model)
     {
-        <div class="child-data my-3 col-12 col-md-8 col-lg-12 d-flex justify-content-around flex-column-reverse flex-lg-row-reverse flex-md-row-reverse  align-content-sm-center align-content-center align-items-sm-center align-items-center" style="border: 1px solid #B1B1B1; border-radius: 4px; max-height: 550px; min-height: 350px">
-            <div class="col-12 col-xl-6 col-sm-12 col-md-12 p-0" style="max-width:inherit">
-                <input type="hidden" name="it[@i].PictureId" id="it[@i].PictureId" asp-for="@it.PictureId" />
+        bool isAdult = it.Id == parentUserId && it.IsAddultType;
+<div class="child-data my-3 col-12 col-md-12 col-lg-12 d-flex justify-content-around flex-column-reverse flex-lg-row-reverse flex-md-row-reverse  align-content-sm-center align-content-center align-items-sm-center align-items-center" style="border: 1px solid #B1B1B1; border-radius: 4px; max-height: 550px; min-height: 350px">
+    <div class="col-12 col-xl-6 col-sm-6 col-md-6 p-0" style="max-width:inherit">
+        <input type="hidden" name="it[@i].PictureId" id="it[@i].PictureId" asp-for="@it.PictureId" />
+        <input type="hidden" asp-for="@it.Id" name="it[@i].Id" id="it[@i].Id" />
+        <img class="col-12" id="imgfilepicture@(it.Id)" src="@Url.Action("GetPicture", "Pictures", new { id = @it.PictureId, width = 180, height = 270 })" alt="" style="padding: 0;width:180px;height:270px;align-items: center">
 
-                <img class="col-12" id="imgfilepicture@(it.Id)" src="@Url.Action("GetPicture", "Pictures", new { id = @it.PictureId, width = 180, height = 270 })" alt="" style="padding: 0;width:180px;height:270px;align-items: center">
-               
-                <div class="custom-file mt-3">
-                  
-                    <input type="file" class="custom-file-input" id="filepicture@(it.Id)" name="it[@i].Picture" data-target="#imgfilepicture@(it.Id)"
-                           placeholder="Файл не обрано..."
-                           style="height: 48px; display: flex; align-items: center" multiple="" accept="image/jpeg,image/png">
-                    <label class="custom-file-label" id="self-button" for="load-image" style="height: 48px; display: flex; align-items: center">@Localizer["FileNotChosen"]</label>
-</div>
+        <div class="custom-file mt-3">
 
-</div>
+            <input type="file" class="custom-file-input" id="filepicture@(it.Id)" name="it[@i].Picture" data-target="#imgfilepicture@(it.Id)"
+                   placeholder="Файл не обрано..."
+                   style="height: 48px; display: flex; align-items: center" multiple="" accept="image/jpeg,image/png">
+            <label class="custom-file-label" id="self-button" for="load-image" style="height: 48px; display: flex; align-items: center">@Localizer["FileNotChosen"]</label>
+        </div>
 
-<div class="col-12 col-xl-5 col-sm-6 col-md-5 justify-content-md-center justify-content-center mt-3 mt-md-0 mt-lg-0">
-<div class="row">
-<div class="col-12 px-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center my-2">
-<input type = "hidden" asp-for="@it.Id" name="it[@i].Id" id="it[@i].Id" />
-<label for="child-name@(it.Id)" class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">@Localizer["ChildNameSurname"]</label>
-<input asp-for="@it.ChildNameSurname" name="it[@i].ChildNameSurname"
-id="child-name@(it.Id)" class="child-inputs" type="text" placeholder="Ім'я" data-val="true" data-val-length="The field ChildNameSurname must be a string with a maximum length of 40." data-val-length-max="40" maxlength="40">
-</div>
-<div class="col-12 p-0  d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center my-2">
-<label for="child-date@(it.Id)" class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
-@Localizer["ChildBirthdayDate"]
-</label>
-<input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate"
-id="child-date@(it.Id)" class="child-inputs" type="date">
-</div>
-</div>
-<div class="row">
-    <div class="btn">
-        <a href="@Url.Action("DetachChildFromParent","Account",
-                      new { userId = it.Id })" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
     </div>
-</div>
+    @if (!isAdult)
+    {
+    <div class="col-12 col-xl-6 col-sm-6 col-md-6 justify-content-md-center justify-content-center mr-1 ml-1 mt-3 mt-md-0 mt-lg-0">
+        <div class="row">
+            <div class="col-12 px-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center my-2">
+                
+                <label for="child-name@(it.Id)" class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">@Localizer["ChildNameSurname"]</label>
+                <input asp-for="@it.ChildNameSurname" name="it[@i].ChildNameSurname"
+                       id="child-name@(it.Id)" class="child-inputs" type="text" placeholder="Ім'я" data-val="true" data-val-length="The field ChildNameSurname must be a string with a maximum length of 40." data-val-length-max="40" maxlength="40">
+            </div>
+            <div class="col-12 p-0  d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center my-2">
+                <label for="child-date@(it.Id)" class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
+                    @Localizer["ChildBirthdayDate"]
+                </label>
+                <input asp-for="@it.ChildBirthdayDate" name="it[@i].ChildBirthdayDate"
+                       id="child-date@(it.Id)" class="child-inputs" type="date">
             </div>
         </div>
+
+        @if (it.Id != parentUserId)
+        {
+        <div class="row">
+            <div class="btn">
+                <a href="@Url.Action("DetachChildFromParent", "Account",
+                           new { userId = it.Id })" class="btn"><img src="../img/delete-icon.svg" alt="Delete item"></a>
+            </div>
+        </div>
+        }
+    </div>
+    }
+    else
+    {
+        <div class="col-12 col-xl-6 col-sm-6 col-md-6 justify-content-md-center justify-content-center mr-1 ml-1 mt-3 mt-md-0 mt-lg-0">
+            <label  class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">@Localizer["Photo"]</label>
+        </div>
+    }
+</div>
         {
             i++;
         }
-}
     }
+}
 
 
     @section Scripts {

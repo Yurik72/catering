@@ -1,4 +1,5 @@
 ﻿using CateringPro.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace CateringPro.Repositories
 
         Task<CompanyUser> GetUserAsync(string userid);
         Task<byte[]> ProduceFlatCSV(string sql);
+        Task<FileContentResult> ProduceExcel(string name, DateTime? dateFrom, DateTime? dateTo, int? companyId);
     }
 }

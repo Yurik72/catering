@@ -105,10 +105,10 @@ namespace CateringPro.Controllers
         }
         public async Task<IActionResult> GetDishesKind(DateTime daydate, int dishKind)
         {
-            if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
-            {
-                daydate = daydate.AddDays(2);
-            }
+            //if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
+            //{
+            //    daydate = daydate.AddDays(2);
+            //}
             DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
             DateTime endDate = startDate.AddDays(6);
             var list = _userdaydishesrepo.DishesKind(startDate, endDate,User.GetCompanyID());
@@ -255,13 +255,13 @@ namespace CateringPro.Controllers
                     daydate = daycomplexes.First().Date;
                 else
                 {
-                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Empty" }));
+                    return await Task.FromResult(Json(JSONResultResponse.GetFailResult("Empty")));
                 }
                // DateTime ordDay = UserDayDish.FirstOrDefault().Date;
                 
                 if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
                 {
-                    return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
+                    return await Task.FromResult(Json(JSONResultResponse.GetFailResult("OutDate")));
                 }
                 //var res = _userdaydishesrepo.OrderedComplexDay(daydate, User.GetUserId(), User.GetCompanyID()).ToList();
                 //bool ordered = res.Any(x => daycomplexes.Any(y => y.ComplexId == x.ComplexId));
@@ -275,24 +275,24 @@ namespace CateringPro.Controllers
                     //{
                     //    _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", daydate, User.GetUserId());
                     //}
-                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+                    return await Task.FromResult(Json(JSONResultResponse.GetFailResult("Adding to db")));
                 }
 
 
                 if (await _userdaydishesrepo.SaveComplexAndDishesDay(daycomplexes, UserDayDish, User.GetUserId(), User.GetCompanyID()))
                 {
                     //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
-                    return await Task.FromResult(Json(new { res = "OK" }));
+                    return await Task.FromResult(Json(JSONResultResponse.GetOKResult()));
 
                 }
                 else
                 {
-                    return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+                    return await Task.FromResult(Json(JSONResultResponse.GetFailResult("Adding to db" )));
                 }
             } catch(Exception ex)
             {
                 _logger.LogError(ex,"SaveDayComplex error");
-                return await Task.FromResult(Json(new { res = "FAIL", reason = "Adding to db" }));
+                return await Task.FromResult(Json(JSONResultResponse.GetFailResult("Adding to db")));
             }
  
             
@@ -301,7 +301,7 @@ namespace CateringPro.Controllers
         {
             DateTime daydate = Convert.ToDateTime(day);
             await _email.SendWeekInvoice(User.GetUserId(), daydate, User.GetCompanyID());
-            return await Task.FromResult(Json(new { res = "OK" }));
+            return await Task.FromResult(Json(JSONResultResponse.GetOKResult()));
         }
         public async Task<IActionResult> GetWeekOrderDetails(string day)
         {

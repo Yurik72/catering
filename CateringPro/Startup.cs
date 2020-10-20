@@ -25,6 +25,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using CateringPro.Helpers;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace CateringPro
 {
@@ -76,7 +77,7 @@ namespace CateringPro
 
            
            
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
+           // services.AddTransient<ICategoryRepository, CategoryRepository>();
            
            
 
@@ -95,6 +96,12 @@ namespace CateringPro
             services.AddTransient<IServiceRepository, ServiceRepository>();
             services.AddTransient<IGenericModelRepository<Address>, GenericModelRepository<Address>>();
             services.AddTransient<IGenericModelRepository<Discount>, GenericModelRepository<Discount>>();
+            services.AddTransient<IGenericModelRepository<Ingredients>, GenericModelRepository<Ingredients>>();
+            services.AddTransient<IGenericModelRepository<IngredientCategories>, GenericModelRepository<IngredientCategories>>();
+            services.AddTransient<IGenericModelRepository<Categories>, GenericModelRepository<Categories>>();
+            services.AddTransient<IGenericModelRepository<DishKind>, GenericModelRepository<DishKind>>();
+            services.AddTransient<IGenericModelRepository<Ingredients>, GenericModelRepository<Ingredients>>();
+
             services.AddTransient<IPluginsRepository, PluginsRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -110,6 +117,7 @@ namespace CateringPro
                 services.AddSingleton<IScheduledTask, WriteOffProductionTask>();
                 services.AddSingleton<IScheduledTask, MakeOrdersPaymentTask>();
                 services.AddSingleton<IScheduledTask, EMailSenderTask>();
+                services.AddSingleton<IScheduledTask, CleanUpTask>();
 
                 services.AddScheduler((sender, args) =>
                 {
@@ -190,6 +198,12 @@ namespace CateringPro
             {
                 services.AddTransient<IDbSyncer, DbSyncer>();
             }
+            //for inventarization
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueCountLimit = int.MaxValue;
+                options.ValueLengthLimit = 1024 * 1024 * 100; // 100MB max len form data
+            });
 
 
             services.AddTransient<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
@@ -243,6 +257,14 @@ namespace CateringPro
                         "public,max-age=" + durationInSeconds;
                 }
             });
+            /*
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\media")),
+
+                RequestPath = new PathString("/media")
+            });
+            */
             UIOption uioption=Configuration.GetSection("UIOption").Get<UIOption>();
             var cultureInfo = new CultureInfo(uioption.DefaultCulture);
             cultureInfo.NumberFormat.CurrencySymbol = uioption.CurrencySymbol;

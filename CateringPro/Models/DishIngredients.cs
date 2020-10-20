@@ -17,6 +17,10 @@ namespace CateringPro.Models
         [Column(TypeName = "decimal(18,4)")]
         public decimal Proportion { get; set; }
 
+        [DisplayName("Ingredients ProportionNetto")]
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal ProportionNetto { get; set; }
+
         public virtual Ingredients Ingredient { get; set; }
         public virtual Dish Dish { get; set; }
     }

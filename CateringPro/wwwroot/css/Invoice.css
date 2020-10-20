@@ -44,6 +44,11 @@
             border-bottom: 1px solid #ddd;
             font-weight: bold;
         }
+        .invoice-box table tr.total td, .report-box table tr.total td, .production-forecast-box table tr.total td {
+            background: #aaa;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
 .dish {
     background-color: #999;
 }

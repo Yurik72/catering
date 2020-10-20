@@ -286,8 +286,13 @@ else
                                 });
 
                             });
-                            if(flag)
+                            if (flag) {
+                                var strCourse = "Course(" + course+")";
                                 $(data).insertBefore(".course-footer-" + course);
+                                var dishDef = $('.default-dish[dish-id=' + $(data).attr("dish-id") + ']');
+                                console.log(dishDef.attr("name"));
+                                dishDef.attr('name',strCourse);
+                            }
                             //$(".modal-dialog").scroll();
                             $('#modDialog').modal('handleUpdate');
                             //var el_complexid = $(`<input type='hidden' name='DishComplexes[0].DishId' value='${id}'/>`);  // Create with jQuery
@@ -345,7 +350,10 @@ else
                     }
                     $(dishLine).each(function (ind) {
                         //console.log("course " + i + " dish " + $(this).attr("dish-id"));
-                        var dish = { DishId: $(this).attr("dish-id"), DishCourse: i, ComplexId: $("#Id").val() };
+                        var id = $(this).attr("dish-id");
+                        var dish = {
+                            DishId: id, DishCourse: i, ComplexId: $("#Id").val(),
+                            IsDefault: $('.default-dish[dish-id='+id+']').is(":checked") };
                         sendObj.DishComplexes.push(dish);
                         // sendObj["DishesIdes" + i].push($(this).attr("dish-id"));
                     });

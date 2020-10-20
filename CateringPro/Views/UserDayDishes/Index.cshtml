@@ -9,7 +9,7 @@
 }
 @{
     DateTime daydate = Model.DayDate;
-    //daydate = daydate.AddDays(-1);
+    //daydate = daydate.AddDays(2);
     //if (daydate.DayOfWeek == DayOfWeek.Sunday)
     //{
     //daydate = daydate.AddDays(1);
@@ -812,13 +812,15 @@ else
             var incrementday = function (d) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
+                console.log("before" + dt);
                 dt.setDate(dt.getDate() + d);
+                console.log("after" + dt);
                 $('#currentdate').val(dt.getTime());
                 $('#weekselector').text(weektext());
                 $('#weekselected').text(weektext());
                 //for (var i = 0; i < 7; i++)
                //    reloadDay(i);
-                
+
                 var index = parseInt($(".nav-day.active").attr("data-i"));
                 var start = 0
                 var cb = function() {
@@ -842,24 +844,27 @@ else
                         dishKindVal = 0;
                     }
                     dishKind.empty();
+                   
+                    //dt.setDate(dt.getDate() - dt.getDay() + 1);
+                    console.log("day" + dt);
                     dishKind.load('/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKindVal.toString()),
                         function (response, status, xhr) {
                             var select = $(".custom-select");
                             //if (dishKindVal != 0) {
-                                
+
                             //}
                             $(".drpdown-btn-type").each(function () {
                                 if ($(this).val() == dishKindVal) {
                                     $(select).val(dishKindVal);
                                 }
                             });
-                           
+
                             setupDishKinds();
                             reloadDay(index, cb);
                         }
                     );
                 } else {
-                   
+
                     reloadDay(index, cb);
                 }
                 setClosedDaystyle();
@@ -977,7 +982,8 @@ else
                // console.log("Delete");
                 var com = $(this).attr("complexId");
                 var date = $(this).attr("date");
-                var UserDayComplex = { ComplexId: com, Date: date };
+                var quan = $(this).attr("quantity");
+                var UserDayComplex = { ComplexId: com, Date: date, Quantity: quan };
                 $.ajax({
                     type: "POST",
                     data: res = { UserDayComplex },
@@ -1092,7 +1098,14 @@ else
                     var max = Math.max.apply(Math,courses);
                    // console.log(max);
                     for (var i = 0; i <= max; i++) {
-                       var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                       //var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                       // $(dish).prop('checked', true);
+                        var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "'][default=\'true\']");
+                        //console.log($(dish).attr('default'));
+                        if (dish.length == 0) {
+                            //console.log("in if");
+                            dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                        }
                         $(dish).prop('checked', true);
                     }
                 }
@@ -1118,7 +1131,12 @@ else
                         for (var i = 0; i <= max; i++) {
                             if (i == chCourse)
                                 continue;
-                            var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                            var dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "'][default=\'true\']");
+                            //console.log($(dish).attr('default'));
+                            if (dish.length == 0) {
+                                //console.log("in if");
+                                dish = $("[complexdish='" + com + "'][day='" + day + "'][course='" + i + "']");
+                            }
                             $(dish).prop('checked', true);
                         }
                     }
@@ -1158,6 +1176,10 @@ else
                         complex.Quantity = 1;
                         if (categories.indexOf($(this).attr("category")) > -1) {
                             dialog_error("Не можна замовити 2 комплекси з однаковою категорією");
+                             $(".send").html("@Localizer["MyOrdersSave"]").css({
+                    "cursor": "",
+                    "pointer-events": ""
+                });
                             flag = false;
                             return;
                         }
@@ -1294,9 +1316,17 @@ else
                 });
             }
             setDays();
-
+            //for many complex order
+            $(document).on('change', '.complex-quantity', function (event) {
+                let comId = $(this).attr("complexId");
+                let quan = $(this).val();
+                console.log(quan + "   " + comId);
+                $("[dishcomplex=" + comId + "]").each(function () {
+                    $(this).val(quan);
+                });
+            });
             $(document).on('click', '.sendMany', function (event) {
-                //console.log("Post");
+                console.log("Post");
                 var form = $(this).attr("data-form");
                 //console.log("Post"+form);
                 //console.log($("[data-form='"+form+"']"));
@@ -1315,6 +1345,7 @@ else
                 });;
 
             });
+            //end of many complex order
             $(document).on('click', '[data-target="#dish-stock"]', function (e) {
                 const dish_container = $(this).parents('.complex-dish-item-container');
                // console.log(dish_container);

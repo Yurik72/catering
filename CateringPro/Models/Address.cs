@@ -21,10 +21,12 @@ namespace CateringPro.Models
         }
         [StringLength(50)]
         [DisplayName("Address Code")]
+        [DefaultNameEx]
         public string Code { get; set; }
         [StringLength(256)]
         [DisplayName("Name")]
         [DefaultName]
+        [DefaultNameEx]
         public string Name { get; set; }
         public int AddressType { get; set; }
         [DataType(DataType.EmailAddress)]

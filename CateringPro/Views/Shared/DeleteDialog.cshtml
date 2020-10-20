@@ -5,7 +5,14 @@
 
 <div class="modal-content delete-content">
     <div class="modal-header">
-        <h5 class="modal-title">@Localizer["ConfirmDelete"]</h5>
+        <h5 class="modal-title">
+            @Localizer["ConfirmDelete"]
+
+            @if (Model.IsSupportDeactivation)
+            {
+                @Localizer["ConfirmDeactivate"]
+            }
+        </h5>
         <button class="close" data-dismiss="modal" area-hidden="true">
             <span aria-hidden="true">&times;</span>
         </button>

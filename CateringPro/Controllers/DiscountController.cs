@@ -16,82 +16,36 @@ using CateringPro.Core;
 using CateringPro.ViewModels;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using System.Text.Json;
 
 namespace CateringPro.Controllers
 {
     [Authorize(Roles = "Admin,CompanyAdmin")]
     public class DiscountController : GeneralController<Discount>
     {
-        private readonly AppDbContext _context;
-        private readonly IGenericModelRepository<Discount> _discountRepo;
-        private readonly ILogger<CompanyUser> _logger;
-        private IConfiguration _configuration;
+
        
-        public DiscountController(AppDbContext context, IGenericModelRepository<Discount> discountRepo, ILogger<CompanyUser> logger, IConfiguration Configuration) :
+        public DiscountController(AppDbContext context, IGenericModelRepository<Discount> discountRepo, ILogger<Discount> logger, IConfiguration Configuration) :
             base(context, discountRepo, logger,Configuration)
         {
-            _context = context;
-            _discountRepo = discountRepo;
-            _logger = logger;
-            _configuration = Configuration;
            
 
         }
 
 
-        /*
-        public async Task<IActionResult> ListItems(QueryModel querymodel)//(string searchcriteria,string sortdir,string sortfield, int? page)
+        public override void OnBeforeUpdateEntity(Discount entity)
         {
-            //QueryModel querymodel = new QueryModel() { }
-
-            var query = this.GetQueryList(_context.Discounts,
-                querymodel,
-                d => d.Name.Contains(querymodel.SearchCriteria)
-                || d.Code.Contains(querymodel.SearchCriteria),
-                pageRecords);
-
-            return PartialView(await query.ToListAsync());
-
-        }
-        */
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public async Task<IActionResult> EditModal(int id, /*[Bind("Id,Code,Value,Type,DateFrom,DateTo,Categories")]*/ Discount disc)
-        {
-            if (id != disc.Id)
-            {
-                return NotFound();
-            }
-            if (!ModelState.IsValid)
-            {
-                return PartialView(disc);
-            }
-            return await this.UpdateCompanyDataAsync(disc, _context, _logger);
-
+            if (entity.Code == null) entity.Code = "";
+          //  DiscountJson json = JsonSerializer.Deserialize<DiscountJson>(entity.Categories);
         }
 
-
-        public async Task<IActionResult> EditModal(int? id)
+        public override void OnViewEdit(Discount entity)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+           // base.OnViewEdit(entity);  // no need
+           
+            ViewData["CategoriesId"] = _context.Categories.OrderBy(c => c.Code).ToList();
 
-            var adr = await _context.Discounts.FindAsync(id);
-            if (adr == null)
-            {
-                return NotFound();
-            }
-            
-            return PartialView(adr);
         }
-       
-
-        
-
-       
-
 
     }
 }

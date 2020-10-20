@@ -4,6 +4,8 @@
     Layout = null;
     List<DayIngredientsDetails> ingLs = new List<DayIngredientsDetails>();
     string code = "";
+    DateTime dateFrom = (DateTime)ViewData["datefrom"];
+    DateTime dateTo = (DateTime)ViewData["dateTo"]; ;
 }
 
 
@@ -16,7 +18,7 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td class="title">
@@ -24,9 +26,9 @@
                             </td>
                             <td>
 
-                                @Localizer["CompanyDayProduction"]
-                                <br /> @Localizer["Doc Date"]: @DateTime.Now.ToShortDateString()
-
+                                <h1>@Localizer["CompanyDayProduction"]</h1>
+                                <br /> @Localizer["DateReport"]: @DateTime.Now.ToShortDateString()
+                                <br />@Localizer["Period"]: @dateFrom.ToShortDateString() - @dateTo.ToShortDateString()
                             </td>
                         </tr>
                     </table>
@@ -47,24 +49,27 @@
                 </td>
             </tr>
             <tr class="heading ">
-                <td>
+                <td style="width: 10%; text-align: left;">
                     @Localizer["Category Code"]
                 </td>
-                <td>
+                <td style="width: 30%; text-align: left;">
                     @Localizer["Complex Name"]
                 </td>
-                <td style="text-align:left">
+                <td style="width: 20%; text-align: right;">
                     @Localizer["Quantity"]
                 </td>
-                <td>
-                    @Localizer["Dish ReadyWeight"]
+                <td style="width: 20%; text-align: right;">
+                    @Localizer["Dish ReadyWeight"] /   @Localizer["Brutto"]
+                </td>
+                <td style="width: 20%; text-align: right;">
+                    @Localizer["Netto"]
                 </td>
             </tr>
 
             @foreach (var day in Model.Days)
             {
                 <tr class="item daydate">
-                    <td colspan="4">
+                    <td colspan="5">
                         @day.DayDate.ToShortDateString()
                     </td>
 
@@ -75,51 +80,61 @@
                     if (code != item.CategoryName)
                     {
                         <tr class="item daydate">
-                            <td colspan="4">
+                            <td colspan="5">
                                @item.CategoryName
                             </td>
 
                         </tr>
                         code = item.CategoryName;
                     }
-                    <tr class=" heading">
-                        <td>
-                            @Html.DisplayFor(model => item.DishCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => item.DishName)
-                        </td>
-                        <td style="text-align:left">
-                            @Html.DisplayFor(model => item.Quantity) 
-                        </td>
-                        <td>
-                            @*@Localizer["Dish ReadyWeight"]*@  @Html.DisplayFor(model => item.ReadyWeight) @Localizer["DishReadyWeightMeasureUnit"] 
-                        </td>
+        <tr class=" heading">
+            <td style="width: 10%; text-align: left;">
+                @Html.DisplayFor(model => item.DishCode)
+            </td>
+            <td style="width: 30%; text-align: left;">
+                @Html.DisplayFor(model => item.DishName)
+            </td>
+            <td style="width: 20%; text-align: right;">
+                @Html.DisplayFor(model => item.Quantity)
+            </td>
+            <td style="width: 20%; text-align: right;">
+                @Html.DisplayFor(model => item.ReadyWeight) @Localizer["DishReadyWeightMeasureUnit"]
+            </td>
+            <td style="width: 20%; text-align: right;">
+              
+            </td>
+        </tr>
 
-                    </tr>
-
-                    @foreach (var ing in item.Ingridients)
-                    {
+        @foreach (var ing in item.Ingridients)
+        {
         <tr>
-            <td></td>
-            <td> @Html.DisplayFor(model => ing.IngredientName)</td>
-            @{ var res = ing.Quantity * item.Quantity;
+            <td style="width: 10%; text-align: left;"></td>
+
+            <td style="width: 30%; text-align: left;"> 
+                @Html.DisplayFor(model => ing.IngredientName)
+            </td>
+            @{ 
+                var res = ing.Quantity * item.Quantity;
+                var resnetto = ing.QuantityNetto * item.Quantity;
                 if (ingLs.Exists(i => i.IngredientId == ing.IngredientId))
                 {
                     var index = ingLs.FindIndex(c => c.IngredientId == ing.IngredientId);
                     ingLs[index].Quantity += res;
+                    ingLs[index].QuantityNetto += resnetto;
                 }
                 else
                 {
-                    ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, ing.MeasureUnit));
+                    ingLs.Add(new DayIngredientsDetails(ing.IngredientId, ing.IngredientName, res, resnetto, ing.MeasureUnit));
                 }
             }
-            <td></td>
-            <td style="text-align:left">
+            <td style="width: 20%;"></td>
+            <td style="width: 20%; text-align: right">
                 @Html.DisplayFor(model => res) @Html.DisplayFor(model => ing.MeasureUnit)
 
             </td>
-
+            <td style="width: 20%; text-align: right">
+                @Html.DisplayFor(model => resnetto) @Html.DisplayFor(model => ing.MeasureUnit)
+            </td>
             <td></td>
 
         </tr>
@@ -140,19 +155,23 @@
         <h1>@Localizer["Ingredient"]</h1>
         <table>
             <tr class="heading ">
-                <td>
+                <td style="width: 40%; text-align: left;">
                     @Localizer["Ingredient Name"]
                 </td>
-                <td>
+                <td style="width: 30%; text-align: right">
                     @Localizer["Quantity"]
+                </td>
+                <td style="width: 30%; text-align: right">
+                    @Localizer["Netto"]
                 </td>
             </tr>
             @foreach (var ing in ingLs)
             {
-                <tr>
-                    <td> @ing.IngredientName</td>
-                    <td> @ing.Quantity @ing.MeasureUnit</td>
-                </tr>
+        <tr>
+            <td style="width: 40%; text-align: left;"> @ing.IngredientName</td>
+            <td style="width: 30%; text-align: right"> @ing.Quantity @ing.MeasureUnit</td>
+            <td style="width: 30%; text-align: right"> @ing.QuantityNetto @ing.MeasureUnit</td>
+        </tr>
             }
         </table>
     </div>

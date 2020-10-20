@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CateringPro.Core;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Reflection;
 
 namespace CateringPro.Helpers
 {
-    public static class EnumHelper<T>
+    public static class EnumHelper<T> 
     {
         public static IList<T> GetValues(Enum value)
         {
@@ -19,7 +21,22 @@ namespace CateringPro.Helpers
             }
             return enumValues;
         }
+        public static IList<T> GetValues()
+        {
+            var enumValues = new List<T>();
 
+            foreach (FieldInfo fi in typeof(T).GetFields(BindingFlags.Static | BindingFlags.Public))
+            {
+                enumValues.Add((T)Enum.Parse(typeof(T), fi.Name, false));
+            }
+            return enumValues;
+        }
+        public static IEnumerable<SelectListItem> GetSelectListWithIntegerValues(T value, SharedViewLocalizer localizer = null)
+        {
+           return EnumHelper<T>.GetValues().Select(s => new SelectListItem() { Text = EnumHelper<T>.GetDisplayValue(s, localizer), 
+               Value = Convert.ToInt32(s).ToString(), Selected = Convert.ToInt32(value) == Convert.ToInt32(s)
+           });
+        }
         public static T Parse(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);
@@ -30,9 +47,9 @@ namespace CateringPro.Helpers
             return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name).ToList();
         }
 
-        public static IList<string> GetDisplayValues(Enum value)
+        public static IList<string> GetDisplayValues(Enum value, SharedViewLocalizer localizer=null)
         {
-            return GetNames(value).Select(obj => GetDisplayValue(Parse(obj))).ToList();
+            return GetNames(value).Select(obj => GetDisplayValue(Parse(obj), localizer)).ToList();
         }
 
         private static string lookupResource(Type resourceManagerProvider, string resourceKey)
@@ -49,18 +66,25 @@ namespace CateringPro.Helpers
             return resourceKey; // Fallback with the key name
         }
 
-        public static string GetDisplayValue(T value)
+        public static string GetDisplayValue(T value, SharedViewLocalizer localizer=null)
         {
             var fieldInfo = value.GetType().GetField(value.ToString());
 
             var descriptionAttributes = fieldInfo.GetCustomAttributes(
-                typeof(DisplayAttribute), false) as DisplayAttribute[];
-
-            if (descriptionAttributes[0].ResourceType != null)
-                return lookupResource(descriptionAttributes[0].ResourceType, descriptionAttributes[0].Name);
-
-            if (descriptionAttributes == null) return string.Empty;
-            return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Name : value.ToString();
+                typeof(DisplayAttribute), false);
+            
+            if (descriptionAttributes.Length > 0)
+            {
+                var dispattr = descriptionAttributes[0] as DisplayAttribute;
+                
+                if (dispattr.ResourceType != null)
+                    return lookupResource(dispattr.ResourceType, dispattr.Name);
+                if(localizer!=null)
+                 return localizer[dispattr.Name];
+            }
+            if (localizer != null)
+                return localizer[value.ToString()];
+            return value.ToString();
         }
     }
 }
