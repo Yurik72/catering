@@ -31,6 +31,12 @@ namespace CateringPro.Repositories
         bool GetConfrimedAdmin(string userid);
         bool IsBalancePositive(string userid);
         IEnumerable<SelectListItem> DishesKind(DateTime dateFrom, DateTime dateTo, int companyid);
+        IEnumerable<DishKind> UserDishesKindNoContext(DateTime date, string userid, int companyid);
+        IQueryable<UserDayComplexViewModel> OrderedComplexDayNoContext(DateTime daydate, string userId, int companyid, int categoryId = -1, int dishKindId = -1);
+        IEnumerable<Categories> UserCategoriesNoContext(DateTime date, string userid, int companyid);
+        Pictures GetPicture(int id);
+        IEnumerable<DishKind> DishesKindNoContext(DateTime date, int companyid);
+        IQueryable<UserDayComplexViewModel> AvaibleComplexDayNoContext(DateTime daydate, string userId, int companyid);
     }
 }
 

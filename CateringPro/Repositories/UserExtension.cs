@@ -20,6 +20,12 @@ namespace CateringPro.Repositories
             return await src.Users.FirstOrDefaultAsync(u => u.CardTag == cardtoken);
           
         }
+
+        public static async Task<CompanyUser> FindByTelegramIdAsync(this UserManager<CompanyUser> src, long telegramId)
+        {
+            return await src.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
+
+        }
         public static void AssignUserAttr<TEntity>(this Controller ctl, TEntity entity) where TEntity : UserData
         {
             //entity.CompanyId = ctl.User.GetCompanyID();

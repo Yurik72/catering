@@ -48,5 +48,6 @@ namespace CateringPro.Repositories
         List<SelectListItem> GetUserSubgroupsdWithEmptyList();
         List<SelectListItem> GetCompaniesWithEmptyList();
         int ValidateUserOnLogin(CompanyUser user);
+        Task<CompanyUser> SaveUserTelegramAssociationAsync(long telegramid, string phonenumber);
     }
 }

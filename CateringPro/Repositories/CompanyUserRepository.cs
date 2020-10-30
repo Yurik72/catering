@@ -457,6 +457,27 @@ namespace CateringPro.Repositories
             return result;
 
         }
+        public async Task<CompanyUser> SaveUserTelegramAssociationAsync(long telegramid,string phonenumber)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phonenumber || u.PhoneNumber.EndsWith(phonenumber));
+                if (user == null)
+                    return null;
+                user.TelegramId = telegramid;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+                return user;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("SaveUserTelegramAssociationAsync", ex);
+                return null;
+            }
+            //return null;
+
+        }
         public async Task<bool> SaveUserCardTokenAsync(string userId, string token)
         {
             try

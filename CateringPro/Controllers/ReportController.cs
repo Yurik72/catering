@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-using jsreport.AspNetCore;
-using jsreport.Types;
+//using jsreport.AspNetCore;
+//using jsreport.Types;
 using System.Threading.Tasks;
 using CateringPro.Models;
 using CateringPro.Repositories;
@@ -24,14 +24,14 @@ namespace CateringPro.Controllers
     [Authorize(Roles = "Admin,CompanyAdmin,KitchenAdmin,UserAdmin,SubGroupReportAdmin")]
     public class ReportController : Controller
     {
-        public IJsReportMVCService JsReportMVCService { get; }
+       // public IJsReportMVCService JsReportMVCService { get; }
         private readonly IReportRepository _reportrepo;
         private readonly ICompanyUserRepository _companyRep;
         private IStockRepository _stockrepo;
         private readonly AppDbContext _context;
         private readonly ILogger<ReportController> _logger;
-
-        public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger, ICompanyUserRepository comRep)
+        
+      /*  public ReportController(AppDbContext context,IJsReportMVCService jsReportMVCService, IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger, ICompanyUserRepository comRep)
         {
             JsReportMVCService = jsReportMVCService;
             _reportrepo = rr;
@@ -41,14 +41,24 @@ namespace CateringPro.Controllers
             _companyRep = comRep;
 
         }
+      */
+        public ReportController(AppDbContext context,   IReportRepository rr, IStockRepository stockrepo, ILogger<ReportController> logger, ICompanyUserRepository comRep)
+        {
+            //JsReportMVCService = jsReportMVCService;
+            _reportrepo = rr;
+            _stockrepo = stockrepo;
+            _context = context;
+            _logger = logger;
+            _companyRep = comRep;
 
+        }
         public IActionResult Index()
         {
             return View();
         }
 
 
-         [MiddlewareFilter(typeof(JsReportPipeline))]
+         //[MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> CompanyProductionForecast(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)
@@ -67,7 +77,7 @@ namespace CateringPro.Controllers
 
             return View(await _reportrepo.CompanyProductionForecast(datefrom, dateto, User.GetCompanyID()));
         }
-         [MiddlewareFilter(typeof(JsReportPipeline))]
+       //  [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult CompanyDayProduction(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)
@@ -85,7 +95,7 @@ namespace CateringPro.Controllers
             SelectFormat(format);
             return View(_reportrepo.CompanyDayProduction(datefrom, dateto, User.GetCompanyID()));
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+      //  [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult CompanyDayProductionWithoutIngredients(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)
@@ -103,7 +113,7 @@ namespace CateringPro.Controllers
             SelectFormat(format);
             return View(_reportrepo.CompanyDayProductionWithoutIngredients(datefrom, dateto, User.GetCompanyID()));
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+      //  [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult CompanyMenu(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)
@@ -121,7 +131,7 @@ namespace CateringPro.Controllers
             ViewData["dateto"] = dateto;
             return View(_reportrepo.CompanyMenu(datefrom, dateto, User.GetCompanyID()));
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+      //  [MiddlewareFilter(typeof(JsReportPipeline))]
         public IActionResult DishSpecification(DateTime datefrom, DateTime dateto, string format)
         {
             if (datefrom.Ticks == 0)
@@ -141,7 +151,7 @@ namespace CateringPro.Controllers
             return View(_reportrepo.DishSpecification(datefrom, dateto, User.GetCompanyID()));
         }
 
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+       // [MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> ConsigmentStockAsync(DateTime datefrom, DateTime dateto, string format)
         {
             SelectFormat(format);
@@ -154,7 +164,7 @@ namespace CateringPro.Controllers
 
             return View(resGroup);
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+      //  [MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> UsersOrdersReport(DateTime datefrom, DateTime dateto, string format)
         {
             SelectFormat(format);
@@ -164,9 +174,10 @@ namespace CateringPro.Controllers
 
             return await Task.FromResult(View(res));
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+       // [MiddlewareFilter(typeof(JsReportPipeline))]
         public void SelectFormat(string format)
         {
+            /*
             switch (format)
             {
                 case "pdf":
@@ -191,9 +202,9 @@ namespace CateringPro.Controllers
                     });
                     break;
             }
-
+            */
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+       //[MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> OrderPeriodDetailReportWithGroup(DateTime? datefrom, DateTime? dateto, string format, int? userSubGroupId)
         {
             SelectFormat(format);
@@ -203,7 +214,7 @@ namespace CateringPro.Controllers
             var model =await  _reportrepo.GetOrderPeriodDetailReportWithGroup(datefrom.Value, dateto.Value, User.GetCompanyID(), userSubGroupId);
             return PartialView(model);
         }
-        [MiddlewareFilter(typeof(JsReportPipeline))]
+      //  [MiddlewareFilter(typeof(JsReportPipeline))]
         public async Task<IActionResult> UserFinancePeriodReportWithGroup(DateTime? datefrom, DateTime? dateto, string format, int? userSubGroupId)
         {
             SelectFormat(format);
@@ -319,5 +330,6 @@ namespace CateringPro.Controllers
                 companyid = companyId.Value;
             return await _reportrepo.ExcelReport("UserFinDetails", dateFrom, dateTo, companyid);
         }
+        
     }
 }

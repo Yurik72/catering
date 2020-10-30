@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-using jsreport.AspNetCore;
-using jsreport.Types;
+//using jsreport.AspNetCore;
+//using jsreport.Types;
 using System.Threading.Tasks;
 using CateringPro.Models;
 using CateringPro.Repositories;
@@ -12,7 +12,8 @@ namespace CateringPro.Controllers
 {
     public class InvoiceController : Controller
     {
-        public IJsReportMVCService JsReportMVCService { get; }
+        /*
+       // public IJsReportMVCService JsReportMVCService { get; }
         private readonly IInvoiceRepository _invoicerepo;
         public InvoiceController(IJsReportMVCService jsReportMVCService, IInvoiceRepository ir)
         {
@@ -149,5 +150,6 @@ namespace CateringPro.Controllers
 
             return View("Invoice", InvoiceModel.Example());
         }
+        */
     }
 }

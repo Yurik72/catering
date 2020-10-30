@@ -5,6 +5,18 @@
       "awesome-bootstrap-checkbox/0.3.4.1": {
         "type": "package"
       },
+      "DocumentFormat.OpenXml/2.11.3": {
+        "type": "package",
+        "dependencies": {
+          "System.IO.Packaging": "4.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/DocumentFormat.OpenXml.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/DocumentFormat.OpenXml.dll": {}
+        }
+      },
       "Dotmim.Sync.Core/0.5.6": {
         "type": "package",
         "dependencies": {
@@ -44,102 +56,6 @@
         "build": {
           "buildTransitive/netcoreapp3.0/EntityFramework.props": {},
           "buildTransitive/netcoreapp3.0/EntityFramework.targets": {}
-        }
-      },
-      "jsreport.AspNetCore/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "jsreport.Shared": "2.0.1",
-          "jsreport.Types": "2.4.1"
-        },
-        "compile": {
-          "lib/netcoreapp3.0/jsreport.AspNetCore.dll": {}
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/jsreport.AspNetCore.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
-      "jsreport.Binary/2.9.0": {
-        "type": "package",
-        "dependencies": {
-          "jsreport.Shared": "2.2.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/jsreport.Binary.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/jsreport.Binary.dll": {}
-        }
-      },
-      "jsreport.Client/3.0.1": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.CSharp": "4.4.0",
-          "NETStandard.Library": "1.6.1",
-          "Newtonsoft.Json": "10.0.3",
-          "System.Net.Http": "4.3.2",
-          "jsreport.Shared": "2.0.1",
-          "jsreport.Types": "2.2.7"
-        },
-        "compile": {
-          "lib/netstandard1.6/jsreport.Client.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.6/jsreport.Client.dll": {}
-        }
-      },
-      "jsreport.Local/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "10.0.3",
-          "jsreport.Client": "3.0.1",
-          "jsreport.Shared": "2.2.0",
-          "jsreport.Types": "2.7.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/jsreport.Local.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/jsreport.Local.dll": {}
-        }
-      },
-      "jsreport.MVC/2.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/net46/jsreport.MVC.dll": {}
-        },
-        "runtime": {
-          "lib/net46/jsreport.MVC.dll": {}
-        }
-      },
-      "jsreport.Shared/2.2.0": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "10.0.3",
-          "System.IO.Compression": "4.3.0",
-          "jsreport.Types": "2.7.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/jsreport.Shared.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/jsreport.Shared.dll": {}
-        }
-      },
-      "jsreport.Types/2.7.0": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.1",
-          "Newtonsoft.Json": "10.0.3"
-        },
-        "compile": {
-          "lib/netstandard1.6/jsreport.Types.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.6/jsreport.Types.dll": {}
         }
       },
       "MailKit/2.8.0": {
@@ -2666,6 +2582,15 @@
           "lib/netstandard1.3/System.IO.FileSystem.Primitives.dll": {}
         }
       },
+      "System.IO.Packaging/4.7.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/System.IO.Packaging.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.IO.Packaging.dll": {}
+        }
+      },
       "System.Linq/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2728,7 +2653,7 @@
           "lib/netcoreapp2.1/_._": {}
         }
       },
-      "System.Net.Http/4.3.2": {
+      "System.Net.Http/4.3.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -2816,6 +2741,37 @@
           "ref/netstandard1.3/System.Net.Primitives.dll": {}
         }
       },
+      "System.Net.Requests/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Net.Http": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Net.WebHeaderCollection": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Net.Requests.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netstandard1.3/System.Net.Requests.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netstandard1.3/System.Net.Requests.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "System.Net.Security/4.3.2": {
         "type": "package",
         "dependencies": {
@@ -2874,6 +2830,21 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Sockets.dll": {}
+        }
+      },
+      "System.Net.WebHeaderCollection/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Net.WebHeaderCollection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Net.WebHeaderCollection.dll": {}
         }
       },
       "System.ObjectModel/4.3.0": {
@@ -3800,6 +3771,36 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "Telegram.Bot/14.10.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "11.0.2",
+          "System.Net.Requests": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.1/Telegram.Bot.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Telegram.Bot.dll": {}
+        }
+      },
+      "Telegram.Bot.Framework/2.0.0-alpha5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Abstractions": "1.1.2",
+          "Microsoft.Extensions.Logging.Abstractions": "1.1.2",
+          "Microsoft.Extensions.Options": "1.1.2",
+          "NETStandard.Library": "1.6.1",
+          "Telegram.Bot": "14.10.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Telegram.Bot.Framework.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Telegram.Bot.Framework.dll": {}
+        }
+      },
       "Westwind.AspNetCore.Markdown/3.3.8": {
         "type": "package",
         "dependencies": {
@@ -3830,6 +3831,28 @@
         "content/content/awesome-bootstrap-checkbox.css",
         "content/content/awesome-bootstrap-checkbox.less",
         "content/content/awesome-bootstrap-checkbox.scss"
+      ]
+    },
+    "DocumentFormat.OpenXml/2.11.3": {
+      "sha512": "dCugN386ka+LwcOHnxi4gUHbiDeIw0/GEYw1sXFhYiErGFbJpRpscRcn5b12dywUReFCOgGNJ/l16zG5udkC/A==",
+      "type": "package",
+      "path": "documentformat.openxml/2.11.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "documentformat.openxml.2.11.3.nupkg.sha512",
+        "documentformat.openxml.nuspec",
+        "icon.png",
+        "lib/net35/DocumentFormat.OpenXml.dll",
+        "lib/net35/DocumentFormat.OpenXml.xml",
+        "lib/net40/DocumentFormat.OpenXml.dll",
+        "lib/net40/DocumentFormat.OpenXml.xml",
+        "lib/net46/DocumentFormat.OpenXml.dll",
+        "lib/net46/DocumentFormat.OpenXml.xml",
+        "lib/netstandard1.3/DocumentFormat.OpenXml.dll",
+        "lib/netstandard1.3/DocumentFormat.OpenXml.xml",
+        "lib/netstandard2.0/DocumentFormat.OpenXml.dll",
+        "lib/netstandard2.0/DocumentFormat.OpenXml.xml"
       ]
     },
     "Dotmim.Sync.Core/0.5.6": {
@@ -3900,103 +3923,6 @@
         "tools/netcoreapp3.0/any/ef6.dll",
         "tools/netcoreapp3.0/any/ef6.pdb",
         "tools/netcoreapp3.0/any/ef6.runtimeconfig.json"
-      ]
-    },
-    "jsreport.AspNetCore/2.1.0": {
-      "sha512": "blCOjYA0v4mZy/0olcQ43KM8UNlYERCeVM6Hxcuh1xfhbW+QaBydJJ5DR5nHrHApJHT5/kFkdpu+kzftwDfF6w==",
-      "type": "package",
-      "path": "jsreport.aspnetcore/2.1.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.aspnetcore.2.1.0.nupkg.sha512",
-        "jsreport.aspnetcore.nuspec",
-        "lib/netcoreapp3.0/jsreport.AspNetCore.dll",
-        "lib/netcoreapp3.0/jsreport.AspNetCore.xml",
-        "lib/netstandard2.0/jsreport.AspNetCore.dll",
-        "lib/netstandard2.0/jsreport.AspNetCore.xml"
-      ]
-    },
-    "jsreport.Binary/2.9.0": {
-      "sha512": "rkd+GwLNm/93no0qAOCOUkFWigZIM8mE+uRb+lLEbAxIDUm6JzjJp1iYI8WztiiQ66d0fyho9WnmSgQvIR65nQ==",
-      "type": "package",
-      "path": "jsreport.binary/2.9.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.binary.2.9.0.nupkg.sha512",
-        "jsreport.binary.nuspec",
-        "lib/netstandard2.0/jsreport.Binary.dll"
-      ]
-    },
-    "jsreport.Client/3.0.1": {
-      "sha512": "2rA+HKGChyjktjseDs3S5dC/B3WqxoSjrqPB6VhgS2HVQJO73LVmXVrjplj27ghTdbEUMcUTOAiBwPl9IDF78Q==",
-      "type": "package",
-      "path": "jsreport.client/3.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.client.3.0.1.nupkg.sha512",
-        "jsreport.client.nuspec",
-        "lib/net45/jsreport.Client.dll",
-        "lib/netstandard1.6/jsreport.Client.dll"
-      ]
-    },
-    "jsreport.Local/2.2.3": {
-      "sha512": "SOpz5iND9+0WvtYvmHtRKccfbAlSdmalH6zweH0rWZUTNQoYfAadStlVIi5JacSvRi/1ip+SBFdezw1DTbO3Zg==",
-      "type": "package",
-      "path": "jsreport.local/2.2.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.local.2.2.3.nupkg.sha512",
-        "jsreport.local.nuspec",
-        "lib/net45/jsreport.Local.dll",
-        "lib/net45/jsreport.Local.xml",
-        "lib/netstandard2.0/jsreport.Local.dll",
-        "lib/netstandard2.0/jsreport.Local.xml"
-      ]
-    },
-    "jsreport.MVC/2.1.1": {
-      "sha512": "giXq5YTKDGzjVe8o/s+aByUHyAuar4mygEZ8s+xo6rVHIh573GSUfpItDEkTie4Q5+not0BcZKRTBQk9/litJw==",
-      "type": "package",
-      "path": "jsreport.mvc/2.1.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.mvc.2.1.1.nupkg.sha512",
-        "jsreport.mvc.nuspec",
-        "lib/net46/jsreport.MVC.dll"
-      ]
-    },
-    "jsreport.Shared/2.2.0": {
-      "sha512": "Q87nfSV7g5k9/KtYjPk2mDSs2PSH4SBwBswGTVUTgJeA4/g+FIpLNvtXwt17+rj+r4U62m1qQUuV5LpmgRicpQ==",
-      "type": "package",
-      "path": "jsreport.shared/2.2.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.shared.2.2.0.nupkg.sha512",
-        "jsreport.shared.nuspec",
-        "lib/net45/jsreport.Shared.dll",
-        "lib/net45/jsreport.Shared.xml",
-        "lib/netstandard2.0/jsreport.Shared.dll",
-        "lib/netstandard2.0/jsreport.Shared.xml"
-      ]
-    },
-    "jsreport.Types/2.7.0": {
-      "sha512": "TnIQjUGn0t9cXymILwft+NE60WrSnXX4vjOUg8SCpkG7foSVp/4dl8dmQXZcgVBMYUw4gOnHa2+IK/LlFvpZrg==",
-      "type": "package",
-      "path": "jsreport.types/2.7.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "jsreport.types.2.7.0.nupkg.sha512",
-        "jsreport.types.nuspec",
-        "lib/net45/jsreport.Types.dll",
-        "lib/net45/jsreport.Types.xml",
-        "lib/netstandard1.6/jsreport.Types.dll",
-        "lib/netstandard1.6/jsreport.Types.xml"
       ]
     },
     "MailKit/2.8.0": {
@@ -8595,6 +8521,33 @@
         "system.io.filesystem.primitives.nuspec"
       ]
     },
+    "System.IO.Packaging/4.7.0": {
+      "sha512": "9VV4KAbgRQZ79iEoG40KIeZy38O30oWwewScAST879+oki8g/Wa2HXZQgrhDDxQM4GkP1PnRJll05NMiVPbYAw==",
+      "type": "package",
+      "path": "system.io.packaging/4.7.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net46/System.IO.Packaging.dll",
+        "lib/net46/System.IO.Packaging.xml",
+        "lib/netstandard1.3/System.IO.Packaging.dll",
+        "lib/netstandard1.3/System.IO.Packaging.xml",
+        "lib/netstandard2.0/System.IO.Packaging.dll",
+        "lib/netstandard2.0/System.IO.Packaging.xml",
+        "ref/net46/System.IO.Packaging.dll",
+        "ref/net46/System.IO.Packaging.xml",
+        "ref/netstandard1.3/System.IO.Packaging.dll",
+        "ref/netstandard1.3/System.IO.Packaging.xml",
+        "ref/netstandard2.0/System.IO.Packaging.dll",
+        "ref/netstandard2.0/System.IO.Packaging.xml",
+        "system.io.packaging.4.7.0.nupkg.sha512",
+        "system.io.packaging.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Linq/4.3.0": {
       "sha512": "5DbqIUpsDp0dFftytzuMmc0oeMdQwjcP/EWxsksIz/w1TcFRkZ3yKKz0PqiYFMmEwPSWw+qNVqD7PJ889JzHbw==",
       "type": "package",
@@ -8808,12 +8761,13 @@
         "version.txt"
       ]
     },
-    "System.Net.Http/4.3.2": {
-      "sha512": "y7hv0o0weI0j0mvEcBOdt1F3CAADiWlcw3e54m8TfYiRmBPDIsHElx8QUPDlY4x6yWXKPGN0Z2TuXCTPgkm5WQ==",
+    "System.Net.Http/4.3.0": {
+      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
       "type": "package",
-      "path": "system.net.http/4.3.2",
+      "path": "system.net.http/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/Xamarinmac20/_._",
@@ -8832,9 +8786,49 @@
         "ref/monotouch10/_._",
         "ref/net45/_._",
         "ref/net46/System.Net.Http.dll",
+        "ref/net46/System.Net.Http.xml",
+        "ref/net46/de/System.Net.Http.xml",
+        "ref/net46/es/System.Net.Http.xml",
+        "ref/net46/fr/System.Net.Http.xml",
+        "ref/net46/it/System.Net.Http.xml",
+        "ref/net46/ja/System.Net.Http.xml",
+        "ref/net46/ko/System.Net.Http.xml",
+        "ref/net46/ru/System.Net.Http.xml",
+        "ref/net46/zh-hans/System.Net.Http.xml",
+        "ref/net46/zh-hant/System.Net.Http.xml",
         "ref/netcore50/System.Net.Http.dll",
+        "ref/netcore50/System.Net.Http.xml",
+        "ref/netcore50/de/System.Net.Http.xml",
+        "ref/netcore50/es/System.Net.Http.xml",
+        "ref/netcore50/fr/System.Net.Http.xml",
+        "ref/netcore50/it/System.Net.Http.xml",
+        "ref/netcore50/ja/System.Net.Http.xml",
+        "ref/netcore50/ko/System.Net.Http.xml",
+        "ref/netcore50/ru/System.Net.Http.xml",
+        "ref/netcore50/zh-hans/System.Net.Http.xml",
+        "ref/netcore50/zh-hant/System.Net.Http.xml",
         "ref/netstandard1.1/System.Net.Http.dll",
+        "ref/netstandard1.1/System.Net.Http.xml",
+        "ref/netstandard1.1/de/System.Net.Http.xml",
+        "ref/netstandard1.1/es/System.Net.Http.xml",
+        "ref/netstandard1.1/fr/System.Net.Http.xml",
+        "ref/netstandard1.1/it/System.Net.Http.xml",
+        "ref/netstandard1.1/ja/System.Net.Http.xml",
+        "ref/netstandard1.1/ko/System.Net.Http.xml",
+        "ref/netstandard1.1/ru/System.Net.Http.xml",
+        "ref/netstandard1.1/zh-hans/System.Net.Http.xml",
+        "ref/netstandard1.1/zh-hant/System.Net.Http.xml",
         "ref/netstandard1.3/System.Net.Http.dll",
+        "ref/netstandard1.3/System.Net.Http.xml",
+        "ref/netstandard1.3/de/System.Net.Http.xml",
+        "ref/netstandard1.3/es/System.Net.Http.xml",
+        "ref/netstandard1.3/fr/System.Net.Http.xml",
+        "ref/netstandard1.3/it/System.Net.Http.xml",
+        "ref/netstandard1.3/ja/System.Net.Http.xml",
+        "ref/netstandard1.3/ko/System.Net.Http.xml",
+        "ref/netstandard1.3/ru/System.Net.Http.xml",
+        "ref/netstandard1.3/zh-hans/System.Net.Http.xml",
+        "ref/netstandard1.3/zh-hant/System.Net.Http.xml",
         "ref/portable-net45+win8+wpa81/_._",
         "ref/win8/_._",
         "ref/wpa81/_._",
@@ -8845,7 +8839,7 @@
         "runtimes/win/lib/net46/System.Net.Http.dll",
         "runtimes/win/lib/netcore50/System.Net.Http.dll",
         "runtimes/win/lib/netstandard1.3/System.Net.Http.dll",
-        "system.net.http.4.3.2.nupkg.sha512",
+        "system.net.http.4.3.0.nupkg.sha512",
         "system.net.http.nuspec"
       ]
     },
@@ -8968,6 +8962,88 @@
         "system.net.primitives.nuspec"
       ]
     },
+    "System.Net.Requests/4.3.0": {
+      "sha512": "OZNUuAs0kDXUzm7U5NZ1ojVta5YFZmgT2yxBqsQ7Eseq5Ahz88LInGRuNLJ/NP2F8W1q7tse1pKDthj3reF5QA==",
+      "type": "package",
+      "path": "system.net.requests/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/net46/_._",
+        "ref/netcore50/System.Net.Requests.dll",
+        "ref/netcore50/System.Net.Requests.xml",
+        "ref/netcore50/de/System.Net.Requests.xml",
+        "ref/netcore50/es/System.Net.Requests.xml",
+        "ref/netcore50/fr/System.Net.Requests.xml",
+        "ref/netcore50/it/System.Net.Requests.xml",
+        "ref/netcore50/ja/System.Net.Requests.xml",
+        "ref/netcore50/ko/System.Net.Requests.xml",
+        "ref/netcore50/ru/System.Net.Requests.xml",
+        "ref/netcore50/zh-hans/System.Net.Requests.xml",
+        "ref/netcore50/zh-hant/System.Net.Requests.xml",
+        "ref/netstandard1.0/System.Net.Requests.dll",
+        "ref/netstandard1.0/System.Net.Requests.xml",
+        "ref/netstandard1.0/de/System.Net.Requests.xml",
+        "ref/netstandard1.0/es/System.Net.Requests.xml",
+        "ref/netstandard1.0/fr/System.Net.Requests.xml",
+        "ref/netstandard1.0/it/System.Net.Requests.xml",
+        "ref/netstandard1.0/ja/System.Net.Requests.xml",
+        "ref/netstandard1.0/ko/System.Net.Requests.xml",
+        "ref/netstandard1.0/ru/System.Net.Requests.xml",
+        "ref/netstandard1.0/zh-hans/System.Net.Requests.xml",
+        "ref/netstandard1.0/zh-hant/System.Net.Requests.xml",
+        "ref/netstandard1.1/System.Net.Requests.dll",
+        "ref/netstandard1.1/System.Net.Requests.xml",
+        "ref/netstandard1.1/de/System.Net.Requests.xml",
+        "ref/netstandard1.1/es/System.Net.Requests.xml",
+        "ref/netstandard1.1/fr/System.Net.Requests.xml",
+        "ref/netstandard1.1/it/System.Net.Requests.xml",
+        "ref/netstandard1.1/ja/System.Net.Requests.xml",
+        "ref/netstandard1.1/ko/System.Net.Requests.xml",
+        "ref/netstandard1.1/ru/System.Net.Requests.xml",
+        "ref/netstandard1.1/zh-hans/System.Net.Requests.xml",
+        "ref/netstandard1.1/zh-hant/System.Net.Requests.xml",
+        "ref/netstandard1.3/System.Net.Requests.dll",
+        "ref/netstandard1.3/System.Net.Requests.xml",
+        "ref/netstandard1.3/de/System.Net.Requests.xml",
+        "ref/netstandard1.3/es/System.Net.Requests.xml",
+        "ref/netstandard1.3/fr/System.Net.Requests.xml",
+        "ref/netstandard1.3/it/System.Net.Requests.xml",
+        "ref/netstandard1.3/ja/System.Net.Requests.xml",
+        "ref/netstandard1.3/ko/System.Net.Requests.xml",
+        "ref/netstandard1.3/ru/System.Net.Requests.xml",
+        "ref/netstandard1.3/zh-hans/System.Net.Requests.xml",
+        "ref/netstandard1.3/zh-hant/System.Net.Requests.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/unix/lib/netstandard1.3/System.Net.Requests.dll",
+        "runtimes/win/lib/net46/_._",
+        "runtimes/win/lib/netstandard1.3/System.Net.Requests.dll",
+        "system.net.requests.4.3.0.nupkg.sha512",
+        "system.net.requests.nuspec"
+      ]
+    },
     "System.Net.Security/4.3.2": {
       "sha512": "xT2jbYpbBo3ha87rViHoTA6WdvqOAW37drmqyx/6LD8p7HEPT2qgdxoimRzWtPg8Jh4X5G9BV2seeTv4x6FYlA==",
       "type": "package",
@@ -9034,6 +9110,44 @@
         "ref/xamarinwatchos10/_._",
         "system.net.sockets.4.3.0.nupkg.sha512",
         "system.net.sockets.nuspec"
+      ]
+    },
+    "System.Net.WebHeaderCollection/4.3.0": {
+      "sha512": "XZrXYG3c7QV/GpWeoaRC02rM6LH2JJetfVYskf35wdC/w2fFDFMphec4gmVH2dkll6abtW14u9Rt96pxd9YH2A==",
+      "type": "package",
+      "path": "system.net.webheadercollection/4.3.0",
+      "files": [
+        ".nupkg.metadata",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/_._",
+        "lib/netstandard1.3/System.Net.WebHeaderCollection.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/_._",
+        "ref/netstandard1.3/System.Net.WebHeaderCollection.dll",
+        "ref/netstandard1.3/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/de/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/es/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/fr/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/it/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/ja/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/ko/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/ru/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/zh-hans/System.Net.WebHeaderCollection.xml",
+        "ref/netstandard1.3/zh-hant/System.Net.WebHeaderCollection.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.net.webheadercollection.4.3.0.nupkg.sha512",
+        "system.net.webheadercollection.nuspec"
       ]
     },
     "System.ObjectModel/4.3.0": {
@@ -11682,6 +11796,36 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "Telegram.Bot/14.10.0": {
+      "sha512": "n/D0emF/XpOrXofQ22lZTXuuRTXGWTRZ5Ktfco5RpB9OA7x++iQTTRWiY+FqO9iUL2Y1uwROtZl8omfLfNOyAw==",
+      "type": "package",
+      "path": "telegram.bot/14.10.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Telegram.Bot.dll",
+        "lib/net45/Telegram.Bot.xml",
+        "lib/netstandard1.1/Telegram.Bot.dll",
+        "lib/netstandard1.1/Telegram.Bot.xml",
+        "telegram.bot.14.10.0.nupkg.sha512",
+        "telegram.bot.nuspec"
+      ]
+    },
+    "Telegram.Bot.Framework/2.0.0-alpha5": {
+      "sha512": "D6oPBAieh9Y5Kn66jtmbFnvnc1Aw34zg0993uskICYfKRpGx7AZEMNGVLlAGjUDsJnGjizfCbUdQneCqikmjTQ==",
+      "type": "package",
+      "path": "telegram.bot.framework/2.0.0-alpha5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Telegram.Bot.Framework.dll",
+        "lib/net45/Telegram.Bot.Framework.xml",
+        "lib/netstandard1.3/Telegram.Bot.Framework.dll",
+        "lib/netstandard1.3/Telegram.Bot.Framework.xml",
+        "telegram.bot.framework.2.0.0-alpha5.nupkg.sha512",
+        "telegram.bot.framework.nuspec"
+      ]
+    },
     "Westwind.AspNetCore.Markdown/3.3.8": {
       "sha512": "4jV3IpJXsBp07vkqtxofkmc7jnFYLi5FBvICDxr0Vwq1SVPE1WAbXa03IYqqaOrMQEvrnzFOIOQGdATBl6aywg==",
       "type": "package",
@@ -11698,6 +11842,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "DocumentFormat.OpenXml >= 2.11.3",
       "Dotmim.Sync.Core >= 0.5.6",
       "EntityFramework >= 6.4.4",
       "MailKit >= 2.8.0",
@@ -11717,13 +11862,9 @@
       "SixLabors.ImageSharp >= 1.0.0-beta0007",
       "System.Drawing.Common >= 4.7.0",
       "System.Linq.Dynamic.Core >= 1.2.2",
+      "Telegram.Bot.Framework >= 2.0.0-alpha5",
       "Westwind.AspNetCore.Markdown >= 3.3.8",
-      "awesome-bootstrap-checkbox >= 0.3.4.1",
-      "jsreport.AspNetCore >= 2.1.0",
-      "jsreport.Binary >= 2.9.0",
-      "jsreport.Local >= 2.2.3",
-      "jsreport.MVC >= 2.1.1",
-      "jsreport.Shared >= 2.2.0"
+      "awesome-bootstrap-checkbox >= 0.3.4.1"
     ]
   },
   "packageFolders": {
@@ -11731,11 +11872,11 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
-      "projectName": "CateringPro",
-      "projectPath": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
+      "projectUniqueName": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringProEx.csproj",
+      "projectName": "CateringProEx",
+      "projectPath": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringProEx.csproj",
       "packagesPath": "C:\\Users\\yurik\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\obj\\",
       "projectStyle": "PackageReference",
@@ -11767,6 +11908,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "DocumentFormat.OpenXml": {
+            "target": "Package",
+            "version": "[2.11.3, )"
+          },
           "Dotmim.Sync.Core": {
             "target": "Package",
             "version": "[0.5.6, )"
@@ -11847,6 +11992,10 @@
             "target": "Package",
             "version": "[1.2.2, )"
           },
+          "Telegram.Bot.Framework": {
+            "target": "Package",
+            "version": "[2.0.0-alpha5, )"
+          },
           "Westwind.AspNetCore.Markdown": {
             "target": "Package",
             "version": "[3.3.8, )"
@@ -11854,26 +12003,6 @@
           "awesome-bootstrap-checkbox": {
             "target": "Package",
             "version": "[0.3.4.1, )"
-          },
-          "jsreport.AspNetCore": {
-            "target": "Package",
-            "version": "[2.1.0, )"
-          },
-          "jsreport.Binary": {
-            "target": "Package",
-            "version": "[2.9.0, )"
-          },
-          "jsreport.Local": {
-            "target": "Package",
-            "version": "[2.2.3, )"
-          },
-          "jsreport.MVC": {
-            "target": "Package",
-            "version": "[2.1.1, )"
-          },
-          "jsreport.Shared": {
-            "target": "Package",
-            "version": "[2.2.0, )"
           }
         },
         "imports": [
@@ -11894,20 +12023,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'jsreport.MVC 2.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
-      "libraryId": "jsreport.MVC",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    }
-  ]
+  }
 }

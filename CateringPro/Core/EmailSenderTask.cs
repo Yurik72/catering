@@ -34,7 +34,7 @@ namespace CateringPro.Core
         //private bool isRunning = false;
         public bool IsRunning { get; private set; }
 #if DEBUG
-        public string Schedule => "*/1 * * * *"; //every 5 minutes
+        public string Schedule => "*/20 * * * *"; //every 20 minutes
 #else
         public string Schedule => "*/10 * * * *"; //every 10 minutes
 #endif

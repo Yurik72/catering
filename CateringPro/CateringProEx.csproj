@@ -1,0 +1,365 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+  
+    <PackageId>CateringProEx</PackageId>
+  
+    <Authors>Marka</Authors>
+  
+    <Company>Marka</Company>
+  
+    <Product>Marka</Product>
+  
+    <Version>2.0.0</Version>
+  
+    <AssemblyName>CateringProEx</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn />
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Home\**" />
+    <Compile Remove="Views\OrdersTest\**" />
+    <Compile Remove="Views\Orders\**" />
+    <Compile Remove="Views\PizzaIngredients\**" />
+    <Compile Remove="Views\Pizzas\**" />
+    <Compile Remove="Views\Reviews\**" />
+    <Compile Remove="Views\Shared\Components\CarouselMenu\**" />
+    <Compile Remove="Views\Shared\Components\ShoppingCartSummary\**" />
+    <Compile Remove="Views\ShoppingCart\**" />
+    <Compile Remove="wwwroot\admin\**" />
+    <Content Remove="Views\OrdersTest\**" />
+    <Content Remove="Views\Orders\**" />
+    <Content Remove="Views\PizzaIngredients\**" />
+    <Content Remove="Views\Pizzas\**" />
+    <Content Remove="Views\Reviews\**" />
+    <Content Remove="Views\Shared\Components\CarouselMenu\**" />
+    <Content Remove="Views\Shared\Components\ShoppingCartSummary\**" />
+    <Content Remove="Views\ShoppingCart\**" />
+    <Content Remove="wwwroot\admin\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
+    <EmbeddedResource Remove="Views\OrdersTest\**" />
+    <EmbeddedResource Remove="Views\Orders\**" />
+    <EmbeddedResource Remove="Views\PizzaIngredients\**" />
+    <EmbeddedResource Remove="Views\Pizzas\**" />
+    <EmbeddedResource Remove="Views\Reviews\**" />
+    <EmbeddedResource Remove="Views\Shared\Components\CarouselMenu\**" />
+    <EmbeddedResource Remove="Views\Shared\Components\ShoppingCartSummary\**" />
+    <EmbeddedResource Remove="Views\ShoppingCart\**" />
+    <EmbeddedResource Remove="wwwroot\admin\**" />
+    <None Remove="Views\Home\**" />
+    <None Remove="Views\OrdersTest\**" />
+    <None Remove="Views\Orders\**" />
+    <None Remove="Views\PizzaIngredients\**" />
+    <None Remove="Views\Pizzas\**" />
+    <None Remove="Views\Reviews\**" />
+    <None Remove="Views\Shared\Components\CarouselMenu\**" />
+    <None Remove="Views\Shared\Components\ShoppingCartSummary\**" />
+    <None Remove="Views\ShoppingCart\**" />
+    <None Remove="wwwroot\admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Components\CarouselMenu.cs" />
+    <Compile Remove="Components\CategoryMenu.cs" />
+    <Compile Remove="Components\ShoppingCartSummary.cs" />
+    <Compile Remove="Controllers\AdminController.cs" />
+    <Compile Remove="Controllers\OrderDetailsController.cs" />
+    <Compile Remove="Controllers\OrderDetailsTestController.cs" />
+    <Compile Remove="Controllers\OrdersController.cs" />
+    <Compile Remove="Controllers\OrdersTestController.cs" />
+    <Compile Remove="Controllers\PizzaIngredientsController.cs" />
+    <Compile Remove="Controllers\PizzasController.cs" />
+    <Compile Remove="Controllers\ReviewsController.cs" />
+    <Compile Remove="Controllers\ShoppingCartController.cs" />
+    <Compile Remove="Core\ApplicationClaimsIdentityFactory.cs" />
+    <Compile Remove="Migrations\20200723150508_Complex_Category.cs" />
+    <Compile Remove="Migrations\20200723150508_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200723151152_Complex_Category.cs" />
+    <Compile Remove="Migrations\20200723151152_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200723151959_Complex_Category.cs" />
+    <Compile Remove="Migrations\20200723151959_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200723153752_Complex_Category.cs" />
+    <Compile Remove="Migrations\20200723153752_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200723153906_Complex_Category.cs" />
+    <Compile Remove="Migrations\20200723153906_Complex_Category.Designer.cs" />
+    <Compile Remove="Migrations\20200728134315_Finance.cs" />
+    <Compile Remove="Migrations\20200728134315_Finance.Designer.cs" />
+    <Compile Remove="Migrations\20200817045806_UserSubGroups.cs" />
+    <Compile Remove="Migrations\20200817045806_UserSubGroups.Designer.cs" />
+    <Compile Remove="Migrations\20200819115830_fkey_1.cs" />
+    <Compile Remove="Migrations\20200819115830_fkey_1.Designer.cs" />
+    <Compile Remove="Migrations\20200819120611_fkey_1.cs" />
+    <Compile Remove="Migrations\20200819120611_fkey_1.Designer.cs" />
+    <Compile Remove="Models\ComplexCategory.cs" />
+    <Compile Remove="Models\Order.cs" />
+    <Compile Remove="Models\OrderDetail.cs" />
+    <Compile Remove="Models\PizzaIngredients.cs" />
+    <Compile Remove="Models\Pizzas.cs" />
+    <Compile Remove="Models\Reviews.cs" />
+    <Compile Remove="Models\ShoppingCart.cs" />
+    <Compile Remove="Models\ShoppingCartItem.cs" />
+    <Compile Remove="Repositories\AdminRepository.cs" />
+    <Compile Remove="Repositories\IAdminRepository.cs" />
+    <Compile Remove="Repositories\IOrderRepository.cs" />
+    <Compile Remove="Repositories\IPizzaIngredientsRepository.cs" />
+    <Compile Remove="Repositories\IPizzaRepository.cs" />
+    <Compile Remove="Repositories\IReviewRepository.cs" />
+    <Compile Remove="Repositories\OrderRepository.cs" />
+    <Compile Remove="Repositories\PizzaIngredientsRepository.cs" />
+    <Compile Remove="Repositories\PizzaRepository.cs" />
+    <Compile Remove="Repositories\ReviewRepository.cs" />
+    <Compile Remove="ViewModels\SearchPizzasViewModel.cs" />
+    <Compile Remove="ViewModels\ShoppingCartViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Categories\Create.cshtml" />
+    <Content Remove="Views\Categories\Delete.cshtml" />
+    <Content Remove="Views\Categories\Details.cshtml" />
+    <Content Remove="Views\Categories\Edit.cshtml" />
+    <Content Remove="Views\IngredientCategories\Create.cshtml" />
+    <Content Remove="Views\IngredientCategories\Delete.cshtml" />
+    <Content Remove="Views\IngredientCategories\Details.cshtml" />
+    <Content Remove="Views\IngredientCategories\Edit.cshtml" />
+    <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
+    <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
+    <Content Remove="Views\Shared\PizzaSummary.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\CateringPro2 - Web Deploy.pubxml" />
+    <None Remove="SQL\UserFinancePeriodReport.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="awesome-bootstrap-checkbox" Version="0.3.4.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
+    <PackageReference Include="Dotmim.Sync.Core" Version="0.5.6" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="MailKit" Version="2.8.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.76" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.2" />
+    <PackageReference Include="Telegram.Bot.Framework" Version="2.0.0-alpha5" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.3.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="Logs\" />
+    <Folder Include="Temp\" />
+    <Folder Include="Reports\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="ViewComponents\" />
+    <Folder Include="Views\General\" />
+    <Folder Include="Views\OrderDetails\" />
+    <Folder Include="Views\Shared\Components\CategoryMenu\" />
+    <Folder Include="wwwroot\animation\js\" />
+    <Folder Include="wwwroot\usefull\" />
+  </ItemGroup>
+<ItemGroup>
+	<Content Include="SQL\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+</ItemGroup>
+<ItemGroup>
+  <Content Include="SQLUtils\GoLifeQuery.sql" />
+  <Content Include="StartLocal.ps1">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+<ItemGroup>
+  <None Include="wwwroot\animation\img\admin-icon.svg" />
+  <None Include="wwwroot\animation\img\arrow-down.svg" />
+  <None Include="wwwroot\animation\img\arrow-drp.svg" />
+  <None Include="wwwroot\animation\img\arrow-right.svg" />
+  <None Include="wwwroot\animation\img\back-report.svg" />
+  <None Include="wwwroot\animation\img\basket-icon.svg" />
+  <None Include="wwwroot\animation\img\before-dwn.svg" />
+  <None Include="wwwroot\animation\img\calculating-img.svg" />
+  <None Include="wwwroot\animation\img\calendar-icon.svg" />
+  <None Include="wwwroot\animation\img\cart-icon.svg" />
+  <None Include="wwwroot\animation\img\checked-checkbox.svg" />
+  <None Include="wwwroot\animation\img\close-article.svg" />
+  <None Include="wwwroot\animation\img\close-date.svg" />
+  <None Include="wwwroot\animation\img\close-main-modal.svg" />
+  <None Include="wwwroot\animation\img\close-modal.svg" />
+  <None Include="wwwroot\animation\img\day-menu-img.svg" />
+  <None Include="wwwroot\animation\img\delete-icon.svg" />
+  <None Include="wwwroot\animation\img\fb-footer-mob.svg" />
+  <None Include="wwwroot\animation\img\fb-footer-pc.svg" />
+  <None Include="wwwroot\animation\img\forecast-img.svg" />
+  <None Include="wwwroot\animation\img\good-eating.svg" />
+  <None Include="wwwroot\animation\img\green-plus.svg" />
+  <None Include="wwwroot\animation\img\hamburger-icon.svg" />
+  <None Include="wwwroot\animation\img\insta-footer-mob.svg" />
+  <None Include="wwwroot\animation\img\insta-footer-pc.svg" />
+  <None Include="wwwroot\animation\img\login-icon.svg" />
+  <None Include="wwwroot\animation\img\login.svg" />
+  <None Include="wwwroot\animation\img\logout-icon.svg" />
+  <None Include="wwwroot\animation\img\mail-footer-pc.svg" />
+  <None Include="wwwroot\animation\img\mail-icon-report.svg" />
+  <None Include="wwwroot\animation\img\main-page-bg-second.svg" />
+  <None Include="wwwroot\animation\img\mob-arrow-active.svg" />
+  <None Include="wwwroot\animation\img\pen-icon.svg" />
+  <None Include="wwwroot\animation\img\phone-footer-pc.svg" />
+  <None Include="wwwroot\animation\img\production-img.svg" />
+  <None Include="wwwroot\animation\img\profile-icon.svg" />
+  <None Include="wwwroot\animation\img\reg-icon.svg" />
+  <None Include="wwwroot\animation\img\register-btn.svg" />
+  <None Include="wwwroot\animation\img\roll-up.svg" />
+  <None Include="wwwroot\animation\img\search-icon.svg" />
+  <None Include="wwwroot\animation\img\sort-icon.svg" />
+  <None Include="wwwroot\animation\img\Union.svg" />
+  <None Include="wwwroot\animation\img\week-report.svg" />
+  <None Include="wwwroot\animation\img\white-plus.svg" />
+  <None Include="wwwroot\js\animation-bg-main-page.js" />
+  <None Include="wwwroot\css\bootstrap-grid.css.map" />
+  <None Include="wwwroot\css\bootstrap-grid.min.css.map" />
+  <None Include="wwwroot\css\bootstrap-reboot.css.map" />
+  <None Include="wwwroot\css\bootstrap-reboot.min.css.map" />
+  <None Include="wwwroot\css\bootstrap.css.map" />
+  <None Include="wwwroot\css\bootstrap.min.css.map" />
+  <None Include="wwwroot\img\admin-icon.svg" />
+  <None Include="wwwroot\img\arrow-down.svg" />
+  <None Include="wwwroot\img\arrow-drp.svg" />
+  <None Include="wwwroot\img\arrow-right.svg" />
+  <None Include="wwwroot\img\back-report.svg" />
+  <None Include="wwwroot\img\basket-icon.svg" />
+  <None Include="wwwroot\img\before-dwn.svg" />
+  <None Include="wwwroot\img\calculating-img.svg" />
+  <None Include="wwwroot\img\calendar-icon.svg" />
+  <None Include="wwwroot\img\checked-checkbox.svg" />
+  <None Include="wwwroot\img\close-article.svg" />
+  <None Include="wwwroot\img\close-date.svg" />
+  <None Include="wwwroot\img\close-main-modal.svg" />
+  <None Include="wwwroot\img\close-modal.svg" />
+  <None Include="wwwroot\img\day-menu-img.svg" />
+  <None Include="wwwroot\img\delete-icon.svg" />
+  <None Include="wwwroot\img\fb-footer-mob.svg" />
+  <None Include="wwwroot\img\fb-footer-pc.svg" />
+  <None Include="wwwroot\img\forecast-img.svg" />
+  <None Include="wwwroot\img\good-eating.svg" />
+  <None Include="wwwroot\img\green-plus.svg" />
+  <None Include="wwwroot\img\hamburger-icon.svg" />
+  <None Include="wwwroot\img\insta-footer-mob.svg" />
+  <None Include="wwwroot\img\insta-footer-pc.svg" />
+  <None Include="wwwroot\img\login-icon.svg" />
+  <None Include="wwwroot\img\login.svg" />
+  <None Include="wwwroot\img\logout-icon.svg" />
+  <None Include="wwwroot\img\mail-footer-pc.svg" />
+  <None Include="wwwroot\img\mail-icon-report.svg" />
+  <None Include="wwwroot\img\main-page-bg-second.svg" />
+  <None Include="wwwroot\img\mob-arrow-active.svg" />
+  <None Include="wwwroot\img\pen-icon.svg" />
+  <None Include="wwwroot\img\phone-footer-pc.svg" />
+  <None Include="wwwroot\img\production-img.svg" />
+  <None Include="wwwroot\img\profile-icon.svg" />
+  <None Include="wwwroot\img\reg-icon.svg" />
+  <None Include="wwwroot\img\register-btn.svg" />
+  <None Include="wwwroot\img\roll-up.svg" />
+  <None Include="wwwroot\img\search-icon.svg" />
+  <None Include="wwwroot\img\sort-icon.svg" />
+  <None Include="wwwroot\img\Union.svg" />
+  <None Include="wwwroot\img\week-report.svg" />
+  <None Include="wwwroot\img\white-plus.svg" />
+  <None Include="wwwroot\js\bootstrap-grid.css.map" />
+  <None Include="wwwroot\js\bootstrap-grid.min.css.map" />
+  <None Include="wwwroot\js\bootstrap-input-spinner.js" />
+  <None Include="wwwroot\js\bootstrap-multiselect.js" />
+  <None Include="wwwroot\js\bootstrap-reboot.css.map" />
+  <None Include="wwwroot\js\bootstrap-reboot.min.css.map" />
+  <None Include="wwwroot\js\bootstrap-select.min.js.js" />
+  <None Include="wwwroot\js\bootstrap.bundle.js" />
+  <None Include="wwwroot\js\bootstrap.bundle.js.map" />
+  <None Include="wwwroot\js\bootstrap.bundle.min.js" />
+  <None Include="wwwroot\js\bootstrap.bundle.min.js.map" />
+  <None Include="wwwroot\js\bootstrap.css.map" />
+  <None Include="wwwroot\js\bootstrap.js" />
+  <None Include="wwwroot\js\bootstrap.js.map" />
+  <None Include="wwwroot\js\bootstrap.min.css.map" />
+  <None Include="wwwroot\js\bootstrap.min.js" />
+  <None Include="wwwroot\js\bootstrap.min.js.map" />
+  <None Include="wwwroot\js\carousel.js" />
+  <None Include="wwwroot\js\dishdayedit.js" />
+  <None Include="wwwroot\js\holder.min.js" />
+  <None Include="wwwroot\js\index-week.js" />
+  <None Include="wwwroot\js\index.js" />
+  <None Include="wwwroot\js\jquery-3.2.1.slim.min.js" />
+  <None Include="wwwroot\js\jquery-cron-min.js" />
+  <None Include="wwwroot\js\jquery-cron.js" />
+  <None Include="wwwroot\js\jquery-gentleSelect-min.js" />
+  <None Include="wwwroot\js\jquery-gentleSelect.js" />
+  <None Include="wwwroot\js\jquery-ui.js" />
+  <None Include="wwwroot\js\jquery.bootstrap-duallistbox.js" />
+  <None Include="wwwroot\js\jquery.min.js" />
+  <None Include="wwwroot\js\jstree.js" />
+  <None Include="wwwroot\js\jstree.min.js" />
+  <None Include="wwwroot\js\nfc.js" />
+  <None Include="wwwroot\js\nfcserial.js" />
+  <None Include="wwwroot\js\nfcsocket.js" />
+  <None Include="wwwroot\js\nfcutil.js" />
+  <None Include="wwwroot\js\popper.min.js" />
+  <None Include="wwwroot\js\resources.js" />
+  <None Include="wwwroot\js\Reviews.js" />
+  <None Include="wwwroot\js\service.js" />
+  <None Include="wwwroot\js\site.js" />
+  <None Include="wwwroot\js\util.js" />
+</ItemGroup>
+<ItemGroup>
+  <Content Update="SQL\cateringpro.bak">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+  <Content Update="SQL\import dishes._sql">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+  <Content Update="SQL\importingredients._sql">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+  <Content Update="SQL\OutStockTest._sql">
+    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+<ItemGroup>
+  <None Update="Templates\OrderFinDetails.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\OrderPeriodDetailReport.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\UserBalanceReport.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Update="Templates\UserFinDetails.xlsx">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+</Project>

@@ -5,10 +5,10 @@
   },
   "projects": {
     "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj": {
-      "version": "1.0.0",
+      "version": "2.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
-        "projectName": "CateringPro",
+        "projectName": "CateringProEx",
         "projectPath": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\CateringPro.csproj",
         "packagesPath": "C:\\Users\\yurik\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\yurik\\Source\\Repos\\catering\\CateringPro\\obj\\",
@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[2.11.3, )"
+            },
             "Dotmim.Sync.Core": {
               "target": "Package",
               "version": "[0.5.6, )"
@@ -121,6 +125,10 @@
               "target": "Package",
               "version": "[1.2.2, )"
             },
+            "Telegram.Bot.Framework": {
+              "target": "Package",
+              "version": "[2.0.0-alpha5, )"
+            },
             "Westwind.AspNetCore.Markdown": {
               "target": "Package",
               "version": "[3.3.8, )"
@@ -128,26 +136,6 @@
             "awesome-bootstrap-checkbox": {
               "target": "Package",
               "version": "[0.3.4.1, )"
-            },
-            "jsreport.AspNetCore": {
-              "target": "Package",
-              "version": "[2.1.0, )"
-            },
-            "jsreport.Binary": {
-              "target": "Package",
-              "version": "[2.9.0, )"
-            },
-            "jsreport.Local": {
-              "target": "Package",
-              "version": "[2.2.3, )"
-            },
-            "jsreport.MVC": {
-              "target": "Package",
-              "version": "[2.1.1, )"
-            },
-            "jsreport.Shared": {
-              "target": "Package",
-              "version": "[2.2.0, )"
             }
           },
           "imports": [

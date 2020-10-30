@@ -112,6 +112,8 @@ namespace CateringPro.Models
 
         public bool IsDeactivated { get ; set; }
 
+        public long TelegramId { get; set; }
+
         [NotMapped]
         public ICollection<CompanyUser> UserChilds;
     }

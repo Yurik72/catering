@@ -14,9 +14,9 @@ using CateringPro.Core;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.Extensions.Hosting;
-using jsreport.AspNetCore;
-using jsreport.Local;
-using jsreport.Binary;
+//using jsreport.AspNetCore;
+//using jsreport.Local;
+//using jsreport.Binary;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using System.Collections.Generic;
@@ -26,6 +26,7 @@ using System.Text.Unicode;
 using CateringPro.Helpers;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http.Features;
+using CateringPro.TelegramBot;
 
 namespace CateringPro
 {
@@ -145,13 +146,13 @@ namespace CateringPro
                 .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (t, f) => f.Create(typeof(SharedResources)));
 
-            services.AddJsReport(new LocalReporting()
-                .Configure(cfg=>
-                {
-                    cfg.HttpPort = 14740;
-                    return cfg;
-                })
-                .UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
+        //    services.AddJsReport(new LocalReporting()
+        //        .Configure(cfg=>
+         //       {
+        //            cfg.HttpPort = 14750;
+         //          return cfg;
+         //       })
+         //       .UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -216,6 +217,16 @@ namespace CateringPro
             //  services.AddSingleton<HtmlEncoder>(
             //         HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
             //          UnicodeRanges.CyrillicSupplement }));
+
+            //TelegramBot
+            services.AddTelegramBot(Configuration.GetSection("TelegramBot"));
+
+            // Add configuration
+            services.AddSingleton(
+                Configuration.GetSection("TelegramBot").Get<TelegramBotConfiguration>()
+            );
+
+            services.AddTelegramBotOperationServices();
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -294,6 +305,9 @@ namespace CateringPro
                 endpoints.MapControllers();
             });
 
+
+            //telegrambot
+            app.ConfigureTelegramBot(env);
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
