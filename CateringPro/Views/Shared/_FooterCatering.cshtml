@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CompanyUser> SignInManager
+@inject CateringPro.Repositories.ICompanyUserRepository cu_repo
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <a class="navbar-brand" href="#">Catering.</a>
+                    <p>Зручне он-лайн замовлення, різноманітні зручні звіти, можливісь контролювати та змінювати замовлення.</p>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Навігація</h5>
+                    <ul>
+                        <li><a href="">Як це працює?</a></li>
+                        <li><a href="">Чому вигідно</a></li>
+                        <li><a href="">Меню</a></li>
+                        <li><a href="">Новинки</a></li>
+                        <li><a href="">Відгуки</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Контакти</h5>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Інформація</h5>
+                </div>
+            </div>
+        </div>
+    </footer>

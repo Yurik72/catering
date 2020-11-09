@@ -113,10 +113,10 @@ namespace CateringPro.Core
         */
         public override void WriteLiteral(string  value)
         {
-             var  html = REGEX_TAGS.Replace(value, "> <");
-              html = REGEX_ALL.Replace(html, " ");
-             base.WriteLiteral(html);
-           // base.WriteLiteral(value);
+           //  var  html = REGEX_TAGS.Replace(value, "> <");
+          //    html = REGEX_ALL.Replace(html, " ");
+           //  base.WriteLiteral(html);
+            base.WriteLiteral(value);
         }
         /*
         public override void WriteLiteral(object value)
