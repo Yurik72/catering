@@ -19,7 +19,9 @@ a {
 	color: #46485B;
 	font-family: 'Montserrat', sans-serif;
 }
+a.active{color: #81AA37;}
 .form-color{color: #CBD1D3;}
+.color-grey{color: #B0B0B0;}
 .wrap-col-line-data p{font-family: 'Montserrat', sans-serif;}
 h1,h2,h3{font-family: 'Montserrat', sans-serif;}
 h1 {font-size: 35px;}
@@ -38,6 +40,10 @@ ul {padding: 0;}
 	padding: 12px 40px;
 	border-radius: 100px;
 	border: solid 1px #A5C601;
+	display: block;
+}
+.wrap-but-two .but-line{
+
 }
 .button-basic:hover{color: #fff;}
 .pr8 {padding-right: 8px;}
@@ -45,13 +51,18 @@ ul {padding: 0;}
 .pb20 {padding-bottom: 20px;}
 .pt20 {padding-top: 20px;}
 .pt30 {padding-top: 30px;}
+.pb30 {padding-bottom: 30px;}
 .pt50 {padding-top: 50px;}
 .pb50 {padding-bottom: 50px;}
 .mr10 {margin-right: 10px;}
+.mt10 {margin-top: 10px;}
+.mb10 {margin-bottom: 10px;}
 .pt70 {padding-top: 70px;}
+.pb70 {padding-bottom: 70px;}
 .line-data {
 	padding: 70px 0;
 }
+
 /*
 head
 */
@@ -65,6 +76,13 @@ head
 	font-family: 'Montserrat', sans-serif;
 	font-weight: bold;
 	font-size: 27px;
+}
+.navbar-collapse {
+	-ms-flex-preferred-size: inherit;
+	flex-basis: inherit;
+}
+#list-sort .dropdown-menu {
+	position: absolute;
 }
 .button-basic a{
 	color: #fff;
@@ -222,9 +240,13 @@ background-repeat: no-repeat;
 .but-line-data{
 	border: solid 3px #A5C601;
 	text-align: center;
+	min-width: 155px;
 	text-transform: uppercase;
 	border-radius: 100px;
 	padding: 10px 0;
+}
+.wrap-col-line-data {
+	margin: 0 0 30px 0;
 }
 .nav-item {
 	cursor: pointer;
@@ -257,10 +279,26 @@ display: inline-block;
 width: 100px;
 margin-right: 20px;
 }
+.line-content {
+	min-height: 572px;
+}
+.line-head {
+	position: relative;
+}
+.line-price {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
 .circle-line:hover{
 	background-color: #A5C601;
 	border: solid 1px #E8E8E8;
 	cursor: pointer;
+}
+.line-content img{
+	width: 360px;
+	height: 231px;
+	max-width: 100%;
 }
 .line-but-cart .button-basic{
 	font-size: 18px;
@@ -275,6 +313,9 @@ margin-right: 20px;
   padding: 8px 3px 3px 3px;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+#line-data .nav {
+	padding-left: 15px;
 }
 /*
 https://itchief.ru/examples/lab.php?topic=html-and-css&file=styling-checkbox-and-radio-1
@@ -363,6 +404,10 @@ border-radius: 100px;
 #line-sklad .modal-dialog {
 	max-width: 300px;
 }
+.week-line-bot {
+	border-bottom: solid 1px #CBD1D3;
+}
+
 /*
 drop-list
 */
@@ -385,7 +430,7 @@ vertical-align: 2px;
 	padding: .25rem 1rem;
 }
 
-#line-zvitLabel .modal-dialog {
+#line-zvit .modal-dialog {
 	max-width: 900px;
 }
 
@@ -445,7 +490,7 @@ footer
 	color: #fff;
 }
 footer .navbar-brand, footer a {color: #fff;}
-footer h5 {padding-bottom: 30px;}
+footer h5 {padding: 20px 0 20px 0;}
 footer .navbar-brand {padding-bottom: 25px;}
 footer p{margin-bottom: 8px;}
 .soc-bg {
@@ -459,9 +504,18 @@ footer p{margin-bottom: 8px;}
 
 footer i{font-size: 18px;line-height: 40px !important;}
 
+@media (max-width: 768px) {
 
+	}
 
-
+	@media (max-width: 500px) {
+		.offer-bg {
+			padding: 20% 10%;
+	}
+	.offer-img-slide-1 {
+    padding: 81px 0;
+}
+		}
 
 
 

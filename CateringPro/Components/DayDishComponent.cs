@@ -18,13 +18,13 @@ namespace CateringPro.ViewComponents
             _daydishrepo = daydishrepo;
         }
         
-        public async Task<IViewComponentResult> InvokeAsync(DateTime daydate)
+        public async Task<IViewComponentResult> InvokeAsync(DayMenu dayMenu)
         {
 
           //  daydate = DateTime.Now;
 
             //return View(_daydishrepo.DishesPerDay(daydate).ToList());
-            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.CategorizedDishesPerDay(daydate,this.User.GetCompanyID())));
+            return await Task.FromResult((IViewComponentResult)View("Default", _daydishrepo.CategorizedDishesPerDay(dayMenu.Date, this.User.GetCompanyID())));
         }
     }
 }

@@ -178,7 +178,14 @@ namespace CateringPro.Controllers
         }
         public IActionResult EditDayContent(DateTime daydate, int dishKind)
         {
-            var dayMenu = new DayMenu() { Date = daydate, DishKind = dishKind };
+            var dayMenu = new DayMenu() { 
+                Date = daydate, 
+                DishKind = dishKind,
+                ShowComplex = (_dayDishesRepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex)) > 0,
+                //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
+                ShowDishes = (_dayDishesRepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes) > 0
+
+            };
             return PartialView(dayMenu);
         }
         // GET: DayDishes/Create

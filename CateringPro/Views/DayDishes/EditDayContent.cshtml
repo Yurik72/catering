@@ -13,13 +13,19 @@
     // Get the DateTimeFormatInfo for the en-US culture.
     DateTimeFormatInfo dtfi = ci.DateTimeFormat;
 }
+@if (Model.ShowComplex)
+{
+    <div class="row">
+        @await Component.InvokeAsync("DayComplexComponent", Model)
+    </div>
+}
+@if (Model.ShowDishes)
+{
 
-        <div class="row">
-            @await Component.InvokeAsync("DayComplexComponent", Model)
-        </div>
-        @*<div class="row">
+    <div class="row">
             @await Component.InvokeAsync("DayDishComponent", Model)
-        </div>*@
+    </div>
+}
 
 
- 
+

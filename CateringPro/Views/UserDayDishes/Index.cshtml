@@ -23,508 +23,264 @@
 @if (Layout == "_LayoutCatering")
 {
 
-    <div class="container line-data" id="line-data">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Замовити меню на день</h1>
-            </div>
-            <div class="col-lg-12 wrap-but-two pt50 pb50 row">
-                <div class="col-lg-9 col-md-9 col-xl-9">
-                    <div id="drop-list">
-                        <div class="navbar navbar-expand-lg ">
-
-                            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                                <ul class="navbar-nav ">
-                                    <li class="nav-item dropdown">
-                                        <a class="dropdown-toggle but-line" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Обрати меню
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Standard</a>
-                                            <a class="dropdown-item" href="#">Different</a>
-                                        </div>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-xl-3">
-                    <a class="but-line upper" data-toggle="modal" data-target="#line-zvit" href="#">Тижневий звіт</a>
-                    <div class="modal fade" id="line-zvit" tabindex="-1" role="dialog" aria-labelledby="line-zvitLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="line-zvitLabel">Тижневий звіт</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="wrap-week">
-                                        <div class="row">
-                                            <div class="col-12 d-flex">
-                                                <div class="col-2">
-                                                    <span>Код</span>
-                                                </div>
-                                                <div class="col-4">
-                                                    <span>Назва</span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <span>Кількість</span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <span>Вартiсть (₴)</span>
-                                                </div>
-                                                <div class="col-2">
-                                                    <span>Сума (₴)</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="container line-data" id="line-data">
+    <div class="wrap=head-menu">
+        <div class="col-lg-12">
+            <h1>Замовити меню на день</h1>
         </div>
+        <div class="col-lg-12 wrap-but-two pt50 pb50 d-flex justify-content-between flex-wrap">
+            <div class=" ">
+                <div id="drop-list">
+                    <div class="navbar navbar-expand-lg ">
 
-        <div class="line-data-tab">
-            <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
-            <div class="nav" id="nav-tab" role="tablist">
-                <div class="col-lg-1 d-flex justify-content-center align-items-end">
-                    <a href=""><span class="arr-line-left"></span></a>
+                        <div id="list-sort">
+                            <ul class="navbar-nav ">
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-toggle but-line  mt10 mb10" href="#" id="list-sort-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Обрати меню
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="list-sort-dropdown">
+                                        <a class="dropdown-item" href="#">Standard</a>
+                                        <a class="dropdown-item" href="#">Different</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-
-                @{
-                    DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
-
-                }
-                @for (int i = 0; i < 7; i++)
-                {
-                    var active_class = "";
-                    if (i == 0)
-                    {
-                        active_class = "active";
-                    }
-
-                    <div class="col-lg-2 @active_class"  data-toggle="tab" href="#nav-content-@i"  role="tab" aria-controls="nav-tab-@i" aria-selected="true"  id="nav-tab-@i"  data-dayindex="@i" >
-                        <a class=" nav-item ">
-                            <div class="wrap-col-line-data">
-                                <div class="number-line-data">
-                                    <p>@(current_head.Day)</p>
-                                    <p>@(current_head.ToString("MMM"))</p>
-                                    <div class="arrow-line-data"></div>
-                                </div>
-                                <div class="but-line-data"><p>@(current_head.ToString("dddd"))</p></div>
+            </div>
+            <div class="">
+                <a class="but-line upper  mt10 mb10" data-toggle="modal" data-target="#line-zvit" href="#">Тижневий звіт</a>
+                <div class="modal fade" id="line-zvit" tabindex="-1" role="dialog" aria-labelledby="line-zvitLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="line-zvitLabel">Тижневий звіт</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </a>
-                    </div>
-                    current_head = current_head.AddDays(1);
-                }
-                @*
-            <div class="col-lg-2 active" id="one-tab" data-toggle="tab" href="#one-cont" role="tab" aria-controls="one-cont" aria-selected="true">
-                <a class=" nav-item ">
-                    <div class="wrap-col-line-data">
-                        <div class="number-line-data">
-                            <p>27</p>
-                            <p>Грудня</p>
-                            <div class="arrow-line-data"></div>
-                        </div>
-                        <div class="but-line-data"><p>Понеділок</p></div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-2 " id="two-tab" data-toggle="tab" href="#two-cont" role="tab" aria-controls="two-cont" aria-selected="false">
-                <a class="nav-item ">
-                    <div class="wrap-col-line-data">
-                        <div class=" number-line-data">
-                            <p>28</p>
-                            <p>Грудня</p>
-                            <div class=" arrow-line-data"></div>
-                        </div>
-                        <div class=" but-line-data"><p>Вівторок</p></div>
-                    </div>
-                </a>
-            </div>
-                *@
-                <div class="col-lg-1 d-flex justify-content-center align-items-end">
-                    <a href=""><span class="arr-line-right"></span></a>
-                </div>
-            </div>
-            <div class="stic pt30">
-                <div class="row">
-
-                    <div class="circle-line">
-
-                    </div>
-                    <div class="circle-line">
-
-                    </div>
-                    <div class="circle-line">
-
-                    </div>
-                    <div class="circle-line">
-
-                    </div>
-
-                </div>
-            </div>
-            <div class="tab-content" id="pills-tabContent">
-                @{
-                    DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
-                }
-                @for (int i = 0; i < 7; i++)
-                {
-
-                        <div class="tab-pane nav-day @(i == (int)daydate.DayOfWeek ? "  active" : "")" data-i="@i" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
-                            <div class="row">
-
-                                @*
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                            <div class="modal-body">
+                                <div class="wrap-week">
+                                    <div class="row">
+                                        <div class="col-lg-12 pb50 d-flex justify-content-between">
+                                            <div class="col-lg-6 ">
+                                                <div class=" d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Рахунок</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>3243242</span>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="wrap-line-sklad">
-                                                        <ul>
-                                                            <li>Чай чорний</li>
-                                                            <li>Яблуко</li>
-                                                            <li>Апельсин</li>
-                                                            <li>Грейпфрут</li>
-                                                            <li>Картопля</li>
-                                                            <li>Філе хека</li>
-                                                            <li>Телятина</li>
-                                                        </ul>
+                                                <div class=" d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Дитина</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>3243242</span>
+                                                    </div>
+                                                </div>
+                                                <div class=" d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Країна</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>3243242</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Вулиця</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>tyrytryrht</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                            <div class="col-lg-6">
+                                                <div class=" d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Рахунок</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>3243242</span>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    1
+                                                <div class="d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Дитина</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>dgdfgdfgdg</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class="input-line-cart d-flex justify-content-between">
-                                        <a href=""><i class="fas fa-minus"></i></a>
-                                        <input type="text" class="input-line" name="number" placeholder="1">
-                                        <a href=""><i class="fas fa-plus"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                                <div class=" d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Країна</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>dgdgertert</span>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    1
+                                                <div class=" d-flex justify-content-between week-line-bot p-0">
+                                                    <div class=" mt10 mb10 p-0">
+                                                        <span class="color-grey">Вулиця</span>
+                                                    </div>
+                                                    <div class=" mt10 mb10">
+                                                        <span>dfgfd gfdfgdg gfdfd</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    1
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    1
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
-                                </div>
-                            </div>
-                        </div>
 
-                                *@
-                            </div>
-                        </div>
-                        current_content.AddDays(1);
-                        }
-                        <div class="tab-pane" id="two-cont" role="tabpanel" aria-labelledby="two-tab">
-                            @*
-                    <div class="row">
-
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    1
-                                                </div>
+                                        </div>
+                                        <div class="col-12 week-line-bot pb20 d-flex">
+                                            <div class="col-2">
+                                                <span>Код</span>
+                                            </div>
+                                            <div class="col-3 ">
+                                                <span>Назва</span>
+                                            </div>
+                                            <div class="col-2 ">
+                                                <span>Шт.</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span>Вартiсть (₴)</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <span>Сума (₴)</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    1
-                                                </div>
+                                        <div class="col-12 week-line-bot d-flex pb20 pt20">
+                                            <div class="col-2">
+                                                <span>32</span>
+                                            </div>
+                                            <div class="col-4">
+                                                <span>Назва</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <span>24</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <span>0,00</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <span>0,00</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="line-content pt30">
-                                <img src="img/line-data-test-foto-1.jpg" alt="">
-                                <div class="line-stic pt30 d-flex">
-                                    <p>Перше</p>
-                                    <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
-                                    <div class="modal fade" id="line-sklad" tabindex="-1" role="dialog" aria-labelledby="line-skladLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="line-skladLabel">Склад</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    1
-                                                </div>
-                                            </div>
+                                        <div class="pt70 pb70 mx-auto">
+                                            <a class=" button-basic" href="#">Надіслати на пошту</a>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="line-head d-flex">
-                                    <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                                    <label for="line-color"></label>
-                                    <h5>Капрійська закуска</h5>
-                                </div>
-                                <p>Вже давно відомо, що читабельний зміст буде заважати зосередитись людині, яка оцінює композицію сторінки. Сенс використання Lorem Ipsum полягає в тому, що цей текст має більш-менш нормальне оцінює композицію сторінки.</p>
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <div class=""><span>90</span><i class="fas fa-hryvnia"></i></div>
-                                    <div class=""><a class=" button-basic" href="#">Замовити</a></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                            *@
-                        </div>
                 </div>
-                </div>
-        <div class="d-flex justify-content-center pt70 line-but-cart">
-            <a class=" button-basic" href="#">Замовити</a>
+            </div>
         </div>
     </div>
 
+    <div class="line-data-tab">
+        <input type="hidden" asp-for="@ms_since1970" id="currentdate" />
+        <div class="col-lg-12 col-md-12  nav d-flex justify-content-between" id="nav-tab" role="tablist">
+
+            @{
+                DateTime current_head = daydate.StartOfWeek(DayOfWeek.Monday);
+
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+                var active_class = "";
+                if (i == 0)
+                {
+                    active_class = "active";
                 }
-@if (Layout == "_LayoutCabachok")
-{
-    <div class="container-xl container container-md container-sm container-lg">
-        <div class="col-12 align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
-            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column">
-                <p class="h2 h2-mob pr-3" style="font-weight: 600;">
-                    @Localizer["OrderTitle"]
-                </p>
+
+                <div class="@active_class" data-toggle="tab" href="#nav-content-@i" role="tab" aria-controls="nav-tab-@i" aria-selected="true" id="nav-tab-@i" data-dayindex="@i">
+                    <a class=" nav-item ">
+                        <div class="wrap-col-line-data">
+                            <div class="number-line-data">
+                                <p class="month_day">@(current_head.Day)</p>
+                                <p class="month_name">@(current_head.ToString("MMM"))</p>
+                                <div class="arrow-line-data"></div>
+                            </div>
+                            <div class="but-line-data"><p class="week_dayname">@(current_head.ToString("dddd"))</p></div>
+                        </div>
+                    </a>
+                </div>
+
+                current_head = current_head.AddDays(1);
+            }
+
+
+        </div>
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-center">
+                <a href=""  class="dayselectback"><span class="arr-line-left mr10"></span></a>
+                <a href="" class="dayselectforward"><span class="arr-line-right"></span></a>
+            </div>
+        </div>
+        <div class="tab-content" id="pills-tabContent">
+            @{
+                DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+                @*/*(int)daydate.DayOfWeek ?*/*@
+                <div class="tab-pane nav-day @(i == 0?"  active" : "")" data-i="@i" id="nav-content-@i" role="tabpanel" data-dayindex="@i" aria-labelledby="nav-tab-@i">
+
+
+
+
+                </div>
+                current_content.AddDays(1);
+            }
+            <div class="tab-pane" id="two-cont" role="tabpanel" aria-labelledby="two-tab">
+
 
             </div>
-            <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column-reverse mt-3">
-                <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
-                    <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
-                    <div class="select-dishesKind">
-                        <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-start mt-2"
-                             id="type-menu-food">
-                            @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
-                                    Стандартне
-                                </button>
-                                <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
-                                <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
-                                <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>*@
-                            @foreach (var it in ViewBag.DishKindId)
+        </div>
+    </div>
+
+</div>
+
+                        }
+        @if (Layout == "_LayoutCabachok")
+        {
+            <div class="container-xl container container-md container-sm container-lg">
+                <div class="col-12 align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
+                    <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column">
+                        <p class="h2 h2-mob pr-3" style="font-weight: 600;">
+                            @Localizer["OrderTitle"]
+                        </p>
+
+                    </div>
+                    <div class="col-12 align-content-center mr-md-auto px-0 d-flex justify-content-between flex-md-row flex-lg-row flex-column-reverse mt-3">
+                        <div class="col-lg-9 col-md-9 col-12 d-flex flex-column p-0 mt-2">
+                            <span class="change-color-grey change-weight" style="font-size: 16px">Обрати меню:</span>
+                            <div class="select-dishesKind">
+                                <div class="col-xl-8 col-lg-9 col-md-10 d-none d-lg-flex d-md-flex p-0 justify-content-start mt-2"
+                                     id="type-menu-food">
+                                    @*<button class="btn btn-for-type-menu btn-for-type-menu--active" type="button">
+                                            Стандартне
+                                        </button>
+                                        <button class="btn btn-for-type-menu" type="button">Безлактозне</button>
+                                        <button class="btn btn-for-type-menu" type="button">Безглютенове</button>
+                                        <button class="btn btn-for-type-menu" type="button">Овочево-рибне</button>*@
+                @foreach (var it in ViewBag.DishKindId)
                             {
                                 if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
                                 {
-                                    <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button" value="@it.Value">
-                                        @it.Text
-                                    </button>
+                <button class="btn btn-for-type-menu btn-for-type-menu--active" type="button" value="@it.Value">
+                    @it.Text
+                </button>
                                     continue;
                                 }
-                                <button class="btn btn-for-type-menu" type="button" value="@it.Value">@it.Text</button>
+                <button class="btn btn-for-type-menu" type="button" value="@it.Value">@it.Text</button>
                             }
-                        </div>
+            </div>
 
 
                         <select class="custom-select sources type-of-food"
@@ -833,31 +589,7 @@
 
                                                     </div>
                                                 </div>
-                                                @*
-                                                    <div id="modPayment" class="modal" tabindex="-1" role="dialog">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Сплата LiqPay</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <form method="POST" class="payment-form" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
-                                                                    <input type="hidden" name="data" value="eyJwdWJsaWNfa2V5IjoiaTAwMDAwMDAwIiwidmVyc2lvbiI6IjMiLCJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIzIiwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6InRlc3QiLCJvcmRlcl9pZCI6IjAwMDAwMSJ9" />
-                                                                    <input type="hidden" name="signature" value="wR+UZDC4jjeL/qUOvIsofIWpZh8=" />
-                                                                    <label for="numorder" class="control-label">Code</label>
-                                                                    <input type="text" name="amount" id="numorder" class="form-control" />
-                                                                    <p />
-                                                                    <label for="amount" class="control-label">Сума ₴</label>
-                                                                    <input type="number" name="amount" id="amount" class="form-control" />
-                                                                    <p />
-                                                                    <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" />
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                *@
+
                                             }
  
 @section Scripts {
@@ -892,7 +624,9 @@
                     );
                 var daytabtext = dateToshortString(dt);
                // daytabtext = ""+dt.getDate();
+                var daydate = dt.getDate();
                 $('#nav-tab-' + dayindex).find('.shorttabdate').text(daytabtext);
+                $('#nav-tab-' + dayindex).find('.month_day').text(daydate);
                 daytabtext = "" + dt.getDate();
                 $('#nav-tab-' + dayindex).find('.date-day').text(daytabtext);
 
@@ -1018,7 +752,10 @@
                         dishKindVal = 0;
                     }
                     dishKind.empty();
-
+                    if (dishKind.length == 0) {
+                        setupDishKinds();
+                        reloadDay(index, cb);
+                    }
                     //dt.setDate(dt.getDate() - dt.getDay() + 1);
                     console.log("day" + dt);
                     dishKind.load('/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKindVal.toString()),
@@ -1440,6 +1177,18 @@
 
             });
             function setupDishKinds() {
+                $('#dishKind').val($('.btn-for-type-menu--active').val());
+                $('.btn-for-type-menu').click(function (e) {
+                    e.preventDefault();
+                    $('.btn-for-type-menu').each(function (idx,el) {
+                        $(el).removeClass('btn-for-type-menu--active');
+
+                    });
+                    $(this).addClass('.btn-for-type-menu--active');
+                    $('#dishKind').val($(this).val());
+                    $('#dishKind').trigger('change');
+                });
+                /*
                 $('#dishKind').each(function () {
                     let classes = $(this).attr("class"),
                         id = $(this).attr("id"),
@@ -1480,6 +1229,8 @@
                     $(this).parents(".custom-select").removeClass("opened");
                     $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
                 });
+                */
+                
             }
             //end
             function setDays() {

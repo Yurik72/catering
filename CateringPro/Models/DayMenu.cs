@@ -9,7 +9,11 @@ namespace CateringPro.Models
     {
         public DateTime Date { get; set; }
         public int DishKind { get; set; }
-        
+
+        public bool ShowDishes { get; set; }
+
+        public bool ShowComplex { get; set; }
+
     }
    
 }

@@ -1108,4 +1108,7 @@
   <data name="Inventarization Quantity" xml:space="preserve">
     <value>Наявна кількість</value>
   </data>
+  <data name="Consists" xml:space="preserve">
+    <value>Склад</value>
+  </data>
 </root>

@@ -12,8 +12,142 @@
         querymodel = new QueryModel();
     }
 }
+<form asp-controller="Account" asp-action="Update" method="post" role="form" enctype="multipart/form-data">
 
-@if (true)
+    <div class="container line-data" id="line-data">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>@Localizer["MenuUpdateUser"]</h1>
+            </div>
+
+            <div class="col-lg-12">
+
+                <nav>
+                    <div class="nav pt30 pb30" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">@Localizer["MainData"]</a>
+                        <a class="nav-item nav-link" id="child-tab" data-toggle="tab" href="#profile-child" role="tab" aria-controls="child-tab" aria-selected="false">@Localizer["Childs"]</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">@Localizer["Finance"]</a>
+                        <a class="nav-item nav-link" id="nav-sec-tab" data-toggle="tab" href="#nav-sec" role="tab" aria-controls="nav-sec" aria-selected="false">Безпека</a>
+                    </div>
+                </nav>
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <div class="col-lg-4">
+
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <input asp-for="NameSurname" type="text" class="form-control" id="input-name" placeholder="Ім’я та прізвище">
+                                </div>
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <input type="email" class="form-control" asp-for="Email" placeholder="E-mail">
+                                </div>
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-mobile"></i>
+                                    </div>
+                                    <input type="tel" asp-for="PhoneNumber" class="form-control" placeholder="Телефон">
+                                </div>
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <input type="text" class="form-control" asp-for="City" placeholder="Місто">
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-4">
+
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <input type="text" class="form-control" asp-for="Address1" placeholder="Адреса 1">
+                                </div>
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <input type="email" class="form-control" asp-for="Address2" placeholder="Адреса 2">
+                                </div>
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-mobile"></i>
+                                    </div>
+                                    <input type="tel" class="form-control" asp-for="Country" placeholder="Страна">
+                                </div>
+                                <div class="wrap-label">
+                                    <div class="icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <input type="text" class="form-control" asp-for="ZipCode" placeholder="Почт. index">
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile-child" role="tabpanel" aria-labelledby="child-tab">
+                        @if (!Model.IsChild)
+                        {<div id="child-container" class="d-flex justify-content-center flex-column align-items-center">
+                                <div class="col-12 col-md-8 col-lg-9 p-0 d-flex align-items-center">
+                                    <div class="col-6 col-md-6 col-lg-6 p-0 d-flex flex-md-row flex-lg-row flex-column justify-content-between align-items-lg-center align-items-md-center">
+                                        <label asp-for=ChildrenCount
+                                               class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
+                                        </label>
+                                        <span id="child-amount">
+                                            <input asp-for="ChildrenCount" class="form-control col-12 col-lg-6 col-md-6 pl-3" autocomplete="off" readonly />
+                                            @*<span asp-validation-for="ChildrenCount" class="text-danger"></span>*@
+
+                                        </span>
+                                    </div>
+                                    <div class="col-6 p-0 d-flex justify-content-end align-self-end align-self-sm-end align-self-md-center"
+                                         style="height: 34px">
+                                        <button type="button" id="addchild"
+                                                class=" btn  btn-xl btn-outline-danger justify-content-center float-md-none font-weight-bold btn-block col-lg-5 col-md-5 col-7 m-0 p-0"
+                                                onmousemove="this.style.background='#36C233'; this.style.color='#ffffff'"
+                                                onmouseout="this.style.background='#ffffff'; this.style.color='#36C233'"
+                                                style="background: #ffffff; border-color: #36C233; outline: none; height: 34px; color: #36C233; display: flex; align-items: center; justify-content: space-evenly; margin: 28px 0 23px; font-size: 14px;">
+                                            &#65291; @Localizer["Add"]
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>}
+                        else
+                        {
+                            <label class="profile-form-title mb-1 justify-content-start mb-lg-0 mb-md-0">
+                                Наразі ви під обліковим записом дитини
+                            </label>
+                        }
+                    </div>
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
+                    <div class="tab-pane fade" id="nav-sec" role="tabpanel" aria-labelledby="nav-sec-tab">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-center pt30">
+                <button class=" button-basic" asp-action="Update" asp-controller="Account" type="submit">@Localizer["Company Setting Save"]</button>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+</form>
+@if (false)
 {
     <div class="container-xl container container-md container-sm container-lg">
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0 mt-lg-5 mt-md-5 mt-2">
@@ -169,17 +303,15 @@
 
                 </div>
                 <div class="tab-pane fade table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
-                    
+
 
                 </div>
                 <div class="container">
                     <div class="row ">
-                        <div class="col-12 my-2 text-center">
-                            <button asp-action="Update" asp-controller="Account" type="submit" button class="btn btn-primary m-2 col-sm-4 col-xl-4 col-12"
-                                    style="background: #36C233; border: 1px solid #36C233; height: 48px">
-                                @Localizer["Company Setting Save"]
-                            </button>
+                        <div class="d-flex justify-content-center pt30">
+                            <button class=" button-basic" asp-action="Update" asp-controller="Account" type="submit">@Localizer["Company Setting Save"]</button>
                         </div>
+
                     </div>
 
                 </div>
@@ -200,7 +332,7 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script>
+        <script>
        $(function () {
                 var userId = document.getElementById("id-value-id-user").value;
                 $(document).on("click", "#btnLink", function () {
@@ -310,143 +442,12 @@
             setup_listitems({ href:'@Url.Content("~/Account")',method:"UserFinance" });
        });
 
-</script>
+        </script>
     }
 
 }
 
-else
-{
 
-    <style>
-        form dt {
-            float: left;
-            display: block;
-            width: 30%;
-        }
-
-        dd select {
-            width: 50%;
-        }
-
-        dd textarea {
-            width: 100%;
-        }
-    </style>
-    <form asp-controller="Account" asp-action="Update" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-
-
-        <nav>
-            <div class="nav nav-tabs" id="nav-tabs" role="tablist">
-                <a class="nav-item nav-link nav-main active" id="nav-tab-0" data-toggle="tab" href="#nav-content-0" role="tab" aria-controls="nav-content-0" aria-selected="true">@Localizer["MainData"]</a>
-                <a class="nav-item nav-link nav-childs" id="nav-tab-1" data-toggle="tab" href="#nav-content-1" role="tab" aria-controls="nav-content-1" aria-selected="false">@Localizer["Childs"]</a>
-                <a class="nav-item nav-link nav-finance" id="nav-tab-fin" data-toggle="tab" href="#nav-content-fin" role="tab" aria-controls="nav-content-fin" aria-selected="false">@Localizer["Finance"]</a>
-            </div>
-
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-            <input type="hidden" asp-for="Id" />
-            @Html.AntiForgeryToken()
-            <div class="tab-content user-content border rounded" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-content-0" role="tabpanel" aria-labelledby="nav-tab-0">
-                    <dl class="">
-                        <dd><input type="hidden" asp-for="Id" /></dd>
-                        <dt>  <label asp-for=OldPassword class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="OldPassword" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="OldPassword" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=NewPassword class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="NewPassword" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="NewPassword" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=ConfirmPassword class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=Email class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="Email" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=NameSurname class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="NameSurname" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="NameSurname" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=PhoneNumber class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=City class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="City" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="City" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=ZipCode class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="ZipCode" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="ZipCode" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=Country class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="Country" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="Country" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=Address1 class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="Address1" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="Address1" class="text-danger"></span>
-                        </dd>
-                        <dt>  <label asp-for=Address2 class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="Address2" class="form-control" autocomplete="off" />
-                            <span asp-validation-for="Address2" class="text-danger"></span>
-                        </dd>
-                    </dl>
-
-
-                </div>
-                <div class="tab-pane fade" id="nav-content-1" role="tabpanel" aria-labelledby="nav-tab-1">
-                    <dl class="">
-                        <dt>  <label asp-for=ChildrenCount class="control-label"></label></dt>
-                        <dd>
-                            <input asp-for="ChildrenCount" class="form-control" autocomplete="off" readonly />
-                            <span asp-validation-for="ChildrenCount" class="text-danger"></span>
-                        </dd>
-                    </dl>
-                    <div class="container border rounded">
-                    </div>
-                    <div id="nextchilds" class="container">
-                    </div>
-                    <div class="container">
-                        <div class="row justify-content-end">
-                            <div class="col-4">
-                                <button id="addchild" class="btn btn-primary">@Localizer["Add"]</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
-
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="@Localizer["Company Setting Save"]" class="btn btn-primary" />
-                </div>
-            </div>
-        </div>
-    </form>
-
-
-
-
-}
 
 
 

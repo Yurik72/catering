@@ -18,5 +18,6 @@ namespace CateringPro.Repositories
 
         DayComplex SelectComplexSingleOrDefault(DayComplex src);
         IQueryable<DayComplexViewModel> ComplexDay(DateTime daydate, int companyid);
+        OrderTypeEnum GetCompanyOrderType(int companyid);
     }
 }

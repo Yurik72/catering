@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
+using CateringPro.Core;
 
 namespace CateringPro.Repositories
 {
@@ -13,11 +15,13 @@ namespace CateringPro.Repositories
     {
         private readonly AppDbContext _context;
         private readonly ILogger<CompanyUser> _logger;
-        public DayDishesRepository(AppDbContext context,  ILogger<CompanyUser> logger)
+        private readonly IMemoryCache _cache;
+        public DayDishesRepository(AppDbContext context,  ILogger<CompanyUser> logger,IMemoryCache cache)
         {
             _context = context;
             _logger = logger;
-    }
+            _cache = cache;
+        }
 
         public IQueryable<DayDishViewModel> DishesPerDay(DateTime daydate, int companyid)
         {
@@ -156,7 +160,10 @@ namespace CateringPro.Repositories
                         };
             return query;
         }
-
+        public OrderTypeEnum GetCompanyOrderType(int companyid)
+        {
+            return _cache.GetCachedCompanyAsync(_context, companyid).Result.GetOrderType();
+        }
 
     }
 }
