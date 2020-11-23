@@ -1,0 +1,67 @@
+﻿@using CateringPro.Core
+@model SortFieldModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+
+    var defsort = Model.FieldList.FirstOrDefault(f => f.IsDefault);
+    if (defsort == null)
+        defsort = Model.FieldList.First();
+}
+<div id="list-sort">
+    <ul class="navbar-nav ">
+        <li class="nav-item dropdown">
+            @if (defsort != null)
+            {
+            <a class="but-line  mt10 mb10" href="#" id="list-sort-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @Localizer[defsort.DisplayName]<i class="pl10 fas fa-long-arrow-alt-down"></i>
+            </a>
+            }
+
+            <div class="dropdown-menu" aria-labelledby="list-sort-dropdown">
+                @foreach (var it in Model.FieldList)
+                {
+                    if (it != defsort)
+                    {
+                        <a class="dropdown-item" href="#" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder={it.SortType}")> @Localizer[it.DisplayName]<i class="pl10 fas @Html.Raw(it.SortType == "asc" ?  "fa-long-arrow-alt-down":"fa-long-arrow-alt-up")"></i></a>
+                    }
+                    @*
+                <a class="dropdown-item" href="#">Категорія<i class="pl10 fas fa-long-arrow-alt-down"></i></a>
+                <a class="dropdown-item" href="#">Категорія<i class="pl10 fas fa-long-arrow-alt-up"></i></a>
+                    *@
+                }
+            </div>
+        </li>
+
+    </ul>
+</div>
+@*
+<div class="col-lg-4 col-12 p-0 ">
+    <div class="col-12 p-0 justify-content-lg-start justify-content-center"
+         style="display: flex; flex-wrap: nowrap">
+        <p class="h6 align-self-center mb-0" style="padding-bottom: 2px">Сортирувати:</p>
+        <select name="sources" id="sources" class="custom-select sources" placeholder=" @Localizer[Model.FieldList.First().DisplayName] &#8595;"
+                style="border: none">
+            @foreach (var it in Model.FieldList)
+            {
+                if (it == defsort)
+                {
+                    <option class="drpdwn-btn selection" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder={it.SortType}")
+                            style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                        @Localizer[it.DisplayName] @Html.Raw(it.SortType == "asc" ? "&#8595;" : "&#8593;")
+                    </option>
+                }
+                else
+                {
+                    <option class="drpdwn-btn" data-sortfield="@it.FieldName" data-sortorder="@it.SortType" value=@($"{Context.Request.Path.ToString()}/ListItems?sortfield={it.FieldName}&sortorder={it.SortType}")
+                            style="border: none; box-shadow: 0 4px 22px rgba(0, 0, 0, 0.15);">
+                        @Localizer[it.DisplayName] @Html.Raw(it.SortType == "asc" ? "&#8595;" : "&#8593;")
+                    </option>
+                    
+                        <option class="drpdwn-btn" value="popular">по популярності</option>
+                    
+                }
+            }
+        </select>
+    </div>
+</div>
+*@

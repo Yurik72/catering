@@ -22,16 +22,16 @@
         </div>
     </div>
 
-    <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm-@Model.First().Date.Day">
+ @**   <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm-@Model.First().Date.Day">**@
         <div class="row">
             @foreach (var item in Model)
             {
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="line-content pt30">
-
+                        <img src="@Url.Action("GetPicture", "Pictures", new { id = item.ComplexPictureId})" alt="">
                         <div class="line-stic pt30 d-flex">
                             <p>@item.ComplexCategoryName</p>
-                            <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">Склад</p>
+                            <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">@Localizer["Consists"]</p>
 
                         </div>
                         <div class="line-head d-flex">
@@ -40,25 +40,24 @@
                             <h5>@item.ComplexName</h5>
                         </div>
                         <p>@item.ComplexDescription</p>
+                        @foreach (var d in item.ComplexDishes)
+                        {
+                            <p>@d.DishCourse  @d.DishName </p>
+                        }
                         <div class="col-lg-12 line-price d-flex justify-content-between">
                             <div class=""><span>@item.Price</span><i class="fas fa-hryvnia"></i></div>
                             <div class=""><a class=" button-basic" href="#">@Localizer["MyOrdersSave"]</a></div>
                         </div>
-                            @foreach (var d in item.ComplexDishes)
-                            {
-                                <div class="col-lg-12 line-price d-flex justify-content-between">
-                                    <img src="@Url.Action("GetPicture", "Pictures", new { id = d.PictureId, width = 50, height = 50 })" style="width:50px;height:50px;" />
-                                    <div>@d.DishCourse</div>
-                                    <div>@d.DishName</div>
-                                 </div>
-                             }
+
+
                     </div>
                 </div>
+             
 
                 com++;
             }
         </div>
-    </form>
+ @**   </form>**@
     @if (allowEdit)
     {
 

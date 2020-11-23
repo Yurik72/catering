@@ -129,6 +129,17 @@ namespace CateringPro.Core
             return src.DisplayFor(x => displayname, "ListHeader", (object)addviewdata);
 
         }
+        public static IHtmlContent DisplayListHeaderCatForEx<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression, dynamic additionalViewData = null, string dispname = default)
+        {
+            string displayname = dispname;
+            if (string.IsNullOrEmpty(displayname))
+                displayname = GetDisplayName(expression);
+            dynamic addviewdata = new { colnumbers = 2 };
+            if (additionalViewData != null)
+                addviewdata = Merge(addviewdata, additionalViewData);
+            return src.DisplayFor(x => displayname, "ListHeaderCat", (object)addviewdata);
+
+        }
         public static SortControlBuilder<TModel> DisplaySortField<TModel, TResult>(this IHtmlHelper<IEnumerable<TModel>> src, Expression<Func<TModel, TResult>> expression)
         {
             var builder = new SortControlBuilder<TModel>(src);

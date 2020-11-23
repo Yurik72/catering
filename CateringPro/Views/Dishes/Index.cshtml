@@ -15,8 +15,90 @@
 
 }
 
+@if (Layout == "_LayoutCatering")
+{
+    <div class="container line-data" id="line-data">
+        <div class="wrap=head-menu">
+            <div class="col-lg-12">
+                <h1>@ModelName</h1>
+            </div>
+            <div class="col-lg-12 wrap-but-two pt50 pb50 d-flex justify-content-between flex-wrap">
+                <div class=" ">
+                    <div id="drop-list2">
+                        <div class="navbar navbar-expand-lg ">
+                            @Html.DisplaySortField(model => model.Name).AddSortField(model => model.Category.Name).DisplayCat(querymodel)
 
-@if (Layout == "_LayoutCabachok" || Layout == "_LayoutCatering")
+                        </div>
+                    </div>
+                </div>
+                <div class="search mt10">
+                    <div class="wrap-label">
+
+                        <input type="text" class="form-control" name="name" placeholder="@Localizer["MenuSearch"]">
+                        <div class="icon-search">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="dishes-modal">
+                    <a class="button-basic  mt10 mb10" data-toggle="modal" data-target="#line-zvit" href="#">@Localizer["Create"]</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="dishes-con">
+            <div class="col-12 week-line-bot pb20 d-flex">
+                <div class="col-1">
+                </div>
+                @Html.DisplayListHeaderCatForEx(model => model.Category.Name)
+                @Html.DisplayListHeaderCatForEx(model => model.Name)
+                @Html.DisplayListHeaderCatForEx(model => model.Description, new { colnumbers = 4 })
+                @Html.DisplayListHeaderCatForEx(model => model.Price, new { colnumbers = 1 })
+
+
+
+
+            </div>
+            <div id="table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria">
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+    <div class="modal fade" @*id="change-item-modal"*@ id="modDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" id="dialogContent" style="max-width: 850px">
+        </div>
+    </div>
+
+    <div id="modDialogingredientline" class="modal modal-search fade ingredient-line">
+        <div id="dialogContentingredientline" class="modal-dialog modal-search-dialog">
+            <div class="modal-content modal-content-search">
+                <div class="modal-header">
+
+                    <div class="container">
+                        <div class="row">
+                            <h3>Додати Інгрідієнт</h3>
+                            <button type="button" class="close" data-toggle="modal" data-target="#modDialogingredientline">X</button>
+                        </div>
+                        <div class="row">
+                            <input type="text" id="search-ingredient" class="form-control input-lg" placeholder="...." />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body modal-search-body">
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@if (Layout == "_LayoutCabachok")
 {
     <div class="container-xl container container-md container-sm container-lg">
         <div class="row align-items-center pb-3  ml-xl-0 ml-md-0 ml-sm-0 p-0 ml-0" style="margin-top: 48px">
@@ -320,7 +402,7 @@ else
                 const elem = dlg.find("#cooktechnology");
                 elem.summernote({
                     dialogsInBody: true,
-                   
+
 
                     callbacks: {
                         onBlur: function () {
@@ -328,7 +410,7 @@ else
                         }
                     }
                 });
-               
+
                 //$('#summernote').summernote('code', $('#Text').text());
             }
             $(document).on("click", "a.cmd-delete-old", function (e) {

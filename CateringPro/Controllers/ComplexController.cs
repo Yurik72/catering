@@ -88,7 +88,28 @@ namespace CateringPro.Controllers
                     return PartialView(cmp);
                 }
             }
+            if (Request.Form.Files.Count > 0)
+            {
+                Pictures pict = _context.Pictures.SingleOrDefault(p => p.Id == cmp.PictureId);
+                if (pict == null || true) //to do always new
+                {
+                    pict = new Pictures();
+                }
+                var file = Request.Form.Files[0];
+                using (var stream = Request.Form.Files[0].OpenReadStream())
+                {
+                    byte[] imgdata = new byte[stream.Length];
+                    stream.Read(imgdata, 0, (int)stream.Length);
+                    pict.PictureData = imgdata;
 
+                    PicturesController.CompressPicture(pict, 350, 350);
+
+                    //pict.PictureData = imgdata;
+                }
+                _context.Add(pict);
+                await _context.SaveChangesAsync();
+                cmp.PictureId = pict.Id;
+            }
             var res = await this.UpdateDBCompanyDataAsyncEx2(cmp, _logger,
                  e => { return _complexRepo.UpdateComplexEntity(e, DishComplexes, User.GetCompanyID()); });
 

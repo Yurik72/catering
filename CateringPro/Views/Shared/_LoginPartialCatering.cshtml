@@ -31,7 +31,7 @@
 }
 <a class="navbar-brand" href="#">Catering.</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
 </button>
 <div class="collapse navbar-collapse" id="navbarNavDropdown">
     @if (!SignInManager.IsSignedIn(User))
@@ -43,43 +43,48 @@
     }
     else
     {
-<ul class="navbar-nav ml-auto">
-    @if (User.IsInRole("Admin"))
-    {
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="img/admin.svg" alt="">@Localizer["MenuAdmin"]
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                @await RenderMenuItem("Dishes", "Index", Localizer["MenuDishes"], "Admin,CompanyAdmin,KitchenAdmin")
-                @await RenderMenuItem("DayDishes", "EditDay", Localizer["MenuDayDishes"], "Admin,CompanyAdmin,KitchenAdmin")
-                @await RenderMenuItem("Company", "Setting", Localizer["Setting"], "Admin,CompanyAdmin")
+        <ul class="navbar-nav ml-auto">
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="img/admin.svg" alt="">@Localizer["MenuAdmin"]
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @await RenderMenuItem("Categories", "Index", Localizer["MenuCategories"], "Admin,CompanyAdmin,KitchenAdmin")
+                        @await RenderMenuItem("Dishes", "Index", Localizer["MenuDishes"], "Admin,CompanyAdmin,KitchenAdmin")
+                        @await RenderMenuItem("Complex", "Index", Localizer["MenuComplex"], "Admin,CompanyAdmin,KitchenAdmin")
+                        @await RenderMenuItem("DayDishes", "EditDay", Localizer["MenuDayDishes"], "Admin,CompanyAdmin,KitchenAdmin")
+                        @await RenderMenuItem("Company", "Setting", Localizer["Setting"], "Admin,CompanyAdmin")
+                        @await RenderMenuItem("DishKind", "Index", Localizer["DishKind"], "Admin,CompanyAdmin,KitchenAdmin")
+                        @await RenderMenuItem("Ingredients", "Index", Localizer["MenuIngredients"], "Admin,CompanyAdmin,KitchenAdmin")
+                        @await RenderMenuItem("Report", "Index", Localizer["Reports"], "Admin,CompanyAdmin,UserAdmin,GroupAdmin,SubGroupReportAdmin")
 
-            </div>
-        </li>
-    }
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="img/admin.svg" alt="">@(current_user.GetChildUserName())
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" asp-controller="Account" asp-action="Update">@Localizer["MenuUpdateUser"]</a>
-            <a class="dropdown-item" asp-controller="Account" asp-action="AddBalance">@Localizer["AddBalance"]</a>
-            <a id="changechield" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
-        </div>
-    </li>
+                    </div>
+                </li>
+            }
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="img/admin.svg" alt="">@(current_user.GetChildUserName())
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Update">@Localizer["MenuUpdateUser"]</a>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="AddBalance">@Localizer["AddBalance"]</a>
+                    <a id="changechield" class="dropdown-item" href="#">@Localizer["MenuChangeChild"]</a>
+                </div>
+            </li>
 
-    <li class="nav-item">
-        <a class="nav-link" asp-controller="UserDayDishes" asp-action="Index"><img src="img/cart.svg" alt="">@Localizer["MenuUserOrder"]</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#"><img src="img/set.svg" alt="">Settings</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-controller="Account" asp-action="LogOut"><img src="img/exit.svg" alt="">@Localizer["MenuLogOut"]</a>
-    </li>
-</ul>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="UserDayDishes" asp-action="Index"><img src="img/cart.svg" alt="">@Localizer["MenuUserOrder"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><img src="img/set.svg" alt="">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Account" asp-action="LogOut"><img src="img/exit.svg" alt="">@Localizer["MenuLogOut"]</a>
+            </li>
+        </ul>
 
-       
+
     }
 </div>

@@ -57,6 +57,16 @@ namespace CateringPro.Core
             );
             return htmlhelper.DisplayFor(x=> model, "SortControl");
         }
+        public IHtmlContent DisplayCat(QueryModel querymodel = null)
+        {
+            var model = new SortFieldModel(querymodel);
+            FieldList.ForEach(f => {
+                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "asc", IsDefault = (f.IsDefault && f.IsDefaultAsc) });
+                model.FieldList.Add(new SortField() { FieldName = f.GetFieldName(), DisplayName = f.GetDisplayName(), SortType = "desc", IsDefault = (f.IsDefault && !f.IsDefaultAsc) });
+            }
+            );
+            return htmlhelper.DisplayFor(x => model, "SortControlCat");
+        }
     }
     public abstract class ExpressionHolderBase
     {

@@ -1,0 +1,29 @@
+﻿@model QueryModel
+@{
+    int pagescount = 3;
+    //spplit by pagescount
+    int first = (Model.Page / pagescount) * pagescount;
+    int last = first + pagescount;
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pt70">
+        <li class="page-item">
+            <a class="page-link " href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-left"></i></a>
+        </li>
+        @for (int i = first; i < last; i++)
+        {
+            @if (i != Model.Page)
+            {
+                <li class="page-item"><a class="page-link" asp-action="ListItems" asp-route-sortfield=@Model.SortField asp-route-sortorder=@Model.SortOrder asp-route-page=@i>@i</a></li>
+            }
+            else
+            {
+                <li class="page-item"><a class="page-link curent" asp-action="ListItems" asp-route-sortfield=@Model.SortField asp-route-sortorder=@Model.SortOrder asp-route-page=@i>@i</a></li>
+            }
+        }
+        <li class="page-item">
+            <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a>
+        </li>
+    </ul>
+</nav>
+

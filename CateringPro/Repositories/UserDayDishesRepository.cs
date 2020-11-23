@@ -930,6 +930,7 @@ namespace CateringPro.Repositories
                               Quantity = dayd.Quantity,
                               Price = comp.Price,
                               Date = dayd.Date,
+                              ComplexPictureId=comp.PictureId,
                               Enabled = true,  /*dayd != null*/
                               ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
                                                   //join dc in _context.DishComplex.WhereCompany(companyid) on d.Id equals dc.DishId

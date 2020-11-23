@@ -44,6 +44,8 @@ namespace CateringPro.Models
         [DisplayName("Complex Dishes")]
         public virtual ICollection<DishComplex> DishComplex { get; set; }
 
+        public int? PictureId { get; set; }
+
         //public virtual ICollection<ComplexCategory> ComplexCategories { get; set; }
 
     }

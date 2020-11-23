@@ -13,6 +13,31 @@
 }
 @if (true)
 {
+    @foreach (var item in Model)
+    {
+<div class="col-12 week-line-bot pt20 pb20 dishes-line d-flex align-items-center">
+    <div class="col-3">
+        <span>@item.IngredientCategory.Name</span>
+    </div>
+    <div class="col-3 ">
+        <span>@item.Name</span>
+    </div>
+    <div class="col-2 ">
+        <span>@item.MeasureUnit</span>
+    </div>
+    <div class="col-2 ">
+        <span>@item.LastPurchasePrice</span>
+    </div>
+    <div class="col-2 pr0 d-flex justify-content-end">
+        <a class="cmd-edit" href="@Url.Action("EditModal", "Ingredients",new { id = item.Id }, null)"><i class="far fa-edit pr8"></i></a>
+        <a class="cmd-delete" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i></a>
+    </div>
+</div>
+    }
+    @Html.DisplayFor(model => querymodel, "PageNavigationCat", null)
+}
+@if (false)
+{
     <div class="row mx-0 justify-content-start w-100 align-content-center">
         <div class="col-12 p-0  mt-2">
             @foreach (var item in Model)
@@ -57,7 +82,7 @@
         </div>
     </div>
 }
-else
+else if (false)
 {
     <table class="table">
         <thead>

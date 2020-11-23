@@ -1,0 +1,13 @@
+﻿@model string
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+@{
+    var x = ViewData;
+    int colnumbers = 2;
+    if (ViewData["colnumbers"] != null)
+        colnumbers = (int)ViewData["colnumbers"];
+
+
+}
+<div class="col-@colnumbers">
+    <span>@Localizer[Model]<a href=""><i class="pl10 fas fa-sort"></i></a></span>
+</div>

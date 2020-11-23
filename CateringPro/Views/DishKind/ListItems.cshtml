@@ -11,7 +11,31 @@
     }
 
 }
+@if (true)
+{
+    @foreach (var item in Model)
+    {
+        <div class="col-12 week-line-bot pt20 pb20 dishes-line d-flex align-items-center">
+            <div class="col-4">
+                <span>@item.Name</span>
+            </div>
+            <div class="col-2 ">
+                <span>@item.Code</span>
+            </div>
+            <div class="col-4 ">
+                <span>@item.Description</span>
+            </div>
 
+            <div class="col-2 pr0 d-flex justify-content-end">
+                <a class="cmd-edit" href="@Url.Action("EditModal", "DishKind",new { id = item.Id }, null)"><i class="far fa-edit pr8"></i></a>
+                <a class="cmd-delete" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i></a>
+            </div>
+        </div>
+    }
+    @Html.DisplayFor(model => querymodel, "PageNavigationCat", null)
+}
+@if (false)
+{
     @foreach (var item in Model)
     {
         <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
@@ -59,5 +83,6 @@ new { id = item.Id }, null)">
 
                 </div>
 
-    }
+            }
     @Html.DisplayFor(model => querymodel, "PageNavigation", null)
+}

@@ -35,6 +35,7 @@ namespace CateringPro.Models
 
         public int? DishKindId { get; set; }
 
+        public int? ComplexPictureId { get; set; }
         public IEnumerable<UserDayComplexDishViewModel> ComplexDishes { get; set; }
 
     }

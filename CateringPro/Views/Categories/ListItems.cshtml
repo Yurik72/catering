@@ -15,6 +15,30 @@
 {
     @foreach (var item in Model)
     {
+        <div class="col-12 week-line-bot pt20 pb20 dishes-line d-flex align-items-center">
+            <div class="col-4">
+                <span>@item.Name</span>
+            </div>
+            <div class="col-2 ">
+                <span>@item.Code</span>
+            </div>
+            <div class="col-4 ">
+                <span>@item.Description</span>
+            </div>
+
+            <div class="col-2 pr0 d-flex justify-content-end">
+                <a class="cmd-edit" href="@Url.Action("EditModal", "Categories",new { id = item.Id }, null)"><i class="far fa-edit pr8"></i></a>
+                <a class="cmd-delete" asp-action="Delete" asp-route-id="@item.Id" ><i class="far fa-trash-alt"></i></a>
+            </div>
+        </div>
+    }
+    @Html.DisplayFor(model => querymodel, "PageNavigationCat", null)
+}
+
+@if (false)
+{
+    @foreach (var item in Model)
+    {
         <div class="col-12 p-lg-0 p-md-0 p-0 mt-3 shadow-cust">
 
             <div class="card  flex-md-row flex-lg-row flex-column mb-0 mb-lg-3 mb-md-3"
@@ -60,51 +84,51 @@ new { id = item.Id }, null)">
 
                 </div>
 
-    }
+            }
     @Html.DisplayFor(model => querymodel, "PageNavigation", null)
 }
-else
+else if (false)
 {
-<table class="table">
-    <thead>
-        <tr class="bg-white text-success">
-            <th>
+    <table class="table">
+        <thead>
+            <tr class="bg-white text-success">
+                <th>
 
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
-            </th>
-            <th>
-                @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Name, querymodel)
+                </th>
+                <th>
+                    @await this.InvokeComponentAsync(Component, "TableColumn", model => model.Description, querymodel)
 
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="bg-white text-secondary">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="bg-white text-secondary">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
 
 
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
-                    @Html.ActionLink("", "EditModal",
-                          new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="cmd-delete dialog-edit-icon"> <span class="fa fa-trash" aria-hidden="true"></span></a>
+                        @Html.ActionLink("", "EditModal",
+                              new { id = item.Id }, new { @class = "cmd-edit dialog-edit-icon fa fa-pencil-square-o" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="bg-white text-success rounded border">
+                <td colspan="3">
+                    @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
                 </td>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr class="bg-white text-success rounded border">
-            <td colspan="3">
-                @await this.InvokeComponentAsync(Component, "TablePager", model => model.Description, querymodel)
-            </td>
-        </tr>
-    </tfoot>
-</table>
+        </tfoot>
+    </table>
 }
