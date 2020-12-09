@@ -132,6 +132,7 @@
     <Content Remove="Views\MassEmail\EmailWeekInvoice.cshtml" />
     <Content Remove="Views\Shared\ListAllReviewsPartial.cshtml" />
     <Content Remove="Views\Shared\PizzaSummary.cshtml" />
+    <Content Remove="wwwroot\service-worker.js" />
   </ItemGroup>
 
   <ItemGroup>

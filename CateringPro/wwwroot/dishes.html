@@ -100,8 +100,8 @@ integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4
 											<div class="modal-body">
 												<div class="dishes-modal">
 													<div class="row">
-														<div class="col-6">
-															<div class="chil-img">
+														<div class="col-lg-6 col-sm-6">
+															<div class="chil-img pb20">
 																<img src="img/noIMG.svg" alt="">
 															</div>
 															<div class="wrap-label">
@@ -112,7 +112,7 @@ integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4
 																<button class="btn button-basic" type="submit">Обзор</button>
 															</div>
 														</div>
-														<div class="col-6 dishes-form">
+														<div class="col-lg-6 col-sm-6 dishes-form">
 															<h3>Основні дані</h3>
 																<input type="text" class="form-control mb10" name="comp" placeholder="Код">
 																<input type="text" class="form-control mb10" name="comp" placeholder="Страва">
@@ -125,11 +125,11 @@ integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4
 														</div>
 													</div>
 													<div class="row">
-														<div class="col-12">
+														<div class="col-12 pt20">
 															<h3>Інгредієнти-Пропорцiї</h3>
 														</div>
-														<div class="col-12 week-line-bot pb20 d-flex"> 
-															<div class="col-2">
+														<div class="col-12 week-line-bot pt20 pb20 d-flex"> 
+															<div class="col-3">
 																<span>Назва</span>
 															</div> 
 															<div class="col-3 " >
@@ -139,19 +139,28 @@ integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4
 																<span>Брутто</span>
 															</div> 
 														</div>
-														<div class="col-12 week-line-bot pb20 d-flex"> 
-															<div class="col-2">
-																<span>Назва</span>
+														<div class="col-12 week-line-dis pt20 pb20 d-flex"> 
+															<div class="col-3 d-flex align-items-center">
+																<span>Молоко 2,5%</span>
 															</div> 
-															<div class="col-3 " >
-																<span>Нетто</span>
+															<div class="col-3 input-line-dishes" >
+																<input type="text" class="input-line" name="number" placeholder="0,0600">
+																<span>л</span>
 															</div> 
-															<div class="col-2 " >
-																<span>Брутто</span>
+															<div class="col-3 input-line-dishes" >
+																<input type="text" class="input-line" name="number" placeholder="0,0600">
+																<span>л</span>
 															</div> 
-															<div class="col-2">
+															<div class="col-2 d-flex align-items-center">
 																<a href=""><i class="far fa-trash-alt"></i></a>
 															</div> 
+														</div>
+														<div class="col-12 pt20">
+															<h3>Технологія приготування</h3>
+															<textarea class="form-control mb10" name="comp" cols="40" rows="9"></textarea>
+														</div>
+														<div class="mx-auto pt30">
+															<a class=" button-basic" href="#">Зберегти</a>
 														</div>
 													</div>
 												</div>

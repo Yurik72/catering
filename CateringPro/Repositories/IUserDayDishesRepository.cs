@@ -37,6 +37,8 @@ namespace CateringPro.Repositories
         Pictures GetPicture(int id);
         IEnumerable<DishKind> DishesKindNoContext(DateTime date, int companyid);
         IQueryable<UserDayComplexViewModel> AvaibleComplexDayNoContext(DateTime daydate, string userId, int companyid);
+        Task<bool> SaveComplexOrderDay(UserDayComplex daycomplex, string userId, int companyId);
+        IQueryable<UserDayComplexViewModel> AllComplexDay(DateTime daydate, string userId, int companyid);
     }
 }
 

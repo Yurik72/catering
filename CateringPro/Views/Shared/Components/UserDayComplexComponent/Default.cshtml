@@ -10,54 +10,61 @@
 }
 @{
     DateTime daydate = DateTime.Now;
+    if (Model.Any() ) {
+        daydate = Model.First().Date;
+    }
     int com = 0;
     int dayCom = 0;
     int course = 0;
 }
 @if (Model.Count() > 0)
 {
-    <div class="row">
-        <div class="col-12 p-0 justify-content-center mt-4 d-flex">
-            <span style="font-weight: 600; font-size: 28px; color: #232323">@Localizer["Complex Dishes"]</span>
-        </div>
+    <div class="headorders pt20 pb20">
+        <h2>@Localizer["Complex Dishes"]</h2>
     </div>
 
- @**   <form action="/UserDayDishes/SaveDayComplex" method="post" id="orderForm-@Model.First().Date.Day">**@
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <div class="col-lg-4 col-md-6">
-                    <div class="line-content pt30">
-                        <img src="@Url.Action("GetPicture", "Pictures", new { id = item.ComplexPictureId})" alt="">
-                        <div class="line-stic pt30 d-flex">
-                            <p>@item.ComplexCategoryName</p>
-                            <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">@Localizer["Consists"]</p>
-
-                        </div>
-                        <div class="line-head d-flex">
-                            <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
-                            <label for="line-color"></label>
-                            <h5>@item.ComplexName</h5>
-                        </div>
-                        <p>@item.ComplexDescription</p>
-                        @foreach (var d in item.ComplexDishes)
-                        {
-                            <p>@d.DishCourse  @d.DishName </p>
-                        }
-                        <div class="col-lg-12 line-price d-flex justify-content-between">
-                            <div class=""><span>@item.Price</span><i class="fas fa-hryvnia"></i></div>
-                            <div class=""><a class=" button-basic" href="#">@Localizer["MyOrdersSave"]</a></div>
-                        </div>
-
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="line-content pt30">
+                    <img src="@Url.Action("GetPicture", "Pictures", new { id = item.ComplexPictureId})" alt="">
+                    <div class="line-stic pt30 d-flex">
+                        <p>@item.ComplexCategoryName</p>
+                        <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">@Localizer["Consists"]</p>
 
                     </div>
-                </div>
-             
+                    <div class="line-head d-flex">
+                        <input class="line-chec" type="checkbox" id="line-color" name="one" value="line-color">
+                        <label for="line-color"></label>
+                        <h5>@item.ComplexName</h5>
+                    </div>
+                    <p>@item.ComplexDescription</p>
+                    @foreach (var d in item.ComplexDishes)
+                    {
+                        <p>@d.DishCourse  @d.DishName </p>
+                    }
+                    <p></p>
+                    
 
-                com++;
-            }
-        </div>
- @**   </form>**@
+                    <div class="col-lg-12 line-price d-flex justify-content-between">
+                        <div class=""><span>@item.Price</span><i class="fas fa-hryvnia"></i></div>
+                        <div class="input-line-cart d-flex justify-content-between">
+                            <a href=""><i class="fas fa-minus"></i></a>
+                            <input type="text" class="input-line" name="number" placeholder="0" value="@item.Quantity">
+                            <a href=""><i class="fas fa-plus"></i></a>
+                        </div>
+                        <div class=""><a class="ordercomplex button-basic" href="#" data-complexid="@item.ComplexId" data-price="@item.Price" data-daydate="@daydate">@Localizer["MyOrdersSave"]</a></div>
+                    </div>
+
+                
+            </div>
+
+
+            com++;
+        }
+  
+  
     @if (allowEdit)
     {
 
@@ -65,7 +72,9 @@
         // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
     }
 
-
+        </div>
+        }
+    </div>
 }
 
 @if (false)

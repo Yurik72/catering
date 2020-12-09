@@ -238,6 +238,38 @@ namespace CateringPro.Controllers
             return await Task.FromResult(Json(new { res = "OK" }));
             */
         }
+        public async Task<JsonResult> SaveDayOneComplex(UserDayComplex dayComplex)
+        {
+            try
+            {
+
+
+                if (!_userdaydishesrepo.IsAllowDayEdit(dayComplex.Date, User.GetCompanyID()))
+                {
+                    return await Task.FromResult(Json(JSONResultResponse.GetFailResult("OutDate")));
+                }
+
+
+                if (await _userdaydishesrepo.SaveComplexOrderDay(dayComplex,  User.GetUserId(), User.GetCompanyID()))
+                {
+                    //await _email.SendInvoice(User.GetUserId(), daydate, User.GetCompanyID());
+                    return await Task.FromResult(Json(JSONResultResponse.GetOKResult()));
+
+                }
+                else
+                {
+                    return await Task.FromResult(Json(JSONResultResponse.GetFailResult("Adding to db")));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SaveDayComplex error");
+                return await Task.FromResult(Json(JSONResultResponse.GetFailResult("Adding to db")));
+            }
+
+
+        }
+
         public async Task<JsonResult> SaveDayComplex(List<UserDayComplex> UserDayComplex, List<UserDayDish> UserDayDish)
         {
             try

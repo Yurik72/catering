@@ -48,8 +48,10 @@ ul {padding: 0;}
 .pl0{padding-left: 0;}
 .pr0{padding-right: 0;}
 .pr8 {padding-right: 8px;}
+.pr10 {padding-right: 10px;}
 .pt10 {padding-top: 10px;}
 .pl10 {padding-left: 10px;}
+.pb10 {padding-bottom: 10px;}
 .pb20 {padding-bottom: 20px;}
 .pt20 {padding-top: 20px;}
 .pt30 {padding-top: 30px;}
@@ -329,10 +331,13 @@ margin-right: 20px;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
 }
-#line-data .nav {
+#nav-tab a{
+	padding-left: 0;
+}
+/*#line-data .nav {
 	padding-left: 15px;
 }
-/*
+
 https://itchief.ru/examples/lab.php?topic=html-and-css&file=styling-checkbox-and-radio-1
 */
  .line-chec {
@@ -468,7 +473,7 @@ vertical-align: 2px;
 Forms
 */
 input[type=text], [type=email], [type=password], [type=tel]{
-	width: 325px;
+	/* width: 325px; */
 	height: 50px;
   box-sizing: border-box;
   border: 1px solid #CBD1D3;
@@ -502,7 +507,7 @@ input[type=text], [type=email], [type=password], [type=tel]{
 .wrap-label{
 	position: relative;
 	padding-bottom: 20px;
-	width: 325px;
+	width: 325px; 
 }
 .icon{
 	position: absolute;
@@ -547,6 +552,21 @@ color: #fff;
 	padding: 12px 6px 12px;
 	margin: 5px 10px;
 	text-align: center;
+}
+.chil-img img {width: 100%;}
+.input-line-dishes input[type="text"] {
+	width: 61px;
+	height: 33px;
+	border: 1px solid #CBD1D3;
+	border-radius: 6px;
+	font-size: 14px;
+	padding: 12px 6px 12px;
+	margin: 0 20px 0 0;
+	text-align: center;
+}
+#cat-modal .modal-dialog {
+	max-width: 304px;
+	margin: 2em auto;
 }
 /*
 footer
@@ -593,15 +613,15 @@ dishes
 }
 .dishes-line img {
 	width: 157px;
-	height: 105px;
+	max-height: 105px;
 	max-width: 100%;
 }
-.dishes-form input[type="text"], [type="email"], [type="password"], [type="tel"] {
+.dishes-form input[type="text"] {
 	padding: 12px 20px 12px 20px;
 
 }
 .dishes-form textarea{
-	width: 325px;
+	width: 100%;
 	height: 150px;
   box-sizing: border-box;
   border: 1px solid #CBD1D3;
@@ -615,7 +635,33 @@ dishes
 #dishes-modal .modal-dialog {
 	max-width: 704px;
 }
-
+.sircle-plus {
+	background-color: #A5C601;
+	padding: 10px 0;
+	margin: 0 0 0 10px;
+	min-width: 45px;
+	height: 45px;
+	border-radius: 100px;
+	color: #fff;
+	text-align: center;
+}
+#line-zvit2 .modal-dialog {
+	max-width: 604px;
+}
+.input-line-doc input[type="text"] {
+	width: 100%;
+	height: 40px;
+	border: 1px solid #CBD1D3;
+	border-radius: 6px;
+	font-size: 14px;
+	padding: 12px 6px 12px;
+}
+.user-fix-chec{
+	max-width: 200px;
+}
+.group-e-but .button-basic {
+	margin: 10px;
+}
 /*
 update
 */
@@ -624,6 +670,9 @@ update
 	top: 0;
 	right: 0px;
 	width: 155px;
+}
+#user-modal .wrap-label {
+	width: inherit;
 }
 @media (max-width: 768px) {
 

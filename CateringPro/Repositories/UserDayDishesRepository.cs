@@ -469,6 +469,7 @@ namespace CateringPro.Repositories
 
             return true;
         }
+       
         public async Task<bool> SaveUserDay(int quantity, decimal total, decimal discount, DateTime date, string userId, int companyId)
         {
             UserDay order = new UserDay();
@@ -516,7 +517,7 @@ namespace CateringPro.Repositories
                 _logger.LogError(ex, "Update user day");
                 return false;
             }
-            return true;
+            return await Task.FromResult(true);
         }
         public async Task<bool> UserFinanceEdit(decimal total, string userId, int companyId, bool add)
         {
@@ -562,6 +563,57 @@ namespace CateringPro.Repositories
             }
             return true;
         }
+        private List<UserDayDish> GetComplexDayDishes(UserDayComplex daycomplex , string userId, int companyId)
+        {
+            var query = (from dc in _context.DishComplex.AsNoTracking().Where(cd => cd.ComplexId == daycomplex.ComplexId)
+                         select new UserDayDish()
+                         {
+                             CompanyId = companyId,
+                             UserId = userId,
+                             Date = daycomplex.Date,
+                             IsComplex = true,
+                             DishId=dc.DishId,
+                             ComplexId=dc.ComplexId,
+                             Quantity= daycomplex.Quantity
+
+                         }).ToList();
+            return query;
+        }
+        public async Task<bool> SaveComplexOrderDay(UserDayComplex daycomplex ,string userId, int companyId)
+        {
+            decimal total = 0;
+            int quan = 0;
+
+            var daycomplex_list = new List<UserDayComplex>();
+            daycomplex_list.Add(daycomplex);
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var discountplugin = _plugins.GetDiscointPlugin();
+                decimal discount = 0;
+               // var res = OrderedComplexDay(daycomplex.First().Date, userId, companyId).ToList();
+               // bool ordered = res.Any(x => daycomplex.Any(y => y.ComplexId == x.ComplexId));
+               // if (ordered)
+               // {
+               //     _logger.LogWarning("Already ordered complex in User Day {0} userId {1}", daycomplex.First().Date, userId);
+               //     return false;
+               // }
+
+
+                if (!await SaveDayComplex(daycomplex_list, userId, companyId))
+                    return false;
+
+
+                if (!await SaveDayDishInComplex(GetComplexDayDishes(daycomplex, userId, companyId), userId, companyId))
+                   return false;
+                if (!await SaveUserDay(daycomplex.Quantity, daycomplex.Quantity*daycomplex.Price, discount, daycomplex.Date, userId, companyId))
+                    return false;
+                //if (!await UserFinanceEdit(total,userId, companyId,false))
+                //    return false;
+                scope.Complete();
+            }
+            return true;
+        }
+
         public async Task<bool> SaveComplexAndDishesDay(List<UserDayComplex> daycomplex, List<UserDayDish> userDayDishes, string userId, int companyId)
         {
             decimal total = 0;
@@ -855,7 +907,58 @@ namespace CateringPro.Repositories
 
 
 
+        public IQueryable<UserDayComplexViewModel> AllComplexDay(DateTime daydate, string userId, int companyid)
+        {
+         //   var ordered = OrderedComplexDay(daydate, userId, companyid);
+          //  var orderedList = ordered.ToList();
+            var query = from comp in _context.Complex
+                        join dc in (from subday in _context.DayComplex where subday.Date == daydate && subday.CompanyId == companyid select subday) on comp.Id equals dc.ComplexId
+                        join cat in _context.Categories.WhereCompany(companyid) on comp.CategoriesId equals cat.Id
+                        join dk in _context.DishesKind on comp.DishKindId equals dk.Id into leftdk
+                        from subdk in leftdk.DefaultIfEmpty()
+                        join ud in (from subuserday in _context.UserDayComplex where subuserday.Date == daydate && subuserday.CompanyId == companyid && subuserday.UserId == userId select subuserday) on comp.Id equals ud.ComplexId into userordered
+                        from usordered in userordered.DefaultIfEmpty()
 
+                        select new UserDayComplexViewModel()
+                        {
+                            ComplexId = comp.Id,
+                            ComplexCategoryId = cat.Id,
+                            ComplexCategoryName = cat.Name,
+                            ComplexCategoryCode = cat.Code,
+                            DishKindId = comp.DishKindId,
+                            ComplexPictureId = comp.PictureId,
+                            Quantity = usordered.Quantity,// 0,// orderedList.Where(ol=>ol.ComplexId== comp.Id).Sum(ol=>ol.Quantity),
+                            Price = comp.Price,
+                            Date = daydate,
+                            Enabled = dc.Date == daydate,  /*dayd != null*/
+                            ComplexDishes = from d in _context.Dishes.WhereCompany(companyid)
+                                            join dishCom in _context.DishComplex.WhereCompany(companyid) on d.Id equals dishCom.DishId
+                                            //join udd in _context.UserDayDish.WhereCompany(companyid).Where(i => i.Date == daydate && i.UserId == userId)  on d.Id equals udd.DishId
+                                            where dishCom.ComplexId == comp.Id
+                                            orderby dishCom.DishCourse ascending, dishCom.IsDefault descending
+                                            select new UserDayComplexDishViewModel()
+                                            {
+
+                                                DishId = d.Id,
+                                                DishName = d.Name,
+                                                DishReadyWeight = d.ReadyWeight,
+                                                PictureId = d.PictureId,
+                                                DishCourse = dishCom.DishCourse,
+                                                IsDefault = dishCom.IsDefault,
+                                                //  DishQuantity = udd.Quantity,
+
+                                                DishDescription = d.Description,
+                                                DishIngredients = ""/* string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
+                                                                                   join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
+                                                                                   select ingr.Name)*/
+                                            }
+                        };
+          //  query = query.Where(x => !ordered.Any(o => o.ComplexCategoryId == x.ComplexCategoryId));
+            //foreach (var item in ordered) {
+            //    query = query.Where(x => x.ComplexCategoryId != item.ComplexCategoryId);
+            //        }
+            return query;
+        }
         public IQueryable<UserDayComplexViewModel> AvaibleComplexDay(DateTime daydate, string userId, int companyid)
         {
             var ordered = OrderedComplexDay(daydate, userId, companyid);
@@ -873,6 +976,7 @@ namespace CateringPro.Repositories
                             ComplexCategoryName = cat.Name,
                             ComplexCategoryCode = cat.Code,
                             DishKindId = comp.DishKindId,
+                            ComplexPictureId = comp.PictureId,
                             Quantity = 0,
                             Price = comp.Price,
                             Date = daydate,

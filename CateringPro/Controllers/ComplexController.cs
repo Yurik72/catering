@@ -58,7 +58,7 @@ namespace CateringPro.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditModal(int id, [Bind("Id,Name,Price,DishesQuantity,CategoriesId,DishKindId")] Complex cmp, List<DishComplex> DishComplexes)
+        public async Task<IActionResult> EditModal([FromForm] int id, [FromForm] Complex cmp, [FromForm] List<DishComplex> DishComplexes)
         {
             if (id != cmp.Id)
             {

@@ -393,7 +393,11 @@ else if (false)
                 //for(let line in complexLines ) {
                 //    console.log(line);
                 //}
+                var pict = $('#filepicture');
+                //var pictdata = new FormData($('#complexform')[0]);
+                var fd = new FormData();
 
+                fd.append('img', $('#filepicture').prop('files')[0]);
                 var selectedCategory = $("select.complex-category").children("option:selected").val();
                 var selectedDishKind = $("select.complex-dishkind").children("option:selected").val();
                 //console.log("category" + selectedCategory);
@@ -425,13 +429,34 @@ else if (false)
                 sendObj.Name = $("#Name").val();
                 sendObj.Price = $("#Price").val();
                 sendObj.DishesQuantity = $("#quantity").val();
+                sendObj.pict = $('#filepicture').prop('files')[0];
                 sendObj.CategoriesId = selectedCategory;
                 sendObj.DishKindId = selectedDishKind;
+                fd.append('id', sendObj.Id);
+                //fd.append('cmp', JSON.stringify(sendObj));
+               // fd.append('DishComplexes', JSON.stringify(sendObj.DishComplexes));
+                var processcontent = false;
+                if (!processcontent) {
+                    for (var key in sendObj) {
+                        fd.append(key, sendObj[key]);
+                    }
+                    fd.delete("DishComplexes");
+                    for (var i = 0; i < sendObj.DishComplexes.length; i++) {
+                        var item = sendObj.DishComplexes[i];
+                        for (var key in item) {
+                            fd.append(`DishComplexes[${i}].${key}`, item[key]);
+                        }
+                    }
+                    
+                }
                 // console.log(sendObj);
                 if (flag) {
                     $.ajax({
                         type: "POST",
-                        data: sendObj,
+                        //data: sendObj,
+                        data: fd,
+                        processData: processcontent,
+                        contentType: processcontent,
                         url: "/Complex/EditModal",
                         success: function (data) {
                             //console.log(data);
@@ -560,6 +585,29 @@ else if (false)
 
 
             }
+            function isFileImage(file) {
+                const acceptedImageTypes = ['image/jpeg', 'image/png'];
+
+                return file && acceptedImageTypes.includes(file['type'])
+            }
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    if (!isFileImage(input.files[0])) {
+                        $("#filepicture").val('');
+                        return;
+                    }
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#imgfilepicture').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $(document).on("change", "#filepicture", function () {
+                readURL(this);
+            });
             //end of edit modal
         })
 

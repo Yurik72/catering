@@ -218,11 +218,29 @@
         </div>
         <div class="col-lg-12">
             <div class="d-flex justify-content-center">
-                <a href=""  class="dayselectback"><span class="arr-line-left mr10"></span></a>
+                <a href="" class="dayselectback"><span class="arr-line-left mr10"></span></a>
                 <a href="" class="dayselectforward"><span class="arr-line-right"></span></a>
             </div>
         </div>
-        <div class="tab-content" id="pills-tabContent">
+        <div class="stic pt30 pb10 col-lg-12">
+            <div class="d-flex justify-content-start flex-wrap">
+
+                <div class="circle-line">
+
+                </div>
+                <div class="circle-line">
+
+                </div>
+                <div class="circle-line">
+
+                </div>
+                <div class="circle-line">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="tab-content col-lg-12" id="pills-tabContent">
             @{
                 DateTime current_content = daydate.StartOfWeek(DayOfWeek.Monday);
             }
@@ -1249,6 +1267,30 @@
                 $("[dishcomplex=" + comId + "]").each(function () {
                     $(this).val(quan);
                 });
+            });
+            $(document).on('click', '.ordercomplex', function (event) {
+                event.preventDefault();
+                
+                var fd = new FormData();
+                fd.append('ComplexId', $(this).attr('data-complexid'));
+                fd.append('Date', $(this).attr('data-daydate'));
+                fd.append('Quantity', 1);
+                fd.append('Price', $(this).attr('data-price'));
+                $.ajax({
+                    url: '/UserDayDishes/SaveDayOneComplex',
+                    type: 'post',
+                    processData: false,
+                    contentType: false,
+                    data: fd,
+                    success: function (data) {
+                        showOrderResult(data);
+                        incrementday(0);
+                    }
+                }).fail(function (xhr, code, error) {
+                    dialog_error(error);
+                    // console.log(error);
+                });;
+
             });
             $(document).on('click', '.sendMany', function (event) {
                 console.log("Post");
