@@ -88,7 +88,7 @@ namespace CateringPro.Controllers
            // disheskind.Insert(0, empty);
             return disheskind;
         }
-        public async Task<IActionResult>  EditUserDay(DateTime daydate, int dishKind)
+        public async Task<IActionResult>  EditUserDay(DateTime daydate, int dishKind,int categoryid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -96,14 +96,14 @@ namespace CateringPro.Controllers
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = daydate,
-                DayMenu =new DayMenu() { Date = daydate, DishKind = dishKind },
+                DayMenu =new DayMenu() { Date = daydate, DishKind = dishKind,Category= categoryid },
                 ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
                 //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
                 ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
             };
             return PartialView(model);
         }
-        public async Task<IActionResult> GetDishesKind(DateTime daydate, int dishKind)
+        public async Task<IActionResult> GetDishesKind(DateTime daydate, int dishKind,string viewname)
         {
             //if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
             //{
@@ -118,7 +118,28 @@ namespace CateringPro.Controllers
                 selected = list.FirstOrDefault();
             }
             ViewData["DishKindId"] = new SelectList(list, "Value", "Text", selected);
-            return PartialView("DishKinds");
+            if(string.IsNullOrEmpty(viewname))
+                viewname= "DishKinds";
+            return PartialView(viewname);
+        }
+        public async Task<IActionResult> GetGategories(DateTime daydate, int category, string viewname)
+        {
+            //if (daydate.DayOfWeek == DayOfWeek.Saturday || daydate.DayOfWeek == DayOfWeek.Sunday)
+            //{
+            //    daydate = daydate.AddDays(2);
+            //}
+            DateTime startDate = daydate.StartOfWeek(DayOfWeek.Monday);
+            DateTime endDate = startDate.AddDays(6);
+            var list = _userdaydishesrepo.Categories(startDate, endDate, User.GetCompanyID());
+            var selected = list.Where(sl => sl.Value == category.ToString()).FirstOrDefault();
+            if (selected == null)
+            {
+                selected = list.FirstOrDefault();
+            }
+            ViewData["CategoriesId"] = new SelectList(list, "Value", "Text", selected);
+            if (string.IsNullOrEmpty(viewname))
+                viewname = "Categories";
+            return PartialView(viewname);
         }
         // GET: UserDayDishes/Details/5
         public async Task<IActionResult> Details(string id)
@@ -237,6 +258,29 @@ namespace CateringPro.Controllers
             }
             return await Task.FromResult(Json(new { res = "OK" }));
             */
+        }
+
+        public async Task<JsonResult> SaveDayOneDish(UserDayDish daydish)
+        {
+            //await  _email.SendEmailAsync("yurik.kovalenko@gmail.com", "catering", "new order");
+            DateTime daydate = DateTime.Now;
+         
+            daydate = daydish.Date;
+            if (!_userdaydishesrepo.IsAllowDayEdit(daydate, User.GetCompanyID()))
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "OutDate" }));
+            }
+            var daydishlist = new List<UserDayDish>();
+            daydishlist.Add(daydish);
+            if (_userdaydishesrepo.SaveDay(daydishlist, this.HttpContext))
+            {
+                return await Task.FromResult(Json(new { res = "OK" }));
+            }
+            else
+            {
+                return await Task.FromResult(Json(new { res = "FAIL", reason = "Error" }));
+            }
+   
         }
         public async Task<JsonResult> SaveDayOneComplex(UserDayComplex dayComplex)
         {

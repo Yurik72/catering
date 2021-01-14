@@ -671,6 +671,13 @@ update
 	right: 0px;
 	width: 155px;
 }
+.price-order p{
+font-size: 22px;
+}
+.price-order p:first-child{
+	font-weight: bold;
+	padding-right: 30px;
+	}
 #user-modal .wrap-label {
 	width: inherit;
 }

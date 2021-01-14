@@ -39,6 +39,7 @@ namespace CateringPro.Repositories
         IQueryable<UserDayComplexViewModel> AvaibleComplexDayNoContext(DateTime daydate, string userId, int companyid);
         Task<bool> SaveComplexOrderDay(UserDayComplex daycomplex, string userId, int companyId);
         IQueryable<UserDayComplexViewModel> AllComplexDay(DateTime daydate, string userId, int companyid);
+        IEnumerable<SelectListItem> Categories(DateTime dateFrom, DateTime dateTo, int companyid);
     }
 }
 

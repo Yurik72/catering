@@ -46,6 +46,10 @@ namespace CateringPro.ViewComponents
                 {
                     complexes = complexes.Where(com => com.DishKindId == day.DishKind);
                 }
+                if (day.Category != 0)
+                {
+                    complexes = complexes.Where(com => com.ComplexCategoryId == day.Category);
+                }
                 complexes = complexes.OrderBy(com => com.ComplexCategoryCode);
                 return await Task.FromResult((IViewComponentResult)View("OneDayComplex", complexes));
            }

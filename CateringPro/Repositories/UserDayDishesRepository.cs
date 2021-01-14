@@ -304,6 +304,7 @@ namespace CateringPro.Repositories
                 {
                     //await saveday(d);
                     d.IsComplex = false;
+                    d.ComplexId = 0;
                     httpcontext.User.AssignUserAttr(d);
 
                     var userDayDish = _context.UserDayDish.SingleOrDefault(c => c.CompanyId == d.CompanyId
@@ -1133,6 +1134,25 @@ namespace CateringPro.Repositories
                              Code = dc.Code,
                              Value = dc.Id.ToString(),
                              Text = dc.Name
+                         }).Distinct().OrderBy(dc => dc.Code).ToList();
+            List<SelectListItem> res = new List<SelectListItem>();
+            query.ForEach(dc =>
+            {
+                res.Add(new SelectListItem() { Value = dc.Value, Text = dc.Text });
+            });
+
+            return res;
+        }
+        public IEnumerable<SelectListItem> Categories(DateTime dateFrom, DateTime dateTo, int companyid)
+        {
+            var query = (from udc in _context.DayComplex.WhereCompany(companyid).Where(u => u.Date >= dateFrom && u.Date <= dateTo)
+                         join com in _context.Complex on udc.ComplexId equals com.Id
+                         join cat in _context.Categories on com.CategoriesId equals cat.Id
+                         select new
+                         {
+                             Code = cat.Code,
+                             Value = cat.Id.ToString(),
+                             Text = cat.Name
                          }).Distinct().OrderBy(dc => dc.Code).ToList();
             List<SelectListItem> res = new List<SelectListItem>();
             query.ForEach(dc =>
