@@ -26,11 +26,12 @@
                     <div class="nav pt30 pb30" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">@Localizer["MainData"]</a>
                         <a class="nav-item nav-link" id="child-tab" data-toggle="tab" href="#profile-child" role="tab" aria-controls="child-tab" aria-selected="false">@Localizer["Childs"]</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">@Localizer["Finance"]</a>
+                        <a class="nav-item nav-link" id="nav-fin-tab" data-toggle="tab" href="#nav-content-fin" role="tab" aria-controls="nav-content-fin" aria-selected="false">@Localizer["Finance"]</a>
                         <a class="nav-item nav-link" id="nav-sec-tab" data-toggle="tab" href="#nav-sec" role="tab" aria-controls="nav-sec" aria-selected="false">Безпека</a>
                     </div>
                 </nav>
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <input type="hidden" asp-for="Id" id="id-value-id-user" />
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="row">
@@ -127,7 +128,7 @@
                             </label>
                         }
                     </div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
+                    <div class="tab-pane fade" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-fin-tab"></div>
                     <div class="tab-pane fade" id="nav-sec" role="tabpanel" aria-labelledby="nav-sec-tab">
                         <div class="row">
 
@@ -302,7 +303,7 @@
                     }
 
                 </div>
-                <div class="tab-pane fade table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria" id="nav-content-fin" role="tabpanel" aria-labelledby="nav-tab-fin">
+                <div id="nav-content-fin" class="tab-pane fade table-content" data-sortfield="@querymodel.SortField" data-sortorder="@querymodel.SortOrder" data-filter="@querymodel.SearchCriteria"  role="tabpanel" aria-labelledby="nav-tab-fin">
 
 
                 </div>
@@ -328,22 +329,23 @@
         </div>
     </div>
 
-
-    @section Scripts {
+}
+ @section Scripts 
+{
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
         <script>
        $(function () {
-                var userId = document.getElementById("id-value-id-user").value;
-                $(document).on("click", "#btnLink", function () {
+            var userId = document.getElementById("id-value-id-user").value;
+           $(document).on("click", "#btnLink", function () {
                     $('#ModalPopUp').modal('show');
                     $(".modal-content").html(gethtmlloading());
                     var urlfin = '@Url.Content("~/Account/ChangePasswordModal?userId=")' + userId;
                     $.get(urlfin, function (data) {
                     $(".modal-content").html(data);
                     });
-                    });
-                    $(document).on('click', '[data-save="modal"]', function (event) {
+           });
+           $(document).on('click', '[data-save="modal"]', function (event) {
                     event.preventDefault();
 
                     var form = $(this).parent().parents().find('.modal-body').find('form');
@@ -373,71 +375,72 @@
                     dialog_error(message);
                     // $('html').html(xhr.responseText);
                     });
-                    });
+          });
 
-                    $("#nav-content-fin").html(gethtmlloading());
+        $("#nav-content-fin").html(gethtmlloading());
 
-                    $.get('/Account/UserFinance', function (data) {
+        $.get('/Account/UserFinance', function (data) {
 
-                    $("#nav-content-fin").html(data);
-                    var enable_liqpay = false;
-                    @if (setting.EnableLiqPay)
-                    {
-                        @Html.Raw("enable_liqpay = true;")
-                    }
-                    $("#nav-content-fin").find('#addliqpay-btn').click(function(e) {
-                    e.preventDefault();
-                    if (enable_liqpay == true)
-                    window.location.replace(`@Url.Action("Index", "Payment") ? amount =${$("#nav-content-fin").find('#liqpay-amount').val()}`);
-                    });
+            $("#nav-content-fin").html(data);
+            var enable_liqpay = false;
+            @if (setting.EnableLiqPay)
+            {
+                @Html.Raw("enable_liqpay = true;")
+            }
+            $("#nav-content-fin").find('#addliqpay-btn').click(function(e) {
+            e.preventDefault();
+            if (enable_liqpay == true)
+            window.location.replace(`@Url.Action("Index", "Payment") ? amount =${$("#nav-content-fin").find('#liqpay-amount').val()}`);
+            });
 
-                    });
+        });
 
-                    $.get('/Account/UserChilds?view=UserChildsData', function (data) {
-                    var childcontainer = $('#child-container')
-                    childcontainer.find('.child-data').remove();
-                    childcontainer.append(data);
+
+        $.get('/Account/UserChilds?view=UserChildsData', function (data) {
+                var childcontainer = $('#child-container')
+                childcontainer.find('.child-data').remove();
+                childcontainer.append(data);
                     // $("#nextchilds").html(data);
 
-                    });
-                    $("#addchild").click(function (e) {
-                    e.preventDefault();
-                    var token = $("[name='__RequestVerificationToken'").val();
-                    $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
-                    //alert(data);
-                    var childcontainer = $('#child-container');
-                    childcontainer.find('.child-data').remove();
-                    childcontainer.append(data);
-                    })
-                    .fail(function (xhr, code, error) {
-                    dialog_error(error);
-                    });
-                    });
+        });
+        $("#addchild").click(function (e) {
+                e.preventDefault();
+                var token = $("[name='__RequestVerificationToken'").val();
+                $.post('/Account/AddNewChild', { __RequestVerificationToken: token }).done(function (data, statusText, xhr) {
+                //alert(data);
+                var childcontainer = $('#child-container');
+                childcontainer.find('.child-data').remove();
+                childcontainer.append(data);
+                })
+                .fail(function (xhr, code, error) {
+                dialog_error(error);
+                });
+        });
 
-                    function isFileImage(file) {
-                    const acceptedImageTypes = ['image/jpeg', 'image/png'];
+        function isFileImage(file) {
+                const acceptedImageTypes = ['image/jpeg', 'image/png'];
 
-                    return file && acceptedImageTypes.includes(file['type'])
-                    }
-                    function readURL(input) {
-                    if (input.files && input.files[0]) {
+                return file && acceptedImageTypes.includes(file['type'])
+        }
+        function readURL(input) {
+                if (input.files && input.files[0]) {
                     var target_img = $($(input).attr('data-target'));
                     if (!isFileImage(input.files[0])) {
-                    $(input).val('');
-                    return;
+                        $(input).val('');
+                        return;
                     }
                     var reader = new FileReader();
 
                     reader.onload = function (e) {
-                    $(target_img).attr('src', e.target.result);
+                        $(target_img).attr('src', e.target.result);
                     }
 
                     reader.readAsDataURL(input.files[0]);
-                    }
-                    }
-                    $(document).on("change", ".custom-file-input", function () {
-                    readURL(this);
-                    });
+                }
+        }
+        $(document).on("change", ".custom-file-input", function () {
+            readURL(this);
+        });
 
             setup_listitems({ href:'@Url.Content("~/Account")',method:"UserFinance" });
        });
@@ -445,7 +448,7 @@
         </script>
     }
 
-}
+
 
 
 

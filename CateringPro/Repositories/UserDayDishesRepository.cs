@@ -907,7 +907,45 @@ namespace CateringPro.Repositories
         }
 
 
+        public UserDayComplexViewModel ComplexDetails(int complexid, int companyid)
+        {
+            var res = new UserDayComplexViewModel();
+            var complex=_context.Complex.FirstOrDefault(c => c.Id == complexid);
+            if (complex == null)
+                return res;
+            LoadUserDayComplex(res, complex);
 
+            return res;
+        }
+        private void LoadUserDayComplex(UserDayComplexViewModel model,Complex complex)
+        {
+            model.ComplexId = complex.Id;
+            model.ComplexName = complex.Name;
+            model.ComplexPictureId = complex.PictureId;
+            model.Price = complex.Price;
+            model.ComplexCategoryId = complex.CategoriesId;
+            model.DishKindId = complex.DishKindId;
+            model.ComplexDishes = from d in _context.Dishes
+                                  join dishCom in _context.DishComplex on d.Id equals dishCom.DishId
+                                  where dishCom.ComplexId == complex.Id
+                                  orderby dishCom.DishCourse ascending, dishCom.IsDefault descending
+                                  select new UserDayComplexDishViewModel()
+                                  {
+
+                                      DishId = d.Id,
+                                      DishName = d.Name,
+                                      DishReadyWeight = d.ReadyWeight,
+                                      PictureId = d.PictureId,
+                                      DishCourse = dishCom.DishCourse,
+                                      IsDefault = dishCom.IsDefault,
+                                      //  DishQuantity = udd.Quantity,
+
+                                      DishDescription = d.Description,
+                                      DishIngredients = ""/* string.Join(",", from di in _context.DishIngredients.WhereCompany(companyid).Where(t => t.DishId == d.Id)
+                                                                                   join ingr in _context.Ingredients on di.IngredientId equals ingr.Id
+                                                                                   select ingr.Name)*/
+                                  };
+        }
         public IQueryable<UserDayComplexViewModel> AllComplexDay(DateTime daydate, string userId, int companyid)
         {
          //   var ordered = OrderedComplexDay(daydate, userId, companyid);
@@ -923,6 +961,8 @@ namespace CateringPro.Repositories
                         select new UserDayComplexViewModel()
                         {
                             ComplexId = comp.Id,
+                            ComplexName=comp.Name,
+                           
                             ComplexCategoryId = cat.Id,
                             ComplexCategoryName = cat.Name,
                             ComplexCategoryCode = cat.Code,

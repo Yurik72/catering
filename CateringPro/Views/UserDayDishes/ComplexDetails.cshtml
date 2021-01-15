@@ -1,0 +1,65 @@
+﻿@model CateringPro.Models.UserDayComplexViewModel
+@inject CateringPro.Core.SharedViewLocalizer Localizer
+<div class="line-content pt30">
+    <div class="row">
+        <div class="col-3">
+            <h5>@Model.ComplexName</h5>
+        </div>
+        <div class="col-3">
+            <img style="width:180px;height:120px;margin:2px;" src="@Url.Action("GetPicture", "Pictures", new { id = Model.ComplexPictureId,width = 180, height = 120 })" alt="">
+        </div>
+
+        <div class="col-4">
+            <div class=""><h3><span>@Model.Price</span><i class="fas fa-hryvnia"></i></h3></div>
+        </div>
+    </div>
+    
+
+
+    <div class="line-head d-flex">
+        <ul style="list-style-type: square; ">
+            @foreach (var d in Model.ComplexDishes)
+            {
+                @*<p>@d.DishCourse  @d.DishName </p>*@
+                <li style="list-style-type: none;">
+                    <div class="row">
+                        <div class="col-3">
+                            <img style="width:180px;height:120px;margin:2px;" src="@Url.Action("GetPicture", "Pictures", new { id = d.PictureId,width = 180, height = 120 })" alt="">
+
+                        </div>
+                        <div class="col-3">
+                            <h5>@d.DishName</h5>
+                        </div>
+                        <div class="col-4">
+                            @d.DishDescription
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@*
+    <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+        <div class="col-lg-2 col-md-2 col-3 px-0">
+            <img class="modal-dish-item-image" src="#" alt="Image week dish"
+                 style="width: inherit; ">
+        </div>
+        <div class="col-lg-10 p-0 pl-2 col-md-10 col-9 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+            <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change modal-dish-item-name"
+                 style="font-size: 16px;"> </div>
+            <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                <div class="pl-4 "></div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                 style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                <span class="modal-dish-item-readyweight"></span>
+                <span class="d-inline d-md-none d-lg-none"></span>
+                <span class="d-inline d-md-none d-lg-none"></span>
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                 style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+            </div>
+        </div>
+    </div>
+*@

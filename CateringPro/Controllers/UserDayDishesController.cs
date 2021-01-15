@@ -373,6 +373,10 @@ namespace CateringPro.Controllers
  
             
         }
+        public async Task<IActionResult> ComplexDetails(int complexid)
+        {
+            return PartialView(_userdaydishesrepo.ComplexDetails(complexid, User.GetCompanyID()));
+        }
         public async Task<JsonResult> SendWeekInvoice(string day)
         {
             DateTime daydate = Convert.ToDateTime(day);

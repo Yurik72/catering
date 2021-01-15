@@ -10,7 +10,8 @@
 }
 @{
     DateTime daydate = DateTime.Now;
-    if (Model.Any() ) {
+    if (Model.Any())
+    {
         daydate = Model.First().Date;
     }
     daydate = daydate.ResetHMS();
@@ -32,7 +33,7 @@
                     <img src="@Url.Action("GetPicture", "Pictures", new { id = item.ComplexPictureId })" alt="">
                     <div class="line-stic pt30 d-flex">
                         <p>@item.ComplexCategoryName</p>
-                        <p class="line-p-sklad" data-toggle="modal" data-target="#line-sklad">@Localizer["Consists"]</p>
+                        <p class="line-p-sklad" data-toggle="modal" data-id="@item.ComplexId" data-target="#dish-stock">@Localizer["Consists"]</p>
 
                     </div>
                     <div class="line-head d-flex">
@@ -47,15 +48,15 @@
                             @foreach (var d in item.ComplexDishes)
                             {
                                 @*<p>@d.DishCourse  @d.DishName </p>*@
-                            <li style="list-style-type: square;">
-                                <h5>@d.DishName</h5>
-                            </li>
+                                <li style="list-style-type: square;">
+                                    <h5>@d.DishName</h5>
+                                </li>
                             }
                         </ul>
                     </div>
 
 
-                    
+
                     <div class=" d-flex justify-content-center">
                         <div class=""><h3><span>@item.Price</span><i class="fas fa-hryvnia"></i></h3></div>
                     </div>
@@ -82,20 +83,65 @@
 
                 </div>
 
-            @{ 
-                com++;
-            }
-        
-  
-  
-    @if (allowEdit)
-    {
+                @{
+                    com++;
+                }
 
-        //<button data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="btn btn-primary send">@Localizer["MyOrdersSave"]</button>
-        // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
-    }
 
-    </div>
-   }
+
+                @if (allowEdit)
+                {
+
+                    //<button data-date="@Model.First().Date.Day" date-fullDate="@Model.First().Date" class="btn btn-primary send">@Localizer["MyOrdersSave"]</button>
+                    // <button type="button" button class="btn btn-primary" data-action="saveuserdaycomplex">@Localizer["MyOrdersSave"]</button>
+                }
+
+            </div>
+        }
     </div>
 }
+                    @*
+<div class="modal d-md-none d-lg-none" id="dish-stock" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-modal="true" style="margin-top: 100px">
+    <div class="modal-dialog" style="max-width: 966px">
+        <div class="modal-content col-lg-12 col-12">
+            <div class="modal-header align-items-center col-12 px-0 px-md-3 px-lg-3" style="padding-top:20px">
+                <h5 class="modal-title p-0" id="name-of-dish"
+                    style="font-size: 34px; line-height: 40px; font-weight: bold">
+                    Склад
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="../img/close-modal.svg" aria-hidden="true" alt="">
+                </button>
+            </div>
+            <div class="modal-body col-auto p-0 mt-2 d-flex flex-column">
+                <div class="col-12 p-0 d-flex flex-lg-row flex-md-row align-items-md-center align-items-lg-center align-items-start pb-lg-2 pb-md-2 pb-3">
+                    <div class="col-lg-2 col-md-2 col-3 px-0">
+                        <img class="modal-dish-item-image" src="#" alt="Image week dish"
+                             style="width: inherit; ">
+                    </div>
+                    <div class="col-lg-10 p-0 pl-2 col-md-10 col-9 d-flex flex-lg-row flex-md-row flex-column align-items-lg-center align-items-md-center align-items-start justify-content-start">
+                        <div class="col-lg-2 col-md-2 col-12 px-md-0 px-lg-0 bolder-change modal-dish-item-name"
+                             style="font-size: 16px;"> </div>
+                        <div class="col-5 d-lg-block d-md-block d-none pr-3" style="font-size: 16px;">
+                            <div class="pl-4 "></div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 d-flex justify-content-lg-start justify-content-md-start lighter-change"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                            <span class="modal-dish-item-readyweight"></span>
+                            <span class="d-inline d-md-none d-lg-none"></span>
+                            <span class="d-inline d-md-none d-lg-none"></span>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-12 justify-content-center d-lg-flex d-none d-md-flex"
+                             style="font-family: Open-Sans, sans-serif; font-size: 16px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p-0"><p style="font-style: normal; font-weight: normal; font-size: 16px; color: #232323" class="modal-dish-item-description"></p></div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+                    *@
