@@ -15,6 +15,8 @@ namespace CateringPro.Models
 
         public bool ShowComplex { get; set; }
 
+        public List<int> Categories { get; set; }
+
     }
    
 }

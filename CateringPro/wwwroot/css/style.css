@@ -308,7 +308,12 @@ margin-right: 20px;
 	left: 0;
 }
 .circle-line:hover{
-	background-color: #A5C601;
+	background-color: #A5C601!important;
+	border: solid 1px #E8E8E8;
+	cursor: pointer;
+}
+.circle-line.active {
+	background-color: #85A601;
 	border: solid 1px #E8E8E8;
 	cursor: pointer;
 }

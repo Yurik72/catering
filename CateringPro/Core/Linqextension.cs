@@ -103,6 +103,18 @@ namespace CateringPro.Core
     }
     public static class Linqextension
     {
+        public static IEnumerable<int> StringToIntList(this string str)
+        {
+            if (String.IsNullOrEmpty(str))
+                yield break;
+
+            foreach (var s in str.Split(','))
+            {
+                int num;
+                if (int.TryParse(s, out num))
+                    yield return num;
+            }
+        }
         public static IQueryable<T> OrderByEx<T>(this IQueryable<T> source,  string propertyName,string order)
         {
 

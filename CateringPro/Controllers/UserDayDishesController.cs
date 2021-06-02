@@ -88,19 +88,21 @@ namespace CateringPro.Controllers
            // disheskind.Insert(0, empty);
             return disheskind;
         }
-        public async Task<IActionResult>  EditUserDay(DateTime daydate, int dishKind,int categoryid)
+        public async Task<IActionResult>  EditUserDay(DateTime daydate, int dishKind,int categoryid,string categories)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            
             if (user == null)
                 return NotFound();
             UserDayEditModel model = new UserDayEditModel()
             {
                 DayDate = daydate,
-                DayMenu =new DayMenu() { Date = daydate, DishKind = dishKind,Category= categoryid },
+                DayMenu =new DayMenu() { Date = daydate, DishKind = dishKind,Category= categoryid, Categories = categories.StringToIntList().ToList() },
                 ShowComplex = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & (OrderTypeEnum.OneComplexType | OrderTypeEnum.Complex) ) >0,
                 //ShowComplex = user.MenuType.HasValue && (user.MenuType.Value & 1) > 0,
                 ShowDishes = (_userdaydishesrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.Dishes ) > 0
-            };
+               
+        };
             return PartialView(model);
         }
         public async Task<IActionResult> GetDishesKind(DateTime daydate, int dishKind,string viewname)

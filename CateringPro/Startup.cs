@@ -29,6 +29,10 @@ using CateringPro.Helpers;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http.Features;
 using CateringPro.TelegramBot;
+using React.AspNet;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using JavaScriptEngineSwitcher.V8;
 
 namespace CateringPro
 {
@@ -144,17 +148,27 @@ namespace CateringPro
             services.AddTransient<SharedViewLocalizer>();
             services.AddTransient<URLHelperContextLess>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+
+            // Make sure a JS engine is registered, or you will get an error!
+            services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName)
+              .AddV8();
+            services.AddControllersWithViews();
             services.AddMvc()
                 .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization(options => options.DataAnnotationLocalizerProvider = (t, f) => f.Create(typeof(SharedResources)));
 
-        //    services.AddJsReport(new LocalReporting()
-        //        .Configure(cfg=>
-         //       {
-        //            cfg.HttpPort = 14750;
-         //          return cfg;
-         //       })
-         //       .UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
+            //    services.AddJsReport(new LocalReporting()
+            //        .Configure(cfg=>
+            //       {
+            //            cfg.HttpPort = 14750;
+            //          return cfg;
+            //       })
+            //       .UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
+            // react
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -260,7 +274,13 @@ namespace CateringPro
                 new CultureInfo("ru-RU")
               
             };
+
             app.UseHttpsRedirection();
+            //react
+            app.UseReact(config => {
+                config.AddScript("~/rjs/serviceex.jsx");
+                //.AddScript("~/rjs/cardex.jsx");
+            });
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
@@ -306,7 +326,6 @@ namespace CateringPro
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
-
 
             //telegrambot
             app.ConfigureTelegramBot(env);

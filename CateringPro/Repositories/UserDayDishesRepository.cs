@@ -53,7 +53,7 @@ namespace CateringPro.Repositories
             var dateNow = DateTime.Now;
             DateTime min = dateNow.AddHours(-(company.OrderLeadTimeH.Value));
             dateNow = dateNow.AddDays(1);
-            DateTime max = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
+            DateTime max = new(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
             dateNow = dateNow.AddDays(1);
 
             //DateTime min = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 0, 0, 0);
@@ -473,15 +473,17 @@ namespace CateringPro.Repositories
        
         public async Task<bool> SaveUserDay(int quantity, decimal total, decimal discount, DateTime date, string userId, int companyId)
         {
-            UserDay order = new UserDay();
-            order.CompanyId = companyId;
-            order.Date = date;
-            order.UserId = userId;
-            order.Quantity = quantity;
-            order.Total = total - discount;
-            order.Discount = discount;
-            order.TotalWtithoutDiscount = total;
-            order.IsConfirmed = true;
+            UserDay order = new()
+            {
+                CompanyId = companyId,
+                Date = date,
+                UserId = userId,
+                Quantity = quantity,
+                Total = total - discount,
+                Discount = discount,
+                TotalWtithoutDiscount = total,
+                IsConfirmed = true
+            };
 
             try
             {

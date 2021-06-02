@@ -39,25 +39,33 @@ namespace CateringPro.ViewComponents
             ViewData["AllowAdmin"] = _udaydishrepo.GetConfrimedAdmin(this.User.GetUserId());
             //to do check balance
             //ViewData["PositiveBalance"] = _udaydishrepo.IsBalancePositive(this.User.GetUserId());
-            if ((_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.OneComplexType) >0)
+            IQueryable<UserDayComplexViewModel> complexes;
+            string viewName = "Default";
+            if ((_udaydishrepo.GetCompanyOrderType(this.User.GetCompanyID()) & OrderTypeEnum.OneComplexType) > 0)
             {
-                var complexes =  _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID());
-                if (day.DishKind != 0)
-                {
-                    complexes = complexes.Where(com => com.DishKindId == day.DishKind);
-                }
-                if (day.Category != 0)
-                {
-                    complexes = complexes.Where(com => com.ComplexCategoryId == day.Category);
-                }
-                complexes = complexes.OrderBy(com => com.ComplexCategoryCode);
-                return await Task.FromResult((IViewComponentResult)View("OneDayComplex", complexes));
-           }
+                complexes = _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID());
+                viewName = "OneDayComplex";
+            }
             else
             {
-                return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.AllComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
-                //return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.ComplexPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
+                complexes = _udaydishrepo.AllComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID());
             }
+            if (day.DishKind != 0)
+            {
+                complexes = complexes.Where(com => com.DishKindId == day.DishKind);
+            }
+            if (day.Category != 0)
+            {
+                complexes = complexes.Where(com => com.ComplexCategoryId == day.Category);
+            }
+            if (day.Categories != null && day.Categories.Count > 0)
+            {
+                complexes = complexes.Where(com => day.Categories.Contains(com.ComplexCategoryId));
+            }
+            complexes = complexes.OrderBy(com => com.ComplexCategoryCode);
+             return await Task.FromResult((IViewComponentResult)View(viewName, complexes));
+           
+                //return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.ComplexPerDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
             // return await Task.FromResult((IViewComponentResult)View("Default", _udaydishrepo.AvaibleComplexDay(daydate, this.User.GetUserId(), this.User.GetCompanyID())));
         }
 

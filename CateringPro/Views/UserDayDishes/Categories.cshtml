@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-start flex-wrap">
     @foreach (var it in ViewBag.CategoriesId)
     {
-        <div class="circle-line">
+        <div class="circle-line active" data-id="@it.Value">
             @it.Text
         </div>
     }

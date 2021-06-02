@@ -50,10 +50,26 @@ namespace CateringPro.Controllers
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
             return await Task.FromResult(View());
         }
+        public async Task<IActionResult> ServiceEx()
+        {
+            //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
+            return await Task.FromResult(View());
+        }
+        public async Task<IActionResult> CardEx()
+        {
+            //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
+            return await Task.FromResult(View());
+        }
         public async Task<IActionResult> CardsList([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
         {
             //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
             return PartialView(await _servicerepo.GetUserCardsAsync(querymodel));
+        }
+        public async Task<JsonResult> CardsListJson([Bind("SearchCriteria,SortField,SortOrder,Page,RelationFilter")] QueryModel querymodel)
+        {
+            //var appDbContext = _context.Dishes.Include(d => d.Category).Include(d => d.Company);
+            var res = await _servicerepo.GetUserCardsAsync(querymodel);
+            return await Task.FromResult(Json(res)); 
         }
         public async Task<JsonResult> GenUserCardToken(string userId)
         {

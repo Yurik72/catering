@@ -38,7 +38,7 @@
                                 @{
                                     string dish_kind_body = "";
                                     string dish_kind_text = "";
-                                    int dish_kind_id = 0;
+                                    string dish_kind_id ="";
                                     foreach (var it in ViewBag.DishKindId)
                                     {
                                         if (it.Value == ViewBag.DishKindId.SelectedValue.Value)
@@ -536,7 +536,8 @@
             var reloadDay = function (dayindex,callback) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
-                dt.setDate(dt.getDate() - dt.getDay() + dayindex+1);
+                dt.setDate(dt.getDate() - dt.getDay() + dayindex + 1);
+                var categories = get_selected_categories();
                 var navcontent = $('#nav-content-' + dayindex);
                 navcontent.html(html_loading);
                 var dishKind = $("#dishKind").val();
@@ -544,7 +545,8 @@
                     dishKind = 1;
                 }
                 //navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString());
-                navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString() + "&dishKind=" + encodeURI(dishKind.toString())),
+                navcontent.load('/UserDayDishes/EditUserDay?daydate=' + encodeURI(dt.toDateString()
+                    + "&dishKind=" + encodeURI(dishKind.toString()) + '&categories=' + categories),
                     function (response, status, xhr) {
                         navcontent.find("input.numberspinner[type='number']").inputSpinner();
                         setClosedDaystyle(dayindex);
@@ -647,7 +649,7 @@
             })
             $('#weekselector').text(weektext());
             $('#weekselected').text(weektext());
-            var incrementday = function (d) {
+            var incrementday = function (d,init) {
                 var ms = parseInt($('#currentdate').val());
                 var dt = new Date(ms);
                 console.log("before" + dt);
@@ -675,7 +677,13 @@
                         start++;
                     }
                 }
+                if (iscatering && init) {
+                    loadCategories(dt);
+                }
                 if (d != 0) {
+                    if (iscatering && !init) {
+                        loadCategories(dt);
+                    }
                     var dishKind = $(".select-dishesKind");
                     var dishKindVal = $("#dishKind").val();
                     if (dishKindVal == null) {
@@ -688,13 +696,12 @@
                     }
                     //dt.setDate(dt.getDate() - dt.getDay() + 1);
                     console.log("day" + dt);
+
                     var urldishkind = '/UserDayDishes/GetDishesKind?daydate=' + encodeURI(dt.toDateString()) + "&dishKind=" + encodeURI(dishKindVal.toString());
                     if (iscatering) {
                         urldishkind += "&viewname=DishKindsStyleA";
                     }
-                    if (iscatering) {
-                        loadCategories(dt);
-                    }
+
                     dishKind.load(urldishkind,
                         function (response, status, xhr) {
                             if (!iscatering) {
@@ -719,7 +726,11 @@
                 setClosedDaystyle();
             }
 
-
+            function get_selected_categories() {
+                return $('#categoryfilter').find('.circle-line.active').map(function (index, element) {
+                        return parseInt($(element).attr('data-id'));
+                    }).get();
+            }
 
             function loadCategories(dt) {
                 var categoryfilter = $("#categoryfilter");
@@ -731,7 +742,18 @@
                         if (!iscatering) {
 
                         }
+                        categoryfilter.find(".circle-line").click(function (e) {
+                            e.preventDefault();
+                            const catfilter = $(this);
+                            if (catfilter.hasClass("active")) {
+                                catfilter.removeClass("active");
+                            }
+                            else {
+                                catfilter.addClass("active");
+                            }
+                            incrementday(0);
 
+                        });
                     }
                 );
             }
@@ -744,7 +766,7 @@
                 incrementday(7);
             });
             setupDishKinds();
-            incrementday(0);
+            incrementday(0,true);
             var showOrderResult = function (data) {
                 if (!data || !data.res) {
                     $('#modOrderFail').modal('show');
