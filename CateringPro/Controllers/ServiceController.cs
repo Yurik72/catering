@@ -91,6 +91,15 @@ namespace CateringPro.Controllers
 
             return PartialView(card);
         }
+        public async Task<JsonResult> UserCardDetailsJson(string token)
+        {
+
+            var card = await _servicerepo.GetUserCardAsync(token);
+            //    if (card == null)
+            //        return NotFound();
+
+            return await Task.FromResult(Json(card));
+        }
         [HttpPost]
         public async Task<JsonResult> Status(ServiceRequest request)
         {

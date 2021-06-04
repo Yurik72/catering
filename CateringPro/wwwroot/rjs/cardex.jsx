@@ -15,52 +15,76 @@ async function doСardFetch(apiurl) {
     
 }
 
-class CardModalDialog extends React.Component {
+
+class NfcReaderCardScan extends React.Component {
     constructor(props) {
         super(props);
+        this.emptystate = {cardtag: '', iscardscanned: false, userdata: undefined,isfetchinguser:false }
+        this.state = this.emptystate 
+        this.cardreaded = this.cardreaded.bind(this);
+        this.fillcardetails = this.fillcardetails.bind(this);
     };
+    async cardreaded(card) {
+        this.setState({ iscardscanned: true, cardtag: card.cardtag, isfetchinguser: true })
+        this.fillcardetails(card.cardtag);
+    }
+    async fillcardetails(token) {
+
+        const data = await doСardFetch(`/Service/UserCardDetailsJson?token=${token}`)
+        this.setState({ userdata: data, isfetchinguser: true})
+    }
+    componentDidMount() {
+        this.props.childCallbacks({
+            cardscanned: this.cardreaded
+        });
+    }
     render() {
-        const { isopen, title, message, onclose, onyes, onno,type } = this.props;
-        const renderbuttons =() => {
-            if (type == 'yesno') {
-                return (
-                    <>
-                        <button id="btnyes" type="button" className="btn btn-primary" onClick={onyes}>Tak</button>
-                        <button id="btno" type="button" className="btn btn-primary" onClick={onno}>Ні</button>
-                    </>
+        const { isconnected, isconnecting, url, onurlchange, commands } = this.props;
+        const { iscardreaded, cardtag, iscardscanned, isfetchinguser} = this.state;
+
+        const rendernouserrow = () => {
+            return (
+                <div className="row user-card  border border-danger rounded justify-content-center my-2">
+                    <div className="col-12 justify-content-center bg-danger text-white">
+                        <span>"NoRecords"</span>
+                    </div>
+                </div>
                 )
-            }else {
-                return(
-                        <button id="btnyes" type="button" className="btn btn-primary" onClick={onclose}>Tak</button>
-                    )
-            }
+        }
+        const rendercardscannedinfo = () => {
+            return (
+                <>
+                    <div className="row user-welcome bg-info text-white" >
+                        <div className="col-4 card-info-scan">
+                            <span className="card-info-scan" >Card Details</span>
+                        </div>
+                        <div className="col-8 card-info-scan ${addclass}">
+                            <span className="card-info-scan" >cardtag</span>
+                        </div>
+                    </div>
+                    <div id="user-card-details-temp" className="row user-card-details" >
+                        <div className="col-4 card-info-scan">
+                            <span className="card-info-scan" >..Fetchind user data</span>
+                        </div>
+                    </div>
+                 </>
+                )
         }
         return (
-            <div className={"modal " + (isopen ? "show" : "fade")} id="ModalPopUp" role="dialog" aria-modal="true" style={isopen ? { display: "block" } : {}}>
-                <div className="modal-dialog err-pop" >
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">{title}</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={onclose}>
-                                <span aria-hidden="true">X</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <p>{ message}</p>
-                        </div>
-                        <div className="modal-footer">
-                            {
-                                renderbuttons()
-                            }
-                            
+            <>
+                <div className="row">
+                    <div className="col-12">
+                        <div id="card-info" className="container">
+                        {iscardscanned && rendercardscannedinfo()}
                         </div>
                     </div>
                 </div>
-            </div>
-            )
+                {isfetchinguser && <FetchingUser/>}
+            </>
+        );
+
     }
 }
-
 class NfcReaderState extends React.Component {
     constructor(props) {
         super(props);
@@ -70,7 +94,7 @@ class NfcReaderState extends React.Component {
     render() {
         const { isconnected, isconnecting, url, onurlchange, commands } = this.props;
         return (
-            <div id="nfc_isoffline" className={"row container-state text-white " + (isconnected ? "bg-success":"bg-danger")} >
+            <div id="nfc_state" className={"row container-state text-white " + (isconnected ? "bg-success":"bg-danger")} >
                 <div className="col-4 container-state">
                     {!isconnected &&
                         <span id="nfc_isoffline">
@@ -111,10 +135,7 @@ class CardList extends React.Component {
         this.state = { data: [] };
     }
     async componentDidMount() {
-        //var url = `/Service/CardsListJson/?searchcriteria=${''}`;
-       // const data = await doСardFetch(url);
-       // if (data)
-       //     this.setState({ data: data });
+
       await  this.dosearch('');
     }
     async dosearch(criteria) {
@@ -251,6 +272,7 @@ class CardComp extends React.Component {
         this.showdialog = this.showdialog.bind(this);
         this.showdialog_yes_no = this.showdialog_yes_no.bind(this);
         this.promise_dialog_yes_no = this.promise_dialog_yes_no.bind(this);
+        this.setchildCallbacks = this.setchildCallbacks.bind(this);
 
         this.state = { url: "wss://localhost:44360/ws", nfcconnected: false, nfcconnecting:false }
         this.nfcsock = new nfc_socket(this.state.url);
@@ -260,7 +282,13 @@ class CardComp extends React.Component {
         this.nfcsock.on('error', this.nfcsock_error);
         this.nfcsock.on('state', this.nfcsock_state);
         this.commands = { burn: this.burn_handler, connect: this.connect_handler, showdialog: this.showdialog }
+        this.childCallbacks = {};
+
+      
         //dialog.registerparent(this);
+    }
+    setchildCallbacks(callbacks) {
+        this.childCallbacks = { ...this.childCallbacks, ...callbacks };  //to do change to arrays
     }
     //dialog handling
     async burn_handler(userid) {
@@ -340,7 +368,8 @@ class CardComp extends React.Component {
         this.setState({ nfcconnected: this.nfcsock.isconnected(), nfcconnecting: this.nfcsock.isconnecting() })
     }
     nfcsock_cardreaded(msg) {
-
+        if (this.cardreaded && this.childCallbacks.cardreaded)
+            this.childCallbacks.cardreaded(msg);
     }
     nfcsock_error(msg) {
         console.log("nfcsock_error")
@@ -365,7 +394,7 @@ class CardComp extends React.Component {
         const renderDialog =(dlg) => {
             if (dlg && dlg.isopen) {
                 return (
-                    <CardModalDialog isopen={dlg.isopen} title={dlg.title} message={dlg.message} type={ dlg.type}  onclose={this.onclosedialog} onyes={this.onyesdialog} onno={this.onnodialog} />
+                    <ModalDialog isopen={dlg.isopen} title={dlg.title} message={dlg.message} type={ dlg.type}  onclose={this.onclosedialog} onyes={this.onyesdialog} onno={this.onnodialog} />
                     )
             }
         }
@@ -376,6 +405,10 @@ class CardComp extends React.Component {
                     isconnecting={this.state.nfcconnecting}
                     url={this.state.url}
                     onurlchange={this.change_url_handler}
+                />
+                <NfcReaderCardScan childCallbacks={this.setchildCallbacks} commands={this.commands} isconnected={this.state.nfcconnected}
+                    isconnecting={this.state.nfcconnecting}
+                    url={this.state.url}
                 />
                 <CardList commands={this.commands} />
                 {renderDialog(dialog)}
