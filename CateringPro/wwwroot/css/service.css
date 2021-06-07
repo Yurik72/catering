@@ -149,3 +149,115 @@ main.tabs {
     width: 100px;
     height: 100px;
 }
+.desk-non-bord {
+    background: #FAFAFA;
+    border: 1px solid #dfdfdf;
+    border-radius: 4px;
+    margin: 1px 0;
+    cursor: pointer;
+}
+.plate-button {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.08);
+    max-width: 224px;
+    margin: 10px 0 0 !important;
+}
+
+#say-hello-button {
+    background: #36C233 !important;
+}
+
+    #say-hello-button .stroke-svg {
+        stroke: #ffffff;
+        color: #ffffff;
+    }
+
+#off-nfc, #on-nfc, #pick-up-nfc {
+    justify-content: center !important;
+}
+
+.off-nfc-span {
+    font-weight: 600;
+}
+
+.nfc-off-desktop {
+    display: none !important;
+}
+
+.nfc-off-mob {
+    display: inline !important;
+}
+
+.nfc-non-active {
+    background: #FFF0EA;
+    min-height: 223px !important;
+}
+
+.nfc-is-active {
+    min-height: 72px !important;
+}
+
+#nfcurl {
+    height: 34px !important;
+}
+.non-display {
+    display: none;
+}
+
+.stroke-svg {
+    stroke: #232323;
+    color: #232323;
+}
+
+.active-hello-button, .active-plate-button {
+    background: #36C233 !important;
+}
+
+    .active-hello-button .stroke-svg {
+        stroke: #ffffff;
+        color: #ffffff;
+    }
+
+
+    .active-plate-button .plate-stroke, .active-plate-button .plate-text {
+        stroke: #ffffff;
+        color: #ffffff;
+    }
+
+.plate-stroke {
+    stroke: #797979;
+}
+
+.plate-text {
+    color: #232323;
+}
+.left-fixed-title-btn {
+    background: #F1F1F1;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    width: 139px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(-90deg);
+    position: fixed;
+    top: 75px;
+    left: -51px;
+    cursor: pointer;
+}
+
+.right-fixed-title-btn {
+    background: #F1F1F1;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    width: 139px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(90deg);
+    position: fixed;
+    top: 75px;
+    right: -51px;
+    cursor: pointer;
+}

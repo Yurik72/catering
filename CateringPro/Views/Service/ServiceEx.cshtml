@@ -1,15 +1,28 @@
 ﻿@{
     Layout = null;
 }
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Hello React</title>
+    <title>Service</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!--integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"-->
+
+    <link rel="stylesheet" href="../css/service.css">
+    <link rel="stylesheet" href="../css/custom-select.css">
 </head>
 <body>
     <div id="content"></div>
+
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/16.13.0/umd/react.development.js"></script>
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.13.0/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+    <script src="@Url.Content("~/rjs/nfcsocketex.js")"></script>
+    <script src="@Url.Content("~/rjs/svgs.jsx")"></script>
+    <script src="@Url.Content("~/rjs/modaldialog.jsx")"></script>
+    <script src="@Url.Content("~/rjs/nfcreaderstate.jsx")"></script>
     <script src="@Url.Content("~/rjs/serviceex.jsx")"></script>
 </body>
 </html>
